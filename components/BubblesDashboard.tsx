@@ -141,15 +141,13 @@ export const BubblesDashboard: React.FC = () => {
       const change = (coin as any)[tfKey] || 0;
       const absChange = Math.abs(change);
       
-      // Radius Logic: Shrink bubbles with low movement (0-1%)
-      // If movement is < 2%, we reduce the base contribution
-      const scaleFactor = absChange < 2 ? 0.6 : 1.0; 
-      const baseRadius = Math.log(val + 1) * 1.5 * scaleFactor;
-      const changeWeight = Math.sqrt(absChange) * 28; 
+      // Scaled down Radius Logic:
+      // Reduced multipliers to make them smaller overall.
+      // Min radius down to 35, Max radius down to 110.
+      const baseRadius = Math.log(val + 1) * 1.5; 
+      const changeWeight = Math.sqrt(absChange) * 11; 
       
-      // Minimum radius is smaller for low movement
-      const minRadius = absChange < 1.5 ? 28 : 42;
-      const radius = Math.min(Math.max(baseRadius + changeWeight - 12, minRadius), 220); 
+      const radius = Math.min(Math.max(baseRadius + changeWeight, 35), 110); 
       
       if (!imagesCacheRef.current.has(coin.id)) {
         const img = new Image();
@@ -173,7 +171,7 @@ export const BubblesDashboard: React.FC = () => {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const friction = 0.975; // More calm physics for the larger space
+      const friction = 0.975; 
       const charge = 0.14;   
       const centerX = width / 2;
       const centerY = height / 2;
@@ -189,7 +187,7 @@ export const BubblesDashboard: React.FC = () => {
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const minDistance = a.radius + b.radius + 14;
+          const minDistance = a.radius + b.radius + 12; // Adjusted padding for smaller bubbles
 
           if (distance < minDistance) {
             const force = (minDistance - distance) / distance * charge;
@@ -456,7 +454,6 @@ export const BubblesDashboard: React.FC = () => {
           />
         )}
 
-        {/* Updated Side Panel to match User Image & Requirement */}
         <div className={`fixed inset-y-0 right-0 h-screen w-full lg:w-[440px] bg-[#0b0e14] border-l border-white/10 z-[100] transition-transform duration-500 shadow-2xl flex flex-col ${selectedCoin ? 'translate-x-0' : 'translate-x-full'}`}>
           {selectedCoin && (
             <div className="flex-grow flex flex-col p-6 lg:p-10 overflow-y-auto scrollbar-hide">
@@ -479,7 +476,7 @@ export const BubblesDashboard: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Performance & Value Section matching image */}
+                {/* Performance & Value Section */}
                 <div className="space-y-4">
                   <div className="bg-[#161b22] border border-white/5 rounded-2xl p-6">
                     <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2 font-mono">Live Valuation</div>
@@ -500,7 +497,7 @@ export const BubblesDashboard: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Node Performance Section matching image */}
+                {/* Node Performance Section */}
                 <div className="space-y-4">
                   <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1 mb-2 font-mono">Node Performance</div>
                   <div className="space-y-2">
