@@ -39,6 +39,8 @@ export interface GeckoCoin {
   price_change_percentage_1h_in_currency: number;
   price_change_percentage_24h_in_currency: number;
   price_change_percentage_7d_in_currency: number;
+  price_change_percentage_30d_in_currency: number;
+  price_change_percentage_1y_in_currency: number;
 }
 
 export interface GeckoCategory {
@@ -80,4 +82,4 @@ export interface LlamaStablecoin {
   change_7d: number | null;
 }
 
-export type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi';
+export type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles';

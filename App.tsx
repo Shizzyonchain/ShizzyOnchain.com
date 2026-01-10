@@ -7,10 +7,10 @@ import { Sidebar } from './components/Sidebar.tsx';
 import { VideoSection } from './components/VideoSection.tsx';
 import { ResearchDashboard } from './components/ResearchDashboard.tsx';
 import { DefiDashboard } from './components/DefiDashboard.tsx';
+import { BubblesDashboard } from './components/BubblesDashboard.tsx';
 import { NewsArticle, View } from './types.ts';
-import { ArrowLeft, Search as SearchIcon, X, Clock, Terminal, Sparkles, Loader2, Send } from 'lucide-react';
+import { ArrowLeft, Search as SearchIcon, X, Clock, Terminal } from 'lucide-react';
 import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE } from './constants.tsx';
-import { generateAIInsight } from './services/geminiService.ts';
 
 const LIVE_STREAMS = [
   { id: 'l5', title: '🚨SURVIVE & THRIVE in 2026!🔥 The ONLY Guide to Stay SANE Until Valhalla 🤯🚀', thumbnail: 'https://img.youtube.com/vi/lkxQv50MOSI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=lkxQv50MOSI&t=6971s', type: 'live' as const },
@@ -35,32 +35,6 @@ const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [currentView, setCurrentView] = useState<View>('home');
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // AI Prompt Engine State
-  const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
-  const [userPrompt, setUserPrompt] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [aiError, setAiError] = useState<string | null>(null);
-
-  const handleGenerateAlpha = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userPrompt.trim() || isGenerating) return;
-
-    setIsGenerating(true);
-    setAiError(null);
-    try {
-      const generated = await generateAIInsight(userPrompt);
-      setFeaturedArticle(generated);
-      setIsPromptModalOpen(false);
-      setUserPrompt('');
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err: any) {
-      setAiError(err.message || "Failed to engage AI core. Check console.");
-    } finally {
-      setIsGenerating(false);
-    }
-  };
 
   const fetchArticle = (topic: string) => {
     const t = topic.toLowerCase();
@@ -105,7 +79,7 @@ const App: React.FC = () => {
   const toggleTheme = () => {
     setDarkMode(!darkMode);
     if (darkMode) {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove('class');
     } else {
       document.documentElement.classList.add('dark');
     }
@@ -130,7 +104,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     if (currentView === 'research') {
       return (
-        <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500">
+        <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500 px-6">
           <div className="mb-12">
             <button 
               onClick={() => setCurrentView('home')}
@@ -169,7 +143,7 @@ const App: React.FC = () => {
 
     if (currentView === 'defi') {
       return (
-        <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500">
+        <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500 px-6">
           <div className="mb-12">
             <button 
               onClick={() => setCurrentView('home')}
@@ -183,9 +157,17 @@ const App: React.FC = () => {
       );
     }
 
+    if (currentView === 'bubbles') {
+      return (
+        <div className="w-full h-[150vh] animate-in fade-in duration-500 relative">
+          <BubblesDashboard />
+        </div>
+      );
+    }
+
     if (currentView === 'home') {
       return (
-        <div className="space-y-12">
+        <div className="max-w-[1400px] mx-auto px-6 space-y-12">
           <div className={`grid grid-cols-1 ${HOT_STORIES.length > 0 ? 'lg:grid-cols-[1fr_360px]' : 'lg:grid-cols-1'} gap-12`}>
             <div className="w-full">
               {featuredArticle && <NewsCard article={featuredArticle} />}
@@ -220,7 +202,7 @@ const App: React.FC = () => {
 
     if (currentView === 'all-stories') {
       return (
-        <div className="max-w-4xl mx-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="max-w-4xl mx-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-500 px-6">
           <button 
             onClick={() => { setCurrentView('home'); setSearchQuery(''); }}
             className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest"
@@ -298,7 +280,7 @@ const App: React.FC = () => {
     const aspectRatio = isStreams ? "video" : "portrait";
 
     return (
-      <div className="max-w-6xl mx-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="max-w-6xl mx-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-500 px-6">
         <button 
           onClick={() => { setCurrentView('home'); setSearchQuery(''); }}
           className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest"
@@ -359,97 +341,33 @@ const App: React.FC = () => {
         toggleTheme={toggleTheme} 
         onViewChange={handleViewChange}
         currentView={currentView}
-        onOpenPrompt={() => setIsPromptModalOpen(true)}
       />
       
-      <main className="max-w-[1400px] mx-auto px-6 mt-8 md:mt-10">
+      <main className={`w-full mx-auto ${currentView === 'bubbles' ? 'mt-0' : 'mt-8 md:mt-10'}`}>
         {renderContent()}
       </main>
 
-      {/* AI Prompt Modal */}
-      {isPromptModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="relative w-full max-w-2xl bg-white dark:bg-[#161b22] rounded-[2.5rem] border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
-            <button 
-              onClick={() => setIsPromptModalOpen(false)}
-              className="absolute top-6 right-6 p-2 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
-            >
-              <X size={24} />
-            </button>
-
-            <div className="p-10 space-y-8">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
-                  <Sparkles size={12} className="animate-pulse" />
-                  AI Core Linked
-                </div>
-                <h2 className="text-4xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
-                  GENERATE <span className="text-blue-600">ALPHA</span>
-                </h2>
-                <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-widest leading-relaxed">
-                  Provide a topic or question, and the Shizzy AI engine will generate a comprehensive on-chain hot take.
-                </p>
-              </div>
-
-              <form onSubmit={handleGenerateAlpha} className="space-y-6">
-                <div className="relative">
-                  <textarea 
-                    value={userPrompt}
-                    onChange={(e) => setUserPrompt(e.target.value)}
-                    placeholder="Enter a topic (e.g., 'The future of XRP settlement', 'Solana vs Ethereum L2s in 2026')..."
-                    className="w-full h-40 bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-3xl p-6 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all font-inter resize-none text-lg"
-                    disabled={isGenerating}
-                  />
-                  {isGenerating && (
-                    <div className="absolute inset-0 bg-white/60 dark:bg-black/60 backdrop-blur-[2px] rounded-3xl flex flex-col items-center justify-center gap-4">
-                      <Loader2 className="animate-spin text-blue-600" size={40} />
-                      <span className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 animate-pulse">Processing On-Chain Node...</span>
-                    </div>
-                  )}
-                </div>
-
-                {aiError && (
-                  <div className="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-start gap-3 text-rose-500 text-xs font-bold font-mono uppercase tracking-widest italic">
-                    <X size={16} />
-                    {aiError}
-                  </div>
-                )}
-
-                <div className="flex gap-4">
-                  <button 
-                    type="submit"
-                    disabled={isGenerating || !userPrompt.trim()}
-                    className="flex-grow flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 text-white font-black uppercase tracking-widest py-5 rounded-2xl transition-all shadow-xl shadow-blue-500/20 group"
-                  >
-                    {isGenerating ? 'Thinking...' : 'Engage Engine'}
-                    {!isGenerating && <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                  </button>
-                </div>
-              </form>
+      {currentView !== 'bubbles' && (
+        <footer className="max-w-[1400px] mx-auto px-6 mt-32 pt-16 border-t border-slate-200 dark:border-white/5">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+            <div className="flex flex-col gap-4 items-center md:items-start">
+              <button 
+                onClick={handleGoHome}
+                className="h-20 block"
+              >
+                <img 
+                  src={SOCIAL_LINKS.logo} 
+                  alt="Logo" 
+                  className="h-full w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer dark:invert-0" 
+                />
+              </button>
+            </div>
+            <div className="text-slate-500 dark:text-slate-600 text-[11px] leading-relaxed max-w-lg font-medium opacity-80">
+              SHIZZY'S ONCHAIN INSIGHTS provides data-driven perspectives for educational purposes only. This content is not financial advice. Always consult a professional before making investment decisions. All analysis powered by the OnChain Revolution engine.
             </div>
           </div>
-        </div>
+        </footer>
       )}
-
-      <footer className="max-w-[1400px] mx-auto px-6 mt-32 pt-16 border-t border-slate-200 dark:border-white/5">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
-          <div className="flex flex-col gap-4 items-center md:items-start">
-            <button 
-              onClick={handleGoHome}
-              className="h-20 block"
-            >
-              <img 
-                src={SOCIAL_LINKS.logo} 
-                alt="Logo" 
-                className="h-full w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer dark:invert-0" 
-              />
-            </button>
-          </div>
-          <div className="text-slate-500 dark:text-slate-600 text-[11px] leading-relaxed max-w-lg font-medium opacity-80">
-            SHIZZY'S ONCHAIN INSIGHTS provides data-driven perspectives for educational purposes only. This content is not financial advice. Always consult a professional before making investment decisions. All analysis powered by the OnChain Revolution engine.
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

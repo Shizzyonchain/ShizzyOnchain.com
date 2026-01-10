@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Youtube, Sun, Moon, Sparkles } from 'lucide-react';
+import { Search, Youtube, Sun, Moon } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
 
@@ -15,20 +15,19 @@ interface HeaderProps {
   toggleTheme: () => void;
   onViewChange: (view: View) => void;
   currentView: View;
-  onOpenPrompt: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
   darkMode, 
   toggleTheme, 
   onViewChange,
-  currentView,
-  onOpenPrompt
+  currentView
 }) => {
   const navItems = [
     { label: 'Home', view: 'home' as View },
     { label: 'Research', view: 'research' as View },
     { label: 'Onchain Data', view: 'defi' as View },
+    { label: 'Crypto Bubbles', view: 'bubbles' as View },
     { 
       label: 'Nord VPN Security & Privacy', 
       url: 'https://nordvpn.com/special/?utm_medium=affiliate&utm_term=&utm_content&utm_source=aff107682&utm_campaign=off15' 
@@ -73,14 +72,6 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center gap-1 md:gap-4 pr-2">
-          <button 
-            onClick={onOpenPrompt}
-            className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 mr-2"
-          >
-            <Sparkles size={14} />
-            <span className="hidden sm:inline">Prompt Engine</span>
-          </button>
-
           <button className="text-slate-500 dark:text-slate-400 hover:text-blue-500 transition-colors p-2" aria-label="Search">
             <Search size={20} />
           </button>
@@ -112,7 +103,8 @@ export const Header: React.FC<HeaderProps> = ({
               const actuallyActive = 
                 (item.label === 'Home' && currentView === 'home') || 
                 (item.label === 'Research' && currentView === 'research') || 
-                (item.label === 'Onchain Data' && currentView === 'defi');
+                (item.label === 'Onchain Data' && currentView === 'defi') ||
+                (item.label === 'Crypto Bubbles' && currentView === 'bubbles');
 
               return (
                 <button

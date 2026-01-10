@@ -2,27 +2,20 @@
 import { GeckoCoin, GeckoCategory } from '../types.ts';
 
 /**
- * HARDENED DATA NODE PROXY v4.1 (SWR Optimized)
- * Provides instant data from cache while refreshing in the background.
+ * HARDENED DATA NODE PROXY v4.4 (SWR Optimized)
+ * Mimics a backend proxy logic for market bubbles with specific filtering and pagination.
  */
 
 const CATEGORY_CACHE_KEY = 'cg_category_stats_cache';
 const MARKET_CACHE_PREFIX = 'cg_market_cache_';
+const BUBBLES_CACHE_KEY = 'cg_bubbles_market_cache';
 
-// Cache timing: We consider data "fresh" for 5 mins, but "usable" for 24 hours (SWR)
-const FRESH_THRESHOLD = 5 * 60 * 1000; 
+const FRESH_THRESHOLD = 60 * 1000; // 60 seconds as requested
 
 interface CacheEntry<T> {
   data: T;
   timestamp: number;
 }
-
-const CATEGORY_MAP: Record<string, string> = {
-  'ai-agents': 'ai-agents',
-  'artificial-intelligence': 'artificial-intelligence',
-  'layer-2': 'layer-2',
-  'x402-ecosystem': 'x402-ecosystem'
-};
 
 class CoinGeckoProxy {
   private static instance: CoinGeckoProxy;
@@ -49,8 +42,9 @@ class CoinGeckoProxy {
   }
 
   private async fetchWithRetry(url: string, retries = 3): Promise<any> {
-    if (this.activeRequests.has(url)) return null;
-    this.activeRequests.add(url);
+    const cacheKey = `fetch_${url}`;
+    if (this.activeRequests.has(cacheKey)) return null;
+    this.activeRequests.add(cacheKey);
 
     try {
       for (let i = 0; i < retries; i++) {
@@ -65,6 +59,7 @@ class CoinGeckoProxy {
           }
 
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          this.lastRequestTime = Date.now();
           return await response.json();
         } catch (e) {
           if (i === retries - 1) throw e;
@@ -72,87 +67,103 @@ class CoinGeckoProxy {
         }
       }
     } finally {
-      this.activeRequests.delete(url);
+      this.activeRequests.delete(cacheKey);
     }
   }
 
-  /**
-   * SWR: Get Category Stats
-   */
-  public async getCategoriesStats(onUpdate?: (data: GeckoCategory[]) => void): Promise<GeckoCategory[]> {
-    const cached = localStorage.getItem(CATEGORY_CACHE_KEY);
-    let initialData: GeckoCategory[] = [];
-    let isStale = true;
-
-    if (cached) {
-      const { data, timestamp }: CacheEntry<GeckoCategory[]> = JSON.parse(cached);
-      initialData = data;
-      isStale = (Date.now() - timestamp) > FRESH_THRESHOLD;
-    }
-
-    if (isStale || initialData.length === 0) {
-      this.fetchWithRetry('https://api.coingecko.com/api/v3/coins/categories')
-        .then(data => {
-          if (Array.isArray(data)) {
-            localStorage.setItem(CATEGORY_CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
-            if (onUpdate) onUpdate(data);
-          }
-        })
-        .catch(console.error);
-    }
-
-    return initialData;
-  }
-
-  /**
-   * SWR: Get Market Data for specific category
-   */
-  public async getCategoryMarkets(
-    categoryId: string, 
-    onUpdate?: (data: GeckoCoin[]) => void
-  ): Promise<GeckoCoin[]> {
-    const slug = CATEGORY_MAP[categoryId] || categoryId;
-    const cacheKey = `${MARKET_CACHE_PREFIX}${slug}`;
+  public async getBubbleMarkets(params: {
+    limit: number;
+    page?: number;
+    category?: string;
+    onUpdate?: (data: GeckoCoin[]) => void;
+  }): Promise<GeckoCoin[]> {
+    const { limit, page = 1, category, onUpdate } = params;
+    const cacheKey = `${BUBBLES_CACHE_KEY}_${limit}_p${page}_${category || 'all'}`;
     const cached = localStorage.getItem(cacheKey);
-    
-    let initialData: GeckoCoin[] = [];
-    let isStale = true;
 
     if (cached) {
       const { data, timestamp }: CacheEntry<GeckoCoin[]> = JSON.parse(cached);
-      initialData = data;
-      isStale = (Date.now() - timestamp) > FRESH_THRESHOLD;
-      
-      if (!isStale) {
-        return initialData;
+      if (Date.now() - timestamp < FRESH_THRESHOLD) {
+        return data;
+      }
+      if (onUpdate) {
+        this.executeMarketFetch(limit, page, category, cacheKey, onUpdate);
+        return data;
       }
     }
 
-    const params = new URLSearchParams({
+    return this.executeMarketFetch(limit, page, category, cacheKey, onUpdate);
+  }
+
+  private async executeMarketFetch(
+    limit: number, 
+    page: number,
+    category: string | undefined, 
+    cacheKey: string, 
+    onUpdate?: (data: GeckoCoin[]) => void
+  ): Promise<GeckoCoin[]> {
+    const queryParams = new URLSearchParams({
       vs_currency: 'usd',
-      category: slug,
       order: 'market_cap_desc',
-      per_page: '20',
-      page: '1',
+      per_page: limit.toString(),
+      page: page.toString(),
       sparkline: 'false',
-      price_change_percentage: '1h,24h,7d'
+      price_change_percentage: '1h,24h,7d,30d,1y'
     });
 
-    const refreshPromise = this.fetchWithRetry(`https://api.coingecko.com/api/v3/coins/markets?${params.toString()}`)
-      .then(data => {
-        if (Array.isArray(data)) {
-          localStorage.setItem(cacheKey, JSON.stringify({ data, timestamp: Date.now() }));
-          if (onUpdate) onUpdate(data);
-          return data;
-        }
-        return initialData;
-      });
-
-    if (initialData.length === 0) {
-      return await refreshPromise;
+    if (category) {
+      queryParams.append('category', category);
     }
 
-    return initialData;
+    const data = await this.fetchWithRetry(`https://api.coingecko.com/api/v3/coins/markets?${queryParams.toString()}`);
+    
+    if (Array.isArray(data)) {
+      const mappedData: GeckoCoin[] = data.map((c: any) => ({
+        id: c.id,
+        symbol: c.symbol,
+        name: c.name,
+        image: c.image,
+        current_price: c.current_price,
+        market_cap: c.market_cap,
+        market_cap_rank: c.market_cap_rank,
+        total_volume: c.total_volume,
+        price_change_percentage_1h_in_currency: c.price_change_percentage_1h_in_currency,
+        price_change_percentage_24h_in_currency: c.price_change_percentage_24h_in_currency,
+        price_change_percentage_7d_in_currency: c.price_change_percentage_7d_in_currency,
+        price_change_percentage_30d_in_currency: c.price_change_percentage_30d_in_currency,
+        price_change_percentage_1y_in_currency: c.price_change_percentage_1y_in_currency,
+      }));
+      
+      localStorage.setItem(cacheKey, JSON.stringify({ data: mappedData, timestamp: Date.now() }));
+      if (onUpdate) onUpdate(mappedData);
+      return mappedData;
+    }
+    
+    return [];
+  }
+
+  public async getCategoriesStats(onUpdate?: (data: GeckoCategory[]) => void): Promise<GeckoCategory[]> {
+    const cached = localStorage.getItem(CATEGORY_CACHE_KEY);
+    if (cached) {
+      const { data, timestamp }: CacheEntry<GeckoCategory[]> = JSON.parse(cached);
+      if (Date.now() - timestamp < FRESH_THRESHOLD * 60) return data;
+    }
+
+    const data = await this.fetchWithRetry('https://api.coingecko.com/api/v3/coins/categories');
+    if (Array.isArray(data)) {
+      localStorage.setItem(CATEGORY_CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+      if (onUpdate) onUpdate(data);
+      return data;
+    }
+    return [];
+  }
+
+  public async getTopMarkets(onUpdate?: (data: GeckoCoin[]) => void): Promise<GeckoCoin[]> {
+    return this.getBubbleMarkets({ limit: 100, onUpdate });
+  }
+
+  public async getCategoryMarkets(category: string, onUpdate?: (data: GeckoCoin[]) => void): Promise<GeckoCoin[]> {
+    return this.getBubbleMarkets({ limit: 100, category, onUpdate });
   }
 }
 
