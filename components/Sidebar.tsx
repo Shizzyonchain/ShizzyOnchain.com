@@ -1,40 +1,56 @@
 import React from 'react';
 import { HOT_STORIES } from '../constants.tsx';
-import { Flame, Clock } from 'lucide-react';
+import { Flame, Clock, ChevronRight } from 'lucide-react';
 
 interface SidebarProps {
   onStoryClick: (title: string) => void;
+  onViewAll?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => {
   if (HOT_STORIES.length === 0) {
     return null;
   }
 
+  // Show up to 10 stories in the sidebar
+  const displayStories = HOT_STORIES.slice(0, 10);
+
   return (
     <aside className="space-y-6">
       <div className="bg-slate-100 dark:bg-[#1e293b]/40 rounded-xl p-6 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none transition-colors">
-        <div className="flex items-center gap-2 mb-6">
-          <Flame size={18} className="text-orange-500" />
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight font-space uppercase">Shizzy's Hot takes</h3>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-2">
+            <Flame size={18} className="text-orange-500" />
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight font-space uppercase">Shizzy's Hot takes</h3>
+          </div>
         </div>
-        <div className="space-y-6">
-          {HOT_STORIES.map((story) => (
+
+        <div className="space-y-8">
+          {displayStories.map((story) => (
             <button 
               key={story.id} 
               onClick={() => onStoryClick(story.title)}
-              className="group w-full text-left focus:outline-none"
+              className="group w-full text-left focus:outline-none block"
             >
-              <h4 className="text-[15px] font-semibold text-slate-700 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-inter">
+              <h4 className="text-[14px] md:text-[15px] font-bold text-slate-700 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-inter">
                 {story.title}
               </h4>
-              <div className="flex items-center gap-1.5 mt-2 text-[10px] text-slate-500 dark:text-slate-500 font-bold font-mono uppercase tracking-widest">
+              <div className="flex items-center gap-1.5 mt-2.5 text-[10px] text-slate-500 dark:text-slate-500 font-bold font-mono uppercase tracking-widest">
                 <Clock size={11} className="text-blue-500" />
                 <span>{story.timeAgo}</span>
               </div>
             </button>
           ))}
         </div>
+
+        {onViewAll && (
+          <button 
+            onClick={onViewAll}
+            className="w-full mt-10 pt-6 border-t border-slate-200 dark:border-white/5 flex items-center justify-center gap-2 text-xs font-black font-mono text-blue-500 hover:text-blue-400 transition-colors uppercase tracking-[0.2em] group"
+          >
+            View All Insights <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+        )}
       </div>
     </aside>
   );

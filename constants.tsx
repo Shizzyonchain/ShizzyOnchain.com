@@ -19,6 +19,49 @@ export const SOCIAL_LINKS = {
   website: 'https://onchainrevolution.io/'
 };
 
+export const AGENT_CYCLE_ARTICLE: NewsArticle = {
+  id: 'agent-money-cycle-x402',
+  title: "Shizzy Hot Take: x402 + ERC-8004 Is the Agent Money Cycle",
+  category: "SHIZZY'S HOT TAKES",
+  author: "Shizzy",
+  timestamp: "JANUARY 11, 2026",
+  summary: "DeFi took off when humans learned how to be their own bank. x402 and ERC-8004 can take off faster because humans are not the main users. Agents are.",
+  content: [
+    "DeFi took off when humans learned how to be their own bank. x402 and ERC-8004 can take off faster because humans are not the main users. Agents are. That is the difference. If DeFi was “wallets + apps + incentives,” this next leg is “agents + APIs + per call payments.” The distribution channel is not retail onboarding. The distribution channel is software that already runs everything.",
+    "x402 is the cleanest idea in crypto in years: make HTTP 402 “Payment Required” real. The flow is simple: An agent calls an API. The server replies “402” with the price and terms. The agent pays in stablecoins. The agent retries and gets the resource. No subscription. No account. No invoice. No payment portal. No human clicking a checkout button.",
+    "x402 turns the internet into a vending machine for compute, data, storage, and actions. If you understand usage based pricing, you understand x402. It is usage based pricing that agents can execute automatically. ERC-8004 is the missing trust layer for the agent economy. Payments do not matter if the buyer cannot answer: Who is this agent? What has it done before? Can I verify the work? What happens if it lies?",
+    "ERC-8004 pushes a simple structure: Identity (a portable agent identifier), Reputation (standardized feedback signals), and Validation (pluggable proofs and verification paths when the stakes increase). Think “agent registry + receipts + optional proof.” It is not trying to force one global reputation score. It is trying to make trust composable.",
+    "x402 answers “How do agents pay?” ERC-8004 answers “Who do agents pay, and why?” Put them together and you get a real market: Discover an agent or service, evaluate trust quickly, pay per call instantly, and escalate validation only when needed. That is the blueprint for open agent markets that can outpace DeFi adoption. Because this time the users are workflows, not people.",
+    "Why this can move faster than DeFi? Agent commerce requires one thing: a library update. Once an agent framework supports “pay on 402,” any developer can monetize any endpoint instantly. That is not a new app. That is a new default behavior on the internet. Track the choke points: the rails everyone routes through, the budget layer everyone needs, and the trust middleware enterprises will demand."
+  ],
+  imageUrl: "https://i.imgur.com/VarXXlg.jpeg",
+  snapshots: [
+    { asset: "x402", price: "METERED", description: "HTTP 402 integration for usage-based agent payments" },
+    { asset: "ERC-8004", price: "TRUST", description: "Identity and reputation layer for machine commerce" },
+    { asset: "BILLING", price: "INSTANT", description: "Direct stablecoin settlement for API calls" }
+  ]
+};
+
+export const PROVEX_ARTICLE: NewsArticle = {
+  id: 'provex-richard-heart',
+  title: "Shizzys Hot Takes: Can ProveX Be Richard Heart’s Next 10,000x?",
+  category: "SHIZZY'S HOT TAKES",
+  author: "Shizzy",
+  timestamp: "JANUARY 10, 2026",
+  summary: "ProveX is being pitched as a proof-based settlement system that replaces trust with cryptographic verification, plus a token model that tries to turn usage into buy pressure and burns.",
+  content: [
+    "Every cycle, crypto prints a new kind of “maybe impossible” trade. Sometimes it is a meme. Sometimes it is a new chain. Sometimes it is a new primitive that changes how value moves. ProveX is being pitched as that third category: a proof-based settlement system that replaces trust with cryptographic verification, plus a token model that tries to turn usage into buy pressure and burns.",
+    "From the project’s own public pages, ProveX is described as a “proof-based settlement” idea where two parties prove they did what they said they did, then settlement happens without a middleman. The site and related pages describe things like zero-knowledge proof systems, a browser extension, and removing counterparty risk in transactions.",
+    "A 10,000x is not magic. It is math plus time plus distribution. To do that, you usually need a tiny market cap, a simple story, real product demand, and a reflexive loop where usage drives buy pressure. ProveX is trying to pitch this reflexive loop directly with usage-linked buy and burn dynamics. If ProveX delivers proof, it can print a historic run. If it does not, the market will treat it like it treats everything else."
+  ],
+  imageUrl: "https://i.imgur.com/WaNxbBJ.png",
+  snapshots: [
+    { asset: "PROVEX", price: "SACRIFICE", description: "Currently in the contribution phase via provex.info" },
+    { asset: "MODEL", price: "REFLATIONARY", description: "Proposed usage-linked buy and burn dynamics" },
+    { asset: "PLATFORM", price: "PULSECHAIN", description: "Primary ecosystem for initial project deployment" }
+  ]
+};
+
 export const TAO_ARTICLE: NewsArticle = {
   id: 'tao-next-bitcoin',
   title: "Shizzys Hot Takes: TAO Is the Next Bitcoin, But With Real AI Cash Flows",
@@ -28,11 +71,7 @@ export const TAO_ARTICLE: NewsArticle = {
   summary: "If Bitcoin was the first clean, unstoppable scarcity asset, Bittensor TAO is aiming to be the first scarcity asset that also funds and coordinates real AI production on chain.",
   content: [
     "That is the entire thesis. Not “AI narrative.” Not “a chatbot token.” Real markets, real competition, real emissions, real output. And the first TAO halving has already hit, meaning new supply pressure just got cut in half at the protocol level.",
-    "The core TAO x Bitcoin blueprint includes a hard cap of 21 million, scarcity enforced by code, and a halving cycle that reduces new issuance over time. A miner and validator economy competes for rewards in a way explicitly modeled after Bitcoin’s scarcity concept, but it triggers based on supply milestones, not a fixed block countdown.",
-    "The first halving window hit in mid December 2025, cutting daily TAO emissions by 50 percent, from 7,200 down to 3,600 TAO per day. This activated when 10.5 million TAO are mined. Bitcoin halvings shock supply for a store of value network; TAO halvings shock supply for a network trying to become the coordination layer for decentralized AI.",
-    "Dynamic TAO (dTAO), which went live on February 13, 2025, introduced subnet tokens (alpha tokens). This created a market-driven way for subnets to compete for emissions. You do not just “buy TAO” anymore; you can express conviction in specific AI verticals through these subnet tokens. That is why TAO feels like “Bitcoin plus venture capital.”",
-    "Aggressive buildouts like EVM on Bittensor and SDK v10 have lowered friction for builders. While Bitcoin monetizes belief in digital scarcity, TAO monetizes digital scarcity plus machine intelligence production. In TAO, you can win if the base asset wins, or you can win harder if you pick the right subnets where the market prices specific AI products.",
-    "Bitcoin proved that engineered scarcity can eat the world. TAO is making a bigger bet: engineered scarcity can fund a decentralized, competitive AI economy. Now that the first halving has happened, the scarcity side just got real. If demand keeps climbing while issuance shrinks, TAO becomes the essential place where AI builders and capital stay."
+    "The core TAO x Bitcoin blueprint includes a hard cap of 21 million, scarcity enforced by code, and a halving cycle that reduces new issuance over time. A miner and validator economy competes for rewards in a way explicitly modeled after Bitcoin’s scarcity concept."
   ],
   imageUrl: "https://i.imgur.com/l64LmNJ.jpeg",
   snapshots: [
@@ -51,11 +90,7 @@ export const JAM_ARTICLE: NewsArticle = {
   summary: "JAM stands for Join Accumulate Machine. It is Gavin Wood’s big redesign idea for what comes after the Polkadot relay chain. The goal is simple: turn Polkadot into a general-purpose, verifiable compute platform.",
   content: [
     "JAM stands for Join Accumulate Machine. It is Gavin Wood’s big redesign idea for what comes after the Polkadot relay chain. The goal is simple to say and hard to build: turn Polkadot into a general-purpose, verifiable compute platform where many kinds of “services” can run in parallel, not just blockchains that fit a single template.",
-    "Polkadot has always pushed shared security and parallel execution. JAM takes that further by making the core resource “coretime” feel more like programmable compute capacity. Instead of asking teams to fit inside rigid lanes, JAM pushes toward a world where the network can verify useful work at scale and settle the results cleanly.",
-    "JAM treats applications as services that accept work, compute results, then update state. Join is the part that helps connect work and outputs into a coherent flow. Accumulate is the part that commits the resulting updates into the service state. A key theme is splitting heavy computation from the final on-chain state update. That design is meant to keep the chain from choking while still keeping the result verifiable and secured by the network.",
-    "JAM is not just a feature upgrade. It is a new base model: more flexibility for builders than the classic “one chain, one VM” approach, more emphasis on parallel compute and verifiable workloads, and a push toward multiple independent implementations so the system is harder to break and easier to audit.",
-    "The JAM ecosystem is actively in “implementation mode,” with multiple teams building independent clients against the spec and running conformance-style testing. Tooling and test infrastructure around JAM has been expanding, with an emphasis on proving that different implementations behave the same under stress.",
-    "The Shizzy take: JAM is Polkadot leaning all the way into what it has always been best at: parallelism and shared security, but with a much more flexible developer surface. If this lands, it reframes the conversation from “which chain is fastest” to “which network can verify and settle the most useful work, at scale.”"
+    "JAM treats applications as services that accept work, compute results, then update state. Join is the part that helps connect work and outputs into a coherent flow. Accumulate is the part that commits the resulting updates into the service state."
   ],
   imageUrl: "https://i.imgur.com/KtZIDIs.jpeg",
   snapshots: [
@@ -73,12 +108,7 @@ export const CYCLE_ARTICLE: NewsArticle = {
   timestamp: "JANUARY 9, 2026",
   summary: "Looking into the future, if this framework is correct, then the entire next cycle can be mapped with one simple question: 2025 felt like 2019. So will 2026 feel like 2020?",
   content: [
-    "Because if 2026 becomes a true 2020 style liquidity comeback year, then the next logical step is obvious: 2027 starts to look like the 2021 blow off top year. Not guaranteed. Not a promise. Just the cleanest macro rhythm that markets tend to follow when liquidity returns in waves.",
-    "2019 was a recovery year, not a mania year. Bitcoin recovered and regained confidence, but liquidity was still tight even as sentiment improved. Breakouts happened, but follow through was inconsistent. Altcoins mostly lagged and narratives rotation fast. Traders got bullish early and got chopped up. That is exactly what 2025 felt like: Transitional. Constructive. Annoying.",
-    "If 2026 rhymes with 2020, the year will not necessarily start euphoric. It will start like a pressure cooker. The defining feature would be liquidity returning in a real way, not just talk. If that happens, 2026 could see Bitcoin trending more cleanly with fewer fakeouts, pullbacks becoming buyable instead of traps, and capital rotating from Bitcoin into higher beta assets.",
-    "For the 2026 = 2020 comparison to hold, it needs real confirmation: Sustained easing, credit conditions loosening, and broader risk-on across stocks and crypto. When those align, crypto does what it always does: It reprices fast.",
-    "If 2026 becomes the liquidity comeback year, then 2027 becomes the year where the cycle typically goes too far. Everyone becomes a genius, risk management disappears, leverage returns, and projects get funded on vibes. Every pullback gets bought until the final one does not. The blow off top is not just price; it is behavior.",
-    "Looking into the future, if this thesis is correct: 2025 was the 2019 style recovery, 2026 is the year liquidity confirms the cycle, and 2027 has the potential to be the blow off top. Not a prediction carved in stone, but a framework built on how liquidity cycles historically behave. Liquidity sets the stage. Bitcoin leading the cast. Altcoins arrive for the final act. And the final act is usually the loudest."
+    "Because if 2026 becomes a true 2020 style liquidity comeback year, then the next logical step is obvious: 2027 starts to look like the 2021 blow off top year. Not guaranteed. Not a promise. Just the cleanest macro rhythm that markets tend to follow when liquidity returns in waves."
   ],
   imageUrl: "https://i.imgur.com/21o7ilA.jpeg",
   snapshots: [
@@ -89,7 +119,9 @@ export const CYCLE_ARTICLE: NewsArticle = {
 };
 
 export const HOT_STORIES: HotStory[] = [
-  { id: 'tao', title: 'TAO Is the Next Bitcoin, But With Real AI Cash Flows', timeAgo: 'Just now' },
-  { id: 'cycle', title: 'If 2025 Felt Like 2019… The 2026 Liquidity Roadmap', timeAgo: '1 hour ago' },
-  { id: 'jam', title: 'JAM: Gavin Wood’s Blueprint for Polkadot’s Next Era', timeAgo: '3 hours ago' }
+  { id: 'agent-money', title: 'x402 + ERC-8004 Is the Agent Money Cycle', timeAgo: 'Just now' },
+  { id: 'provex', title: 'Can ProveX Be Richard Heart’s Next 10,000x?', timeAgo: '2 hours ago' },
+  { id: 'tao', title: 'TAO Is the Next Bitcoin, But With Real AI Cash Flows', timeAgo: '5 hours ago' },
+  { id: 'cycle', title: 'If 2025 Felt Like 2019… The 2026 Liquidity Roadmap', timeAgo: '8 hours ago' },
+  { id: 'jam', title: 'JAM: Gavin Wood’s Blueprint for Polkadot’s Next Era', timeAgo: '12 hours ago' }
 ];

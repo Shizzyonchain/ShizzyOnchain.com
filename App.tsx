@@ -5,13 +5,13 @@ import { NewsCard } from './components/NewsCard.tsx';
 import { Sidebar } from './components/Sidebar.tsx';
 import { VideoSection } from './components/VideoSection.tsx';
 import { NewsArticle } from './types.ts';
-import { ArrowLeft, Search as SearchIcon, X } from 'lucide-react';
-import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE } from './constants.tsx';
+import { ArrowLeft, Search as SearchIcon, X, Clock } from 'lucide-react';
+import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE } from './constants.tsx';
 
 const LIVE_STREAMS = [
   { id: 'l5', title: '🚨SURVIVE & THRIVE in 2026!🔥 The ONLY Guide to Stay SANE Until Valhalla 🤯🚀', thumbnail: 'https://img.youtube.com/vi/lkxQv50MOSI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=lkxQv50MOSI&t=6971s', type: 'live' as const },
   { id: 'l4', title: '🚨FED & STIMULUS DECIDE 2026?!💥 What Happens NEXT Could MAKE or BREAK Crypto!📈😱', thumbnail: 'https://img.youtube.com/vi/X6Lr9ZkZOLc/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=X6Lr9ZkZOLc&t=5420s', type: 'live' as const },
-  { id: 'l3', title: '🚨IS THIS PUMP FOR REAL?!🔥 Or Is It Another BRUTAL TRAP Before the NEXT DUMP?!😱📉', thumbnail: 'https://img.youtube.com/vi/PVn2HW2MMuM/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=PVn2HW2MMuM&t=10s', type: 'live' as const },
+  { id: 'l3', title: '🚨IS THIS PUMP FOR REAL?!🔥 Or Is It Another BRUTAL TRAP Before the NEXT DUMP?!😱📉', thumbnail: 'https://img.youtube.com/vi/PVn2HW2NMuM/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=PVn2HW2NMuM&t=60s', type: 'live' as const },
   { id: 'l2', title: '🚨Prediction Markets Set to EXPLODE?!🔥 The BIGGEST Retail Money Play in Web3 for 2026 🤯🚀', thumbnail: 'https://img.youtube.com/vi/AVgD7BNCPtE/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=AVgD7BNCPtE&t=4121s', type: 'live' as const },
   { id: 'l1', title: '🚨These Crypto Sectors Could EXPLODE in 2026!🔥 Momentum Is Building FAST — Don’t Miss This!🚀', thumbnail: 'https://img.youtube.com/vi/yGqZFtoLDxI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=yGqZFtoLDxI&t=2472s', type: 'live' as const },
 ];
@@ -26,10 +26,10 @@ const SHORTS = [
   { id: 's7', title: 'STABLECOIN WARS: Who Wins? 🏛️', thumbnail: 'https://img.youtube.com/vi/s4JMTqzyq54/mqdefault.jpg', url: 'https://www.youtube.com/shorts/s4JMTqzyq54', type: 'short' as const },
 ];
 
-type View = 'home' | 'all-streams' | 'all-shorts';
+type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories';
 
 const App: React.FC = () => {
-  const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(TAO_ARTICLE);
+  const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(AGENT_CYCLE_ARTICLE);
   const [darkMode, setDarkMode] = useState(true);
   const [currentView, setCurrentView] = useState<View>('home');
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,12 +38,27 @@ const App: React.FC = () => {
     const t = topic.toLowerCase();
     if (t.includes('2019') || t.includes('liquidity roadmap')) {
       setFeaturedArticle(CYCLE_ARTICLE);
+      setCurrentView('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (t.includes('jam') || t.includes('blueprint')) {
       setFeaturedArticle(JAM_ARTICLE);
+      setCurrentView('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (t.includes('tao') || t.includes('cash flows')) {
       setFeaturedArticle(TAO_ARTICLE);
+      setCurrentView('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (t.includes('provex') || t.includes('richard heart')) {
+      setFeaturedArticle(PROVEX_ARTICLE);
+      setCurrentView('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (t.includes('agent') || t.includes('x402') || t.includes('8004')) {
+      setFeaturedArticle(AGENT_CYCLE_ARTICLE);
+      setCurrentView('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // For other topics, we just scroll to top of home or show a fallback
+      setCurrentView('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -69,6 +84,10 @@ const App: React.FC = () => {
     return SHORTS.filter(s => s.title.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [searchQuery]);
 
+  const filteredStories = useMemo(() => {
+    return HOT_STORIES.filter(s => s.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  }, [searchQuery]);
+
   const renderContent = () => {
     if (currentView === 'home') {
       return (
@@ -78,7 +97,10 @@ const App: React.FC = () => {
               {featuredArticle && <NewsCard article={featuredArticle} />}
             </div>
 
-            <Sidebar onStoryClick={(title) => fetchArticle(title)} />
+            <Sidebar 
+              onStoryClick={(title) => fetchArticle(title)} 
+              onViewAll={() => { setCurrentView('all-stories'); window.scrollTo(0,0); }}
+            />
           </div>
 
           <div className="space-y-16">
@@ -98,6 +120,78 @@ const App: React.FC = () => {
               onViewAll={() => { setCurrentView('all-shorts'); window.scrollTo(0,0); }}
             />
           </div>
+        </div>
+      );
+    }
+
+    if (currentView === 'all-stories') {
+      return (
+        <div className="max-w-4xl mx-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <button 
+            onClick={() => { setCurrentView('home'); setSearchQuery(''); }}
+            className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest"
+          >
+            <ArrowLeft size={16} /> Back to Dashboard
+          </button>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <h2 className="text-4xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-2">
+                All Hot Takes
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 font-medium font-mono text-xs uppercase tracking-widest">
+                Deep dives and on-chain analysis by Shizzy
+              </p>
+            </div>
+
+            <div className="relative w-full md:w-80">
+              <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <input 
+                type="text"
+                placeholder="Search stories..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full py-3 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-800 dark:text-white"
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6">
+            {filteredStories.map((story) => (
+              <button 
+                key={story.id} 
+                onClick={() => fetchArticle(story.title)}
+                className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl hover:border-blue-500/50 transition-all text-left group"
+              >
+                <div className="space-y-2">
+                  <h4 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
+                    {story.title}
+                  </h4>
+                  <div className="flex items-center gap-2 text-xs text-slate-500 font-mono uppercase tracking-widest font-bold">
+                    <Clock size={12} className="text-blue-500" />
+                    <span>{story.timeAgo}</span>
+                  </div>
+                </div>
+                <div className="mt-4 md:mt-0 text-blue-500 font-black font-mono text-xs uppercase tracking-[0.2em] flex items-center gap-2">
+                  Read More <ArrowLeft size={14} className="rotate-180" />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {filteredStories.length === 0 && (
+            <div className="py-20 text-center">
+              <p className="text-slate-500 font-mono text-sm uppercase tracking-widest">No matching stories found for "{searchQuery}"</p>
+            </div>
+          )}
         </div>
       );
     }
