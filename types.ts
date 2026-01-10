@@ -57,7 +57,9 @@ export interface CategoryState {
 
 export interface LlamaChain {
   name: string;
-  tvl: number;
+  tvl?: number;
+  volume24h?: number;
+  revenue24h?: number;
   change_1d: number | null;
   change_7d: number | null;
 }

@@ -1,11 +1,9 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { coinGeckoProxy } from '../services/coinGeckoService.ts';
-import { defiLlamaService } from '../services/defiLlamaService.ts';
-import { GeckoCoin, GeckoCategory, LlamaChain, LlamaProtocol, LlamaStablecoin } from '../types.ts';
+import { GeckoCoin, GeckoCategory } from '../types.ts';
 import { 
   Pin, 
-  TrendingUp, 
   Loader2, 
   AlertCircle, 
   Zap, 
@@ -17,7 +15,6 @@ import {
   X,
   ChevronUp,
   ArrowUpDown,
-  BarChart3,
   Clock
 } from 'lucide-react';
 
@@ -47,14 +44,6 @@ export const ResearchDashboard: React.FC = () => {
   const [sortConfig, setSortConfig] = useState<Record<string, { field: SortField, direction: 'asc' | 'desc' }>>({});
   const [error, setError] = useState<string | null>(null);
 
-  // DeFiLlama States
-  const [chains, setChains] = useState<LlamaChain[]>([]);
-  const [protocols, setProtocols] = useState<LlamaProtocol[]>([]);
-  const [stables, setStables] = useState<LlamaStablecoin[]>([]);
-  const [llamaLoading, setLlamaLoading] = useState(true);
-  const [llamaError, setLlamaError] = useState(false);
-  const [lastLlamaUpdate, setLastLlamaUpdate] = useState<string>('');
-
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -67,26 +56,6 @@ export const ResearchDashboard: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const fetchLlamaData = async () => {
-    setLlamaLoading(true);
-    setLlamaError(false);
-    try {
-      const [cData, pData, sData] = await Promise.all([
-        defiLlamaService.getTopChains(),
-        defiLlamaService.getTopProtocols(),
-        defiLlamaService.getTopStablecoins()
-      ]);
-      setChains(cData);
-      setProtocols(pData);
-      setStables(sData);
-      setLastLlamaUpdate(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-    } catch (e) {
-      setLlamaError(true);
-    } finally {
-      setLlamaLoading(false);
-    }
-  };
-
   useEffect(() => {
     const savedActiveCat = localStorage.getItem('onchainrev_research_active_tab');
     if (savedActiveCat && CATEGORIES_CONFIG.some(c => c.id === savedActiveCat)) {
@@ -97,8 +66,6 @@ export const ResearchDashboard: React.FC = () => {
     if (savedPins) {
       setPinnedCoinIds(JSON.parse(savedPins));
     }
-
-    fetchLlamaData();
 
     coinGeckoProxy.getCategoriesStats((newData) => {
       const statsMap: Record<string, GeckoCategory> = {};
@@ -226,92 +193,8 @@ export const ResearchDashboard: React.FC = () => {
     );
   };
 
-  const FundamentalCard = ({ title, data, type }: { title: string, data: any[], type: 'chains' | 'protocols' | 'stables' }) => (
-    <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-3xl p-5 shadow-sm overflow-hidden flex flex-col min-h-[420px]">
-      <div className="flex items-center justify-between mb-5 px-1">
-        <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 dark:text-white flex items-center gap-2">
-          <div className="w-1 h-3 bg-blue-500 rounded-full"></div>
-          {title}
-        </h4>
-        <div className="flex items-center gap-1 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">
-          <Clock size={10} />
-          {lastLlamaUpdate || '--:--'}
-        </div>
-      </div>
-
-      {llamaLoading ? (
-        <div className="flex-grow flex items-center justify-center">
-          <Loader2 className="animate-spin text-blue-500 opacity-50" size={24} />
-        </div>
-      ) : llamaError ? (
-        <div className="flex-grow flex flex-col items-center justify-center gap-2 text-rose-500/60 p-4 text-center">
-          <AlertCircle size={20} />
-          <span className="text-[10px] font-bold uppercase tracking-widest">Data Unreachable</span>
-        </div>
-      ) : (
-        <div className="flex-grow overflow-hidden">
-          <table className="w-full text-left text-[10px] border-separate border-spacing-y-1.5">
-            <thead>
-              <tr className="text-slate-400 font-black uppercase tracking-widest border-b border-slate-100 dark:border-white/5">
-                <th className="pb-2 font-mono">{type === 'chains' ? 'Chain' : type === 'protocols' ? 'Protocol' : 'Asset'}</th>
-                <th className="pb-2 text-right font-mono">{type === 'stables' ? 'M.Cap' : 'TVL'}</th>
-                <th className="pb-2 text-right font-mono">1D</th>
-                <th className="pb-2 text-right font-mono">7D</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, i) => (
-                <tr key={i} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
-                  <td className="py-2.5 font-bold text-slate-700 dark:text-slate-300 truncate max-w-[80px]">
-                    {item.name}
-                  </td>
-                  <td className="py-2.5 text-right font-mono font-black text-slate-900 dark:text-white">
-                    {formatCompact(type === 'stables' ? item.circulating : item.tvl)}
-                  </td>
-                  <td className="py-2.5 text-right font-mono font-bold">
-                    <span className={item.change_1d >= 0 ? 'text-emerald-500' : 'text-rose-500'}>
-                      {item.change_1d?.toFixed(1)}%
-                    </span>
-                  </td>
-                  <td className="py-2.5 text-right font-mono font-bold">
-                    <span className={item.change_7d >= 0 ? 'text-emerald-500' : 'text-rose-500'}>
-                      {item.change_7d?.toFixed(1)}%
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
-  );
-
   return (
     <div className="w-full space-y-12 pb-12 animate-in fade-in duration-700">
-      {/* Fundamentals Section */}
-      <div className="space-y-8">
-        <div className="flex items-center gap-4">
-          <div className="p-2 bg-slate-900 dark:bg-white rounded-xl shadow-lg">
-            <BarChart3 size={18} className="text-white dark:text-black" />
-          </div>
-          <div>
-            <h3 className="text-xl font-black uppercase tracking-tighter text-slate-900 dark:text-white font-space italic">Fundamentals</h3>
-            <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mt-0.5">Macro Liquidity & TVL Ingress</p>
-          </div>
-          <div className="flex-grow h-[1px] bg-slate-200 dark:bg-white/5 ml-4"></div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <FundamentalCard title="Chains by TVL" data={chains} type="chains" />
-          <FundamentalCard title="Protocols by TVL" data={protocols} type="protocols" />
-          <FundamentalCard title="Stablecoins" data={stables} type="stables" />
-        </div>
-        <div className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-[0.3em] text-center pt-2">
-          Fundamentals powered by <span className="text-blue-500">DeFiLlama</span>
-        </div>
-      </div>
-
       <div className="sticky top-[140px] z-30 bg-white/95 dark:bg-[#0b0e14]/95 backdrop-blur-2xl border-y border-slate-200 dark:border-white/5 py-4 transition-all">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4">
           <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
@@ -359,7 +242,7 @@ export const ResearchDashboard: React.FC = () => {
 
           <div className="flex items-center gap-3">
             <button 
-              onClick={() => { fetchMarketData(activeCategoryId, true); fetchLlamaData(); }}
+              onClick={() => { fetchMarketData(activeCategoryId, true); }}
               disabled={loading[activeCategoryId]}
               className="group flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-[9px] font-bold uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-all disabled:opacity-50"
             >
@@ -534,13 +417,13 @@ export const ResearchDashboard: React.FC = () => {
       <footer className="pt-16 pb-8 flex flex-col items-center gap-8">
         <div className="flex items-center gap-6 font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-slate-400 text-center">
           <div className="w-20 h-[1px] bg-slate-200 dark:bg-white/10"></div>
-          Research v3.3
+          Research Terminal Node Active
           <div className="w-20 h-[1px] bg-slate-200 dark:bg-white/10"></div>
         </div>
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex items-center gap-4 bg-slate-900 dark:bg-white px-6 py-3 rounded-xl shadow-lg">
-            <TrendingUp size={16} className="text-emerald-500" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-white dark:text-black">Multi-Node Intel Secured</span>
+            <Zap size={16} className="text-blue-500" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-white dark:text-black">High Fidelity Data stream</span>
           </div>
           <a href="https://onchainrevolution.io/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-all group">
             Audit Ecosystem <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
