@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 
 type Timeframe = '1h' | '24h' | '7d' | '30d' | '1y';
-type SizeMetric = 'market_cap' | 'total_volume';
 
 interface BubbleNode extends GeckoCoin {
   x: number;
@@ -47,7 +46,7 @@ export const BubblesDashboard: React.FC = () => {
   const [coins, setCoins] = useState<GeckoCoin[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeframe, setTimeframe] = useState<Timeframe>('24h');
-  const [sizeMetric, setSizeMetric] = useState<SizeMetric>('market_cap');
+  const sizeMetric = 'market_cap'; // Hardcoded as requested
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCoin, setSelectedCoin] = useState<GeckoCoin | null>(null);
@@ -59,6 +58,9 @@ export const BubblesDashboard: React.FC = () => {
   const nodesRef = useRef<BubbleNode[]>([]);
   const requestRef = useRef<number>();
   const hoveredNodeRef = useRef<BubbleNode | null>(null);
+  const draggedNodeRef = useRef<BubbleNode | null>(null);
+  const mousePosRef = useRef({ x: 0, y: 0 });
+  const dragStartPosRef = useRef({ x: 0, y: 0 });
   const imagesCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
 
   useEffect(() => {
@@ -141,13 +143,9 @@ export const BubblesDashboard: React.FC = () => {
       const change = (coin as any)[tfKey] || 0;
       const absChange = Math.abs(change);
       
-      // Scaled down Radius Logic:
-      // Reduced multipliers to make them smaller overall.
-      // Min radius down to 35, Max radius down to 110.
-      const baseRadius = Math.log(val + 1) * 1.5; 
-      const changeWeight = Math.sqrt(absChange) * 11; 
-      
-      const radius = Math.min(Math.max(baseRadius + changeWeight, 35), 110); 
+      const baseRadius = Math.log(val + 1) * 1.2; 
+      const changeWeight = Math.sqrt(absChange) * 9; 
+      const radius = Math.min(Math.max(baseRadius + changeWeight, 32), 82); 
       
       if (!imagesCacheRef.current.has(coin.id)) {
         const img = new Image();
@@ -172,31 +170,48 @@ export const BubblesDashboard: React.FC = () => {
       if (!ctx) return;
 
       const friction = 0.975; 
-      const charge = 0.14;   
+      const charge = 0.12;   
       const centerX = width / 2;
       const centerY = height / 2;
       const attractionForce = 0.00008; 
 
+      if (draggedNodeRef.current) {
+        const node = nodes.find(n => n.id === draggedNodeRef.current!.id);
+        if (node) {
+          const dx = mousePosRef.current.x - node.x;
+          const dy = mousePosRef.current.y - node.y;
+          node.vx = dx * 0.2;
+          node.vy = dy * 0.2;
+        }
+      }
+
       for (let i = 0; i < nodes.length; i++) {
         const a = nodes[i];
-        a.vx += (centerX - a.x) * attractionForce;
-        a.vy += (centerY - a.y) * attractionForce;
+        if (draggedNodeRef.current?.id !== a.id) {
+          a.vx += (centerX - a.x) * attractionForce;
+          a.vy += (centerY - a.y) * attractionForce;
+        }
 
         for (let j = i + 1; j < nodes.length; j++) {
           const b = nodes[j];
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const minDistance = a.radius + b.radius + 12; // Adjusted padding for smaller bubbles
+          const minDistance = a.radius + b.radius + 10;
 
           if (distance < minDistance) {
             const force = (minDistance - distance) / distance * charge;
             const fx = dx * force;
             const fy = dy * force;
-            a.vx -= fx;
-            a.vy -= fy;
-            b.vx += fx;
-            b.vy += fy;
+            
+            if (draggedNodeRef.current?.id !== a.id) {
+              a.vx -= fx;
+              a.vy -= fy;
+            }
+            if (draggedNodeRef.current?.id !== b.id) {
+              b.vx += fx;
+              b.vy += fy;
+            }
           }
         }
 
@@ -218,6 +233,7 @@ export const BubblesDashboard: React.FC = () => {
         const change = (node as any)[tfKey] || 0;
         const isPositive = change >= 0;
         const isHovered = hoveredNodeRef.current?.id === node.id;
+        const isDragged = draggedNodeRef.current?.id === node.id;
 
         const neonGreen = '#14b8a6';
         const neonRed = '#f43f5e';
@@ -230,9 +246,10 @@ export const BubblesDashboard: React.FC = () => {
         ctx.save();
         ctx.translate(node.x, node.y);
 
-        if (isHovered) {
-          ctx.shadowBlur = 60;
+        if (isHovered || isDragged) {
+          ctx.shadowBlur = isDragged ? 70 : 50;
           ctx.shadowColor = baseColor;
+          if (isDragged) ctx.scale(1.04, 1.04);
         }
 
         const grad = ctx.createRadialGradient(0, -node.radius*0.1, 0, 0, 0, node.radius);
@@ -246,15 +263,15 @@ export const BubblesDashboard: React.FC = () => {
         ctx.fill();
 
         ctx.strokeStyle = isPositive ? '#14b8a6aa' : '#f43f5eaa';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.stroke();
 
         ctx.strokeStyle = '#ffffffcc';
         ctx.lineWidth = 0.5;
         ctx.stroke();
 
-        if (node.imgElement && node.imgElement.complete && node.radius > 28) {
-          const iconSize = node.radius * 0.44;
+        if (node.imgElement && node.imgElement.complete && node.radius > 30) {
+          const iconSize = node.radius * 0.42;
           ctx.save();
           ctx.beginPath();
           ctx.arc(0, -node.radius * 0.38, iconSize / 2, 0, Math.PI * 2);
@@ -266,21 +283,22 @@ export const BubblesDashboard: React.FC = () => {
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         
-        const symbolSize = Math.max(node.radius * 0.36, 11);
+        const symbolSize = Math.max(node.radius * 0.35, 10);
         ctx.font = `900 ${symbolSize}px "Outfit", sans-serif`;
         ctx.fillText(node.symbol.toUpperCase(), 0, node.radius > 32 ? 10 : 5);
 
-        const percentSize = Math.max(node.radius * 0.22, 9);
+        const percentSize = Math.max(node.radius * 0.21, 8.5);
         ctx.font = `700 ${percentSize}px "JetBrains Mono", monospace`;
-        ctx.fillText(`${isPositive ? '+' : ''}${change.toFixed(1)}%`, 0, node.radius > 32 ? (symbolSize + 14) : (symbolSize + 2));
+        ctx.fillText(`${isPositive ? '+' : ''}${change.toFixed(1)}%`, 0, node.radius > 32 ? (symbolSize + 12) : (symbolSize + 1));
 
         ctx.restore();
       };
 
       nodes.forEach(node => {
-        if (hoveredNodeRef.current?.id !== node.id) drawNode(node);
+        if (hoveredNodeRef.current?.id !== node.id && draggedNodeRef.current?.id !== node.id) drawNode(node);
       });
-      if (hoveredNodeRef.current) drawNode(hoveredNodeRef.current);
+      if (hoveredNodeRef.current && !draggedNodeRef.current) drawNode(hoveredNodeRef.current);
+      if (draggedNodeRef.current) drawNode(draggedNodeRef.current);
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       requestRef.current = requestAnimationFrame(simulate);
@@ -299,7 +317,14 @@ export const BubblesDashboard: React.FC = () => {
       cancelAnimationFrame(requestRef.current!);
       window.removeEventListener('resize', handleResize);
     };
-  }, [filteredCoins, timeframe, sizeMetric]);
+  }, [filteredCoins, timeframe]);
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (hoveredNodeRef.current) {
+      draggedNodeRef.current = hoveredNodeRef.current;
+      dragStartPosRef.current = { x: mousePosRef.current.x, y: mousePosRef.current.y };
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -308,6 +333,13 @@ export const BubblesDashboard: React.FC = () => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
+    mousePosRef.current = { x, y };
+
+    if (draggedNodeRef.current) {
+      canvas.style.cursor = 'grabbing';
+      return;
+    }
+
     const hovered = nodesRef.current.find(node => {
       const dx = node.x - x;
       const dy = node.y - y;
@@ -315,13 +347,26 @@ export const BubblesDashboard: React.FC = () => {
     });
 
     hoveredNodeRef.current = hovered || null;
-    canvas.style.cursor = hovered ? 'pointer' : 'default';
+    canvas.style.cursor = hovered ? 'grab' : 'default';
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (hoveredNodeRef.current) {
-      setSelectedCoin(hoveredNodeRef.current);
+  const handleMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (draggedNodeRef.current) {
+      const dx = mousePosRef.current.x - dragStartPosRef.current.x;
+      const dy = mousePosRef.current.y - dragStartPosRef.current.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist < 5) {
+        setSelectedCoin(draggedNodeRef.current);
+      }
+      
+      draggedNodeRef.current = null;
     }
+  };
+
+  const handleMouseLeave = () => {
+    draggedNodeRef.current = null;
+    hoveredNodeRef.current = null;
   };
 
   const formatCurrency = (val: number) => 
@@ -356,14 +401,18 @@ export const BubblesDashboard: React.FC = () => {
 
           <div className="h-8 w-[1px] bg-white/10 mx-2 hidden sm:block"></div>
 
-          <div className="flex items-center gap-2 bg-[#161b22] px-4 py-2 rounded-md border border-[#14b8a6]/40 cursor-pointer hover:bg-white/5 transition-all">
-             <span className="text-[11px] font-bold text-white uppercase">{sizeMetric === 'market_cap' ? 'Market Cap' : 'Volume'} & {timeframe === '24h' ? 'Day' : timeframe}</span>
-             <ChevronDown size={14} className="text-slate-400" />
+          <div className="flex items-center gap-2 bg-[#161b22] px-4 py-2 rounded-md border border-[#14b8a6]/40 text-white font-bold text-[11px] uppercase">
+             Market Cap & {timeframe === '24h' ? 'Day' : timeframe}
           </div>
 
-          <div className="p-2 bg-[#161b22] border border-white/10 rounded-md text-slate-400 hover:text-white cursor-pointer transition-all">
-            <Settings size={16} />
-          </div>
+          <button 
+            onClick={fetchData}
+            disabled={loading}
+            className="flex items-center gap-2 bg-[#14b8a6] hover:bg-[#14b8a6]/80 px-4 py-2 rounded-md text-white font-bold text-[11px] uppercase transition-all disabled:opacity-50"
+          >
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            Refresh Data
+          </button>
         </div>
 
         <div className="flex items-center gap-3">
@@ -408,12 +457,6 @@ export const BubblesDashboard: React.FC = () => {
           <div className="flex items-center gap-2 bg-[#161b22] px-4 py-2 rounded-md border border-white/10">
              <span className="text-[12px] font-bold text-slate-400">$</span>
              <span className="text-[12px] font-bold text-white">USD</span>
-             <ChevronDown size={14} className="text-slate-400" />
-          </div>
-
-          <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-md border border-white/10">
-             <button onClick={() => setSizeMetric(sizeMetric === 'market_cap' ? 'total_volume' : 'market_cap')} className={`p-1.5 rounded transition-all ${sizeMetric === 'total_volume' ? 'bg-[#14b8a6] text-white' : 'text-slate-400 hover:text-white'}`}><LayoutGrid size={14} /></button>
-             <button className="p-1.5 rounded text-slate-400 hover:text-white transition-all"><Settings size={14} /></button>
           </div>
         </div>
       </div>
@@ -448,8 +491,10 @@ export const BubblesDashboard: React.FC = () => {
         ) : (
           <canvas 
             ref={canvasRef}
+            onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
-            onClick={handleClick}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
             className="w-full h-full block cursor-crosshair"
           />
         )}
