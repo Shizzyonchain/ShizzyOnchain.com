@@ -6,7 +6,8 @@ import { NewsCard } from './components/NewsCard.tsx';
 import { Sidebar } from './components/Sidebar.tsx';
 import { VideoSection } from './components/VideoSection.tsx';
 import { ResearchDashboard } from './components/ResearchDashboard.tsx';
-import { NewsArticle } from './types.ts';
+import { DefiDashboard } from './components/DefiDashboard.tsx';
+import { NewsArticle, View } from './types.ts';
 import { ArrowLeft, Search as SearchIcon, X, Clock, Terminal } from 'lucide-react';
 import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE } from './constants.tsx';
 
@@ -27,8 +28,6 @@ const SHORTS = [
   { id: 's6', title: 'ETHEREUM BURN RATE EXPLAINED 🔥', thumbnail: 'https://img.youtube.com/vi/FH0q1ICQqnA/mqdefault.jpg', url: 'https://www.youtube.com/shorts/FH0q1ICQqnA', type: 'short' as const },
   { id: 's7', title: 'STABLECOIN WARS: Who Wins? 🏛️', thumbnail: 'https://img.youtube.com/vi/s4JMTqzyq54/mqdefault.jpg', url: 'https://www.youtube.com/shorts/s4JMTqzyq54', type: 'short' as const },
 ];
-
-type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research';
 
 const App: React.FC = () => {
   const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(AGENT_CYCLE_ARTICLE);
@@ -62,6 +61,18 @@ const App: React.FC = () => {
       setCurrentView('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  const handleGoHome = () => {
+    setCurrentView('home');
+    setSearchQuery('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleViewChange = (view: View) => {
+    setCurrentView(view);
+    setSearchQuery('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleTheme = () => {
@@ -125,6 +136,22 @@ const App: React.FC = () => {
           </div>
 
           <ResearchDashboard />
+        </div>
+      );
+    }
+
+    if (currentView === 'defi') {
+      return (
+        <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500">
+          <div className="mb-12">
+            <button 
+              onClick={() => setCurrentView('home')}
+              className="flex items-center gap-2 text-slate-500 hover:text-emerald-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest group"
+            >
+              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
+            </button>
+          </div>
+          <DefiDashboard />
         </div>
       );
     }
@@ -296,13 +323,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20 selection:bg-blue-600/30 bg-slate-50 dark:bg-[#0b0e14] transition-colors duration-300">
+    <div className="min-h-screen pb-20 selection:bg-[#f97316]/30 bg-slate-50 dark:bg-[#0b0e14] transition-colors duration-300">
       <Ticker />
       <Header 
         darkMode={darkMode} 
         toggleTheme={toggleTheme} 
-        onResearchClick={() => { setCurrentView('research'); window.scrollTo(0,0); }}
-        isResearchActive={currentView === 'research'}
+        onViewChange={handleViewChange}
+        currentView={currentView}
       />
       
       <main className="max-w-[1400px] mx-auto px-6 mt-8 md:mt-10">
@@ -312,10 +339,8 @@ const App: React.FC = () => {
       <footer className="max-w-[1400px] mx-auto px-6 mt-32 pt-16 border-t border-slate-200 dark:border-white/5">
         <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
           <div className="flex flex-col gap-4 items-center md:items-start">
-            <a 
-              href={SOCIAL_LINKS.website} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <button 
+              onClick={handleGoHome}
               className="h-12 block"
             >
               <img 
@@ -323,7 +348,7 @@ const App: React.FC = () => {
                 alt="Logo" 
                 className="h-full w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer dark:invert-0" 
               />
-            </a>
+            </button>
           </div>
           <div className="text-slate-500 dark:text-slate-600 text-[11px] leading-relaxed max-w-lg font-medium opacity-80">
             Shizzy's Insights provides data-driven perspectives for educational purposes only. This content is not financial advice. Always consult a professional before making investment decisions. All analysis powered by the OnChain Revolution engine.

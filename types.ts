@@ -54,3 +54,28 @@ export interface CategoryState {
   name: string;
   enabled: boolean;
 }
+
+export interface LlamaChain {
+  name: string;
+  tvl: number;
+  change_1d: number | null;
+  change_7d: number | null;
+}
+
+export interface LlamaProtocol {
+  name: string;
+  category: string;
+  tvl: number;
+  change_1d: number | null;
+  change_7d: number | null;
+}
+
+export interface LlamaStablecoin {
+  name: string;
+  symbol: string;
+  circulating: number;
+  change_1d: number | null;
+  change_7d: number | null;
+}
+
+export type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi';
