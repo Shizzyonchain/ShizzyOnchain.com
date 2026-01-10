@@ -1,5 +1,5 @@
 import React from 'react';
-import { INITIAL_COINS } from '../constants';
+import { INITIAL_COINS } from '../constants.tsx';
 
 export const Ticker: React.FC = () => {
   return (

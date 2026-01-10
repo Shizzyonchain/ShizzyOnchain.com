@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search, Youtube, Sun, Moon } from 'lucide-react';
-import { SOCIAL_LINKS } from '../constants';
+import { SOCIAL_LINKS } from '../constants.tsx';
 
 const XIcon = () => (
   <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">

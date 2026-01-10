@@ -1,4 +1,4 @@
-import { CoinData, HotStory, NewsArticle } from './types';
+import { CoinData, HotStory, NewsArticle } from './types.ts';
 
 export const INITIAL_COINS: CoinData[] = [
   { symbol: 'XRP', price: 2.10, change: -1.35 },
@@ -29,12 +29,12 @@ export const TAO_ARTICLE: NewsArticle = {
   content: [
     "That is the entire thesis. Not “AI narrative.” Not “a chatbot token.” Real markets, real competition, real emissions, real output. And the first TAO halving has already hit, meaning new supply pressure just got cut in half at the protocol level.",
     "The core TAO x Bitcoin blueprint includes a hard cap of 21 million, scarcity enforced by code, and a halving cycle that reduces new issuance over time. A miner and validator economy competes for rewards in a way explicitly modeled after Bitcoin’s scarcity concept, but it triggers based on supply milestones, not a fixed block countdown.",
-    "The first halving window hit in mid December 2025, cutting daily TAO emissions by 50 percent, from 7,200 down to 3,600 TAO per day. This activated when 10.5 million TAO were mined. Bitcoin halvings shock supply for a store of value network; TAO halvings shock supply for a network trying to become the coordination layer for decentralized AI.",
+    "The first halving window hit in mid December 2025, cutting daily TAO emissions by 50 percent, from 7,200 down to 3,600 TAO per day. This activated when 10.5 million TAO are mined. Bitcoin halvings shock supply for a store of value network; TAO halvings shock supply for a network trying to become the coordination layer for decentralized AI.",
     "Dynamic TAO (dTAO), which went live on February 13, 2025, introduced subnet tokens (alpha tokens). This created a market-driven way for subnets to compete for emissions. You do not just “buy TAO” anymore; you can express conviction in specific AI verticals through these subnet tokens. That is why TAO feels like “Bitcoin plus venture capital.”",
     "Aggressive buildouts like EVM on Bittensor and SDK v10 have lowered friction for builders. While Bitcoin monetizes belief in digital scarcity, TAO monetizes digital scarcity plus machine intelligence production. In TAO, you can win if the base asset wins, or you can win harder if you pick the right subnets where the market prices specific AI products.",
     "Bitcoin proved that engineered scarcity can eat the world. TAO is making a bigger bet: engineered scarcity can fund a decentralized, competitive AI economy. Now that the first halving has happened, the scarcity side just got real. If demand keeps climbing while issuance shrinks, TAO becomes the essential place where AI builders and capital stay."
   ],
-  imageUrl: "https://i.imgur.com/nZVlgj9_d.jpeg?maxwidth=520&shape=thumb&fidelity=high",
+  imageUrl: "https://i.imgur.com/l64LmNJ.jpeg",
   snapshots: [
     { asset: "TAO", price: "$342.15", description: "Native asset of the Bittensor decentralized AI network" },
     { asset: "EMISSIONS", price: "3,600/DAY", description: "Post-halving daily TAO supply issuance" },
@@ -78,7 +78,7 @@ export const CYCLE_ARTICLE: NewsArticle = {
     "If 2026 rhymes with 2020, the year will not necessarily start euphoric. It will start like a pressure cooker. The defining feature would be liquidity returning in a real way, not just talk. If that happens, 2026 could see Bitcoin trending more cleanly with fewer fakeouts, pullbacks becoming buyable instead of traps, and capital rotating from Bitcoin into higher beta assets.",
     "For the 2026 = 2020 comparison to hold, it needs real confirmation: Sustained easing, credit conditions loosening, and broader risk-on across stocks and crypto. When those align, crypto does what it always does: It reprices fast.",
     "If 2026 becomes the liquidity comeback year, then 2027 becomes the year where the cycle typically goes too far. Everyone becomes a genius, risk management disappears, leverage returns, and projects get funded on vibes. Every pullback gets bought until the final one does not. The blow off top is not just price; it is behavior.",
-    "Looking into the future, if this thesis is correct: 2025 was the 2019 style recovery, 2026 is the year liquidity confirms the cycle, and 2027 has the potential to be the blow off top. Not a prediction carved in stone, but a framework built on how liquidity cycles historically behave. Liquidity sets the stage. Bitcoin leads the cast. Altcoins arrive for the final act. And the final act is usually the loudest."
+    "Looking into the future, if this thesis is correct: 2025 was the 2019 style recovery, 2026 is the year liquidity confirms the cycle, and 2027 has the potential to be the blow off top. Not a prediction carved in stone, but a framework built on how liquidity cycles historically behave. Liquidity sets the stage. Bitcoin leading the cast. Altcoins arrive for the final act. And the final act is usually the loudest."
   ],
   imageUrl: "https://i.imgur.com/21o7ilA.jpeg",
   snapshots: [

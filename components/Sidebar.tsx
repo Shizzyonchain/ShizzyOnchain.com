@@ -1,5 +1,5 @@
 import React from 'react';
-import { HOT_STORIES } from '../constants';
+import { HOT_STORIES } from '../constants.tsx';
 import { Flame, Clock } from 'lucide-react';
 
 interface SidebarProps {

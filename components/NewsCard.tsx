@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { NewsArticle } from '../types';
+import { NewsArticle } from '../types.ts';
 
 interface NewsCardProps {
   article: NewsArticle;
@@ -9,19 +8,16 @@ interface NewsCardProps {
 export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
   return (
     <div className="bg-white dark:bg-[#1e293b]/20 rounded-2xl overflow-hidden border border-slate-200 dark:border-white/5 transition-all shadow-2xl dark:shadow-none dark:hover:border-white/10 group">
-      {/* Brighter, full-visibility image container */}
       <div className="relative w-full overflow-hidden bg-slate-200 dark:bg-zinc-900 border-b border-slate-100 dark:border-white/5">
         <img 
           src={article.imageUrl} 
           alt={article.title}
           className="w-full h-auto min-h-[300px] object-cover opacity-100 group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
         />
-        {/* Subtle vignette for depth without obscuring the content */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-transparent pointer-events-none"></div>
       </div>
 
       <div className="p-8 md:p-10 space-y-10">
-        {/* Main Headline Section underneath the image */}
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-4">
             <span className="bg-blue-600 text-white text-[11px] font-black px-3 py-1.5 rounded-md uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20 font-mono">
@@ -43,7 +39,6 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
           </p>
         </div>
 
-        {/* Market Snapshot Grid */}
         <div className="bg-slate-50 dark:bg-white/5 p-8 rounded-2xl border border-slate-100 dark:border-white/5">
           <h3 className="text-blue-600 dark:text-blue-400 font-black text-[11px] mb-6 uppercase tracking-[0.4em] font-space flex items-center gap-3">
             <span className="w-8 h-[1px] bg-blue-500/30"></span>
@@ -64,7 +59,6 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
           </ul>
         </div>
 
-        {/* Detailed Analysis Content */}
         <div className="space-y-8 pt-4">
           <div className="flex items-center gap-4">
              <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight font-space uppercase">Market Intelligence</h3>

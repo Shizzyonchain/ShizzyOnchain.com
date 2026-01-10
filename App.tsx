@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Header } from './components/Header';
-import { Ticker } from './components/Ticker';
-import { NewsCard } from './components/NewsCard';
-import { Sidebar } from './components/Sidebar';
-import { VideoSection } from './components/VideoSection';
-import { NewsArticle } from './types';
+import { Header } from './components/Header.tsx';
+import { Ticker } from './components/Ticker.tsx';
+import { NewsCard } from './components/NewsCard.tsx';
+import { Sidebar } from './components/Sidebar.tsx';
+import { VideoSection } from './components/VideoSection.tsx';
+import { NewsArticle } from './types.ts';
 import { ArrowLeft, Search as SearchIcon, X } from 'lucide-react';
-import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE } from './constants';
+import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE } from './constants.tsx';
 
 const LIVE_STREAMS = [
   { id: 'l5', title: '🚨SURVIVE & THRIVE in 2026!🔥 The ONLY Guide to Stay SANE Until Valhalla 🤯🚀', thumbnail: 'https://img.youtube.com/vi/lkxQv50MOSI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=lkxQv50MOSI&t=6971s', type: 'live' as const },
   { id: 'l4', title: '🚨FED & STIMULUS DECIDE 2026?!💥 What Happens NEXT Could MAKE or BREAK Crypto!📈😱', thumbnail: 'https://img.youtube.com/vi/X6Lr9ZkZOLc/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=X6Lr9ZkZOLc&t=5420s', type: 'live' as const },
-  { id: 'l3', title: '🚨IS THIS PUMP FOR REAL?!🔥 Or Is It Another BRUTAL TRAP Before the NEXT DUMP?!😱📉', thumbnail: 'https://img.youtube.com/vi/PVn2HW2NMuM/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=PVn2HW2NMuM&t=10s', type: 'live' as const },
+  { id: 'l3', title: '🚨IS THIS PUMP FOR REAL?!🔥 Or Is It Another BRUTAL TRAP Before the NEXT DUMP?!😱📉', thumbnail: 'https://img.youtube.com/vi/PVn2HW2MMuM/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=PVn2HW2MMuM&t=10s', type: 'live' as const },
   { id: 'l2', title: '🚨Prediction Markets Set to EXPLODE?!🔥 The BIGGEST Retail Money Play in Web3 for 2026 🤯🚀', thumbnail: 'https://img.youtube.com/vi/AVgD7BNCPtE/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=AVgD7BNCPtE&t=4121s', type: 'live' as const },
   { id: 'l1', title: '🚨These Crypto Sectors Could EXPLODE in 2026!🔥 Momentum Is Building FAST — Don’t Miss This!🚀', thumbnail: 'https://img.youtube.com/vi/yGqZFtoLDxI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=yGqZFtoLDxI&t=2472s', type: 'live' as const },
 ];
@@ -36,7 +36,6 @@ const App: React.FC = () => {
 
   const fetchArticle = (topic: string) => {
     const t = topic.toLowerCase();
-    // Strictly map to provided static articles
     if (t.includes('2019') || t.includes('liquidity roadmap')) {
       setFeaturedArticle(CYCLE_ARTICLE);
       window.scrollTo({ top: 0, behavior: 'smooth' });
