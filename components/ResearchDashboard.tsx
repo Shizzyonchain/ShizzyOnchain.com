@@ -14,8 +14,7 @@ import {
   ExternalLink, 
   X,
   ChevronUp,
-  ArrowUpDown,
-  Clock
+  ArrowUpDown
 } from 'lucide-react';
 
 const CATEGORIES_CONFIG = [
@@ -76,7 +75,7 @@ export const ResearchDashboard: React.FC = () => {
       });
       setCategoryStats(prev => ({ ...prev, ...statsMap }));
     }).then(initialData => {
-      if (initialData.length > 0) {
+      if (initialData && initialData.length > 0) {
         const statsMap: Record<string, GeckoCategory> = {};
         initialData.forEach(s => {
           if (CATEGORIES_CONFIG.some(c => c.id === s.id)) {
@@ -92,14 +91,14 @@ export const ResearchDashboard: React.FC = () => {
     const hasData = !!marketData[catId];
     if (!force && hasData) return;
 
-    if (!hasData) setLoading(prev => ({ ...prev, [catId]: true }));
+    if (!hasData || force) setLoading(prev => ({ ...prev, [catId]: true }));
     setError(null);
 
     try {
       const initial = await coinGeckoProxy.getCategoryMarkets(catId, (updated) => {
         setMarketData(prev => ({ ...prev, [catId]: updated }));
         setLoading(prev => ({ ...prev, [catId]: false }));
-      });
+      }, force);
       
       if (initial && initial.length > 0) {
         setMarketData(prev => ({ ...prev, [catId]: initial }));

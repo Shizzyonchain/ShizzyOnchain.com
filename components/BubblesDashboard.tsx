@@ -72,12 +72,13 @@ export const BubblesDashboard: React.FC = () => {
     localStorage.setItem('onchainrev_bubbles_pinned', JSON.stringify(pinnedIds));
   }, [pinnedIds]);
 
-  const fetchData = async () => {
+  const fetchData = async (force = false) => {
     setLoading(true);
     try {
       const data = await coinGeckoProxy.getBubbleMarkets({
         limit: 100,
         page,
+        force,
         onUpdate: (updated) => setCoins(updated)
       });
       setCoins(data);
@@ -91,7 +92,7 @@ export const BubblesDashboard: React.FC = () => {
   useEffect(() => {
     fetchData();
     if (autoRefresh) {
-      const interval = setInterval(fetchData, 60000);
+      const interval = setInterval(() => fetchData(), 60000);
       return () => clearInterval(interval);
     }
   }, [page, autoRefresh]);
@@ -406,7 +407,7 @@ export const BubblesDashboard: React.FC = () => {
           </div>
 
           <button 
-            onClick={fetchData}
+            onClick={() => fetchData(true)}
             disabled={loading}
             className="flex items-center gap-2 bg-[#14b8a6] hover:bg-[#14b8a6]/80 px-4 py-2 rounded-md text-white font-bold text-[11px] uppercase transition-all disabled:opacity-50"
           >

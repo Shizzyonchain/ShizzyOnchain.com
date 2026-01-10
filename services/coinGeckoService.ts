@@ -2,7 +2,7 @@
 import { GeckoCoin, GeckoCategory } from '../types.ts';
 
 /**
- * HARDENED DATA NODE PROXY v4.4 (SWR Optimized)
+ * HARDENED DATA NODE PROXY v4.5 (SWR Optimized with Force Refresh)
  * Mimics a backend proxy logic for market bubbles with specific filtering and pagination.
  */
 
@@ -10,7 +10,7 @@ const CATEGORY_CACHE_KEY = 'cg_category_stats_cache';
 const MARKET_CACHE_PREFIX = 'cg_market_cache_';
 const BUBBLES_CACHE_KEY = 'cg_bubbles_market_cache';
 
-const FRESH_THRESHOLD = 60 * 1000; // 60 seconds as requested
+const FRESH_THRESHOLD = 60 * 1000; // 60 seconds
 
 interface CacheEntry<T> {
   data: T;
@@ -75,13 +75,14 @@ class CoinGeckoProxy {
     limit: number;
     page?: number;
     category?: string;
+    force?: boolean;
     onUpdate?: (data: GeckoCoin[]) => void;
   }): Promise<GeckoCoin[]> {
-    const { limit, page = 1, category, onUpdate } = params;
+    const { limit, page = 1, category, force = false, onUpdate } = params;
     const cacheKey = `${BUBBLES_CACHE_KEY}_${limit}_p${page}_${category || 'all'}`;
     const cached = localStorage.getItem(cacheKey);
 
-    if (cached) {
+    if (cached && !force) {
       const { data, timestamp }: CacheEntry<GeckoCoin[]> = JSON.parse(cached);
       if (Date.now() - timestamp < FRESH_THRESHOLD) {
         return data;
@@ -158,12 +159,12 @@ class CoinGeckoProxy {
     return [];
   }
 
-  public async getTopMarkets(onUpdate?: (data: GeckoCoin[]) => void): Promise<GeckoCoin[]> {
-    return this.getBubbleMarkets({ limit: 100, onUpdate });
+  public async getTopMarkets(onUpdate?: (data: GeckoCoin[]) => void, force = false): Promise<GeckoCoin[]> {
+    return this.getBubbleMarkets({ limit: 100, onUpdate, force });
   }
 
-  public async getCategoryMarkets(category: string, onUpdate?: (data: GeckoCoin[]) => void): Promise<GeckoCoin[]> {
-    return this.getBubbleMarkets({ limit: 100, category, onUpdate });
+  public async getCategoryMarkets(category: string, onUpdate?: (data: GeckoCoin[]) => void, force = false): Promise<GeckoCoin[]> {
+    return this.getBubbleMarkets({ limit: 100, category, onUpdate, force });
   }
 }
 
