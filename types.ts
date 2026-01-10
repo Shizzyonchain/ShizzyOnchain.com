@@ -26,3 +26,31 @@ export interface HotStory {
   title: string;
   timeAgo: string;
 }
+
+export interface GeckoCoin {
+  id: string;
+  symbol: string;
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap: number;
+  market_cap_rank: number;
+  total_volume: number;
+  price_change_percentage_1h_in_currency: number;
+  price_change_percentage_24h_in_currency: number;
+  price_change_percentage_7d_in_currency: number;
+}
+
+export interface GeckoCategory {
+  id: string;
+  name: string;
+  market_cap: number;
+  volume_24h: number;
+  content: string;
+}
+
+export interface CategoryState {
+  id: string;
+  name: string;
+  enabled: boolean;
+}

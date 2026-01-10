@@ -1,11 +1,13 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { Header } from './components/Header.tsx';
 import { Ticker } from './components/Ticker.tsx';
 import { NewsCard } from './components/NewsCard.tsx';
 import { Sidebar } from './components/Sidebar.tsx';
 import { VideoSection } from './components/VideoSection.tsx';
+import { ResearchDashboard } from './components/ResearchDashboard.tsx';
 import { NewsArticle } from './types.ts';
-import { ArrowLeft, Search as SearchIcon, X, Clock } from 'lucide-react';
+import { ArrowLeft, Search as SearchIcon, X, Clock, Terminal } from 'lucide-react';
 import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE } from './constants.tsx';
 
 const LIVE_STREAMS = [
@@ -26,7 +28,7 @@ const SHORTS = [
   { id: 's7', title: 'STABLECOIN WARS: Who Wins? 🏛️', thumbnail: 'https://img.youtube.com/vi/s4JMTqzyq54/mqdefault.jpg', url: 'https://www.youtube.com/shorts/s4JMTqzyq54', type: 'short' as const },
 ];
 
-type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories';
+type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research';
 
 const App: React.FC = () => {
   const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(AGENT_CYCLE_ARTICLE);
@@ -57,7 +59,6 @@ const App: React.FC = () => {
       setCurrentView('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // For other topics, we just scroll to top of home or show a fallback
       setCurrentView('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -89,6 +90,45 @@ const App: React.FC = () => {
   }, [searchQuery]);
 
   const renderContent = () => {
+    if (currentView === 'research') {
+      return (
+        <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500">
+          <div className="mb-12">
+            <button 
+              onClick={() => setCurrentView('home')}
+              className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest group"
+            >
+              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
+            </button>
+            
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div>
+                <h1 className="text-5xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-4">
+                  Research <span className="text-blue-600">Terminal</span>
+                </h1>
+                <p className="text-slate-500 dark:text-slate-400 font-medium font-mono text-xs md:text-sm uppercase tracking-[0.3em] leading-relaxed max-w-2xl">
+                  Deep on-chain intelligence and real-time market categorization powered by the <span className="text-blue-500 font-black">coingecko terminal.</span>
+                </p>
+              </div>
+              <div className="hidden lg:block p-4 border border-blue-500/20 bg-blue-500/5 rounded-2xl">
+                <div className="flex items-center gap-3 text-blue-500 mb-1">
+                  <Terminal size={18} />
+                  <span className="text-[10px] font-black font-mono uppercase tracking-widest">System Status</span>
+                </div>
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-widest leading-tight">
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Proxy Layer Active</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Cache Sync: Healthy</div>
+                  <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Data Ingress: 20ms</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ResearchDashboard />
+        </div>
+      );
+    }
+
     if (currentView === 'home') {
       return (
         <div className="space-y-12">
@@ -258,7 +298,12 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen pb-20 selection:bg-blue-600/30 bg-slate-50 dark:bg-[#0b0e14] transition-colors duration-300">
       <Ticker />
-      <Header darkMode={darkMode} toggleTheme={toggleTheme} />
+      <Header 
+        darkMode={darkMode} 
+        toggleTheme={toggleTheme} 
+        onResearchClick={() => { setCurrentView('research'); window.scrollTo(0,0); }}
+        isResearchActive={currentView === 'research'}
+      />
       
       <main className="max-w-[1400px] mx-auto px-6 mt-8 md:mt-10">
         {renderContent()}
