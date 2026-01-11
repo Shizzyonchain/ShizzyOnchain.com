@@ -10,7 +10,7 @@ import { DefiDashboard } from './components/DefiDashboard.tsx';
 import { BubblesDashboard } from './components/BubblesDashboard.tsx';
 import { NewsArticle, View } from './types.ts';
 import { ArrowLeft, Search as SearchIcon, X, Calendar, Terminal } from 'lucide-react';
-import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE } from './constants.tsx';
+import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE, OCT_10_ARTICLE } from './constants.tsx';
 
 const LIVE_STREAMS = [
   { id: 'l5', title: '🚨SURVIVE & THRIVE in 2026!🔥 The ONLY Guide to Stay SANE Until Valhalla 🤯🚀', thumbnail: 'https://img.youtube.com/vi/lkxQv50MOSI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=lkxQv50MOSI&t=6971s', type: 'live' as const },
@@ -31,14 +31,18 @@ const SHORTS = [
 ];
 
 const App: React.FC = () => {
-  const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(AGENT_CYCLE_ARTICLE);
+  const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(OCT_10_ARTICLE);
   const [darkMode, setDarkMode] = useState(true);
   const [currentView, setCurrentView] = useState<View>('home');
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchArticle = (topic: string) => {
     const t = topic.toLowerCase();
-    if (t.includes('2019') || t.includes('liquidity roadmap')) {
+    if (t.includes('10/10') || t.includes('downward spiral')) {
+      setFeaturedArticle(OCT_10_ARTICLE);
+      setCurrentView('home');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (t.includes('2019') || t.includes('liquidity roadmap')) {
       setFeaturedArticle(CYCLE_ARTICLE);
       setCurrentView('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
