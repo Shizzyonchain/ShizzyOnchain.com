@@ -13,12 +13,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
     return null;
   }
 
-  // Show up to 10 stories in the sidebar
   const displayStories = HOT_STORIES.slice(0, 10);
 
   return (
     <aside className="space-y-6">
-      <div className="bg-slate-100 dark:bg-[#1e293b]/40 rounded-xl p-6 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none transition-colors">
+      <div className="bg-white dark:bg-[#1e293b]/40 rounded-2xl p-6 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none transition-colors">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-2">
             <Flame size={18} className="text-orange-500" />
@@ -33,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
               onClick={() => onStoryClick(story.title)}
               className="group w-full text-left focus:outline-none block"
             >
-              <h4 className="text-[14px] md:text-[15px] font-bold text-slate-700 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-inter">
+              <h4 className="text-[14px] md:text-[15px] font-bold text-slate-800 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-inter">
                 {story.title}
               </h4>
               <div className="flex items-center gap-1.5 mt-2.5 text-[10px] text-slate-500 dark:text-slate-500 font-bold font-mono uppercase tracking-widest">
@@ -47,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
         {onViewAll && (
           <button 
             onClick={onViewAll}
-            className="w-full mt-10 pt-6 border-t border-slate-200 dark:border-white/5 flex items-center justify-center gap-2 text-xs font-black font-mono text-blue-500 hover:text-blue-400 transition-colors uppercase tracking-[0.2em] group"
+            className="w-full mt-10 pt-6 border-t border-slate-100 dark:border-white/5 flex items-center justify-center gap-2 text-xs font-black font-mono text-blue-600 dark:text-blue-500 hover:text-blue-500 transition-colors uppercase tracking-[0.2em] group"
           >
             View All Insights <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </button>

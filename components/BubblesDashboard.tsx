@@ -14,7 +14,8 @@ import {
   LayoutGrid,
   Settings,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Info
 } from 'lucide-react';
 
 type Timeframe = '1h' | '24h' | '7d' | '30d' | '1y';
@@ -29,24 +30,30 @@ interface BubbleNode extends GeckoCoin {
 }
 
 const RANK_RANGES = [
-  { label: '1 - 100', page: 1 },
-  { label: '101 - 200', page: 2 },
-  { label: '201 - 300', page: 3 },
-  { label: '301 - 400', page: 4 },
-  { label: '401 - 500', page: 5 }
+  { label: 'Rank 1 - 100', page: 1 },
+  { label: 'Rank 101 - 200', page: 2 },
+  { label: 'Rank 201 - 300', page: 3 },
+  { label: 'Rank 301 - 400', page: 4 },
+  { label: 'Rank 401 - 500', page: 5 }
 ];
 
-// Symbols to exclude (Stables and Wrapped tokens)
+/**
+ * STRATEGIC EXCLUSION LIST v2.0
+ * Removes non-volatile assets (stables), wrapped derivatives, and LSTs 
+ * to ensure the dashboard reflects actual "Revolutionary" market movement.
+ */
 const EXCLUDED_SYMBOLS = [
-  'USDT', 'USDC', 'DAI', 'BUSD', 'FDUSD', 'TUSD', 'USDP', 'USDD', 'PYUSD', 'FRAX', 'LUSD', 'GHO', 'CRVUSD', 'MIM', 'USTC', 'EURC',
-  'WBTC', 'WETH', 'WBNB', 'WAVAX', 'WMATIC', 'WFTM', 'WSTRK', 'WADA', 'WDOT', 'WSOL', 'STETH', 'CBETH', 'RETH', 'FRXETH'
+  // Major Stables
+  'USDT', 'USDC', 'DAI', 'BUSD', 'FDUSD', 'TUSD', 'USDP', 'USDD', 'PYUSD', 'FRAX', 'LUSD', 'GHO', 'CRVUSD', 'MIM', 'USTC', 'EURC', 'USDE',
+  // Wrapped Assets & LSTs (Clutter)
+  'WBTC', 'WETH', 'WBNB', 'WAVAX', 'WMATIC', 'WFTM', 'WSTRK', 'WADA', 'WDOT', 'WSOL', 'STETH', 'CBETH', 'RETH', 'FRXETH', 'WLD', 'WUSDL', 'WSTETH', 'WETH.E', 'WBTC.E', 'WXRP'
 ];
 
 export const BubblesDashboard: React.FC = () => {
   const [coins, setCoins] = useState<GeckoCoin[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeframe, setTimeframe] = useState<Timeframe>('24h');
-  const sizeMetric = 'market_cap'; // Hardcoded as requested
+  const sizeMetric = 'market_cap'; 
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCoin, setSelectedCoin] = useState<GeckoCoin | null>(null);
@@ -75,6 +82,7 @@ export const BubblesDashboard: React.FC = () => {
   const fetchData = async (force = false) => {
     setLoading(true);
     try {
+      // We always fetch per page to maintain the rank integrity user expects
       const data = await coinGeckoProxy.getBubbleMarkets({
         limit: 100,
         page,
@@ -112,13 +120,10 @@ export const BubblesDashboard: React.FC = () => {
       const symbol = c.symbol.toUpperCase();
       const isExcluded = EXCLUDED_SYMBOLS.includes(symbol);
       const matchesSearch = symbol.includes(searchQuery.toUpperCase()) || c.name.toUpperCase().includes(searchQuery.toUpperCase());
+      // Ensure we are showing the correct rank range even after filtering
       return !isExcluded && matchesSearch;
     });
   }, [coins, searchQuery]);
-
-  const pinnedCoins = useMemo(() => {
-    return coins.filter(c => pinnedIds.includes(c.id));
-  }, [coins, pinnedIds]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -377,10 +382,10 @@ export const BubblesDashboard: React.FC = () => {
     new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 2, style: 'currency', currency: 'USD' }).format(val);
 
   return (
-    <div className="w-full h-full flex flex-col bg-[#0b0e14] font-space select-none overflow-hidden">
-      <div className="z-[70] bg-[#0b0e14] border-b border-green-500 px-6 py-2 flex flex-wrap items-center justify-between gap-4">
+    <div className="w-full h-full flex flex-col bg-slate-50 dark:bg-[#0b0e14] font-space select-none overflow-hidden transition-colors duration-300">
+      <div className="z-[70] bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-green-500 px-6 py-2 flex flex-wrap items-center justify-between gap-4 shadow-sm dark:shadow-none">
         <div className="flex items-center gap-2">
-          <div className="flex bg-[#161b22] p-1 rounded-md border border-white/5 overflow-hidden">
+          <div className="flex bg-slate-100 dark:bg-[#161b22] p-1 rounded-md border border-slate-200 dark:border-white/5 overflow-hidden">
             {[
               { id: '1h', label: 'Hour' },
               { id: '24h', label: 'Day' },
@@ -392,7 +397,7 @@ export const BubblesDashboard: React.FC = () => {
                 key={tf.id}
                 onClick={() => setTimeframe(tf.id as Timeframe)}
                 className={`px-4 py-1.5 rounded-md text-[12px] font-bold tracking-tight transition-all border ${
-                  timeframe === tf.id ? 'bg-[#14b8a6] text-white border-[#14b8a6]' : 'text-slate-400 border-transparent hover:text-white'
+                  timeframe === tf.id ? 'bg-[#14b8a6] text-white border-[#14b8a6]' : 'text-slate-500 dark:text-slate-400 border-transparent hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {tf.label}
@@ -400,10 +405,10 @@ export const BubblesDashboard: React.FC = () => {
             ))}
           </div>
 
-          <div className="h-8 w-[1px] bg-white/10 mx-2 hidden sm:block"></div>
+          <div className="h-8 w-[1px] bg-slate-200 dark:bg-white/10 mx-2 hidden sm:block"></div>
 
-          <div className="flex items-center gap-2 bg-[#161b22] px-4 py-2 rounded-md border border-[#14b8a6]/40 text-white font-bold text-[11px] uppercase">
-             Market Cap & {timeframe === '24h' ? 'Day' : timeframe}
+          <div className="flex items-center gap-2 bg-slate-100 dark:bg-[#161b22] px-4 py-2 rounded-md border border-[#14b8a6]/40 dark:border-[#14b8a6]/40 text-slate-900 dark:text-white font-bold text-[11px] uppercase">
+             {timeframe === '24h' ? '24H Movement' : `${timeframe} Performance`}
           </div>
 
           <button 
@@ -412,140 +417,112 @@ export const BubblesDashboard: React.FC = () => {
             className="flex items-center gap-2 bg-[#14b8a6] hover:bg-[#14b8a6]/80 px-4 py-2 rounded-md text-white font-bold text-[11px] uppercase transition-all disabled:opacity-50"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            Refresh Data
+            Refresh
           </button>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative group hidden lg:block">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" size={14} />
             <input 
               type="text"
-              placeholder="Search cryptocurrency"
+              placeholder="Search assets..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#161b22] border border-white/10 rounded-md pl-9 pr-4 py-2 text-[12px] font-medium text-white focus:border-[#14b8a6] outline-none w-64 transition-all"
+              className="bg-slate-100 dark:bg-[#161b22] border border-slate-200 dark:border-white/10 rounded-md pl-9 pr-4 py-2 text-[12px] font-medium text-slate-900 dark:text-white focus:border-[#14b8a6] outline-none w-64 transition-all"
             />
           </div>
 
           <div className="flex items-center gap-1">
-            <div className="flex items-center bg-[#161b22] rounded-md border border-white/10 overflow-hidden">
+            <div className="flex items-center bg-slate-100 dark:bg-[#161b22] rounded-md border border-slate-200 dark:border-white/10 overflow-hidden">
               <select 
                 value={page}
                 onChange={(e) => setPage(Number(e.target.value))}
-                className="bg-transparent pl-4 pr-1 py-2 text-[12px] font-bold text-white focus:outline-none cursor-pointer appearance-none"
+                className="bg-transparent pl-4 pr-1 py-2 text-[12px] font-bold text-slate-900 dark:text-white focus:outline-none cursor-pointer appearance-none"
               >
-                {RANK_RANGES.map(range => <option key={range.page} value={range.page} className="bg-[#161b22]">{range.label}</option>)}
+                {RANK_RANGES.map(range => <option key={range.page} value={range.page} className="bg-white dark:bg-[#161b22]">{range.label}</option>)}
               </select>
-              <div className="pr-3 text-slate-500 pointer-events-none"><ChevronDown size={14} /></div>
+              <div className="pr-3 text-slate-400 pointer-events-none"><ChevronDown size={14} /></div>
             </div>
-            
-            <button 
-              onClick={() => setPage(p => Math.max(1, p - 1))}
-              className="p-2 bg-[#161b22] border border-white/10 rounded-md text-slate-400 hover:text-white transition-all disabled:opacity-30"
-              disabled={page === 1}
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button 
-              onClick={() => setPage(p => p + 1)}
-              className="p-2 bg-[#161b22] border border-white/10 rounded-md text-slate-400 hover:text-white transition-all"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 bg-[#161b22] px-4 py-2 rounded-md border border-white/10">
-             <span className="text-[12px] font-bold text-slate-400">$</span>
-             <span className="text-[12px] font-bold text-white">USD</span>
           </div>
         </div>
       </div>
 
-      {pinnedCoins.length > 0 && (
-        <div className="bg-[#111827]/50 border-b border-white/5 px-6 py-2 flex items-center gap-4 overflow-x-auto scrollbar-hide">
-          <span className="text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">Watchlist</span>
-          {pinnedCoins.map(coin => (
-            <div 
-              key={coin.id} 
-              onClick={() => setSelectedCoin(coin)}
-              className="flex items-center gap-2 px-3 py-1 bg-[#161b22] rounded-md border border-white/5 cursor-pointer hover:border-[#14b8a6]/50 transition-all shrink-0"
-            >
-              <img src={coin.image} alt="" className="w-3 h-3" />
-              <span className="text-[10px] font-black text-white">{coin.symbol.toUpperCase()}</span>
-              <span className={`text-[10px] font-mono font-bold ${(coin as any)[getTimeframeKey(timeframe)] >= 0 ? 'text-[#14b8a6]' : 'text-[#f43f5e]'}`}>
-                {((coin as any)[getTimeframeKey(timeframe)] || 0).toFixed(1)}%
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div ref={containerRef} className="relative flex-grow overflow-hidden bg-[#0b0e14]">
+      <div ref={containerRef} className="relative flex-grow overflow-hidden bg-white dark:bg-[#0b0e14]">
         {loading && coins.length === 0 ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-50">
             <Loader2 className="animate-spin text-[#14b8a6]" size={50} strokeWidth={1.5} />
             <div className="text-center">
-              <p className="text-[11px] font-black text-[#14b8a6] uppercase tracking-[0.4em] animate-pulse">Syncing Liquidity Matrix</p>
+              <p className="text-[11px] font-black text-[#14b8a6] uppercase tracking-[0.4em] animate-pulse">Establishing Node Link</p>
             </div>
           </div>
         ) : (
-          <canvas 
-            ref={canvasRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            className="w-full h-full block cursor-crosshair"
-          />
+          <>
+            <canvas 
+              ref={canvasRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              className="w-full h-full block cursor-crosshair"
+            />
+            {/* Legend for Page Info */}
+            <div className="absolute bottom-6 left-6 flex items-center gap-3 bg-white/80 dark:bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 dark:border-white/5 pointer-events-none">
+               <Info size={14} className="text-blue-500" />
+               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                  Showing Market Cap Rank {((page - 1) * 100) + 1} - {page * 100}
+               </span>
+            </div>
+          </>
         )}
 
-        <div className={`fixed inset-y-0 right-0 h-screen w-full lg:w-[440px] bg-[#0b0e14] border-l border-white/10 z-[100] transition-transform duration-500 shadow-2xl flex flex-col ${selectedCoin ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`fixed inset-y-0 right-0 h-screen w-full lg:w-[440px] bg-white dark:bg-[#0b0e14] border-l border-slate-200 dark:border-white/10 z-[100] transition-transform duration-500 shadow-2xl flex flex-col ${selectedCoin ? 'translate-x-0' : 'translate-x-full'}`}>
           {selectedCoin && (
             <div className="flex-grow flex flex-col p-6 lg:p-10 overflow-y-auto scrollbar-hide">
               <button 
                 onClick={() => setSelectedCoin(null)}
-                className="absolute top-6 right-6 p-2 text-slate-500 hover:text-white transition-colors z-50"
+                className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors z-50"
               >
                 <X size={24} />
               </button>
 
               <div className="mt-4 space-y-8">
-                {/* Header Section */}
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-white/5 rounded-2xl border border-white/10">
+                  <div className="p-3 bg-slate-100 dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10">
                     <img src={selectedCoin.image} alt={selectedCoin.name} className="w-12 h-12" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-white uppercase tracking-tighter leading-none">{selectedCoin.name}</h3>
-                    <p className="text-[#14b8a6] font-mono text-[10px] font-bold uppercase tracking-widest mt-1">{selectedCoin.symbol.toUpperCase()} / USD</p>
+                    <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">{selectedCoin.name}</h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[#14b8a6] font-mono text-[10px] font-bold uppercase tracking-widest">{selectedCoin.symbol.toUpperCase()}</span>
+                      <span className="w-1 h-1 bg-slate-400 rounded-full"></span>
+                      <span className="text-slate-400 font-mono text-[10px] font-bold">RANK #{selectedCoin.market_cap_rank}</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Performance & Value Section */}
                 <div className="space-y-4">
-                  <div className="bg-[#161b22] border border-white/5 rounded-2xl p-6">
-                    <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2 font-mono">Live Valuation</div>
-                    <div className="text-4xl font-black font-mono text-white tracking-tighter">
+                  <div className="bg-slate-50 dark:bg-[#161b22] border border-slate-200 dark:border-white/5 rounded-2xl p-6">
+                    <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2 font-mono">Spot Price (USD)</div>
+                    <div className="text-4xl font-black font-mono text-slate-900 dark:text-white tracking-tighter">
                       {formatCurrency(selectedCoin.current_price)}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-[#161b22] border border-white/5 rounded-2xl p-5">
+                    <div className="bg-slate-50 dark:bg-[#161b22] border border-slate-200 dark:border-white/5 rounded-2xl p-5">
                       <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2 font-mono">Market Cap</div>
-                      <div className="text-xl font-black font-mono text-white">{formatCompact(selectedCoin.market_cap)}</div>
+                      <div className="text-xl font-black font-mono text-slate-900 dark:text-white">{formatCompact(selectedCoin.market_cap)}</div>
                     </div>
-                    <div className="bg-[#161b22] border border-white/5 rounded-2xl p-5">
+                    <div className="bg-slate-50 dark:bg-[#161b22] border border-slate-200 dark:border-white/5 rounded-2xl p-5">
                       <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2 font-mono">24h Volume</div>
-                      <div className="text-xl font-black font-mono text-white">{formatCompact(selectedCoin.total_volume)}</div>
+                      <div className="text-xl font-black font-mono text-slate-900 dark:text-white">{formatCompact(selectedCoin.total_volume)}</div>
                     </div>
                   </div>
                 </div>
 
-                {/* Node Performance Section */}
                 <div className="space-y-4">
-                  <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1 mb-2 font-mono">Node Performance</div>
+                  <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1 mb-2 font-mono italic">Performance Track</div>
                   <div className="space-y-2">
                     {[
                       { tf: '1h', label: '1 Hour' },
@@ -556,8 +533,8 @@ export const BubblesDashboard: React.FC = () => {
                     ].map(item => {
                       const val = (selectedCoin as any)[getTimeframeKey(item.tf as Timeframe)] || 0;
                       return (
-                        <div key={item.tf} className="flex justify-between items-center p-5 bg-[#161b22] border border-white/5 rounded-xl">
-                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">{item.label}</span>
+                        <div key={item.tf} className="flex justify-between items-center p-5 bg-slate-50 dark:bg-[#161b22] border border-slate-200 dark:border-white/5 rounded-xl">
+                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-mono">{item.label}</span>
                           <span className={`text-sm font-bold font-mono ${val >= 0 ? 'text-[#14b8a6]' : 'text-[#f43f5e]'}`}>
                             {val >= 0 ? '+' : ''}{val.toFixed(2)}%
                           </span>
@@ -575,8 +552,8 @@ export const BubblesDashboard: React.FC = () => {
                     }}
                     className={`w-full py-4 rounded-xl flex items-center justify-center gap-2 font-black uppercase tracking-[0.2em] text-[10px] transition-all ${
                       pinnedIds.includes(selectedCoin.id)
-                        ? 'bg-[#f43f5e] text-white'
-                        : 'bg-[#14b8a6] text-white hover:scale-[1.02]'
+                        ? 'bg-rose-600 text-white'
+                        : 'bg-blue-600 text-white hover:scale-[1.02] shadow-lg shadow-blue-500/20'
                     }`}
                   >
                     <Pin size={16} className={pinnedIds.includes(selectedCoin.id) ? 'fill-white' : ''} />
@@ -588,13 +565,6 @@ export const BubblesDashboard: React.FC = () => {
           )}
         </div>
       </div>
-
-      <footer className="bg-[#0b0e14] py-1 border-t border-white/5 flex flex-col items-center gap-0">
-        <div className="flex items-center gap-6 font-mono text-[7px] font-bold uppercase tracking-[0.5em] text-slate-800 text-center">
-          Powered by CoinGecko Market Data
-        </div>
-      </footer>
-
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

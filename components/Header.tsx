@@ -47,20 +47,20 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <div className="sticky top-[44px] z-40 bg-white dark:bg-[#0b0e14]">
+    <div className="sticky top-[44px] z-40 bg-white dark:bg-[#0b0e14] transition-all duration-300 shadow-sm dark:shadow-none">
       {/* Top Header Row */}
-      <header className="px-6 h-16 md:h-20 flex items-center justify-between border-b border-black/5 dark:border-white/5">
+      <header className="px-6 h-16 md:h-20 flex items-center justify-between border-b border-slate-100 dark:border-white/5">
         <div className="flex items-center pl-2 md:pl-6 h-full">
           <a 
             href={SOCIAL_LINKS.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-[85%] block hover:scale-105 transition-transform duration-300 z-50 flex items-center"
+            className="h-[85%] block hover:opacity-80 transition-all duration-300 z-50 flex items-center"
           >
             <img 
               src={SOCIAL_LINKS.logo} 
               alt="OnChain Revolution" 
-              className="h-full w-auto object-contain dark:brightness-110"
+              className="h-full w-auto object-contain dark:brightness-100 dark:invert-0 brightness-90"
             />
           </a>
         </div>
@@ -97,11 +97,10 @@ export const Header: React.FC<HeaderProps> = ({
       </header>
 
       {/* Navigation Bar (Home Bar) */}
-      <nav className="border-b border-black/5 dark:border-white/5 bg-white dark:bg-[#0b0e14] overflow-x-auto scrollbar-hide">
+      <nav className="border-b border-slate-100 dark:border-white/5 bg-white dark:bg-[#0b0e14] overflow-x-auto scrollbar-hide">
         <div className="max-w-[1400px] mx-auto flex items-center px-8">
           <div className="flex items-center gap-8 h-12">
             {navItems.map((item) => {
-              // Highlight logic for active views
               const actuallyActive = 
                 (item.label === 'Home' && currentView === 'home') || 
                 (item.label === 'Research' && currentView === 'research') || 
@@ -112,15 +111,15 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   key={item.label}
                   onClick={() => handleNavClick(item)}
-                  className={`relative h-full text-sm font-semibold whitespace-nowrap transition-colors duration-200 uppercase tracking-tight ${
+                  className={`relative h-full text-sm font-bold whitespace-nowrap transition-colors duration-200 uppercase tracking-tight ${
                     actuallyActive 
-                      ? 'text-[#f97316]' 
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      ? 'text-blue-600 dark:text-[#f97316]' 
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   {item.label}
                   {actuallyActive && (
-                    <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[#f97316]" />
+                    <div className="absolute bottom-0 left-0 w-full h-[3px] bg-blue-600 dark:bg-[#f97316]" />
                   )}
                 </button>
               );

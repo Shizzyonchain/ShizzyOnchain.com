@@ -81,16 +81,22 @@ const App: React.FC = () => {
   };
 
   const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    if (darkMode) {
-      document.documentElement.classList.remove('class');
-    } else {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    if (newMode) {
       document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
   };
 
   useEffect(() => {
-    document.documentElement.classList.add('dark');
+    // Initial sync
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, []);
 
   const filteredStreams = useMemo(() => {
@@ -364,7 +370,7 @@ const App: React.FC = () => {
                 <img 
                   src={SOCIAL_LINKS.logo} 
                   alt="Logo" 
-                  className="h-full w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer dark:invert-0" 
+                  className="h-full w-auto opacity-60 hover:opacity-100 transition-all cursor-pointer dark:invert-0 brightness-0 dark:brightness-100 dark:opacity-40 hover:dark:opacity-100" 
                 />
               </a>
             </div>
