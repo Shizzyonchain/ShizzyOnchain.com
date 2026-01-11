@@ -2,9 +2,9 @@
 import { LlamaChain, LlamaProtocol, LlamaStablecoin } from '../types.ts';
 
 /**
- * DEFILLAMA DATA NODE PROXY v2.1
+ * DEFILLAMA DATA NODE PROXY v2.2
  * Focuses on on-chain activity: Volume, Revenue, and TVL.
- * Explicitly filters out CEX/Centralized data.
+ * Explicitly filters out CEX/Centralized and 'Off Chain' data.
  */
 
 const CACHE_KEYS = {
@@ -41,6 +41,12 @@ class DefiLlamaService {
     localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
   }
 
+  private isOffChain(name: string): boolean {
+    if (!name) return true;
+    const n = name.toLowerCase();
+    return n === 'off chain' || n === 'offchain' || n === 'unknown';
+  }
+
   /**
    * Aggregates volume by chain from the DEXs overview
    */
@@ -56,19 +62,21 @@ class DefiLlamaService {
       const chainVolMap: Record<string, number> = {};
       
       // Aggregate volume from individual DEX protocols to their respective chains
-      // This is more reliable than the summary objects which can be empty
       if (data.protocols && Array.isArray(data.protocols)) {
         data.protocols.forEach((p: any) => {
-          // Skip if protocol is a CEX (sanity check)
+          // Skip if protocol is a CEX
           if (p.category === 'CEX' || p.category === 'Centralized Exchange') return;
 
           const chains = p.chains || [];
           const vol = p.total24h || 0;
           if (chains.length > 0 && vol > 0) {
-            const perChain = vol / chains.length;
-            chains.forEach((c: string) => {
-              chainVolMap[c] = (chainVolMap[c] || 0) + perChain;
-            });
+            const validChains = chains.filter((c: string) => !this.isOffChain(c));
+            if (validChains.length > 0) {
+              const perChain = vol / validChains.length;
+              validChains.forEach((c: string) => {
+                chainVolMap[c] = (chainVolMap[c] || 0) + perChain;
+              });
+            }
           }
         });
       }
@@ -112,10 +120,13 @@ class DefiLlamaService {
           const chains = p.chains || [];
           const totalRev = p.total24h || 0;
           if (chains.length > 0 && totalRev > 0) {
-            const perChain = totalRev / chains.length;
-            chains.forEach((c: string) => {
-              chainRevMap[c] = (chainRevMap[c] || 0) + perChain;
-            });
+            const validChains = chains.filter((c: string) => !this.isOffChain(c));
+            if (validChains.length > 0) {
+              const perChain = totalRev / validChains.length;
+              validChains.forEach((c: string) => {
+                chainRevMap[c] = (chainRevMap[c] || 0) + perChain;
+              });
+            }
           }
         });
       }
@@ -146,6 +157,7 @@ class DefiLlamaService {
       const response = await fetch('https://api.llama.fi/v2/chains');
       const data = await response.json();
       const sorted: LlamaChain[] = data
+        .filter((c: any) => !this.isOffChain(c.name))
         .sort((a: any, b: any) => b.tvl - a.tvl)
         .slice(0, 10)
         .map((c: any) => ({
@@ -170,7 +182,7 @@ class DefiLlamaService {
       const response = await fetch('https://api.llama.fi/protocols');
       const data = await response.json();
       const sorted: LlamaProtocol[] = data
-        .filter((p: any) => p.category !== 'CEX' && p.category !== 'Centralized Exchange') // Remove CEX data
+        .filter((p: any) => p.category !== 'CEX' && p.category !== 'Centralized Exchange' && !this.isOffChain(p.name))
         .sort((a: any, b: any) => b.tvl - a.tvl)
         .slice(0, 10)
         .map((p: any) => ({

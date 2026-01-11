@@ -355,8 +355,10 @@ const App: React.FC = () => {
         <footer className="max-w-[1400px] mx-auto px-6 mt-32 pt-16 border-t border-slate-200 dark:border-white/5">
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
             <div className="flex flex-col gap-4 items-center md:items-start">
-              <button 
-                onClick={handleGoHome}
+              <a 
+                href={SOCIAL_LINKS.website}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-20 block"
               >
                 <img 
@@ -364,7 +366,7 @@ const App: React.FC = () => {
                   alt="Logo" 
                   className="h-full w-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer dark:invert-0" 
                 />
-              </button>
+              </a>
             </div>
             <div className="text-slate-500 dark:text-slate-600 text-[11px] leading-relaxed max-w-lg font-medium opacity-80">
               SHIZZY'S ONCHAIN INSIGHTS provides data-driven perspectives for educational purposes only. This content is not financial advice. Always consult a professional before making investment decisions. All analysis powered by the OnChain Revolution engine.

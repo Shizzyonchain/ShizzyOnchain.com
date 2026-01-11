@@ -51,8 +51,10 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top Header Row */}
       <header className="px-6 h-16 md:h-20 flex items-center justify-between border-b border-black/5 dark:border-white/5">
         <div className="flex items-center pl-2 md:pl-6 h-full">
-          <button 
-            onClick={() => onViewChange('home')}
+          <a 
+            href={SOCIAL_LINKS.website}
+            target="_blank"
+            rel="noopener noreferrer"
             className="h-[85%] block hover:scale-105 transition-transform duration-300 z-50 flex items-center"
           >
             <img 
@@ -60,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({
               alt="OnChain Revolution" 
               className="h-full w-auto object-contain dark:brightness-110"
             />
-          </button>
+          </a>
         </div>
 
         <div className="absolute left-1/2 -translate-x-1/2 text-center hidden lg:block">
