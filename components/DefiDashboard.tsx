@@ -128,98 +128,112 @@ export const DefiDashboard: React.FC = () => {
 
   return (
     <div className="w-full space-y-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
-      {/* Global Matrix HUD Overlay */}
+      {/* Global Matrix HUD Overlay - UPGRADED TO MATCH HIGH-FIDELITY DESIGN */}
       {isMatrixOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 animate-in zoom-in-95 fade-in duration-300">
-          <div className="absolute inset-0 bg-slate-900/95 dark:bg-[#0b0e14]/98 backdrop-blur-2xl" onClick={() => setIsMatrixOpen(false)}></div>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 lg:p-10 animate-in zoom-in-95 fade-in duration-300">
+          <div className="absolute inset-0 bg-[#0b0e14]/95 backdrop-blur-2xl" onClick={() => setIsMatrixOpen(false)}></div>
           
-          <div className="relative w-full max-w-7xl h-full max-h-[92vh] bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col transition-colors">
-            {/* Header */}
-            <div className="flex items-center justify-between p-8 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-white/[0.02]">
-              <div className="flex items-center gap-4">
-                <div className="p-3.5 bg-blue-600 rounded-2xl shadow-xl shadow-blue-500/30 text-white">
-                  <Target size={28} strokeWidth={2.5} />
+          <div className="relative w-full max-w-7xl h-full max-h-[92vh] bg-[#0b0e14] border border-white/5 rounded-[3.5rem] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,1)] flex flex-col">
+            
+            {/* Header Section */}
+            <div className="flex items-center justify-between p-8 lg:p-12 border-b border-white/5 bg-[#111827]/30">
+              <div className="flex items-center gap-6">
+                <div className="p-4 bg-blue-600 rounded-2xl shadow-[0_0_40px_rgba(37,99,235,0.4)] text-white">
+                  <Target size={32} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-black uppercase tracking-tight text-slate-900 dark:text-white font-space italic">Efficiency Matrix</h2>
-                  <p className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">Annualized Capital Productivity vs. Logarithmic TVL Ingress</p>
+                  <h2 className="text-4xl font-black uppercase tracking-tight text-white font-space italic">Efficiency Matrix</h2>
+                  <p className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-widest mt-1">Annualized Capital Productivity vs. Logarithmic TVL Ingress</p>
                 </div>
               </div>
               <button 
                 onClick={() => setIsMatrixOpen(false)}
-                className="p-3 bg-slate-200 dark:bg-white/10 hover:bg-rose-500 dark:hover:bg-rose-600 rounded-full transition-all text-slate-600 dark:text-slate-400 hover:text-white"
+                className="p-4 bg-white/5 hover:bg-rose-600 rounded-full transition-all text-slate-400 hover:text-white"
               >
-                <X size={24} />
+                <X size={28} />
               </button>
             </div>
 
-            <div className="flex-grow p-10 lg:p-14 flex flex-col overflow-hidden">
-              <div className="relative flex-grow border-l-2 border-b-2 border-slate-200 dark:border-white/10 mb-14 ml-16">
+            <div className="flex-grow p-10 lg:p-16 flex flex-col overflow-hidden relative">
+              {/* Plot Area */}
+              <div className="relative flex-grow border-l-2 border-b-2 border-white/10 mb-20 ml-20 mt-8">
                 
-                {/* Y-Axis Label - Fixed rotation and positioning */}
-                <div className="absolute -left-20 top-1/2 -translate-y-1/2 -rotate-90 text-[11px] font-black uppercase tracking-[0.6em] text-blue-600 dark:text-blue-500 whitespace-nowrap opacity-60 pointer-events-none">
+                {/* Y-Axis Label */}
+                <div className="absolute -left-24 top-1/2 -translate-y-1/2 -rotate-90 text-[12px] font-black uppercase tracking-[0.8em] text-blue-500 whitespace-nowrap opacity-70">
                   ANNUALIZED EFFICIENCY (%)
                 </div>
 
                 {/* X-Axis Label */}
-                <div className="absolute left-1/2 -bottom-14 -translate-x-1/2 text-[11px] font-black uppercase tracking-[0.6em] text-blue-600 dark:text-blue-500 whitespace-nowrap opacity-60 pointer-events-none">
+                <div className="absolute left-1/2 -bottom-20 -translate-x-1/2 text-[12px] font-black uppercase tracking-[0.8em] text-blue-500 whitespace-nowrap opacity-70">
                   TOTAL VALUE LOCKED (LOG TVL)
                 </div>
                 
-                {/* Zone Indicators */}
-                <div className="absolute top-8 right-8 text-[10px] font-black text-emerald-500/20 dark:text-emerald-500/30 uppercase tracking-[0.4em] font-mono border border-emerald-500/10 dark:border-emerald-500/20 px-4 py-2 rounded-full">The Gold Mine</div>
-                <div className="absolute top-8 left-8 text-[10px] font-black text-blue-500/20 dark:text-blue-400/30 uppercase tracking-[0.4em] font-mono border border-blue-500/10 dark:border-blue-400/20 px-4 py-2 rounded-full">Hidden Gems</div>
-                <div className="absolute bottom-8 left-8 text-[10px] font-black text-rose-500/20 dark:text-rose-500/30 uppercase tracking-[0.4em] font-mono border border-rose-500/10 dark:border-rose-500/20 px-4 py-2 rounded-full">Ghost Towns</div>
-                <div className="absolute bottom-8 right-8 text-[10px] font-black text-slate-500/20 dark:text-slate-500/30 uppercase tracking-[0.4em] font-mono border border-slate-500/10 dark:border-slate-500/20 px-4 py-2 rounded-full">Blue Chips</div>
+                {/* Zone Pill Indicators */}
+                <div className="absolute top-12 right-12 px-6 py-2.5 rounded-full bg-[#111827]/50 border border-emerald-500/20">
+                  <span className="text-[10px] font-black text-emerald-500/50 uppercase tracking-[0.4em] font-mono">The Gold Mine</span>
+                </div>
+                <div className="absolute top-12 left-12 px-6 py-2.5 rounded-full bg-[#111827]/50 border border-blue-500/20">
+                  <span className="text-[10px] font-black text-blue-400/50 uppercase tracking-[0.4em] font-mono">Hidden Gems</span>
+                </div>
+                <div className="absolute bottom-12 left-12 px-6 py-2.5 rounded-full bg-[#111827]/50 border border-rose-500/20">
+                  <span className="text-[10px] font-black text-rose-500/50 uppercase tracking-[0.4em] font-mono">Ghost Towns</span>
+                </div>
+                <div className="absolute bottom-12 right-12 px-6 py-2.5 rounded-full bg-[#111827]/50 border border-slate-500/20">
+                  <span className="text-[10px] font-black text-slate-400/50 uppercase tracking-[0.4em] font-mono">Blue Chips</span>
 
-                {/* Plot Nodes with LOGARITHMIC SCALE */}
+                {/* Grid Overlay */}
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+                  <div className="w-full h-full" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '10% 10%' }}></div>
+                </div>
+
+                {/* Nodes with Enhanced Aesthetics and Labelling */}
                 {matrixData.map((node, i) => {
                   if (node.tvl <= 0) return null;
                   
-                  // LOG SCALING for X-axis (handling outliers like ETH)
+                  // Log scaling engine
                   const minTvl = Math.min(...matrixData.map(n => n.tvl));
                   const maxTvl = Math.max(...matrixData.map(n => n.tvl));
-                  
-                  // Math.log10 gives a cleaner linear distribution for powers of 10
-                  const logMin = Math.log10(Math.max(minTvl, 1e6)); // Floor at $1M
+                  const logMin = Math.log10(Math.max(minTvl, 1e7)); // Floor at 10M
                   const logMax = Math.log10(maxTvl);
-                  const logCurrent = Math.log10(Math.max(node.tvl, 1e6));
-                  
-                  const left = ((logCurrent - logMin) / (logMax - logMin)) * 88 + 4;
+                  const logCurrent = Math.log10(Math.max(node.tvl, 1e7));
+                  const xPos = ((logCurrent - logMin) / (logMax - logMin)) * 90 + 5;
 
-                  // LINEAR SCALING for Y-axis (Efficiency)
-                  const maxEff = Math.max(...matrixData.map(n => n.efficiency), 10); // Minimum 10% for scale
-                  const bottom = (node.efficiency / maxEff) * 85 + 5;
+                  // Efficiency scale engine
+                  const maxEff = Math.max(...matrixData.map(n => n.efficiency), 40); // Baseline at 40%
+                  const yPos = (node.efficiency / maxEff) * 85 + 5;
 
                   return (
                     <div 
                       key={node.name}
-                      className="absolute group z-10"
-                      style={{ left: `${left}%`, bottom: `${bottom}%` }}
+                      className="absolute group z-20"
+                      style={{ left: `${xPos}%`, bottom: `${yPos}%` }}
                     >
                       <div className="relative -translate-x-1/2 translate-y-1/2">
-                        {/* The Point */}
-                        <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-blue-600 border-[3px] border-white dark:border-[#111827] shadow-lg group-hover:scale-150 transition-all cursor-pointer group-hover:bg-emerald-500 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]"></div>
+                        {/* Point Glow Effect */}
+                        <div className="absolute inset-0 rounded-full bg-blue-600 blur-xl opacity-0 group-hover:opacity-60 transition-opacity"></div>
                         
-                        {/* Dynamic Label */}
-                        <div className="absolute top-8 left-1/2 -translate-x-1/2 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest whitespace-nowrap pointer-events-none transition-colors group-hover:text-blue-500">
+                        {/* Main Point Node */}
+                        <div className="w-6 h-6 rounded-full bg-blue-600 border-[4px] border-[#0b0e14] shadow-[0_0_20px_rgba(37,99,235,0.4)] group-hover:bg-emerald-500 group-hover:scale-125 transition-all duration-300 cursor-help"></div>
+                        
+                        {/* Static Label Below Node */}
+                        <div className="absolute top-8 left-1/2 -translate-x-1/2 text-[10px] font-black text-white/40 uppercase tracking-widest whitespace-nowrap pointer-events-none group-hover:text-blue-400 transition-colors">
                           {node.name}
                         </div>
 
-                        {/* Tooltip */}
-                        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-[#0b0e14] text-white p-5 rounded-[1.5rem] opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 whitespace-nowrap border border-white/10 shadow-2xl scale-90 group-hover:scale-100 translate-y-4 group-hover:translate-y-0">
-                          <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-2">
-                             <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                             <div className="text-sm font-black uppercase tracking-tight">{node.name}</div>
+                        {/* Professional Data Tooltip */}
+                        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-[#0b0e14] text-white p-6 rounded-[2rem] opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 whitespace-nowrap border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] scale-95 group-hover:scale-100 translate-y-2 group-hover:translate-y-0">
+                          <div className="flex items-center gap-3 mb-4 border-b border-white/5 pb-3">
+                             <div className="w-2.5 h-2.5 rounded-full bg-blue-600"></div>
+                             <div className="text-base font-black uppercase tracking-tight italic">{node.name} Node</div>
                           </div>
-                          <div className="grid grid-cols-2 gap-6">
+                          <div className="grid grid-cols-2 gap-8">
                              <div>
-                                <div className="text-[8px] uppercase font-mono font-black text-slate-500 mb-1">Total Liquidity</div>
-                                <div className="text-sm font-black font-mono tracking-tighter">{formatCompact(node.tvl)}</div>
+                                <div className="text-[9px] uppercase font-mono font-black text-slate-500 mb-1">Gross Liquidity</div>
+                                <div className="text-sm font-black font-mono text-white">{formatCompact(node.tvl)}</div>
                              </div>
                              <div>
-                                <div className="text-[8px] uppercase font-mono font-black text-slate-500 mb-1">Efficiency</div>
-                                <div className="text-sm font-black font-mono text-emerald-400 tracking-tighter">{node.efficiency.toFixed(2)}%</div>
+                                <div className="text-[9px] uppercase font-mono font-black text-slate-500 mb-1">Fee Productivity</div>
+                                <div className="text-sm font-black font-mono text-emerald-400">+{node.efficiency.toFixed(2)}%</div>
                              </div>
                           </div>
                         </div>
@@ -227,33 +241,34 @@ export const DefiDashboard: React.FC = () => {
                     </div>
                   );
                 })}
-
-                {/* Grid Lines Overlay */}
-                <div className="absolute inset-0 grid grid-cols-4 grid-rows-4 opacity-[0.05] pointer-events-none">
-                   {[...Array(16)].map((_, i) => <div key={i} className="border border-slate-500"></div>)}
-                </div>
               </div>
 
-              {/* Bottom Insight Bar */}
+              {/* Enhanced Summary HUD Footer */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                 <div className="p-7 bg-slate-100 dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm">
+                 <div className="p-8 bg-white/5 rounded-[2.5rem] border border-white/5 flex flex-col justify-center">
                     <div className="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-3 font-mono italic">Efficiency Insight</div>
-                    <div className="text-xl font-black text-slate-900 dark:text-white uppercase leading-tight font-space italic">Liquidity Velocity</div>
-                    <p className="text-[10px] text-slate-500 mt-2 leading-relaxed">The ratio of fee accrual vs collateralized TVL. High efficiency indicates an active, productive ecosystem.</p>
+                    <div className="text-2xl font-black text-white uppercase leading-tight font-space italic">Liquidity Velocity</div>
+                    <p className="text-[11px] text-slate-500 mt-3 leading-relaxed">Mapping how effectively capital produces fees across the modular chain stack.</p>
                  </div>
-                 <div className="md:col-span-3 p-7 bg-blue-600/5 dark:bg-blue-600/10 rounded-3xl border border-blue-600/20 flex items-center justify-between shadow-inner">
-                    <div className="flex items-center gap-5">
-                       <div className="w-12 h-12 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-500">
-                          <Activity size={24} />
+                 
+                 <div className="md:col-span-3 p-10 bg-blue-600/5 rounded-[2.5rem] border border-blue-600/20 flex items-center justify-between">
+                    <div className="flex items-center gap-8">
+                       <div className="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-500 shadow-[inset_0_0_20px_rgba(37,99,235,0.2)]">
+                          <Activity size={32} />
                        </div>
                        <div className="space-y-1">
-                          <h3 className="text-sm font-black text-blue-600 dark:text-blue-400 uppercase tracking-tighter">Economic Leader</h3>
-                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest font-mono">Maximum Capital Yield Ingress</p>
+                          <h3 className="text-base font-black text-blue-400 uppercase tracking-widest font-mono">Economic Leader</h3>
+                          <p className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.2em]">MAXIMUM CAPITAL YIELD INGRESS</p>
                        </div>
                     </div>
+                    
                     <div className="text-right">
-                       <div className="text-3xl font-black text-slate-900 dark:text-white uppercase font-space italic">{matrixData.sort((a,b) => b.efficiency - a.efficiency)[0]?.name}</div>
-                       <div className="text-xs font-bold text-emerald-500 font-mono">+{matrixData.sort((a,b) => b.efficiency - a.efficiency)[0]?.efficiency.toFixed(1)}% Annualized</div>
+                       <div className="text-5xl font-black text-white uppercase font-space italic tracking-tighter">
+                          {matrixData.sort((a,b) => b.efficiency - a.efficiency)[0]?.name}
+                       </div>
+                       <div className="text-base font-bold text-emerald-500 font-mono mt-1">
+                          +{matrixData.sort((a,b) => b.efficiency - a.efficiency)[0]?.efficiency.toFixed(1)}% Annualized
+                       </div>
                     </div>
                  </div>
               </div>
@@ -262,7 +277,7 @@ export const DefiDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* Header Strategy Block */}
+      {/* Main Dashboard Section */}
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">

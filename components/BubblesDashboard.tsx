@@ -38,15 +38,29 @@ const RANK_RANGES = [
 ];
 
 /**
- * STRATEGIC EXCLUSION LIST v2.0
- * Removes non-volatile assets (stables), wrapped derivatives, and LSTs 
- * to ensure the dashboard reflects actual "Revolutionary" market movement.
+ * STRATEGIC EXCLUSION LIST v4.0 - "ABSOLUTE ZERO PEGS"
+ * Strictly removes stablecoins, synthetic pegs, and low-volatility derivatives.
  */
 const EXCLUDED_SYMBOLS = [
-  // Major Stables
-  'USDT', 'USDC', 'DAI', 'BUSD', 'FDUSD', 'TUSD', 'USDP', 'USDD', 'PYUSD', 'FRAX', 'LUSD', 'GHO', 'CRVUSD', 'MIM', 'USTC', 'EURC', 'USDE',
-  // Wrapped Assets & LSTs (Clutter)
-  'WBTC', 'WETH', 'WBNB', 'WAVAX', 'WMATIC', 'WFTM', 'WSTRK', 'WADA', 'WDOT', 'WSOL', 'STETH', 'CBETH', 'RETH', 'FRXETH', 'WLD', 'WUSDL', 'WSTETH', 'WETH.E', 'WBTC.E', 'WXRP'
+  // --- STABLECOINS (US Dollar & Global Pegs) ---
+  'USDT', 'USDC', 'DAI', 'BUSD', 'FDUSD', 'TUSD', 'USDP', 'USDD', 'PYUSD', 
+  'FRAX', 'LUSD', 'GHO', 'CRVUSD', 'MIM', 'USTC', 'EURC', 'USDE', 'USDS', 
+  'USDB', 'USDY', 'USDO', 'USDM', 'USDA', 'USDX', 'ZUSD', 'GYEN', 'VUSD', 
+  'AUSD', 'BOLD', 'SUSD', 'PUSD', 'ALUSD', 'OUSD', 'EUSD', 'EURT', 'EURS',
+  'PLUSD', 'USDT0', 'USDF', 'SYRUP', 'USDR', 'SUSDE', 'CUSD', 'AGEUR', 
+  'BETH', 'WSTETH', 'RETH', 'CBETH', 'SFRXETH', 'ANKRETH', 'SWETH', 'WBETH',
+  'METH', 'STARK', 'STX', 'PXUSD', 'USDL', 'DOLA', 'LUSD', 'PUSDE', 'USDS',
+  'XAUT', 'PAXG', 'VUSDT', 'VUSDC', 'MXN', 'BRZ', 'EURA', 'XUSD', 'KUSD',
+  'USD0', 'USD0PP', 'USD+', 'USDC+', 'USDT+', 'SYRUP', 'EETH', 'WEETH',
+  
+  // --- WRAPPED ASSETS & DERIVATIVES ---
+  'WBTC', 'WETH', 'WBNB', 'WAVAX', 'WMATIC', 'WFTM', 'WSTRK', 'WADA', 
+  'WDOT', 'WSOL', 'WLD', 'WUSDL', 'WETH.E', 'WBTC.E', 'WXRP', 'WMT', 
+  'WNEAR', 'WOP', 'WARB', 'WROSE', 'WGRT', 'WMNT', 'WCORE', 'WTAO', 'WST',
+  
+  // --- LIQUID STAKING / YIELD (LST/LRT) ---
+  'STETH', 'STSOL', 'MSOL', 'JSOL', 'BSOL', 'SCNSOL', 'STBNB', 'STMATIC',
+  'STDOT', 'STXRP', 'STSUI', 'STAPT', 'STINJ', 'STTIA', 'STDYM', 'STATOM'
 ];
 
 export const BubblesDashboard: React.FC = () => {
@@ -82,7 +96,6 @@ export const BubblesDashboard: React.FC = () => {
   const fetchData = async (force = false) => {
     setLoading(true);
     try {
-      // We always fetch per page to maintain the rank integrity user expects
       const data = await coinGeckoProxy.getBubbleMarkets({
         limit: 100,
         page,
@@ -118,9 +131,14 @@ export const BubblesDashboard: React.FC = () => {
   const filteredCoins = useMemo(() => {
     return coins.filter(c => {
       const symbol = c.symbol.toUpperCase();
-      const isExcluded = EXCLUDED_SYMBOLS.includes(symbol);
+      // Expanded symbol check logic for absolute purity
+      const isExcluded = EXCLUDED_SYMBOLS.some(s => 
+        symbol === s || 
+        symbol.startsWith(s + '.') || 
+        symbol === 'W' + s || 
+        symbol === s + 'W'
+      );
       const matchesSearch = symbol.includes(searchQuery.toUpperCase()) || c.name.toUpperCase().includes(searchQuery.toUpperCase());
-      // Ensure we are showing the correct rank range even after filtering
       return !isExcluded && matchesSearch;
     });
   }, [coins, searchQuery]);
@@ -149,9 +167,9 @@ export const BubblesDashboard: React.FC = () => {
       const change = (coin as any)[tfKey] || 0;
       const absChange = Math.abs(change);
       
-      const baseRadius = Math.log(val + 1) * 1.2; 
-      const changeWeight = Math.sqrt(absChange) * 9; 
-      const radius = Math.min(Math.max(baseRadius + changeWeight, 32), 82); 
+      const baseRadius = Math.log(val + 1) * 1.3; 
+      const changeWeight = Math.sqrt(absChange) * 9.5; 
+      const radius = Math.min(Math.max(baseRadius + changeWeight, 35), 88); 
       
       if (!imagesCacheRef.current.has(coin.id)) {
         const img = new Image();
@@ -175,19 +193,19 @@ export const BubblesDashboard: React.FC = () => {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const friction = 0.975; 
-      const charge = 0.12;   
+      const friction = 0.978; 
+      const charge = 0.14;   
       const centerX = width / 2;
       const centerY = height / 2;
-      const attractionForce = 0.00008; 
+      const attractionForce = 0.0001; 
 
       if (draggedNodeRef.current) {
         const node = nodes.find(n => n.id === draggedNodeRef.current!.id);
         if (node) {
           const dx = mousePosRef.current.x - node.x;
           const dy = mousePosRef.current.y - node.y;
-          node.vx = dx * 0.2;
-          node.vy = dy * 0.2;
+          node.vx = dx * 0.25;
+          node.vy = dy * 0.25;
         }
       }
 
@@ -203,7 +221,7 @@ export const BubblesDashboard: React.FC = () => {
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const minDistance = a.radius + b.radius + 10;
+          const minDistance = a.radius + b.radius + 12;
 
           if (distance < minDistance) {
             const force = (minDistance - distance) / distance * charge;
@@ -253,9 +271,9 @@ export const BubblesDashboard: React.FC = () => {
         ctx.translate(node.x, node.y);
 
         if (isHovered || isDragged) {
-          ctx.shadowBlur = isDragged ? 70 : 50;
+          ctx.shadowBlur = isDragged ? 80 : 60;
           ctx.shadowColor = baseColor;
-          if (isDragged) ctx.scale(1.04, 1.04);
+          if (isDragged) ctx.scale(1.08, 1.08);
         }
 
         const grad = ctx.createRadialGradient(0, -node.radius*0.1, 0, 0, 0, node.radius);
@@ -268,34 +286,35 @@ export const BubblesDashboard: React.FC = () => {
         ctx.fillStyle = grad;
         ctx.fill();
 
-        ctx.strokeStyle = isPositive ? '#14b8a6aa' : '#f43f5eaa';
-        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = isPositive ? '#14b8a6cc' : '#f43f5ecc';
+        ctx.lineWidth = 3;
         ctx.stroke();
 
         ctx.strokeStyle = '#ffffffcc';
         ctx.lineWidth = 0.5;
         ctx.stroke();
 
-        if (node.imgElement && node.imgElement.complete && node.radius > 30) {
-          const iconSize = node.radius * 0.42;
+        if (node.imgElement && node.imgElement.complete && node.radius > 32) {
+          const iconSize = node.radius * 0.44;
           ctx.save();
           ctx.beginPath();
-          ctx.arc(0, -node.radius * 0.38, iconSize / 2, 0, Math.PI * 2);
+          ctx.arc(0, -node.radius * 0.4, iconSize / 2, 0, Math.PI * 2);
           ctx.clip();
-          ctx.drawImage(node.imgElement, -iconSize / 2, -node.radius * 0.38 - iconSize / 2, iconSize, iconSize);
+          ctx.drawImage(node.imgElement, -iconSize / 2, -node.radius * 0.4 - iconSize / 2, iconSize, iconSize);
           ctx.restore();
         }
 
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         
-        const symbolSize = Math.max(node.radius * 0.35, 10);
+        // BOLDER AND LARGER TEXT SETTINGS
+        const symbolSize = Math.max(node.radius * 0.38, 11);
         ctx.font = `900 ${symbolSize}px "Outfit", sans-serif`;
-        ctx.fillText(node.symbol.toUpperCase(), 0, node.radius > 32 ? 10 : 5);
+        ctx.fillText(node.symbol.toUpperCase(), 0, node.radius > 35 ? 12 : 6);
 
-        const percentSize = Math.max(node.radius * 0.21, 8.5);
-        ctx.font = `700 ${percentSize}px "JetBrains Mono", monospace`;
-        ctx.fillText(`${isPositive ? '+' : ''}${change.toFixed(1)}%`, 0, node.radius > 32 ? (symbolSize + 12) : (symbolSize + 1));
+        const percentSize = Math.max(node.radius * 0.26, 10.5);
+        ctx.font = `900 ${percentSize}px "JetBrains Mono", monospace`;
+        ctx.fillText(`${isPositive ? '+' : ''}${change.toFixed(1)}%`, 0, node.radius > 35 ? (symbolSize + 16) : (symbolSize + 2));
 
         ctx.restore();
       };
