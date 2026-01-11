@@ -9,7 +9,7 @@ import { ResearchDashboard } from './components/ResearchDashboard.tsx';
 import { DefiDashboard } from './components/DefiDashboard.tsx';
 import { BubblesDashboard } from './components/BubblesDashboard.tsx';
 import { NewsArticle, View } from './types.ts';
-import { ArrowLeft, Search as SearchIcon, X, Clock, Terminal } from 'lucide-react';
+import { ArrowLeft, Search as SearchIcon, X, Calendar, Terminal } from 'lucide-react';
 import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE } from './constants.tsx';
 
 const LIVE_STREAMS = [
@@ -252,8 +252,8 @@ const App: React.FC = () => {
                     {story.title}
                   </h4>
                   <div className="flex items-center gap-2 text-xs text-slate-500 font-mono uppercase tracking-widest font-bold">
-                    <Clock size={12} className="text-blue-500" />
-                    <span>{story.timeAgo}</span>
+                    <Calendar size={12} className="text-blue-500" />
+                    <span>{story.date}</span>
                   </div>
                 </div>
                 <div className="mt-4 md:mt-0 text-blue-500 font-black font-mono text-xs uppercase tracking-[0.2em] flex items-center gap-2">

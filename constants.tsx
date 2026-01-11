@@ -1,3 +1,4 @@
+
 import { CoinData, HotStory, NewsArticle } from './types.ts';
 
 export const INITIAL_COINS: CoinData[] = [
@@ -106,22 +107,41 @@ export const CYCLE_ARTICLE: NewsArticle = {
   category: "MACRO THESIS",
   author: "Shizzy",
   timestamp: "JANUARY 9, 2026",
-  summary: "Looking into the future, if this framework is correct, then the entire next cycle can be mapped with one simple question: 2025 felt like 2019. So will 2026 feel like 2020?",
+  summary: "Looking into the future, if this framework is correct, then the entire next cycle can be mapped with one simple question: 2025 felt like 2019. So will 2026 feel like 2020? That is the whole game.",
   content: [
-    "Because if 2026 becomes a true 2020 style liquidity comeback year, then the next logical step is obvious: 2027 starts to look like the 2021 blow off top year. Not guaranteed. Not a promise. Just the cleanest macro rhythm that markets tend to follow when liquidity returns in waves."
+    "Not because history repeats perfectly, but because liquidity cycles rhyme, and crypto is still the most reflexive casino on earth. When liquidity expands, narratives multiply. When liquidity contracts, only the strongest coins and the clearest stories survive.",
+    "If 2026 becomes a true “2020-style” liquidity comeback year, then the next logical step is obvious: 2027 starts to look like the “2021 blow off top” year. Not guaranteed. Not a promise. Just the cleanest macro rhythm markets tend to follow when liquidity returns in waves.",
+    "The Framework: 2019 → 2021 as a Template. Think of the last cycle as three phases: 2019 = Recovery and positioning. Sentiment improves, but trust is fragile. Capital gets selective. Strong hands accumulate, weak hands remain skeptical.",
+    "2020 = Liquidity ignition. Macro conditions loosen. Money starts chasing risk again. Bitcoin and “quality” large caps become the magnet.",
+    "2021 = Narrative mania. Everyone shows up late. Speculation goes vertical. The market stops acting rational because liquidity plus leverage plus attention creates a feedback loop.",
+    "Now map that emotional and liquidity sequence to today: 2025 felt like 2019. Healing, rebuilding, rebranding, relaunching. Strong projects quietly shipping. The market still punishes hype with no substance. So the real question becomes: Does 2026 bring the ignition?",
+    "Why Global M2 Matters More Than Any Chart Pattern. Global M2 is not magic, but it is one of the cleanest “weather maps” for risk assets. When broad money supply expands, three things tend to happen: More capital looks for return, Risk tolerance rises, Liquidity leaks into the edges of the market, which is exactly where crypto lives.",
+    "Crypto does not need perfect economics. Crypto needs available money and rising confidence. So if 2026 delivers sustained liquidity expansion, you can usually expect the sequence: Bitcoin runs first, Large caps follow, Mid and small caps catch fire, Memes and low-float nonsense becomes “genius” for about three months, Everyone forgets risk exists. That is the how you get a 2021-style blow off.",
+    "Why Bitcoin Dominance Is the Tell. You can treat BTC dominance like the market’s casting director. High dominance usually implies: Capital wants safety inside crypto, People are still unsure, The market prefers “main character” assets. Lower dominance usually implies: Confidence is back, People are chasing beta, Alts are getting their moment.",
+    "So if BTC dominance is elevated and rising in 2025, that fits the “2019 feeling” perfectly. The rotation typically comes later, after Bitcoin has already convinced the crowd that the cycle is real.",
+    "Why the Alt Index Being Low Is Actually Bullish (For Later). A low alt index is a sign of two things: The market is not in full mania yet, Most people are still under-positioned for the risky part of the cycle. That is exactly what you want if your framework is “2026 ignition, 2027 final act.”",
+    "Because blow offs do not happen from euphoria on day one. They happen after a long grind where the market rebuilds confidence, then flips into overconfidence.",
+    "What a “2020-Style” 2026 Would Likely Look Like. If 2026 rhymes with 2020, expect a year with: A strong Bitcoin trend that repeatedly breaks disbelief, Large caps outperforming “random” alts early, A constant rotation of narratives, but with capital clustering around winners, Increasing leverage usage as volatility becomes profitable again, A rising “everything is possible” tone across social feeds and mainstream finance.",
+    "The key is not one pump. The key is persistence. A true ignition year is not a one-week spike. It is a multi-quarter shift where dips stop breaking and start getting bought aggressively.",
+    "What a “2021-Style” 2027 Would Likely Look Like. If 2027 becomes the blow off year, it will feel like: New all-time highs become normal headlines, Everyone has a coin “that cannot lose”, New retail waves arrive and chase the last 20 percent of the move, Low-quality assets get rewarded purely because they move, Fundamentals stop mattering until they matter all at once.",
+    "The blow off top is usually not a single candle. It is a season where the market becomes addicted to upside, then breaks when liquidity tightens, leverage unwinds, or confidence snaps.",
+    "The Three Scenarios for 2026 to Watch. Here is the cleanest way to frame it: Base case: Liquidity improves but stays choppy. Bitcoin trends up with violent pullbacks. Alts lag until late 2026. Bull case: Liquidity expands cleanly. Bitcoin breaks into sustained price discovery. Rotation accelerates faster than expected. 2027 sets up as full mania. Bear case: Liquidity fails to expand meaningfully. Risk assets remain rangebound. Crypto becomes selective, frustrating, and headline-driven. The “2027 blow off” gets delayed or never arrives.",
+    "The Dashboard: What Would Confirm the Framework. If you want a simple checklist, watch for: Liquidity expansion staying sustained over months, not weeks. Financial conditions easing instead of tightening. Bitcoin breaking major levels and holding them. BTC dominance rising first, then rolling over as alts wake up. Broad participation increasing, not just a few coins pumping. If those align, the 2025 → 2027 map starts looking less like hopium and more like a plan.",
+    "Bottom Line: Because if 2026 becomes a true 2020-style liquidity comeback year, then the next logical step is obvious: 2027 starts to look like the 2021 blow off top year. Not guaranteed. Not a promise. Just the cleanest macro rhythm that markets tend to follow when liquidity returns in waves.",
+    "The best part is that this framework keeps you honest. It forces you to ask, every month: Is liquidity actually expanding? If yes, stay in the game. If not, stop hallucinating a cycle that is not there."
   ],
   imageUrl: "https://i.imgur.com/21o7ilA.jpeg",
   snapshots: [
     { asset: "LIQUIDITY", price: "EXPANDING", description: "Global M2 growth is the ultimate stage setter" },
     { asset: "BTC DOM", price: "58.2%", description: "Bitcoin leading the cast before the rotation" },
-    { asset: "ALT INDEX", price: "LOW", description: "Waiting for the final act in 2027" }
+    { asset: "ALT INDEX", price: "LOW", description: "Alts are still waiting for the final act that typically comes late cycle" }
   ]
 };
 
 export const HOT_STORIES: HotStory[] = [
-  { id: 'agent-money', title: 'x402 + ERC-8004 Is the Agent Money Cycle', timeAgo: 'Just now' },
-  { id: 'provex', title: 'Can ProveX Be Richard Heart’s Next 10,000x?', timeAgo: '2 hours ago' },
-  { id: 'tao', title: 'TAO Is the Next Bitcoin, But With Real AI Cash Flows', timeAgo: '5 hours ago' },
-  { id: 'cycle', title: 'If 2025 Felt Like 2019… The 2026 Liquidity Roadmap', timeAgo: '8 hours ago' },
-  { id: 'jam', title: 'JAM: Gavin Wood’s Blueprint for Polkadot’s Next Era', timeAgo: '12 hours ago' }
+  { id: 'agent-money', title: 'x402 + ERC-8004 Is the Agent Money Cycle', date: 'JANUARY 11, 2026' },
+  { id: 'provex', title: 'Can ProveX Be Richard Heart’s Next 10,000x?', date: 'JANUARY 10, 2026' },
+  { id: 'tao', title: 'TAO Is the Next Bitcoin, But With Real AI Cash Flows', date: 'JANUARY 9, 2026' },
+  { id: 'cycle', title: 'If 2025 Felt Like 2019… The 2026 Liquidity Roadmap', date: 'JANUARY 9, 2026' },
+  { id: 'jam', title: 'JAM: Gavin Wood’s Blueprint for Polkadot’s Next Era', date: 'JANUARY 9, 2026' }
 ];

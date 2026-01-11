@@ -24,7 +24,7 @@ export interface NewsArticle {
 export interface HotStory {
   id: string;
   title: string;
-  timeAgo: string;
+  date: string;
 }
 
 export interface GeckoCoin {

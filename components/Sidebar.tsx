@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { HOT_STORIES } from '../constants.tsx';
-import { Flame, Clock, ChevronRight } from 'lucide-react';
+import { Flame, Calendar, ChevronRight } from 'lucide-react';
 
 interface SidebarProps {
   onStoryClick: (title: string) => void;
@@ -36,8 +37,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
                 {story.title}
               </h4>
               <div className="flex items-center gap-1.5 mt-2.5 text-[10px] text-slate-500 dark:text-slate-500 font-bold font-mono uppercase tracking-widest">
-                <Clock size={11} className="text-blue-500" />
-                <span>{story.timeAgo}</span>
+                <Calendar size={11} className="text-blue-500" />
+                <span>{story.date}</span>
               </div>
             </button>
           ))}
