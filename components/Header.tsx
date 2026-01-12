@@ -13,7 +13,7 @@ const XIcon = () => (
 interface HeaderProps {
   darkMode: boolean;
   toggleTheme: () => void;
-  onViewChange: (view: View) => void;
+  onViewChange: (view: View, scrollToSection?: string) => void;
   currentView: View;
 }
 
@@ -25,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const navItems = [
     { label: 'Home', view: 'home' as View },
+    { label: 'Videos', view: 'home' as View, scrollTo: 'video-explorer' },
     { label: 'Research', view: 'research' as View },
     { label: 'Onchain Data', view: 'defi' as View },
     { label: 'Crypto Bubbles', view: 'bubbles' as View },
@@ -38,11 +39,11 @@ export const Header: React.FC<HeaderProps> = ({
     },
   ];
 
-  const handleNavClick = (item: { label: string; view?: View; url?: string }) => {
+  const handleNavClick = (item: { label: string; view?: View; url?: string; scrollTo?: string }) => {
     if (item.url) {
       window.open(item.url, '_blank', 'noopener,noreferrer');
     } else if (item.view) {
-      onViewChange(item.view);
+      onViewChange(item.view, item.scrollTo);
     }
   };
 
@@ -118,7 +119,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }`}
                 >
                   {item.label}
-                  {actuallyActive && (
+                  {actuallyActive && !item.scrollTo && (
                     <div className="absolute bottom-0 left-0 w-full h-[3px] bg-blue-600 dark:bg-[#f97316]" />
                   )}
                 </button>

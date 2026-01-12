@@ -62,6 +62,8 @@ export interface LlamaChain {
   tvl?: number;
   volume24h?: number;
   revenue24h?: number;
+  revenue7d?: number;
+  revenue30d?: number;
   change_1d: number | null;
   change_7d: number | null;
 }

@@ -2,20 +2,20 @@
 import { LlamaChain, LlamaProtocol, LlamaStablecoin } from '../types.ts';
 
 /**
- * DEFILLAMA DATA NODE PROXY v2.2
- * Focuses on on-chain activity: Volume, Revenue, and TVL.
- * Explicitly filters out CEX/Centralized and 'Off Chain' data.
+ * DEFILLAMA DATA NODE PROXY v2.7 (Chain-Specific Focus)
+ * Strictly pulls data for 'Chain' category protocols to avoid summing dApp fees 
+ * into network fees, ensuring parity with DeFiLlama's "Chains by Fees" table.
  */
 
 const CACHE_KEYS = {
-  CHAINS: 'dl_chains_cache',
-  VOLUME: 'dl_volume_cache',
-  REVENUE: 'dl_revenue_cache',
-  PROTOCOLS: 'dl_protocols_cache',
-  STABLES: 'dl_stables_cache'
+  CHAINS: 'dl_chains_cache_v4',
+  VOLUME: 'dl_volume_cache_v4',
+  REVENUE: 'dl_revenue_cache_v4',
+  PROTOCOLS: 'dl_protocols_cache_v4',
+  STABLES: 'dl_stables_cache_v4'
 };
 
-const CACHE_TIME = 5 * 60 * 1000; // 5 minutes standard
+const CACHE_TIME = 2 * 60 * 1000; // 2 minutes
 
 class DefiLlamaService {
   private static instance: DefiLlamaService;
@@ -44,12 +44,53 @@ class DefiLlamaService {
   private isOffChain(name: string): boolean {
     if (!name) return true;
     const n = name.toLowerCase();
-    return n === 'off chain' || n === 'offchain' || n === 'unknown';
+    return ['off chain', 'offchain', 'unknown', 'cex', 'centralized', 'bridge'].includes(n);
   }
 
   /**
-   * Aggregates volume by chain from the DEXs overview
+   * Aggregates revenue/fees by chain.
+   * FIX: Only includes protocols where category is 'Chain' to match screenshot rankings.
    */
+  public async getChainsByRevenue(): Promise<LlamaChain[]> {
+    const cached = this.getCached<LlamaChain[]>(CACHE_KEYS.REVENUE);
+    if (cached) return cached;
+
+    try {
+      const response = await fetch('https://api.llama.fi/overview/fees?excludeTotalFeesChangePercentage=true');
+      if (!response.ok) throw new Error('Fees API failure');
+      const data = await response.json();
+      
+      const chains: LlamaChain[] = [];
+      
+      if (data.protocols && Array.isArray(data.protocols)) {
+        // We only want the protocols that are actually CHAINS themselves (L1/L2 gas fees)
+        data.protocols.forEach((p: any) => {
+          if (p.category === 'Chain' || p.category === 'L1' || p.category === 'L2' || p.category === 'Rollup') {
+            chains.push({
+              name: p.name,
+              revenue24h: p.total24h || 0,
+              revenue7d: p.total7d || 0,
+              revenue30d: p.total30d || 0,
+              change_1d: 0,
+              change_7d: 0
+            });
+          }
+        });
+      }
+
+      // Sort by 24h fees descending
+      const sorted = chains
+        .sort((a, b) => (b.revenue24h || 0) - (a.revenue24h || 0))
+        .slice(0, 10);
+
+      this.setCached(CACHE_KEYS.REVENUE, sorted);
+      return sorted;
+    } catch (e) {
+      console.error('Chain Revenue fetch failed', e);
+      return [];
+    }
+  }
+
   public async getChainsByVolume(): Promise<LlamaChain[]> {
     const cached = this.getCached<LlamaChain[]>(CACHE_KEYS.VOLUME);
     if (cached) return cached;
@@ -61,13 +102,9 @@ class DefiLlamaService {
       
       const chainVolMap: Record<string, number> = {};
       
-      // Aggregate volume from individual DEX protocols to their respective chains
       if (data.protocols && Array.isArray(data.protocols)) {
         data.protocols.forEach((p: any) => {
-          // Skip if protocol is a CEX
-          if (p.category === 'CEX' || p.category === 'Centralized Exchange') return;
-
-          const chains = p.chains || [];
+          const chains = p.chains || (p.chain ? [p.chain] : []);
           const vol = p.total24h || 0;
           if (chains.length > 0 && vol > 0) {
             const validChains = chains.filter((c: string) => !this.isOffChain(c));
@@ -94,57 +131,6 @@ class DefiLlamaService {
       this.setCached(CACHE_KEYS.VOLUME, sorted);
       return sorted;
     } catch (e) {
-      console.error('Volume fetch failed', e);
-      return [];
-    }
-  }
-
-  /**
-   * Aggregates revenue by chain from the Fees/Revenue overview
-   */
-  public async getChainsByRevenue(): Promise<LlamaChain[]> {
-    const cached = this.getCached<LlamaChain[]>(CACHE_KEYS.REVENUE);
-    if (cached) return cached;
-
-    try {
-      const response = await fetch('https://api.llama.fi/overview/fees?excludeTotalFeesChangePercentage=true');
-      if (!response.ok) throw new Error('Fees API failure');
-      const data = await response.json();
-      
-      const chainRevMap: Record<string, number> = {};
-      if (data.protocols && Array.isArray(data.protocols)) {
-        data.protocols.forEach((p: any) => {
-          // Explicitly skip CEX protocols
-          if (p.category === 'CEX' || p.category === 'Centralized Exchange') return;
-
-          const chains = p.chains || [];
-          const totalRev = p.total24h || 0;
-          if (chains.length > 0 && totalRev > 0) {
-            const validChains = chains.filter((c: string) => !this.isOffChain(c));
-            if (validChains.length > 0) {
-              const perChain = totalRev / validChains.length;
-              validChains.forEach((c: string) => {
-                chainRevMap[c] = (chainRevMap[c] || 0) + perChain;
-              });
-            }
-          }
-        });
-      }
-
-      const sorted = Object.entries(chainRevMap)
-        .map(([name, rev]) => ({
-          name,
-          revenue24h: rev,
-          change_1d: 0,
-          change_7d: 0
-        }))
-        .sort((a, b) => (b.revenue24h || 0) - (a.revenue24h || 0))
-        .slice(0, 10);
-
-      this.setCached(CACHE_KEYS.REVENUE, sorted);
-      return sorted;
-    } catch (e) {
-      console.error('Revenue fetch failed', e);
       return [];
     }
   }
@@ -152,77 +138,43 @@ class DefiLlamaService {
   public async getTopChains(): Promise<LlamaChain[]> {
     const cached = this.getCached<LlamaChain[]>(CACHE_KEYS.CHAINS);
     if (cached) return cached;
-
     try {
       const response = await fetch('https://api.llama.fi/v2/chains');
       const data = await response.json();
-      const sorted: LlamaChain[] = data
-        .filter((c: any) => !this.isOffChain(c.name))
-        .sort((a: any, b: any) => b.tvl - a.tvl)
-        .slice(0, 10)
-        .map((c: any) => ({
-          name: c.name,
-          tvl: c.tvl,
-          change_1d: c.change_1d || 0,
-          change_7d: c.change_7d || 0
-        }));
-      
+      const sorted = data.filter((c: any) => !this.isOffChain(c.name)).sort((a: any, b: any) => b.tvl - a.tvl).slice(0, 10).map((c: any) => ({
+        name: c.name, tvl: c.tvl, change_1d: c.change_1d || 0, change_7d: c.change_7d || 0
+      }));
       this.setCached(CACHE_KEYS.CHAINS, sorted);
       return sorted;
-    } catch (e) {
-      throw e;
-    }
+    } catch (e) { throw e; }
   }
 
   public async getTopProtocols(): Promise<LlamaProtocol[]> {
     const cached = this.getCached<LlamaProtocol[]>(CACHE_KEYS.PROTOCOLS);
     if (cached) return cached;
-
     try {
       const response = await fetch('https://api.llama.fi/protocols');
       const data = await response.json();
-      const sorted: LlamaProtocol[] = data
-        .filter((p: any) => p.category !== 'CEX' && p.category !== 'Centralized Exchange' && !this.isOffChain(p.name))
-        .sort((a: any, b: any) => b.tvl - a.tvl)
-        .slice(0, 10)
-        .map((p: any) => ({
-          name: p.name,
-          category: p.category,
-          tvl: p.tvl,
-          change_1d: p.change_1d || 0,
-          change_7d: p.change_7d || 0
-        }));
-      
+      const sorted = data.filter((p: any) => p.category !== 'CEX' && !this.isOffChain(p.name)).sort((a: any, b: any) => b.tvl - a.tvl).slice(0, 10).map((p: any) => ({
+        name: p.name, category: p.category, tvl: p.tvl, change_1d: p.change_1d || 0, change_7d: p.change_7d || 0
+      }));
       this.setCached(CACHE_KEYS.PROTOCOLS, sorted);
       return sorted;
-    } catch (e) {
-      throw e;
-    }
+    } catch (e) { throw e; }
   }
 
   public async getTopStablecoins(): Promise<LlamaStablecoin[]> {
     const cached = this.getCached<LlamaStablecoin[]>(CACHE_KEYS.STABLES);
     if (cached) return cached;
-
     try {
       const response = await fetch('https://stablecoins.llama.fi/stablecoins');
       const data = await response.json();
-      const sorted: LlamaStablecoin[] = data.peggedAssets
-        .sort((a: any, b: any) => b.circulating.peggedUSD - a.circulating.peggedUSD)
-        .slice(0, 10)
-        .map((s: any) => ({
-          name: s.name,
-          symbol: s.symbol,
-          circulating: s.circulating.peggedUSD,
-          change_1d: s.change_1d || 0,
-          change_7d: s.change_7d || 0
-        }));
-      
+      const sorted = data.peggedAssets.sort((a: any, b: any) => b.circulating.peggedUSD - a.circulating.peggedUSD).slice(0, 10).map((s: any) => ({
+        name: s.name, symbol: s.symbol, circulating: s.circulating.peggedUSD, change_1d: s.change_1d || 0, change_7d: s.change_7d || 0
+      }));
       this.setCached(CACHE_KEYS.STABLES, sorted);
       return sorted;
-    } catch (e) {
-      throw e;
-    }
+    } catch (e) { throw e; }
   }
 }
 
