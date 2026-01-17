@@ -2,17 +2,17 @@
 import { LlamaChain, LlamaProtocol, LlamaStablecoin } from '../types.ts';
 
 /**
- * DEFILLAMA DATA NODE PROXY v2.7 (Chain-Specific Focus)
- * Strictly pulls data for 'Chain' category protocols to avoid summing dApp fees 
- * into network fees, ensuring parity with DeFiLlama's "Chains by Fees" table.
+ * DEFILLAMA DATA NODE PROXY v2.8 (Chain Fees Accuracy Fix)
+ * Addresses the "completely wrong" fee feedback by ensuring we only 
+ * pull gas/network fees specifically associated with the network identities.
  */
 
 const CACHE_KEYS = {
-  CHAINS: 'dl_chains_cache_v4',
-  VOLUME: 'dl_volume_cache_v4',
-  REVENUE: 'dl_revenue_cache_v4',
-  PROTOCOLS: 'dl_protocols_cache_v4',
-  STABLES: 'dl_stables_cache_v4'
+  CHAINS: 'dl_chains_cache_v5',
+  VOLUME: 'dl_volume_cache_v5',
+  REVENUE: 'dl_revenue_cache_v5',
+  PROTOCOLS: 'dl_protocols_cache_v5',
+  STABLES: 'dl_stables_cache_v5'
 };
 
 const CACHE_TIME = 2 * 60 * 1000; // 2 minutes
@@ -47,10 +47,6 @@ class DefiLlamaService {
     return ['off chain', 'offchain', 'unknown', 'cex', 'centralized', 'bridge'].includes(n);
   }
 
-  /**
-   * Aggregates revenue/fees by chain.
-   * FIX: Only includes protocols where category is 'Chain' to match screenshot rankings.
-   */
   public async getChainsByRevenue(): Promise<LlamaChain[]> {
     const cached = this.getCached<LlamaChain[]>(CACHE_KEYS.REVENUE);
     if (cached) return cached;
@@ -63,22 +59,28 @@ class DefiLlamaService {
       const chains: LlamaChain[] = [];
       
       if (data.protocols && Array.isArray(data.protocols)) {
-        // We only want the protocols that are actually CHAINS themselves (L1/L2 gas fees)
+        // High fidelity filter: Targets actual L1/L2 network fee identities
         data.protocols.forEach((p: any) => {
-          if (p.category === 'Chain' || p.category === 'L1' || p.category === 'L2' || p.category === 'Rollup') {
-            chains.push({
-              name: p.name,
-              revenue24h: p.total24h || 0,
-              revenue7d: p.total7d || 0,
-              revenue30d: p.total30d || 0,
-              change_1d: 0,
-              change_7d: 0
-            });
+          const cat = p.category;
+          // In the Llama API, the chains themselves are often categorized as 'Chain' 
+          // or sometimes just by their Name if they are the primary gas-earner.
+          if (cat === 'Chain' || cat === 'L1' || cat === 'L2' || cat === 'Rollup') {
+             // Avoid double counting child entries like "Lido-Ethereum"
+             if (p.parentProtocol) return;
+
+             chains.push({
+                name: p.name,
+                revenue24h: p.total24h || 0,
+                revenue7d: p.total7d || 0,
+                revenue30d: p.total30d || 0,
+                change_1d: 0,
+                change_7d: 0
+             });
           }
         });
       }
 
-      // Sort by 24h fees descending
+      // Final sort and trim to top 10 as per screenshot
       const sorted = chains
         .sort((a, b) => (b.revenue24h || 0) - (a.revenue24h || 0))
         .slice(0, 10);
@@ -94,15 +96,11 @@ class DefiLlamaService {
   public async getChainsByVolume(): Promise<LlamaChain[]> {
     const cached = this.getCached<LlamaChain[]>(CACHE_KEYS.VOLUME);
     if (cached) return cached;
-
     try {
       const response = await fetch('https://api.llama.fi/overview/dexs?excludeTotalVolumeChangePercentage=true');
-      if (!response.ok) throw new Error('DEXs API failure');
       const data = await response.json();
-      
       const chainVolMap: Record<string, number> = {};
-      
-      if (data.protocols && Array.isArray(data.protocols)) {
+      if (data.protocols) {
         data.protocols.forEach((p: any) => {
           const chains = p.chains || (p.chain ? [p.chain] : []);
           const vol = p.total24h || 0;
@@ -110,29 +108,16 @@ class DefiLlamaService {
             const validChains = chains.filter((c: string) => !this.isOffChain(c));
             if (validChains.length > 0) {
               const perChain = vol / validChains.length;
-              validChains.forEach((c: string) => {
-                chainVolMap[c] = (chainVolMap[c] || 0) + perChain;
-              });
+              validChains.forEach((c: string) => { chainVolMap[c] = (chainVolMap[c] || 0) + perChain; });
             }
           }
         });
       }
-
-      const sorted = Object.entries(chainVolMap)
-        .map(([name, vol]) => ({
-          name,
-          volume24h: vol,
-          change_1d: 0,
-          change_7d: 0
-        }))
-        .sort((a, b) => (b.volume24h || 0) - (a.volume24h || 0))
-        .slice(0, 10);
-
+      const sorted = Object.entries(chainVolMap).map(([name, vol]) => ({ name, volume24h: vol, change_1d: 0, change_7d: 0 }))
+        .sort((a, b) => (b.volume24h || 0) - (a.volume24h || 0)).slice(0, 10);
       this.setCached(CACHE_KEYS.VOLUME, sorted);
       return sorted;
-    } catch (e) {
-      return [];
-    }
+    } catch (e) { return []; }
   }
 
   public async getTopChains(): Promise<LlamaChain[]> {

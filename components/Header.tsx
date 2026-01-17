@@ -52,24 +52,22 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top Header Row */}
       <header className="px-6 h-16 md:h-20 flex items-center justify-between border-b border-slate-100 dark:border-white/5">
         <div className="flex items-center pl-2 md:pl-6 h-full">
-          <a 
-            href={SOCIAL_LINKS.website}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button 
+            onClick={() => onViewChange('home')}
             className="h-[85%] block hover:opacity-80 transition-all duration-300 z-50 flex items-center"
           >
             <img 
               src={SOCIAL_LINKS.logo} 
-              alt="OnChain Revolution" 
+              alt="Shizzy Unchained" 
               className="h-full w-auto object-contain dark:brightness-100 dark:invert-0 brightness-90"
             />
-          </a>
+          </button>
         </div>
 
         <div className="absolute left-1/2 -translate-x-1/2 text-center hidden lg:block">
           <button onClick={() => onViewChange('home')} className="group">
-            <h1 className="text-xl md:text-2xl font-black tracking-[-0.06em] font-outfit text-slate-900 dark:text-white uppercase">
-              SHIZZY'S ONCHAIN INSIGHTS
+            <h1 className="text-xl md:text-2xl font-black tracking-[-0.06em] font-outfit text-slate-900 dark:text-white uppercase italic">
+              SHIZZY UNCHAINED
             </h1>
           </button>
         </div>

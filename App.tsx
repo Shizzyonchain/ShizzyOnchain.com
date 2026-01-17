@@ -46,15 +46,11 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('home');
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Dynamic State for Manual Sync
   const [liveStreams, setLiveStreams] = useState<VideoItem[]>(INITIAL_LIVE_STREAMS);
   const [shorts, setShorts] = useState<VideoItem[]>(INITIAL_SHORTS);
   const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
-    // Note: Automatic sync has been disabled as per user request. 
-    // Manual sync can be triggered via a button if added later.
-    
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -130,8 +126,7 @@ const App: React.FC = () => {
   };
 
   const toggleTheme = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
+    setDarkMode(!darkMode);
   };
 
   const filteredStreams = useMemo(() => {
@@ -159,11 +154,11 @@ const App: React.FC = () => {
             </button>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h1 className="text-5xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-4">
+                <h1 className="text-5xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-4 italic">
                   Research <span className="text-blue-600">Terminal</span>
                 </h1>
                 <p className="text-slate-500 dark:text-slate-400 font-medium font-mono text-xs md:text-sm uppercase tracking-[0.3em] leading-relaxed max-w-2xl">
-                  Deep on-chain intelligence powered by the <span className="text-blue-500 font-black">coingecko terminal.</span>
+                  Deep on-chain intelligence powered by SHIZZY UNCHAINED.
                 </p>
               </div>
               <div className="hidden lg:block p-4 border border-blue-500/20 bg-blue-500/5 rounded-2xl">
@@ -224,8 +219,8 @@ const App: React.FC = () => {
             <div className="relative">
               <div className="flex justify-between items-center">
                 <div className="relative">
-                  <h2 className="text-xl md:text-2xl font-extrabold font-space text-slate-900 dark:text-white uppercase tracking-tight">
-                    Onchain revolution daily live videos
+                  <h2 className="text-xl md:text-2xl font-extrabold font-space text-slate-900 dark:text-white uppercase tracking-tight italic">
+                    Onchain Revolution: Daily Intel
                   </h2>
                   <div className="absolute -bottom-1.5 left-0 w-8 h-1 bg-blue-600 rounded-full"></div>
                 </div>
@@ -271,8 +266,8 @@ const App: React.FC = () => {
           </button>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <h2 className="text-4xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-2">All Hot Takes</h2>
-              <p className="text-slate-500 dark:text-slate-400 font-medium font-mono text-xs uppercase tracking-widest">Deep dives and on-chain analysis by Shizzy</p>
+              <h2 className="text-4xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-2 italic">All Hot Takes</h2>
+              <p className="text-slate-500 dark:text-slate-400 font-medium font-mono text-xs uppercase tracking-widest">Shizzy Unchained</p>
             </div>
             <div className="relative w-full md:w-80">
               <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -311,7 +306,7 @@ const App: React.FC = () => {
 
     const isStreams = currentView === 'all-streams';
     const items = isStreams ? filteredStreams : filteredShorts;
-    const title = isStreams ? "Onchain revolution daily live videos" : "All Shorts";
+    const title = isStreams ? "Onchain Revolution Daily Live" : "All Shorts";
     const aspectRatio = isStreams ? "video" : "portrait";
 
     return (
@@ -324,8 +319,8 @@ const App: React.FC = () => {
         </button>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h2 className="text-4xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-2">{title}</h2>
-            <p className="text-slate-500 dark:text-slate-400 font-medium font-mono text-xs uppercase tracking-widest">Exploring the archive</p>
+            <h2 className="text-4xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter mb-2 italic">{title}</h2>
+            <p className="text-slate-500 dark:text-slate-400 font-medium font-mono text-xs uppercase tracking-widest">Shizzy Unchained Archive</p>
           </div>
           <div className="relative w-full md:w-80">
             <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -359,12 +354,15 @@ const App: React.FC = () => {
         <footer className="max-w-[1400px] mx-auto px-6 mt-32 pt-16 border-t border-slate-200 dark:border-white/5">
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
             <div className="flex flex-col gap-4 items-center md:items-start">
-              <a href={SOCIAL_LINKS.website} target="_blank" rel="noopener noreferrer" className="h-20 block">
-                <img src={SOCIAL_LINKS.logo} alt="Logo" className="h-full w-auto opacity-60 hover:opacity-100 transition-all cursor-pointer dark:invert-0 brightness-0 dark:brightness-100 dark:opacity-40 hover:dark:opacity-100" />
-              </a>
+              <button 
+                onClick={() => handleViewChange('home')}
+                className="h-20 block"
+              >
+                <img src={SOCIAL_LINKS.logo} alt="Shizzy Unchained" className="h-full w-auto opacity-60 hover:opacity-100 transition-all cursor-pointer dark:invert-0 brightness-0 dark:brightness-100 dark:opacity-40 hover:dark:opacity-100" />
+              </button>
             </div>
             <div className="text-slate-500 dark:text-slate-600 text-[11px] leading-relaxed max-w-lg font-medium opacity-80">
-              SHIZZY'S ONCHAIN INSIGHTS provides data-driven perspectives for educational purposes only. This content is not financial advice.
+              SHIZZY UNCHAINED provides data-driven perspectives for educational purposes only. This content is not financial advice.
             </div>
           </div>
         </footer>

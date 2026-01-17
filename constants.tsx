@@ -16,14 +16,14 @@ export const INITIAL_COINS: CoinData[] = [
 export const SOCIAL_LINKS = {
   x: 'https://x.com/Shizzy',
   youtube: 'https://www.youtube.com/@OnChainRevolution',
-  logo: 'https://i.imgur.com/OlBqAPC.png',
+  logo: 'https://i.postimg.cc/JnQ6TD70/Shizzy-unchained.png',
   website: 'https://onchainrevolution.io/'
 };
 
 export const OCT_10_ARTICLE: NewsArticle = {
   id: 'oct-10-downward-spiral-detailed',
-  title: "Shizzy’s Hot Take: What Really Happened on 10/10 and Why Q4 Was an Absolute Downward Spiral",
-  category: "SHIZZY'S HOT TAKES",
+  title: "Shizzy Unchained: What Really Happened on 10/10 and Why Q4 Was an Absolute Downward Spiral",
+  category: "SHIZZY UNCHAINED",
   author: "Shizzy",
   timestamp: "JANUARY 11, 2026",
   summary: "October 10, 2025 was not “just another red day.” It was a chain reaction where a trad-fi style headline hit a crypto market that was already stretched thin, and the entire system fell into a forced-sell feedback loop.",
@@ -55,8 +55,8 @@ export const OCT_10_ARTICLE: NewsArticle = {
 
 export const AGENT_CYCLE_ARTICLE: NewsArticle = {
   id: 'agent-money-cycle-x402',
-  title: "Shizzy Hot Take: x402 + ERC-8004 Is the Agent Money Cycle",
-  category: "SHIZZY'S HOT TAKES",
+  title: "Shizzy Unchained: x402 + ERC-8004 Is the Agent Money Cycle",
+  category: "SHIZZY UNCHAINED",
   author: "Shizzy",
   timestamp: "JANUARY 11, 2026",
   summary: "DeFi took off when humans learned how to be their own bank. x402 and ERC-8004 can take off faster because humans are not the main users. Agents are.",
@@ -78,8 +78,8 @@ export const AGENT_CYCLE_ARTICLE: NewsArticle = {
 
 export const PROVEX_ARTICLE: NewsArticle = {
   id: 'provex-richard-heart',
-  title: "Shizzys Hot Takes: Can ProveX Be Richard Heart’s Next 10,000x?",
-  category: "SHIZZY'S HOT TAKES",
+  title: "Shizzy Unchained: Can ProveX Be Richard Heart’s Next 10,000x?",
+  category: "SHIZZY UNCHAINED",
   author: "Shizzy",
   timestamp: "JANUARY 10, 2026",
   summary: "ProveX is being pitched as a proof-based settlement system that replaces trust with cryptographic verification, plus a token model that tries to turn usage into buy pressure and burns.",
@@ -102,8 +102,8 @@ export const PROVEX_ARTICLE: NewsArticle = {
 
 export const TAO_ARTICLE: NewsArticle = {
   id: 'tao-next-bitcoin',
-  title: "Shizzys Hot Takes: TAO Is the Next Bitcoin, But With Real AI Cash Flows",
-  category: "SHIZZY'S HOT TAKES",
+  title: "Shizzy Unchained: TAO Is the Next Bitcoin, But With Real AI Cash Flows",
+  category: "SHIZZY UNCHAINED",
   author: "Shizzy",
   timestamp: "JANUARY 9, 2026",
   summary: "If Bitcoin was the first clean, unstoppable scarcity asset, Bittensor TAO is aiming to be the first scarcity asset that also funds and coordinates real AI production on chain.",
@@ -164,7 +164,7 @@ export const CYCLE_ARTICLE: NewsArticle = {
     "Not guaranteed. Not a promise. Just the cleanest macro rhythm markets tend to follow when liquidity returns in waves.",
     "Think of the last cycle as three phases:",
     "2019 = Recovery and positioning. Sentiment improves, but trust is fragile. Capital gets selective. Strong hands accumulate, weak hands remain skeptical.",
-    "2020 = Liquidity ignition. Macro conditions loosen. Money starts chasing risk again. Bitcoin and “quality” large caps become the magnet.",
+    "2020 = Liquidity ignition. Money starts chasing risk again. Bitcoin and “quality” large caps become the magnet.",
     "2021 = Narrative mania. Everyone shows up late. Speculation goes vertical. The market stops acting rational because liquidity plus leverage plus attention creates a feedback loop.",
     "Now map that emotional and liquidity sequence to today:",
     "2025 felt like 2019. Healing, rebuilding, rebranding, relaunching. Strong projects quietly shipping. The market still punishes hype with no substance.",
