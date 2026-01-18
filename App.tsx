@@ -21,24 +21,18 @@ export interface VideoItem {
   type: 'live' | 'short';
 }
 
-const INITIAL_LIVE_STREAMS: VideoItem[] = [
-  { id: 'l5', title: '🚨SURVIVE & THRIVE in 2026!🔥 The ONLY Guide to Stay SANE Until Valhalla 🤯🚀', thumbnail: 'https://img.youtube.com/vi/lkxQv50MOSI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=lkxQv50MOSI&t=6971s', type: 'live' },
-  { id: 'l4', title: '🚨FED & STIMULUS DECIDE 2026?!💥 What Happens NEXT Could MAKE or BREAK Crypto!📈😱', thumbnail: 'https://img.youtube.com/vi/X6Lr9ZkZOLc/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=X6Lr9ZkZOLc&t=5420s', type: 'live' },
-  { id: 'l3', title: '🚨IS THIS PUMP FOR REAL?!🔥 Or Is It Another BRUTAL TRAP Before the NEXT DUMP?!😱📉', thumbnail: 'https://img.youtube.com/vi/PVn2HW2NMuM/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=PVn2HW2NMuM&t=60s', type: 'live' },
-  { id: 'l2', title: '🚨Prediction Markets Set to EXPLODE?!🔥 The BIGGEST Retail Money Play in Web3 for 2026 🤯🚀', thumbnail: 'https://img.youtube.com/vi/AVgD7BNCPtE/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=AVgD7BNCPtE&t=4121s', type: 'live' },
-  { id: 'l1', title: '🚨These Crypto Sectors Could EXPLODE in 2026!🔥 Momentum Is Building FAST — Don’t Miss This!🚀', thumbnail: 'https://img.youtube.com/vi/yGqZFtoLDxI/maxresdefault.jpg', url: 'https://www.youtube.com/watch?v=yGqZFtoLDxI&t=2472s', type: 'live' },
-];
+const ALL_ARTICLES: Record<string, NewsArticle> = {
+  'oct-10-spiral': OCT_10_ARTICLE,
+  'agent-money': AGENT_CYCLE_ARTICLE,
+  'provex': PROVEX_ARTICLE,
+  'tao': TAO_ARTICLE,
+  'cycle': CYCLE_ARTICLE,
+  'jam': JAM_ARTICLE
+};
 
-const PINNED_SHORT: VideoItem = { id: '64LIG2zPmjc', title: 'Sideways markets are not random. We are finally understanding the 10/10 breakdown', thumbnail: 'https://img.youtube.com/vi/64LIG2zPmjc/maxresdefault.jpg', url: 'https://www.youtube.com/shorts/64LIG2zPmjc', type: 'short' };
-
-const INITIAL_SHORTS: VideoItem[] = [
-  PINNED_SHORT,
-  { id: 'FH0q1ICQqnA', title: 'XRP PRICE TARGETS: Is 2025 The Year? 💎', thumbnail: 'https://img.youtube.com/vi/FH0q1ICQqnA/hqdefault.jpg', url: 'https://www.youtube.com/shorts/FH0q1ICQqnA', type: 'short' },
-  { id: 's4JMTqzyq54', title: 'ON-CHAIN ALPHA: Whale Movements Explained 🐋', thumbnail: 'https://img.youtube.com/vi/s4JMTqzyq54/hqdefault.jpg', url: 'https://www.youtube.com/shorts/s4JMTqzyq54', type: 'short' },
-  { id: 'm3pMAB6qbNM', title: 'CRYPTO MARKET PSYCHOLOGY 🧠', thumbnail: 'https://img.youtube.com/vi/m3pMAB6qbNM/hqdefault.jpg', url: 'https://www.youtube.com/shorts/m3pMAB6qbNM', type: 'short' },
-  { id: 'MQxTLZI1XPA', title: 'BITCOIN VS BANKS: The On-Chain Revolution 🚀', thumbnail: 'https://img.youtube.com/vi/MQxTLZI1XPA/hqdefault.jpg', url: 'https://www.youtube.com/shorts/MQxTLZI1XPA', type: 'short' },
-  { id: 'yFllDUzV_HQ', title: 'SOLANA: The High-Speed Ecosystem ⚡️', thumbnail: 'https://img.youtube.com/vi/yFllDUzV_HQ/hqdefault.jpg', url: 'https://www.youtube.com/shorts/yFllDUzV_HQ', type: 'short' },
-];
+// Cleared initial data to allow for fresh manual/dynamic population
+const INITIAL_LIVE_STREAMS: VideoItem[] = [];
+const INITIAL_SHORTS: VideoItem[] = [];
 
 const App: React.FC = () => {
   const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(OCT_10_ARTICLE);
@@ -49,6 +43,36 @@ const App: React.FC = () => {
   const [liveStreams, setLiveStreams] = useState<VideoItem[]>(INITIAL_LIVE_STREAMS);
   const [shorts, setShorts] = useState<VideoItem[]>(INITIAL_SHORTS);
   const [isSyncing, setIsSyncing] = useState(false);
+
+  // Parse Routing from Hash for deep-linking
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash || '#/home';
+      
+      if (hash.startsWith('#/article/')) {
+        const id = hash.replace('#/article/', '');
+        const article = ALL_ARTICLES[id];
+        if (article) {
+          setFeaturedArticle(article);
+          setCurrentView('home');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } else if (hash === '#/research') {
+        setCurrentView('research');
+      } else if (hash === '#/defi') {
+        setCurrentView('defi');
+      } else if (hash === '#/bubbles') {
+        setCurrentView('bubbles');
+      } else if (hash === '#/home') {
+        setCurrentView('home');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Run on mount
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -63,12 +87,10 @@ const App: React.FC = () => {
     try {
       const data = await youtubeService.getLatestVideos();
       if (data.lives.length > 0) {
-        const mergedLives = [...data.lives, ...INITIAL_LIVE_STREAMS].filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        setLiveStreams(mergedLives);
+        setLiveStreams(data.lives);
       }
       if (data.shorts.length > 0) {
-        const mergedShorts = [PINNED_SHORT, ...data.shorts.filter(s => s.id !== PINNED_SHORT.id)];
-        setShorts(mergedShorts);
+        setShorts(data.shorts);
       }
     } catch (e) {
       console.error("Manual YouTube sync failed:", e);
@@ -77,51 +99,28 @@ const App: React.FC = () => {
     }
   };
 
-  const fetchArticle = (topic: string) => {
-    const t = topic.toLowerCase();
-    if (t.includes('10/10') || t.includes('downward spiral')) {
-      setFeaturedArticle(OCT_10_ARTICLE);
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (t.includes('2019') || t.includes('liquidity roadmap')) {
-      setFeaturedArticle(CYCLE_ARTICLE);
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (t.includes('jam') || t.includes('blueprint')) {
-      setFeaturedArticle(JAM_ARTICLE);
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (t.includes('tao') || t.includes('cash flows')) {
-      setFeaturedArticle(TAO_ARTICLE);
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (t.includes('provex') || t.includes('richard heart')) {
-      setFeaturedArticle(PROVEX_ARTICLE);
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (t.includes('agent') || t.includes('x402') || t.includes('8004')) {
-      setFeaturedArticle(AGENT_CYCLE_ARTICLE);
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      setCurrentView('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+  const navigateToArticle = (id: string) => {
+    window.location.hash = `#/article/${id}`;
   };
 
   const handleViewChange = (view: View, scrollToSection?: string) => {
-    setCurrentView(view);
-    setSearchQuery('');
-    
+    if (view === 'home' && !scrollToSection) {
+      window.location.hash = '#/home';
+    } else if (view === 'research') {
+      window.location.hash = '#/research';
+    } else if (view === 'defi') {
+      window.location.hash = '#/defi';
+    } else if (view === 'bubbles') {
+      window.location.hash = '#/bubbles';
+    }
+
     if (scrollToSection) {
       setTimeout(() => {
         const element = document.getElementById(scrollToSection);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      }, view === currentView ? 0 : 100);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   };
 
@@ -147,7 +146,7 @@ const App: React.FC = () => {
         <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500 px-6">
           <div className="mb-12">
             <button 
-              onClick={() => setCurrentView('home')}
+              onClick={() => handleViewChange('home')}
               className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest group"
             >
               <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
@@ -183,7 +182,7 @@ const App: React.FC = () => {
         <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500 px-6">
           <div className="mb-12">
             <button 
-              onClick={() => setCurrentView('home')}
+              onClick={() => handleViewChange('home')}
               className="flex items-center gap-2 text-slate-500 hover:text-emerald-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest group"
             >
               <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
@@ -210,7 +209,7 @@ const App: React.FC = () => {
               {featuredArticle && <NewsCard article={featuredArticle} />}
             </div>
             <Sidebar 
-              onStoryClick={(title) => fetchArticle(title)} 
+              onStoryClick={(id) => navigateToArticle(id)} 
               onViewAll={() => { setCurrentView('all-stories'); window.scrollTo(0,0); }}
             />
           </div>
@@ -220,7 +219,7 @@ const App: React.FC = () => {
               <div className="flex justify-between items-center">
                 <div className="relative">
                   <h2 className="text-xl md:text-2xl font-extrabold font-space text-slate-900 dark:text-white uppercase tracking-tight italic">
-                    Onchain Revolution: Daily Intel
+                    Shizzy Unchained Videos
                   </h2>
                   <div className="absolute -bottom-1.5 left-0 w-8 h-1 bg-blue-600 rounded-full"></div>
                 </div>
@@ -244,7 +243,7 @@ const App: React.FC = () => {
             </div>
 
             <VideoSection 
-              title="Daily Shorts" 
+              title="Shizzy Unchained Shorts" 
               videos={shorts} 
               aspectRatio="portrait" 
               limit={7}
@@ -259,7 +258,7 @@ const App: React.FC = () => {
       return (
         <div className="max-w-4xl mx-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-500 px-6">
           <button 
-            onClick={() => { setCurrentView('home'); setSearchQuery(''); }}
+            onClick={() => { handleViewChange('home'); setSearchQuery(''); }}
             className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest"
           >
             <ArrowLeft size={16} /> Back to Dashboard
@@ -284,7 +283,7 @@ const App: React.FC = () => {
             {filteredStories.map((story) => (
               <button 
                 key={story.id} 
-                onClick={() => fetchArticle(story.title)}
+                onClick={() => navigateToArticle(story.id)}
                 className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl hover:border-blue-500/50 transition-all text-left group"
               >
                 <div className="space-y-2">
@@ -306,13 +305,13 @@ const App: React.FC = () => {
 
     const isStreams = currentView === 'all-streams';
     const items = isStreams ? filteredStreams : filteredShorts;
-    const title = isStreams ? "Onchain Revolution Daily Live" : "All Shorts";
+    const title = isStreams ? "Shizzy Unchained Videos" : "Shizzy Unchained Shorts";
     const aspectRatio = isStreams ? "video" : "portrait";
 
     return (
       <div className="max-w-6xl mx-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-500 px-6">
         <button 
-          onClick={() => { setCurrentView('home'); setSearchQuery(''); }}
+          onClick={() => { handleViewChange('home'); setSearchQuery(''); }}
           className="flex items-center gap-2 text-slate-500 hover:text-blue-500 transition-colors mb-8 font-bold font-mono text-xs uppercase tracking-widest"
         >
           <ArrowLeft size={16} /> Back to Dashboard

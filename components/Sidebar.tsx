@@ -4,7 +4,7 @@ import { HOT_STORIES } from '../constants.tsx';
 import { Flame, Calendar, ChevronRight } from 'lucide-react';
 
 interface SidebarProps {
-  onStoryClick: (title: string) => void;
+  onStoryClick: (id: string) => void;
   onViewAll?: () => void;
 }
 
@@ -29,7 +29,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
           {displayStories.map((story) => (
             <button 
               key={story.id} 
-              onClick={() => onStoryClick(story.title)}
+              onClick={() => onStoryClick(story.id)}
               className="group w-full text-left focus:outline-none block"
             >
               <h4 className="text-[14px] md:text-[15px] font-bold text-slate-800 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-inter">

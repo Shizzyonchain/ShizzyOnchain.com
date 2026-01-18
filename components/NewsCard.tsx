@@ -1,11 +1,22 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { NewsArticle } from '../types.ts';
+import { Link2, Check } from 'lucide-react';
 
 interface NewsCardProps {
   article: NewsArticle;
 }
 
 export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}${window.location.pathname}#/article/${article.id}`;
+    navigator.clipboard.writeText(link);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="bg-white dark:bg-[#1e293b]/20 rounded-2xl overflow-hidden border border-slate-200 dark:border-white/5 transition-all shadow-2xl dark:shadow-none dark:hover:border-white/10 group">
       <div className="relative w-full overflow-hidden bg-slate-200 dark:bg-zinc-900 border-b border-slate-100 dark:border-white/5">
@@ -15,6 +26,16 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
           className="w-full h-auto min-h-[300px] object-cover opacity-100 group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-transparent pointer-events-none"></div>
+        
+        {/* Deep Link Action */}
+        <button 
+          onClick={handleCopyLink}
+          className="absolute top-6 right-6 p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all active:scale-95 group/link"
+          title="Share direct link"
+        >
+          {copied ? <Check size={18} className="text-emerald-400" /> : <Link2 size={18} />}
+          {copied && <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-emerald-500 text-[10px] font-black uppercase px-2 py-1 rounded-md">Copied</span>}
+        </button>
       </div>
 
       <div className="p-8 md:p-10 space-y-10">
