@@ -29,14 +29,6 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Research', view: 'research' as View },
     { label: 'Onchain Data', view: 'defi' as View },
     { label: 'Crypto Bubbles', view: 'bubbles' as View },
-    { 
-      label: 'Nord VPN Security & Privacy', 
-      url: 'https://nordvpn.com/special/?utm_medium=affiliate&utm_term=&utm_content&utm_source=aff107682&utm_campaign=off15' 
-    },
-    { 
-      label: 'Ledger', 
-      url: 'https://shop.ledger.com/?r=72709e075f30' 
-    },
   ];
 
   const handleNavClick = (item: { label: string; view?: View; url?: string; scrollTo?: string }) => {
