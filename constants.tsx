@@ -20,6 +20,30 @@ export const SOCIAL_LINKS = {
   website: 'https://onchainrevolution.io/'
 };
 
+export const BEAR_RUNNERS_ARTICLE: NewsArticle = {
+  id: 'bear-runners',
+  title: "Shizzy Unchained: Bear Markets Still Produce Runners",
+  category: "SHIZZY UNCHAINED",
+  author: "Shizzy",
+  timestamp: "JANUARY 25, 2026",
+  summary: "One of the biggest mistakes people make in bear markets is assuming nothing moves. Price slows, volume dries up, but attention remains the most volatile and valuable asset in the game.",
+  content: [
+    "One of the biggest mistakes people make in bear markets is assuming nothing moves. Price slows. Volume dries up. Everyone gets bored. And then suddenly, out of nowhere, something runs hard. Usually on Solana. Usually tied to a narrative, not fundamentals.",
+    "This is not about buying memes blindly. It is about understanding how attention moves in crypto, even when conditions feel dead. Bear markets do not kill speculation—they compress it. In bull markets, everything pumps. In bear markets, only the strongest narratives survive. That makes them easier to spot if you are paying attention.",
+    "When liquidity is thin, it does not take much to move price. A meme. A moment. A headline. A post that feels out of place. That is how runners are born. The Penguin moment was a case study, not a recommendation. Recently, a penguin-themed meme tied to an old internet clip resurfaced and exploded across crypto timelines. Not because it had utility, but because it was culturally recognizable and hit at the right time.",
+    "Crypto trades on attention before it trades on logic. When high-profile figures like Elon or Trump get involved in anything adjacent to culture, it creates a reflex. People watch. People speculate. People move fast. Even in a bear market. If you are ignoring that layer of the market, you are missing information. Not alpha. Information.",
+    "For better or worse, Solana remains the fastest feedback loop for speculation. Low friction, fast deployment, cheap experimentation. That is why most bear market runners show up there first. Most fail. A few run. One runner can redefine sentiment for weeks. The point is not the coin; it is the signal.",
+    "The takeaway is simple: Bear markets still produce motion. Motion follows attention. Attention follows culture, not charts. If you train yourself to watch narratives instead of prices, you start seeing these things early. Even if you never touch them, they tell you something about where risk appetite is waking up.",
+    "You do not need to trade every runner. You do need to notice when they appear. Because when memes start moving again in a bear market, it usually means the market is not as dead as it feels. And that awareness alone puts you ahead of most people."
+  ],
+  imageUrl: "https://i.postimg.cc/VL2ktF7c/You-Tube-Thumbnail-(1920-x-1080-px)-(1).png",
+  snapshots: [
+    { asset: "ATTENTION", price: "REQUISITE", description: "The only asset that matters when fundamentals are ignored" },
+    { asset: "SOLANA", price: "DOMINANT", description: "Primary venue for rapid-fire narrative expression" },
+    { asset: "SENTIMENT", price: "REFLEXIVE", description: "Runners indicate risk appetite is dormant, not dead" }
+  ]
+};
+
 export const OCT_10_ARTICLE: NewsArticle = {
   id: 'oct-10-downward-spiral-detailed',
   title: "Shizzy Unchained: What Really Happened on 10/10 and Why Q4 Was an Absolute Downward Spiral",
@@ -125,7 +149,7 @@ export const TAO_ARTICLE: NewsArticle = {
 
 export const JAM_ARTICLE: NewsArticle = {
   id: 'jam-polkadot-2026',
-  title: "JAM: Gavin Wood’s Blueprint for Polkadot’s Next Era",
+  title: "JAM: Gavin Wood’S Blueprint for Polkadot’S Next Era",
   category: "TECH ANALYSIS",
   author: "Shizzy",
   timestamp: "JANUARY 9, 2026",
@@ -195,10 +219,11 @@ export const CYCLE_ARTICLE: NewsArticle = {
 };
 
 export const HOT_STORIES: HotStory[] = [
+  { id: 'bear-runners', title: 'Bear Markets Still Produce Runners - Why Watching Narratives Matters', date: 'JANUARY 25, 2026' },
   { id: 'oct-10-spiral', title: 'What Really Happened on 10/10 and Why Q4 Was an Absolute Downward Spiral', date: 'JANUARY 11, 2026' },
   { id: 'agent-money', title: 'x402 + ERC-8004 Is the Agent Money Cycle', date: 'JANUARY 11, 2026' },
   { id: 'provex', title: 'Can ProveX Be Richard Heart’s Next 10,000x?', date: 'JANUARY 10, 2026' },
   { id: 'tao', title: 'TAO Is the Next Bitcoin, But With Real AI Cash Flows', date: 'JANUARY 9, 2026' },
   { id: 'cycle', title: 'If 2025 Felt Like 2019… The 2026 Liquidity Roadmap', date: 'JANUARY 9, 2026' },
-  { id: 'jam', title: 'JAM: Gavin Wood’s Blueprint for Polkadot’s Next Era', date: 'JANUARY 9, 2026' }
+  { id: 'jam', title: 'JAM: Gavin Wood’S Blueprint for Polkadot’S Next Era', date: 'JANUARY 9, 2026' }
 ];

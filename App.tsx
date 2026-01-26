@@ -10,7 +10,7 @@ import { DefiDashboard } from './components/DefiDashboard.tsx';
 import { BubblesDashboard } from './components/BubblesDashboard.tsx';
 import { NewsArticle, View } from './types.ts';
 import { ArrowLeft, Search as SearchIcon, X, Calendar, Terminal, RefreshCcw } from 'lucide-react';
-import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE, OCT_10_ARTICLE } from './constants.tsx';
+import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE, OCT_10_ARTICLE, BEAR_RUNNERS_ARTICLE } from './constants.tsx';
 import { youtubeService } from './services/youtubeService.ts';
 
 export interface VideoItem {
@@ -22,6 +22,7 @@ export interface VideoItem {
 }
 
 const ALL_ARTICLES: Record<string, NewsArticle> = {
+  'bear-runners': BEAR_RUNNERS_ARTICLE,
   'oct-10-spiral': OCT_10_ARTICLE,
   'agent-money': AGENT_CYCLE_ARTICLE,
   'provex': PROVEX_ARTICLE,
@@ -35,7 +36,7 @@ const INITIAL_LIVE_STREAMS: VideoItem[] = [];
 const INITIAL_SHORTS: VideoItem[] = [];
 
 const App: React.FC = () => {
-  const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(OCT_10_ARTICLE);
+  const [featuredArticle, setFeaturedArticle] = useState<NewsArticle | null>(BEAR_RUNNERS_ARTICLE);
   const [darkMode, setDarkMode] = useState(true);
   const [currentView, setCurrentView] = useState<View>('home');
   const [searchQuery, setSearchQuery] = useState('');

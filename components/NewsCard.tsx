@@ -18,19 +18,20 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#1e293b]/20 rounded-2xl overflow-hidden border border-slate-200 dark:border-white/5 transition-all shadow-2xl dark:shadow-none dark:hover:border-white/10 group">
-      <div className="relative w-full overflow-hidden bg-slate-200 dark:bg-zinc-900 border-b border-slate-100 dark:border-white/5">
+    <div className="bg-white dark:bg-[#1e293b]/20 rounded-3xl overflow-hidden border border-slate-200 dark:border-white/5 transition-all shadow-2xl dark:shadow-none dark:hover:border-white/10 group">
+      {/* Constrained Image Area */}
+      <div className="relative w-full aspect-video max-h-[450px] overflow-hidden bg-slate-200 dark:bg-zinc-900 border-b border-slate-100 dark:border-white/5">
         <img 
           src={article.imageUrl} 
           alt={article.title}
-          className="w-full h-auto min-h-[300px] object-cover opacity-100 group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
+          className="w-full h-full object-cover object-center opacity-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
         
         {/* Deep Link Action */}
         <button 
           onClick={handleCopyLink}
-          className="absolute top-6 right-6 p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all active:scale-95 group/link"
+          className="absolute top-6 right-6 p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white hover:bg-white/20 transition-all active:scale-95 group/link z-10"
           title="Share direct link"
         >
           {copied ? <Check size={18} className="text-emerald-400" /> : <Link2 size={18} />}
@@ -38,7 +39,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
         </button>
       </div>
 
-      <div className="p-8 md:p-10 space-y-10">
+      <div className="p-8 md:p-12 space-y-12">
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-4">
             <span className="bg-blue-600 text-white text-[11px] font-black px-3 py-1.5 rounded-md uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20 font-mono">
@@ -51,7 +52,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
             </div>
           </div>
           
-          <h2 className="text-2xl md:text-4xl font-black text-slate-900 dark:text-white leading-[1.2] tracking-tighter font-space">
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tighter font-space italic">
             {article.title}
           </h2>
 
@@ -65,12 +66,12 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
             <span className="w-8 h-[1px] bg-blue-500/30"></span>
             Crypto Snapshot
           </h3>
-          <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {article.snapshots?.map((snap, idx) => (
               <li key={idx} className="space-y-2">
                 <div className="flex justify-between items-baseline border-b border-slate-200 dark:border-white/10 pb-2">
-                  <span className="font-black text-slate-900 dark:text-slate-200 uppercase text-xs tracking-widest font-mono">{snap.asset}</span>
-                  <span className="font-mono text-blue-600 dark:text-blue-400 font-black text-base">{snap.price}</span>
+                  <span className="font-black text-slate-900 dark:text-slate-200 uppercase text-[10px] tracking-widest font-mono">{snap.asset}</span>
+                  <span className="font-mono text-blue-600 dark:text-blue-400 font-black text-lg">{snap.price}</span>
                 </div>
                 <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed font-medium italic">
                   {snap.description}
@@ -80,14 +81,14 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
           </ul>
         </div>
 
-        <div className="space-y-8 pt-4">
+        <div className="space-y-10 pt-4">
           <div className="flex items-center gap-4">
              <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight font-space uppercase">Market Intelligence</h3>
              <div className="flex-grow h-[1px] bg-slate-100 dark:bg-white/5"></div>
           </div>
-          <div className="grid grid-cols-1 gap-8">
+          <div className="grid grid-cols-1 gap-10">
             {article.content.map((p, i) => (
-              <p key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-inter opacity-90">
+              <p key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-inter opacity-90 first-letter:text-4xl first-letter:font-black first-letter:text-blue-600 first-letter:mr-1">
                 {p}
               </p>
             ))}
