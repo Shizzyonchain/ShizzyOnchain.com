@@ -2,15 +2,15 @@
 import { CoinData, HotStory, NewsArticle } from './types.ts';
 
 export const INITIAL_COINS: CoinData[] = [
-  { symbol: 'XRP', price: 2.10, change: -1.35 },
-  { symbol: 'BNB', price: 898.75, change: 0.75 },
-  { symbol: 'SOL', price: 136.10, change: -2.08 },
-  { symbol: 'TRX', price: 0.2982, change: 1.35 },
-  { symbol: 'STETH', price: 3082.87, change: -0.94 },
-  { symbol: 'DOGE', price: 0.1401, change: -1.65 },
-  { symbol: 'FIGR_HELOC', price: 1.03, change: -0.12 },
-  { symbol: 'BTC', price: 90799, change: -2.0 },
-  { symbol: 'ETH', price: 3145, change: -3.3 }
+  { symbol: 'BTC', price: 96450.00, change: 1.25 },
+  { symbol: 'ETH', price: 2740.50, change: -0.85 },
+  { symbol: 'SOL', price: 188.10, change: 4.20 },
+  { symbol: 'XRP', price: 2.45, change: -1.35 },
+  { symbol: 'BNB', price: 645.75, change: 0.75 },
+  { symbol: 'TRX', price: 0.22, change: 1.35 },
+  { symbol: 'DOGE', price: 0.38, change: -1.65 },
+  { symbol: 'PEPE', price: 0.000021, change: 8.40 },
+  { symbol: 'SUI', price: 3.10, change: -2.08 }
 ];
 
 export const SOCIAL_LINKS = {
