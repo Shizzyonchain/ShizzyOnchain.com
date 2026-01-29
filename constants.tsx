@@ -14,10 +14,27 @@ export const INITIAL_COINS: CoinData[] = [
 ];
 
 export const SOCIAL_LINKS = {
-  x: 'https://x.com/Shizzy',
-  youtube: 'https://www.youtube.com/@OnChainRevolution',
-  logo: 'https://i.postimg.cc/JnQ6TD70/Shizzy-unchained.png',
+  x: 'https://x.com/Shizzy133',
+  xUnchained: 'https://x.com/ShizzyUnchained',
+  youtube: 'https://www.youtube.com/@ShizzyUnChained',
+  twitch: 'https://www.twitch.tv/shizzy_unchained',
+  tiktok: 'https://www.tiktok.com/@shizzyunchained',
+  email: 'Shizzyunchained@gmail.com',
+  logo: 'https://i.postimg.cc/SsCyRtpK/Untitled-design-(70).png',
+  heroImage: 'https://i.postimg.cc/1zFBjpQq/Main-Overlay-(6).png',
   website: 'https://onchainrevolution.io/'
+};
+
+export const OVERVIEW_CONTENT = {
+  intro: "Shizzy Unchained is my daily spot for crypto news, market context, and onchain insights without the noise.",
+  philosophy: "I cover what is moving markets, what narratives are forming, and what I think is most likely to matter next. Sometimes it is Bitcoin and macro. Sometimes it is Solana and rotations. Sometimes it is meme coin chaos. The point is always the same: make it understandable and usable.",
+  offerings: [
+    { title: "Videos and recaps", description: "Visual breakdowns of current market dynamics." },
+    { title: "Research and breakdowns", description: "Deep dives into emerging narratives and tech." },
+    { title: "Onchain data and tools", description: "Real-time visibility into the flow of capital." },
+    { title: "Crypto Bubbles", description: "Quick visual scan for market movers." },
+    { title: "Hot takes", description: "When something needs to be said straight." }
+  ]
 };
 
 export const BEAR_RUNNERS_ARTICLE: NewsArticle = {
@@ -61,7 +78,7 @@ export const OCT_10_ARTICLE: NewsArticle = {
     "3) The moment the market stopped being a market. A normal selloff is negotiation. A liquidation cascade is not negotiation. It is forced execution. Liquidation engines do not care about sentiment, they care about thresholds. When margin limits break, positions close. If the market is thin, the closes get worse prices, which triggers more closes, which worsens price again.",
     "Now add the critical twist: Market makers could not reliably access APIs, or could not maintain quoting during the most chaotic minutes. That can happen for a few reasons: Exchange stress and throttling, API instability, Risk systems pulling quotes because the market becomes unpriceable, Latency and desync that make arbitrage impossible. When that happens, the normal stabilizers vanish: Market makers stop quoting tight spreads, Arbitrage bots stop keeping venues aligned, Liquidity becomes fragmented, Mark prices and execution prices can diverge in moments of chaos. That is when the liquidation engine becomes the market.",
     "4) The buyer-of-last-resort problem. Here is the simplest question nobody asks loudly enough: If everybody is being liquidated in a cascade and the professional buyers are shut out or standing down, who is the buyer? In a true cascade, there are only a few realistic buyers: Exchanges stepping in through internalization, backstop mechanisms, or balance-sheet risk. A tiny set of privileged liquidity providers with direct connectivity and absurd risk tolerance. A coordinated rescue, which is rare and usually leaves fingerprints.",
-    "This is where your thesis gets sharp: If you saw a market with “no bid” behavior, yet liquidations continued at scale, somebody had to absorb inventory. If you are an exchange and your liquidation engine is firing into emptiness, you face an existential choice: Let the system print insane lows, blow up users, and potentially threaten confidence and solvency, or step in, stabilize execution, and warehouse risk temporarily. If you step in, you are not doing it because you want to. You are doing it because the alternative can be worse. So the working assumption becomes: Somebody took on an absurd amount of risk because they had to.",
+    "This where your thesis gets sharp: If you saw a market with “no bid” behavior, yet liquidations continued at scale, somebody had to absorb inventory. If you are an exchange and your liquidation engine is firing into emptiness, you face an existential choice: Let the system print insane lows, blow up users, and potentially threaten confidence and solvency, or step in, stabilize execution, and warehouse risk temporarily. If you step in, you are not doing it because you want to. You are doing it because the alternative can be worse. So the working assumption becomes: Somebody took on an absurd amount of risk because they had to.",
     "5) Why Q4 looked like a program selling into every bounce. If an exchange, or an exchange-adjacent desk, ended up warehousing a mountain of inventory during the chaos, the aftermath is predictable: They have a position that they never wanted. They cannot dump it all at once without restarting the cascade. So they unwind it gradually when liquidity appears. That produces a very specific tape: Rally attempts stall at the same zones. You see repeated, heavy offers on strength. Every day looks like: sell a bunch, pause, sell a bunch again. Volatility stays elevated because supply is being “metered” into the market. The market stops feeling organic and starts feeling managed.",
     "This is not a conspiracy story. It is basic risk management. If you are stuck with a massive bag in an illiquid environment, you sell into the moments when buyers show up. You sell when the market “lets you.” That is exactly the phrase that explains Q4: the market would let them.",
     "6) The second-order damage: the traders who got liquidated were removed from the game. The most overlooked part of a cascade is not the price. It is the participant wipeout. When leveraged traders get liquidated: Their collateral is gone or severely reduced. Their confidence is wrecked. Their ability to provide buy pressure on dips disappears. Their risk tolerance collapses. So even if price bounces, the people who usually chase and buy are not there. That leaves a weaker market structure: Fewer aggressive dip buyers. More cautious spot buyers. More sellers on rallies, because trauma turns people into “get me out” participants. Less reflexive upside.",

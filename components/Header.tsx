@@ -25,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const navItems = [
     { label: 'Home', view: 'home' as View },
+    { label: 'Overview', view: 'overview' as View },
     { label: 'Videos', view: 'home' as View, scrollTo: 'video-explorer' },
     { label: 'Research', view: 'research' as View },
     { label: 'Onchain Data', view: 'defi' as View },
@@ -94,6 +95,7 @@ export const Header: React.FC<HeaderProps> = ({
             {navItems.map((item) => {
               const actuallyActive = 
                 (item.label === 'Home' && currentView === 'home') || 
+                (item.label === 'Overview' && currentView === 'overview') || 
                 (item.label === 'Research' && currentView === 'research') || 
                 (item.label === 'Onchain Data' && currentView === 'defi') ||
                 (item.label === 'Crypto Bubbles' && currentView === 'bubbles');

@@ -8,6 +8,7 @@ import { VideoSection } from './components/VideoSection.tsx';
 import { ResearchDashboard } from './components/ResearchDashboard.tsx';
 import { DefiDashboard } from './components/DefiDashboard.tsx';
 import { BubblesDashboard } from './components/BubblesDashboard.tsx';
+import { Overview } from './components/Overview.tsx';
 import { NewsArticle, View } from './types.ts';
 import { ArrowLeft, Search as SearchIcon, X, Calendar, Terminal, RefreshCcw } from 'lucide-react';
 import { SOCIAL_LINKS, HOT_STORIES, JAM_ARTICLE, CYCLE_ARTICLE, TAO_ARTICLE, PROVEX_ARTICLE, AGENT_CYCLE_ARTICLE, OCT_10_ARTICLE, BEAR_RUNNERS_ARTICLE } from './constants.tsx';
@@ -58,6 +59,8 @@ const App: React.FC = () => {
           setCurrentView('home');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+      } else if (hash === '#/overview') {
+        setCurrentView('overview');
       } else if (hash === '#/research') {
         setCurrentView('research');
       } else if (hash === '#/defi') {
@@ -107,6 +110,8 @@ const App: React.FC = () => {
   const handleViewChange = (view: View, scrollToSection?: string) => {
     if (view === 'home' && !scrollToSection) {
       window.location.hash = '#/home';
+    } else if (view === 'overview') {
+      window.location.hash = '#/overview';
     } else if (view === 'research') {
       window.location.hash = '#/research';
     } else if (view === 'defi') {
@@ -142,6 +147,10 @@ const App: React.FC = () => {
   }, [searchQuery]);
 
   const renderContent = () => {
+    if (currentView === 'overview') {
+      return <Overview />;
+    }
+
     if (currentView === 'research') {
       return (
         <div className="max-w-[1400px] mx-auto py-10 animate-in fade-in duration-500 px-6">

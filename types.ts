@@ -84,4 +84,4 @@ export interface LlamaStablecoin {
   change_7d: number | null;
 }
 
-export type View = 'home' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles';
+export type View = 'home' | 'overview' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles';
