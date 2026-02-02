@@ -14,7 +14,7 @@ export const INITIAL_COINS: CoinData[] = [
 ];
 
 export const SOCIAL_LINKS = {
-  x: 'https://x.com/Shizzy133',
+  x: 'https://x.com/ShizzyOfficialX',
   xUnchained: 'https://x.com/ShizzyUnchained',
   youtube: 'https://www.youtube.com/@ShizzyUnChained',
   twitch: 'https://www.twitch.tv/shizzy_unchained',
@@ -119,7 +119,7 @@ export const AGENT_CYCLE_ARTICLE: NewsArticle = {
 
 export const PROVEX_ARTICLE: NewsArticle = {
   id: 'provex-richard-heart',
-  title: "Shizzy Unchained: Can ProveX Be Richard Heart’s Next 10,000x?",
+  title: "Shizzy Unchained: Can ProveX Be Richard Heart’S Next 10,000x?",
   category: "SHIZZY UNCHAINED",
   author: "Shizzy",
   timestamp: "JANUARY 10, 2026",
@@ -170,7 +170,7 @@ export const JAM_ARTICLE: NewsArticle = {
   category: "TECH ANALYSIS",
   author: "Shizzy",
   timestamp: "JANUARY 9, 2026",
-  summary: "JAM stands for Join Accumulate Machine. It is Gavin Wood’s big redesign idea for what comes after the Polkadot relay chain. The goal is simple: turn Polkadot into a general-purpose, verifiable compute platform.",
+  summary: "JAM stands for Join Accumulate Machine. It is Gavin Wood’S big redesign idea for what comes after the Polkadot relay chain. The goal is simple: turn Polkadot into a general-purpose, verifiable compute platform.",
   content: [
     "JAM is the evolution of Polkadot from a Relay Chain into a decentralized, verifiable, and trustless world computer. It is Gavin Wood's 'final form' vision for the network. It's not just a patch; it’s a foundational shift in how on-chain compute works.",
     "The core innovation is moving away from the 'Relay Chain + Parachains' model to a 'Coretime' model where JAM acts as a massive parallel processor. JAM stands for Join-Accumulate Machine, representing the two phases of its compute cycle.",
@@ -239,7 +239,7 @@ export const HOT_STORIES: HotStory[] = [
   { id: 'bear-runners', title: 'Bear Markets Still Produce Runners - Why Watching Narratives Matters', date: 'JANUARY 25, 2026' },
   { id: 'oct-10-spiral', title: 'What Really Happened on 10/10 and Why Q4 Was an Absolute Downward Spiral', date: 'JANUARY 11, 2026' },
   { id: 'agent-money', title: 'x402 + ERC-8004 Is the Agent Money Cycle', date: 'JANUARY 11, 2026' },
-  { id: 'provex', title: 'Can ProveX Be Richard Heart’s Next 10,000x?', date: 'JANUARY 10, 2026' },
+  { id: 'provex', title: 'Can ProveX Be Richard Heart’S Next 10,000x?', date: 'JANUARY 10, 2026' },
   { id: 'tao', title: 'TAO Is the Next Bitcoin, But With Real AI Cash Flows', date: 'JANUARY 9, 2026' },
   { id: 'cycle', title: 'If 2025 Felt Like 2019… The 2026 Liquidity Roadmap', date: 'JANUARY 9, 2026' },
   { id: 'jam', title: 'JAM: Gavin Wood’S Blueprint for Polkadot’S Next Era', date: 'JANUARY 9, 2026' }
