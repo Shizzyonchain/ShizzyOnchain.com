@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { newsService } from '../services/newsService.ts';
 import { AINewsItem } from '../types.ts';
 import { AINewsCard } from './AINewsCard.tsx';
-import { Filter, ChevronDown, RefreshCw, Globe, Zap } from 'lucide-react';
+import { Filter, ChevronDown, RefreshCw, Globe } from 'lucide-react';
 
 const SkeletonCard = () => (
   <div className="bg-white dark:bg-white/5 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 h-[450px] animate-pulse">
@@ -17,7 +17,7 @@ const SkeletonCard = () => (
 );
 
 export const AINewsFeed: React.FC = () => {
-  // CRITICAL: Initialize with sync cache to prevent any loading state if data exists
+  // CRITICAL: Initialize with sync cache for instant render
   const [items, setItems] = useState<AINewsItem[]>(() => newsService.getCachedNews());
   const [loading, setLoading] = useState(() => newsService.getCachedNews().length < 2);
   const [sourceFilter, setSourceFilter] = useState('All Sources');
@@ -37,14 +37,14 @@ export const AINewsFeed: React.FC = () => {
   };
 
   useEffect(() => {
-    // Only show full-screen loader if we have absolutely nothing
+    // If cache is empty or very old, show loading
     if (items.length < 2) {
       setLoading(true);
     }
     fetchData();
     
-    // Low-frequency background sync
-    const interval = setInterval(() => fetchData(), 300000);
+    // Background polling to keep local cache updated
+    const interval = setInterval(() => fetchData(), 300000); // 5 minutes
     return () => clearInterval(interval);
   }, []);
 
@@ -111,7 +111,7 @@ export const AINewsFeed: React.FC = () => {
       {/* Pipeline Status Footer */}
       <div className="pt-10 flex flex-col items-center justify-center gap-4 opacity-50">
         <div className="flex items-center gap-3 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-[0.4em]">
-          <Globe size={14} className="text-blue-500" /> Decentralized Intelligence Node Connected
+          <Globe size={14} className="text-blue-500" /> Decentralized Intelligence Node Active
         </div>
       </div>
     </div>
