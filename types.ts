@@ -95,4 +95,13 @@ export interface LlamaStablecoin {
   change_7d: number | null;
 }
 
+// Added VideoItem interface for shared use between components and services
+export interface VideoItem {
+  id: string;
+  title: string;
+  thumbnail: string;
+  url?: string;
+  type: 'live' | 'short';
+}
+
 export type View = 'home' | 'overview' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles';

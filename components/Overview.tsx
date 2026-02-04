@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { SOCIAL_LINKS, OVERVIEW_CONTENT } from '../constants.tsx';
-import { Youtube, Twitch, Mail, ExternalLink } from 'lucide-react';
+import { Youtube, Twitch, Mail, ExternalLink, Zap, ChevronDown, ChevronUp } from 'lucide-react';
+import { AINewsFeed } from './AINewsFeed.tsx';
 
 const XIcon = () => (
   <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
@@ -16,9 +17,11 @@ const TikTokIcon = () => (
 );
 
 export const Overview: React.FC = () => {
+  const [showNews, setShowNews] = useState(false);
+
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-10 animate-in fade-in duration-700">
-      {/* Hero Image Section - Fixed cropping with object-contain and bg-black */}
+      {/* Hero Image Section */}
       <div className="relative w-full aspect-[21/9] rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl mb-16 bg-black">
         <img 
           src={SOCIAL_LINKS.heroImage} 
@@ -31,7 +34,42 @@ export const Overview: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
         {/* Main Text Area */}
         <div className="lg:col-span-8 space-y-12">
-          <section className="space-y-6">
+          {/* THE HOTTEST 5 TRIGGER */}
+          <div className="relative group">
+            <button 
+              onClick={() => setShowNews(!showNews)}
+              className={`w-full flex items-center justify-between p-10 rounded-[2.5rem] border-2 transition-all duration-500 text-left ${
+                showNews 
+                  ? 'bg-blue-600 border-blue-600 text-white shadow-2xl shadow-blue-500/40' 
+                  : 'bg-white dark:bg-white/[0.02] border-slate-200 dark:border-white/5 text-slate-900 dark:text-white hover:border-blue-500/50'
+              }`}
+            >
+              <div className="space-y-2">
+                <div className={`inline-flex items-center gap-2 px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-md ${showNews ? 'bg-white/20' : 'bg-blue-600/10 text-blue-600'}`}>
+                  <Zap size={10} fill="currentColor" />
+                  REAL-TIME INTEL
+                </div>
+                <h2 className="text-3xl md:text-5xl font-black font-space uppercase italic tracking-tighter">
+                  THE <span className={showNews ? 'text-white' : 'text-blue-600'}>HOTTEST</span> 5 AI NEWS
+                </h2>
+                <p className={`text-xs font-mono uppercase tracking-[0.2em] ${showNews ? 'text-white/70' : 'text-slate-500'}`}>
+                  Direct access to X-based social intelligence
+                </p>
+              </div>
+              <div className="shrink-0">
+                {showNews ? <ChevronUp size={32} /> : <ChevronDown size={32} className="animate-bounce" />}
+              </div>
+            </button>
+
+            {/* News Dropdown Content */}
+            {showNews && (
+              <div className="mt-8 animate-in slide-in-from-top-4 duration-500">
+                <AINewsFeed />
+              </div>
+            )}
+          </div>
+
+          <section className="space-y-6 pt-10">
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic font-space border-l-[8px] border-blue-600 pl-8">
               ABOUT SHIZZY UNCHAINED
             </h2>

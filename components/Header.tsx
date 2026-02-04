@@ -23,10 +23,9 @@ export const Header: React.FC<HeaderProps> = ({
   onViewChange,
   currentView
 }) => {
-  const navItems = [
-    { label: 'Home', view: 'home' as View },
-    { label: 'Overview', view: 'overview' as View },
-    { label: 'Videos', view: 'home' as View, scrollTo: 'video-explorer' },
+  // Fix: Explicitly type navItems to include optional properties used in navigation logic
+  const navItems: { label: string; view?: View; url?: string; scrollTo?: string }[] = [
+    { label: 'Overview', view: 'home' as View },
     { label: 'Research', view: 'research' as View },
     { label: 'Onchain Data', view: 'defi' as View },
     { label: 'Crypto Bubbles', view: 'bubbles' as View },
@@ -88,14 +87,13 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </header>
 
-      {/* Navigation Bar (Home Bar) */}
+      {/* Navigation Bar */}
       <nav className="border-b border-slate-100 dark:border-white/5 bg-white dark:bg-[#0b0e14] overflow-x-auto scrollbar-hide">
         <div className="max-w-[1400px] mx-auto flex items-center px-8">
           <div className="flex items-center gap-8 h-12">
             {navItems.map((item) => {
               const actuallyActive = 
-                (item.label === 'Home' && currentView === 'home') || 
-                (item.label === 'Overview' && currentView === 'overview') || 
+                (item.label === 'Overview' && currentView === 'home') || 
                 (item.label === 'Research' && currentView === 'research') || 
                 (item.label === 'Onchain Data' && currentView === 'defi') ||
                 (item.label === 'Crypto Bubbles' && currentView === 'bubbles');
@@ -111,6 +109,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }`}
                 >
                   {item.label}
+                  {/* Fix: Accessing .scrollTo is now valid due to explicit typing of navItems */}
                   {actuallyActive && !item.scrollTo && (
                     <div className="absolute bottom-0 left-0 w-full h-[3px] bg-blue-600 dark:bg-[#f97316]" />
                   )}

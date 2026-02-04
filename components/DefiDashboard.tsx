@@ -6,13 +6,13 @@ import {
   TrendingUp, 
   Loader2,
   AlertCircle,
-  Globe,
   Clock,
   ShieldCheck,
   CalendarDays
 } from 'lucide-react';
 import { defiLlamaService } from '../services/defiLlamaService.ts';
 import { LlamaChain, LlamaProtocol, LlamaStablecoin } from '../types.ts';
+import { SOCIAL_LINKS } from '../constants.tsx';
 
 export const DefiDashboard: React.FC = () => {
   const [volChains, setVolChains] = useState<LlamaChain[]>([]);
@@ -147,7 +147,9 @@ export const DefiDashboard: React.FC = () => {
         <div className="space-y-20">
           <div className="space-y-8">
             <div className="flex items-center gap-4">
-              <div className="p-2.5 bg-blue-600 rounded-xl shadow-lg shadow-blue-500/20 text-white"><Globe size={20} strokeWidth={2.5} /></div>
+              <div className="p-2.5 bg-blue-600 rounded-xl shadow-lg shadow-blue-500/20 text-white">
+                <img src={SOCIAL_LINKS.logo} alt="Logo" className="w-5 h-5 object-contain invert" />
+              </div>
               <div><h3 className="text-2xl font-black uppercase tracking-tighter text-slate-900 dark:text-white font-space italic">Fundamentals</h3></div>
               <div className="flex-grow h-[1px] bg-slate-200 dark:bg-white/5 ml-4"></div>
             </div>
@@ -221,7 +223,10 @@ export const DefiDashboard: React.FC = () => {
       <div className="pt-20 border-t border-slate-200 dark:border-white/5 flex flex-col items-center gap-8">
         <div className="flex flex-col items-center gap-2">
           <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Validated Node Pipeline</span>
-          <div className="flex items-center gap-2"><Zap size={14} className="text-blue-600 fill-blue-600" /><span className="text-sm font-black text-slate-900 dark:text-white uppercase font-space">DeFiLlama L1/L2 Intel</span></div>
+          <div className="flex items-center gap-2">
+            <img src={SOCIAL_LINKS.logo} alt="Logo" className="w-4 h-4 object-contain" />
+            <span className="text-sm font-black text-slate-900 dark:text-white uppercase font-space">DeFiLlama L1/L2 Intel</span>
+          </div>
         </div>
       </div>
     </div>

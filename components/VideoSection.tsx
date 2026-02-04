@@ -1,14 +1,8 @@
 
 import React from 'react';
 import { Play, ChevronRight, VideoOff } from 'lucide-react';
-
-interface VideoItem {
-  id: string;
-  title: string;
-  thumbnail: string;
-  url?: string;
-  type: 'live' | 'short';
-}
+// Import VideoItem from centralized types
+import { VideoItem } from '../types.ts';
 
 interface VideoSectionProps {
   title: string;

@@ -1,5 +1,6 @@
 
-import { VideoItem } from '../App.tsx';
+// Fix: Import VideoItem from types.ts where it's correctly exported
+import { VideoItem } from '../types.ts';
 
 /**
  * YOUTUBE AUTOMATION SERVICE v2.0

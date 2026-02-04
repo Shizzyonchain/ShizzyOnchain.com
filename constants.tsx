@@ -20,7 +20,7 @@ export const SOCIAL_LINKS = {
   twitch: 'https://www.twitch.tv/shizzy_unchained',
   tiktok: 'https://www.tiktok.com/@shizzyunchained',
   email: 'Shizzyunchained@gmail.com',
-  logo: 'https://i.postimg.cc/SsCyRtpK/Untitled-design-(70).png',
+  logo: 'https://i.postimg.cc/gJZVqs15/Untitled-design-(71).png',
   heroImage: 'https://i.postimg.cc/1zFBjpQq/Main-Overlay-(6).png',
   website: 'https://onchainrevolution.io/'
 };
