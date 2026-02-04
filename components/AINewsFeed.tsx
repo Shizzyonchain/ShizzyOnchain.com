@@ -17,8 +17,9 @@ const SkeletonCard = () => (
 );
 
 export const AINewsFeed: React.FC = () => {
-  const [items, setItems] = useState<AINewsItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  // CRITICAL: Initialize with sync cache to prevent any loading state if data exists
+  const [items, setItems] = useState<AINewsItem[]>(() => newsService.getCachedNews());
+  const [loading, setLoading] = useState(() => newsService.getCachedNews().length < 2);
   const [sourceFilter, setSourceFilter] = useState('All Sources');
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -36,8 +37,13 @@ export const AINewsFeed: React.FC = () => {
   };
 
   useEffect(() => {
+    // Only show full-screen loader if we have absolutely nothing
+    if (items.length < 2) {
+      setLoading(true);
+    }
     fetchData();
-    // Background polling every 5 minutes to keep the local cache fresh
+    
+    // Low-frequency background sync
     const interval = setInterval(() => fetchData(), 300000);
     return () => clearInterval(interval);
   }, []);
@@ -56,13 +62,13 @@ export const AINewsFeed: React.FC = () => {
   }, [items, sourceFilter]);
 
   return (
-    <div className="space-y-12 animate-in fade-in duration-1000">
+    <div className="space-y-12 animate-in fade-in duration-700">
       {/* Header & Pipeline Status */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-3 text-center md:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
             <div className={`w-1.5 h-1.5 rounded-full ${isSyncing ? 'bg-blue-500 animate-spin' : 'bg-emerald-500 animate-pulse'}`} />
-            Pipeline: {isSyncing ? 'Synchronizing Global Node' : 'Latest AI News Secured'}
+            Pipeline: {isSyncing ? 'Synchronizing Global Node' : 'Intelligence Secured'}
           </div>
           <h2 className="text-5xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-[0.9]">
             LATEST AI <span className="text-blue-600">NEWS</span>
@@ -95,7 +101,7 @@ export const AINewsFeed: React.FC = () => {
 
       {/* Content Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {loading && items.length === 0 ? (
+        {loading && items.length <= 1 ? (
           Array(6).fill(0).map((_, i) => <SkeletonCard key={i} />)
         ) : (
           filteredItems.map(item => <AINewsCard key={item.id} item={item} />)
@@ -105,7 +111,7 @@ export const AINewsFeed: React.FC = () => {
       {/* Pipeline Status Footer */}
       <div className="pt-10 flex flex-col items-center justify-center gap-4 opacity-50">
         <div className="flex items-center gap-3 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-[0.4em]">
-          <Globe size={14} className="text-blue-500" /> High-Performance AI Pipeline Active
+          <Globe size={14} className="text-blue-500" /> Decentralized Intelligence Node Connected
         </div>
       </div>
     </div>

@@ -10,9 +10,9 @@ const RSS_FEEDS = [
 ];
 
 const PROXY_URL = 'https://api.allorigins.win/get?url=';
-const CACHE_KEY = 'shizzy_intel_pipeline_v8';
-const STALE_THRESHOLD = 300000; // 5 minutes
-const SYNC_TIMEOUT = 5000; // 5 seconds hard timeout per feed
+const CACHE_KEY = 'shizzy_intel_pipeline_v9';
+const STALE_THRESHOLD = 180000; // 3 minutes for high-velocity news
+const SYNC_TIMEOUT = 4000; // 4 seconds hard timeout per feed
 
 const CURATED_INTEL: AINewsItem[] = [
   {
@@ -29,6 +29,21 @@ const CURATED_INTEL: AINewsItem[] = [
 
 export const newsService = {
   private_isSyncing: false,
+
+  /**
+   * Synchronous accessor for immediate UI initialization.
+   * Prevents the "loading" flicker on initial render.
+   */
+  getCachedNews(): AINewsItem[] {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return CURATED_INTEL;
+    try {
+      const parsed = JSON.parse(cached);
+      return parsed.data || CURATED_INTEL;
+    } catch (e) {
+      return CURATED_INTEL;
+    }
+  },
 
   async fetchAllFeeds(force = false): Promise<AINewsItem[]> {
     const cached = localStorage.getItem(CACHE_KEY);
@@ -48,27 +63,29 @@ export const newsService = {
     }
 
     const isStale = now - timestamp > STALE_THRESHOLD;
-    const isMissing = cacheData.length < 3;
+    const isMissing = cacheData.length < 5;
 
+    // RULE: Return cached data IMMEDIATELY if we have it
     if (!isMissing && !force) {
       if (isStale) {
-        this.syncInBackground(); // Silent background sync
+        this.syncInBackground(); // Fires and forgets
       }
       return cacheData;
     }
 
+    // Only block the UI if we have absolutely no data
     return await this.syncInBackground();
   },
 
   async syncInBackground(): Promise<AINewsItem[]> {
     if (this.private_isSyncing) {
-      const cached = localStorage.getItem(CACHE_KEY);
-      return cached ? JSON.parse(cached).data : CURATED_INTEL;
+      return this.getCachedNews();
     }
 
     this.private_isSyncing = true;
     try {
       const ts = Date.now();
+      // Parallel fetch with strict timeouts
       const results = await Promise.allSettled(
         RSS_FEEDS.map(feed => this.fetchSingleFeed(feed, ts))
       );
@@ -87,8 +104,7 @@ export const newsService = {
 
       return merged;
     } catch (error) {
-      console.error('[Pipeline] Sync failure:', error);
-      return CURATED_INTEL;
+      return this.getCachedNews();
     } finally {
       this.private_isSyncing = false;
     }
@@ -99,8 +115,7 @@ export const newsService = {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), SYNC_TIMEOUT);
 
-      // Append cache buster to bypass proxy cache
-      const targetUrl = `${feed.url}${feed.url.includes('?') ? '&' : '?'}pipeline_sync=${ts}`;
+      const targetUrl = `${feed.url}${feed.url.includes('?') ? '&' : '?'}cb=${ts}`;
       const response = await fetch(`${PROXY_URL}${encodeURIComponent(targetUrl)}`, { 
         signal: controller.signal 
       });
@@ -121,54 +136,33 @@ export const newsService = {
 
       entries.forEach(item => {
         const title = item.querySelector('title')?.textContent?.trim() || '';
-        
-        // 1. SELECT CORRECT LINK BASED ON SPEC
         let url = '';
         
-        // Try RSS 2.0 <link>
         const rssLink = item.querySelector('link');
         if (rssLink) {
-          // Check if it's text content (RSS) or href attribute (Atom)
           url = rssLink.textContent?.trim() || rssLink.getAttribute('href') || '';
         }
 
-        // Try Atom <link rel="alternate"> if primary link is empty or relative
         if (!url || !url.startsWith('http')) {
           const links = Array.from(item.querySelectorAll('link'));
           const alt = links.find(l => l.getAttribute('rel') === 'alternate');
-          if (alt) {
-            url = alt.getAttribute('href') || '';
-          }
+          if (alt) url = alt.getAttribute('href') || '';
         }
 
-        // Try <guid> if isPermaLink is true or it looks like a URL
         if (!url || !url.startsWith('http')) {
           const guid = item.querySelector('guid');
-          if (guid) {
-            const isPerma = guid.getAttribute('isPermaLink') !== 'false';
-            const guidText = guid.textContent?.trim() || '';
-            if (isPerma && guidText.startsWith('http')) {
-              url = guidText;
-            }
+          if (guid && guid.getAttribute('isPermaLink') !== 'false') {
+            url = guid.textContent?.trim() || '';
           }
         }
 
-        // 2. CANONICALIZE & ABSOLUTIZE
         if (url && !url.startsWith('http')) {
           try {
             url = new URL(url, feedBaseUrl).toString();
-          } catch (e) {
-            url = ''; // Invalid URL construction
-          }
+          } catch (e) { url = ''; }
         }
 
-        // 3. VALIDATE
-        const isValid = url && 
-                        url.startsWith('http') && 
-                        url !== feed.url && // Don't link back to the feed itself
-                        !url.includes('rss.xml');
-
-        if (title && isValid) {
+        if (title && url && url.startsWith('http') && url !== feed.url) {
           const published_at = item.querySelector('pubDate, published, updated')?.textContent || new Date().toISOString();
           const contentStr = item.querySelector('description, summary, content')?.textContent || '';
           
@@ -195,7 +189,7 @@ export const newsService = {
     const seen = new Set();
     return items
       .filter(item => {
-        if (!item.url || item.url === '#' || seen.has(item.id)) return false;
+        if (!item.url || seen.has(item.id)) return false;
         seen.add(item.id);
         return true;
       })
@@ -204,7 +198,6 @@ export const newsService = {
   },
 
   generateStableId(url: string, title: string): string {
-    // Generate a short, stable ID based on the unique URL
     let hash = 0;
     const str = url + title;
     for (let i = 0; i < str.length; i++) {
@@ -218,7 +211,7 @@ export const newsService = {
     const doc = new DOMParser().parseFromString(text, 'text/html');
     let clean = doc.body.textContent || '';
     clean = clean.replace(/\s+/g, ' ').trim();
-    return clean.length > 150 ? clean.slice(0, 147) + '...' : clean;
+    return clean.length > 140 ? clean.slice(0, 137) + '...' : clean;
   },
 
   extractImage(item: Element, content: string): string {
