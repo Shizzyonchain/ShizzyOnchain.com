@@ -3,10 +3,11 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { NewsArticle } from "../types.ts";
 
 export const generateAIInsight = async (userPrompt: string): Promise<NewsArticle> => {
+  // Always create a fresh instance right before call for latest key
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const response = await ai.models.generateContent({
-    model: 'gemini-3-pro-preview',
+    model: 'gemini-3-flash-preview',
     contents: `As Shizzy, a world-class on-chain analyst and crypto visionary, generate a detailed "Hot Take" article based on the following topic or prompt: "${userPrompt}". 
     The article should be insightful, slightly provocative, and backed by a narrative of on-chain data.
     Ensure the timestamp is current (e.g., "FEBRUARY 14, 2026").
@@ -50,7 +51,8 @@ export const generateAIInsight = async (userPrompt: string): Promise<NewsArticle
   if (!text) throw new Error("No response from AI engine");
   
   try {
-    return JSON.parse(text) as NewsArticle;
+    const cleaned = text.trim();
+    return JSON.parse(cleaned) as NewsArticle;
   } catch (e) {
     console.error("Failed to parse AI response", text);
     throw new Error("Invalid response format from AI engine");

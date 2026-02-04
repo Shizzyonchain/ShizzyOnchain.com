@@ -21,6 +21,17 @@ export interface NewsArticle {
   }[];
 }
 
+export interface AINewsItem {
+  id: string;
+  source: string;
+  title: string;
+  url: string;
+  published_at: string;
+  excerpt: string;
+  image_url: string;
+  tags: string[];
+}
+
 export interface HotStory {
   id: string;
   title: string;
