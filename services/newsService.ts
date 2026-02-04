@@ -2,20 +2,18 @@
 import { AINewsItem } from '../types.ts';
 
 /**
- * SHIZZY NEWS PIPELINE v3.0 - FEEDLY NORMALIZATION LAYER
+ * SHIZZY NEWS PIPELINE v3.1 - FEEDLY NORMALIZATION LAYER
  * Follows strict ingestion rules:
  * 1. Single upstream (Feedly Stream)
  * 2. Local snapshot persistence (No blocking loads)
- * 3. Canonical link preservation
+ * 3. Seed fallback if config is missing (Never breaks)
  */
 
 const FEEDLY_BASE = 'https://api.feedly.com/v3';
-// Environment variables injected via build process or platform
 const FEEDLY_TOKEN = process.env.FEEDLY_TOKEN || '';
 const FEEDLY_STREAM_ID = process.env.FEEDLY_STREAM_ID || '';
 const DEFAULT_IMAGE = process.env.DEFAULT_NEWS_IMAGE_URL || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop';
 
-// DB Simulation Keys (LocalStorage)
 const DB_ITEMS_KEY = 'news_items_v2';
 const DB_SNAPSHOTS_KEY = 'news_snapshots_v2';
 
@@ -24,22 +22,54 @@ interface NewsSnapshot {
   created_at: number;
   last_success_at: number;
   item_ids: string[];
-  status: 'valid' | 'failed';
+  status: 'valid' | 'failed' | 'seed';
   failure_reason?: string;
 }
+
+// High-quality seed data for first-run or missing-config scenarios
+const SEED_DATA: AINewsItem[] = [
+  {
+    id: 'seed-1',
+    title: 'OpenAI Introduces GPT-5: A New Frontier in Reasoning',
+    url: 'https://openai.com/blog',
+    source: 'OpenAI Official',
+    published_at: new Date().toISOString(),
+    image_url: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop',
+    excerpt: 'The latest model achieves unprecedented benchmarks in complex problem solving and creative synthesis...',
+    tags: ['ai', 'frontier']
+  },
+  {
+    id: 'seed-2',
+    title: 'Anthropic Launches Claude 4: Focus on Machine Ethics',
+    url: 'https://www.anthropic.com/news',
+    source: 'Anthropic',
+    published_at: new Date(Date.now() - 86400000).toISOString(),
+    image_url: 'https://images.unsplash.com/photo-1620712943543-bcc4628c6757?q=80&w=800&auto=format&fit=crop',
+    excerpt: 'New interpretability features allow developers to peek inside the black box of LLM decision making...',
+    tags: ['ai', 'safety']
+  },
+  {
+    id: 'seed-3',
+    title: 'DeepMind AlphaGeometry 2 Solves IMO Problems in Real-Time',
+    url: 'https://deepmind.google/blog',
+    source: 'Google DeepMind',
+    published_at: new Date(Date.now() - 172800000).toISOString(),
+    image_url: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800&auto=format&fit=crop',
+    excerpt: 'A significant breakthrough in symbolic reasoning and mathematical logic for automated agents...',
+    tags: ['ai', 'math']
+  }
+];
 
 export const newsService = {
   _isSyncing: false,
 
-  /**
-   * Home page accessor. 
-   * Reads ONLY the latest valid snapshot. Zero network delay.
-   */
-  getLatestSnapshotItems(): { items: AINewsItem[], lastUpdate: number } {
+  getLatestSnapshotItems(): { items: AINewsItem[], lastUpdate: number, isConfigured: boolean } {
     const snapshots = this._getSnapshots();
-    const latest = snapshots.find(s => s.status === 'valid');
+    const latest = snapshots.find(s => s.status === 'valid' || s.status === 'seed');
     
-    if (!latest) return { items: [], lastUpdate: 0 };
+    const isConfigured = !!(FEEDLY_TOKEN && FEEDLY_STREAM_ID);
+
+    if (!latest) return { items: [], lastUpdate: 0, isConfigured };
 
     const allItems = this._getItems();
     const snapshotItems = latest.item_ids
@@ -48,19 +78,17 @@ export const newsService = {
 
     return { 
       items: snapshotItems, 
-      lastUpdate: latest.last_success_at 
+      lastUpdate: latest.last_success_at,
+      isConfigured
     };
   },
 
-  /**
-   * Main sync trigger. 
-   * Runs in background, updates snapshots on success.
-   */
   async sync(force = false): Promise<void> {
     const now = Date.now();
-    const lastSnapshot = this._getSnapshots().find(s => s.status === 'valid');
+    const snapshots = this._getSnapshots();
+    const lastSnapshot = snapshots.find(s => s.status === 'valid' || s.status === 'seed');
     
-    // Ingestion frequency: 5 minutes
+    // Ingestion frequency check
     if (!force && lastSnapshot && (now - lastSnapshot.last_success_at < 300000)) {
       return;
     }
@@ -69,6 +97,17 @@ export const newsService = {
     this._isSyncing = true;
 
     try {
+      // Configuration check with graceful fallback
+      if (!FEEDLY_TOKEN || !FEEDLY_STREAM_ID) {
+        if (!lastSnapshot || lastSnapshot.status === 'failed') {
+          console.warn('[News Pipeline] Configuration missing (FEEDLY_TOKEN/STREAM_ID). Deploying seed data snapshot.');
+          this._deploySeedSnapshot();
+        } else {
+          console.debug('[News Pipeline] Config missing, maintaining existing snapshot.');
+        }
+        return;
+      }
+
       const newerThan = lastSnapshot ? lastSnapshot.last_success_at : undefined;
       const feedlyData = await this._fetchFeedsFromFeedly(newerThan);
       
@@ -78,15 +117,12 @@ export const newsService = {
 
       const normalizedItems = this._normalizeFeedlyItems(feedlyData.items);
       
-      // Update DB Items (Upsert)
       const currentItems = this._getItems();
       normalizedItems.forEach(item => {
         currentItems[item.id] = item;
       });
       this._saveItems(currentItems);
 
-      // Create New Snapshot (Top 30 newest)
-      // Fix: Explicitly cast to AINewsItem[] to avoid property access errors on 'unknown'
       const itemsList = Object.values(currentItems) as AINewsItem[];
       const snapshotItemIds = itemsList
         .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())
@@ -110,7 +146,7 @@ export const newsService = {
         last_success_at: lastSnapshot?.last_success_at || 0,
         item_ids: lastSnapshot?.item_ids || [],
         status: 'failed',
-        failure_reason: error instanceof Error ? error.message : 'Unknown transport error'
+        failure_reason: error instanceof Error ? error.message : 'Transport error'
       };
       this._saveSnapshot(failedSnapshot);
     } finally {
@@ -118,13 +154,24 @@ export const newsService = {
     }
   },
 
-  // Internal helper methods (removed invalid 'private' modifiers)
+  _deploySeedSnapshot() {
+    const currentItems = this._getItems();
+    SEED_DATA.forEach(item => {
+      currentItems[item.id] = item;
+    });
+    this._saveItems(currentItems);
+
+    const newSnapshot: NewsSnapshot = {
+      id: `seed_${Date.now()}`,
+      created_at: Date.now(),
+      last_success_at: Date.now(),
+      item_ids: SEED_DATA.map(i => i.id),
+      status: 'seed'
+    };
+    this._saveSnapshot(newSnapshot);
+  },
 
   async _fetchFeedsFromFeedly(newerThan?: number): Promise<any> {
-    if (!FEEDLY_TOKEN || !FEEDLY_STREAM_ID) {
-      throw new Error('Missing environment configuration: FEEDLY_TOKEN or FEEDLY_STREAM_ID');
-    }
-
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
@@ -156,17 +203,12 @@ export const newsService = {
     
     return items
       .map(item => {
-        // 1. Link Resolution (Canonical > Alternate)
         const url = item.canonicalUrl || (item.alternate && item.alternate[0]?.href);
         if (!url || !url.startsWith('http')) return null;
 
-        // 2. Source Resolution
         const source = item.origin?.title || this._extractDomain(item.originId) || 'AI Stream';
-
-        // 3. Image Resolution
         const image_url = item.visual?.url || DEFAULT_IMAGE;
 
-        // 4. Excerpt Cleaning
         const excerpt = item.summary?.content 
           ? this._stripHtml(item.summary.content).slice(0, 240)
           : '';
@@ -214,7 +256,6 @@ export const newsService = {
     return Math.abs(hash).toString(36);
   },
 
-  // Storage Accessors (Removed invalid 'private' modifiers)
   _getItems(): Record<string, AINewsItem> {
     const raw = localStorage.getItem(DB_ITEMS_KEY);
     return raw ? JSON.parse(raw) : {};
@@ -232,7 +273,6 @@ export const newsService = {
   _saveSnapshot(snapshot: NewsSnapshot) {
     const snapshots = this._getSnapshots();
     snapshots.unshift(snapshot);
-    // Keep last 10 snapshots for debugging/fallback
     localStorage.setItem(DB_SNAPSHOTS_KEY, JSON.stringify(snapshots.slice(0, 10)));
   }
 };

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { newsService } from '../services/newsService.ts';
 import { AINewsItem } from '../types.ts';
 import { AINewsCard } from './AINewsCard.tsx';
-import { Filter, ChevronDown, RefreshCw, Globe, Search, Clock } from 'lucide-react';
+import { Filter, ChevronDown, RefreshCw, Globe, Search, Clock, AlertTriangle } from 'lucide-react';
 
 const SkeletonCard = () => (
   <div className="bg-white dark:bg-white/5 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 h-[450px] animate-pulse">
@@ -34,14 +34,12 @@ export const AINewsFeed: React.FC = () => {
   };
 
   useEffect(() => {
-    // Immediate background sync trigger
     fetchData();
-    // 5-minute polling interval (as requested)
     const interval = setInterval(() => fetchData(), 300000); 
     return () => clearInterval(interval);
   }, []);
 
-  const { items, lastUpdate } = snapshotData;
+  const { items, lastUpdate, isConfigured } = snapshotData;
 
   const sources = useMemo(() => {
     const s = new Set(items.map(i => i.source));
@@ -65,11 +63,22 @@ export const AINewsFeed: React.FC = () => {
       {/* Header & Pipeline Status */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-3 text-center md:text-left">
-          <div className="inline-flex items-center gap-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
-              <div className={`w-1.5 h-1.5 rounded-full ${isSyncing ? 'bg-blue-500 animate-spin' : 'bg-emerald-500 animate-pulse'}`} />
-              Feedly Stream: {isSyncing ? 'Ingesting Data' : 'Snapshot Validated'}
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+            <div className={`inline-flex items-center gap-2 px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-md border ${
+              isConfigured 
+                ? 'bg-blue-600/10 text-blue-600 dark:text-blue-400 border-blue-600/20' 
+                : 'bg-orange-600/10 text-orange-600 dark:text-orange-400 border-orange-600/20'
+            }`}>
+              <div className={`w-1.5 h-1.5 rounded-full ${
+                isSyncing ? 'bg-blue-500 animate-spin' : isConfigured ? 'bg-emerald-500 animate-pulse' : 'bg-orange-500'
+              }`} />
+              {isSyncing ? 'Ingesting Data' : isConfigured ? 'Snapshot Validated' : 'Seed Data Fallback'}
             </div>
+            {!isConfigured && (
+              <div className="flex items-center gap-1.5 text-[9px] font-mono font-bold text-orange-500 uppercase tracking-widest bg-orange-500/10 px-2 py-1 rounded-md border border-orange-500/20">
+                <AlertTriangle size={10} /> Config Required
+              </div>
+            )}
             {lastUpdate > 0 && (
               <div className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">
                 <Clock size={12} /> Last Updated: {lastUpdateStr}
@@ -112,7 +121,7 @@ export const AINewsFeed: React.FC = () => {
             <Search size={48} className="opacity-20" />
             <div className="text-center space-y-2">
               <p className="text-xs font-mono font-bold uppercase tracking-[0.3em]">No Intelligence Snapshot Detected</p>
-              <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Awaiting Feedly Ingress</p>
+              <p className="text-[10px] font-mono text-slate-500 uppercase italic">Check environment variables or sync node.</p>
             </div>
             <button 
               onClick={() => fetchData(true)}
