@@ -9,12 +9,11 @@ const RSS_FEEDS = [
   { name: 'MIT AI', url: 'https://news.mit.edu/topic/mitartificial-intelligence2-rss.xml' }
 ];
 
-// Using a high-availability proxy for CORS bypass
 const PROXY_URL = 'https://api.allorigins.win/get?url=';
-const CACHE_KEY = 'shizzy_intel_pipeline_v6';
-const CACHE_EXPIRY = 300000; // 5 minutes
+const CACHE_KEY = 'shizzy_intel_pipeline_v8';
+const STALE_THRESHOLD = 300000; // 5 minutes
+const SYNC_TIMEOUT = 5000; // 5 seconds hard timeout per feed
 
-// CURATED PREMIUM FALLBACKS (Used if live stream is throttled or offline)
 const CURATED_INTEL: AINewsItem[] = [
   {
     id: 'curated-agentic-2026',
@@ -25,31 +24,49 @@ const CURATED_INTEL: AINewsItem[] = [
     excerpt: 'While retail watches price, institutional capital is shifting toward the agentic layer. We are moving from humans using wallets to software controlling capital.',
     image_url: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop',
     tags: ['exclusive', 'agents']
-  },
-  {
-    id: 'curated-gpt-next',
-    source: 'INTEL',
-    title: 'GPT-Next: Decoding the Reasoning Breakthroughs of 2026',
-    url: 'https://openai.com/news/',
-    published_at: new Date(Date.now() - 3600000).toISOString(),
-    excerpt: 'The leap from chat to logic: How the latest model architectures are solving complex multi-step reasoning without human intervention.',
-    image_url: 'https://images.unsplash.com/photo-1620712943543-bcc4628c6757?q=80&w=1200&auto=format&fit=crop',
-    tags: ['ai', 'research']
   }
 ];
 
 export const newsService = {
-  async fetchAllFeeds(): Promise<AINewsItem[]> {
-    console.log('[Pipeline] Establishing high-fidelity AI data link...');
-    
+  private_isSyncing: false,
+
+  async fetchAllFeeds(force = false): Promise<AINewsItem[]> {
     const cached = localStorage.getItem(CACHE_KEY);
+    const now = Date.now();
+    
+    let cacheData: AINewsItem[] = [];
+    let timestamp = 0;
+
     if (cached) {
-      const { data, timestamp } = JSON.parse(cached);
-      if (Date.now() - timestamp < CACHE_EXPIRY && data.length > 5) {
-        return data;
+      try {
+        const parsed = JSON.parse(cached);
+        cacheData = parsed.data || [];
+        timestamp = parsed.timestamp || 0;
+      } catch (e) {
+        localStorage.removeItem(CACHE_KEY);
       }
     }
 
+    const isStale = now - timestamp > STALE_THRESHOLD;
+    const isMissing = cacheData.length < 3;
+
+    if (!isMissing && !force) {
+      if (isStale) {
+        this.syncInBackground(); // Silent background sync
+      }
+      return cacheData;
+    }
+
+    return await this.syncInBackground();
+  },
+
+  async syncInBackground(): Promise<AINewsItem[]> {
+    if (this.private_isSyncing) {
+      const cached = localStorage.getItem(CACHE_KEY);
+      return cached ? JSON.parse(cached).data : CURATED_INTEL;
+    }
+
+    this.private_isSyncing = true;
     try {
       const ts = Date.now();
       const results = await Promise.allSettled(
@@ -61,7 +78,6 @@ export const newsService = {
         .map(r => r.value)
         .flat();
 
-      // Prioritize live news, but keep curated at the top for brand consistency
       const merged = this.processNewsItems([...CURATED_INTEL, ...liveItems]);
       
       localStorage.setItem(CACHE_KEY, JSON.stringify({
@@ -71,18 +87,23 @@ export const newsService = {
 
       return merged;
     } catch (error) {
-      console.error('[Pipeline] Global sync failure, reverting to curated local node.', error);
+      console.error('[Pipeline] Sync failure:', error);
       return CURATED_INTEL;
+    } finally {
+      this.private_isSyncing = false;
     }
   },
 
   async fetchSingleFeed(feed: { name: string, url: string }, ts: number): Promise<AINewsItem[]> {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      const timeoutId = setTimeout(() => controller.abort(), SYNC_TIMEOUT);
 
+      // Append cache buster to bypass proxy cache
       const targetUrl = `${feed.url}${feed.url.includes('?') ? '&' : '?'}pipeline_sync=${ts}`;
-      const response = await fetch(`${PROXY_URL}${encodeURIComponent(targetUrl)}`, { signal: controller.signal });
+      const response = await fetch(`${PROXY_URL}${encodeURIComponent(targetUrl)}`, { 
+        signal: controller.signal 
+      });
       clearTimeout(timeoutId);
 
       if (!response.ok) return [];
@@ -93,30 +114,64 @@ export const newsService = {
       
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-      const items = xmlDoc.querySelectorAll('item, entry');
+      const entries = xmlDoc.querySelectorAll('item, entry');
       const newsItems: AINewsItem[] = [];
       
-      items.forEach(item => {
+      const feedBaseUrl = new URL(feed.url).origin;
+
+      entries.forEach(item => {
         const title = item.querySelector('title')?.textContent?.trim() || '';
         
-        // Robust Link Extraction for both RSS and Atom
+        // 1. SELECT CORRECT LINK BASED ON SPEC
         let url = '';
-        const linkTag = item.querySelector('link');
-        if (linkTag) {
-          url = linkTag.getAttribute('href') || linkTag.textContent || '';
-        }
         
-        // Secondary check for Atom alternate links
-        if (!url || !url.startsWith('http')) {
-          const links = Array.from(item.querySelectorAll('link'));
-          const altLink = links.find(l => l.getAttribute('rel') === 'alternate' || l.getAttribute('href')?.startsWith('http'));
-          url = altLink?.getAttribute('href') || url;
+        // Try RSS 2.0 <link>
+        const rssLink = item.querySelector('link');
+        if (rssLink) {
+          // Check if it's text content (RSS) or href attribute (Atom)
+          url = rssLink.textContent?.trim() || rssLink.getAttribute('href') || '';
         }
 
-        const published_at = item.querySelector('pubDate, published, updated')?.textContent || new Date().toISOString();
-        const contentStr = item.querySelector('description, summary, content')?.textContent || '';
-        
-        if (title && url && url.startsWith('http')) {
+        // Try Atom <link rel="alternate"> if primary link is empty or relative
+        if (!url || !url.startsWith('http')) {
+          const links = Array.from(item.querySelectorAll('link'));
+          const alt = links.find(l => l.getAttribute('rel') === 'alternate');
+          if (alt) {
+            url = alt.getAttribute('href') || '';
+          }
+        }
+
+        // Try <guid> if isPermaLink is true or it looks like a URL
+        if (!url || !url.startsWith('http')) {
+          const guid = item.querySelector('guid');
+          if (guid) {
+            const isPerma = guid.getAttribute('isPermaLink') !== 'false';
+            const guidText = guid.textContent?.trim() || '';
+            if (isPerma && guidText.startsWith('http')) {
+              url = guidText;
+            }
+          }
+        }
+
+        // 2. CANONICALIZE & ABSOLUTIZE
+        if (url && !url.startsWith('http')) {
+          try {
+            url = new URL(url, feedBaseUrl).toString();
+          } catch (e) {
+            url = ''; // Invalid URL construction
+          }
+        }
+
+        // 3. VALIDATE
+        const isValid = url && 
+                        url.startsWith('http') && 
+                        url !== feed.url && // Don't link back to the feed itself
+                        !url.includes('rss.xml');
+
+        if (title && isValid) {
+          const published_at = item.querySelector('pubDate, published, updated')?.textContent || new Date().toISOString();
+          const contentStr = item.querySelector('description, summary, content')?.textContent || '';
+          
           newsItems.push({
             id: this.generateStableId(url, title),
             source: feed.name,
@@ -125,7 +180,7 @@ export const newsService = {
             published_at: new Date(published_at).toISOString(),
             excerpt: this.cleanExcerpt(contentStr),
             image_url: this.extractImage(item, contentStr),
-            tags: ['ai', feed.name.toLowerCase().replace(/\s/g, '')]
+            tags: ['ai']
           });
         }
       });
@@ -145,11 +200,18 @@ export const newsService = {
         return true;
       })
       .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())
-      .slice(0, 50);
+      .slice(0, 40);
   },
 
   generateStableId(url: string, title: string): string {
-    return btoa(url.slice(-15) + title.slice(0, 10)).replace(/[^a-zA-Z0-9]/g, '').slice(0, 12);
+    // Generate a short, stable ID based on the unique URL
+    let hash = 0;
+    const str = url + title;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash).toString(36);
   },
 
   cleanExcerpt(text: string): string {
@@ -160,21 +222,14 @@ export const newsService = {
   },
 
   extractImage(item: Element, content: string): string {
-    const mediaTags = ['media\\:content', 'media:content', 'media\\:thumbnail', 'media:thumbnail', 'enclosure'];
+    const mediaTags = ['media\\:content', 'media:content', 'enclosure', 'media\\:thumbnail', 'media:thumbnail'];
     for (const tag of mediaTags) {
       const el = item.querySelector(tag);
       const url = el?.getAttribute('url');
       if (url && (url.includes('jpg') || url.includes('png') || url.includes('webp') || url.includes('jpeg'))) return url;
     }
-    
     const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
     if (imgMatch?.[1] && !imgMatch[1].includes('pixel')) return imgMatch[1];
-    
-    const fallbacks = [
-      'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1620712943543-bcc4628c6757?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1593349480506-8433a14cc185?q=80&w=800&auto=format&fit=crop'
-    ];
-    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    return `https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop`;
   }
 };

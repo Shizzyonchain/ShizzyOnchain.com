@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { newsService } from '../services/newsService.ts';
 import { AINewsItem } from '../types.ts';
 import { AINewsCard } from './AINewsCard.tsx';
-import { Zap, Filter, ChevronDown, RefreshCw, Layers, Globe } from 'lucide-react';
+import { Filter, ChevronDown, RefreshCw, Globe, Zap } from 'lucide-react';
 
 const SkeletonCard = () => (
   <div className="bg-white dark:bg-white/5 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 h-[450px] animate-pulse">
@@ -25,7 +25,7 @@ export const AINewsFeed: React.FC = () => {
   const fetchData = async (force = false) => {
     if (force) setIsSyncing(true);
     try {
-      const data = await newsService.fetchAllFeeds();
+      const data = await newsService.fetchAllFeeds(force);
       setItems(data);
     } catch (e) {
       console.error('Pipeline error:', e);
@@ -37,7 +37,8 @@ export const AINewsFeed: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(() => fetchData(true), 300000); // 5 min sync
+    // Background polling every 5 minutes to keep the local cache fresh
+    const interval = setInterval(() => fetchData(), 300000);
     return () => clearInterval(interval);
   }, []);
 
@@ -51,7 +52,7 @@ export const AINewsFeed: React.FC = () => {
     if (sourceFilter !== 'All Sources') {
       result = result.filter(i => i.source === sourceFilter);
     }
-    return result.slice(0, 24);
+    return result.slice(0, 30);
   }, [items, sourceFilter]);
 
   return (
@@ -85,7 +86,7 @@ export const AINewsFeed: React.FC = () => {
             onClick={() => fetchData(true)}
             disabled={isSyncing}
             className="p-3.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all disabled:opacity-50 shadow-sm"
-            title="Refresh Stream"
+            title="Force Pipeline Sync"
           >
             <RefreshCw size={18} className={isSyncing ? 'animate-spin' : ''} />
           </button>
@@ -101,10 +102,10 @@ export const AINewsFeed: React.FC = () => {
         )}
       </div>
 
-      {/* Hybrid Footer Info */}
+      {/* Pipeline Status Footer */}
       <div className="pt-10 flex flex-col items-center justify-center gap-4 opacity-50">
         <div className="flex items-center gap-3 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-[0.4em]">
-          <Globe size={14} className="text-blue-500" /> Decentralized Global News Synthesis Active
+          <Globe size={14} className="text-blue-500" /> High-Performance AI Pipeline Active
         </div>
       </div>
     </div>
