@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { newsService } from '../services/newsService.ts';
 import { AINewsItem } from '../types.ts';
 import { AINewsCard } from './AINewsCard.tsx';
-import { Zap, Filter, ChevronDown, RefreshCw, Layers } from 'lucide-react';
+import { Zap, Filter, ChevronDown, RefreshCw, Layers, Globe } from 'lucide-react';
 
 const SkeletonCard = () => (
   <div className="bg-white dark:bg-white/5 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 h-[450px] animate-pulse">
@@ -37,7 +37,7 @@ export const AINewsFeed: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(() => fetchData(true), 120000); // 2 min sync
+    const interval = setInterval(() => fetchData(true), 300000); // 5 min sync
     return () => clearInterval(interval);
   }, []);
 
@@ -47,21 +47,24 @@ export const AINewsFeed: React.FC = () => {
   }, [items]);
 
   const filteredItems = useMemo(() => {
-    if (sourceFilter === 'All Sources') return items.slice(0, 12);
-    return items.filter(i => i.source === sourceFilter).slice(0, 12);
+    let result = [...items];
+    if (sourceFilter !== 'All Sources') {
+      result = result.filter(i => i.source === sourceFilter);
+    }
+    return result.slice(0, 24);
   }, [items, sourceFilter]);
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 animate-in fade-in duration-1000">
       {/* Header & Pipeline Status */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-3 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-emerald-500/20">
-            <div className={`w-1.5 h-1.5 rounded-full ${isSyncing ? 'bg-orange-500 animate-spin' : 'bg-emerald-500 animate-pulse'}`} />
-            Pipeline: {isSyncing ? 'Synchronizing Node' : 'Intelligence Secured'}
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
+            <div className={`w-1.5 h-1.5 rounded-full ${isSyncing ? 'bg-blue-500 animate-spin' : 'bg-emerald-500 animate-pulse'}`} />
+            Pipeline: {isSyncing ? 'Synchronizing Global Node' : 'Latest AI News Secured'}
           </div>
           <h2 className="text-5xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-[0.9]">
-            INTEL <span className="text-blue-600">FEED</span>
+            LATEST AI <span className="text-blue-600">NEWS</span>
           </h2>
         </div>
 
@@ -81,7 +84,8 @@ export const AINewsFeed: React.FC = () => {
           <button 
             onClick={() => fetchData(true)}
             disabled={isSyncing}
-            className="p-3.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all disabled:opacity-50"
+            className="p-3.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all disabled:opacity-50 shadow-sm"
+            title="Refresh Stream"
           >
             <RefreshCw size={18} className={isSyncing ? 'animate-spin' : ''} />
           </button>
@@ -100,7 +104,7 @@ export const AINewsFeed: React.FC = () => {
       {/* Hybrid Footer Info */}
       <div className="pt-10 flex flex-col items-center justify-center gap-4 opacity-50">
         <div className="flex items-center gap-3 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-[0.4em]">
-          <Layers size={14} /> Global Intelligence Synthesis Active
+          <Globe size={14} className="text-blue-500" /> Decentralized Global News Synthesis Active
         </div>
       </div>
     </div>
