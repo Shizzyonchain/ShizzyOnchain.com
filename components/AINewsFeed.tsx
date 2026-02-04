@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { newsService } from '../services/newsService.ts';
 import { AINewsItem } from '../types.ts';
 import { AINewsCard } from './AINewsCard.tsx';
-import { Filter, ChevronDown, RefreshCw, Globe, Search } from 'lucide-react';
+import { Filter, ChevronDown, RefreshCw, Globe, Search, Clock } from 'lucide-react';
 
 const SkeletonCard = () => (
   <div className="bg-white dark:bg-white/5 rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 h-[450px] animate-pulse">
@@ -17,29 +17,31 @@ const SkeletonCard = () => (
 );
 
 export const AINewsFeed: React.FC = () => {
-  const [items, setItems] = useState<AINewsItem[]>(() => newsService.getCachedNews());
-  const [loading, setLoading] = useState(() => newsService.getCachedNews().length === 0);
+  const [snapshotData, setSnapshotData] = useState(() => newsService.getLatestSnapshotItems());
   const [sourceFilter, setSourceFilter] = useState('All Sources');
   const [isSyncing, setIsSyncing] = useState(false);
 
   const fetchData = async (force = false) => {
     if (force) setIsSyncing(true);
     try {
-      const data = await newsService.fetchAllFeeds(force);
-      setItems(data);
+      await newsService.sync(force);
+      setSnapshotData(newsService.getLatestSnapshotItems());
     } catch (e) {
-      console.error('Pipeline error:', e);
+      console.error('Snapshot update failed:', e);
     } finally {
-      setLoading(false);
       setIsSyncing(false);
     }
   };
 
   useEffect(() => {
+    // Immediate background sync trigger
     fetchData();
+    // 5-minute polling interval (as requested)
     const interval = setInterval(() => fetchData(), 300000); 
     return () => clearInterval(interval);
   }, []);
+
+  const { items, lastUpdate } = snapshotData;
 
   const sources = useMemo(() => {
     const s = new Set(items.map(i => i.source));
@@ -51,17 +53,28 @@ export const AINewsFeed: React.FC = () => {
     if (sourceFilter !== 'All Sources') {
       result = result.filter(i => i.source === sourceFilter);
     }
-    return result.slice(0, 30);
+    return result;
   }, [items, sourceFilter]);
+
+  const lastUpdateStr = lastUpdate 
+    ? new Date(lastUpdate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    : '--:--';
 
   return (
     <div className="space-y-12 animate-in fade-in duration-700">
       {/* Header & Pipeline Status */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-3 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
-            <div className={`w-1.5 h-1.5 rounded-full ${isSyncing ? 'bg-blue-500 animate-spin' : 'bg-emerald-500 animate-pulse'}`} />
-            Intelligence Node: {isSyncing ? 'Syncing External Streams' : 'Verified AI Intel Active'}
+          <div className="inline-flex items-center gap-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
+              <div className={`w-1.5 h-1.5 rounded-full ${isSyncing ? 'bg-blue-500 animate-spin' : 'bg-emerald-500 animate-pulse'}`} />
+              Feedly Stream: {isSyncing ? 'Ingesting Data' : 'Snapshot Validated'}
+            </div>
+            {lastUpdate > 0 && (
+              <div className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">
+                <Clock size={12} /> Last Updated: {lastUpdateStr}
+              </div>
+            )}
           </div>
           <h2 className="text-5xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-[0.9]">
             LATEST AI <span className="text-blue-600">NEWS</span>
@@ -85,7 +98,7 @@ export const AINewsFeed: React.FC = () => {
             onClick={() => fetchData(true)}
             disabled={isSyncing}
             className="p-3.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all disabled:opacity-50 shadow-sm"
-            title="Force Pipeline Sync"
+            title="Force Snapshot Sync"
           >
             <RefreshCw size={18} className={isSyncing ? 'animate-spin' : ''} />
           </button>
@@ -94,14 +107,12 @@ export const AINewsFeed: React.FC = () => {
 
       {/* Content Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {loading ? (
-          Array(6).fill(0).map((_, i) => <SkeletonCard key={i} />)
-        ) : filteredItems.length === 0 ? (
+        {items.length === 0 && !isSyncing ? (
           <div className="col-span-full py-24 flex flex-col items-center justify-center gap-6 text-slate-400">
             <Search size={48} className="opacity-20" />
             <div className="text-center space-y-2">
-              <p className="text-xs font-mono font-bold uppercase tracking-[0.3em]">No Intelligence Detected</p>
-              <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Pipeline sync required to ingress external data</p>
+              <p className="text-xs font-mono font-bold uppercase tracking-[0.3em]">No Intelligence Snapshot Detected</p>
+              <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Awaiting Feedly Ingress</p>
             </div>
             <button 
               onClick={() => fetchData(true)}
@@ -110,6 +121,8 @@ export const AINewsFeed: React.FC = () => {
               Initialize Sync
             </button>
           </div>
+        ) : items.length === 0 && isSyncing ? (
+          Array(6).fill(0).map((_, i) => <SkeletonCard key={i} />)
         ) : (
           filteredItems.map(item => <AINewsCard key={item.id} item={item} />)
         )}
@@ -118,7 +131,7 @@ export const AINewsFeed: React.FC = () => {
       {/* Pipeline Status Footer */}
       <div className="pt-10 flex flex-col items-center justify-center gap-4 opacity-50">
         <div className="flex items-center gap-3 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-[0.4em]">
-          <Globe size={14} className="text-blue-500" /> External Node Access Verified
+          <Globe size={14} className="text-blue-500" /> Feedly Upstream Normalization Active
         </div>
       </div>
     </div>

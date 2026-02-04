@@ -15,6 +15,7 @@ export const AINewsCard: React.FC<AINewsCardProps> = ({ item }) => {
   });
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    // Revert to default image if Feedly's visual URL fails
     e.currentTarget.src = 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop';
   };
 
@@ -58,7 +59,7 @@ export const AINewsCard: React.FC<AINewsCardProps> = ({ item }) => {
           
           <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-white/5">
             <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.3em] font-mono inline-flex items-center gap-2 group-hover:translate-x-1 transition-transform">
-              OPEN INTELLIGENCE SOURCE <ExternalLink size={14} />
+              PUBLISHER SOURCE <ExternalLink size={14} />
             </span>
           </div>
         </div>
