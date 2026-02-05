@@ -6,20 +6,42 @@ import { ResearchDashboard } from './components/ResearchDashboard.tsx';
 import { DefiDashboard } from './components/DefiDashboard.tsx';
 import { BubblesDashboard } from './components/BubblesDashboard.tsx';
 import { Overview } from './components/Overview.tsx';
+import { AINewsFeed } from './components/AINewsFeed.tsx';
+import { CryptoNewsFeed } from './components/CryptoNewsFeed.tsx';
+import { VideosFeed } from './components/VideosFeed.tsx';
+import { ArticleDetailView } from './components/ArticleDetailView.tsx';
+import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
+import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
 import { View } from './types.ts';
 import { SOCIAL_LINKS } from './constants.tsx';
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [currentView, setCurrentView] = useState<View>('home');
+  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash || '#/home';
+      
+      if (hash.startsWith('#/article/')) {
+        const id = hash.replace('#/article/', '');
+        setSelectedArticleId(id);
+        setCurrentView('article-detail');
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      setSelectedArticleId(null);
       if (hash === '#/overview') setCurrentView('overview');
+      else if (hash === '#/ainews') setCurrentView('ainews');
+      else if (hash === '#/cryptonews') setCurrentView('cryptonews');
+      else if (hash === '#/videos') setCurrentView('videos');
       else if (hash === '#/research') setCurrentView('research');
       else if (hash === '#/defi') setCurrentView('defi');
       else if (hash === '#/bubbles') setCurrentView('bubbles');
+      else if (hash === '#/aicoins') setCurrentView('aicoins');
+      else if (hash === '#/tao-alpha') setCurrentView('tao-alpha');
       else setCurrentView('home');
     };
 
@@ -44,6 +66,9 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
+    if (currentView === 'article-detail' && selectedArticleId) {
+      return <ArticleDetailView articleId={selectedArticleId} onBack={() => window.history.back()} />;
+    }
     if (currentView === 'research') return (
       <div className="max-w-[1400px] mx-auto py-10 px-6">
         <ResearchDashboard />
@@ -55,8 +80,24 @@ const App: React.FC = () => {
       </div>
     );
     if (currentView === 'bubbles') return <BubblesDashboard />;
+    if (currentView === 'aicoins') return <AICoinsDashboard />;
+    if (currentView === 'tao-alpha') return <TaoAlphaDashboard />;
+    if (currentView === 'ainews') return (
+      <div className="max-w-[1400px] mx-auto px-6">
+        <AINewsFeed />
+      </div>
+    );
+    if (currentView === 'cryptonews') return (
+      <div className="max-w-[1400px] mx-auto px-6">
+        <CryptoNewsFeed />
+      </div>
+    );
+    if (currentView === 'videos') return (
+      <div className="max-w-[1400px] mx-auto px-6 py-10">
+        <VideosFeed />
+      </div>
+    );
 
-    // Overview acts as the primary Home screen
     return <Overview />;
   };
 
@@ -70,9 +111,9 @@ const App: React.FC = () => {
       {currentView !== 'bubbles' && (
         <footer className="max-w-[1400px] mx-auto px-6 py-20 border-t border-slate-200 dark:border-white/5 text-center">
           <img src={SOCIAL_LINKS.logo} alt="Logo" className="h-16 mx-auto mb-8 opacity-50 hover:opacity-100 transition-opacity" />
-          <p className="text-[10px] text-slate-500 font-mono uppercase tracking-[0.2em] leading-relaxed">
-            SHIZZY UNCHAINED: Manual AI Intelligence Node.<br/>
-            Educational purposes only. No financial advice.
+          <p className="text-[11px] text-slate-500 font-mono uppercase tracking-[0.2em] leading-relaxed">
+            Shizzy Unchained is an independent AI and crypto media project.<br/>
+            For education and discussion only. Not financial advice.
           </p>
         </footer>
       )}

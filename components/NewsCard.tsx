@@ -47,8 +47,6 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
             </span>
             <div className="flex items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400 font-bold font-mono uppercase tracking-widest">
               <span className="text-blue-500">BY {article.author}</span>
-              <span className="w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full"></span>
-              <span>{article.timestamp}</span>
             </div>
           </div>
           
@@ -88,7 +86,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
           </div>
           <div className="grid grid-cols-1 gap-10">
             {article.content.map((p, i) => (
-              <p key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-inter opacity-90 first-letter:text-4xl first-letter:font-black first-letter:text-blue-600 first-letter:mr-1">
+              <p key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-inter opacity-90 first-letter:text-blue-600 first-letter:font-black">
                 {p}
               </p>
             ))}

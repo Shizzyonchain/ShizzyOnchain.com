@@ -1,19 +1,13 @@
 
 import React from 'react';
 import { AINewsItem } from '../types.ts';
-import { ExternalLink, Clock, Zap } from 'lucide-react';
+import { ExternalLink, Zap } from 'lucide-react';
 
 interface AINewsCardProps {
   item: AINewsItem;
 }
 
 export const AINewsCard: React.FC<AINewsCardProps> = ({ item }) => {
-  const dateStr = new Date(item.published_at).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
-
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     // Revert to default image if Feedly's visual URL fails
     e.currentTarget.src = 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop';
@@ -44,11 +38,6 @@ export const AINewsCard: React.FC<AINewsCardProps> = ({ item }) => {
         </div>
         
         <div className="p-8 flex flex-col flex-grow bg-gradient-to-b from-transparent to-slate-50/30 dark:to-white/[0.01]">
-          <div className="flex items-center gap-3 mb-5 text-[10px] font-bold font-mono text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-            <Clock size={12} className="text-blue-500" />
-            <span>{dateStr}</span>
-          </div>
-          
           <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white leading-[1.15] mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-space italic uppercase tracking-tight">
             {item.title}
           </h3>

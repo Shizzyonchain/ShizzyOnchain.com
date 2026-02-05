@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { HOT_STORIES } from '../constants.tsx';
-import { Flame, Calendar, ChevronRight } from 'lucide-react';
+import { Flame, ChevronRight } from 'lucide-react';
 
 interface SidebarProps {
   onStoryClick: (id: string) => void;
@@ -14,6 +14,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
   }
 
   const displayStories = HOT_STORIES.slice(0, 10);
+
+  const handleStoryClick = (id: string) => {
+    window.location.hash = `#/article/${id}`;
+  };
 
   return (
     <aside className="space-y-6">
@@ -29,16 +33,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
           {displayStories.map((story) => (
             <button 
               key={story.id} 
-              onClick={() => onStoryClick(story.id)}
+              onClick={() => handleStoryClick(story.id)}
               className="group w-full text-left focus:outline-none block"
             >
-              <h4 className="text-[14px] md:text-[15px] font-bold text-slate-800 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-inter">
+              <h4 className="text-[14px] md:text-[15px] font-bold text-slate-800 dark:text-slate-200 leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-inter uppercase">
                 {story.title}
               </h4>
-              <div className="flex items-center gap-1.5 mt-2.5 text-[10px] text-slate-500 dark:text-slate-500 font-bold font-mono uppercase tracking-widest">
-                <Calendar size={11} className="text-blue-500" />
-                <span>{story.date}</span>
-              </div>
             </button>
           ))}
         </div>

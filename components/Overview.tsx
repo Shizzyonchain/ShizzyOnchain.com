@@ -1,159 +1,196 @@
+import React from 'react';
+import { SOCIAL_LINKS, OVERVIEW_CONTENT, MOLTBOOK_ARTICLE } from '../constants.tsx';
+import { Youtube, ExternalLink, Mail, Twitch, Send, Zap, ArrowRight, Layers } from 'lucide-react';
 
-import React, { useState } from 'react';
-import { SOCIAL_LINKS, OVERVIEW_CONTENT } from '../constants.tsx';
-import { Youtube, Twitch, Mail, ExternalLink, Zap, ChevronDown, ChevronUp } from 'lucide-react';
-import { AINewsFeed } from './AINewsFeed.tsx';
-
-const XIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+const XIcon = ({ className = "w-5 h-5" }) => (
+  <svg viewBox="0 0 24 24" className={`${className} fill-current`} xmlns="http://www.w3.org/2000/svg">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
-const TikTokIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.6-4.12-1.31a8.106 8.106 0 01-1.89-1.43c-.02 2.22-.01 4.44-.02 6.66 0 2.25-.43 4.58-1.92 6.27-1.48 1.73-3.8 2.53-5.99 2.28-2.2-.25-4.22-1.68-5.11-3.71-.96-2.13-.56-4.75 1.11-6.42 1.34-1.34 3.39-1.9 5.24-1.4v4.07c-1.12-.21-2.33.15-2.98 1.11-.69.96-.54 2.37.38 3.12.92.74 2.45.62 3.23-.38.56-.7.59-1.64.58-2.52V.02h.01z" />
+const TikTokIcon = ({ className = "w-5 h-5" }) => (
+  <svg viewBox="0 0 24 24" className={`${className} fill-current`} xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.31-.72.42-1.24 1.16-1.31 1.97-.05.41-.02.82.08 1.22.17.61.63 1.15 1.18 1.44.58.33 1.25.43 1.9.36.83-.09 1.59-.57 2.01-1.29.3-.51.44-1.1.45-1.7.02-3.11-.01-6.22.01-9.33z"/>
   </svg>
 );
 
 export const Overview: React.FC = () => {
-  const [showNews, setShowNews] = useState(false);
+  const socialItems = [
+    { 
+      label: 'Shizzy (X)', 
+      url: SOCIAL_LINKS.x, 
+      icon: <div className="bg-zinc-900 dark:bg-black p-2.5 rounded-xl"><XIcon className="w-5 h-5 text-white" /></div> 
+    },
+    { 
+      label: 'Shizzy Unchained', 
+      url: SOCIAL_LINKS.xUnchained, 
+      icon: <div className="bg-blue-600 p-2.5 rounded-xl"><XIcon className="w-5 h-5 text-white" /></div> 
+    },
+    { 
+      label: 'YouTube', 
+      url: SOCIAL_LINKS.youtube, 
+      icon: <div className="bg-red-600 p-2.5 rounded-xl"><Youtube className="w-5 h-5 text-white" /></div> 
+    },
+    { 
+      label: 'Twitch', 
+      url: SOCIAL_LINKS.twitch, 
+      icon: <div className="bg-purple-600 p-2.5 rounded-xl"><Twitch className="w-5 h-5 text-white" /></div> 
+    },
+    { 
+      label: 'TikTok', 
+      url: SOCIAL_LINKS.tiktok, 
+      icon: <div className="bg-black p-2.5 rounded-xl"><TikTokIcon className="w-5 h-5 text-white" /></div> 
+    },
+  ];
+
+  const handleHeadlineClick = () => {
+    window.location.hash = `#/article/${MOLTBOOK_ARTICLE.id}`;
+  };
+
+  // Filter out the "AI Needs Crypto. Crypto Needs AI." from the paragraph if it's already in the header
+  const philosophyBody = OVERVIEW_CONTENT.philosophy
+    .replace(/^AI Needs Crypto\. Crypto Needs AI\.\n\n/, '');
 
   return (
-    <div className="max-w-[1200px] mx-auto px-6 py-10 animate-in fade-in duration-700">
-      {/* Hero Image Section */}
-      <div className="relative w-full aspect-[21/9] rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl mb-16 bg-black">
-        <img 
-          src={SOCIAL_LINKS.heroImage} 
-          alt="Shizzy Unchained Hero" 
-          className="w-full h-full object-contain object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
-      </div>
+    <div className="max-w-[1400px] mx-auto px-6 py-6 space-y-32 animate-in fade-in duration-1000">
+      
+      {/* 1. BRAND INTRO / HERO SECTION */}
+      <section className="space-y-16">
+        <div className="relative w-full aspect-[21/9] rounded-[2rem] lg:rounded-[4rem] overflow-hidden border border-slate-200 dark:border-white/5 bg-black shadow-2xl">
+          <img 
+            src={SOCIAL_LINKS.heroImage} 
+            alt="Shizzy Hero" 
+            className="w-full h-full object-contain opacity-90 transition-transform duration-1000"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-        {/* Main Text Area */}
-        <div className="lg:col-span-8 space-y-12">
-          {/* THE HOTTEST 5 TRIGGER */}
-          <div className="relative group">
-            <button 
-              onClick={() => setShowNews(!showNews)}
-              className={`w-full flex items-center justify-between p-10 rounded-[2.5rem] border-2 transition-all duration-500 text-left ${
-                showNews 
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-2xl shadow-blue-500/40' 
-                  : 'bg-white dark:bg-white/[0.02] border-slate-200 dark:border-white/5 text-slate-900 dark:text-white hover:border-blue-500/50'
-              }`}
-            >
-              <div className="space-y-2">
-                <div className={`inline-flex items-center gap-2 px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-md ${showNews ? 'bg-white/20' : 'bg-blue-600/10 text-blue-600'}`}>
-                  <Zap size={10} fill="currentColor" />
-                  REAL-TIME INTEL
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+          <div className="lg:col-span-7 space-y-12">
+            <div className="space-y-6">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-[0.9] border-l-8 border-blue-600 pl-8">
+                AI FIRST <span className="text-blue-600">MEDIA</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 font-medium leading-relaxed max-w-2xl">
+                {OVERVIEW_CONTENT.intro}
+              </p>
+            </div>
+
+            <div className="space-y-8">
+              <div className="flex items-center gap-4">
+                 <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-widest font-space">AI Needs Crypto. Crypto Needs AI.</h3>
+                 <div className="flex-grow h-[1px] bg-slate-200 dark:bg-white/10"></div>
+              </div>
+              <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-loose text-lg font-inter italic">
+                {philosophyBody.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
+              </div>
+            </div>
+
+            {/* LATEST ARTICLE - CINEMATIC HEADLINE + IMAGE */}
+            <div className="pt-12 space-y-10">
+              <div className="flex items-center gap-4">
+                <div className="px-3 py-1 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-md border border-blue-600/20 flex items-center gap-2">
+                  <Zap size={12} className="fill-current animate-pulse" />
+                  LATEST SIGNAL
                 </div>
-                <h2 className="text-3xl md:text-5xl font-black font-space uppercase italic tracking-tighter">
-                  THE <span className={showNews ? 'text-white' : 'text-blue-600'}>HOTTEST</span> 5 AI NEWS
-                </h2>
-                <p className={`text-xs font-mono uppercase tracking-[0.2em] ${showNews ? 'text-white/70' : 'text-slate-500'}`}>
-                  Direct access to X-based social intelligence
+                <div className="flex-grow h-[1px] bg-slate-200 dark:bg-white/10"></div>
+              </div>
+              
+              <button 
+                onClick={handleHeadlineClick}
+                className="group block text-left w-full space-y-10 outline-none focus:outline-none"
+              >
+                <div className="relative aspect-video rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-zinc-900 shadow-xl group-hover:border-blue-500/50 transition-all duration-500">
+                  <img 
+                    src={MOLTBOOK_ARTICLE.imageUrl} 
+                    alt={MOLTBOOK_ARTICLE.title}
+                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                </div>
+
+                <div className="space-y-6">
+                  <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tighter font-space uppercase italic group-hover:text-blue-600 transition-colors duration-300">
+                    {MOLTBOOK_ARTICLE.title}
+                  </h2>
+                  <div className="flex items-center gap-2 text-blue-600 font-black text-[11px] uppercase tracking-[0.3em] group-hover:translate-x-2 transition-transform duration-300">
+                    Read Deep Dive <ArrowRight size={16} />
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <div className="sticky top-40 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl space-y-12">
+              <div className="space-y-10">
+                <h3 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em] text-left font-mono">
+                  CONNECT WITH SHIZZY
+                </h3>
+                <div className="space-y-6">
+                  {socialItems.map((item, idx) => (
+                    <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group transition-all">
+                      <div className="flex items-center gap-6">
+                        <div className="shrink-0 transition-transform group-hover:scale-110 duration-300">{item.icon}</div>
+                        <span className="text-xl font-black text-slate-900 dark:text-slate-200 uppercase tracking-tight font-space italic group-hover:text-blue-500 transition-colors">{item.label}</span>
+                      </div>
+                      <ExternalLink size={18} className="text-slate-400 group-hover:text-blue-500 transition-colors" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-10 border-t border-slate-200 dark:border-white/10 space-y-6">
+                 <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] font-mono">BUSINESS INQUIRIES</div>
+                 <div className="space-y-4">
+                   <a href={`mailto:${SOCIAL_LINKS.email}`} className="flex items-center gap-4 text-blue-600 dark:text-blue-400 hover:text-blue-300 transition-colors text-xl font-black font-mono tracking-tight"><Mail size={22} /> {SOCIAL_LINKS.email}</a>
+                   <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-blue-600 dark:text-blue-400 hover:text-blue-300 transition-colors text-xl font-black font-mono tracking-tight"><Send size={22} /> @Shizzyunchained</a>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* THE AI-CRYPTO STACK SECTION */}
+      <section className="pt-20 space-y-16">
+        <div className="flex items-center gap-8">
+           <div className="p-3 bg-blue-600 text-white rounded-2xl shadow-xl shadow-blue-500/20">
+             <Layers size={24} />
+           </div>
+           <h3 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tighter font-space italic">THE AI–CRYPTO STACK</h3>
+           <div className="flex-grow h-[1px] bg-slate-200 dark:bg-white/10"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {OVERVIEW_CONTENT.offerings.map((offering, idx) => (
+            <div 
+              key={idx} 
+              className="relative p-10 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[3rem] space-y-6 hover:border-blue-500/40 transition-all duration-500 group overflow-hidden"
+            >
+              {/* Containment Visuals */}
+              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Zap size={80} strokeWidth={1} />
+              </div>
+              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-900 dark:bg-white/5 text-blue-500 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+                <Zap size={20} className="fill-current" />
+              </div>
+              
+              <div className="space-y-4">
+                <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter font-space italic leading-none group-hover:text-blue-600 transition-colors">
+                  {offering.title}
+                </h4>
+                <div className="w-12 h-[2px] bg-blue-600/30 group-hover:w-24 transition-all duration-500"></div>
+                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-inter font-medium italic">
+                  {offering.description}
                 </p>
               </div>
-              <div className="shrink-0">
-                {showNews ? <ChevronUp size={32} /> : <ChevronDown size={32} className="animate-bounce" />}
-              </div>
-            </button>
-
-            {/* News Dropdown Content */}
-            {showNews && (
-              <div className="mt-8 animate-in slide-in-from-top-4 duration-500">
-                <AINewsFeed />
-              </div>
-            )}
-          </div>
-
-          <section className="space-y-6 pt-10">
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic font-space border-l-[8px] border-blue-600 pl-8">
-              ABOUT SHIZZY UNCHAINED
-            </h2>
-            <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 font-medium leading-relaxed font-inter">
-              {OVERVIEW_CONTENT.intro}
-            </p>
-            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
-              {OVERVIEW_CONTENT.philosophy}
-            </p>
-          </section>
-
-          <section className="bg-slate-50 dark:bg-white/[0.02] rounded-[2rem] p-10 border border-slate-200 dark:border-white/5">
-            <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8 font-space flex items-center gap-4">
-              <span className="w-10 h-1 bg-blue-600 rounded-full"></span>
-              CORE FOCUS AREAS
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {OVERVIEW_CONTENT.offerings.map((offering, idx) => (
-                <div key={idx} className="space-y-2">
-                  <h4 className="text-blue-600 dark:text-blue-400 font-black text-sm uppercase tracking-widest">{offering.title}</h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{offering.description}</p>
-                </div>
-              ))}
             </div>
-          </section>
+          ))}
         </div>
-
-        {/* Contact/Social Sidebar */}
-        <div className="lg:col-span-4 space-y-10">
-          <div className="bg-white dark:bg-[#1e293b]/40 rounded-3xl p-8 border border-slate-200 dark:border-white/5 shadow-xl">
-            <h3 className="text-sm font-black text-slate-400 uppercase tracking-[0.3em] mb-8 font-mono">Connect With Shizzy</h3>
-            
-            <div className="space-y-4">
-              <a href={SOCIAL_LINKS.x} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-slate-900 text-white rounded-lg"><XIcon /></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">Shizzy (X)</span>
-                </div>
-                <ExternalLink size={16} className="text-slate-400 group-hover:text-blue-500" />
-              </a>
-
-              <a href={SOCIAL_LINKS.xUnchained} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-blue-600 text-white rounded-lg"><XIcon /></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">Shizzy Unchained</span>
-                </div>
-                <ExternalLink size={16} className="text-slate-400 group-hover:text-blue-500" />
-              </a>
-
-              <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-red-600 text-white rounded-lg"><Youtube size={18} /></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">YouTube</span>
-                </div>
-                <ExternalLink size={16} className="text-slate-400 group-hover:text-blue-500" />
-              </a>
-
-              <a href={SOCIAL_LINKS.twitch} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-purple-600 text-white rounded-lg"><Twitch size={18} /></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">Twitch</span>
-                </div>
-                <ExternalLink size={16} className="text-slate-400 group-hover:text-blue-500" />
-              </a>
-
-              <a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 bg-black text-white rounded-lg"><TikTokIcon /></div>
-                  <span className="font-bold text-slate-800 dark:text-slate-200">TikTok</span>
-                </div>
-                <ExternalLink size={16} className="text-slate-400 group-hover:text-blue-500" />
-              </a>
-            </div>
-
-            <div className="mt-10 pt-10 border-t border-slate-100 dark:border-white/5">
-              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 font-mono">Business Inquiries</h4>
-              <a href={`mailto:${SOCIAL_LINKS.email}`} className="flex items-center gap-3 text-blue-600 dark:text-blue-500 font-bold hover:underline transition-all">
-                <Mail size={18} />
-                {SOCIAL_LINKS.email}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
   );
 };

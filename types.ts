@@ -95,7 +95,6 @@ export interface LlamaStablecoin {
   change_7d: number | null;
 }
 
-// Added VideoItem interface for shared use between components and services
 export interface VideoItem {
   id: string;
   title: string;
@@ -104,4 +103,34 @@ export interface VideoItem {
   type: 'live' | 'short';
 }
 
-export type View = 'home' | 'overview' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles';
+export interface DexPair {
+  chainId: string;
+  dexId: string;
+  url: string;
+  pairAddress: string;
+  baseToken: {
+    address: string;
+    name: string;
+    symbol: string;
+  };
+  priceUsd: string;
+  liquidity?: {
+    usd: number;
+  };
+  volume?: {
+    h24: number;
+  };
+}
+
+export interface TaoSubnet {
+  netuid: number;
+  name: string;
+  symbol: string;
+  emission: number;
+  price_usd?: number;
+  market_cap?: number;
+  stake?: number;
+  daily_rewards?: number;
+}
+
+export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'article-detail' | 'tao-alpha';
