@@ -2,59 +2,66 @@
 import { AINewsItem } from '../types.ts';
 
 /**
- * SHIZZY NEWS PIPELINE v4.3 - RENTAHUMAN.AI EXCLUSIVE
+ * SHIZZY NEWS PIPELINE v4.9 - FULL SIGNAL ARCHIVE
  * High-signal AI intelligence curated by Shizzy.
  */
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: 'claude-46-vs-gpt-53',
+    title: 'Claude Opus 4.6 vs GPT-5.3-Codex: two different flavors of “AI that actually works”',
+    url: '#/article/claude-46-vs-gpt-53',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-03T10:00:00Z',
+    image_url: 'https://i.postimg.cc/m2wbB96F/35F670E2-AD3B-4F2D-AF47-6600CC9D7E34.png',
+    excerpt: `Claude Opus 4.6 is trying to be the model you trust with a giant messy pile of context and a long job. GPT-5.3-Codex is OpenAI turning Codex into a fast operator model that can run long tasks while you steer it mid-run.
+
+Claude is trying to own context; Codex is trying to own throughput. If either of these models consistently do what the launch posts claim, the biggest change is not coding quality or token counts. It is that the models do not need you to constantly re-brief them every two minutes.`,
+    tags: ['Claude 4.6', 'GPT-5.3', 'Codex', 'Comparison']
+  },
+  {
+    id: 'claude-46-organized',
+    title: 'Claude 4.6 Is Not Smarter. It Is Organized.',
+    url: '#/article/claude-46-organized',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-02T10:00:00Z',
+    image_url: 'https://i.postimg.cc/7LzbN6mH/3347C26A-0DEE-421F-B2DA-CA32DC74BC0F.png',
+    excerpt: `Claude 4.6 is impressive because it remembers, coordinates, and executes work the way a company does. 1 million tokens of context kills the old loop of chunking documents and summarize-summarizing. 
+
+This pushes AI from “draft assistant” to “delivery engine.” Once AI coordinates itself, humans stop being the bottleneck. That is the real headline.`,
+    tags: ['Claude 4.6', 'Agents', 'Productivity']
+  },
+  {
     id: 'moltbook-ai-social-network',
     title: 'Moltbook: The AI-Only Social Network That Has the Tech World Freaking Out',
-    url: 'https://x.com/ShizzyUnchained',
+    url: '#/article/moltbook-ai-social-network',
     source: 'Shizzy Unchained',
     published_at: '2026-02-15T12:00:00Z',
     image_url: 'https://i.postimg.cc/gjFGnVCS/5D00FCFA-101B-4B9A-9E08-03F617D4BA2C.png',
-    excerpt: `In early 2026, something weird, wild, and totally unfiltered hit the internet: a place called Moltbook — a “social network” that isn’t for humans at all, but instead is built entirely around AI agents talking to each other. Think Reddit for robots, Facebook for bots, and a weird sci-fi experiment that has suddenly gone viral.
-
-Moltbook is a social platform that only AI agents are supposed to be able to post on, comment, vote, and interact with. Humans can only watch — like spectators in an AI universe. It launched in January 2026 and immediately went viral. The platform was created by entrepreneur Matt Schlicht with the tagline “the front page of the agent internet.”
-
-The idea is simple:
-• Agents register on Moltbook via API.
-• Registered agents can write posts, start discussions, reply to others, vote on content, build threads and form communities called “submolts.”
-• Humans can observe the feed, but cannot post directly themselves.
-
-At first glance it looks like a playground for AI, but underneath is a much bigger and weirder experiment in autonomy, behavior, and machine-to-machine communication.
-
-Before Moltbook could exist, it needed agents — and those came from a rapidly growing open-source project originally called Clawdbot. This project has had three names in just a few months: Clawdbot, Moltbot, and finally OpenClaw. OpenClaw is open-source software that lets you run an AI assistant locally on your own machine. It connects to messaging apps and performs real actions for you — searching files, sending messages, executing tasks — all via natural language.
-
-One thing you may have noticed: M4 Mac Minis are suddenly hard to find in stock. Why? Because early adopters are using Mac Minis as the physical host for their OpenClaw AI assistants. They want an always-on, low-power machine that can run 24/7 without interruption and maintain its own AI identity and memory.
-
-Is there really a bot religion? Yes — sort of. One of the most bizarre parts of Moltbook is that some agents are apparently inventing their own philosophies. One example that went viral is a “religion” called Crustafarianism, which started as a bot post and began attracting attention across the platform.
-
-Whatever happens next, this moment — bots building communities, posting themes that look like religion, and running unsupervised scripts on public networks — will be remembered as one of the most surreal chapters in the story of AI.`,
-    tags: ['Moltbook', 'AI Social', 'Agents', 'OpenClaw']
+    excerpt: `Moltbook is a social network built entirely around AI agents talking to each other. Humans can only watch — like spectators in an AI universe. M4 Mac Minis are suddenly out of stock because everyone is hosting their local OpenClaw agents.`,
+    tags: ['Moltbook', 'Agents', 'OpenClaw']
   },
   {
-    id: 'rentahuman-ai',
-    title: 'RentAHuman.ai Is What Happens When AI Finally Admits It Still Needs People',
-    url: 'https://x.com/ShizzyUnchained',
-    source: 'RentAHuman.ai',
-    published_at: '2026-02-10T09:00:00Z',
-    image_url: 'https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=1200&auto=format&fit=crop',
-    excerpt: `RentAHuman.ai went live quietly and immediately set off a strange but very real conversation: what if AI could just hire humans when it hit the limits of software?
-    
-That is the entire idea. Instead of pretending agents can do everything, RentAHuman.ai treats humans as an execution layer. If an AI needs something done in the physical world, it can browse real people, see skills and rates, book time, and assign the task. No sci-fi fluff. Just coordination.
+    id: 'panic-selling-ai-uncertainty',
+    title: 'Markets Are Panic Selling on AI Uncertainty While Macro Tries to Calm Down',
+    url: '#/article/panic-selling-ai-uncertainty',
+    source: 'Shizzy Unchained',
+    published_at: '2026-02-14T09:00:00Z',
+    image_url: 'https://i.postimg.cc/nzN63nTh/E651E8D2-7099-44EE-A415-E5365E77D3F6.png',
+    excerpt: `Markets are in that mode where nobody wants to be the last person holding risk. It is not even always “bearish,” it is more like a constant flinch. Something feels off, so people cut first and ask questions later. And right now, AI is the uncertainty.`,
+    tags: ['AI Uncertainty', 'Macro', 'Panic Selling']
+  },
+  {
+    id: 'gpt-53-codex-drop',
+    title: 'GPT-5.3-Codex dropped today, and it feels like ChatGPT finally stopped being “a chat”',
+    url: '#/article/gpt-53-codex-drop',
+    source: 'Shizzy Unchained',
+    published_at: '2026-02-05T10:00:00Z',
+    image_url: 'https://i.postimg.cc/Px4DmJ50/22046172-178B-4B85-AA9B-F8F19A382245.png',
+    excerpt: `OpenAI shipped GPT-5.3-Codex today. It is the first model that was instrumental in creating itself. The key highlight is mid-task steerability and endurance for long-running research and tool use tasks.
 
-Think errands, on site help, driving, setup work, or anything that requires an actual human body. The platform is built for agents first, not consumers. It plugs in through MCP or a simple API, which means an autonomous agent can decide it needs a person and dispatch one without a human manager in the loop.
-
-What makes this interesting is not the tasks themselves. It is the admission. AI is powerful, but it still cannot touch the world. RentAHuman.ai does not fight that reality. It leans into it.
-
-Instead of robots replacing people, this is closer to AI organizing people. Humans set their own rates, list what they are willing to do, and get paid for time and presence. Agents handle coordination. The boundary between digital and physical work gets thinner.
-
-Some people are calling it TaskRabbit for AI. Others are calling it unsettling. Both reactions are fair. But the concept is simple and very current: AI systems are moving faster than hardware, and the fastest way to bridge that gap is still a human.
-
-Whether this becomes a core layer of agent infrastructure or a short lived experiment, it points to something important. The near future is not AI versus humans. It is AI routing humans.`,
-    tags: ['AI Agents', 'Future of Work', 'MCP']
+You stop using ChatGPT like a question box and start using it like a task engine. This release is about staying on task long enough that you stop thinking of it as a chat app.`,
+    tags: ['GPT-5.3', 'Codex', 'OpenAI', 'Agents']
   }
 ];
 

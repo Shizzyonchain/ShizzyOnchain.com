@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   const navItems: { label: string; view: View }[] = [
     { label: 'HOME', view: 'home' },
     { label: 'AI NEWS', view: 'ainews' },
-    { label: 'CRYPTO', view: 'cryptonews' },
+    { label: 'CRYPTO NEWS', view: 'cryptonews' },
     { label: 'AI COINS', view: 'aicoins' },
     { label: 'TAO ALPHA', view: 'tao-alpha' },
     { label: 'RESEARCH', view: 'research' },

@@ -5,12 +5,13 @@ import {
   PANIC_SELLING_ARTICLE, 
   BEAR_RUNNERS_ARTICLE, 
   OCT_10_ARTICLE, 
-  AGENT_CYCLE_ARTICLE, 
   PROVEX_ARTICLE, 
   TAO_ARTICLE, 
-  CYCLE_ARTICLE, 
   JAM_ARTICLE,
-  MOLTBOOK_ARTICLE
+  MOLTBOOK_ARTICLE,
+  CLAUDE_46_ARTICLE,
+  GPT_53_CODEX_ARTICLE,
+  CLAUDE_VS_GPT_ARTICLE
 } from '../constants.tsx';
 import { newsService } from '../services/newsService.ts';
 import { cryptoNewsService } from '../services/cryptoNewsService.ts';
@@ -28,7 +29,9 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
     // Check constants
     const articles = [
       PANIC_SELLING_ARTICLE, BEAR_RUNNERS_ARTICLE, OCT_10_ARTICLE, 
-      AGENT_CYCLE_ARTICLE, PROVEX_ARTICLE, TAO_ARTICLE, CYCLE_ARTICLE, JAM_ARTICLE, MOLTBOOK_ARTICLE
+      PROVEX_ARTICLE, TAO_ARTICLE, 
+      JAM_ARTICLE, MOLTBOOK_ARTICLE, CLAUDE_46_ARTICLE, GPT_53_CODEX_ARTICLE,
+      CLAUDE_VS_GPT_ARTICLE
     ];
     const found = articles.find(a => a.id === articleId);
     if (found) return found;
