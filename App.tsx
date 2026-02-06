@@ -10,8 +10,6 @@ import { AINewsFeed } from './components/AINewsFeed.tsx';
 import { CryptoNewsFeed } from './components/CryptoNewsFeed.tsx';
 import { VideosFeed } from './components/VideosFeed.tsx';
 import { ArticleDetailView } from './components/ArticleDetailView.tsx';
-import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
-import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
 import { View } from './types.ts';
 import { SOCIAL_LINKS } from './constants.tsx';
 
@@ -40,8 +38,6 @@ const App: React.FC = () => {
       else if (hash === '#/research') setCurrentView('research');
       else if (hash === '#/defi') setCurrentView('defi');
       else if (hash === '#/bubbles') setCurrentView('bubbles');
-      else if (hash === '#/aicoins') setCurrentView('aicoins');
-      else if (hash === '#/tao-alpha') setCurrentView('tao-alpha');
       else setCurrentView('home');
     };
 
@@ -80,8 +76,6 @@ const App: React.FC = () => {
       </div>
     );
     if (currentView === 'bubbles') return <BubblesDashboard />;
-    if (currentView === 'aicoins') return <AICoinsDashboard />;
-    if (currentView === 'tao-alpha') return <TaoAlphaDashboard />;
     if (currentView === 'ainews') return (
       <div className="max-w-[1400px] mx-auto px-6">
         <AINewsFeed />

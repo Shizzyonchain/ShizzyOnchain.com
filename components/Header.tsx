@@ -25,8 +25,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'HOME', view: 'home' },
     { label: 'AI NEWS', view: 'ainews' },
     { label: 'CRYPTO NEWS', view: 'cryptonews' },
-    { label: 'AI COINS', view: 'aicoins' },
-    { label: 'TAO ALPHA', view: 'tao-alpha' },
     { label: 'RESEARCH', view: 'research' },
     { label: 'DEFI', view: 'defi' },
     { label: 'BUBBLES', view: 'bubbles' },
