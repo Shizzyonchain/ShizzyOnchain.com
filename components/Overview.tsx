@@ -144,7 +144,7 @@ export const Overview: React.FC = () => {
             <div className="bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl space-y-12 sticky top-32">
               <div className="space-y-10">
                 <h3 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em] text-left font-mono">
-                  CONNECT WITH SHIZZY
+                  SHIZZY UNCHAINED CONTENT LINKS
                 </h3>
                 <div className="space-y-6">
                   {socialItems.map((item, idx) => (
@@ -160,7 +160,7 @@ export const Overview: React.FC = () => {
               </div>
 
               <div className="pt-10 border-t border-slate-200 dark:border-white/10 space-y-6">
-                 <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] font-mono">BUSINESS INQUIRIES</div>
+                 <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] font-mono">CONNECT WITH SHIZZY</div>
                  <div className="space-y-4">
                    <a href={`mailto:${SOCIAL_LINKS.email}`} className="flex items-center gap-4 text-blue-600 dark:text-blue-400 hover:text-blue-300 transition-colors text-lg font-black font-mono tracking-tight"><Mail size={22} /> {SOCIAL_LINKS.email}</a>
                    <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-blue-600 dark:text-blue-400 hover:text-blue-300 transition-colors text-lg font-black font-mono tracking-tight"><Send size={22} /> @Shizzyunchained</a>
