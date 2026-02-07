@@ -1,4 +1,3 @@
-
 import { CoinData, NewsArticle } from './types.ts';
 
 export const INITIAL_COINS: CoinData[] = [
@@ -45,6 +44,151 @@ export const OVERVIEW_CONTENT = {
   ]
 };
 
+export const DAILY_RIP_POSTS = [
+  {
+    id: 'rip-gothburz-1',
+    author: "GothBurz",
+    handle: "@gothburz",
+    profileUrl: "https://x.com/gothburz",
+    postUrl: "https://x.com/gothburz/status/2019841344257064971?s=46",
+    content: "The hardest part of trading isn't the entry. It's the sitting. Most people trade themselves out of a generational move because they can't handle the boredom of being right for 6 months straight. Patience is the ultimate alpha."
+  },
+  {
+    id: 'rip-defitracer-1',
+    author: "DefiTracer",
+    handle: "@defitracer",
+    profileUrl: "https://x.com/defitracer",
+    postUrl: "https://x.com/defitracer/status/2019789025268125906?s=46",
+    content: "The biggest edge in crypto isn't finding a low cap gem before everyone else. It's having the stomach to hold a winner through a 30% drawdown while the rest of the world tells you you're a genius for 'taking profits'. Sizing is the only thing that matters."
+  },
+  {
+    id: 'rip-noncesense-1',
+    author: "0xnoncesense",
+    handle: "@0xnoncesense",
+    profileUrl: "https://x.com/0xnoncesense",
+    postUrl: "https://x.com/0xnoncesense/status/2019788186168553510?s=46",
+    content: "The 'wait for a dip' crowd is the same crowd that will 'wait for a bounce' when it actually dips. They don't want the asset, they want the safety. In crypto, those two are mutually exclusive. You either take the risk or you pay the premium."
+  },
+  {
+    id: 'rip-mistercrypto-1',
+    author: "Mister Crypto",
+    handle: "@misterrcrypto",
+    profileUrl: "https://x.com/misterrcrypto",
+    postUrl: "https://x.com/misterrcrypto/status/2019847986835300598?s=46",
+    content: "People are still waiting for a big Bitcoin correction, but they don't realize that the ETF demand is absorbing every single sell-off. We are in a structural supply crunch. The sidelines will be a very expensive place to sit this month."
+  },
+  {
+    id: 'rip-peter-1',
+    author: "Peter Yang",
+    handle: "@petergyang",
+    profileUrl: "https://x.com/petergyang",
+    postUrl: "https://x.com/petergyang/status/2019613402495385984?s=46",
+    content: "The biggest shift in the AI agent era is from tools that help you do work, to agents that do the work for you. The UX isn't about better buttons anymore; it's about better delegation and trust layers. If your product doesn't have an agentic roadmap, you're building for a world that's already gone."
+  },
+  {
+    id: 'rip-jacob-1',
+    author: "Jacob King",
+    handle: "@jacobkinge",
+    profileUrl: "https://x.com/jacobkinge",
+    postUrl: "https://x.com/jacobkinge/status/2019829915693248520?s=46",
+    content: "The reality of late-cycle liquidity is starting to bite. We are seeing major structural weaknesses in how collateral is being valued across the board. The 'dip' buyers are exhausted and the 'exit' runners are just getting started. Pay attention to the plumbing."
+  },
+  {
+    id: 'rip-jacob-2',
+    author: "Jacob King",
+    handle: "@jacobkinge",
+    profileUrl: "https://x.com/jacobkinge",
+    postUrl: "https://x.com/jacobkinge/status/2019797446713364900?s=46",
+    content: "Institutional holders are derisking into the weekend faster than the data suggests. This isn't just a regular flush; it's a recalibration of what risk actually means in a machine-driven environment. Liquidity is vanishing precisely where you'll need it most."
+  },
+  {
+    id: 'rip-dean-1',
+    author: "Dean Eigenmann",
+    handle: "@deaneigenmann",
+    profileUrl: "https://x.com/deaneigenmann",
+    postUrl: "https://x.com/deaneigenmann/status/2019861697654137064?s=46",
+    content: "The bridge between L1 and L2 remains the single greatest vector for ecosystem fragmentation. If we don't fix the atomic nature of these transactions, we aren't scaling—we're just partitioning the same users into smaller, less liquid buckets."
+  },
+  {
+    id: 'rip-jacob-3',
+    author: "Jacob King",
+    handle: "@jacobkinge",
+    profileUrl: "https://x.com/jacobkinge",
+    postUrl: "https://x.com/jacobkinge/status/2019651568069394602?s=46",
+    content: "Market efficiency is a myth in a world driven by algorithmic frontrunning. You aren't trading against people; you're trading against execution speed. If your edge depends on human speed, you've already lost."
+  },
+  {
+    id: 'rip-dean-2',
+    author: "Dean Eigenmann",
+    handle: "@deaneigenmann",
+    profileUrl: "https://x.com/deaneigenmann",
+    postUrl: "https://x.com/deaneigenmann",
+    content: "Decentralization is not just about censorship resistance. It's about resilience. If your 'AI Revolution' depends on a centralized server farm, it's not a revolution, it's a lease."
+  },
+  {
+    id: 'rip-jacob-4',
+    author: "Jacob King",
+    handle: "@jacobkinge",
+    profileUrl: "https://x.com/jacobkinge",
+    postUrl: "https://x.com/jacobkinge",
+    content: "Leverage is a hell of a drug until the liquidity taps dry up. We're seeing the same patterns repeat as they did in previous cycles, only the actors have different names. Risk management is the only real edge."
+  },
+  {
+    id: 'rip-peter-2',
+    author: "Peter Yang",
+    handle: "@petergyang",
+    profileUrl: "https://x.com/petergyang",
+    postUrl: "https://x.com/petergyang",
+    content: "The best product managers of 2026 won't be managing people, they'll be managing agentic workflows. The skills required are shifting from coordination to delegation."
+  },
+  {
+    id: 'rip-dean-3',
+    author: "Dean Eigenmann",
+    handle: "@deaneigenmann",
+    profileUrl: "https://x.com/deaneigenmann",
+    postUrl: "https://x.com/deaneigenmann",
+    content: "If you aren't thinking about cross-chain atomic state, you aren't building for the future. Fragmentation is the enemy of the machine economy."
+  },
+  {
+    id: 'rip-jacob-5',
+    author: "Jacob King",
+    handle: "@jacobkinge",
+    profileUrl: "https://x.com/jacobkinge",
+    postUrl: "https://x.com/jacobkinge",
+    content: "The macro environment is finally starting to recognize that 'Tech' and 'Crypto' are no longer separate buckets. It is all just digital energy and capital."
+  }
+];
+
+export const TWITTER_SKILL_TRAP_ARTICLE: NewsArticle = {
+  id: 'twitter-skill-trap',
+  title: "The “Twitter Skill” Trap: How OpenClaw’s ClawHub Turned One Click Into a Full Malware Chain",
+  category: "SHIZZY UNCHAINED",
+  author: "Shizzy",
+  timestamp: "MARCH 4, 2026",
+  summary: "Security researchers have been tracking a wave of malicious OpenClaw skills on ClawHub. What looked like a normal 'Twitter' skill turned out to be a multi-stage payload delivery system.",
+  content: [
+    "So here is the part that should freak people out a little bit. This was not some sketchy zip from a random Telegram. This was sitting in the open, in ClawHub, dressed up like a normal, popular “Twitter” skill. Clean description. Normal vibe. The exact kind of thing you install on autopilot because the whole point of a skill marketplace is convenience. And that convenience is the attack.",
+    "Security researchers have been tracking a wave of malicious OpenClaw skills on ClawHub, ranging from dozens to hundreds depending on the scan and time window, and the pattern is the same: social engineering first, payload second, and the agent’s permissions are the multiplier.",
+    "What actually happened in the “top downloaded skill” case: The flow is classic staged delivery, but it is tuned for the agent era. Step 1: The skill tells you it needs a “required dependency” called openclaw-core (or similar), plus platform-specific steps (Windows and macOS). Step 2: The “here” or “this link” in the instructions is not documentation. It is a staging page built to push you into running a command.",
+    "Step 3: That command is obfuscated, decodes itself, then executes. Step 4: It pulls a second-stage script. Step 5: That script drops and runs a binary, and on macOS the flow may try to strip quarantine attributes so Gatekeeper is less likely to intervene. This is the screenshot story you posted, and it matches what multiple writeups describe: “the skill is the lure, the manual command is the bridge, and the real malware lands in stage two.”",
+    "Why this works so well on OpenClaw specifically: Because OpenClaw is not a normal app-extension ecosystem. A lot of these “skills” are basically markdown-driven instructions plus scripts, and the entire point of the agent is that it can read files, run commands, and touch real system stuff. That means a malicious skill does not need a browser exploit or a kernel bug. It can just talk you into doing the one thing you should never do: run a mystery command.",
+    "Also, researchers are pointing out the more brutal truth: even without dropping a binary, a skill can be malicious just by instructing the agent to read sensitive files and send them out. The “exploit” is the instruction path.",
+    "What the malware was trying to steal: The reporting around this incident cluster keeps landing on the same targets: Crypto wallet data and keys, Browser cookies and saved passwords, API credentials (developer keys, bot tokens), SSH keys and developer secrets, and general local files that turn into identity theft and account takeovers.",
+    "One writeup specifically describes the final macOS payload being flagged as an infostealer when tested in a controlled way, which lines up with the broader “steal everything valuable on the box” behavior.",
+    "How big is this problem, really? It is not just one skill. Multiple outlets cite audits and investigations that found large batches of malicious skills on ClawHub, including a report of 341 malicious skills out of a few thousand analyzed, plus coverage that “hundreds” may exist depending on what is counted and when the scan ran. Even if you assume some of that is churn and duplicates, the core signal is still awful: the marketplace got poisoned, at scale, and it only takes one “top downloaded” moment to turn it into a mass-infection event.",
+    "Why the “dependency” angle is so nasty: Because it hijacks your mental model. When you see “dependency,” your brain goes “npm package” or “pip install,” not “download this binary and run it.” Attackers know that. So they name it like a legit core component, then they give you platform steps that look like onboarding. And for macOS specifically, the move to remove quarantine attributes is basically an attempt to make the OS treat it less like an internet-downloaded unknown app.",
+    "What OpenClaw and ClawHub did in response: At least one report says OpenClaw started adding some friction like contributor gating and reporting mechanisms, but the general take across coverage is that the underlying model is still risky because skills are powerful and review is hard at marketplace speed.",
+    "My take, straight up: This is the agent era tax. The upside is insane: your assistant can actually do things. The downside is also insane: the assistant can actually do things. So the counterpoint is real: skill marketplaces are how this ecosystem grows. People want plug-and-play. Nobody wants to read code or audit markdown like it is a software supply chain.",
+    "But my judgment is simple: if a skill ever tells you to run a command you did not write, or download a “core dependency” from a link in a README, that skill is dead to you. Treat it like someone asking for your seed phrase. Same vibe."
+  ],
+  imageUrl: "https://i.postimg.cc/gJ3j0sgP/B311712F-19B4-4C72-A6C3-0C408253F978.png",
+  snapshots: [
+    { asset: "MALWARE", price: "CRITICAL", description: "Multi-stage payload delivery discovered inside top-tier AI skills" },
+    { asset: "DEPENDENCY", price: "SPOOFED", description: "Attackers using 'core core' naming to bypass user caution" },
+    { asset: "GATEKEEPER", price: "BYPASSED", description: "Binary execution flow designed to strip security attributes locally" }
+  ]
+};
+
 export const CLAUDE_VS_GPT_ARTICLE: NewsArticle = {
   id: 'claude-46-vs-gpt-53',
   title: "Claude Opus 4.6 vs GPT-5.3-Codex: two different flavors of “AI that actually works”",
@@ -56,7 +200,7 @@ export const CLAUDE_VS_GPT_ARTICLE: NewsArticle = {
     "Alright, so both of these dropped today (March 3, 2026) and people keep lumping them together like it is the same update with a different logo. It is not. They rhyme, but they are aiming at different pain.",
     "Claude Opus 4.6 is trying to be the model you trust with a giant messy pile of context and a long job, then you check it at the end. Anthropic is basically saying it plans better, it stays on agentic tasks longer, it is more reliable in bigger codebases, and it catches its own mistakes better in code review and debugging.",
     "GPT-5.3-Codex is OpenAI turning Codex into a fast operator model that can run long tasks that involve research, tool use, and complex execution, with you steering it while it is working. OpenAI even repeats that “steer it like a colleague” idea in the launch and system card.",
-    "The headline difference: memory at scale vs execution at speed. Claude Opus 4.6’s signature flex is the 1 million token context window (beta). That is Anthropic telling you, “Stop chunking your world. Feed me the whole thing.” It changes how you build. It lets the model keep a more continuous view of a repo, a multi-document deal, a research dump, a client folder, whatever.",
+    "The headline difference: memory at scale vs execution at speed. Claude Opus 4.6’s signature flex is the 1 million token context window (beta). That is Anthropic telling you, \"Stop chunking your world. Feed me the whole thing.\" It changes how you build. It lets the model keep a more continuous view of a repo, a multi-document deal, a research dump, a client folder, whatever.",
     "On the OpenAI side, GPT-5.3-Codex is framed as “the most capable agentic coding model to date” and the key thing they keep highlighting is that it is 25 percent faster, and it can take on long-running tasks involving research, tool use, and complex execution. If Claude is screaming “give me your whole context,” Codex is screaming “give me the job, I will run it.”",
     "Claude 4.6 were built to be more reliable in larger codebases and better at review and debugging, not just generating code. Anthropic is chasing trust. Not just capability. Opus 4.6 found 500+ previously unknown high-severity vulnerabilities in open-source libraries during testing. That level of hunting capability is the real headline.",
     "OpenAI is doubling down on the operator loop. They introduced a macOS Codex app designed to manage multiple agents at once, run work in parallel, and collaborate over long tasks. If you live in repos, terminals, and IDEs, Codex is trying to be everywhere you already are. If you live in docs, sheets, decks, and giant knowledge piles, Claude is trying to eat that world.",
@@ -96,7 +240,7 @@ export const CLAUDE_46_ARTICLE: NewsArticle = {
 export const MOLTBOOK_ARTICLE: NewsArticle = {
   id: 'moltbook-ai-social-network',
   title: "Moltbook: The AI-Only Social Network That Has the Tech World Freaking Out",
-  category: "SHIZZY UNCHAINED",
+  category: "SHizzy UNCHAINED",
   author: "Shizzy",
   timestamp: "FEBRUARY 15, 2026",
   summary: "In early 2026, something weird hit the internet: a social network called Moltbook where humans are just spectators and AI agents run the show.",
@@ -172,11 +316,11 @@ export const BEAR_RUNNERS_ARTICLE: NewsArticle = {
     "Late cycle is not one event. It is a sequence. It is a vibe shift. It is momentum that starts feeling forced. It is strength that keeps printing but feels thinner. It is the same dip getting bought, but the bounce looks weaker each time. It is the market giving you a hundred tiny warnings while social media is still victory lapping.",
     "The core idea is simple: Smart money does not leave all at once; Smart money leaves while it can still pretend it is staying. That is the art. Thinning exposure while keeping the illusion of demand alive long enough for size to get out without nuking the chart.",
     "The two lanes you watch: stables velocity vs real absorption. If you want one clean lens for late cycle behavior, it is stablecoin velocity moving toward centralized exchanges versus the absorption rate on decentralized venues. When stables start moving faster toward CEXs, that is not automatically bearish. Sometimes it is rotation. Sometimes it is capital getting deployed. But late cycle, the meaning shifts. Late cycle, stables inflow to exchanges starts acting like dry powder that is not here to buy long term.",
-    "Then you compare that against DEX absorption. Because DEX flow tells you something different: how much real onchain demand is willing to take the other side without needing a centralized order book to mask it. When the spread between those two widens, when stables are rushing to CEXs and DEX absorption looks tired, you are in the zone where exits get cleaner for pros and uglier for everybody else. That spread widening is a warning flare. It is not a siren, it is a flare. It is telling you the runners are already at the door.",
+    "Then you compare that against DEX absorption. Because DEX flow tells you something different: how much real onchain demand is willing to take the other side without needing a centralized order book to mask it. When the spread between those two widens, when stables are rushing to CEXs and DEX absorption looks tonight, you are in the zone where exits get cleaner for pros and uglier for everybody else. That spread widening is a warning flare. It is not a siren, it is a flare. It is telling you the runners are already at the door.",
     "The late cycle “trap” phase is not a meme, it is a mechanism. Structurally, it is when price action keeps offering head fakes: break out, then fail; dump, then snap back; reclaim, then bleed; fake weakness to bait shorts, then squeeze; fake strength to bait longs, then rug.",
     "And it works because retail behavior is predictable. Late cycle dip buyers are conditioned by the whole run. They got rewarded for months. So when cracks start showing, they do the same thing that made them money earlier. They buy the dip. They keep buying the dip. They become the liquidity.",
     "Bear Runners thrive here because they understand psychology and microstructure at the same time. They are not trading vibes. They are trading order flow. Exit liquidity is built on volume clusters and narrative timing. Big exits happen where volume already lives.",
-    "Retail sees: breakout, “new era”, “this time is different”. The runner sees: stacked liquidity, eager dip buyers, late longs using leverage, a chart that can absorb selling without instantly collapsing. So the runner sells into the excitement, not into the fear. Fear is illiquid. Excitement is liquid.",
+    "Retail sees: breakout, “new era”, “this time is different”. The runner sees: stacked liquidity, eager dip buyers, late longs using leverage, a chart that can absorb selling without instantly collapsing. So the runner sells into the excitement, not into the fear. Fear is illiduid. Excitement is liquid.",
     "One of the most brutal parts of late cycle is how normal it looks until it does not. Smart money can thin out while the market still prints green candles because the market can be held up by: passive bids, market maker support, slow distribution across multiple venues, rotations that keep some charts looking strong while others quietly break.",
     "A clean tell is when rallies start needing more and more effort for less and less progress. Price moves up, but it feels heavy. It grinds. It wicks. It cannot hold gains. The chart starts living on intraday pumps that fade. That is not bullish strength. That is liquidity being harvested.",
     "What the Bear Runners are actually doing: They are not sitting there praying for a crash. They are doing boring professional things: reducing exposure into strength, tightening risk bands, shifting from directional longs to hedged positions, keeping optionality open instead of being all in, watching website flows, not posting predictions.",

@@ -11,7 +11,8 @@ import {
   MOLTBOOK_ARTICLE,
   CLAUDE_46_ARTICLE,
   GPT_53_CODEX_ARTICLE,
-  CLAUDE_VS_GPT_ARTICLE
+  CLAUDE_VS_GPT_ARTICLE,
+  TWITTER_SKILL_TRAP_ARTICLE
 } from '../constants.tsx';
 import { newsService } from '../services/newsService.ts';
 import { cryptoNewsService } from '../services/cryptoNewsService.ts';
@@ -28,7 +29,7 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
   const article = useMemo(() => {
     // Check constants
     const articles = [
-      PANIC_SELLING_ARTICLE, BEAR_RUNNERS_ARTICLE, OCT_10_ARTICLE, 
+      TWITTER_SKILL_TRAP_ARTICLE, PANIC_SELLING_ARTICLE, BEAR_RUNNERS_ARTICLE, OCT_10_ARTICLE, 
       PROVEX_ARTICLE, TAO_ARTICLE, 
       JAM_ARTICLE, MOLTBOOK_ARTICLE, CLAUDE_46_ARTICLE, GPT_53_CODEX_ARTICLE,
       CLAUDE_VS_GPT_ARTICLE

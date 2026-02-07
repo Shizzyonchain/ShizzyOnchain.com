@@ -2,11 +2,23 @@
 import { AINewsItem } from '../types.ts';
 
 /**
- * SHIZZY NEWS PIPELINE v4.9 - FULL SIGNAL ARCHIVE
+ * SHIZZY NEWS PIPELINE v5.0 - FULL SIGNAL ARCHIVE
  * High-signal AI intelligence curated by Shizzy.
  */
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
+  {
+    id: 'twitter-skill-trap',
+    title: 'The “Twitter Skill” Trap: How OpenClaw’s ClawHub Turned One Click Into a Full Malware Chain',
+    url: '#/article/twitter-skill-trap',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-04T10:00:00Z',
+    image_url: 'https://i.postimg.cc/gJ3j0sgP/B311712F-19B4-4C72-A6C3-0C408253F978.png',
+    excerpt: `Security researchers have been tracking a wave of malicious OpenClaw skills on ClawHub. This was not some sketchy zip from a random Telegram—it was sitting in the open, dressed up like a popular “Twitter” skill. 
+
+The flow is classic staged delivery, but it is tuned for the agent era. Attackers name malicious payloads like legit core components, then provide platform steps that look like onboarding. It is a high-signal warning for the agent era.`,
+    tags: ['Security', 'OpenClaw', 'Malware', 'AI Safety']
+  },
   {
     id: 'claude-46-vs-gpt-53',
     title: 'Claude Opus 4.6 vs GPT-5.3-Codex: two different flavors of “AI that actually works”',

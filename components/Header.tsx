@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import { Youtube, Sun, Moon, Menu, X, Mail, Check, Copy } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, LayoutGrid } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
 
@@ -20,20 +19,30 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewChange, currentView }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showCopyFeedback, setShowCopyFeedback] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const dropdownTimerRef = useRef<number | null>(null);
 
   const navItems: { label: string; view: View }[] = [
     { label: 'HOME', view: 'home' },
     { label: 'AI NEWS', view: 'ainews' },
     { label: 'CRYPTO NEWS', view: 'cryptonews' },
-    { label: 'RESEARCH', view: 'research' },
-    { label: 'DEFI', view: 'defi' },
-    { label: 'BUBBLES', view: 'bubbles' },
+    { label: 'DAILY RIPS', view: 'all-daily-rips' },
+    { label: 'TOOLS', view: 'tools' },
     { label: 'VIDEOS', view: 'videos' },
+  ];
+
+  const toolItems = [
+    { label: 'RESEARCH', view: 'research' as View },
+    { label: 'DEFI', view: 'defi' as View },
+    { label: 'AI COINS', view: 'aicoins' as View },
+    { label: 'CRYPTO COINS', view: 'cryptocoins' as View },
+    { label: 'BUBBLES', view: 'bubbles' as View },
   ];
 
   const handleNavClick = (view: View) => {
     onViewChange(view);
     setIsMenuOpen(false);
+    setActiveDropdown(null);
   };
 
   const handleEmailClick = (e: React.MouseEvent) => {
@@ -41,6 +50,17 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     navigator.clipboard.writeText(SOCIAL_LINKS.email);
     setShowCopyFeedback(true);
     setTimeout(() => setShowCopyFeedback(false), 2000);
+  };
+
+  const openDropdown = (name: string) => {
+    if (dropdownTimerRef.current) window.clearTimeout(dropdownTimerRef.current);
+    setActiveDropdown(name);
+  };
+
+  const closeDropdown = () => {
+    dropdownTimerRef.current = window.setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150);
   };
 
   return (
@@ -58,19 +78,107 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         </button>
 
         <nav className="hidden lg:flex items-center gap-8">
-          {navItems.map((item) => (
+          <button
+            onClick={() => handleNavClick('home')}
+            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
+              currentView === 'home' 
+                ? 'text-blue-600 dark:text-blue-400' 
+                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+            }`}
+          >
+            HOME
+          </button>
+          <button
+            onClick={() => handleNavClick('ainews')}
+            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
+              currentView === 'ainews' 
+                ? 'text-blue-600 dark:text-blue-400' 
+                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+            }`}
+          >
+            AI NEWS
+          </button>
+          <button
+            onClick={() => handleNavClick('cryptonews')}
+            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
+              currentView === 'cryptonews' 
+                ? 'text-blue-600 dark:text-blue-400' 
+                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+            }`}
+          >
+            CRYPTO NEWS
+          </button>
+
+          <button
+            onClick={() => handleNavClick('all-daily-rips')}
+            className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
+              currentView === 'all-daily-rips' 
+                ? 'text-red-600 dark:text-red-400' 
+                : 'text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400'
+            }`}
+          >
+            <MessageSquare size={12} fill="currentColor" className="opacity-70" />
+            DAILY RIPS
+          </button>
+
+          {/* TOOLS BUTTON & DROPDOWN - Now contains AI/CRYPTO Coins */}
+          <div 
+            className="relative"
+            onMouseEnter={() => openDropdown('tools')}
+            onMouseLeave={closeDropdown}
+          >
             <button
-              key={item.view}
-              onClick={() => handleNavClick(item.view)}
-              className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-                currentView === item.view 
+              onClick={() => handleNavClick('tools')}
+              className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
+                currentView === 'tools' || toolItems.some(item => item.view === currentView)
                   ? 'text-blue-600 dark:text-blue-400' 
                   : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
               }`}
             >
-              {item.label}
+              TOOLS <ChevronDown size={12} className={`transition-transform duration-300 ${activeDropdown === 'tools' ? 'rotate-180' : ''}`} />
             </button>
-          ))}
+            {activeDropdown === 'tools' && (
+              <div className="absolute top-full -left-4 pt-4 w-56 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="bg-white dark:bg-[#161b22] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden p-2">
+                  <button
+                    onClick={() => handleNavClick('tools')}
+                    className={`w-full text-left px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all mb-1 ${
+                      currentView === 'tools' 
+                        ? 'bg-blue-600 text-white' 
+                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'
+                    }`}
+                  >
+                    TOOLS HUB
+                  </button>
+                  <div className="h-[1px] bg-slate-100 dark:bg-white/5 mx-2 my-1"></div>
+                  {toolItems.map((item) => (
+                    <button
+                      key={item.view}
+                      onClick={() => handleNavClick(item.view)}
+                      className={`w-full text-left px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                        currentView === item.view 
+                          ? 'bg-blue-600 text-white' 
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={() => handleNavClick('videos')}
+            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
+              currentView === 'videos' 
+                ? 'text-blue-600 dark:text-blue-400' 
+                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+            }`}
+          >
+            VIDEOS
+          </button>
         </nav>
 
         <div className="flex items-center gap-4 md:gap-6">
@@ -107,16 +215,28 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-8 px-6 space-y-6 shadow-2xl animate-in fade-in slide-in-from-top-4">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-8 px-6 space-y-6 shadow-2xl animate-in fade-in slide-in-from-top-4 z-[100]">
           {navItems.map((item) => (
             <button
               key={item.view}
               onClick={() => handleNavClick(item.view)}
-              className={`block w-full text-left text-sm font-black uppercase tracking-widest ${
+              className={`block w-full text-left text-sm font-black uppercase tracking-widest py-2 ${
                 currentView === item.view 
-                  ? 'text-blue-600 dark:text-blue-400' 
-                  : 'text-slate-500 dark:text-slate-400'
+                  ? 'text-blue-600 dark:text-blue-400 border-l-4 border-blue-600 pl-4 -ml-4' 
+                  : 'text-slate-500 dark:text-slate-400 pl-4'
               }`}
+            >
+              {item.label}
+            </button>
+          ))}
+          <div className="h-[1px] bg-slate-100 dark:bg-white/10"></div>
+          {toolItems.map((item) => (
+            <button
+              key={item.view}
+              onClick={() => handleNavClick(item.view)}
+              className={`block w-full text-left text-[11px] font-black uppercase tracking-widest py-2 ${
+                currentView === item.view ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'
+              } pl-4`}
             >
               {item.label}
             </button>

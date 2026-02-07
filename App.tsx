@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header.tsx';
 import { Ticker } from './components/Ticker.tsx';
@@ -10,6 +9,10 @@ import { AINewsFeed } from './components/AINewsFeed.tsx';
 import { CryptoNewsFeed } from './components/CryptoNewsFeed.tsx';
 import { VideosFeed } from './components/VideosFeed.tsx';
 import { ArticleDetailView } from './components/ArticleDetailView.tsx';
+import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
+import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
+import { DailyRipsFeed } from './components/DailyRipsFeed.tsx';
+import { ToolsHub } from './components/ToolsHub.tsx';
 import { View } from './types.ts';
 import { SOCIAL_LINKS } from './constants.tsx';
 
@@ -38,6 +41,10 @@ const App: React.FC = () => {
       else if (hash === '#/research') setCurrentView('research');
       else if (hash === '#/defi') setCurrentView('defi');
       else if (hash === '#/bubbles') setCurrentView('bubbles');
+      else if (hash === '#/aicoins') setCurrentView('aicoins');
+      else if (hash === '#/cryptocoins') setCurrentView('cryptocoins');
+      else if (hash === '#/daily-rips') setCurrentView('all-daily-rips');
+      else if (hash === '#/tools') setCurrentView('tools');
       else setCurrentView('home');
     };
 
@@ -52,7 +59,12 @@ const App: React.FC = () => {
   }, [darkMode]);
 
   const handleViewChange = (view: View, scrollToSection?: string) => {
-    window.location.hash = `#/${view}`;
+    if (view === 'all-daily-rips') {
+      window.location.hash = `#/daily-rips`;
+    } else {
+      window.location.hash = `#/${view}`;
+    }
+    
     if (scrollToSection) {
       setTimeout(() => {
         const el = document.getElementById(scrollToSection);
@@ -91,6 +103,22 @@ const App: React.FC = () => {
         <VideosFeed />
       </div>
     );
+    if (currentView === 'aicoins') return (
+      <div className="max-w-[1400px] mx-auto px-6 py-10">
+        <AICoinsDashboard />
+      </div>
+    );
+    if (currentView === 'cryptocoins') return (
+      <div className="max-w-[1400px] mx-auto px-6 py-10">
+        <CryptoCoinsDashboard />
+      </div>
+    );
+    if (currentView === 'all-daily-rips') return (
+      <div className="max-w-[1400px] mx-auto px-6 py-10">
+        <DailyRipsFeed />
+      </div>
+    );
+    if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
 
     return <Overview />;
   };
