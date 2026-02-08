@@ -1,5 +1,6 @@
+
 import React, { useState, useRef } from 'react';
-import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, LayoutGrid } from 'lucide-react';
+import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, BrainCircuit, ShieldAlert } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
 
@@ -32,24 +33,19 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   ];
 
   const toolItems = [
-    { label: 'RESEARCH', view: 'research' as View },
-    { label: 'DEFI', view: 'defi' as View },
-    { label: 'AI COINS', view: 'aicoins' as View },
-    { label: 'CRYPTO COINS', view: 'cryptocoins' as View },
-    { label: 'BUBBLES', view: 'bubbles' as View },
+    { label: 'ARCHITECT AUDITOR', view: 'architect-auditor' as View, icon: <ShieldAlert size={10} /> },
+    { label: 'AI BRIEF', view: 'ai-brief' as View, icon: <BrainCircuit size={10} /> },
+    { label: 'RESEARCH', view: 'research' as View, icon: null },
+    { label: 'DEFI', view: 'defi' as View, icon: null },
+    { label: 'AI COINS', view: 'aicoins' as View, icon: null },
+    { label: 'CRYPTO COINS', view: 'cryptocoins' as View, icon: null },
+    { label: 'BUBBLES', view: 'bubbles' as View, icon: null },
   ];
 
   const handleNavClick = (view: View) => {
     onViewChange(view);
     setIsMenuOpen(false);
     setActiveDropdown(null);
-  };
-
-  const handleEmailClick = (e: React.MouseEvent) => {
-    window.location.href = `mailto:${SOCIAL_LINKS.email}`;
-    navigator.clipboard.writeText(SOCIAL_LINKS.email);
-    setShowCopyFeedback(true);
-    setTimeout(() => setShowCopyFeedback(false), 2000);
   };
 
   const openDropdown = (name: string) => {
@@ -121,7 +117,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
             DAILY RIPS
           </button>
 
-          {/* TOOLS BUTTON & DROPDOWN - Now contains AI/CRYPTO Coins */}
           <div 
             className="relative"
             onMouseEnter={() => openDropdown('tools')}
@@ -155,13 +150,14 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                     <button
                       key={item.view}
                       onClick={() => handleNavClick(item.view)}
-                      className={`w-full text-left px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                      className={`w-full text-left px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-between ${
                         currentView === item.view 
                           ? 'bg-blue-600 text-white' 
                           : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'
                       }`}
                     >
                       {item.label}
+                      {item.icon && <span className="opacity-50">{item.icon}</span>}
                     </button>
                   ))}
                 </div>
@@ -182,21 +178,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         </nav>
 
         <div className="flex items-center gap-4 md:gap-6">
-          <div className="hidden md:flex items-center gap-4 pr-6 border-r border-slate-200 dark:border-white/10">
-            <a href={SOCIAL_LINKS.x} target="_blank" rel="noopener noreferrer" className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-              <XIcon />
-            </a>
-            <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
-              <Youtube size={20} />
-            </a>
-            <button 
-              onClick={handleEmailClick}
-              className="relative p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors group"
-            >
-              {showCopyFeedback ? <Check size={20} className="text-emerald-500" /> : <Mail size={20} />}
-            </button>
-          </div>
-
           <button
             onClick={toggleTheme}
             className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
@@ -213,7 +194,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-8 px-6 space-y-6 shadow-2xl animate-in fade-in slide-in-from-top-4 z-[100]">
           {navItems.map((item) => (

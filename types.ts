@@ -1,3 +1,4 @@
+
 export interface CoinData {
   symbol: string;
   price: number;
@@ -132,4 +133,4 @@ export interface TaoSubnet {
   daily_rewards?: number;
 }
 
-export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'cryptocoins' | 'all-streams' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'article-detail' | 'all-daily-rips' | 'tools';
+export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'cryptocoins' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'article-detail' | 'all-daily-rips' | 'tools' | 'ai-brief' | 'architect-auditor';
