@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, BrainCircuit, ShieldAlert } from 'lucide-react';
+import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, BrainCircuit, ShieldAlert, Radio } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
 
@@ -33,6 +33,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   ];
 
   const toolItems = [
+    { label: 'NARRATIVE PULSE', view: 'narrative-pulse' as View, icon: <Radio size={10} /> },
     { label: 'ARCHITECT AUDITOR', view: 'architect-auditor' as View, icon: <ShieldAlert size={10} /> },
     { label: 'AI BRIEF', view: 'ai-brief' as View, icon: <BrainCircuit size={10} /> },
     { label: 'RESEARCH', view: 'research' as View, icon: null },

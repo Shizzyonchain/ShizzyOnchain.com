@@ -13,7 +13,8 @@ import {
   Coins,
   BrainCircuit,
   Sparkles,
-  ShieldAlert
+  ShieldAlert,
+  Radio
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -64,8 +65,16 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, col
 export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNavigate }) => {
   const tools = [
     {
+      title: 'NARRATIVE PULSE',
+      description: 'Alpha detector. Identifies trending AI and Crypto themes and determines if they are early signal or mainstream exit liquidity.',
+      icon: <Radio />,
+      view: 'narrative-pulse' as View,
+      colorClass: 'text-rose-600',
+      badge: 'ALPHA RADAR'
+    },
+    {
       title: 'ARCHITECT AUDITOR',
-      description: 'The high-signal filter. Performs an intense structural analysis of any AI or Crypto project. Designed to find technical weaknesses and "hype-wrappers".',
+      description: 'The high-signal filter. Performs an intense structural analysis of any AI or Crypto project. Designed to find technical weaknesses.',
       icon: <ShieldAlert />,
       view: 'architect-auditor' as View,
       colorClass: 'text-orange-600',
@@ -73,7 +82,7 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
     },
     {
       title: 'AI BRIEF AGENT',
-      description: 'The single biggest anxiety killer. A dedicated agent that catches all weekly AI noise and delivers a filtered summary to your context.',
+      description: 'The single biggest anxiety killer. A dedicated agent that catches all weekly AI noise and delivers a filtered summary.',
       icon: <BrainCircuit />,
       view: 'ai-brief' as View,
       colorClass: 'text-purple-600',
