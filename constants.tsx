@@ -55,116 +55,20 @@ export const DAILY_RIP_POSTS = [
     content: "Stablecoins are moving from the 'settlement' phase to the 'utility' phase. The integration of programmable dollars into mainstream commerce is no longer a theoretical exercise—it is the structural foundation of the 24/7 global internet economy."
   },
   {
-    id: 'rip-gothburz-1',
-    author: "GothBurz",
-    handle: "@gothburz",
-    profileUrl: "https://x.com/gothburz",
-    postUrl: "https://x.com/gothburz/status/2019841344257064971?s=46",
-    content: "The hardest part of trading isn't the entry. It's the sitting. Most people trade themselves out of a generational move because they can't handle the boredom of being right for 6 months straight. Patience is the ultimate alpha."
+    id: 'rip-firt-1',
+    author: "Maximiliano Firtman",
+    handle: "@firt",
+    profileUrl: "https://x.com/firt",
+    postUrl: "https://x.com/firt/status/2020903127428313461?s=20",
+    content: "Google is officially killing PWAs on the desktop. Chrome 121 starts the deprecation of the 'Install' button for many users. This isn't just a browser setting change; it's the systematic dismantling of the only viable path for independent web distribution on mobile. A dark day for the open web."
   },
   {
-    id: 'rip-defitracer-1',
-    author: "DefiTracer",
-    handle: "@defitracer",
-    profileUrl: "https://x.com/defitracer",
-    postUrl: "https://x.com/defitracer/status/2019789025268125906?s=46",
-    content: "The biggest edge in crypto isn't finding a low cap gem before everyone else. It's having the stomach to hold a winner through a 30% drawdown while the rest of the world tells you you're a genius for 'taking profits'. Sizing is the only thing that matters."
-  },
-  {
-    id: 'rip-noncesense-1',
-    author: "0xnoncesense",
-    handle: "@0xnoncesense",
-    profileUrl: "https://x.com/0xnoncesense",
-    postUrl: "https://x.com/0xnoncesense/status/2019788186168553510?s=46",
-    content: "The 'wait for a dip' crowd is the same crowd that will 'wait for a bounce' when it actually dips. They don't want the asset, they want the safety. In crypto, those two are mutually exclusive. You either take the risk or you pay the premium."
-  },
-  {
-    id: 'rip-mistercrypto-1',
-    author: "Mister Crypto",
-    handle: "@misterrcrypto",
-    profileUrl: "https://x.com/misterrcrypto",
-    postUrl: "https://x.com/misterrcrypto/status/2019847986835300598?s=46",
-    content: "People are still waiting for a big Bitcoin correction, but they don't realize that the ETF demand is absorbing every single sell-off. We are in a structural supply crunch. The sidelines will be a very expensive place to sit this month."
-  },
-  {
-    id: 'rip-peter-1',
-    author: "Peter Yang",
-    handle: "@petergyang",
-    profileUrl: "https://x.com/petergyang",
-    postUrl: "https://x.com/petergyang/status/2019613402495385984?s=46",
-    content: "The biggest shift in the AI agent era is from tools that help you do work, to agents that do the work for you. The UX isn't about better buttons anymore; it's about better delegation and trust layers. If your product doesn't have an agentic roadmap, you're building for a world that's already gone."
-  },
-  {
-    id: 'rip-jacob-1',
-    author: "Jacob King",
-    handle: "@jacobkinge",
-    profileUrl: "https://x.com/jacobkinge",
-    postUrl: "https://x.com/jacobkinge/status/2019829915693248520?s=46",
-    content: "The reality of late-cycle liquidity is starting to bite. We are seeing major structural weaknesses in how collateral is being valued across the board. The 'dip' buyers are exhausted and the 'exit' runners are just getting started. Pay attention to the plumbing."
-  },
-  {
-    id: 'rip-jacob-2',
-    author: "Jacob King",
-    handle: "@jacobkinge",
-    profileUrl: "https://x.com/jacobkinge",
-    postUrl: "https://x.com/jacobkinge/status/2019797446713364900?s=46",
-    content: "Institutional holders are derisking into the weekend faster than the data suggests. This isn't just a regular flush; it's a recalibration of what risk actually means in a machine-driven environment. Liquidity is vanishing precisely where you'll need it most."
-  },
-  {
-    id: 'rip-dean-1',
-    author: "Dean Eigenmann",
-    handle: "@deaneigenmann",
-    profileUrl: "https://x.com/deaneigenmann",
-    postUrl: "https://x.com/deaneigenmann/status/2019861697654137064?s=46",
-    content: "The bridge between L1 and L2 remains the single greatest vector for ecosystem fragmentation. If we don't fix the atomic nature of these transactions, we aren't scaling—we're just partitioning the same users into smaller, less liquid buckets."
-  },
-  {
-    id: 'rip-jacob-3',
-    author: "Jacob King",
-    handle: "@jacobkinge",
-    profileUrl: "https://x.com/jacobkinge",
-    postUrl: "https://x.com/jacobkinge/status/2019651568069394602?s=46",
-    content: "Market efficiency is a myth in a world driven by algorithmic frontrunning. You aren't trading against people; you're trading against execution speed. If your edge depends on human speed, you've already lost."
-  },
-  {
-    id: 'rip-dean-2',
-    author: "Dean Eigenmann",
-    handle: "@deaneigenmann",
-    profileUrl: "https://x.com/deaneigenmann",
-    postUrl: "https://x.com/deaneigenmann",
-    content: "Decentralization is not just about censorship resistance. It's about resilience. If your 'AI Revolution' depends on a centralized server farm, it's not a revolution, it's a lease."
-  },
-  {
-    id: 'rip-jacob-4',
-    author: "Jacob King",
-    handle: "@jacobkinge",
-    profileUrl: "https://x.com/jacobkinge",
-    postUrl: "https://x.com/jacobkinge",
-    content: "Leverage is a hell of a drug until the liquidity taps dry up. We're seeing the same patterns repeat as they did in previous cycles, only the actors have different names. Risk management is the only real edge."
-  },
-  {
-    id: 'rip-peter-2',
-    author: "Peter Yang",
-    handle: "@petergyang",
-    profileUrl: "https://x.com/petergyang",
-    postUrl: "https://x.com/petergyang",
-    content: "The best product managers of 2026 won't be managing people, they'll be managing agentic workflows. The skills required are shifting from coordination to delegation."
-  },
-  {
-    id: 'rip-dean-3',
-    author: "Dean Eigenmann",
-    handle: "@deaneigenmann",
-    profileUrl: "https://x.com/deaneigenmann",
-    postUrl: "https://x.com/deaneigenmann",
-    content: "If you aren't thinking about cross-chain atomic state, you aren't building for the future. Fragmentation is the enemy of the machine economy."
-  },
-  {
-    id: 'rip-jacob-5',
-    author: "Jacob King",
-    handle: "@jacobkinge",
-    profileUrl: "https://x.com/jacobkinge",
-    postUrl: "https://x.com/jacobkinge",
-    content: "The macro environment is finally starting to recognize that 'Tech' and 'Crypto' are no longer separate buckets. It is all just digital energy and capital."
+    id: 'rip-shizzy-profile',
+    author: "Shizzy",
+    handle: "@Shizzy",
+    profileUrl: "https://x.com/Shizzy",
+    postUrl: "https://x.com/Shizzy",
+    content: "Innovation first media. Catch the latest onchain intelligence and AI agent breakdowns here."
   }
 ];
 
@@ -333,7 +237,7 @@ export const BEAR_RUNNERS_ARTICLE: NewsArticle = {
     "One of the most brutal parts of late cycle is how normal it looks until it does not. Smart money can thin out while the market still prints green candles because the market can be held up by: passive bids, market maker support, slow distribution across multiple venues, rotations that keep some charts looking strong while others quietly break.",
     "A clean tell is when rallies start needing more and more effort for less and less progress. Price moves up, but it feels heavy. It grinds. It wicks. It cannot hold gains. The chart starts living on intraday pumps that fade. That is not bullish strength. That is liquidity being harvested.",
     "What the Bear Runners are actually doing: They are not sitting there praying for a crash. They are doing boring professional things: reducing exposure into strength, tightening risk bands, shifting from directional longs to hedged positions, keeping optionality open instead of being all in, watching website flows, not posting predictions.",
-    "They do not need to call the top. They need to avoid being trapped when liquidity disappears. The cycle endgame is always the same: Liquidity looks infinite, right up until it is not. When it breaks, it breaks fast. And the only reason it breaks fast is because the exits were already taken earlier by people who do not announce it.",
+    "They do not need a call the top. They need to avoid being trapped when liquidity disappears. The cycle endgame is always the same: Liquidity looks infinite, right up until it is not. When it breaks, it breaks fast. And the only reason it breaks fast is because the exits were already taken earlier by people who do not announce it.",
     "How to read the head fakes without getting chopped to death. Late cycle is designed to make you overtrade and overcommit. So the correct move is usually not “do more.” It is “do less, but cleaner.” What matters: you respect that late cycle means volatility and deception, you stop tracking stable inflows, exchange deposits, and venue spread behavior, and you pay attention to whether DEX absorption is real or fading.",
     "Macro cycles do not end in one candle. They end in a series of traps that punish late certainty. The reason late cycle is so dangerous is not because the market is impossible. It is because the market is familiar. It feels like the same game, until the rules switch. The Bear Runners are not the bears. They are the risk managers who know when the crowd becomes the exit."
   ],
@@ -352,7 +256,7 @@ export const OCT_10_ARTICLE: NewsArticle = {
   timestamp: "OCTOBER 10, 2025",
   summary: "October 10 was not just “the market moving.” That was the day Binance showed its seams, in public, during maximum stress.",
   content: [
-    "October 10 was not just “the market moving.” That was the day Binance showed its seams, in public, during maximum stress. Binance’s own incident write up says their internal asset transfer subsystem slowed for about 33 minutes, which impacted moving funds between Spot, Earn, and Futures. Matching and liquidation engines kept running, but the transfer rail was jammed. That matters because in a liquidation cascade, your ability to move collateral and rebalance is the whole game.",
+    "October 10 was not just “the market moving.” That was the day Binance showed its seams, in public, during maximum stress. Binance’s own incident write up says their internal asset transfer subsystem slowed for about 33 minutes, which impacted moving funds between Spot, Earn, and Futures. Matching and liquidation engines kept running, but the transfer rail was vanished. That matters because in a liquidation cascade, your ability to move collateral and rebalance is the whole game.",
     "Then you had the second failure mode: index pricing deviations for USDe, WBETH, and BNSOL during the same chaos window. Binance acknowledges those indices deviated and points to thin liquidity and congestion, plus the way the index calculation leaned heavily on Binance’s own order books. Translation: the reference price you depend on can get weird when liquidity vanishes, and that opens a door for forced liquidations and arbitrage exploitation.",
     "This is the part people gloss over, but it is the entire story if you actually care about “exit liquidity”: If transfers are slow, some users cannot move funds fast enough to defend positions; If index or mark inputs are unstable for certain collateral assets, liquidation thresholds can get hit in ways that do not reflect the broader market; If both happen while leverage is stacked, you do not just get a dip. You get a cascade.",
     "Binance also published a formal update and compensation plan for users affected by the USDe, WBETH, and BNSOL depeg, explicitly tying it to forced liquidations. When an exchange is compensating users after a depeg event tied to liquidations, that is not “everything was fine.” That is damage control.",
@@ -386,7 +290,7 @@ export const TAO_ARTICLE: NewsArticle = {
     "The real thesis: Bittensor is a decentralized incentive layer for intelligence. If you believe AI is the new electricity, then compute and intelligence coordination become national scale infrastructure problems. Right now, that infrastructure is being captured by a handful of companies. Bittensor is basically the open source counter move. Not by trying to beat Big Tech at one model, but by creating a global game where useful intelligence outputs can get paid without permission.",
     "The part nobody wants to talk about: the hard problems. Validator incentives can get weird if scoring is gameable; Subnets can turn into emission farming if they do not attract real demand; Quality evaluation in AI is hard, and every subnet has to invent its own game; Coordination risk is real when subnets explode in count and complexity.",
     "What I watch when I am trying to decide if TAO is winning: Not price. Price is late. I watch: Subnet quality distribution, Validator behavior, Emissions routing, Builder velocity, and Tokenomics reality after halving. The halving is a big line in the sand for this thesis because it forces the ecosystem to earn the narrative.",
-    "Bottom line: Bittensor is not trying to be “an AI coin.” It is trying to be the Internet of Models, a marketplace where intelligence is produced, measured, and paid for in the open. Subnets are the modules. Yuma Consensus is the reward engine. TAO is the currency that makes the whole thing coherent. If decentralized AI is going to exist at global scale, it needs a coordination and incentive layer that actually works. Bittensor is the most serious attempt at that I have seen so far."
+    "Bottom line: Bittensor is not trying to be “an AI coin.” It is trying to be the Internet of Models, a marketplace where intelligence is produced, measured, and paid for in the open. Subnets are the modules. Yuma Consensus is the reward engine. TAO is the currency that makes the whole thing coherent. If decentralized AI going to exist at global scale, it needs a coordination and incentive layer that actually works. Bittensor is the most serious attempt at that I have seen so far."
   ],
   imageUrl: "https://i.postimg.cc/6qxnwjfb/677BAF68-0838-4967-8163-E83511FA61CC.png",
   snapshots: [
