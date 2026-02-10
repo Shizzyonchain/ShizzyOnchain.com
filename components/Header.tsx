@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'HOME', view: 'home' },
     { label: 'AI NEWS', view: 'ainews' },
     { label: 'CRYPTO NEWS', view: 'cryptonews' },
-    { label: 'DAILY RIPS', view: 'all-daily-rips' },
+    { label: 'DAILY RIPS', view: 'daily-rips' },
     { label: 'TOOLS', view: 'tools' },
     { label: 'VIDEOS', view: 'videos' },
   ];
@@ -107,9 +107,9 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
           </button>
 
           <button
-            onClick={() => handleNavClick('all-daily-rips')}
+            onClick={() => handleNavClick('daily-rips')}
             className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-              currentView === 'all-daily-rips' 
+              currentView === 'daily-rips' 
                 ? 'text-red-600 dark:text-red-400' 
                 : 'text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400'
             }`}

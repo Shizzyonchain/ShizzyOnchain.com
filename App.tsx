@@ -47,7 +47,7 @@ const App: React.FC = () => {
       else if (hash === '#/bubbles') setCurrentView('bubbles');
       else if (hash === '#/aicoins') setCurrentView('aicoins');
       else if (hash === '#/cryptocoins') setCurrentView('cryptocoins');
-      else if (hash === '#/daily-rips') setCurrentView('all-daily-rips');
+      else if (hash === '#/daily-rips') setCurrentView('daily-rips');
       else if (hash === '#/tools') setCurrentView('tools');
       else if (hash === '#/ai-brief') setCurrentView('ai-brief');
       else if (hash === '#/architect-auditor') setCurrentView('architect-auditor');
@@ -116,7 +116,7 @@ const App: React.FC = () => {
         <CryptoCoinsDashboard />
       </div>
     );
-    if (currentView === 'all-daily-rips') return (
+    if (currentView === 'daily-rips') return (
       <div className="max-w-[1400px] mx-auto px-6 py-10">
         <DailyRipsFeed />
       </div>

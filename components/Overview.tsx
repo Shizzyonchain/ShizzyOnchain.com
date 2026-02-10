@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SOCIAL_LINKS, OVERVIEW_CONTENT, DAILY_RIP_POSTS } from '../constants.tsx';
 import { Youtube, ExternalLink, Mail, Twitch, Send, Zap, ArrowRight, MessageSquare, Quote, ChevronRight } from 'lucide-react';
@@ -76,7 +77,7 @@ export const Overview: React.FC = () => {
                   <div className="flex-grow h-[1px] bg-slate-200 dark:bg-white/10"></div>
                 </div>
                 <div className="relative aspect-video rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-zinc-900 shadow-xl group-hover:border-blue-500/50 transition-all duration-500">
-                  <img src={latestArticle.image_url} alt={latestArticle.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out" />
+                  <img src={latestArticle.image_url} alt={latestArticle.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000 ease-out" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
                 </div>
                 <div className="space-y-6">
