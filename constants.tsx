@@ -1,3 +1,4 @@
+
 import { CoinData, NewsArticle } from './types.ts';
 
 export const INITIAL_COINS: CoinData[] = [
@@ -16,7 +17,7 @@ export const SOCIAL_LINKS = {
   x: 'https://x.com/ShizzyofficialX',
   xUnchained: 'https://x.com/Shizzyunchained',
   youtube: 'https://www.youtube.com/@Shizzyunchained',
-  twitch: 'https://www.twitch.tv/Shizzy_Unchained',
+  twitch: 'https://www.twitch.pvt/Shizzy_Unchained',
   tiktok: 'https://www.tiktok.com/@shizzyunchained',
   telegram: 'https://t.me/ShizzyUnchained',
   email: 'Shizzyunchained@gmail.com',
@@ -45,6 +46,14 @@ export const OVERVIEW_CONTENT = {
 };
 
 export const DAILY_RIP_POSTS = [
+  {
+    id: 'rip-usdc-1',
+    author: "USDC",
+    handle: "@usdc",
+    profileUrl: "https://x.com/usdc",
+    postUrl: "https://x.com/usdc/status/2020934709254234545?s=46",
+    content: "Stablecoins are moving from the 'settlement' phase to the 'utility' phase. The integration of programmable dollars into mainstream commerce is no longer a theoretical exercise—it is the structural foundation of the 24/7 global internet economy."
+  },
   {
     id: 'rip-gothburz-1',
     author: "GothBurz",

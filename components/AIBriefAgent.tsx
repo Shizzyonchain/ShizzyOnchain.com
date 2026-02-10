@@ -1,22 +1,21 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { 
   BrainCircuit, 
   Zap, 
   RefreshCw, 
-  CheckCircle2, 
   Settings, 
   ChevronRight, 
   MessageSquare,
   Sparkles,
   ShieldCheck,
-  X,
   Plus,
   Link2,
   Mail,
   Rss,
-  Globe
+  Globe,
+  AlertTriangle
 } from 'lucide-react';
 import { newsService } from '../services/newsService.ts';
 
@@ -35,14 +34,23 @@ export const AIBriefAgent: React.FC = () => {
   const [brief, setBrief] = useState<string | null>(null);
   const [showConfig, setShowConfig] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   const toggleSource = (id: string) => {
     setSources(prev => prev.map(s => s.id === id ? { ...s, enabled: !s.enabled } : s));
   };
 
   const generateBrief = async () => {
+    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
+    
+    if (!apiKey) {
+      setError("CONFIGURATION ERROR: API_KEY is not defined in the environment. Please add it to your project settings.");
+      return;
+    }
+
     setIsGenerating(true);
     setBrief(null);
+    setError(null);
     setProgress(0);
 
     const interval = setInterval(() => {
@@ -50,7 +58,7 @@ export const AIBriefAgent: React.FC = () => {
     }, 300);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
       const currentNews = newsService.getLatestSnapshotItems().items;
       
       const prompt = `You are a high-signal AI Agent built for Shizzy Unchained. 
@@ -69,9 +77,9 @@ export const AIBriefAgent: React.FC = () => {
       setBrief(response.text || "Failed to synthesize intelligence.");
       setProgress(100);
       setShowConfig(false);
-    } catch (error) {
-      console.error("Agent failed:", error);
-      setBrief("### TRANSMISSION ERROR\n\nUnable to establish link with Intelligence Node.");
+    } catch (err: any) {
+      console.error("Agent failed:", err);
+      setError(`TRANSMISSION ERROR: ${err.message || 'The AI Node is currently unreachable.'}`);
     } finally {
       clearInterval(interval);
       setIsGenerating(false);
@@ -80,8 +88,6 @@ export const AIBriefAgent: React.FC = () => {
 
   return (
     <div className="max-w-[1400px] mx-auto space-y-12 animate-in fade-in duration-1000 pb-20">
-      
-      {/* Header Panel */}
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-600/10 text-purple-600 dark:text-purple-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-purple-600/20">
@@ -111,6 +117,16 @@ export const AIBriefAgent: React.FC = () => {
         </div>
       </div>
 
+      {error && (
+        <div className="p-8 bg-rose-500/10 border border-rose-500/20 rounded-[2rem] flex flex-col md:flex-row items-center gap-6 animate-in slide-in-from-top-4">
+           <div className="p-4 bg-rose-500 text-white rounded-2xl"><AlertTriangle size={32} /></div>
+           <div className="space-y-1 text-center md:text-left">
+              <h3 className="text-sm font-black uppercase tracking-widest text-rose-500">System Link Failed</h3>
+              <p className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase leading-relaxed">{error}</p>
+           </div>
+        </div>
+      )}
+
       {showConfig && (
         <div className="space-y-12 animate-in slide-in-from-top-8 duration-700">
           <div className="space-y-8">
@@ -134,6 +150,10 @@ export const AIBriefAgent: React.FC = () => {
                   <div className="text-[11px] font-black uppercase tracking-tight truncate w-full">{source.name}</div>
                 </button>
               ))}
+              <button className="flex flex-col items-center justify-center gap-4 p-6 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2rem] text-slate-400 opacity-40 cursor-not-allowed">
+                 <Plus size={24} />
+                 <span className="text-[10px] font-black uppercase tracking-widest">Custom Node</span>
+              </button>
             </div>
           </div>
 
@@ -174,7 +194,7 @@ export const AIBriefAgent: React.FC = () => {
                  </div>
                </div>
             </div>
-          ) : (
+          ) : brief && (
             <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden shadow-2xl max-w-[900px] mx-auto">
                <div className="bg-purple-600 px-10 py-8 flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -208,14 +228,6 @@ export const AIBriefAgent: React.FC = () => {
           )}
         </div>
       )}
-
-      <div className="pt-10 flex flex-col items-center justify-center gap-8 opacity-40">
-        <div className="flex items-center gap-6 font-mono text-[10px] font-bold uppercase tracking-[0.5em] text-slate-400 text-center">
-          <div className="w-20 h-[1px] bg-slate-200 dark:bg-white/10"></div>
-          INTELLIGENCE TRANSMISSION PROTOCOL: V2.1
-          <div className="w-20 h-[1px] bg-slate-200 dark:bg-white/10"></div>
-        </div>
-      </div>
     </div>
   );
 };

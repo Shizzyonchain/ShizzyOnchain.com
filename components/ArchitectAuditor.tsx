@@ -3,12 +3,10 @@ import React, { useState, useRef } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import { 
   ShieldAlert, 
-  Search, 
   ChevronRight, 
   Terminal, 
   Zap, 
   AlertTriangle,
-  CheckCircle2,
   FileSearch,
   Activity,
   Cpu
@@ -30,6 +28,7 @@ export const ArchitectAuditor: React.FC = () => {
   const [isAuditing, setIsAuditing] = useState(false);
   const [result, setResult] = useState<AuditResult | null>(null);
   const [logs, setLogs] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const addLog = (msg: string) => {
@@ -38,14 +37,23 @@ export const ArchitectAuditor: React.FC = () => {
 
   const runAudit = async () => {
     if (!input.trim()) return;
+
+    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
+    
+    if (!apiKey) {
+      setError("UPLINK DENIED: API_KEY is missing from environment variables.");
+      return;
+    }
+
     setIsAuditing(true);
     setResult(null);
+    setError(null);
     setLogs([]);
     addLog("Initializing Structural Scan...");
     addLog(`Target: ${input}`);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
       const prompt = `Perform a cynical structural audit of: "${input}". Output JSON with projectName, utilityScore (0-100), hypeDensity (0-100), bullshitMeter (CRITICAL, MODERATE, LOW), verdict, weaknesses, strengths, recommendation.`;
 
       const response = await ai.models.generateContent({
@@ -70,10 +78,13 @@ export const ArchitectAuditor: React.FC = () => {
         }
       });
 
-      setResult(JSON.parse(response.text || '{}') as AuditResult);
+      const data = JSON.parse(response.text || '{}') as AuditResult;
+      setResult(data);
       addLog("Structural scan complete.");
-    } catch (error) {
-      addLog("CRITICAL ERROR: Scan interrupted.");
+    } catch (err: any) {
+      console.error(err);
+      setError(`CRITICAL ERROR: ${err.message || 'Data stream interrupted by remote node.'}`);
+      addLog("FAILURE: Data stream interrupted.");
     } finally {
       setIsAuditing(false);
     }
@@ -92,6 +103,13 @@ export const ArchitectAuditor: React.FC = () => {
           </h1>
         </div>
       </div>
+
+      {error && (
+        <div className="p-6 bg-rose-600/10 border border-rose-600/20 rounded-2xl flex items-center gap-4 text-rose-600">
+           <AlertTriangle size={20} />
+           <span className="text-xs font-mono font-black uppercase tracking-widest">{error}</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-5 space-y-8">
