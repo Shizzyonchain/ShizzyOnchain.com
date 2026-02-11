@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { NewsArticle } from '../types.ts';
 import { 
@@ -102,7 +101,6 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
       </button>
 
       <article className="space-y-12">
-        {/* Header Section */}
         <header className="space-y-8">
           <div className="flex flex-wrap items-center gap-4">
             <span className="px-3 py-1 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-lg shadow-blue-500/20">
@@ -122,7 +120,6 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
           </p>
         </header>
 
-        {/* Feature Image */}
         <div className="relative aspect-video rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl bg-black">
           <img 
             src={article.imageUrl} 
@@ -139,7 +136,6 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
           </button>
         </div>
 
-        {/* Snapshots if available */}
         {article.snapshots && article.snapshots.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {article.snapshots.map((snap, i) => (
@@ -154,7 +150,6 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
           </div>
         )}
 
-        {/* Body Content */}
         <div className="space-y-10 prose dark:prose-invert max-w-none">
           {article.content.map((p, i) => (
             <p key={i} className="text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-inter opacity-90 first-letter:text-blue-600 first-letter:font-black">
@@ -163,7 +158,6 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
           ))}
         </div>
 
-        {/* Actions Footer */}
         <div className="pt-16 border-t border-slate-200 dark:border-white/5 flex items-center justify-between gap-6">
           <button 
             onClick={onBack}

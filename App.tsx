@@ -17,6 +17,7 @@ import { ToolsHub } from './components/ToolsHub.tsx';
 import { AIBriefAgent } from './components/AIBriefAgent.tsx';
 import { ArchitectAuditor } from './components/ArchitectAuditor.tsx';
 import { NarrativePulse } from './components/NarrativePulse.tsx';
+import { AIHistory } from './components/AIHistory.tsx';
 import { View } from './types.ts';
 import { SOCIAL_LINKS } from './constants.tsx';
 
@@ -52,6 +53,7 @@ const App: React.FC = () => {
       else if (hash === '#/ai-brief') setCurrentView('ai-brief');
       else if (hash === '#/architect-auditor') setCurrentView('architect-auditor');
       else if (hash === '#/narrative-pulse') setCurrentView('narrative-pulse');
+      else if (hash === '#/ai-history') setCurrentView('ai-history');
       else setCurrentView('home');
     };
 
@@ -135,6 +137,11 @@ const App: React.FC = () => {
     if (currentView === 'narrative-pulse') return (
       <div className="max-w-[1400px] mx-auto px-6 py-10">
         <NarrativePulse />
+      </div>
+    );
+    if (currentView === 'ai-history') return (
+      <div className="max-w-[1400px] mx-auto px-6 py-10">
+        <AIHistory />
       </div>
     );
 

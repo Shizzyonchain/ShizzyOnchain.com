@@ -14,7 +14,8 @@ import {
   BrainCircuit,
   Sparkles,
   ShieldAlert,
-  Radio
+  Radio,
+  Library
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -64,6 +65,14 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, col
 
 export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNavigate }) => {
   const tools = [
+    {
+      title: 'HISTORY OF AI',
+      description: 'The complete timeline of the intelligence revolution. From Turing to the Agent Era. Visual archive of humanity\'s greatest pivot.',
+      icon: <Library />,
+      view: 'ai-history' as View,
+      colorClass: 'text-indigo-600',
+      badge: 'THE ARCHIVE'
+    },
     {
       title: 'NARRATIVE PULSE',
       description: 'Alpha detector. Identifies trending AI and Crypto themes and determines if they are early signal or mainstream exit liquidity.',
