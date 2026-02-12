@@ -1,9 +1,8 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { NewsArticle } from "../types.ts";
 
 export const generateAIInsight = async (userPrompt: string): Promise<NewsArticle> => {
-  // Always create a fresh instance right before call for latest key
+  // Direct initialization within the function scope as required
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const response = await ai.models.generateContent({
@@ -11,7 +10,7 @@ export const generateAIInsight = async (userPrompt: string): Promise<NewsArticle
     contents: `As Shizzy, a world-class on-chain analyst and crypto visionary, generate a detailed "Hot Take" article based on the following topic or prompt: "${userPrompt}". 
     The article should be insightful, slightly provocative, and backed by a narrative of on-chain data.
     Ensure the timestamp is current (e.g., "FEBRUARY 14, 2026").
-    The imageUrl should be a high-quality relevant tech/crypto image from Unsplash (e.g., https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=2000).`,
+    The imageUrl should be a high-quality relevant tech/crypto image from Unsplash.`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -19,14 +18,13 @@ export const generateAIInsight = async (userPrompt: string): Promise<NewsArticle
         properties: {
           id: { type: Type.STRING },
           title: { type: Type.STRING },
-          category: { type: Type.STRING, description: "Should be 'AI GENERATED INSIGHT' or similar" },
+          category: { type: Type.STRING },
           author: { type: Type.STRING },
           timestamp: { type: Type.STRING },
           summary: { type: Type.STRING },
           content: { 
             type: Type.ARRAY, 
-            items: { type: Type.STRING },
-            description: "An array of 3-5 paragraphs of detailed analysis."
+            items: { type: Type.STRING }
           },
           imageUrl: { type: Type.STRING },
           snapshots: {
@@ -48,13 +46,7 @@ export const generateAIInsight = async (userPrompt: string): Promise<NewsArticle
   });
 
   const text = response.text;
-  if (!text) throw new Error("No response from AI engine");
+  if (!text) throw new Error("Intelligence link severed. No data received.");
   
-  try {
-    const cleaned = text.trim();
-    return JSON.parse(cleaned) as NewsArticle;
-  } catch (e) {
-    console.error("Failed to parse AI response", text);
-    throw new Error("Invalid response format from AI engine");
-  }
+  return JSON.parse(text.trim()) as NewsArticle;
 };

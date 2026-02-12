@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
-import { Radio, RefreshCw, Activity, Sparkles, ChevronRight, AlertTriangle } from 'lucide-react';
+import { Radio, RefreshCw, Activity, ChevronRight, AlertTriangle } from 'lucide-react';
 import { newsService } from '../services/newsService.ts';
 
 interface Narrative {
@@ -15,25 +14,17 @@ interface Narrative {
 export const NarrativePulse: React.FC = () => {
   const [narratives, setNarratives] = useState<Narrative[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastScan, setLastScan] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
   const runPulseScan = async () => {
-    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
-    
-    if (!apiKey) {
-      setError("UPLINK KEY MISSING: The system requires an environment-level API_KEY to access high-signal logic.");
-      return;
-    }
-
     setIsLoading(true);
     setError(null);
     try {
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const currentNews = newsService.getLatestSnapshotItems().items;
       
-      const prompt = `Analyze current AI-Crypto trends using this context: ${JSON.stringify(currentNews.map(n => n.title))}. 
-      Identify 5 key narratives. Categorize into: SIGNAL, ALPHA, HYPE, EXIT_TRAP. Output JSON array.`;
+      const context = currentNews.map(n => n.title).join(', ');
+      const prompt = `Analyze current AI-Crypto trends using this context: ${context}. Identify 5 key narratives. Output JSON array.`;
 
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
@@ -57,11 +48,12 @@ export const NarrativePulse: React.FC = () => {
         }
       });
 
-      setNarratives(JSON.parse(response.text || '[]') as Narrative[]);
-      setLastScan(new Date().toLocaleTimeString());
+      const text = response.text;
+      if (!text) throw new Error("Intelligence node returned empty response.");
+      setNarratives(JSON.parse(text.trim()) as Narrative[]);
     } catch (err: any) {
-      console.error(err);
-      setError(`SYNC ERROR: ${err.message || 'Remote Intelligence Node returned invalid data.'}`);
+      console.error("Narrative Pulse failed:", err);
+      setError(err.message || 'The intelligence node is currently recalibrating. Try again shortly.');
     } finally {
       setIsLoading(false);
     }
@@ -104,9 +96,9 @@ export const NarrativePulse: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-8 bg-rose-500/10 border border-rose-500/20 rounded-[2rem] flex items-center gap-4 text-rose-500">
+        <div className="p-8 bg-rose-500/10 border border-rose-500/20 rounded-[2rem] flex items-center gap-4 text-rose-500 animate-in slide-in-from-top-4">
            <AlertTriangle size={24} />
-           <span className="text-xs font-mono font-black uppercase tracking-widest">{error}</span>
+           <span className="text-xs font-mono font-black uppercase tracking-widest">UPLINK STATUS: {error}</span>
         </div>
       )}
 
@@ -124,6 +116,7 @@ export const NarrativePulse: React.FC = () => {
            {isLoading ? (
              <div className="h-[400px] flex flex-col items-center justify-center space-y-6">
                 <Activity size={48} className="text-rose-600 animate-pulse" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Filtering White Noise...</span>
              </div>
            ) : (
              <div className="space-y-6">
@@ -141,6 +134,11 @@ export const NarrativePulse: React.FC = () => {
                      <div className="shrink-0 p-4 rounded-full bg-slate-50 dark:bg-white/5 text-slate-400"><ChevronRight size={24} /></div>
                   </div>
                 ))}
+                {narratives.length === 0 && !error && (
+                  <div className="text-center py-20 opacity-40">
+                    <p className="font-mono text-xs uppercase tracking-widest">No active narratives found in this cycle.</p>
+                  </div>
+                )}
              </div>
            )}
         </div>

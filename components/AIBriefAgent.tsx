@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { 
@@ -41,13 +40,6 @@ export const AIBriefAgent: React.FC = () => {
   };
 
   const generateBrief = async () => {
-    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
-    
-    if (!apiKey) {
-      setError("CONFIGURATION ERROR: API_KEY is not defined in the environment. Please add it to your project settings.");
-      return;
-    }
-
     setIsGenerating(true);
     setBrief(null);
     setError(null);
@@ -58,7 +50,7 @@ export const AIBriefAgent: React.FC = () => {
     }, 300);
 
     try {
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const currentNews = newsService.getLatestSnapshotItems().items;
       
       const prompt = `You are a high-signal AI Agent built for Shizzy Unchained. 

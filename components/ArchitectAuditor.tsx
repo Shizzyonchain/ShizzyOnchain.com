@@ -1,15 +1,11 @@
-
 import React, { useState, useRef } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import { 
   ShieldAlert, 
-  ChevronRight, 
   Terminal, 
-  Zap, 
-  AlertTriangle,
-  FileSearch,
   Activity,
-  Cpu
+  FileSearch,
+  AlertTriangle
 } from 'lucide-react';
 
 interface AuditResult {
@@ -38,13 +34,6 @@ export const ArchitectAuditor: React.FC = () => {
   const runAudit = async () => {
     if (!input.trim()) return;
 
-    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : undefined;
-    
-    if (!apiKey) {
-      setError("UPLINK DENIED: API_KEY is missing from environment variables.");
-      return;
-    }
-
     setIsAuditing(true);
     setResult(null);
     setError(null);
@@ -53,7 +42,7 @@ export const ArchitectAuditor: React.FC = () => {
     addLog(`Target: ${input}`);
 
     try {
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const prompt = `Perform a cynical structural audit of: "${input}". Output JSON with projectName, utilityScore (0-100), hypeDensity (0-100), bullshitMeter (CRITICAL, MODERATE, LOW), verdict, weaknesses, strengths, recommendation.`;
 
       const response = await ai.models.generateContent({
@@ -78,13 +67,15 @@ export const ArchitectAuditor: React.FC = () => {
         }
       });
 
-      const data = JSON.parse(response.text || '{}') as AuditResult;
+      const text = response.text;
+      if (!text) throw new Error("Data stream interrupted by intelligence node.");
+      const data = JSON.parse(text.trim()) as AuditResult;
       setResult(data);
-      addLog("Structural scan complete.");
+      addLog("Structural scan complete. Intelligence logged.");
     } catch (err: any) {
-      console.error(err);
-      setError(`CRITICAL ERROR: ${err.message || 'Data stream interrupted by remote node.'}`);
-      addLog("FAILURE: Data stream interrupted.");
+      console.error("Auditor failed:", err);
+      setError(err.message || 'Connection to the intelligence node was denied.');
+      addLog(`FATAL: ${err.message || 'Unknown protocol error.'}`);
     } finally {
       setIsAuditing(false);
     }
@@ -105,34 +96,35 @@ export const ArchitectAuditor: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-6 bg-rose-600/10 border border-rose-600/20 rounded-2xl flex items-center gap-4 text-rose-600">
+        <div className="p-6 bg-rose-600/10 border border-rose-600/20 rounded-2xl flex items-center gap-4 text-rose-600 animate-in slide-in-from-top-4">
            <AlertTriangle size={20} />
-           <span className="text-xs font-mono font-black uppercase tracking-widest">{error}</span>
+           <span className="text-xs font-mono font-black uppercase tracking-widest">UPLINK FAILED: {error}</span>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-5 space-y-8">
-           <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 space-y-6">
+           <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 space-y-6 shadow-xl">
               <input 
                 type="text" 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && runAudit()}
                 placeholder="Enter project name..."
-                className="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-sm font-bold placeholder:opacity-50 outline-none"
+                className="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-sm font-bold placeholder:opacity-50 outline-none focus:border-orange-500/50 transition-all"
               />
               <button 
                 onClick={runAudit}
                 disabled={isAuditing || !input}
-                className="w-full py-5 bg-orange-600 text-white rounded-2xl font-black uppercase tracking-widest text-[11px] disabled:opacity-50"
+                className="w-full py-5 bg-orange-600 text-white rounded-2xl font-black uppercase tracking-widest text-[11px] disabled:opacity-50 hover:bg-orange-500 transition-colors shadow-lg active:scale-95"
               >
                 {isAuditing ? 'AUDITING...' : 'EXECUTE SCAN'}
               </button>
            </div>
-           <div className="bg-black rounded-[2rem] p-6 h-64 overflow-y-auto font-mono text-[10px] space-y-2 border border-white/5">
-              <div className="text-emerald-500 uppercase tracking-widest font-bold mb-2 flex items-center gap-2"><Terminal size={12} /> System Logs</div>
+           <div className="bg-black rounded-[2rem] p-6 h-64 overflow-y-auto font-mono text-[10px] space-y-2 border border-white/5 shadow-2xl">
+              <div className="text-emerald-500 uppercase tracking-widest font-bold mb-2 flex items-center gap-2 border-b border-white/10 pb-2"><Terminal size={12} /> System Logs</div>
               {logs.map((log, i) => <div key={i} className="text-slate-400"> {log} </div>)}
+              {logs.length === 0 && <div className="text-slate-600">Waiting for target input...</div>}
               <div ref={scrollRef} />
            </div>
         </div>
@@ -140,13 +132,15 @@ export const ArchitectAuditor: React.FC = () => {
         <div className="lg:col-span-7">
            {!result && !isAuditing ? (
              <div className="h-full border border-dashed border-slate-200 dark:border-white/10 rounded-[3rem] flex flex-col items-center justify-center text-center p-12 bg-white/30 dark:bg-white/[0.01]">
-                <FileSearch size={48} className="text-orange-600 mb-4" />
-                <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic font-space">Audit Ready</h2>
+                <FileSearch size={48} className="text-orange-600 mb-4 opacity-50" />
+                <h2 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic font-space opacity-50">Audit Ready</h2>
+                <p className="text-[10px] font-mono text-slate-400 uppercase tracking-widest mt-2">Enter project identifier to begin analysis</p>
              </div>
            ) : isAuditing ? (
              <div className="h-full border border-slate-200 dark:border-white/10 rounded-[3rem] bg-white dark:bg-[#0b0e14] p-12 flex flex-col items-center justify-center">
                 <Activity size={64} className="text-orange-600 animate-pulse" />
                 <h3 className="mt-8 text-xl font-black text-orange-600 uppercase tracking-widest font-space">Analyzing Infrastructure</h3>
+                <p className="text-[10px] font-mono text-slate-400 uppercase tracking-widest mt-4">Cross-referencing narrative vectors...</p>
              </div>
            ) : (
              <div className="bg-white dark:bg-[#0b0e14] border-2 border-orange-600/30 rounded-[3rem] overflow-hidden shadow-2xl animate-in slide-in-from-right-8 duration-700">
@@ -178,6 +172,10 @@ export const ArchitectAuditor: React.FC = () => {
                          <h4 className="text-[10px] font-black text-red-500 uppercase tracking-widest font-mono">FLAWS</h4>
                          <ul className="text-sm text-slate-500 space-y-2">{result?.weaknesses.map((w, i) => <li key={i}>• {w}</li>)}</ul>
                       </div>
+                   </div>
+                   <div className="pt-6 border-t border-slate-100 dark:border-white/5">
+                      <h4 className="text-[10px] font-black text-blue-500 uppercase tracking-widest font-mono mb-2">RECOMMENDATION</h4>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 italic font-medium">"{result?.recommendation}"</p>
                    </div>
                 </div>
              </div>
