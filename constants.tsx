@@ -21,8 +21,8 @@ export const SOCIAL_LINKS = {
   telegram: 'https://t.me/ShizzyUnchained',
   email: 'Shizzyunchained@gmail.com',
   logo: 'https://i.postimg.cc/gJZVqs15/Untitled-design-(71).png',
-  // Official Branded Background
-  heroImage: 'https://i.postimg.cc/htkkcNk0/SU-Shizzy-Background-new-(19).png',
+  // Official Branded Background Updated to v20
+  heroImage: 'https://i.postimg.cc/bNQC1dWR/SU-Shizzy-Background-new-(20).png',
   website: 'https://onchainrevolution.io/'
 };
 
