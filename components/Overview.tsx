@@ -19,7 +19,7 @@ const TikTokIcon = ({ className = "w-5 h-5" }) => (
 export const Overview: React.FC = () => {
   const { items: aiItems } = newsService.getLatestSnapshotItems();
   const latestArticle = aiItems[0]; 
-
+  
   const socialItems = [
     { label: 'Shizzy (X)', url: SOCIAL_LINKS.x, icon: <div className="bg-zinc-900 dark:bg-black p-2.5 rounded-xl"><XIcon className="w-5 h-5 text-white" /></div> },
     { label: 'Shizzy Unchained', url: SOCIAL_LINKS.xUnchained, icon: <div className="bg-blue-600 p-2.5 rounded-xl"><XIcon className="w-5 h-5 text-white" /></div> },
@@ -195,7 +195,6 @@ export const Overview: React.FC = () => {
            </button>
         </div>
       </section>
-
     </div>
   );
 };

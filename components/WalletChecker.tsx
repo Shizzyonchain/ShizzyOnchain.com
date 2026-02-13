@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { coinGeckoProxy } from '../services/coinGeckoService.ts';
@@ -20,7 +21,13 @@ import {
   Database,
   X,
   Coins,
-  Shield
+  Shield,
+  SortAsc,
+  Cpu,
+  Wifi,
+  WifiOff,
+  Terminal,
+  ChevronRight
 } from 'lucide-react';
 
 interface ChainConfig {
@@ -69,11 +76,19 @@ const CHAIN_CONFIGS: ChainConfig[] = [
   { name: 'Telos', rpc: 'https://mainnet.telos.net/evm', symbol: 'TLOS', coinGeckoId: 'telos', icon: 'https://cryptologos.cc/logos/telos-tlos-logo.png' },
   { name: 'Harmony', rpc: 'https://api.harmony.one', symbol: 'ONE', coinGeckoId: 'harmony', icon: 'https://cryptologos.cc/logos/harmony-one-logo.png' },
   { name: 'IoTeX', rpc: 'https://babel-api.mainnet.iotex.io', symbol: 'IOTX', coinGeckoId: 'iotex', icon: 'https://cryptologos.cc/logos/iotex-iotx-logo.png' },
-  // BTC L2s (EVM COMPATIBLE)
   { name: 'Merlin Chain', rpc: 'https://rpc.merlinchain.io', symbol: 'BTC', coinGeckoId: 'bitcoin', icon: 'https://i.postimg.cc/8PzL7x9P/linea.png' },
   { name: 'BOB', rpc: 'https://rpc.gobob.xyz', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://i.postimg.cc/mD83W4vW/blast.png' },
   { name: 'Bitlayer', rpc: 'https://rpc.bitlayer.org', symbol: 'BTC', coinGeckoId: 'bitcoin', icon: 'https://i.postimg.cc/wT7mH7Yg/core.png' },
   { name: 'Botanix', rpc: 'https://node.botanixlabs.com', symbol: 'BTC', coinGeckoId: 'bitcoin', icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png' },
+  { name: 'Cyber', rpc: 'https://cyber-mainnet.alt.technology', symbol: 'CYBER', coinGeckoId: 'cyberconnect', icon: 'https://i.postimg.cc/gjFGnVCS/5D00FCFA-101B-4B9A-9E08-03F617D4BA2C.png' },
+  { name: 'Astar zkEVM', rpc: 'https://rpc.startale.com/astar-zkevm', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://cryptologos.cc/logos/astar-astr-logo.png' },
+  { name: 'Immutable zkEVM', rpc: 'https://rpc.immutable.com', symbol: 'IMX', coinGeckoId: 'immutable-x', icon: 'https://cryptologos.cc/logos/immutable-x-imx-logo.png' },
+  { name: 'Polygon zkEVM', rpc: 'https://zkevm-rpc.com', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://cryptologos.cc/logos/polygon-matic-logo.png' },
+  { name: 'Gravity', rpc: 'https://rpc.gravity.xyz', symbol: 'G', coinGeckoId: 'gravity-2', icon: 'https://i.postimg.cc/mrhz3Wv7/sei.png' },
+  { name: 'Xai', rpc: 'https://xai-chain.net/rpc', symbol: 'XAI', coinGeckoId: 'xai-blockchain', icon: 'https://i.postimg.cc/qM6V3q0x/mode.png' },
+  { name: 'Neon EVM', rpc: 'https://neon-proxy-mainnet.solana.p2p.org', symbol: 'NEON', coinGeckoId: 'neon', icon: 'https://i.postimg.cc/mD83W4vW/blast.png' },
+  { name: 'Shape', rpc: 'https://mainnet.shape.network', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://i.postimg.cc/Sxp2hC2w/zora.png' },
+  { name: 'Etherlink', rpc: 'https://node.etherlink.com', symbol: 'XTZ', coinGeckoId: 'tezos', icon: 'https://cryptologos.cc/logos/tezos-xtz-logo.png' },
 ];
 
 interface ChainScanResult {
@@ -94,6 +109,20 @@ export const WalletChecker: React.FC = () => {
   const [totalValue, setTotalValue] = useState(0);
   const [inputError, setInputError] = useState<string | null>(null);
   const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
+  const [progressCount, setProgressCount] = useState(0);
+  const [currentScanningChain, setCurrentScanningChain] = useState<string | null>(null);
+  const [scanLogs, setScanLogs] = useState<string[]>([]);
+  const logEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (logEndRef.current) {
+      logEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [scanLogs]);
+
+  const addLog = (msg: string) => {
+    setScanLogs(prev => [...prev.slice(-49), `[${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}] ${msg}`]);
+  };
 
   const fetchBalance = async (rpcUrl: string, walletAddress: string): Promise<number> => {
     try {
@@ -127,6 +156,9 @@ export const WalletChecker: React.FC = () => {
     setIsScanning(true);
     setAiAnalysis(null);
     setTotalValue(0);
+    setProgressCount(0);
+    setScanLogs([]);
+    addLog(`INITIATING GLOBAL ARCHITECTURAL SCAN FOR ${cleanAddress.slice(0, 10)}...`);
 
     try {
       const markets = await coinGeckoProxy.getTopMarkets(undefined, true);
@@ -140,11 +172,7 @@ export const WalletChecker: React.FC = () => {
         };
       });
 
-      const sortedConfigs = [...CHAIN_CONFIGS].sort((a, b) => {
-        const mcapA = marketDataMap[a.name]?.mcap || 0;
-        const mcapB = marketDataMap[b.name]?.mcap || 0;
-        return mcapB - mcapA;
-      });
+      const sortedConfigs = [...CHAIN_CONFIGS].sort((a, b) => a.name.localeCompare(b.name));
 
       const initialResults: ChainScanResult[] = sortedConfigs.map(config => ({
         config,
@@ -161,26 +189,38 @@ export const WalletChecker: React.FC = () => {
 
       for (let i = 0; i < updatedResults.length; i++) {
         const result = updatedResults[i];
+        setCurrentScanningChain(result.config.name);
+        addLog(`PINGING NODE: ${result.config.name}...`);
+        
         setScanResults(prev => prev.map((r, idx) => idx === i ? { ...r, status: 'scanning' } : r));
-        await new Promise(r => setTimeout(r, 40));
+        await new Promise(r => setTimeout(r, 60)); // Small delay for visual impact
 
         try {
           const balance = await fetchBalance(result.config.rpc, cleanAddress);
           const usdValue = balance * result.price;
           updatedResults[i] = { ...result, status: 'complete', balance, usdValue };
           runningTotal += usdValue;
+          
+          if (balance > 0.0001) {
+             addLog(`[DETECTED] ${balance.toFixed(4)} ${result.config.symbol} ON ${result.config.name.toUpperCase()}`);
+          }
         } catch (e) {
           updatedResults[i] = { ...result, status: 'error', error: 'RPC Error' };
+          addLog(`[ERROR] ${result.config.name} RPC UNREACHABLE`);
         }
 
         setScanResults([...updatedResults]);
         setTotalValue(runningTotal);
+        setProgressCount(i + 1);
       }
 
+      setCurrentScanningChain(null);
+      addLog(`SCAN COMPLETE. TOTAL NATIVE VALUE DETECTED: $${runningTotal.toLocaleString()}`);
       setIsScanning(false);
       triggerAiAudit(updatedResults, runningTotal);
 
     } catch (err) {
+      addLog(`[FATAL] GLOBAL NODE SYNC INTERRUPTED.`);
       setInputError("Node sync interrupted.");
       setIsScanning(false);
     }
@@ -195,6 +235,7 @@ export const WalletChecker: React.FC = () => {
     if (!summary) return;
 
     setIsAuditing(true);
+    addLog("DISPATCHING DATA TO AI AUDIT MODEL...");
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const response = await ai.models.generateContent({
@@ -206,8 +247,10 @@ export const WalletChecker: React.FC = () => {
 
       if (response.text) {
         setAiAnalysis(response.text);
+        addLog("AI AUDIT LOGGED SUCCESSFULLY.");
       }
     } catch (err) {
+      addLog("AI AUDIT LINK FAILED. SHOWING RAW DATA.");
       console.warn("AI link skipped. Showing raw data.");
     } finally {
       setIsAuditing(false);
@@ -220,6 +263,9 @@ export const WalletChecker: React.FC = () => {
     setScanResults([]);
     setTotalValue(0);
     setAiAnalysis(null);
+    setProgressCount(0);
+    setScanLogs([]);
+    setCurrentScanningChain(null);
   };
 
   const formatCurrency = (val: number) => 
@@ -237,8 +283,8 @@ export const WalletChecker: React.FC = () => {
               {CHAIN_CONFIGS.length} LIVE NODES MAPPED
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
-              <Globe size={10} />
-              DOMINANCE ORDERED
+              <SortAsc size={10} />
+              ALPHABETICAL ORDERING
             </div>
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
@@ -251,46 +297,103 @@ export const WalletChecker: React.FC = () => {
       </div>
 
       {/* INPUT & ACTION */}
-      <div className="max-w-[800px] mx-auto space-y-8">
-        <div className="relative group">
-          <div className="absolute inset-y-0 left-6 flex items-center text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none">
-            <Search size={24} />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-[1200px] mx-auto">
+        <div className="lg:col-span-7 space-y-8">
+           <div className="relative group">
+            <div className="absolute inset-y-0 left-6 flex items-center text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none">
+              <Search size={24} />
+            </div>
+            <input 
+              type="text" 
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && !isScanning && startScan()}
+              placeholder="Enter Wallet (0x...)"
+              className="w-full h-20 md:h-24 bg-white dark:bg-[#0b0e14] border-2 border-slate-200 dark:border-white/10 rounded-2xl md:rounded-[2.5rem] pl-20 pr-16 text-lg md:text-xl font-mono font-bold outline-none focus:border-blue-600 transition-all shadow-2xl dark:shadow-none"
+            />
+            {address && !isScanning && (
+              <button 
+                onClick={handleClear}
+                className="absolute inset-y-0 right-6 flex items-center text-slate-400 hover:text-blue-600 transition-colors active:scale-90"
+                title="Clear Terminal"
+              >
+                <X size={28} />
+              </button>
+            )}
           </div>
-          <input 
-            type="text" 
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && !isScanning && startScan()}
-            placeholder="Enter Wallet (0x...)"
-            className="w-full h-20 md:h-24 bg-white dark:bg-[#0b0e14] border-2 border-slate-200 dark:border-white/10 rounded-2xl md:rounded-[2.5rem] pl-20 pr-16 text-lg md:text-xl font-mono font-bold outline-none focus:border-blue-600 transition-all shadow-2xl dark:shadow-none"
-          />
-          {address && !isScanning && (
-            <button 
-              onClick={handleClear}
-              className="absolute inset-y-0 right-6 flex items-center text-slate-400 hover:text-blue-600 transition-colors active:scale-90"
-              title="Clear Terminal"
-            >
-              <X size={28} />
-            </button>
-          )}
-        </div>
-        
-        <div className="flex flex-col items-center gap-6">
-          <button 
-            onClick={startScan}
-            disabled={isScanning || !address}
-            className="w-full max-w-[400px] py-6 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-[0.2em] text-[12px] md:text-[14px] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-blue-500/10 disabled:opacity-50"
-          >
-            {isScanning ? `SCANNING NODES...` : 'PULL GLOBAL BLOCKCHAIN DATA'}
-          </button>
           
-          {inputError && (
-            <p className="text-rose-500 text-[10px] font-black font-mono uppercase tracking-widest flex items-center justify-center gap-2">
-              <AlertCircle size={14} /> {inputError}
-            </p>
-          )}
+          <div className="flex flex-col items-center gap-6">
+            <button 
+              onClick={startScan}
+              disabled={isScanning || !address}
+              className="w-full py-6 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-[0.2em] text-[12px] md:text-[14px] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-blue-500/10 disabled:opacity-50"
+            >
+              {isScanning ? `NODE SYNC ACTIVE...` : 'PULL GLOBAL BLOCKCHAIN DATA'}
+            </button>
+            
+            {inputError && (
+              <p className="text-rose-500 text-[10px] font-black font-mono uppercase tracking-widest flex items-center justify-center gap-2">
+                <AlertCircle size={14} /> {inputError}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* LIVE SCAN LOG */}
+        <div className="lg:col-span-5">
+           <div className="bg-slate-900 rounded-[2rem] p-6 h-64 lg:h-full border border-white/5 shadow-2xl overflow-hidden flex flex-col">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                 <div className="flex items-center gap-3 text-blue-500">
+                    <Terminal size={16} />
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] font-mono">SYSTEM LOGS</span>
+                 </div>
+                 {isScanning && <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></div><span className="text-[8px] font-mono text-blue-500">REALTIME</span></div>}
+              </div>
+              <div className="flex-grow overflow-y-auto space-y-2 font-mono text-[10px] scrollbar-hide">
+                 {scanLogs.length === 0 ? (
+                   <div className="text-slate-600 italic">Terminal idle. Awaiting user input node...</div>
+                 ) : (
+                   scanLogs.map((log, i) => (
+                     <div key={i} className={`flex gap-3 ${log.includes('[DETECTED]') ? 'text-emerald-400 font-bold' : log.includes('[ERROR]') ? 'text-rose-500' : 'text-slate-400'}`}>
+                        <span className="shrink-0 text-slate-600">{i + 1}.</span>
+                        <span>{log}</span>
+                     </div>
+                   ))
+                 )}
+                 <div ref={logEndRef} />
+              </div>
+           </div>
         </div>
       </div>
+
+      {/* SCANNING HUD (Highly Visible) */}
+      {isScanning && (
+        <div className="max-w-[1200px] mx-auto bg-blue-600/5 dark:bg-blue-600/[0.03] border border-blue-600/30 rounded-[3rem] p-10 md:p-16 space-y-8 animate-in zoom-in-95 duration-500">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+             <div className="space-y-4 text-center md:text-left">
+                <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.5em] font-mono">CURRENTLY PINGING NODE</div>
+                <h2 className="text-4xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic animate-pulse">
+                   {currentScanningChain || 'INITIALIZING...'}
+                </h2>
+             </div>
+             <div className="shrink-0 flex items-center justify-center w-32 h-32 md:w-48 md:h-48 rounded-full border-8 border-slate-200 dark:border-white/5 border-t-blue-600 animate-spin">
+                <div className="text-2xl font-black font-mono text-blue-600">{Math.round((progressCount / CHAIN_CONFIGS.length) * 100)}%</div>
+             </div>
+          </div>
+          <div className="space-y-4">
+             <div className="flex justify-between items-end text-[10px] font-black font-mono text-blue-600 uppercase tracking-[0.3em]">
+               <span>GLOBAL BLOCKCHAIN MAPPING</span>
+               <span>{progressCount} / {CHAIN_CONFIGS.length} NODES</span>
+             </div>
+             <div className="h-4 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden border border-slate-200 dark:border-white/10">
+               <div 
+                 className="h-full bg-blue-600 transition-all duration-300 shadow-[0_0_20px_rgba(37,99,235,0.6)]"
+                 style={{ width: `${(progressCount / CHAIN_CONFIGS.length) * 100}%` }}
+               ></div>
+             </div>
+          </div>
+        </div>
+      )}
 
       {/* ANALYSIS BOX - ONLY SHOWS WHEN RELEVANT */}
       {(aiAnalysis || isAuditing) && (
@@ -318,6 +421,7 @@ export const WalletChecker: React.FC = () => {
       {scanResults.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
+          {/* Summary Panel */}
           <div className="lg:col-span-4 space-y-8">
              <div className="bg-slate-900 dark:bg-white rounded-[3rem] p-10 text-white dark:text-black shadow-2xl space-y-8 relative overflow-hidden">
                 <div className="absolute -top-10 -right-10 opacity-10">
@@ -330,7 +434,7 @@ export const WalletChecker: React.FC = () => {
                   </div>
                 </div>
                 <div className="relative z-10 pt-8 border-t border-white/20 dark:border-black/10">
-                   <div className="text-[9px] font-black uppercase tracking-widest opacity-40">Active Nodes Verified</div>
+                   <div className="text-[9px] font-black uppercase tracking-widest opacity-40">Active Nodes Detected</div>
                    <div className="text-2xl font-black italic tracking-tighter">{scanResults.filter(r => r.balance > 0.0001).length} / {scanResults.length}</div>
                 </div>
              </div>
@@ -338,7 +442,7 @@ export const WalletChecker: React.FC = () => {
              <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 space-y-8 shadow-xl">
                 <div className="flex items-center gap-3">
                   <Layers className="text-blue-600" size={18} />
-                  <h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white">CONCENTRATION</h3>
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white italic">PORTFOLIO MIX</h3>
                 </div>
                 <div className="space-y-6">
                   {scanResults.filter(r => r.balance > 0.0001).sort((a,b) => b.usdValue - a.usdValue).slice(0, 5).map((res, i) => (
@@ -355,104 +459,101 @@ export const WalletChecker: React.FC = () => {
                        </div>
                     </div>
                   ))}
-                  {scanResults.filter(r => r.balance > 0.0001).length === 0 && !isScanning && (
-                    <p className="text-[10px] text-slate-400 uppercase font-bold text-center py-4 italic">No liquidity signals detected.</p>
+                  {scanResults.filter(r => r.balance > 0.0001).length === 0 && (
+                    <div className="text-center py-4 opacity-40 italic text-xs font-mono">No native assets found.</div>
                   )}
                 </div>
              </div>
           </div>
 
-          <div className="lg:col-span-8">
-             <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[3rem] overflow-hidden shadow-2xl h-full flex flex-col transition-all duration-700">
-                <div className="px-10 py-8 border-b border-slate-100 dark:border-white/5 flex items-center justify-between bg-slate-50/50 dark:bg-white/[0.01]">
-                   <h3 className="text-lg font-black uppercase tracking-widest font-space text-slate-900 dark:text-white italic">{CHAIN_CONFIGS.length}-NODE LIVE STATE</h3>
-                   <button onClick={startScan} disabled={isScanning} className="p-3 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-400 hover:text-blue-600 transition-all">
-                      <RefreshCw size={16} className={isScanning ? 'animate-spin' : ''} />
-                   </button>
-                </div>
-                
-                <div className="flex-grow overflow-x-auto max-h-[600px] scrollbar-thin">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-slate-50 dark:bg-white/[0.02] text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100 dark:border-white/5 sticky top-0 z-10 backdrop-blur-md">
-                        <th className="px-10 py-6">Network</th>
-                        <th className="px-10 py-6">Status</th>
-                        <th className="px-10 py-6 text-right">Balance</th>
-                        <th className="px-10 py-6 text-right">Value (USD)</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-white/5">
-                      {scanResults.map((res, i) => (
-                        <tr key={i} className={`hover:bg-slate-50/50 dark:hover:bg-white/[0.01] transition-all group ${res.status === 'scanning' ? 'bg-blue-600/5' : ''}`}>
-                          <td className="px-10 py-6">
-                            <div className="flex items-center gap-4">
-                              <img src={res.config.icon} alt={res.config.name} className="w-8 h-8 object-contain rounded-full bg-black/10 p-1" />
-                              <div className="flex flex-col">
-                                <span className="text-sm font-black uppercase tracking-tight text-slate-900 dark:text-white leading-none">
-                                  {res.config.name}
-                                </span>
-                                <span className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-widest mt-1">MCAP: {new Intl.NumberFormat('en-US', { notation: 'compact' }).format(res.marketCap)}</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-10 py-6">
-                             {res.status === 'scanning' ? (
-                               <span className="flex items-center gap-2 text-[9px] font-black text-blue-600 animate-pulse">
-                                 <RefreshCw size={10} className="animate-spin" /> SYNCING
-                               </span>
-                             ) : res.status === 'complete' ? (
-                               <span className="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase">
-                                 <CheckCircle2 size={10} className="text-blue-600" /> LIVE
-                               </span>
-                             ) : res.status === 'error' ? (
-                               <span className="text-[9px] font-black text-rose-500 uppercase">OFFLINE</span>
-                             ) : (
-                               <span className="text-[9px] font-black text-slate-300 dark:text-slate-700 uppercase">QUEUED</span>
-                             )}
-                          </td>
-                          <td className="px-10 py-6 text-right">
-                            <div className="text-sm font-black text-slate-900 dark:text-white font-mono">
-                              {res.balance > 0.00001 ? res.balance.toFixed(4) : '0.0000'} <span className="text-[9px] opacity-40">{res.config.symbol}</span>
-                            </div>
-                          </td>
-                          <td className="px-10 py-6 text-right">
-                            <div className={`text-sm font-black font-mono tracking-tighter ${res.usdValue > 0.01 ? 'text-blue-600' : 'text-slate-300 dark:text-slate-700'}`}>
-                              {formatCurrency(res.usdValue)}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+          {/* Network Intel Grid */}
+          <div className="lg:col-span-8 space-y-8">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-6">
+              <div className="flex items-center gap-3">
+                <Wifi className="text-blue-600 animate-pulse" size={18} />
+                <h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white italic">NETWORK INTEL GRID</h3>
+              </div>
+              <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">{address.slice(0,6)}...{address.slice(-4)}</span>
+            </div>
 
-                <div className="p-10 border-t border-slate-100 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-8 bg-slate-50/30 dark:bg-white/[0.005]">
-                   <div className="flex items-center gap-4 text-slate-400">
-                      <Lock size={16} />
-                      <span className="text-[9px] font-mono font-bold uppercase tracking-widest italic leading-relaxed">
-                        NODE LINK SECURE • CROSS-CHAIN VALIDATION COMPLETE
-                      </span>
-                   </div>
-                   <button className="px-8 py-3 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
-                      VIEW FULL INVENTORY <ExternalLink size={14} />
-                   </button>
-                </div>
-             </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+              {scanResults.map((result, i) => {
+                const isScanningItem = result.status === 'scanning';
+                const isComplete = result.status === 'complete';
+                const hasBalance = result.balance > 0.0001;
+                const isPending = result.status === 'pending';
+
+                return (
+                  <div 
+                    key={i} 
+                    className={`relative p-4 rounded-2xl border transition-all duration-300 flex flex-col gap-3 group ${
+                      isScanningItem ? 'border-blue-600 bg-blue-600/10 shadow-[0_0_25px_rgba(37,99,235,0.4)] scale-105 z-10' :
+                      hasBalance ? 'border-emerald-500/50 bg-emerald-500/[0.02]' :
+                      isComplete ? 'border-slate-200 dark:border-white/5 opacity-40' :
+                      'border-slate-200 dark:border-white/5 opacity-20'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start">
+                      <img src={result.config.icon} alt={result.config.symbol} className={`w-6 h-6 object-contain transition-transform ${isScanningItem ? 'scale-125 animate-pulse' : ''}`} />
+                      <div className="flex gap-1">
+                        {isScanningItem && <RefreshCw size={12} className="text-blue-600 animate-spin" />}
+                        {isComplete && hasBalance && <CheckCircle2 size={12} className="text-emerald-500" />}
+                        {isComplete && !hasBalance && <WifiOff size={12} className="text-slate-400" />}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-0.5">
+                      <div className="text-[10px] font-black text-slate-900 dark:text-white uppercase truncate">{result.config.name}</div>
+                      {isComplete && hasBalance ? (
+                        <div className="text-[11px] font-mono font-black text-emerald-500">
+                          {result.balance.toFixed(4)} {result.config.symbol}
+                        </div>
+                      ) : (
+                        <div className="text-[9px] font-mono font-bold text-slate-400 uppercase">
+                          {isScanningItem ? 'SYNCING...' : isComplete ? 'EMPTY' : 'WAITING'}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Progress scanning indicator line */}
+                    {isScanningItem && (
+                      <div className="absolute bottom-0 left-0 w-full h-[3px] overflow-hidden rounded-b-2xl">
+                        <div className="h-full bg-blue-600 animate-marquee"></div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
 
       {/* FOOTER DIAGNOSTIC */}
-      <div className="pt-20 flex flex-col items-center gap-8 opacity-40">
-        <div className="flex items-center gap-4">
-           <div className="w-12 h-[1px] bg-slate-300 dark:bg-white/10"></div>
-           <Globe size={20} className="text-blue-600" />
-           <div className="w-12 h-[1px] bg-slate-300 dark:bg-white/10"></div>
+      <div className="pt-20 flex flex-col items-center justify-center gap-6 opacity-40">
+        <div className="flex items-center gap-4 font-mono text-[9px] font-bold uppercase tracking-[0.5em] text-slate-400 text-center">
+          <div className="w-16 h-[1px] bg-slate-200 dark:bg-white/10"></div>
+          {isScanning ? 'NODE SYNC IN PROGRESS' : 'TERMINAL IDLE'}
+          <div className="w-16 h-[1px] bg-slate-200 dark:bg-white/10"></div>
         </div>
-        <p className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-[0.5em] text-center italic leading-relaxed">
-          UNIVERSAL INDEXER • {CHAIN_CONFIGS.length} NODES ACTIVE • DOMINANCE VERIFIED
-        </p>
       </div>
+
+      <style>{`
+        @keyframes marquee-scan {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-marquee {
+          animation: marquee-scan 1s linear infinite;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 };
