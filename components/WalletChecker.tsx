@@ -19,7 +19,8 @@ import {
   Lock,
   Database,
   X,
-  Coins
+  Coins,
+  Shield
 } from 'lucide-react';
 
 interface ChainConfig {
@@ -33,9 +34,8 @@ interface ChainConfig {
 const CHAIN_CONFIGS: ChainConfig[] = [
   { name: 'Ethereum', rpc: 'https://cloudflare-eth.com', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png' },
   { name: 'BNB Chain', rpc: 'https://bsc-dataseed.binance.org', symbol: 'BNB', coinGeckoId: 'binancecoin', icon: 'https://cryptologos.cc/logos/bnb-bnb-logo.png' },
-  { name: 'Solana (EVM)', rpc: 'https://api.mainnet-beta.solana.com', symbol: 'SOL', coinGeckoId: 'solana', icon: 'https://cryptologos.cc/logos/solana-sol-logo.png' },
-  { name: 'Sonic Mainnet', rpc: 'https://rpc.soniclabs.com', symbol: 'S', coinGeckoId: 'sonic-3', icon: 'https://sonic.xyz/favicon.ico' },
   { name: 'Base', rpc: 'https://mainnet.base.org', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://avatars.githubusercontent.com/u/108554348?v=4' },
+  { name: 'Sonic Mainnet', rpc: 'https://rpc.soniclabs.com', symbol: 'S', coinGeckoId: 'sonic-3', icon: 'https://sonic.xyz/favicon.ico' },
   { name: 'Arbitrum One', rpc: 'https://arb1.arbitrum.io/rpc', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://cryptologos.cc/logos/arbitrum-arb-logo.png' },
   { name: 'Optimism', rpc: 'https://mainnet.optimism.io', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://cryptologos.cc/logos/optimism-ethereum-op-logo.png' },
   { name: 'Polygon', rpc: 'https://polygon-rpc.com', symbol: 'POL', coinGeckoId: 'polygon-ecosystem-token', icon: 'https://cryptologos.cc/logos/polygon-matic-logo.png' },
@@ -69,7 +69,7 @@ const CHAIN_CONFIGS: ChainConfig[] = [
   { name: 'Telos', rpc: 'https://mainnet.telos.net/evm', symbol: 'TLOS', coinGeckoId: 'telos', icon: 'https://cryptologos.cc/logos/telos-tlos-logo.png' },
   { name: 'Harmony', rpc: 'https://api.harmony.one', symbol: 'ONE', coinGeckoId: 'harmony', icon: 'https://cryptologos.cc/logos/harmony-one-logo.png' },
   { name: 'IoTeX', rpc: 'https://babel-api.mainnet.iotex.io', symbol: 'IOTX', coinGeckoId: 'iotex', icon: 'https://cryptologos.cc/logos/iotex-iotx-logo.png' },
-  // BTC L2s
+  // BTC L2s (EVM COMPATIBLE)
   { name: 'Merlin Chain', rpc: 'https://rpc.merlinchain.io', symbol: 'BTC', coinGeckoId: 'bitcoin', icon: 'https://i.postimg.cc/8PzL7x9P/linea.png' },
   { name: 'BOB', rpc: 'https://rpc.gobob.xyz', symbol: 'ETH', coinGeckoId: 'ethereum', icon: 'https://i.postimg.cc/mD83W4vW/blast.png' },
   { name: 'Bitlayer', rpc: 'https://rpc.bitlayer.org', symbol: 'BTC', coinGeckoId: 'bitcoin', icon: 'https://i.postimg.cc/wT7mH7Yg/core.png' },
@@ -119,7 +119,7 @@ export const WalletChecker: React.FC = () => {
   const startScan = async () => {
     const cleanAddress = address.trim();
     if (!cleanAddress || !cleanAddress.startsWith('0x') || cleanAddress.length !== 42) {
-      setInputError('Please provide a valid EVM wallet address (0x...).');
+      setInputError('Provide valid 0x identifier.');
       return;
     }
 
@@ -129,7 +129,6 @@ export const WalletChecker: React.FC = () => {
     setTotalValue(0);
 
     try {
-      // 1. Fetch Market Data for Sorting
       const markets = await coinGeckoProxy.getTopMarkets(undefined, true);
       const marketDataMap: Record<string, { price: number; mcap: number }> = {};
       
@@ -141,7 +140,6 @@ export const WalletChecker: React.FC = () => {
         };
       });
 
-      // 2. Prepare Results sorted by Market Cap
       const sortedConfigs = [...CHAIN_CONFIGS].sort((a, b) => {
         const mcapA = marketDataMap[a.name]?.mcap || 0;
         const mcapB = marketDataMap[b.name]?.mcap || 0;
@@ -158,26 +156,18 @@ export const WalletChecker: React.FC = () => {
       }));
       setScanResults(initialResults);
 
-      // 3. Scan Sequentially
       const updatedResults = [...initialResults];
       let runningTotal = 0;
 
       for (let i = 0; i < updatedResults.length; i++) {
         const result = updatedResults[i];
         setScanResults(prev => prev.map((r, idx) => idx === i ? { ...r, status: 'scanning' } : r));
-        
         await new Promise(r => setTimeout(r, 40));
 
         try {
           const balance = await fetchBalance(result.config.rpc, cleanAddress);
           const usdValue = balance * result.price;
-          
-          updatedResults[i] = {
-            ...result,
-            status: 'complete',
-            balance,
-            usdValue
-          };
+          updatedResults[i] = { ...result, status: 'complete', balance, usdValue };
           runningTotal += usdValue;
         } catch (e) {
           updatedResults[i] = { ...result, status: 'error', error: 'RPC Error' };
@@ -191,35 +181,34 @@ export const WalletChecker: React.FC = () => {
       triggerAiAudit(updatedResults, runningTotal);
 
     } catch (err) {
-      setInputError("Node gateway interrupted. Please try again.");
+      setInputError("Node sync interrupted.");
       setIsScanning(false);
     }
   };
 
   const triggerAiAudit = async (results: ChainScanResult[], total: number) => {
+    const summary = results
+      .filter(r => r.balance > 0.0001)
+      .map(r => `${r.balance.toFixed(4)} ${r.config.symbol} on ${r.config.name}`)
+      .join(', ');
+
+    if (!summary) return;
+
     setIsAuditing(true);
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const summary = results
-        .filter(r => r.balance > 0.0001)
-        .map(r => `${r.balance.toFixed(4)} ${r.config.symbol} on ${r.config.name}`)
-        .join(', ');
-
-      if (!summary) {
-        setAiAnalysis("No native liquidity detected on scanned networks. The terminal suggests monitoring non-native token exposure via secondary explorers.");
-        return;
-      }
-
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-3-pro-preview',
         contents: `Analyze wallet ${address}. Assets: ${summary}. Total Native USD: $${total.toFixed(2)}. 
-        Give a 3-sentence professional, aggressive "Shizzy" analysis. 
-        Focus on which ecosystem they are most heavy in and give one strategic alpha tip.`,
+        Give a 3-sentence professional, aggressive tactical audit as Shizzy. 
+        Focus on ecosystem dominance, risk profile, and one high-alpha tip.`,
       });
 
-      setAiAnalysis(response.text || "Intelligence feed offline.");
+      if (response.text) {
+        setAiAnalysis(response.text);
+      }
     } catch (err) {
-      setAiAnalysis("AI link offline. Raw node data is displayed below.");
+      console.warn("AI link skipped. Showing raw data.");
     } finally {
       setIsAuditing(false);
     }
@@ -237,7 +226,7 @@ export const WalletChecker: React.FC = () => {
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: val < 1 ? 4 : 2 }).format(val);
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-12 animate-in fade-in duration-1000 pb-20">
+    <div className="max-w-[1400px] mx-auto space-y-12 animate-in fade-in duration-1000 pb-20 px-4">
       
       {/* HEADER */}
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
@@ -245,18 +234,18 @@ export const WalletChecker: React.FC = () => {
           <div className="flex flex-wrap justify-center md:justify-start gap-3">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
               <Database size={10} strokeWidth={3} className="animate-pulse" />
-              {CHAIN_CONFIGS.length} NODES ORDERED BY MCAP
+              {CHAIN_CONFIGS.length} LIVE NODES MAPPED
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
               <Globe size={10} />
-              UNIVERSAL EVM INDEXER
+              DOMINANCE ORDERED
             </div>
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
             MASTER <span className="text-blue-600">SCAN</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.3em] max-w-2xl leading-relaxed italic mx-auto md:mx-0">
-            High-signal wallet intelligence. Ordered by governance dominance. Direct node-to-terminal synchronization for real-time architectural mapping.
+            Real-time direct-to-node intelligence. Mapping portfolio dominance across the global architectural stack.
           </p>
         </div>
       </div>
@@ -272,13 +261,13 @@ export const WalletChecker: React.FC = () => {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && !isScanning && startScan()}
-            placeholder="Enter EVM Wallet Address (0x...)"
+            placeholder="Enter Wallet (0x...)"
             className="w-full h-20 md:h-24 bg-white dark:bg-[#0b0e14] border-2 border-slate-200 dark:border-white/10 rounded-2xl md:rounded-[2.5rem] pl-20 pr-16 text-lg md:text-xl font-mono font-bold outline-none focus:border-blue-600 transition-all shadow-2xl dark:shadow-none"
           />
           {address && !isScanning && (
             <button 
               onClick={handleClear}
-              className="absolute inset-y-0 right-6 flex items-center text-slate-400 hover:text-rose-500 transition-colors active:scale-90"
+              className="absolute inset-y-0 right-6 flex items-center text-slate-400 hover:text-blue-600 transition-colors active:scale-90"
               title="Clear Terminal"
             >
               <X size={28} />
@@ -292,7 +281,7 @@ export const WalletChecker: React.FC = () => {
             disabled={isScanning || !address}
             className="w-full max-w-[400px] py-6 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-[0.2em] text-[12px] md:text-[14px] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-blue-500/10 disabled:opacity-50"
           >
-            {isScanning ? `SYNCING DOMINANCE NODES...` : 'PULL GLOBAL BLOCKCHAIN DATA'}
+            {isScanning ? `SCANNING NODES...` : 'PULL GLOBAL BLOCKCHAIN DATA'}
           </button>
           
           {inputError && (
@@ -303,22 +292,22 @@ export const WalletChecker: React.FC = () => {
         </div>
       </div>
 
-      {/* ANALYSIS BOX */}
+      {/* ANALYSIS BOX - ONLY SHOWS WHEN RELEVANT */}
       {(aiAnalysis || isAuditing) && (
-        <div className="bg-blue-600/5 dark:bg-blue-500/[0.02] border border-blue-500/20 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden">
+        <div className="bg-blue-600/5 dark:bg-blue-500/[0.02] border border-blue-500/20 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden transition-all animate-in fade-in slide-in-from-bottom-4">
            <div className="absolute -top-10 -right-10 opacity-5 rotate-12">
               <BrainCircuit size={300} strokeWidth={1} />
            </div>
            <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
               <div className={`shrink-0 p-6 rounded-3xl bg-blue-600 text-white shadow-2xl ${isAuditing ? 'animate-pulse' : ''}`}>
-                 <BrainCircuit size={48} />
+                 <Shield size={48} />
               </div>
               <div className="space-y-4 text-center md:text-left">
                  <div className="flex items-center justify-center md:justify-start gap-3">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">GLOBAL PORTFOLIO AUDIT</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">STRATEGIC AUDIT BRIEF</span>
                  </div>
                  <p className="text-xl md:text-3xl font-medium text-slate-700 dark:text-slate-200 leading-relaxed italic max-w-4xl font-space">
-                   {isAuditing ? `Synthesizing ${CHAIN_CONFIGS.length}-chain data ordered by market dominance...` : aiAnalysis}
+                   {isAuditing ? `Synchronizing model for tactical audit...` : aiAnalysis}
                  </p>
               </div>
            </div>
@@ -335,21 +324,21 @@ export const WalletChecker: React.FC = () => {
                   <TrendingUp size={240} strokeWidth={4} />
                 </div>
                 <div className="relative z-10 space-y-2">
-                  <div className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60">AGGREGATE NATIVE VALUE</div>
+                  <div className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60">AGGREGATE VALUE</div>
                   <div className="text-5xl md:text-6xl font-black font-space italic tracking-tighter leading-none">
                     {formatCurrency(totalValue)}
                   </div>
                 </div>
                 <div className="relative z-10 pt-8 border-t border-white/20 dark:border-black/10">
-                   <div className="text-[9px] font-black uppercase tracking-widest opacity-40">Active Networks Detected</div>
-                   <div className="text-2xl font-black">{scanResults.filter(r => r.balance > 0.0001).length} / {scanResults.length}</div>
+                   <div className="text-[9px] font-black uppercase tracking-widest opacity-40">Active Nodes Verified</div>
+                   <div className="text-2xl font-black italic tracking-tighter">{scanResults.filter(r => r.balance > 0.0001).length} / {scanResults.length}</div>
                 </div>
              </div>
 
              <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 space-y-8 shadow-xl">
                 <div className="flex items-center gap-3">
                   <Layers className="text-blue-600" size={18} />
-                  <h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white">HIGHEST BALANCES</h3>
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white">CONCENTRATION</h3>
                 </div>
                 <div className="space-y-6">
                   {scanResults.filter(r => r.balance > 0.0001).sort((a,b) => b.usdValue - a.usdValue).slice(0, 5).map((res, i) => (
@@ -357,7 +346,7 @@ export const WalletChecker: React.FC = () => {
                        <div className="flex items-center gap-4">
                           <img src={res.config.icon} alt={res.config.symbol} className="w-8 h-8 object-contain" />
                           <div className="flex flex-col">
-                             <span className="text-sm font-black text-slate-900 dark:text-white">{res.config.symbol}</span>
+                             <span className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter">{res.config.symbol}</span>
                              <span className="text-[9px] font-mono font-bold text-slate-400 uppercase">{res.config.name}</span>
                           </div>
                        </div>
@@ -367,7 +356,7 @@ export const WalletChecker: React.FC = () => {
                     </div>
                   ))}
                   {scanResults.filter(r => r.balance > 0.0001).length === 0 && !isScanning && (
-                    <p className="text-[10px] text-slate-400 uppercase font-bold text-center py-4 italic">No native balances found.</p>
+                    <p className="text-[10px] text-slate-400 uppercase font-bold text-center py-4 italic">No liquidity signals detected.</p>
                   )}
                 </div>
              </div>
@@ -376,7 +365,7 @@ export const WalletChecker: React.FC = () => {
           <div className="lg:col-span-8">
              <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[3rem] overflow-hidden shadow-2xl h-full flex flex-col transition-all duration-700">
                 <div className="px-10 py-8 border-b border-slate-100 dark:border-white/5 flex items-center justify-between bg-slate-50/50 dark:bg-white/[0.01]">
-                   <h3 className="text-lg font-black uppercase tracking-widest font-space text-slate-900 dark:text-white italic">{CHAIN_CONFIGS.length}-CHAIN LIVE STATE</h3>
+                   <h3 className="text-lg font-black uppercase tracking-widest font-space text-slate-900 dark:text-white italic">{CHAIN_CONFIGS.length}-NODE LIVE STATE</h3>
                    <button onClick={startScan} disabled={isScanning} className="p-3 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-400 hover:text-blue-600 transition-all">
                       <RefreshCw size={16} className={isScanning ? 'animate-spin' : ''} />
                    </button>
@@ -386,10 +375,10 @@ export const WalletChecker: React.FC = () => {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-50 dark:bg-white/[0.02] text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100 dark:border-white/5 sticky top-0 z-10 backdrop-blur-md">
-                        <th className="px-10 py-6">Network (by dominance)</th>
+                        <th className="px-10 py-6">Network</th>
                         <th className="px-10 py-6">Status</th>
                         <th className="px-10 py-6 text-right">Balance</th>
-                        <th className="px-10 py-6 text-right">USD Value</th>
+                        <th className="px-10 py-6 text-right">Value (USD)</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-white/5">
@@ -399,10 +388,10 @@ export const WalletChecker: React.FC = () => {
                             <div className="flex items-center gap-4">
                               <img src={res.config.icon} alt={res.config.name} className="w-8 h-8 object-contain rounded-full bg-black/10 p-1" />
                               <div className="flex flex-col">
-                                <span className="text-sm font-black uppercase tracking-tight text-slate-900 dark:text-white">
+                                <span className="text-sm font-black uppercase tracking-tight text-slate-900 dark:text-white leading-none">
                                   {res.config.name}
                                 </span>
-                                <span className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-widest">MCAP: {new Intl.NumberFormat('en-US', { notation: 'compact' }).format(res.marketCap)}</span>
+                                <span className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-widest mt-1">MCAP: {new Intl.NumberFormat('en-US', { notation: 'compact' }).format(res.marketCap)}</span>
                               </div>
                             </div>
                           </td>
@@ -441,11 +430,11 @@ export const WalletChecker: React.FC = () => {
                    <div className="flex items-center gap-4 text-slate-400">
                       <Lock size={16} />
                       <span className="text-[9px] font-mono font-bold uppercase tracking-widest italic leading-relaxed">
-                        UNIVERSAL NODE LINK SECURE • DOMINANCE-ORDERED SYNCHRONIZATION
+                        NODE LINK SECURE • CROSS-CHAIN VALIDATION COMPLETE
                       </span>
                    </div>
                    <button className="px-8 py-3 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
-                      VIEW FULL DEFI INVENTORY <ExternalLink size={14} />
+                      VIEW FULL INVENTORY <ExternalLink size={14} />
                    </button>
                 </div>
              </div>
@@ -461,7 +450,7 @@ export const WalletChecker: React.FC = () => {
            <div className="w-12 h-[1px] bg-slate-300 dark:bg-white/10"></div>
         </div>
         <p className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-[0.5em] text-center italic leading-relaxed">
-          UNIVERSAL BLOCKCHAIN INDEXER • {CHAIN_CONFIGS.length} NODES ACTIVE • DOMINANCE VERIFIED
+          UNIVERSAL INDEXER • {CHAIN_CONFIGS.length} NODES ACTIVE • DOMINANCE VERIFIED
         </p>
       </div>
     </div>
