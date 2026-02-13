@@ -1,6 +1,5 @@
-
 import React, { useState, useRef } from 'react';
-import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, BrainCircuit, ShieldAlert, Radio, Library } from 'lucide-react';
+import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, Library, Wallet } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
 
@@ -19,7 +18,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewChange, currentView }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showCopyFeedback, setShowCopyFeedback] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownTimerRef = useRef<number | null>(null);
 
@@ -33,10 +31,8 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   ];
 
   const toolItems = [
+    { label: 'WALLET INTEL', view: 'wallet-checker' as View, icon: <Wallet size={10} /> },
     { label: 'HISTORY OF AI', view: 'ai-history' as View, icon: <Library size={10} /> },
-    { label: 'NARRATIVE PULSE', view: 'narrative-pulse' as View, icon: <Radio size={10} /> },
-    { label: 'ARCHITECT AUDITOR', view: 'architect-auditor' as View, icon: <ShieldAlert size={10} /> },
-    { label: 'AI BRIEF', view: 'ai-brief' as View, icon: <BrainCircuit size={10} /> },
     { label: 'RESEARCH', view: 'research' as View, icon: null },
     { label: 'DEFI', view: 'defi' as View, icon: null },
     { label: 'AI COINS', view: 'aicoins' as View, icon: null },

@@ -13,8 +13,7 @@ import {
   Link2,
   Mail,
   Rss,
-  Globe,
-  AlertTriangle
+  Globe
 } from 'lucide-react';
 import { newsService } from '../services/newsService.ts';
 
@@ -33,7 +32,6 @@ export const AIBriefAgent: React.FC = () => {
   const [brief, setBrief] = useState<string | null>(null);
   const [showConfig, setShowConfig] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [error, setError] = useState<string | null>(null);
 
   const toggleSource = (id: string) => {
     setSources(prev => prev.map(s => s.id === id ? { ...s, enabled: !s.enabled } : s));
@@ -42,7 +40,6 @@ export const AIBriefAgent: React.FC = () => {
   const generateBrief = async () => {
     setIsGenerating(true);
     setBrief(null);
-    setError(null);
     setProgress(0);
 
     const interval = setInterval(() => {
@@ -71,7 +68,6 @@ export const AIBriefAgent: React.FC = () => {
       setShowConfig(false);
     } catch (err: any) {
       console.error("Agent failed:", err);
-      setError(`TRANSMISSION ERROR: ${err.message || 'The AI Node is currently unreachable.'}`);
     } finally {
       clearInterval(interval);
       setIsGenerating(false);
@@ -108,16 +104,6 @@ export const AIBriefAgent: React.FC = () => {
            </button>
         </div>
       </div>
-
-      {error && (
-        <div className="p-8 bg-rose-500/10 border border-rose-500/20 rounded-[2rem] flex flex-col md:flex-row items-center gap-6 animate-in slide-in-from-top-4">
-           <div className="p-4 bg-rose-500 text-white rounded-2xl"><AlertTriangle size={32} /></div>
-           <div className="space-y-1 text-center md:text-left">
-              <h3 className="text-sm font-black uppercase tracking-widest text-rose-500">System Link Failed</h3>
-              <p className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase leading-relaxed">{error}</p>
-           </div>
-        </div>
-      )}
 
       {showConfig && (
         <div className="space-y-12 animate-in slide-in-from-top-8 duration-700">

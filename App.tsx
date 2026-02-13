@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header.tsx';
 import { Ticker } from './components/Ticker.tsx';
@@ -14,10 +13,8 @@ import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
 import { DailyRipsFeed } from './components/DailyRipsFeed.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
-import { AIBriefAgent } from './components/AIBriefAgent.tsx';
-import { ArchitectAuditor } from './components/ArchitectAuditor.tsx';
-import { NarrativePulse } from './components/NarrativePulse.tsx';
 import { AIHistory } from './components/AIHistory.tsx';
+import { WalletChecker } from './components/WalletChecker.tsx';
 import { View } from './types.ts';
 import { SOCIAL_LINKS } from './constants.tsx';
 
@@ -50,10 +47,8 @@ const App: React.FC = () => {
       else if (hash === '#/cryptocoins') setCurrentView('cryptocoins');
       else if (hash === '#/daily-rips') setCurrentView('daily-rips');
       else if (hash === '#/tools') setCurrentView('tools');
-      else if (hash === '#/ai-brief') setCurrentView('ai-brief');
-      else if (hash === '#/architect-auditor') setCurrentView('architect-auditor');
-      else if (hash === '#/narrative-pulse') setCurrentView('narrative-pulse');
       else if (hash === '#/ai-history') setCurrentView('ai-history');
+      else if (hash === '#/wallet-checker') setCurrentView('wallet-checker');
       else setCurrentView('home');
     };
 
@@ -124,24 +119,14 @@ const App: React.FC = () => {
       </div>
     );
     if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
-    if (currentView === 'ai-brief') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <AIBriefAgent />
-      </div>
-    );
-    if (currentView === 'architect-auditor') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <ArchitectAuditor />
-      </div>
-    );
-    if (currentView === 'narrative-pulse') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <NarrativePulse />
-      </div>
-    );
     if (currentView === 'ai-history') return (
       <div className="max-w-[1400px] mx-auto px-6 py-10">
         <AIHistory />
+      </div>
+    );
+    if (currentView === 'wallet-checker') return (
+      <div className="max-w-[1400px] mx-auto px-6 py-10">
+        <WalletChecker />
       </div>
     );
 

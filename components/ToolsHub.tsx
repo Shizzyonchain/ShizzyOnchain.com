@@ -1,21 +1,16 @@
-
 import React from 'react';
 import { View } from '../types.ts';
 import { 
   Cpu, 
   Layers, 
   Activity, 
-  BarChart3, 
   Zap, 
   ChevronRight, 
   Search,
   ShieldCheck,
   Coins,
-  BrainCircuit,
-  Sparkles,
-  ShieldAlert,
-  Radio,
-  Library
+  Library,
+  Wallet
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -42,7 +37,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, col
         {React.cloneElement(icon as React.ReactElement, { size: 28 })}
       </div>
       {badge && (
-        <span className="px-3 py-1 bg-red-600/10 text-red-600 text-[9px] font-black uppercase tracking-widest rounded-md border border-red-600/20">
+        <span className="px-3 py-1 bg-blue-600/10 text-blue-600 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
           {badge}
         </span>
       )}
@@ -66,36 +61,20 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, col
 export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNavigate }) => {
   const tools = [
     {
+      title: 'WALLET INTEL',
+      description: 'The ultimate onchain visualizer. Scan any address across all major blockchains. Net worth, asset inventory, and protocol exposure.',
+      icon: <Wallet />,
+      view: 'wallet-checker' as View,
+      colorClass: 'text-emerald-500',
+      badge: 'NEW TOOL'
+    },
+    {
       title: 'HISTORY OF AI',
       description: 'The complete timeline of the intelligence revolution. From Turing to the Agent Era. Visual archive of humanity\'s greatest pivot.',
       icon: <Library />,
       view: 'ai-history' as View,
       colorClass: 'text-indigo-600',
       badge: 'THE ARCHIVE'
-    },
-    {
-      title: 'NARRATIVE PULSE',
-      description: 'Alpha detector. Identifies trending AI and Crypto themes and determines if they are early signal or mainstream exit liquidity.',
-      icon: <Radio />,
-      view: 'narrative-pulse' as View,
-      colorClass: 'text-rose-600',
-      badge: 'ALPHA RADAR'
-    },
-    {
-      title: 'ARCHITECT AUDITOR',
-      description: 'The high-signal filter. Performs an intense structural analysis of any AI or Crypto project. Designed to find technical weaknesses.',
-      icon: <ShieldAlert />,
-      view: 'architect-auditor' as View,
-      colorClass: 'text-orange-600',
-      badge: 'BULLSHIT FILTER'
-    },
-    {
-      title: 'AI BRIEF AGENT',
-      description: 'The single biggest anxiety killer. A dedicated agent that catches all weekly AI noise and delivers a filtered summary.',
-      icon: <BrainCircuit />,
-      view: 'ai-brief' as View,
-      colorClass: 'text-purple-600',
-      badge: 'ANXIETY KILLER'
     },
     {
       title: 'RESEARCH',

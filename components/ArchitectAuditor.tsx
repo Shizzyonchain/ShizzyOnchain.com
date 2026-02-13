@@ -4,8 +4,7 @@ import {
   ShieldAlert, 
   Terminal, 
   Activity,
-  FileSearch,
-  AlertTriangle
+  FileSearch
 } from 'lucide-react';
 
 interface AuditResult {
@@ -24,7 +23,6 @@ export const ArchitectAuditor: React.FC = () => {
   const [isAuditing, setIsAuditing] = useState(false);
   const [result, setResult] = useState<AuditResult | null>(null);
   const [logs, setLogs] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const addLog = (msg: string) => {
@@ -36,7 +34,6 @@ export const ArchitectAuditor: React.FC = () => {
 
     setIsAuditing(true);
     setResult(null);
-    setError(null);
     setLogs([]);
     addLog("Initializing Structural Scan...");
     addLog(`Target: ${input}`);
@@ -74,8 +71,7 @@ export const ArchitectAuditor: React.FC = () => {
       addLog("Structural scan complete. Intelligence logged.");
     } catch (err: any) {
       console.error("Auditor failed:", err);
-      setError(err.message || 'Connection to the intelligence node was denied.');
-      addLog(`FATAL: ${err.message || 'Unknown protocol error.'}`);
+      addLog(`FATAL ERROR: Connection interrupted.`);
     } finally {
       setIsAuditing(false);
     }
@@ -94,13 +90,6 @@ export const ArchitectAuditor: React.FC = () => {
           </h1>
         </div>
       </div>
-
-      {error && (
-        <div className="p-6 bg-rose-600/10 border border-rose-600/20 rounded-2xl flex items-center gap-4 text-rose-600 animate-in slide-in-from-top-4">
-           <AlertTriangle size={20} />
-           <span className="text-xs font-mono font-black uppercase tracking-widest">UPLINK FAILED: {error}</span>
-        </div>
-      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-5 space-y-8">

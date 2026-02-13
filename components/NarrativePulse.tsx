@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
-import { Radio, RefreshCw, Activity, ChevronRight, AlertTriangle } from 'lucide-react';
+import { Radio, RefreshCw, Activity, ChevronRight } from 'lucide-react';
 import { newsService } from '../services/newsService.ts';
 
 interface Narrative {
@@ -53,7 +53,7 @@ export const NarrativePulse: React.FC = () => {
       setNarratives(JSON.parse(text.trim()) as Narrative[]);
     } catch (err: any) {
       console.error("Narrative Pulse failed:", err);
-      setError(err.message || 'The intelligence node is currently recalibrating. Try again shortly.');
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -95,13 +95,6 @@ export const NarrativePulse: React.FC = () => {
         </button>
       </div>
 
-      {error && (
-        <div className="p-8 bg-rose-500/10 border border-rose-500/20 rounded-[2rem] flex items-center gap-4 text-rose-500 animate-in slide-in-from-top-4">
-           <AlertTriangle size={24} />
-           <span className="text-xs font-mono font-black uppercase tracking-widest">UPLINK STATUS: {error}</span>
-        </div>
-      )}
-
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-4 space-y-8">
            <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 flex flex-col items-center justify-center relative overflow-hidden shadow-2xl">
@@ -134,7 +127,7 @@ export const NarrativePulse: React.FC = () => {
                      <div className="shrink-0 p-4 rounded-full bg-slate-50 dark:bg-white/5 text-slate-400"><ChevronRight size={24} /></div>
                   </div>
                 ))}
-                {narratives.length === 0 && !error && (
+                {narratives.length === 0 && !isLoading && (
                   <div className="text-center py-20 opacity-40">
                     <p className="font-mono text-xs uppercase tracking-widest">No active narratives found in this cycle.</p>
                   </div>
