@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { coinGeckoProxy } from '../services/coinGeckoService.ts';
 import { 
   Search, 
@@ -16,7 +15,6 @@ import {
   Layers,
   Zap,
   CheckCircle2,
-  BrainCircuit,
   Lock,
   Database,
   X,
@@ -104,19 +102,18 @@ interface ChainScanResult {
 export const WalletChecker: React.FC = () => {
   const [address, setAddress] = useState('');
   const [isScanning, setIsScanning] = useState(false);
-  const [isAuditing, setIsAuditing] = useState(false);
   const [scanResults, setScanResults] = useState<ChainScanResult[]>([]);
   const [totalValue, setTotalValue] = useState(0);
   const [inputError, setInputError] = useState<string | null>(null);
-  const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
   const [progressCount, setProgressCount] = useState(0);
   const [currentScanningChain, setCurrentScanningChain] = useState<string | null>(null);
   const [scanLogs, setScanLogs] = useState<string[]>([]);
+  const logContainerRef = useRef<HTMLDivElement>(null);
   const logEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (logEndRef.current) {
-      logEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (logEndRef.current && logContainerRef.current) {
+      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
   }, [scanLogs]);
 
@@ -154,7 +151,6 @@ export const WalletChecker: React.FC = () => {
 
     setInputError(null);
     setIsScanning(true);
-    setAiAnalysis(null);
     setTotalValue(0);
     setProgressCount(0);
     setScanLogs([]);
@@ -193,7 +189,7 @@ export const WalletChecker: React.FC = () => {
         addLog(`PINGING NODE: ${result.config.name}...`);
         
         setScanResults(prev => prev.map((r, idx) => idx === i ? { ...r, status: 'scanning' } : r));
-        await new Promise(r => setTimeout(r, 60)); // Small delay for visual impact
+        await new Promise(r => setTimeout(r, 60)); 
 
         try {
           const balance = await fetchBalance(result.config.rpc, cleanAddress);
@@ -217,7 +213,6 @@ export const WalletChecker: React.FC = () => {
       setCurrentScanningChain(null);
       addLog(`SCAN COMPLETE. TOTAL NATIVE VALUE DETECTED: $${runningTotal.toLocaleString()}`);
       setIsScanning(false);
-      triggerAiAudit(updatedResults, runningTotal);
 
     } catch (err) {
       addLog(`[FATAL] GLOBAL NODE SYNC INTERRUPTED.`);
@@ -226,43 +221,11 @@ export const WalletChecker: React.FC = () => {
     }
   };
 
-  const triggerAiAudit = async (results: ChainScanResult[], total: number) => {
-    const summary = results
-      .filter(r => r.balance > 0.0001)
-      .map(r => `${r.balance.toFixed(4)} ${r.config.symbol} on ${r.config.name}`)
-      .join(', ');
-
-    if (!summary) return;
-
-    setIsAuditing(true);
-    addLog("DISPATCHING DATA TO AI AUDIT MODEL...");
-    try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
-        contents: `Analyze wallet ${address}. Assets: ${summary}. Total Native USD: $${total.toFixed(2)}. 
-        Give a 3-sentence professional, aggressive tactical audit as Shizzy. 
-        Focus on ecosystem dominance, risk profile, and one high-alpha tip.`,
-      });
-
-      if (response.text) {
-        setAiAnalysis(response.text);
-        addLog("AI AUDIT LOGGED SUCCESSFULLY.");
-      }
-    } catch (err) {
-      addLog("AI AUDIT LINK FAILED. SHOWING RAW DATA.");
-      console.warn("AI link skipped. Showing raw data.");
-    } finally {
-      setIsAuditing(false);
-    }
-  };
-
   const handleClear = () => {
     setAddress('');
     setInputError(null);
     setScanResults([]);
     setTotalValue(0);
-    setAiAnalysis(null);
     setProgressCount(0);
     setScanLogs([]);
     setCurrentScanningChain(null);
@@ -296,9 +259,9 @@ export const WalletChecker: React.FC = () => {
         </div>
       </div>
 
-      {/* INPUT & ACTION */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-[1200px] mx-auto">
-        <div className="lg:col-span-7 space-y-8">
+      {/* INPUT & ACTION - STABILIZED GRID */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-[1200px] mx-auto items-stretch">
+        <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
            <div className="relative group">
             <div className="absolute inset-y-0 left-6 flex items-center text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none">
               <Search size={24} />
@@ -339,23 +302,23 @@ export const WalletChecker: React.FC = () => {
           </div>
         </div>
 
-        {/* LIVE SCAN LOG */}
+        {/* LIVE SCAN LOG - CONSTRAINED HEIGHT WITH VISIBLE SCROLL */}
         <div className="lg:col-span-5">
-           <div className="bg-slate-900 rounded-[2rem] p-6 h-64 lg:h-full border border-white/5 shadow-2xl overflow-hidden flex flex-col">
+           <div className="bg-slate-900 rounded-[2rem] p-6 h-[260px] md:h-[300px] border border-white/5 shadow-2xl overflow-hidden flex flex-col">
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
                  <div className="flex items-center gap-3 text-blue-500">
                     <Terminal size={16} />
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] font-mono">SYSTEM LOGS</span>
                  </div>
-                 {isScanning && <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></div><span className="text-[8px] font-mono text-blue-500">REALTIME</span></div>}
+                 {isScanning && <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></div><span className="text-[8px] font-mono text-blue-500 uppercase tracking-widest">REALTIME</span></div>}
               </div>
-              <div className="flex-grow overflow-y-auto space-y-2 font-mono text-[10px] scrollbar-hide">
+              <div ref={logContainerRef} className="flex-grow overflow-y-auto space-y-2 font-mono text-[10px] custom-terminal-scroll pr-2">
                  {scanLogs.length === 0 ? (
-                   <div className="text-slate-600 italic">Terminal idle. Awaiting user input node...</div>
+                   <div className="text-slate-600 italic">Terminal idle. Awaiting node uplink...</div>
                  ) : (
                    scanLogs.map((log, i) => (
-                     <div key={i} className={`flex gap-3 ${log.includes('[DETECTED]') ? 'text-emerald-400 font-bold' : log.includes('[ERROR]') ? 'text-rose-500' : 'text-slate-400'}`}>
-                        <span className="shrink-0 text-slate-600">{i + 1}.</span>
+                     <div key={i} className={`flex gap-3 leading-relaxed ${log.includes('[DETECTED]') ? 'text-emerald-400 font-bold' : log.includes('[ERROR]') ? 'text-rose-500' : 'text-slate-400'}`}>
+                        <span className="shrink-0 text-slate-600 tabular-nums">{i + 1}.</span>
                         <span>{log}</span>
                      </div>
                    ))
@@ -366,62 +329,45 @@ export const WalletChecker: React.FC = () => {
         </div>
       </div>
 
-      {/* SCANNING HUD (Highly Visible) */}
-      {isScanning && (
-        <div className="max-w-[1200px] mx-auto bg-blue-600/5 dark:bg-blue-600/[0.03] border border-blue-600/30 rounded-[3rem] p-10 md:p-16 space-y-8 animate-in zoom-in-95 duration-500">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-             <div className="space-y-4 text-center md:text-left">
-                <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.5em] font-mono">CURRENTLY PINGING NODE</div>
-                <h2 className="text-4xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic animate-pulse">
-                   {currentScanningChain || 'INITIALIZING...'}
-                </h2>
-             </div>
-             <div className="shrink-0 flex items-center justify-center w-32 h-32 md:w-48 md:h-48 rounded-full border-8 border-slate-200 dark:border-white/5 border-t-blue-600 animate-spin">
-                <div className="text-2xl font-black font-mono text-blue-600">{Math.round((progressCount / CHAIN_CONFIGS.length) * 100)}%</div>
-             </div>
+      {/* SCANNING HUD - STABILIZED CONTAINER WITH NO TRUNCATION */}
+      <div className="max-w-[1200px] mx-auto">
+        {isScanning ? (
+          <div className="bg-blue-600/5 dark:bg-blue-600/[0.03] border border-blue-600/30 rounded-[3rem] p-10 md:p-16 space-y-8 animate-in zoom-in-95 duration-500 overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+               <div className="space-y-4 text-center md:text-left min-w-0 flex-1">
+                  <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.5em] font-mono">CURRENTLY PINGING NODE</div>
+                  <div className="h-16 md:h-24 flex items-center justify-center md:justify-start overflow-visible">
+                    <h2 className="text-4xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic animate-pulse leading-none pr-6 whitespace-nowrap">
+                       {currentScanningChain || 'INITIALIZING...'}
+                    </h2>
+                  </div>
+               </div>
+               <div className="shrink-0 flex items-center justify-center w-32 h-32 md:w-48 md:h-48 rounded-full border-8 border-slate-200 dark:border-white/5 border-t-blue-600 animate-spin">
+                  <div className="text-2xl font-black font-mono text-blue-600 tabular-nums">{Math.round((progressCount / CHAIN_CONFIGS.length) * 100)}%</div>
+               </div>
+            </div>
+            <div className="space-y-4">
+               <div className="flex justify-between items-end text-[10px] font-black font-mono text-blue-600 uppercase tracking-[0.3em]">
+                 <span>GLOBAL BLOCKCHAIN MAPPING</span>
+                 <span className="tabular-nums">{progressCount} / {CHAIN_CONFIGS.length} NODES</span>
+               </div>
+               <div className="h-4 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden border border-slate-200 dark:border-white/10">
+                 <div 
+                   className="h-full bg-blue-600 transition-all duration-300 shadow-[0_0_20px_rgba(37,99,235,0.6)]"
+                   style={{ width: `${(progressCount / CHAIN_CONFIGS.length) * 100}%` }}
+                 ></div>
+               </div>
+            </div>
           </div>
-          <div className="space-y-4">
-             <div className="flex justify-between items-end text-[10px] font-black font-mono text-blue-600 uppercase tracking-[0.3em]">
-               <span>GLOBAL BLOCKCHAIN MAPPING</span>
-               <span>{progressCount} / {CHAIN_CONFIGS.length} NODES</span>
-             </div>
-             <div className="h-4 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden border border-slate-200 dark:border-white/10">
-               <div 
-                 className="h-full bg-blue-600 transition-all duration-300 shadow-[0_0_20px_rgba(37,99,235,0.6)]"
-                 style={{ width: `${(progressCount / CHAIN_CONFIGS.length) * 100}%` }}
-               ></div>
-             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ANALYSIS BOX - ONLY SHOWS WHEN RELEVANT */}
-      {(aiAnalysis || isAuditing) && (
-        <div className="bg-blue-600/5 dark:bg-blue-500/[0.02] border border-blue-500/20 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden transition-all animate-in fade-in slide-in-from-bottom-4">
-           <div className="absolute -top-10 -right-10 opacity-5 rotate-12">
-              <BrainCircuit size={300} strokeWidth={1} />
-           </div>
-           <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
-              <div className={`shrink-0 p-6 rounded-3xl bg-blue-600 text-white shadow-2xl ${isAuditing ? 'animate-pulse' : ''}`}>
-                 <Shield size={48} />
-              </div>
-              <div className="space-y-4 text-center md:text-left">
-                 <div className="flex items-center justify-center md:justify-start gap-3">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">STRATEGIC AUDIT BRIEF</span>
-                 </div>
-                 <p className="text-xl md:text-3xl font-medium text-slate-700 dark:text-slate-200 leading-relaxed italic max-w-4xl font-space">
-                   {isAuditing ? `Synchronizing model for tactical audit...` : aiAnalysis}
-                 </p>
-              </div>
-           </div>
-        </div>
-      )}
+        ) : (
+          <div className="h-0 opacity-0 pointer-events-none transition-all duration-500"></div>
+        )}
+      </div>
 
       {/* RESULTS GRID */}
       {scanResults.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
-          {/* Summary Panel */}
           <div className="lg:col-span-4 space-y-8">
              <div className="bg-slate-900 dark:bg-white rounded-[3rem] p-10 text-white dark:text-black shadow-2xl space-y-8 relative overflow-hidden">
                 <div className="absolute -top-10 -right-10 opacity-10">
@@ -429,13 +375,13 @@ export const WalletChecker: React.FC = () => {
                 </div>
                 <div className="relative z-10 space-y-2">
                   <div className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60">AGGREGATE VALUE</div>
-                  <div className="text-5xl md:text-6xl font-black font-space italic tracking-tighter leading-none">
+                  <div className="text-5xl md:text-6xl font-black font-space italic tracking-tighter leading-none tabular-nums">
                     {formatCurrency(totalValue)}
                   </div>
                 </div>
                 <div className="relative z-10 pt-8 border-t border-white/20 dark:border-black/10">
                    <div className="text-[9px] font-black uppercase tracking-widest opacity-40">Active Nodes Detected</div>
-                   <div className="text-2xl font-black italic tracking-tighter">{scanResults.filter(r => r.balance > 0.0001).length} / {scanResults.length}</div>
+                   <div className="text-2xl font-black italic tracking-tighter tabular-nums">{scanResults.filter(r => r.balance > 0.0001).length} / {scanResults.length}</div>
                 </div>
              </div>
 
@@ -455,7 +401,7 @@ export const WalletChecker: React.FC = () => {
                           </div>
                        </div>
                        <div className="text-right">
-                          <div className="text-sm font-black font-mono text-slate-900 dark:text-white">{formatCurrency(res.usdValue)}</div>
+                          <div className="text-sm font-black font-mono text-slate-900 dark:text-white tabular-nums">{formatCurrency(res.usdValue)}</div>
                        </div>
                     </div>
                   ))}
@@ -466,14 +412,13 @@ export const WalletChecker: React.FC = () => {
              </div>
           </div>
 
-          {/* Network Intel Grid */}
           <div className="lg:col-span-8 space-y-8">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-6">
               <div className="flex items-center gap-3">
                 <Wifi className="text-blue-600 animate-pulse" size={18} />
                 <h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white italic">NETWORK INTEL GRID</h3>
               </div>
-              <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">{address.slice(0,6)}...{address.slice(-4)}</span>
+              <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest tabular-nums">{address.slice(0,6)}...{address.slice(-4)}</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -481,7 +426,6 @@ export const WalletChecker: React.FC = () => {
                 const isScanningItem = result.status === 'scanning';
                 const isComplete = result.status === 'complete';
                 const hasBalance = result.balance > 0.0001;
-                const isPending = result.status === 'pending';
 
                 return (
                   <div 
@@ -505,7 +449,7 @@ export const WalletChecker: React.FC = () => {
                     <div className="space-y-0.5">
                       <div className="text-[10px] font-black text-slate-900 dark:text-white uppercase truncate">{result.config.name}</div>
                       {isComplete && hasBalance ? (
-                        <div className="text-[11px] font-mono font-black text-emerald-500">
+                        <div className="text-[11px] font-mono font-black text-emerald-500 tabular-nums">
                           {result.balance.toFixed(4)} {result.config.symbol}
                         </div>
                       ) : (
@@ -515,7 +459,6 @@ export const WalletChecker: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Progress scanning indicator line */}
                     {isScanningItem && (
                       <div className="absolute bottom-0 left-0 w-full h-[3px] overflow-hidden rounded-b-2xl">
                         <div className="h-full bg-blue-600 animate-marquee"></div>
@@ -529,7 +472,6 @@ export const WalletChecker: React.FC = () => {
         </div>
       )}
 
-      {/* FOOTER DIAGNOSTIC */}
       <div className="pt-20 flex flex-col items-center justify-center gap-6 opacity-40">
         <div className="flex items-center gap-4 font-mono text-[9px] font-bold uppercase tracking-[0.5em] text-slate-400 text-center">
           <div className="w-16 h-[1px] bg-slate-200 dark:bg-white/10"></div>
@@ -546,12 +488,24 @@ export const WalletChecker: React.FC = () => {
         .animate-marquee {
           animation: marquee-scan 1s linear infinite;
         }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
+        
+        .custom-terminal-scroll::-webkit-scrollbar {
+          width: 4px;
         }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+        .custom-terminal-scroll::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.02);
+          border-radius: 10px;
+        }
+        .custom-terminal-scroll::-webkit-scrollbar-thumb {
+          background: rgba(59, 130, 246, 0.4);
+          border-radius: 10px;
+        }
+        .custom-terminal-scroll::-webkit-scrollbar-thumb:hover {
+          background: rgba(59, 130, 246, 0.6);
+        }
+        .custom-terminal-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(59, 130, 246, 0.4) rgba(255, 255, 255, 0.02);
         }
       `}</style>
     </div>
