@@ -56,12 +56,12 @@ export const ResearchDashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const savedActiveCat = localStorage.getItem('onchainrev_research_active_tab');
+    const savedActiveCat = localStorage.getItem('shizzy_research_active_tab');
     if (savedActiveCat && CATEGORIES_CONFIG.some(c => c.id === savedActiveCat)) {
       setActiveCategoryId(savedActiveCat);
     }
 
-    const savedPins = localStorage.getItem('Shizzy_pinned_coins');
+    const savedPins = localStorage.getItem('shizzy_pinned_coins');
     if (savedPins) {
       setPinnedCoinIds(JSON.parse(savedPins));
     }
@@ -115,11 +115,11 @@ export const ResearchDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchMarketData(activeCategoryId);
-    localStorage.setItem('onchainrev_research_active_tab', activeCategoryId);
+    localStorage.setItem('shizzy_research_active_tab', activeCategoryId);
   }, [activeCategoryId]);
 
   useEffect(() => {
-    localStorage.setItem('Shizzy_pinned_coins', JSON.stringify(pinnedCoinIds));
+    localStorage.setItem('shizzy_pinned_coins', JSON.stringify(pinnedCoinIds));
   }, [pinnedCoinIds]);
 
   const togglePin = (coinId: string) => {
@@ -424,9 +424,12 @@ export const ResearchDashboard: React.FC = () => {
             <Zap size={16} className="text-blue-500" />
             <span className="text-[10px] font-black uppercase tracking-widest text-white dark:text-black">High Fidelity Data stream</span>
           </div>
-          <a href="https://onchainrevolution.io/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-all group">
+          <button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-all group"
+          >
             Audit Ecosystem <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </a>
+          </button>
         </div>
       </footer>
     </div>

@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, Library, Wallet } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
@@ -26,12 +27,11 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'AI NEWS', view: 'ainews' },
     { label: 'CRYPTO NEWS', view: 'cryptonews' },
     { label: 'DAILY RIPS', view: 'daily-rips' },
-    { label: 'TOOLS', view: 'tools' },
-    { label: 'VIDEOS', view: 'videos' },
+    { label: 'TOOLS', view: 'tools' }
   ];
 
   const toolItems = [
-    { label: 'WALLET INTEL', view: 'wallet-checker' as View, icon: <Wallet size={10} /> },
+    { label: 'SHIZZY SCAN', view: 'wallet-checker' as View, icon: <Wallet size={10} /> },
     { label: 'HISTORY OF AI', view: 'ai-history' as View, icon: <Library size={10} /> },
     { label: 'RESEARCH', view: 'research' as View, icon: null },
     { label: 'DEFI', view: 'defi' as View, icon: null },
@@ -162,20 +162,12 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
               </div>
             )}
           </div>
-
-          <button
-            onClick={() => handleNavClick('videos')}
-            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-              currentView === 'videos' 
-                ? 'text-blue-600 dark:text-blue-400' 
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-            }`}
-          >
-            VIDEOS
-          </button>
         </nav>
 
         <div className="flex items-center gap-4 md:gap-6">
+          <a href={SOCIAL_LINKS.x} target="_blank" rel="noopener" className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-blue-500 transition-colors">
+            <XIcon />
+          </a>
           <button
             onClick={toggleTheme}
             className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { 
@@ -18,12 +19,11 @@ import {
 import { newsService } from '../services/newsService.ts';
 
 const DEFAULT_SOURCES = [
-  { id: '1', name: '@ShizzyUnchained (X)', type: 'Social', enabled: true, category: 'release-factual' },
-  { id: '2', name: '@PeterGyang (X)', type: 'Social', enabled: true, category: 'market-intel' },
-  { id: '3', name: 'Arxiv AI Papers', type: 'RSS', enabled: true, category: 'research' },
-  { id: '4', name: 'OpenAI Blog', type: 'Direct', enabled: true, category: 'releases' },
-  { id: '5', name: 'Anthropic News', type: 'Direct', enabled: true, category: 'releases' },
-  { id: '6', name: 'The Rundown AI', type: 'Newsletter', enabled: true, category: 'newsletter' },
+  { id: '1', name: 'Market Intel (X)', type: 'Social', enabled: true, category: 'release-factual' },
+  { id: '2', name: 'Arxiv AI Papers', type: 'RSS', enabled: true, category: 'research' },
+  { id: '3', name: 'OpenAI Blog', type: 'Direct', enabled: true, category: 'releases' },
+  { id: '4', name: 'Anthropic News', type: 'Direct', enabled: true, category: 'releases' },
+  { id: '5', name: 'Tech Aggregators', type: 'Newsletter', enabled: true, category: 'newsletter' },
 ];
 
 export const AIBriefAgent: React.FC = () => {
@@ -50,13 +50,13 @@ export const AIBriefAgent: React.FC = () => {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const currentNews = newsService.getLatestSnapshotItems().items;
       
-      const prompt = `You are a high-signal AI Agent built for Shizzy Unchained. 
-      Your job is to act as an "Anxiety Killer" for someone who is overwhelmed by AI news.
+      const prompt = `You are a world-class AI Analyst. 
+      Your job is to synthesize intelligence and filter out market noise.
       Input Data: ${JSON.stringify(currentNews.map(n => n.title + ": " + n.excerpt))}
       Instructions:
-      1. Synthesize this into a "Weekly AI Brief". Filter for HIGH SIGNAL only.
-      2. Structure with: THE TOP 3, RECALIBRATION, NOISE REMOVAL.
-      3. Tone: Clinical, provocation, visionary. Output in beautiful Markdown.`;
+      1. Synthesize this into a "Weekly AI Intelligence Brief". Filter for HIGH SIGNAL only.
+      2. Structure with: CRITICAL SIGNALS, RECALIBRATION, NOISE REMOVAL.
+      3. Tone: Clinical, visionary, direct. Output in beautiful Markdown.`;
 
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
@@ -83,10 +83,10 @@ export const AIBriefAgent: React.FC = () => {
             WEEKLY SYNTHESIS AGENT
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
-            ANXIETY <span className="text-purple-600">KILLER</span>
+            SIGNAL <span className="text-purple-600">ENGINE</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.3em] max-w-xl leading-relaxed italic">
-            Stop scrolling. Start knowing. Direct weekly intelligence scan.
+            Direct intelligence scan. Filter noise. Identify macro shifts.
           </p>
         </div>
 

@@ -1,26 +1,26 @@
 
-// Fix: Import VideoItem from types.ts where it's correctly exported
 import { VideoItem } from '../types.ts';
 
 /**
- * YOUTUBE AUTOMATION SERVICE v2.0
- * Fetches the latest videos from @OnChainRevolution via CORS proxy and native XML parsing.
- * This approach is more reliable than third-party JSON conversion APIs.
+ * YOUTUBE AUTOMATION SERVICE v2.1
+ * Fetches latest video metadata through neutral RSS parsing.
  */
 
-// Official Channel ID for @OnChainRevolution
-const CHANNEL_ID = 'UCNUuKqR-23v_u4B9oIq0_1A'; 
 const PROXY_URL = 'https://api.allorigins.win/get?url=';
-const YOUTUBE_RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
 
 export const youtubeService = {
-  async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
+  async getLatestVideos(channelId?: string): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
+    if (!channelId) {
+      // Return empty if no ID provided to avoid fetching incorrect content
+      return { lives: [], shorts: [] };
+    }
+
     try {
-      // Fetch raw XML through a CORS proxy
+      const YOUTUBE_RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
       const response = await fetch(`${PROXY_URL}${encodeURIComponent(YOUTUBE_RSS_URL)}`);
       
       if (!response.ok) {
-        console.warn('YouTube proxy fetch failed. Using fallback data.');
+        console.warn('YouTube proxy fetch failed.');
         return { lives: [], shorts: [] };
       }
       
@@ -29,7 +29,6 @@ export const youtubeService = {
       
       if (!xmlString) return { lives: [], shorts: [] };
 
-      // Parse the XML string into a DOM object
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
       const entries = xmlDoc.getElementsByTagName('entry');
@@ -38,8 +37,6 @@ export const youtubeService = {
 
       for (let i = 0; i < entries.length; i++) {
         const entry = entries[i];
-        
-        // Extract Video ID (yt:videoId)
         const videoId = entry.getElementsByTagName('yt:videoId')[0]?.textContent;
         const title = entry.getElementsByTagName('title')[0]?.textContent || 'Untitled Video';
         const link = entry.getElementsByTagName('link')[0]?.getAttribute('href') || '';
@@ -50,7 +47,6 @@ export const youtubeService = {
             title: title,
             thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
             url: link,
-            // Simple heuristic to identify shorts vs full videos
             type: title.toLowerCase().includes('#shorts') || title.length < 40 ? 'short' : 'live'
           });
         }
