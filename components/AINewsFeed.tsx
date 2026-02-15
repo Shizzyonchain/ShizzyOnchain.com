@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { newsService } from '../services/newsService.ts';
 import { AINewsItem } from '../types.ts';
@@ -87,7 +88,7 @@ export const AINewsFeed: React.FC<AINewsFeedProps> = ({ hideHeader = false }) =>
         <div className="pt-10 flex flex-col items-center justify-center gap-6 opacity-60">
           <div className="flex items-center gap-3 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.4em]">
             <img src={SOCIAL_LINKS.logo} alt="Logo" className="w-5 h-5 object-contain" />
-            UNCHAINED SIGNAL: VERIFIED
+            SHIZZYUNCHAINED SIGNAL: VERIFIED
           </div>
           <p className="text-[9px] font-mono text-slate-500 uppercase tracking-widest text-center">
             SHIZZY MEDIA NODE • LAST SYNC {lastUpdateStr}

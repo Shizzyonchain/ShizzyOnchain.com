@@ -1,6 +1,6 @@
 
-import React, { useState, useRef } from 'react';
-import { Youtube, Sun, Moon, Menu, X, Mail, Check, ChevronDown, MessageSquare, Library, Wallet } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sun, Moon, Menu, X, MessageSquare, ChevronDown } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
 
@@ -19,198 +19,94 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewChange, currentView }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const dropdownTimerRef = useRef<number | null>(null);
-
-  const navItems: { label: string; view: View }[] = [
-    { label: 'HOME', view: 'home' },
-    { label: 'AI NEWS', view: 'ainews' },
-    { label: 'CRYPTO NEWS', view: 'cryptonews' },
-    { label: 'DAILY RIPS', view: 'daily-rips' },
-    { label: 'TOOLS', view: 'tools' }
-  ];
-
-  const toolItems = [
-    { label: 'SHIZZY SCAN', view: 'wallet-checker' as View, icon: <Wallet size={10} /> },
-    { label: 'HISTORY OF AI', view: 'ai-history' as View, icon: <Library size={10} /> },
-    { label: 'RESEARCH', view: 'research' as View, icon: null },
-    { label: 'DEFI', view: 'defi' as View, icon: null },
-    { label: 'AI COINS', view: 'aicoins' as View, icon: null },
-    { label: 'CRYPTO COINS', view: 'cryptocoins' as View, icon: null },
-    { label: 'BUBBLES', view: 'bubbles' as View, icon: null },
-  ];
 
   const handleNavClick = (view: View) => {
     onViewChange(view);
     setIsMenuOpen(false);
-    setActiveDropdown(null);
   };
 
-  const openDropdown = (name: string) => {
-    if (dropdownTimerRef.current) window.clearTimeout(dropdownTimerRef.current);
-    setActiveDropdown(name);
-  };
-
-  const closeDropdown = () => {
-    dropdownTimerRef.current = window.setTimeout(() => {
-      setActiveDropdown(null);
-    }, 150);
-  };
+  const navItems = [
+    { label: 'HOME', view: 'home' as View },
+    { label: 'AI NEWS', view: 'ainews' as View },
+    { label: 'CRYPTO NEWS', view: 'cryptonews' as View },
+    { label: 'DAILY RIPS', view: 'daily-rips' as View, icon: <MessageSquare size={14} className="fill-current" /> },
+    { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
+  ];
 
   return (
-    <header className="relative z-[100] border-b border-slate-200 dark:border-white/5 bg-white dark:bg-[#0b0e14] transition-colors duration-300">
-      <div className="max-w-[1400px] mx-auto px-6 h-24 md:h-32 flex items-center justify-between">
+    <header className="relative z-[100] bg-white dark:bg-[#0b0e14] transition-colors duration-300 border-b border-slate-200 dark:border-white/5">
+      <div className="max-w-[1400px] mx-auto px-6 h-20 md:h-28 flex items-center justify-between">
+        {/* Logo Section */}
         <button 
           onClick={() => handleNavClick('home')}
-          className="flex items-center gap-4 group"
+          className="flex items-center gap-4 group shrink-0"
         >
           <img 
             src={SOCIAL_LINKS.logo} 
-            alt="Shizzy Unchained" 
-            className="h-16 md:h-24 transition-transform group-hover:scale-105"
+            alt="SHIZZYUNCHAINED" 
+            className="h-12 md:h-16 object-contain transition-transform group-hover:scale-105" 
           />
         </button>
 
-        <nav className="hidden lg:flex items-center gap-8">
-          <button
-            onClick={() => handleNavClick('home')}
-            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-              currentView === 'home' 
-                ? 'text-blue-600 dark:text-blue-400' 
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-            }`}
-          >
-            HOME
-          </button>
-          <button
-            onClick={() => handleNavClick('ainews')}
-            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-              currentView === 'ainews' 
-                ? 'text-blue-600 dark:text-blue-400' 
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-            }`}
-          >
-            AI NEWS
-          </button>
-          <button
-            onClick={() => handleNavClick('cryptonews')}
-            className={`text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-              currentView === 'cryptonews' 
-                ? 'text-blue-600 dark:text-blue-400' 
-                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-            }`}
-          >
-            CRYPTO NEWS
-          </button>
-
-          <button
-            onClick={() => handleNavClick('daily-rips')}
-            className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-              currentView === 'daily-rips' 
-                ? 'text-red-600 dark:text-red-400' 
-                : 'text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400'
-            }`}
-          >
-            <MessageSquare size={12} fill="currentColor" className="opacity-70" />
-            DAILY RIPS
-          </button>
-
-          <div 
-            className="relative"
-            onMouseEnter={() => openDropdown('tools')}
-            onMouseLeave={closeDropdown}
-          >
+        {/* Desktop Navigation - Exact match to screenshot */}
+        <nav className="hidden lg:flex items-center gap-10">
+          {navItems.map((item) => (
             <button
-              onClick={() => handleNavClick('tools')}
-              className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] transition-colors ${
-                currentView === 'tools' || toolItems.some(item => item.view === currentView)
-                  ? 'text-blue-600 dark:text-blue-400' 
-                  : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+              key={item.view}
+              onClick={() => handleNavClick(item.view)}
+              className={`flex items-center gap-2 text-[13px] font-black uppercase tracking-[0.15em] font-space transition-colors hover:text-blue-500 ${
+                currentView === item.view ? 'text-blue-500' : 'text-slate-900 dark:text-slate-400'
               }`}
             >
-              TOOLS <ChevronDown size={12} className={`transition-transform duration-300 ${activeDropdown === 'tools' ? 'rotate-180' : ''}`} />
+              {item.icon && <span>{item.icon}</span>}
+              {item.label}
             </button>
-            {activeDropdown === 'tools' && (
-              <div className="absolute top-full -left-4 pt-4 w-56 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="bg-white dark:bg-[#161b22] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden p-2">
-                  <button
-                    onClick={() => handleNavClick('tools')}
-                    className={`w-full text-left px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all mb-1 ${
-                      currentView === 'tools' 
-                        ? 'bg-blue-600 text-white' 
-                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'
-                    }`}
-                  >
-                    TOOLS HUB
-                  </button>
-                  <div className="h-[1px] bg-slate-100 dark:bg-white/5 mx-2 my-1"></div>
-                  {toolItems.map((item) => (
-                    <button
-                      key={item.view}
-                      onClick={() => handleNavClick(item.view)}
-                      className={`w-full text-left px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-between ${
-                        currentView === item.view 
-                          ? 'bg-blue-600 text-white' 
-                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'
-                      }`}
-                    >
-                      {item.label}
-                      {item.icon && <span className="opacity-50">{item.icon}</span>}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          ))}
         </nav>
 
-        <div className="flex items-center gap-4 md:gap-6">
-          <a href={SOCIAL_LINKS.x} target="_blank" rel="noopener" className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-blue-500 transition-colors">
-            <XIcon />
+        {/* Right-aligned Utility Icons */}
+        <div className="flex items-center gap-2 md:gap-4 shrink-0">
+          <a 
+            href={SOCIAL_LINKS.unchainedX} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-3 md:p-4 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-blue-500 transition-colors hidden sm:flex"
+          >
+            <XIcon className="w-5 h-5" />
           </a>
+          
           <button
             onClick={toggleTheme}
-            className="p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="p-3 md:p-4 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
           <button 
-            className="lg:hidden p-2 text-slate-500 dark:text-slate-400"
+            className="lg:hidden p-3 md:p-4 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 transition-all"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
+      {/* Mobile/Hamburger Menu Overlay */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-8 px-6 space-y-6 shadow-2xl animate-in fade-in slide-in-from-top-4 z-[100]">
-          {navItems.map((item) => (
-            <button
-              key={item.view}
-              onClick={() => handleNavClick(item.view)}
-              className={`block w-full text-left text-sm font-black uppercase tracking-widest py-2 ${
-                currentView === item.view 
-                  ? 'text-blue-600 dark:text-blue-400 border-l-4 border-blue-600 pl-4 -ml-4' 
-                  : 'text-slate-500 dark:text-slate-400 pl-4'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-          <div className="h-[1px] bg-slate-100 dark:bg-white/10"></div>
-          {toolItems.map((item) => (
-            <button
-              key={item.view}
-              onClick={() => handleNavClick(item.view)}
-              className={`block w-full text-left text-[11px] font-black uppercase tracking-widest py-2 ${
-                currentView === item.view ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'
-              } pl-4`}
-            >
-              {item.label}
-            </button>
-          ))}
+        <div className="absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-12 px-8 space-y-8 shadow-2xl animate-in fade-in slide-in-from-top-4 z-[100]">
+          <nav className="space-y-6">
+            {navItems.map((item) => (
+              <button 
+                key={item.view}
+                onClick={() => handleNavClick(item.view)} 
+                className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
+                  currentView === item.view ? 'text-blue-500' : 'text-slate-900 dark:text-white'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
         </div>
       )}
     </header>

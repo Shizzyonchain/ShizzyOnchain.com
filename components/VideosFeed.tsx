@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { youtubeService } from '../services/youtubeService.ts';
 import { VideoItem } from '../types.ts';
@@ -41,7 +42,7 @@ export const VideosFeed: React.FC = () => {
             MEDIA UPLINK ACTIVE
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">
-            UNCHAINED <span className="text-blue-600">VIDEO</span>
+            SHIZZYUNCHAINED <span className="text-blue-600">VIDEO</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.4em] max-w-xl leading-relaxed">
             The archive of long-form breakdowns and vertical intelligence.

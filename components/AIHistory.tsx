@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { AI_HISTORY_TIMELINE, SOCIAL_LINKS } from '../constants.tsx';
 import { Library, Zap, ChevronRight, Info } from 'lucide-react';
@@ -110,7 +111,7 @@ export const AIHistory: React.FC = () => {
         <div className="bg-slate-900 dark:bg-white p-8 rounded-[3rem] w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
            <div className="space-y-2 text-center md:text-left">
               <h4 className="text-2xl font-black text-white dark:text-black font-space uppercase italic tracking-tighter">THE FUTURE IS UNWRITTEN</h4>
-              <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Shizzy Unchained Intelligence Hub</p>
+              <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">SHIZZYUNCHAINED Intelligence Hub</p>
            </div>
            <button 
              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

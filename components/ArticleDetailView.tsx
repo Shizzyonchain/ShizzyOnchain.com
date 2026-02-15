@@ -1,16 +1,10 @@
+
 import React, { useMemo } from 'react';
 import { NewsArticle } from '../types.ts';
 import { 
-  PANIC_SELLING_ARTICLE, 
   BEAR_RUNNERS_ARTICLE, 
   OCT_10_ARTICLE, 
-  PROVEX_ARTICLE, 
   TAO_ARTICLE, 
-  JAM_ARTICLE,
-  MOLTBOOK_ARTICLE,
-  CLAUDE_46_ARTICLE,
-  GPT_53_CODEX_ARTICLE,
-  CLAUDE_VS_GPT_ARTICLE,
   TWITTER_SKILL_TRAP_ARTICLE
 } from '../constants.tsx';
 import { newsService } from '../services/newsService.ts';
@@ -25,18 +19,19 @@ interface ArticleDetailViewProps {
 export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId, onBack }) => {
   const [copied, setCopied] = React.useState(false);
 
+  // Memoized article lookup logic to resolve various hardcoded and dynamic content sources
   const article = useMemo(() => {
-    // Check constants
+    // 1. Check constants.tsx for statically defined high-fidelity articles
     const articles = [
-      TWITTER_SKILL_TRAP_ARTICLE, PANIC_SELLING_ARTICLE, BEAR_RUNNERS_ARTICLE, OCT_10_ARTICLE, 
-      PROVEX_ARTICLE, TAO_ARTICLE, 
-      JAM_ARTICLE, MOLTBOOK_ARTICLE, CLAUDE_46_ARTICLE, GPT_53_CODEX_ARTICLE,
-      CLAUDE_VS_GPT_ARTICLE
+      TWITTER_SKILL_TRAP_ARTICLE, 
+      BEAR_RUNNERS_ARTICLE, 
+      OCT_10_ARTICLE, 
+      TAO_ARTICLE
     ];
     const found = articles.find(a => a.id === articleId);
     if (found) return found;
 
-    // Check AI News
+    // 2. Fallback: Check AI News Pipeline for curated signal items
     const aiNews = newsService.getLatestSnapshotItems().items;
     const aiFound = aiNews.find(a => a.id === articleId);
     if (aiFound) {
@@ -53,7 +48,7 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ articleId,
       } as NewsArticle;
     }
 
-    // Check Crypto News
+    // 3. Fallback: Check Crypto News Pipeline for market-level intelligence
     const cryptoNews = cryptoNewsService.getLatestItems().items;
     const cryptoFound = cryptoNews.find(a => a.id === articleId);
     if (cryptoFound) {

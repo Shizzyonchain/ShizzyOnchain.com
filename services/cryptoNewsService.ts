@@ -4,7 +4,6 @@ import { AINewsItem } from '../types.ts';
 /**
  * SHIZZY CRYPTO NEWS PIPELINE v1.6
  * High-signal crypto market intelligence and restored signal archive.
- * All articles linked here must have a corresponding object in constants.tsx
  */
 
 const CRYPTO_CURATED_SIGNALS: AINewsItem[] = [
@@ -57,16 +56,6 @@ const CRYPTO_CURATED_SIGNALS: AINewsItem[] = [
     image_url: 'https://i.postimg.cc/6qxnwjfb/677BAF68-0838-4967-8163-E83511FA61CC.png',
     excerpt: `Bittensor is an attempt to turn intelligence into an open marketplace, where models, data, and useful outputs compete.`,
     tags: ['Bittensor', 'TAO', 'AI Infrastructure']
-  },
-  {
-    id: 'jam-protocol',
-    title: 'JAM IS POLKADOT REBUILDING ITSELF AS A GLOBAL EXECUTION ENGINE',
-    url: '#/article/jam-protocol',
-    source: 'Shizzy Archive',
-    published_at: '2025-08-20T11:00:00Z',
-    image_url: 'https://i.postimg.cc/Y9FkYbBM/D918DDBE-026A-45B1-AB70-82A14F16F48C.png',
-    excerpt: `People keep treating JAM like it is a marketing refresh for Polkadot. It is not. JAM is a proposed replacement for the Relay Chain itself.`,
-    tags: ['Polkadot', 'JAM', 'Coretime']
   }
 ];
 

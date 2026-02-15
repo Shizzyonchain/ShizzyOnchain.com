@@ -5,7 +5,9 @@ const BASE_URL = 'https://api.taostats.io';
 
 export const taoStatsService = {
   async getSubnets(): Promise<TaoSubnet[]> {
-    const apiKey = process.env.TAOSTATS_API_KEY;
+    // In browser environments, process.env is not directly accessible without a bundler.
+    // If TAOSTATS_API_KEY is missing, we gracefully fallback to mock data.
+    const apiKey = typeof process !== 'undefined' ? process.env.TAOSTATS_API_KEY : undefined;
     if (!apiKey) {
       console.warn('TAOSTATS_API_KEY is not defined.');
       return this.getFallbackData();
