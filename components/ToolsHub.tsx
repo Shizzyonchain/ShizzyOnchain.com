@@ -1,16 +1,15 @@
+
 import React from 'react';
 import { View } from '../types.ts';
 import { 
   Cpu, 
   Layers, 
-  Activity, 
   Zap, 
   ChevronRight, 
   Search,
   ShieldCheck,
   Coins,
-  Library,
-  Wallet
+  Library
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -60,14 +59,6 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, col
 
 export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNavigate }) => {
   const tools = [
-    {
-      title: 'WALLET INTEL',
-      description: 'The ultimate onchain visualizer. Scan any address across all major blockchains. Net worth, asset inventory, and protocol exposure.',
-      icon: <Wallet />,
-      view: 'wallet-checker' as View,
-      colorClass: 'text-emerald-500',
-      badge: 'NEW TOOL'
-    },
     {
       title: 'HISTORY OF AI',
       description: 'The complete timeline of the intelligence revolution. From Turing to the Agent Era. Visual archive of humanity\'s greatest pivot.',

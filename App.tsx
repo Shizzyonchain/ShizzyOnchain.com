@@ -15,7 +15,6 @@ import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
 import { DailyRipsFeed } from './components/DailyRipsFeed.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
 import { AIHistory } from './components/AIHistory.tsx';
-import { WalletChecker } from './components/WalletChecker.tsx';
 import { View } from './types.ts';
 import { SOCIAL_LINKS } from './constants.tsx';
 import { Mail, ExternalLink, Youtube, Music, Send } from 'lucide-react';
@@ -56,7 +55,6 @@ const App: React.FC = () => {
       else if (hash === '#/daily-rips') setCurrentView('daily-rips');
       else if (hash === '#/tools') setCurrentView('tools');
       else if (hash === '#/ai-history') setCurrentView('ai-history');
-      else if (hash === '#/wallet-checker') setCurrentView('wallet-checker');
       else setCurrentView('home');
     };
 
@@ -132,11 +130,6 @@ const App: React.FC = () => {
         <AIHistory />
       </div>
     );
-    if (currentView === 'wallet-checker') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <WalletChecker />
-      </div>
-    );
 
     return <Overview />;
   };
@@ -163,36 +156,23 @@ const App: React.FC = () => {
               </p>
             </div>
 
-            {/* Social & Connect Card - Reorganized based on user request */}
+            {/* Social & Connect Card */}
             <div className="bg-[#0f172a] dark:bg-[#0f172a] rounded-[2.5rem] p-10 md:p-14 border border-white/5 shadow-2xl space-y-10">
-              {/* Social Channels Section */}
               <div className="space-y-6">
                 <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">SOCIAL CHANNELS</h4>
                 
                 <div className="space-y-4">
-                  {/* Personal X */}
-                  <a href={SOCIAL_LINKS.personalX} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
-                    <div className="flex items-center gap-6">
-                      <div className="p-3 bg-black rounded-xl border border-white/10 group-hover:border-blue-500/50 transition-colors">
-                        <XIcon className="w-5 h-5 text-white" />
-                      </div>
-                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-blue-500 transition-colors">SHIZZY (X)</span>
-                    </div>
-                    <ExternalLink size={20} className="text-slate-600 group-hover:text-blue-500 transition-colors" />
-                  </a>
-
-                  {/* Unchained X - Moved back up to SOCIAL CHANNELS */}
+                  {/* Single Brand X Link */}
                   <a href={SOCIAL_LINKS.unchainedX} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
                     <div className="flex items-center gap-6">
                       <div className="p-3 bg-black rounded-xl border border-white/10 group-hover:border-blue-500/50 transition-colors">
                         <XIcon className="w-5 h-5 text-white" />
                       </div>
-                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-blue-500 transition-colors">UNCHAINED (X)</span>
+                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-blue-500 transition-colors">SHIZZYUNCHAINED (X)</span>
                     </div>
                     <ExternalLink size={20} className="text-slate-600 group-hover:text-blue-500 transition-colors" />
                   </a>
 
-                  {/* YouTube */}
                   <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
                     <div className="flex items-center gap-6">
                       <div className="p-3 bg-red-600/20 rounded-xl border border-red-600/20 group-hover:border-red-600 transition-colors">
@@ -203,7 +183,6 @@ const App: React.FC = () => {
                     <ExternalLink size={20} className="text-slate-600 group-hover:text-red-500 transition-colors" />
                   </a>
 
-                  {/* TikTok */}
                   <a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
                     <div className="flex items-center gap-6">
                       <div className="p-3 bg-purple-600/20 rounded-xl border border-purple-600/20 group-hover:border-purple-600 transition-colors">
@@ -216,15 +195,12 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              {/* Divider */}
               <div className="h-[1px] bg-white/10"></div>
 
-              {/* Connect Section - Reorganized based on user request */}
               <div className="space-y-6">
                 <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">CONNECT</h4>
                 
                 <div className="space-y-4">
-                  {/* Telegram */}
                   <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 group">
                     <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-600/20 group-hover:border-blue-600 transition-colors">
                       <Send className="w-5 h-5 text-blue-500" />
@@ -232,7 +208,6 @@ const App: React.FC = () => {
                     <span className="text-lg md:text-xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-blue-500 transition-colors">TELEGRAM</span>
                   </a>
 
-                  {/* Email */}
                   <a href={`mailto:${SOCIAL_LINKS.email}`} className="flex items-center gap-6 group">
                     <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-600/20 group-hover:border-blue-600 transition-colors">
                       <Mail className="w-5 h-5 text-blue-500" />

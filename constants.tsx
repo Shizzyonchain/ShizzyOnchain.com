@@ -11,7 +11,6 @@ export const INITIAL_COINS: CoinData[] = [
 ];
 
 export const SOCIAL_LINKS = {
-  personalX: 'https://x.com/ShizzyOfficialX',
   unchainedX: 'https://x.com/ShizzyUnchained',
   youtube: 'https://www.youtube.com/@ShizzyunchainedAI',
   tiktok: 'https://www.tiktok.com/@shizzyunchained',
@@ -40,16 +39,16 @@ export const DAILY_RIP_POSTS = [
     author: 'Shizzy',
     handle: '@Shizzy',
     content: 'The market doesn’t care about your thesis. It only cares about liquidity flows. Watch the bridges.',
-    postUrl: 'https://x.com/ShizzyOfficialX',
-    profileUrl: 'https://x.com/ShizzyOfficialX'
+    postUrl: 'https://x.com/ShizzyUnchained',
+    profileUrl: 'https://x.com/ShizzyUnchained'
   },
   {
     id: 'rip-2',
     author: 'Shizzy',
     handle: '@Shizzy',
     content: 'AI agents are not the future. They are the current bottleneck. Fix the latency, win the cycle.',
-    postUrl: 'https://x.com/ShizzyOfficialX',
-    profileUrl: 'https://x.com/ShizzyOfficialX'
+    postUrl: 'https://x.com/ShizzyUnchained',
+    profileUrl: 'https://x.com/ShizzyUnchained'
   }
 ];
 
