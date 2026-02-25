@@ -17,7 +17,7 @@ export const SOCIAL_LINKS = {
   telegram: 'https://t.me/ShizzyUnchained',
   email: 'Shizzyunchained@gmail.com',
   logo: 'https://i.postimg.cc/LsK32BC0/Overlay-main-(1).png',
-  heroImage: 'https://i.postimg.cc/zvgfzWPh/SU-Shizzy-Background-new-(22).png',
+  heroImage: 'https://i.postimg.cc/cCGh7Dn8/SU-Shizzy-Background-new-(23).png',
   innovationFirstLogo: 'https://i.postimg.cc/85zXp9mX/Innovation-First-Logo.png' 
 };
 

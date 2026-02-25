@@ -6,7 +6,7 @@ export const generateAIInsight = async (userPrompt: string): Promise<NewsArticle
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-3.1-pro-preview',
     contents: `As Shizzy, a world-class on-chain analyst and crypto visionary, generate a detailed "Hot Take" article based on the following topic or prompt: "${userPrompt}". 
     The article should be insightful, slightly provocative, and backed by a narrative of on-chain data.
     Ensure the timestamp is current (e.g., "FEBRUARY 14, 2026").

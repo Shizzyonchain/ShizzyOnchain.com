@@ -12,7 +12,6 @@ import { VideosFeed } from './components/VideosFeed.tsx';
 import { ArticleDetailView } from './components/ArticleDetailView.tsx';
 import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
-import { DailyRipsFeed } from './components/DailyRipsFeed.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
 import { AIHistory } from './components/AIHistory.tsx';
 import { View } from './types.ts';
@@ -52,7 +51,6 @@ const App: React.FC = () => {
       else if (hash === '#/bubbles') setCurrentView('bubbles');
       else if (hash === '#/aicoins') setCurrentView('aicoins');
       else if (hash === '#/cryptocoins') setCurrentView('cryptocoins');
-      else if (hash === '#/daily-rips') setCurrentView('daily-rips');
       else if (hash === '#/tools') setCurrentView('tools');
       else if (hash === '#/ai-history') setCurrentView('ai-history');
       else setCurrentView('home');
@@ -117,11 +115,6 @@ const App: React.FC = () => {
     if (currentView === 'cryptocoins') return (
       <div className="max-w-[1400px] mx-auto px-6 py-10">
         <CryptoCoinsDashboard />
-      </div>
-    );
-    if (currentView === 'daily-rips') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <DailyRipsFeed />
       </div>
     );
     if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;

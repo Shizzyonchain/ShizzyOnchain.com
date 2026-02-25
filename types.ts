@@ -133,4 +133,4 @@ export interface TaoSubnet {
   daily_rewards?: number;
 }
 
-export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'cryptocoins' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'article-detail' | 'daily-rips' | 'tools' | 'ai-history';
+export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'cryptocoins' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'article-detail' | 'tools' | 'ai-history';

@@ -29,7 +29,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'HOME', view: 'home' as View },
     { label: 'AI NEWS', view: 'ainews' as View },
     { label: 'CRYPTO NEWS', view: 'cryptonews' as View },
-    { label: 'DAILY RIPS', view: 'daily-rips' as View, icon: <MessageSquare size={14} className="fill-current" /> },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];
 

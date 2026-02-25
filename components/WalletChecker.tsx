@@ -296,7 +296,7 @@ export const WalletChecker: React.FC = () => {
         <div className="space-y-6 w-full text-center md:text-left">
           <div className="flex flex-wrap justify-center md:justify-start gap-3">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
-              <ShieldAlert size(10) strokeWidth={3} className="animate-pulse" />
+              <ShieldAlert size={10} strokeWidth={3} className="animate-pulse" />
               NON-SIMULATED RAW DATA
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 dark:bg-white/5 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-md border border-slate-200 dark:border-white/10">

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { cryptoNewsService } from '../services/cryptoNewsService.ts';
 import { SOCIAL_LINKS } from '../constants.tsx';
-import { Clock, ArrowRight, MessageSquare } from 'lucide-react';
+import { Clock, ArrowRight } from 'lucide-react';
 
 interface CryptoNewsFeedProps {
   hideHeader?: boolean;
@@ -21,10 +21,6 @@ export const CryptoNewsFeed: React.FC<CryptoNewsFeedProps> = ({ hideHeader = fal
     window.location.hash = `#/article/${id}`;
   };
 
-  const navigateToRips = () => {
-    window.location.hash = `#/daily-rips`;
-  };
-
   return (
     <div className={`max-w-[1000px] mx-auto space-y-16 animate-in fade-in duration-1000 ${hideHeader ? 'py-0' : 'py-10'} px-4`}>
       {/* High-Impact Header - Conditional */}
@@ -38,14 +34,6 @@ export const CryptoNewsFeed: React.FC<CryptoNewsFeedProps> = ({ hideHeader = fal
               The critical events shaping the global crypto landscape.
             </p>
           </div>
-          
-          <button 
-            onClick={navigateToRips}
-            className="inline-flex items-center gap-3 px-6 py-3 bg-red-600/10 text-red-600 dark:text-red-400 rounded-xl border border-red-600/20 text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all group"
-          >
-            <MessageSquare size={14} fill="currentColor" />
-            VIEW DAILY RIPS ARCHIVE
-          </button>
         </div>
       )}
 
