@@ -25,7 +25,7 @@ export const OVERVIEW_CONTENT = {
   hero: {
     title: 'INNOVATION FIRST',
     suffix: 'MEDIA',
-    subtitle: 'SHIZZYUNCHAINED is a high-fidelity media engine tracking the convergence of Artificial Intelligence and decentralized markets.'
+    subtitle: 'Shizzy Unchained is a media platform covering the collision of Artificial Intelligence, crypto, and decentralized markets in real time. It focuses on the signals that actually matter: emerging protocols, new infrastructure, capital flows, market narratives, and the builders pushing this next wave forward. The goal is simple: cut through the noise, track where innovation is happening first, and give people clear insight into the technologies and opportunities shaping what comes next.'
   },
   mission: {
     title: 'THE MISSION',
