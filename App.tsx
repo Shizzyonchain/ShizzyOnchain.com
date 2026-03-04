@@ -9,13 +9,11 @@ import { Overview } from './components/Overview.tsx';
 import { AINewsFeed } from './components/AINewsFeed.tsx';
 import { CryptoNewsFeed } from './components/CryptoNewsFeed.tsx';
 import { VideosFeed } from './components/VideosFeed.tsx';
-import { ArticleDetailView } from './components/ArticleDetailView.tsx';
 import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
-import { AIHistory } from './components/AIHistory.tsx';
 import { View } from './types.ts';
-import { SOCIAL_LINKS } from './constants.tsx';
+import { SOCIAL_LINKS, OVERVIEW_CONTENT } from './constants.tsx';
 import { Mail, ExternalLink, Youtube, Music, Send } from 'lucide-react';
 
 const XIcon = ({ className = "w-5 h-5" }) => (
@@ -27,21 +25,11 @@ const XIcon = ({ className = "w-5 h-5" }) => (
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [currentView, setCurrentView] = useState<View>('home');
-  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash || '#/home';
       
-      if (hash.startsWith('#/article/')) {
-        const id = hash.replace('#/article/', '');
-        setSelectedArticleId(id);
-        setCurrentView('article-detail');
-        window.scrollTo(0, 0);
-        return;
-      }
-
-      setSelectedArticleId(null);
       if (hash === '#/overview') setCurrentView('overview');
       else if (hash === '#/ainews') setCurrentView('ainews');
       else if (hash === '#/cryptonews') setCurrentView('cryptonews');
@@ -78,9 +66,6 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
-    if (currentView === 'article-detail' && selectedArticleId) {
-      return <ArticleDetailView articleId={selectedArticleId} onBack={() => window.history.back()} />;
-    }
     if (currentView === 'research') return (
       <div className="max-w-[1400px] mx-auto py-10 px-6">
         <ResearchDashboard />
@@ -118,17 +103,12 @@ const App: React.FC = () => {
       </div>
     );
     if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
-    if (currentView === 'ai-history') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <AIHistory />
-      </div>
-    );
 
     return <Overview />;
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0b0e14] transition-colors duration-300 font-inter text-slate-900 dark:text-slate-200">
+    <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#0b0e14] transition-colors duration-300 font-inter text-[#111111] dark:text-slate-200">
       <Ticker />
       <Header darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} onViewChange={handleViewChange} currentView={currentView} />
       <main className="mt-8">
@@ -141,11 +121,10 @@ const App: React.FC = () => {
             {/* Branding & Mission */}
             <div className="space-y-8">
               <div className="text-4xl font-black font-space italic text-slate-900 dark:text-white uppercase tracking-tighter">
-                SHIZZY<span className="text-blue-600">UNCHAINED</span>
+                SHIZZY<span className="text-slate-900 dark:text-white">UNCHAINED</span>
               </div>
-              <p className="text-sm text-slate-500 font-mono uppercase tracking-[0.2em] leading-relaxed max-w-md">
-                SHIZZYUNCHAINED is an independent AI and crypto research entity.<br/>
-                Strategic intelligence. On-chain validation. Not financial advice.
+              <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-md">
+                {OVERVIEW_CONTENT.footer.disclaimer}
               </p>
             </div>
 
@@ -158,12 +137,12 @@ const App: React.FC = () => {
                   {/* Single Brand X Link */}
                   <a href={SOCIAL_LINKS.unchainedX} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
                     <div className="flex items-center gap-6">
-                      <div className="p-3 bg-black rounded-xl border border-white/10 group-hover:border-blue-500/50 transition-colors">
+                      <div className="p-3 bg-black rounded-xl border border-white/10 group-hover:border-white transition-colors">
                         <XIcon className="w-5 h-5 text-white" />
                       </div>
-                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-blue-500 transition-colors">SHIZZYUNCHAINED (X)</span>
+                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-slate-300 transition-colors">SHIZZYUNCHAINED (X)</span>
                     </div>
-                    <ExternalLink size={20} className="text-slate-600 group-hover:text-blue-500 transition-colors" />
+                    <ExternalLink size={20} className="text-slate-600 group-hover:text-white transition-colors" />
                   </a>
 
                   <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
@@ -195,17 +174,17 @@ const App: React.FC = () => {
                 
                 <div className="space-y-4">
                   <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 group">
-                    <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-600/20 group-hover:border-blue-600 transition-colors">
-                      <Send className="w-5 h-5 text-blue-500" />
+                    <div className="p-3 bg-white/10 rounded-xl border border-white/10 group-hover:border-white transition-colors">
+                      <Send className="w-5 h-5 text-white" />
                     </div>
-                    <span className="text-lg md:text-xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-blue-500 transition-colors">TELEGRAM</span>
+                    <span className="text-lg md:text-xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-slate-300 transition-colors">TELEGRAM</span>
                   </a>
 
                   <a href={`mailto:${SOCIAL_LINKS.email}`} className="flex items-center gap-6 group">
-                    <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-600/20 group-hover:border-blue-600 transition-colors">
-                      <Mail className="w-5 h-5 text-blue-500" />
+                    <div className="p-3 bg-white/10 rounded-xl border border-white/10 group-hover:border-white transition-colors">
+                      <Mail className="w-5 h-5 text-white" />
                     </div>
-                    <span className="text-lg md:text-xl font-mono font-bold text-blue-400 group-hover:text-blue-300 transition-colors lowercase tracking-tight break-all">
+                    <span className="text-lg md:text-xl font-mono font-bold text-slate-300 group-hover:text-white transition-colors lowercase tracking-tight break-all">
                       {SOCIAL_LINKS.email}
                     </span>
                   </a>

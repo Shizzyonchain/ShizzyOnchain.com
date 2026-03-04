@@ -27,8 +27,8 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
 
   const navItems = [
     { label: 'HOME', view: 'home' as View },
-    { label: 'AI NEWS', view: 'ainews' as View },
-    { label: 'CRYPTO NEWS', view: 'cryptonews' as View },
+    { label: 'AI SIGNALS', view: 'ainews' as View },
+    { label: 'CRYPTO SIGNALS', view: 'cryptonews' as View },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];
 
@@ -53,8 +53,8 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
             <button
               key={item.view}
               onClick={() => handleNavClick(item.view)}
-              className={`flex items-center gap-2 text-[13px] font-black uppercase tracking-[0.15em] font-space transition-colors hover:text-blue-500 ${
-                currentView === item.view ? 'text-blue-500' : 'text-slate-900 dark:text-slate-400'
+              className={`flex items-center gap-2 text-[13px] font-black uppercase tracking-[0.15em] font-space transition-colors hover:text-slate-900 dark:hover:text-white ${
+                currentView === item.view ? 'text-slate-900 dark:text-white underline underline-offset-8 decoration-2' : 'text-slate-500 dark:text-slate-400'
               }`}
             >
               {item.icon && <span>{item.icon}</span>}
@@ -69,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
             href={SOCIAL_LINKS.unchainedX} 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="p-3 md:p-4 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-blue-500 transition-colors hidden sm:flex"
+            className="p-3 md:p-4 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors hidden sm:flex"
           >
             <XIcon className="w-5 h-5" />
           </a>
@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                 key={item.view}
                 onClick={() => handleNavClick(item.view)} 
                 className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
-                  currentView === item.view ? 'text-blue-500' : 'text-slate-900 dark:text-white'
+                  currentView === item.view ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'
                 }`}
               >
                 {item.label}

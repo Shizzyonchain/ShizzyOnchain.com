@@ -38,7 +38,7 @@ export const Ticker: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-[#111827] border-b border-slate-200 dark:border-white/5 h-[44px] flex items-center overflow-hidden whitespace-nowrap sticky top-0 z-[100] transition-colors duration-300 select-none">
+    <div className="bg-[#F7F7F8] dark:bg-[#111827] border-b border-slate-200 dark:border-white/5 h-[44px] flex items-center overflow-hidden whitespace-nowrap sticky top-0 z-[100] transition-colors duration-300 select-none">
       <div className="flex items-center min-w-full marquee-content">
         {/* We repeat the content 4 times to ensure a seamless loop even on ultra-wide screens */}
         {[0, 1, 2, 3].map((setIndex) => (

@@ -60,14 +60,6 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, col
 export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNavigate }) => {
   const tools = [
     {
-      title: 'HISTORY OF AI',
-      description: 'The complete timeline of the intelligence revolution. From Turing to the Agent Era. Visual archive of humanity\'s greatest pivot.',
-      icon: <Library />,
-      view: 'ai-history' as View,
-      colorClass: 'text-indigo-600',
-      badge: 'THE ARCHIVE'
-    },
-    {
       title: 'RESEARCH',
       description: 'Advanced market intelligence dashboard with sector filtering, real-time pinning, and high-fidelity coin analysis.',
       icon: <Search />,

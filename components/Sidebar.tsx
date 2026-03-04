@@ -17,8 +17,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
 
   const displayStories = items.slice(0, 10);
 
-  const handleStoryClick = (id: string) => {
-    window.location.hash = `#/article/${id}`;
+  const handleStoryClick = (item: any) => {
+    if (item.url.startsWith('http')) {
+      window.open(item.url, '_blank');
+    } else {
+      window.location.hash = item.url;
+    }
   };
 
   return (
@@ -27,7 +31,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100 dark:border-white/5">
           <div className="flex items-center gap-3">
             <Zap size={18} className="text-blue-500 fill-blue-500 animate-pulse" />
-            <h3 className="text-sm font-black text-slate-900 dark:text-white tracking-[0.2em] font-space uppercase italic">AI NEWS SIGNALS</h3>
+            <h3 className="text-sm font-black text-slate-900 dark:text-white tracking-[0.2em] font-space uppercase italic">AI SIGNALS</h3>
           </div>
         </div>
 
@@ -35,7 +39,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
           {displayStories.map((story) => (
             <button 
               key={story.id} 
-              onClick={() => handleStoryClick(story.id)}
+              onClick={() => handleStoryClick(story)}
               className="group w-full text-left focus:outline-none block space-y-2"
             >
               <div className="flex items-center gap-2 opacity-40 group-hover:opacity-100 transition-opacity">

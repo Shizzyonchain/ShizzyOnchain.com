@@ -17,8 +17,12 @@ export const CryptoNewsFeed: React.FC<CryptoNewsFeedProps> = ({ hideHeader = fal
     ? new Date(lastUpdate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     : '--:--';
 
-  const navigateToArticle = (id: string) => {
-    window.location.hash = `#/article/${id}`;
+  const navigateToArticle = (item: any) => {
+    if (item.url.startsWith('http')) {
+      window.open(item.url, '_blank');
+    } else {
+      window.location.hash = item.url;
+    }
   };
 
   return (
@@ -28,7 +32,7 @@ export const CryptoNewsFeed: React.FC<CryptoNewsFeedProps> = ({ hideHeader = fal
         <div className="text-center space-y-8">
           <div className="space-y-4">
             <h1 className="text-6xl md:text-9xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">
-              CRYPTO <span className="text-emerald-500">NEWS</span>
+              CRYPTO <span className="text-slate-400">SIGNALS</span>
             </h1>
             <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.4em] max-w-xl mx-auto leading-relaxed">
               The critical events shaping the global crypto landscape.
@@ -42,9 +46,8 @@ export const CryptoNewsFeed: React.FC<CryptoNewsFeedProps> = ({ hideHeader = fal
         {items.map((item) => (
           <button
             key={item.id}
-            // Fix: Use item.id instead of undefined id
-            onClick={() => navigateToArticle(item.id)}
-            className="group w-full text-left relative border border-slate-200 dark:border-white/5 rounded-[2rem] transition-all duration-500 overflow-hidden bg-white dark:bg-white/[0.02] hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/10 p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 focus:outline-none"
+            onClick={() => navigateToArticle(item)}
+            className="group w-full text-left relative border border-slate-200 dark:border-white/5 rounded-[2rem] transition-all duration-500 overflow-hidden bg-white dark:bg-white/[0.02] hover:border-slate-900 dark:hover:border-white hover:shadow-2xl hover:shadow-black/5 p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 focus:outline-none"
           >
             <div className="w-full md:w-48 aspect-video md:aspect-square shrink-0 overflow-hidden rounded-2xl bg-slate-100 dark:bg-zinc-900">
               <img 
@@ -56,12 +59,12 @@ export const CryptoNewsFeed: React.FC<CryptoNewsFeedProps> = ({ hideHeader = fal
 
             <div className="flex-grow space-y-4">
               <div className="flex items-center gap-3">
-                <span className="text-[9px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-mono">
+                <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest font-mono">
                   {item.source}
                 </span>
               </div>
               
-              <h2 className="text-xl md:text-3xl font-black text-slate-900 dark:text-white leading-[1.2] font-space italic uppercase tracking-tight group-hover:text-emerald-500 transition-colors">
+              <h2 className="text-xl md:text-3xl font-black text-slate-900 dark:text-white leading-[1.2] font-space italic uppercase tracking-tight group-hover:text-slate-500 transition-colors">
                 {item.title}
               </h2>
 
@@ -70,7 +73,7 @@ export const CryptoNewsFeed: React.FC<CryptoNewsFeedProps> = ({ hideHeader = fal
               </p>
             </div>
             
-            <div className="shrink-0 p-4 rounded-full border border-slate-200 dark:border-white/10 text-slate-400 group-hover:text-emerald-500 group-hover:border-emerald-500/50 transition-all group-hover:translate-x-1">
+            <div className="shrink-0 p-4 rounded-full border border-slate-200 dark:border-white/10 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white group-hover:border-slate-900 dark:group-hover:border-white transition-all group-hover:translate-x-1">
               <ArrowRight size={24} />
             </div>
           </button>

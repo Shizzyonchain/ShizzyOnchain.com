@@ -8,34 +8,44 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
-    id: 'twitter-skill-trap',
-    title: 'The “Twitter Skill” Trap: Malware Chain Discovered on ClawHub',
-    url: '#/article/twitter-skill-trap',
+    id: 'gvjPJpxAjNs',
+    title: 'The Signal: AI Agents & Global Liquidity',
+    url: 'https://youtube.com/watch?v=gvjPJpxAjNs',
     source: 'Shizzy Unchained',
     published_at: '2026-03-04T10:00:00Z',
-    image_url: 'https://i.postimg.cc/gJ3j0sgP/B311712F-19B4-4C72-A6C3-0C408253F978.png',
-    excerpt: `Security researchers have been tracking a wave of malicious OpenClaw skills on ClawHub. This was not some sketchy zip from a random Telegram—it was sitting in the open, dressed up like a popular “Twitter” skill.`,
-    tags: ['Security', 'OpenClaw', 'Malware', 'AI Safety']
+    image_url: 'https://img.youtube.com/vi/gvjPJpxAjNs/maxresdefault.jpg',
+    excerpt: `A deep dive into the intersection of autonomous AI agents and global liquidity flows. How agentic workflows are reshaping market dynamics.`,
+    tags: ['AI Agents', 'Liquidity', 'Macro']
   },
   {
-    id: 'claude-46-vs-gpt-53',
-    title: 'Claude Opus 4.6 vs GPT-5.3-Codex: A Battle of Autonomous Context',
-    url: '#/article/claude-46-vs-gpt-53',
+    id: 'OnPTglAFzO0',
+    title: 'Bittensor Subnets: The Decentralized Intelligence Layer',
+    url: 'https://youtu.be/OnPTglAFzO0',
     source: 'Shizzy Unchained',
     published_at: '2026-03-03T10:00:00Z',
-    image_url: 'https://i.postimg.cc/m2wbB96F/35F670E2-AD3B-4F2D-AF47-6600CC9D7E34.png',
-    excerpt: `Claude Opus 4.6 is trying to be the model you trust with a giant messy pile of context. GPT-5.3-Codex is OpenAI turning Codex into a fast operator model that can run long tasks while you steer it mid-run.`,
-    tags: ['Claude 4.6', 'GPT-5.3', 'Codex', 'Comparison']
+    image_url: 'https://img.youtube.com/vi/OnPTglAFzO0/maxresdefault.jpg',
+    excerpt: `Exploring the Bittensor ecosystem and how subnets are creating a decentralized marketplace for machine intelligence.`,
+    tags: ['Bittensor', 'TAO', 'Infrastructure']
   },
   {
-    id: 'claude-46-organized',
-    title: 'Claude 4.6: The Shift from Draft Assistant to Delivery Engine',
-    url: '#/article/claude-46-organized',
+    id: '7AsrjwSB1Zs',
+    title: 'Crypto Infrastructure: The Middleware for AI',
+    url: 'https://youtu.be/7AsrjwSB1Zs',
     source: 'Shizzy Unchained',
     published_at: '2026-03-02T10:00:00Z',
-    image_url: 'https://i.postimg.cc/7LzbN6mH/3347C26A-0DEE-421F-B2DA-CA32DC74BC0F.png',
-    excerpt: `Claude 4.6 is impressive because it remembers, coordinates, and executes work the way a company does. 1 million tokens of context kills the old loop of chunking documents.`,
-    tags: ['Claude 4.6', 'Agents', 'Productivity']
+    image_url: 'https://img.youtube.com/vi/7AsrjwSB1Zs/maxresdefault.jpg',
+    excerpt: `Why AI needs crypto rails for verification, incentive alignment, and decentralized compute scaling.`,
+    tags: ['Infrastructure', 'Middleware', 'AI']
+  },
+  {
+    id: 'xuDjHk7dMTY',
+    title: 'Early Trends: Identifying the Next Wave',
+    url: 'https://youtu.be/xuDjHk7dMTY',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-01T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/xuDjHk7dMTY/maxresdefault.jpg',
+    excerpt: `Identifying the next wave of innovation in the AI and crypto space. Early signals from the frontier.`,
+    tags: ['Trends', 'Innovation', 'Early Signal']
   }
 ];
 
