@@ -40,11 +40,8 @@ export const AINewsFeed: React.FC<AINewsFeedProps> = ({ hideHeader = false }) =>
       {!hideHeader && (
         <div className="text-center space-y-6">
           <h1 className="text-6xl md:text-9xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">
-            AI <span className="text-slate-400">SIGNALS</span>
+            Videos
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.4em] max-w-xl mx-auto leading-relaxed">
-            The signals that actually matter in AI right now. Zero noise. All signal.
-          </p>
         </div>
       )}
 
@@ -56,11 +53,11 @@ export const AINewsFeed: React.FC<AINewsFeedProps> = ({ hideHeader = false }) =>
             onClick={() => navigateToArticle(item)}
             className="group w-full text-left relative border border-slate-200 dark:border-white/5 rounded-[2rem] transition-all duration-500 overflow-hidden bg-white dark:bg-white/[0.02] hover:border-slate-900 dark:hover:border-white hover:shadow-2xl hover:shadow-black/5 p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 focus:outline-none"
           >
-            <div className="w-full md:w-48 aspect-video md:aspect-square shrink-0 overflow-hidden rounded-2xl bg-slate-100 dark:bg-zinc-900">
+            <div className="w-full md:w-64 aspect-video shrink-0 overflow-hidden rounded-2xl bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-white/5">
               <img 
                 src={item.image_url} 
                 alt={item.title} 
-                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
               />
             </div>
 

@@ -31,7 +31,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onStoryClick, onViewAll }) => 
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100 dark:border-white/5">
           <div className="flex items-center gap-3">
             <Zap size={18} className="text-blue-500 fill-blue-500 animate-pulse" />
-            <h3 className="text-sm font-black text-slate-900 dark:text-white tracking-[0.2em] font-space uppercase italic">AI SIGNALS</h3>
+            <h3 className="text-sm font-black text-slate-900 dark:text-white tracking-[0.2em] font-space uppercase italic">VIDEOS</h3>
           </div>
         </div>
 

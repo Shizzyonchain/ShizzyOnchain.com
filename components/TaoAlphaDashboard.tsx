@@ -14,7 +14,7 @@ import {
 import { taoStatsService } from '../services/taoStatsService.ts';
 import { TaoSubnet } from '../types.ts';
 
-type SortField = 'netuid' | 'emission' | 'market_cap' | 'stake' | 'price_usd';
+type SortField = 'netuid' | 'emission' | 'market_cap' | 'stake' | 'price_usd' | 'daily_rewards';
 
 export const TaoAlphaDashboard: React.FC = () => {
   const [subnets, setSubnets] = useState<TaoSubnet[]>([]);
@@ -81,10 +81,10 @@ export const TaoAlphaDashboard: React.FC = () => {
             BITTENSOR TAOSTATS UPLINK
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
-            TAO <span className="text-blue-600">ALPHA</span>
+            TAO <span className="text-blue-600">SUBNETS</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.3em] max-w-xl leading-relaxed">
-            Unfiltered subnet data and incentive distribution across the Bittensor ecosystem.
+            Real-time tracking of all 128 Bittensor subnets. Emissions, stake, and market dynamics in USD.
             <span className="block mt-1 text-blue-500/80 italic font-bold">Source: Taostats API Node</span>
           </p>
         </div>
@@ -122,6 +122,7 @@ export const TaoAlphaDashboard: React.FC = () => {
                   <SortHeader label="Emission" field="emission" />
                   <SortHeader label="Stake" field="stake" />
                   <SortHeader label="Mkt Cap" field="market_cap" />
+                  <SortHeader label="Daily Rewards" field="daily_rewards" />
                   <SortHeader label="Price" field="price_usd" />
                   <th className="px-6 py-5 text-center text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Explorer</th>
                 </tr>
@@ -155,6 +156,9 @@ export const TaoAlphaDashboard: React.FC = () => {
                     </td>
                     <td className="px-6 py-6 font-mono font-bold text-slate-600 dark:text-slate-400">
                       {formatCompact(subnet.market_cap || 0)}
+                    </td>
+                    <td className="px-6 py-6 font-mono font-bold text-emerald-500">
+                      {formatCurrency(subnet.daily_rewards || 0)}
                     </td>
                     <td className="px-6 py-6 font-mono font-black text-slate-900 dark:text-white text-base">
                       {formatCurrency(subnet.price_usd || 0)}

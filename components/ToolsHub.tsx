@@ -88,6 +88,13 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
       colorClass: 'text-emerald-500'
     },
     {
+      title: 'TAO SUBNETS',
+      description: 'Real-time tracking of all 128 Bittensor subnets. Emissions, stake, and market dynamics in USD.',
+      icon: <Layers />,
+      view: 'cryptonews' as View,
+      colorClass: 'text-blue-500'
+    },
+    {
       title: 'BUBBLES',
       description: 'High-performance interactive data visualization mapping market movements and volatility across the top 500 assets.',
       icon: <Layers />,

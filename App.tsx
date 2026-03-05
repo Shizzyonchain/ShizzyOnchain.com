@@ -11,16 +11,9 @@ import { CryptoNewsFeed } from './components/CryptoNewsFeed.tsx';
 import { VideosFeed } from './components/VideosFeed.tsx';
 import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
+import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
 import { View } from './types.ts';
-import { SOCIAL_LINKS, OVERVIEW_CONTENT } from './constants.tsx';
-import { Mail, ExternalLink, Youtube, Music, Send } from 'lucide-react';
-
-const XIcon = ({ className = "w-5 h-5" }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
@@ -83,9 +76,7 @@ const App: React.FC = () => {
       </div>
     );
     if (currentView === 'cryptonews') return (
-      <div className="max-w-[1400px] mx-auto px-6">
-        <CryptoNewsFeed />
-      </div>
+      <TaoAlphaDashboard />
     );
     if (currentView === 'videos') return (
       <div className="max-w-[1400px] mx-auto px-6 py-10">
@@ -108,102 +99,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#0b0e14] transition-colors duration-300 font-inter text-[#111111] dark:text-slate-200">
+    <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#050505] transition-colors duration-300 font-sans text-[#111111] dark:text-slate-200 relative">
+      <div className="fixed inset-0 noise pointer-events-none z-[999]" />
       <Ticker />
       <Header darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} onViewChange={handleViewChange} currentView={currentView} />
-      <main className="mt-8">
+      <main className="relative z-10">
         {renderContent()}
       </main>
-      
-      {currentView !== 'bubbles' && (
-        <footer className="max-w-[1400px] mx-auto px-6 py-20 mt-12 border-t border-slate-200 dark:border-white/5">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Branding & Mission */}
-            <div className="space-y-8">
-              <div className="text-4xl font-black font-space italic text-slate-900 dark:text-white uppercase tracking-tighter">
-                SHIZZY<span className="text-slate-900 dark:text-white">UNCHAINED</span>
-              </div>
-              <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-md">
-                {OVERVIEW_CONTENT.footer.disclaimer}
-              </p>
-            </div>
-
-            {/* Social & Connect Card */}
-            <div className="bg-[#0f172a] dark:bg-[#0f172a] rounded-[2.5rem] p-10 md:p-14 border border-white/5 shadow-2xl space-y-10">
-              <div className="space-y-6">
-                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">SOCIAL CHANNELS</h4>
-                
-                <div className="space-y-4">
-                  {/* Single Brand X Link */}
-                  <a href={SOCIAL_LINKS.unchainedX} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
-                    <div className="flex items-center gap-6">
-                      <div className="p-3 bg-black rounded-xl border border-white/10 group-hover:border-white transition-colors">
-                        <XIcon className="w-5 h-5 text-white" />
-                      </div>
-                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-slate-300 transition-colors">SHIZZYUNCHAINED (X)</span>
-                    </div>
-                    <ExternalLink size={20} className="text-slate-600 group-hover:text-white transition-colors" />
-                  </a>
-
-                  <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
-                    <div className="flex items-center gap-6">
-                      <div className="p-3 bg-red-600/20 rounded-xl border border-red-600/20 group-hover:border-red-600 transition-colors">
-                        <Youtube className="w-5 h-5 text-red-500" />
-                      </div>
-                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-red-500 transition-colors">YOUTUBE</span>
-                    </div>
-                    <ExternalLink size={20} className="text-slate-600 group-hover:text-red-500 transition-colors" />
-                  </a>
-
-                  <a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between group">
-                    <div className="flex items-center gap-6">
-                      <div className="p-3 bg-purple-600/20 rounded-xl border border-purple-600/20 group-hover:border-purple-600 transition-colors">
-                        <Music className="w-5 h-5 text-purple-500" />
-                      </div>
-                      <span className="text-xl md:text-2xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-purple-500 transition-colors">TIKTOK</span>
-                    </div>
-                    <ExternalLink size={20} className="text-slate-600 group-hover:text-purple-500 transition-colors" />
-                  </a>
-                </div>
-              </div>
-
-              <div className="h-[1px] bg-white/10"></div>
-
-              <div className="space-y-6">
-                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">CONNECT</h4>
-                
-                <div className="space-y-4">
-                  <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-6 group">
-                    <div className="p-3 bg-white/10 rounded-xl border border-white/10 group-hover:border-white transition-colors">
-                      <Send className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-lg md:text-xl font-black font-space italic text-white uppercase tracking-tight group-hover:text-slate-300 transition-colors">TELEGRAM</span>
-                  </a>
-
-                  <a href={`mailto:${SOCIAL_LINKS.email}`} className="flex items-center gap-6 group">
-                    <div className="p-3 bg-white/10 rounded-xl border border-white/10 group-hover:border-white transition-colors">
-                      <Mail className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-lg md:text-xl font-mono font-bold text-slate-300 group-hover:text-white transition-colors lowercase tracking-tight break-all">
-                      {SOCIAL_LINKS.email}
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-20 pt-10 border-t border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-widest">© 2026 SHIZZYUNCHAINED ARCHIVE. ALL RIGHTS RESERVED.</p>
-            <div className="flex items-center gap-8">
-              <span className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
-                UPLINK SECURE
-              </span>
-            </div>
-          </div>
-        </footer>
-      )}
     </div>
   );
 };

@@ -23,26 +23,26 @@ export const SOCIAL_LINKS = {
 
 export const OVERVIEW_CONTENT = {
   hero: {
-    headline: "Decentralized AI is already happening. Most people will ignore the opportunity until it is far out of reach.",
+    headline: "Decentralized AI | is already here | Do not miss what comes next",
     subheadline: 'Tracking Bittensor subnets, autonomous agents, and the startups building decentralized intelligence.',
     primaryCTA: 'Join Unchained Insiders',
     secondaryCTA: ''
   },
   latestSignal: {
-    title: 'Latest Videos',
+    title: '',
     cards: [
       {
-        title: 'The Signal: AI Agents & Global Liquidity',
+        title: "SHIZZY'S UNTOLD STORY FROM MACHINIST",
         category: 'AI AGENTS',
-        link: 'https://www.youtube.com/embed/gvjPJpxAjNs'
+        link: 'https://www.youtube.com/embed/Ks696rfT1jU'
       },
       {
-        title: 'Bittensor Subnets: The Decentralized Intelligence Layer',
+        title: 'BITTENSOR TAO MARKET UPDATE',
         category: 'BITTENSOR',
         link: 'https://www.youtube.com/embed/OnPTglAFzO0'
       },
       {
-        title: 'The Bittensor Opportunity: Why Most People Are Missing It',
+        title: 'WHY I LEFT ONCHAIN REVOLUTION',
         category: 'BITTENSOR',
         link: 'https://www.youtube.com/embed/ipkjDOogY2w'
       }
@@ -52,8 +52,8 @@ export const OVERVIEW_CONTENT = {
     title: 'What I Cover',
     items: [
       {
-        label: 'Bittensor',
-        description: 'Deep dives into subnets, validation, and the future of open intelligence.'
+        label: 'Tao Subnets',
+        description: 'Real-time tracking of all 128 Bittensor subnets. Emissions, stake, and market dynamics in USD.'
       },
       {
         label: 'AI Startups',

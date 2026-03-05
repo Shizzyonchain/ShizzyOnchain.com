@@ -9,7 +9,7 @@ import { AINewsItem } from '../types.ts';
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
     id: 'gvjPJpxAjNs',
-    title: 'The Signal: AI Agents & Global Liquidity',
+    title: 'BITTENSOR TAO MARKET UPDATE',
     url: 'https://youtube.com/watch?v=gvjPJpxAjNs',
     source: 'Shizzy Unchained',
     published_at: '2026-03-04T10:00:00Z',
@@ -19,7 +19,7 @@ const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   },
   {
     id: 'OnPTglAFzO0',
-    title: 'Bittensor Subnets: The Decentralized Intelligence Layer',
+    title: 'BITTENSOR TAO MARKET UPDATE',
     url: 'https://youtu.be/OnPTglAFzO0',
     source: 'Shizzy Unchained',
     published_at: '2026-03-03T10:00:00Z',
@@ -29,7 +29,7 @@ const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   },
   {
     id: '7AsrjwSB1Zs',
-    title: 'Crypto Infrastructure: The Middleware for AI',
+    title: 'CRYPTO INFRASTRUCTURE FOR AI',
     url: 'https://youtu.be/7AsrjwSB1Zs',
     source: 'Shizzy Unchained',
     published_at: '2026-03-02T10:00:00Z',
@@ -39,7 +39,7 @@ const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   },
   {
     id: 'xuDjHk7dMTY',
-    title: 'Early Trends: Identifying the Next Wave',
+    title: 'EARLY TRENDS: THE NEXT WAVE',
     url: 'https://youtu.be/xuDjHk7dMTY',
     source: 'Shizzy Unchained',
     published_at: '2026-03-01T10:00:00Z',
