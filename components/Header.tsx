@@ -69,6 +69,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         {/* Right-aligned Utility Icons */}
         <div className="flex items-center gap-3 md:gap-6 shrink-0">
           <button 
+            id="contact-btn-header"
             onClick={() => setIsContactOpen(true)}
             className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-blue-700 hover:scale-105 transition-all shadow-lg shadow-blue-500/20"
           >
