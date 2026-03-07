@@ -142,7 +142,7 @@ export const AIBriefAgent: React.FC = () => {
             </div>
             <div className="flex flex-col lg:flex-row items-center justify-center gap-8 py-4">
               <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-8 rounded-[2.5rem] flex flex-col items-center gap-4 w-full max-w-sm">
-                <Rss className="text-blue-600" size={32} />
+                <Rss className="text-orange-600" size={32} />
                 <h3 className="text-sm font-black uppercase tracking-widest">RSS TRIGGER</h3>
               </div>
               <ChevronRight className="hidden lg:block text-slate-300" size={32} />

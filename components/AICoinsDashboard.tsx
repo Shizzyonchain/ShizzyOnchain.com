@@ -57,7 +57,7 @@ export const AICoinsDashboard: React.FC = () => {
       <div className="flex flex-col lg:flex-row items-start justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-6">
           <div className="flex flex-wrap gap-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white text-[9px] font-black uppercase tracking-widest rounded-md shadow-lg shadow-blue-500/20">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-600 text-white text-[9px] font-black uppercase tracking-widest rounded-md shadow-lg shadow-orange-500/20">
               <Cpu size={10} strokeWidth={3} className="animate-pulse" />
               AI SECTOR UPLINK
             </div>
@@ -67,11 +67,11 @@ export const AICoinsDashboard: React.FC = () => {
             </div>
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
-            AI <span className="text-blue-600">REVOLUTION</span>
+            AI <span className="text-orange-600">REVOLUTION</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.3em] max-w-xl leading-relaxed italic">
             Live infrastructure monitoring of the AI and Big Data economy. 
-            <span className="block mt-1 text-blue-500/80 font-bold uppercase">Source: High-Fidelity Intelligence Node</span>
+            <span className="block mt-1 text-orange-500/80 font-bold uppercase">Source: High-Fidelity Intelligence Node</span>
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export const AICoinsDashboard: React.FC = () => {
       {/* Strategic KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 space-y-4">
-           <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400">
+           <div className="flex items-center gap-3 text-orange-600 dark:text-orange-400">
              <BarChart3 size={18} />
              <span className="text-[10px] font-black uppercase tracking-[0.2em] font-mono">Market Cap</span>
            </div>
@@ -115,7 +115,7 @@ export const AICoinsDashboard: React.FC = () => {
            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest italic">Liquid Inflow Node</p>
         </div>
         <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 space-y-4">
-           <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400">
+           <div className="flex items-center gap-3 text-orange-600 dark:text-orange-400">
              <Zap size={18} className="fill-current" />
              <span className="text-[10px] font-black uppercase tracking-[0.2em] font-mono">Node Count</span>
            </div>
@@ -129,7 +129,7 @@ export const AICoinsDashboard: React.FC = () => {
       {/* Main Asset Grid */}
       {loading && coins.length === 0 ? (
         <div className="h-96 flex flex-col items-center justify-center gap-6">
-          <Loader2 className="animate-spin text-blue-600" size={64} strokeWidth={1.5} />
+          <Loader2 className="animate-spin text-orange-600" size={64} strokeWidth={1.5} />
           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-[0.4em] animate-pulse">Syncing AI Sector Grid...</span>
         </div>
       ) : (
@@ -137,7 +137,7 @@ export const AICoinsDashboard: React.FC = () => {
           {coins.map((coin, idx) => (
             <div 
               key={coin.id} 
-              className="group bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 space-y-6 hover:border-blue-500/40 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-blue-500/5 relative overflow-hidden"
+              className="group bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-8 space-y-6 hover:border-orange-500/40 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-orange-500/5 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                 <BarChart3 size={80} strokeWidth={1} />
@@ -184,7 +184,7 @@ export const AICoinsDashboard: React.FC = () => {
                    href={`https://www.coingecko.com/en/coins/${coin.id}`}
                    target="_blank" 
                    rel="noopener noreferrer"
-                   className="w-full py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-blue-600 hover:border-blue-500/50 transition-all group/btn"
+                   className="w-full py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-orange-600 hover:border-orange-500/50 transition-all group/btn"
                  >
                    Deep Asset Dive <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
                  </a>
@@ -198,7 +198,7 @@ export const AICoinsDashboard: React.FC = () => {
       <div className="pt-20 flex flex-col items-center gap-8 opacity-40">
         <div className="flex items-center gap-4">
            <div className="w-12 h-[1px] bg-slate-300 dark:bg-white/10"></div>
-           <Activity size={20} className="text-blue-500" />
+           <Activity size={20} className="text-orange-500" />
            <div className="w-12 h-[1px] bg-slate-300 dark:bg-white/10"></div>
         </div>
         <p className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-[0.5em] text-center italic">

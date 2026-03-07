@@ -13,8 +13,8 @@ export const INITIAL_COINS: CoinData[] = [
 export const SOCIAL_LINKS = {
   unchainedX: 'https://x.com/ShizzyUnchained',
   youtube: 'https://www.youtube.com/@ShizzyunchainedAI',
-  tiktok: 'https://www.tiktok.com/@shizzyunchained',
   telegram: 'https://t.me/+0fW1AeQAUERhZTgx',
+  contactTelegram: 'https://t.me/ShizzyUnchained',
   email: 'Shizzyunchained@gmail.com',
   logo: 'https://i.postimg.cc/LsK32BC0/Overlay-main-(1).png',
   heroImage: 'https://i.postimg.cc/Y9fN4MJk/SU-Shizzy-Background-new-(25).png',
@@ -78,8 +78,7 @@ export const OVERVIEW_CONTENT = {
     links: [
       { platform: 'YouTube', description: 'Deep dives and video breakdowns.', url: SOCIAL_LINKS.youtube },
       { platform: 'X / Twitter', description: 'Real-time updates and quick takes.', url: SOCIAL_LINKS.unchainedX },
-      { platform: 'Telegram', description: 'Direct signal and community discussion.', url: SOCIAL_LINKS.telegram },
-      { platform: 'TikTok', description: 'Short-form insights for fast scanning.', url: SOCIAL_LINKS.tiktok }
+      { platform: 'Telegram', description: 'Direct signal and community discussion.', url: SOCIAL_LINKS.telegram }
     ]
   },
   footer: {

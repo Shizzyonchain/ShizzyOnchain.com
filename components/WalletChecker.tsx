@@ -295,7 +295,7 @@ export const WalletChecker: React.FC = () => {
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-6 w-full text-center md:text-left">
           <div className="flex flex-wrap justify-center md:justify-start gap-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-600/10 text-orange-600 dark:text-orange-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-orange-600/20">
               <ShieldAlert size={10} strokeWidth={3} className="animate-pulse" />
               NON-SIMULATED RAW DATA
             </div>
@@ -304,7 +304,7 @@ export const WalletChecker: React.FC = () => {
             </div>
           </div>
           <h1 className="text-5xl md:text-9xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
-            MASTER <span className="text-blue-600">SCAN</span>
+            MASTER <span className="text-orange-600">SCAN</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.3em] max-w-2xl leading-relaxed italic mx-auto md:mx-0">
             DIRECT ON-CHAIN STATE ANALYSIS. NO SIMULATION. FETCHING NATIVE + STABLE BALANCES ACROSS THE STACK.
@@ -315,7 +315,7 @@ export const WalletChecker: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-[1200px] mx-auto items-stretch">
         <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
            <div className="relative group">
-            <div className="absolute inset-y-0 left-6 flex items-center text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none">
+            <div className="absolute inset-y-0 left-6 flex items-center text-slate-400 group-focus-within:text-orange-600 transition-colors pointer-events-none">
               <Search size={24} />
             </div>
             <input 
@@ -324,10 +324,10 @@ export const WalletChecker: React.FC = () => {
               onChange={(e) => setAddress(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && !isScanning && startScan()}
               placeholder="TARGET ADDRESS (0x... / SOL)"
-              className="w-full h-24 bg-white dark:bg-[#0b0e14] border-2 border-slate-200 dark:border-white/10 rounded-[2rem] pl-20 pr-16 text-xl md:text-2xl font-mono font-bold outline-none focus:border-blue-600 transition-all shadow-2xl dark:shadow-none uppercase"
+              className="w-full h-24 bg-white dark:bg-[#0b0e14] border-2 border-slate-200 dark:border-white/10 rounded-[2rem] pl-20 pr-16 text-xl md:text-2xl font-mono font-bold outline-none focus:border-orange-600 transition-all shadow-2xl dark:shadow-none uppercase"
             />
             {address && !isScanning && (
-              <button onClick={handleClear} className="absolute inset-y-0 right-6 flex items-center text-slate-400 hover:text-blue-600 transition-colors">
+              <button onClick={handleClear} className="absolute inset-y-0 right-6 flex items-center text-slate-400 hover:text-orange-600 transition-colors">
                 <X size={28} />
               </button>
             )}
@@ -345,15 +345,15 @@ export const WalletChecker: React.FC = () => {
         <div className="lg:col-span-5">
            <div className="bg-slate-900 rounded-[2rem] p-6 h-[300px] border border-white/5 shadow-2xl overflow-hidden flex flex-col relative group">
               <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 relative z-10">
-                 <div className="flex items-center gap-3 text-blue-500">
+                 <div className="flex items-center gap-3 text-orange-500">
                     <Terminal size={16} />
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] font-mono">LIVE TERMINAL</span>
                  </div>
-                 {isScanning && <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></div><span className="text-[8px] font-mono text-blue-500 uppercase tracking-widest">INGRESS ACTIVE</span></div>}
+                 {isScanning && <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></div><span className="text-[8px] font-mono text-orange-500 uppercase tracking-widest">INGRESS ACTIVE</span></div>}
               </div>
               <div ref={logContainerRef} className="flex-grow overflow-y-auto space-y-2 font-mono text-[10px] custom-terminal-scroll pr-2 relative z-10">
                  {scanLogs.length === 0 ? <div className="text-slate-600 italic">Terminal Standby. Awaiting Target Ingress.</div> : scanLogs.map((log, i) => (
-                   <div key={i} className={`flex gap-3 leading-relaxed ${log.includes('[DETECTED]') || log.includes('[CONFIRMED]') ? 'text-emerald-400 font-bold' : log.includes('[!]') || log.includes('FAILED') ? 'text-rose-500' : log.includes('HANDSHAKING') ? 'text-blue-400' : 'text-slate-400'}`}>
+                   <div key={i} className={`flex gap-3 leading-relaxed ${log.includes('[DETECTED]') || log.includes('[CONFIRMED]') ? 'text-emerald-400 font-bold' : log.includes('[!]') || log.includes('FAILED') ? 'text-rose-500' : log.includes('HANDSHAKING') ? 'text-orange-400' : 'text-slate-400'}`}>
                       <span className="shrink-0 text-slate-600 tabular-nums">{i + 1}.</span>
                       <span>{log}</span>
                    </div>
@@ -365,25 +365,25 @@ export const WalletChecker: React.FC = () => {
       </div>
 
       {isScanning && (
-        <div className="max-w-[1200px] mx-auto bg-blue-600/5 dark:bg-blue-600/[0.03] border border-blue-600/30 rounded-[3rem] p-10 md:p-16 space-y-8 animate-in zoom-in-95 duration-500 overflow-hidden">
+        <div className="max-w-[1200px] mx-auto bg-orange-600/5 dark:bg-orange-600/[0.03] border border-orange-600/30 rounded-[3rem] p-10 md:p-16 space-y-8 animate-in zoom-in-95 duration-500 overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between gap-10">
              <div className="space-y-4 text-center md:text-left min-w-0 flex-1">
-                <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.5em] font-mono">SYNCING ON-CHAIN STATE</div>
+                <div className="text-[10px] font-black text-orange-600 uppercase tracking-[0.5em] font-mono">SYNCING ON-CHAIN STATE</div>
                 <div className="h-16 md:h-24 flex items-center justify-center md:justify-start overflow-visible">
                   <h2 className="text-4xl md:text-7xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic animate-pulse leading-none pr-6 whitespace-nowrap">{currentScanningChain || 'INITIALIZING...'}</h2>
                 </div>
              </div>
-             <div className="shrink-0 flex items-center justify-center w-32 h-32 md:w-48 md:h-48 rounded-full border-8 border-slate-200 dark:border-white/5 border-t-blue-600 animate-spin">
-                <div className="text-2xl font-black font-mono text-blue-600 tabular-nums">{Math.round((progressCount / CHAIN_CONFIGS.length) * 100)}%</div>
+             <div className="shrink-0 flex items-center justify-center w-32 h-32 md:w-48 md:h-48 rounded-full border-8 border-slate-200 dark:border-white/5 border-t-orange-600 animate-spin">
+                <div className="text-2xl font-black font-mono text-orange-600 tabular-nums">{Math.round((progressCount / CHAIN_CONFIGS.length) * 100)}%</div>
              </div>
           </div>
           <div className="space-y-4">
-             <div className="flex justify-between items-end text-[10px] font-black font-mono text-blue-600 uppercase tracking-[0.3em]">
+             <div className="flex justify-between items-end text-[10px] font-black font-mono text-orange-600 uppercase tracking-[0.3em]">
                <span>NETWORK PROBE</span>
                <span className="tabular-nums">{progressCount} / {CHAIN_CONFIGS.length} NODES LOGGED</span>
              </div>
              <div className="h-4 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden border border-slate-200 dark:border-white/10">
-               <div className="h-full bg-blue-600 transition-all duration-300 shadow-[0_0_20px_rgba(37,99,235,0.6)]" style={{ width: `${(progressCount / CHAIN_CONFIGS.length) * 100}%` }}></div>
+               <div className="h-full bg-orange-600 transition-all duration-300 shadow-[0_0_20px_rgba(37,99,235,0.6)]" style={{ width: `${(progressCount / CHAIN_CONFIGS.length) * 100}%` }}></div>
              </div>
           </div>
         </div>
@@ -405,7 +405,7 @@ export const WalletChecker: React.FC = () => {
              </div>
              
              <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[3rem] p-10 space-y-8 shadow-xl max-h-[800px] overflow-y-auto scrollbar-hide">
-                <div className="flex items-center gap-3"><Layers className="text-blue-600" size={18} /><h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white italic">DETAILED INVENTORY</h3></div>
+                <div className="flex items-center gap-3"><Layers className="text-orange-600" size={18} /><h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white italic">DETAILED INVENTORY</h3></div>
                 <div className="space-y-10">
                   {scanResults.filter(r => r.usdValue > 0).sort((a,b) => b.usdValue - a.usdValue).map((res, i) => (
                     <div key={i} className="space-y-4 group">
@@ -438,7 +438,7 @@ export const WalletChecker: React.FC = () => {
 
           <div className="lg:col-span-8 space-y-8">
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-6">
-              <div className="flex items-center gap-3"><Wifi className="text-blue-600 animate-pulse" size={18} /><h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white italic">ON-CHAIN NODE GRID</h3></div>
+              <div className="flex items-center gap-3"><Wifi className="text-orange-600 animate-pulse" size={18} /><h3 className="text-xs font-black uppercase tracking-[0.2em] font-space text-slate-900 dark:text-white italic">ON-CHAIN NODE GRID</h3></div>
               <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest tabular-nums">{address.slice(0,10)}...{address.slice(-8)}</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -448,9 +448,9 @@ export const WalletChecker: React.FC = () => {
                 const isError = result.status === 'error';
                 const hasValue = result.usdValue > 0;
                 return (
-                  <div key={i} className={`relative p-4 rounded-2xl border transition-all duration-300 flex flex-col gap-3 group text-center ${isScanningItem ? 'border-blue-600 bg-blue-600/10 scale-105 z-10 shadow-[0_0_20px_rgba(37,99,235,0.2)]' : hasValue ? 'border-emerald-500/50 bg-emerald-500/[0.02]' : isError ? 'border-rose-500/30 opacity-60' : isComplete ? 'border-slate-200 dark:border-white/5 opacity-40' : 'border-slate-200 dark:border-white/5 opacity-20'}`}>
+                  <div key={i} className={`relative p-4 rounded-2xl border transition-all duration-300 flex flex-col gap-3 group text-center ${isScanningItem ? 'border-orange-600 bg-orange-600/10 scale-105 z-10 shadow-[0_0_20px_rgba(37,99,235,0.2)]' : hasValue ? 'border-emerald-500/50 bg-emerald-500/[0.02]' : isError ? 'border-rose-500/30 opacity-60' : isComplete ? 'border-slate-200 dark:border-white/5 opacity-40' : 'border-slate-200 dark:border-white/5 opacity-20'}`}>
                     <div className="flex justify-center mb-1">
-                      {isScanningItem && <RefreshCw size={14} className="text-blue-600 animate-spin" />}
+                      {isScanningItem && <RefreshCw size={14} className="text-orange-600 animate-spin" />}
                       {isComplete && hasValue && <CheckCircle2 size={14} className="text-emerald-500" />}
                       {isComplete && !hasValue && <WifiOff size={14} className="text-slate-400" />}
                       {isError && <AlertCircle size={14} className="text-rose-500" />}

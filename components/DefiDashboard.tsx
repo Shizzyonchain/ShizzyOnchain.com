@@ -72,7 +72,7 @@ export const DefiDashboard: React.FC = () => {
     <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-6 shadow-sm overflow-hidden flex flex-col min-h-[440px]">
       <div className="flex items-center justify-between mb-6 px-1">
         <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 dark:text-white flex items-center gap-3">
-          <div className="w-1.5 h-4 bg-blue-600 rounded-full"></div>
+          <div className="w-1.5 h-4 bg-orange-600 rounded-full"></div>
           {title}
         </h4>
         <div className="flex items-center gap-1.5 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md">
@@ -120,12 +120,12 @@ export const DefiDashboard: React.FC = () => {
       
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-12">
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-600/10 text-orange-600 dark:text-orange-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-orange-600/20">
             <ShieldCheck size={10} strokeWidth={3} className="animate-pulse" />
             Strategic On-Chain Sentinel Active
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
-            ONCHAIN <span className="text-blue-600">INTELLIGENCE</span>
+            ONCHAIN <span className="text-orange-600">INTELLIGENCE</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.3em] max-w-xl leading-relaxed">
             Unfiltered economic output and chain-level liquidity monitoring powered by DeFiLlama.
@@ -135,7 +135,7 @@ export const DefiDashboard: React.FC = () => {
 
       {loading ? (
         <div className="h-96 flex flex-col items-center justify-center gap-4">
-          <Loader2 className="animate-spin text-blue-600" size={48} />
+          <Loader2 className="animate-spin text-orange-600" size={48} />
           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest animate-pulse">Establishing Llama Node Sync...</span>
         </div>
       ) : error ? (
@@ -147,7 +147,7 @@ export const DefiDashboard: React.FC = () => {
         <div className="space-y-20">
           <div className="space-y-8">
             <div className="flex items-center gap-4">
-              <div className="p-2.5 bg-blue-600 rounded-xl shadow-lg shadow-blue-500/20 text-white">
+              <div className="p-2.5 bg-orange-600 rounded-xl shadow-lg shadow-orange-500/20 text-white">
                 <img src={SOCIAL_LINKS.logo} alt="Logo" className="w-5 h-5 object-contain invert" />
               </div>
               <div><h3 className="text-2xl font-black uppercase tracking-tighter text-slate-900 dark:text-white font-space italic">Fundamentals</h3></div>
@@ -163,15 +163,15 @@ export const DefiDashboard: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 pt-10">
             <div className="space-y-8">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-black uppercase tracking-[0.4em] text-slate-900 dark:text-white flex items-center gap-4"><div className="p-2 bg-blue-600/10 rounded-lg text-blue-600"><BarChart3 size={16} /></div>Network Volume</h3>
+                <h3 className="text-base font-black uppercase tracking-[0.4em] text-slate-900 dark:text-white flex items-center gap-4"><div className="p-2 bg-orange-600/10 rounded-lg text-orange-600"><BarChart3 size={16} /></div>Network Volume</h3>
                 <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest px-2.5 py-1 bg-slate-100 dark:bg-white/5 rounded-full border border-slate-200 dark:border-white/5">24H DEX Summary</span>
               </div>
               <div className="space-y-4">
                 {volChains.map((c, i) => (
-                  <div key={i} className="group flex items-center justify-between p-6 bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-3xl hover:border-blue-500/30 transition-all hover:translate-x-1 shadow-sm">
+                  <div key={i} className="group flex items-center justify-between p-6 bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-3xl hover:border-orange-500/30 transition-all hover:translate-x-1 shadow-sm">
                     <div className="flex items-center gap-4"><span className="font-mono text-slate-300 dark:text-slate-700 font-black italic text-xl">{String(i+1).padStart(2, '0')}</span><span className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">{c.name}</span></div>
                     <div className="text-right">
-                      <div className="text-2xl font-black font-mono text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors tracking-tighter">{formatCurrencyExact(c.volume24h || 0)}</div>
+                      <div className="text-2xl font-black font-mono text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors tracking-tighter">{formatCurrencyExact(c.volume24h || 0)}</div>
                       <div className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 opacity-60">Trading Vol</div>
                     </div>
                   </div>

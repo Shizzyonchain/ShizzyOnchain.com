@@ -66,7 +66,7 @@ export const NarrativePulse: React.FC = () => {
   const getMaturityColor = (m: string) => {
     switch (m) {
       case 'SIGNAL': return 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20';
-      case 'ALPHA': return 'text-blue-500 bg-blue-500/10 border-blue-500/20';
+      case 'ALPHA': return 'text-orange-500 bg-orange-500/10 border-orange-500/20';
       case 'HYPE': return 'text-orange-500 bg-orange-500/10 border-orange-500/20';
       case 'EXIT_TRAP': return 'text-rose-500 bg-rose-500/10 border-rose-500/20';
       default: return 'text-slate-400 bg-slate-400/10 border-slate-400/20';

@@ -22,7 +22,7 @@ export const VideosFeed: React.FC = () => {
   if (loading) {
     return (
       <div className="h-96 flex flex-col items-center justify-center gap-6">
-        <Loader2 className="animate-spin text-blue-600" size={48} />
+        <Loader2 className="animate-spin text-orange-600" size={48} />
         <span className="text-[10px] font-mono text-slate-400 uppercase tracking-[0.4em] animate-pulse">Synchronizing Media Archive...</span>
       </div>
     );
@@ -37,12 +37,12 @@ export const VideosFeed: React.FC = () => {
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row items-end justify-between gap-6 border-b border-slate-200 dark:border-white/5 pb-12">
         <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-600/10 text-orange-600 dark:text-orange-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-orange-600/20">
             <Zap size={10} fill="currentColor" className="animate-pulse" />
             MEDIA UPLINK ACTIVE
           </div>
           <h1 className="text-5xl md:text-8xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">
-            SHIZZYUNCHAINED <span className="text-blue-600">VIDEO</span>
+            SHIZZYUNCHAINED <span className="text-orange-600">VIDEO</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.4em] max-w-xl leading-relaxed">
             The archive of long-form breakdowns and vertical intelligence.
@@ -62,7 +62,7 @@ export const VideosFeed: React.FC = () => {
             href={featuredVideo.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="group relative block w-full aspect-video rounded-[2.5rem] lg:rounded-[4rem] overflow-hidden border border-slate-200 dark:border-white/10 bg-black shadow-2xl transition-all hover:border-blue-500/50"
+            className="group relative block w-full aspect-video rounded-[2.5rem] lg:rounded-[4rem] overflow-hidden border border-slate-200 dark:border-white/10 bg-black shadow-2xl transition-all hover:border-orange-500/50"
           >
             <img 
               src={featuredVideo.thumbnail} 
@@ -72,14 +72,14 @@ export const VideosFeed: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
             
             <div className="absolute inset-0 flex items-center justify-center">
-               <div className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-2xl shadow-blue-500/50 group-hover:scale-110 transition-transform duration-500">
+               <div className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-orange-600 text-white flex items-center justify-center shadow-2xl shadow-orange-500/50 group-hover:scale-110 transition-transform duration-500">
                   <Play size={40} fill="currentColor" className="ml-2" />
                </div>
             </div>
 
             <div className="absolute bottom-10 left-10 md:bottom-20 md:left-20 right-10 md:right-20 space-y-4">
-               <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl font-mono">LATEST UPLOAD</span>
-               <h2 className="text-3xl md:text-6xl font-black text-white font-space uppercase italic tracking-tighter leading-none group-hover:text-blue-400 transition-colors">
+               <span className="px-4 py-2 bg-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl font-mono">LATEST UPLOAD</span>
+               <h2 className="text-3xl md:text-6xl font-black text-white font-space uppercase italic tracking-tighter leading-none group-hover:text-orange-400 transition-colors">
                  {featuredVideo.title}
                </h2>
             </div>
@@ -91,7 +91,7 @@ export const VideosFeed: React.FC = () => {
       <section className="space-y-12">
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-6">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-blue-600/10 text-blue-600 rounded-2xl">
+            <div className="p-3 bg-orange-600/10 text-orange-600 rounded-2xl">
               <Clapperboard size={24} />
             </div>
             <h3 className="text-3xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">LONG FORM INTEL</h3>
@@ -108,7 +108,7 @@ export const VideosFeed: React.FC = () => {
               href={video.url} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="group flex flex-col space-y-6 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-6 hover:border-blue-500/30 transition-all hover:shadow-2xl hover:shadow-blue-500/5"
+              className="group flex flex-col space-y-6 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-6 hover:border-orange-500/30 transition-all hover:shadow-2xl hover:shadow-orange-500/5"
             >
               <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-100 dark:bg-zinc-900">
                 <img 
@@ -117,16 +117,16 @@ export const VideosFeed: React.FC = () => {
                   className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                   <div className="p-4 rounded-full bg-blue-600 text-white shadow-xl">
+                   <div className="p-4 rounded-full bg-orange-600 text-white shadow-xl">
                       <Play size={20} fill="currentColor" className="ml-0.5" />
                    </div>
                 </div>
               </div>
               <div className="space-y-3">
-                <h4 className="text-lg md:text-xl font-black text-slate-900 dark:text-white leading-tight font-space uppercase tracking-tight italic group-hover:text-blue-500 transition-colors">
+                <h4 className="text-lg md:text-xl font-black text-slate-900 dark:text-white leading-tight font-space uppercase tracking-tight italic group-hover:text-orange-500 transition-colors">
                   {video.title}
                 </h4>
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-blue-400 transition-colors">
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-orange-400 transition-colors">
                   Watch Breakdown <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>

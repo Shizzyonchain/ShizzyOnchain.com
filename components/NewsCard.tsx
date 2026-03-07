@@ -42,11 +42,11 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
       <div className="p-8 md:p-12 space-y-12">
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-4">
-            <span className="bg-blue-600 text-white text-[11px] font-black px-3 py-1.5 rounded-md uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20 font-mono">
+            <span className="bg-orange-600 text-white text-[11px] font-black px-3 py-1.5 rounded-md uppercase tracking-[0.2em] shadow-xl shadow-orange-500/20 font-mono">
               {article.category}
             </span>
             <div className="flex items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400 font-bold font-mono uppercase tracking-widest">
-              <span className="text-blue-500">BY {article.author}</span>
+              <span className="text-orange-500">BY {article.author}</span>
             </div>
           </div>
           
@@ -54,14 +54,14 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
             {article.title}
           </h2>
 
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium border-l-[6px] border-blue-500/60 pl-8 py-2">
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium border-l-[6px] border-orange-500/60 pl-8 py-2">
             {article.summary}
           </p>
         </div>
 
         <div className="bg-slate-50 dark:bg-white/5 p-8 rounded-2xl border border-slate-100 dark:border-white/5">
-          <h3 className="text-blue-600 dark:text-blue-400 font-black text-[11px] mb-6 uppercase tracking-[0.4em] font-space flex items-center gap-3">
-            <span className="w-8 h-[1px] bg-blue-500/30"></span>
+          <h3 className="text-orange-600 dark:text-orange-400 font-black text-[11px] mb-6 uppercase tracking-[0.4em] font-space flex items-center gap-3">
+            <span className="w-8 h-[1px] bg-orange-500/30"></span>
             Crypto Snapshot
           </h3>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -69,7 +69,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
               <li key={idx} className="space-y-2">
                 <div className="flex justify-between items-baseline border-b border-slate-200 dark:border-white/10 pb-2">
                   <span className="font-black text-slate-900 dark:text-slate-200 uppercase text-[10px] tracking-widest font-mono">{snap.asset}</span>
-                  <span className="font-mono text-blue-600 dark:text-blue-400 font-black text-lg">{snap.price}</span>
+                  <span className="font-mono text-orange-600 dark:text-orange-400 font-black text-lg">{snap.price}</span>
                 </div>
                 <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed font-medium italic">
                   {snap.description}
@@ -86,7 +86,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
           </div>
           <div className="grid grid-cols-1 gap-10">
             {article.content.map((p, i) => (
-              <p key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-inter opacity-90 first-letter:text-blue-600 first-letter:font-black">
+              <p key={i} className="text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-inter opacity-90 first-letter:text-orange-600 first-letter:font-black">
                 {p}
               </p>
             ))}

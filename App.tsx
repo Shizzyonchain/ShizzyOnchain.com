@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header.tsx';
-import { Ticker } from './components/Ticker.tsx';
 import { ResearchDashboard } from './components/ResearchDashboard.tsx';
 import { DefiDashboard } from './components/DefiDashboard.tsx';
 import { BubblesDashboard } from './components/BubblesDashboard.tsx';
@@ -13,6 +12,7 @@ import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
 import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
+import { ContactPage } from './components/ContactPage.tsx';
 import { View } from './types.ts';
 
 const App: React.FC = () => {
@@ -34,6 +34,7 @@ const App: React.FC = () => {
       else if (hash === '#/cryptocoins') setCurrentView('cryptocoins');
       else if (hash === '#/tools') setCurrentView('tools');
       else if (hash === '#/ai-history') setCurrentView('ai-history');
+      else if (hash === '#/contact') setCurrentView('contact');
       else setCurrentView('home');
     };
 
@@ -94,6 +95,7 @@ const App: React.FC = () => {
       </div>
     );
     if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
+    if (currentView === 'contact') return <ContactPage />;
 
     return <Overview />;
   };
@@ -101,7 +103,6 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#050505] transition-colors duration-300 font-sans text-[#111111] dark:text-slate-200 relative">
       <div className="fixed inset-0 noise pointer-events-none z-[999]" />
-      <Ticker />
       <Header darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} onViewChange={handleViewChange} currentView={currentView} />
       <main className="relative z-10">
         {renderContent()}

@@ -141,7 +141,7 @@ export const ArchitectAuditor: React.FC = () => {
                    <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-2">
                         <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase font-mono"><span>Utility</span><span>{result?.utilityScore}%</span></div>
-                        <div className="h-2 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-blue-600" style={{ width: `${result?.utilityScore}%` }}></div></div>
+                        <div className="h-2 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-orange-600" style={{ width: `${result?.utilityScore}%` }}></div></div>
                       </div>
                       <div className="space-y-2">
                         <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase font-mono"><span>Hype</span><span>{result?.hypeDensity}%</span></div>
@@ -163,7 +163,7 @@ export const ArchitectAuditor: React.FC = () => {
                       </div>
                    </div>
                    <div className="pt-6 border-t border-slate-100 dark:border-white/5">
-                      <h4 className="text-[10px] font-black text-blue-500 uppercase tracking-widest font-mono mb-2">RECOMMENDATION</h4>
+                      <h4 className="text-[10px] font-black text-orange-500 uppercase tracking-widest font-mono mb-2">RECOMMENDATION</h4>
                       <p className="text-sm text-slate-500 dark:text-slate-400 italic font-medium">"{result?.recommendation}"</p>
                    </div>
                 </div>

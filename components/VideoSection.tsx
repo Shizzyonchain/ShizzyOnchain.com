@@ -23,13 +23,13 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ title, videos, aspec
           <h2 className="text-xl md:text-2xl font-extrabold font-space text-slate-900 dark:text-white uppercase tracking-tight italic">
             {title}
           </h2>
-          {title && <div className="absolute -bottom-1.5 left-0 w-8 h-1 bg-blue-600 rounded-full"></div>}
+          {title && <div className="absolute -bottom-1.5 left-0 w-8 h-1 bg-orange-600 rounded-full"></div>}
         </div>
         
         {onViewAll && videos.length > 0 && (
           <button 
             onClick={onViewAll}
-            className="flex items-center gap-1 text-[10px] md:text-xs font-bold font-mono text-blue-500 hover:text-blue-400 transition-colors uppercase tracking-widest group"
+            className="flex items-center gap-1 text-[10px] md:text-xs font-bold font-mono text-orange-500 hover:text-orange-400 transition-colors uppercase tracking-widest group"
           >
             View All <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
           </button>
@@ -51,7 +51,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ title, videos, aspec
           {displayVideos.map((video) => {
             const content = (
               <div className="group cursor-pointer">
-                <div className={`relative overflow-hidden rounded-xl bg-slate-200 dark:bg-zinc-900 border border-slate-200 dark:border-white/5 transition-all group-hover:border-blue-500/50 ${isVideo ? 'aspect-video shadow-md' : 'aspect-[9/16]'}`}>
+                <div className={`relative overflow-hidden rounded-xl bg-slate-200 dark:bg-zinc-900 border border-slate-200 dark:border-white/5 transition-all group-hover:border-orange-500/50 ${isVideo ? 'aspect-video shadow-md' : 'aspect-[9/16]'}`}>
                   <img 
                     src={video.thumbnail} 
                     alt={video.title} 
@@ -64,7 +64,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ title, videos, aspec
                     </div>
                   </div>
                 </div>
-                <h3 className={`mt-3 ${isVideo ? 'text-[12px] md:text-sm font-bold' : 'text-[10px] md:text-xs font-bold'} text-slate-700 dark:text-slate-300 leading-tight group-hover:text-blue-500 transition-colors font-space line-clamp-2`}>
+                <h3 className={`mt-3 ${isVideo ? 'text-[12px] md:text-sm font-bold' : 'text-[10px] md:text-xs font-bold'} text-slate-700 dark:text-slate-300 leading-tight group-hover:text-orange-500 transition-colors font-space line-clamp-2`}>
                   {video.title}
                 </h3>
               </div>

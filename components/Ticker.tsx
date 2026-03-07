@@ -40,7 +40,7 @@ export const Ticker: React.FC = () => {
                     maximumFractionDigits: 2 
                   })}
                 </span>
-                <span className={`text-[10px] font-black font-mono px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-500`}>
+                <span className={`text-[10px] font-black font-mono px-2 py-0.5 rounded-md bg-orange-500/10 text-orange-500`}>
                   {(subnet.emission * 100).toFixed(2)}% EM
                 </span>
               </div>

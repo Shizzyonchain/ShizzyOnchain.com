@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Sun, Moon, Menu, X, MessageSquare, ChevronDown, Phone } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
-import { ContactModal } from './ContactModal.tsx';
 
 const XIcon = ({ className = "w-5 h-5" }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor">
@@ -20,7 +19,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewChange, currentView }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isContactOpen, setIsContactOpen] = useState(false);
 
   const handleNavClick = (view: View) => {
     onViewChange(view);
@@ -30,12 +28,12 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   const navItems = [
     { label: 'HOME', view: 'home' as View },
     { label: 'VIDEOS', view: 'ainews' as View },
-    { label: 'TAO SUBNETS', view: 'cryptonews' as View },
+    { label: 'BITTENSOR SUBNETS', url: 'https://taostats.io/subnets' },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];
 
   return (
-    <header className="sticky top-[44px] z-[100] transition-all duration-500 glass border-b border-slate-200 dark:border-white/5">
+    <header className="sticky top-0 z-[100] transition-all duration-500 glass border-b border-slate-200 dark:border-white/5">
       <div className="max-w-[1400px] mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
         {/* Logo Section */}
         <button 
@@ -52,17 +50,31 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-12">
           {navItems.map((item) => (
-            <button
-              key={item.view}
-              onClick={() => handleNavClick(item.view)}
-              className={`relative flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] font-space transition-all duration-300 hover:text-slate-900 dark:hover:text-white group ${
-                currentView === item.view ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
-              }`}
-            >
-              {item.icon && <span>{item.icon}</span>}
-              {item.label}
-              <span className={`absolute -bottom-2 left-0 h-[2px] bg-blue-500 transition-all duration-500 ${currentView === item.view ? 'w-full' : 'w-0 group-hover:w-1/2'}`} />
-            </button>
+            item.url ? (
+              <a
+                key={item.label}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] font-space transition-all duration-300 hover:text-slate-900 dark:hover:text-white group text-slate-500 dark:text-slate-400"
+              >
+                {item.icon && <span>{item.icon}</span>}
+                {item.label}
+                <span className="absolute -bottom-2 left-0 h-[2px] bg-orange-500 transition-all duration-500 w-0 group-hover:w-1/2" />
+              </a>
+            ) : (
+              <button
+                key={item.view}
+                onClick={() => handleNavClick(item.view!)}
+                className={`relative flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] font-space transition-all duration-300 hover:text-slate-900 dark:hover:text-white group ${
+                  currentView === item.view ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
+                }`}
+              >
+                {item.icon && <span>{item.icon}</span>}
+                {item.label}
+                <span className={`absolute -bottom-2 left-0 h-[2px] bg-orange-500 transition-all duration-500 ${currentView === item.view ? 'w-full' : 'w-0 group-hover:w-1/2'}`} />
+              </button>
+            )
           ))}
         </nav>
 
@@ -70,10 +82,10 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         <div className="flex items-center gap-3 md:gap-6 shrink-0">
           <button 
             id="contact-btn-header"
-            onClick={() => setIsContactOpen(true)}
-            className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-blue-700 hover:scale-105 transition-all shadow-lg shadow-blue-500/20"
+            onClick={() => handleNavClick('contact')}
+            className="px-6 py-2.5 bg-orange-600 text-white rounded-xl text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-orange-700 hover:scale-105 transition-all shadow-lg shadow-orange-500/20"
           >
-            CONTACT
+            CONTACT SHIZZY
           </button>
           
           <button
@@ -97,30 +109,39 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         <div className="absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-12 px-8 space-y-8 shadow-2xl animate-in fade-in slide-in-from-top-4 z-[100]">
           <nav className="space-y-6">
             {navItems.map((item) => (
-              <button 
-                key={item.view}
-                onClick={() => handleNavClick(item.view)} 
-                className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
-                  currentView === item.view ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'
-                }`}
-              >
-                {item.label}
-              </button>
+              item.url ? (
+                <a
+                  key={item.label}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic text-slate-400 dark:text-slate-500"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <button 
+                  key={item.view}
+                  onClick={() => handleNavClick(item.view!)} 
+                  className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
+                    currentView === item.view ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              )
             ))}
             <button 
-              onClick={() => {
-                setIsContactOpen(true);
-                setIsMenuOpen(false);
-              }}
-              className="block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic text-blue-600"
+              onClick={() => handleNavClick('contact')}
+              className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
+                currentView === 'contact' ? 'text-orange-600' : 'text-slate-400 dark:text-slate-500'
+              }`}
             >
-              CONTACT
+              CONTACT SHIZZY
             </button>
           </nav>
         </div>
       )}
-
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </header>
   );
 };

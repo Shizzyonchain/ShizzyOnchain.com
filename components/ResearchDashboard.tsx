@@ -177,7 +177,7 @@ export const ResearchDashboard: React.FC = () => {
       <th className={`px-6 py-5 ${className}`}>
         <button 
           onClick={() => handleSort(field)}
-          className={`flex items-center gap-2 group hover:text-blue-500 transition-colors uppercase tracking-widest ${active ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500'}`}
+          className={`flex items-center gap-2 group hover:text-orange-500 transition-colors uppercase tracking-widest ${active ? 'text-orange-500' : 'text-slate-400 dark:text-slate-500'}`}
         >
           {label}
           <span className="flex flex-col">
@@ -226,7 +226,7 @@ export const ResearchDashboard: React.FC = () => {
                         }}
                         className={`w-full text-left px-4 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${
                           activeCategoryId === cat.id 
-                            ? 'bg-blue-600 text-white' 
+                            ? 'bg-orange-600 text-white' 
                             : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'
                         }`}
                       >
@@ -243,7 +243,7 @@ export const ResearchDashboard: React.FC = () => {
             <button 
               onClick={() => { fetchMarketData(activeCategoryId, true); }}
               disabled={loading[activeCategoryId]}
-              className="group flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-[9px] font-bold uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-all disabled:opacity-50"
+              className="group flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-[9px] font-bold uppercase tracking-widest text-slate-500 hover:text-orange-500 transition-all disabled:opacity-50"
             >
               <RefreshCw size={12} className={`${loading[activeCategoryId] ? 'animate-spin' : ''}`} />
               Sync Node
@@ -256,7 +256,7 @@ export const ResearchDashboard: React.FC = () => {
         <div className="bg-slate-50/50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-3xl p-6 animate-in fade-in slide-in-from-top-4">
           <div className="flex items-center justify-between mb-6 border-b border-slate-200 dark:border-white/5 pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-600 rounded-lg">
+              <div className="p-2 bg-orange-600 rounded-lg">
                 <Pin size={14} className="text-white fill-white" />
               </div>
               <div>
@@ -267,7 +267,7 @@ export const ResearchDashboard: React.FC = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {pinnedCoins.map(coin => (
-              <div key={coin.id} className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-2xl p-4 flex items-center gap-3 group transition-all hover:border-blue-500/30 relative">
+              <div key={coin.id} className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-2xl p-4 flex items-center gap-3 group transition-all hover:border-orange-500/30 relative">
                 <img src={coin.image} alt={coin.name} className="w-8 h-8 object-contain" />
                 <div className="flex-grow min-w-0">
                   <div className="flex justify-between items-center mb-0.5">
@@ -295,7 +295,7 @@ export const ResearchDashboard: React.FC = () => {
       <div className="animate-in fade-in duration-500">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-8 pb-8 border-b border-slate-200 dark:border-white/10">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600/10 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-blue-600/20">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-600/10 text-orange-600 dark:text-orange-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-orange-600/20">
               <Zap size={10} strokeWidth={3} className="animate-pulse" />
               Live Intel
             </div>
@@ -321,7 +321,7 @@ export const ResearchDashboard: React.FC = () => {
         <div className="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0b0e14] shadow-sm">
           {loading[activeCategoryId] && !marketData[activeCategoryId] ? (
             <div className="h-[400px] flex flex-col items-center justify-center gap-6">
-              <Loader2 className="animate-spin text-blue-600" size={40} strokeWidth={2} />
+              <Loader2 className="animate-spin text-orange-600" size={40} strokeWidth={2} />
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest animate-pulse">Establishing Node Link...</span>
             </div>
           ) : error && !marketData[activeCategoryId] ? (
@@ -332,7 +332,7 @@ export const ResearchDashboard: React.FC = () => {
                 <p className="text-xs font-mono text-slate-500 uppercase italic max-w-md">{error}</p>
                 <button 
                   onClick={() => fetchMarketData(activeCategoryId, true)}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] hover:scale-105 transition-all"
+                  className="px-6 py-3 bg-orange-600 text-white rounded-xl font-bold uppercase tracking-widest text-[10px] hover:scale-105 transition-all"
                 >
                   Retry Link
                 </button>
@@ -366,7 +366,7 @@ export const ResearchDashboard: React.FC = () => {
                   {getSortedData(activeCategoryId).map((coin) => (
                     <tr 
                       key={coin.id} 
-                      className={`group transition-all hover:bg-slate-50/50 dark:hover:bg-blue-600/5 ${pinnedCoinIds.includes(coin.id) ? 'bg-blue-600/5 dark:bg-blue-600/10' : ''}`}
+                      className={`group transition-all hover:bg-slate-50/50 dark:hover:bg-orange-600/5 ${pinnedCoinIds.includes(coin.id) ? 'bg-orange-600/5 dark:bg-orange-600/10' : ''}`}
                     >
                       <td className="px-8 py-4 text-center font-mono font-bold text-slate-300 dark:text-slate-700 transition-colors text-2xl italic">
                         {coin.market_cap_rank.toString().padStart(2, '0')}
@@ -376,20 +376,20 @@ export const ResearchDashboard: React.FC = () => {
                           <img src={coin.image} alt={coin.symbol} className="w-8 h-8 object-contain" />
                           <div className="flex flex-col min-w-0">
                             <span className="text-sm font-black uppercase text-slate-900 dark:text-white tracking-tight leading-none mb-1 truncate">{coin.name}</span>
-                            <span className="text-[9px] font-mono font-bold text-blue-500 uppercase tracking-widest">{coin.symbol}</span>
+                            <span className="text-[9px] font-mono font-bold text-orange-500 uppercase tracking-widest">{coin.symbol}</span>
                           </div>
                         </div>
                       </td>
-                      <td className={`px-8 py-4 font-mono font-bold text-base tracking-tight transition-colors ${sortConfig[activeCategoryId]?.field === 'current_price' ? 'text-blue-500' : 'text-slate-900 dark:text-white'}`}>
+                      <td className={`px-8 py-4 font-mono font-bold text-base tracking-tight transition-colors ${sortConfig[activeCategoryId]?.field === 'current_price' ? 'text-orange-500' : 'text-slate-900 dark:text-white'}`}>
                         {formatCurrency(coin.current_price)}
                       </td>
                       <td className="px-8 py-4 text-sm font-bold">{formatPercent(coin.price_change_percentage_1h_in_currency)}</td>
                       <td className="px-8 py-4 text-sm font-bold">{formatPercent(coin.price_change_percentage_24h_in_currency)}</td>
                       <td className="px-8 py-4 text-sm font-bold">{formatPercent(coin.price_change_percentage_7d_in_currency)}</td>
-                      <td className={`px-8 py-4 font-mono text-[11px] font-bold transition-colors ${sortConfig[activeCategoryId]?.field === 'market_cap' ? 'text-blue-500' : 'text-slate-600 dark:text-slate-400'}`}>
+                      <td className={`px-8 py-4 font-mono text-[11px] font-bold transition-colors ${sortConfig[activeCategoryId]?.field === 'market_cap' ? 'text-orange-500' : 'text-slate-600 dark:text-slate-400'}`}>
                         {formatCompact(coin.market_cap)}
                       </td>
-                      <td className={`px-8 py-4 font-mono text-[11px] font-bold transition-colors ${sortConfig[activeCategoryId]?.field === 'total_volume' ? 'text-blue-500' : 'text-slate-600 dark:text-slate-400'}`}>
+                      <td className={`px-8 py-4 font-mono text-[11px] font-bold transition-colors ${sortConfig[activeCategoryId]?.field === 'total_volume' ? 'text-orange-500' : 'text-slate-600 dark:text-slate-400'}`}>
                         {formatCompact(coin.total_volume)}
                       </td>
                       <td className="px-8 py-4 text-center">
@@ -397,8 +397,8 @@ export const ResearchDashboard: React.FC = () => {
                           onClick={() => togglePin(coin.id)}
                           className={`p-3 rounded-xl transition-all border ${
                             pinnedCoinIds.includes(coin.id) 
-                              ? 'text-white bg-blue-600 border-blue-600 shadow-lg shadow-blue-500/20' 
-                              : 'text-slate-300 dark:text-slate-700 border-transparent hover:border-blue-500/50 hover:text-blue-500'
+                              ? 'text-white bg-orange-600 border-orange-600 shadow-lg shadow-orange-500/20' 
+                              : 'text-slate-300 dark:text-slate-700 border-transparent hover:border-orange-500/50 hover:text-orange-500'
                           }`}
                         >
                           <Pin size={16} className={pinnedCoinIds.includes(coin.id) ? 'fill-white' : ''} />
@@ -421,12 +421,12 @@ export const ResearchDashboard: React.FC = () => {
         </div>
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex items-center gap-4 bg-slate-900 dark:bg-white px-6 py-3 rounded-xl shadow-lg">
-            <Zap size={16} className="text-blue-500" />
+            <Zap size={16} className="text-orange-500" />
             <span className="text-[10px] font-black uppercase tracking-widest text-white dark:text-black">High Fidelity Data stream</span>
           </div>
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-blue-600 transition-all group"
+            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-orange-600 transition-all group"
           >
             Audit Ecosystem <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>

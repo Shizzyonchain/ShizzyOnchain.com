@@ -11,7 +11,7 @@ export const Overview: React.FC = () => {
     <div className="relative min-h-screen overflow-hidden pb-48">
       {/* Background Elements */}
       <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-blue-500/5 via-transparent to-transparent dark:from-blue-500/10 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-orange-500/5 via-transparent to-transparent dark:from-orange-500/10 pointer-events-none" />
       <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
       <div className="absolute top-[40%] left-[5%] w-[400px] h-[400px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
 
@@ -92,7 +92,7 @@ export const Overview: React.FC = () => {
                 whileHover={{ y: -10 }}
                 className="group space-y-6"
               >
-                <div className="aspect-video relative bg-slate-100 dark:bg-[#0a0a0a] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl transition-all duration-500 group-hover:border-blue-500/50">
+                <div className="aspect-video relative bg-slate-100 dark:bg-[#0a0a0a] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl transition-all duration-500 group-hover:border-orange-500/50">
                   <iframe
                     src={card.link}
                     title={card.title}
@@ -107,7 +107,7 @@ export const Overview: React.FC = () => {
                   </div>
                 </div>
                 <div className="space-y-3 px-2">
-                  <h3 className="text-2xl font-black font-space italic leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-blue-500 transition-colors">
+                  <h3 className="text-2xl font-black font-space italic leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-orange-500 transition-colors">
                     {card.title}
                   </h3>
                   <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 text-xs font-bold uppercase tracking-widest">

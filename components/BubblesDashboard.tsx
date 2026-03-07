@@ -487,7 +487,7 @@ export const BubblesDashboard: React.FC = () => {
             />
             {/* Legend for Page Info */}
             <div className="absolute bottom-6 left-6 flex items-center gap-3 bg-white/80 dark:bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 dark:border-white/5 pointer-events-none">
-               <Info size={14} className="text-blue-500" />
+               <Info size={14} className="text-orange-500" />
                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                   Showing Market Cap Rank {((page - 1) * 100) + 1} - {page * 100}
                </span>
@@ -572,7 +572,7 @@ export const BubblesDashboard: React.FC = () => {
                     className={`w-full py-4 rounded-xl flex items-center justify-center gap-2 font-black uppercase tracking-[0.2em] text-[10px] transition-all ${
                       pinnedIds.includes(selectedCoin.id)
                         ? 'bg-rose-600 text-white'
-                        : 'bg-blue-600 text-white hover:scale-[1.02] shadow-lg shadow-blue-500/20'
+                        : 'bg-orange-600 text-white hover:scale-[1.02] shadow-lg shadow-orange-500/20'
                     }`}
                   >
                     <Pin size={16} className={pinnedIds.includes(selectedCoin.id) ? 'fill-white' : ''} />
