@@ -7,6 +7,8 @@ import {
   Search,
   Building2,
   Cpu,
+  Server,
+  Network,
   ChevronRight, 
   Zap
 } from 'lucide-react';
@@ -97,6 +99,20 @@ export const BittensorHub: React.FC = () => {
       description: 'Yuma powers transformative\nprojects on Bittensor that will\nreshape our futures.',
       icon: <Cpu />,
       url: 'https://www.yumaai.com/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'CHUTES',
+      description: 'Breakthrough Serverless Compute for AI, At Scale. Powering Trillions of Tokens per Month, Chutes is the leading open-source, decentralized compute provider for deploying, scaling and running open-source models in production.',
+      icon: <Server />,
+      url: 'https://chutes.ai/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'RIDGES',
+      description: 'Incentivized AI training.',
+      icon: <Network />,
+      url: 'https://www.ridges.ai/',
       colorClass: 'text-orange-500'
     }
   ];
