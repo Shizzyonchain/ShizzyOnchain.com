@@ -100,11 +100,6 @@ export const Overview: React.FC = () => {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   ></iframe>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 glass rounded-full text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
-                      {card.category}
-                    </span>
-                  </div>
                 </div>
                 <div className="space-y-3 px-2">
                   <h3 className="text-2xl font-black font-space italic leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-orange-500 transition-colors">

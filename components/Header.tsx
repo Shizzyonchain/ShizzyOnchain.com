@@ -25,11 +25,10 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     setIsMenuOpen(false);
   };
 
-  const navItems = [
+  const navItems: { label: string; view?: View; url?: string; icon?: React.ReactNode }[] = [
     { label: 'HOME', view: 'home' as View },
     { label: 'VIDEOS', view: 'ainews' as View },
-    { label: 'BITTENSOR SUBNETS', url: 'https://taostats.io/subnets' },
-    { label: 'BITTENSOR WALLET', url: 'https://chromewebstore.google.com/detail/crucible-wallet/capjnhbneiilplogojhmhepiocnjpgee?authuser=5&hl=en' },
+    { label: 'BITTENSOR TAO', view: 'bittensor' as View },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];
 

@@ -12,6 +12,7 @@ import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
 import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
+import { BittensorHub } from './components/BittensorHub.tsx';
 import { ContactPage } from './components/ContactPage.tsx';
 import { View } from './types.ts';
 
@@ -33,6 +34,7 @@ const App: React.FC = () => {
       else if (hash === '#/aicoins') setCurrentView('aicoins');
       else if (hash === '#/cryptocoins') setCurrentView('cryptocoins');
       else if (hash === '#/tools') setCurrentView('tools');
+      else if (hash === '#/bittensor') setCurrentView('bittensor');
       else if (hash === '#/ai-history') setCurrentView('ai-history');
       else if (hash === '#/contact') setCurrentView('contact');
       else setCurrentView('home');
@@ -95,6 +97,7 @@ const App: React.FC = () => {
       </div>
     );
     if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
+    if (currentView === 'bittensor') return <BittensorHub />;
     if (currentView === 'contact') return <ContactPage />;
 
     return <Overview />;
