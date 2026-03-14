@@ -67,10 +67,17 @@ export const BittensorHub: React.FC = () => {
       colorClass: 'text-orange-500'
     },
     {
-      title: 'BITTENSOR WALLET',
+      title: 'CRUCIBLE WALLET',
       description: 'Securely manage your TAO assets with the Crucible Wallet Chrome extension.',
       icon: <Wallet />,
       url: 'https://chromewebstore.google.com/detail/crucible-wallet/capjnhbneiilplogojhmhepiocnjpgee?authuser=5&hl=en',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'TAO STATS WALLET',
+      description: 'The official Bittensor Chrome Wallet by Taostats.',
+      icon: <Wallet />,
+      url: 'https://taostats.io/bittensor-chrome-wallet',
       colorClass: 'text-orange-500'
     },
     {
