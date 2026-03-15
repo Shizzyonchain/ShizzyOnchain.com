@@ -18,20 +18,6 @@ export const youtubeService = {
       return {
         lives: [
           {
-            id: 'Ks696rfT1jU',
-            title: "Shizzy's Untold Story From Machinist",
-            thumbnail: 'https://img.youtube.com/vi/Ks696rfT1jU/maxresdefault.jpg',
-            url: 'https://www.youtube.com/watch?v=Ks696rfT1jU',
-            type: 'live'
-          },
-          {
-            id: 'ipkjDOogY2w',
-            title: 'Why I Left Onchain Revolution',
-            thumbnail: 'https://img.youtube.com/vi/ipkjDOogY2w/maxresdefault.jpg',
-            url: 'https://www.youtube.com/watch?v=ipkjDOogY2w',
-            type: 'live'
-          },
-          {
             id: '31P2-LSBBbo',
             title: 'TAO Subnets Are Absolutely Ripping Right Now',
             thumbnail: 'https://img.youtube.com/vi/31P2-LSBBbo/maxresdefault.jpg',
@@ -71,6 +57,20 @@ export const youtubeService = {
             title: 'Early Trends: Identifying the Next Wave',
             thumbnail: 'https://img.youtube.com/vi/xuDjHk7dMTY/maxresdefault.jpg',
             url: 'https://youtu.be/xuDjHk7dMTY',
+            type: 'live'
+          },
+          {
+            id: 'Ks696rfT1jU',
+            title: "Shizzy's Untold Story From Machinist",
+            thumbnail: 'https://img.youtube.com/vi/Ks696rfT1jU/maxresdefault.jpg',
+            url: 'https://www.youtube.com/watch?v=Ks696rfT1jU',
+            type: 'live'
+          },
+          {
+            id: 'ipkjDOogY2w',
+            title: 'Why I Left Onchain Revolution',
+            thumbnail: 'https://img.youtube.com/vi/ipkjDOogY2w/maxresdefault.jpg',
+            url: 'https://www.youtube.com/watch?v=ipkjDOogY2w',
             type: 'live'
           }
         ],
