@@ -60,6 +60,13 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, url, colo
 export const BittensorHub: React.FC = () => {
   const tools = [
     {
+      title: 'TAO FLUTE',
+      description: 'Comprehensive overview and analytics for Bittensor subnets.',
+      icon: <Layers />,
+      url: 'https://taoflute.com/d/c043704a-865a-4eaf-8d41-7ffdbcaad6c7/subnets-overview?orgId=2&from=now-6h&to=now&timezone=browser&kiosk=&var-target_subnets=$__all',
+      colorClass: 'text-orange-500'
+    },
+    {
       title: 'BITTENSOR SUBNETS',
       description: 'Real-time tracking of all 128 Bittensor subnets. Emissions, stake, and market dynamics in USD.',
       icon: <Layers />,

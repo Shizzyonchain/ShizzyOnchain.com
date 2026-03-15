@@ -32,19 +32,19 @@ export const OVERVIEW_CONTENT = {
     title: '',
     cards: [
       {
+        title: 'TAO SUBNETS ARE ABSOLUTELY RIPPING RIGHT NOW',
+        category: 'BITTENSOR',
+        link: 'https://www.youtube.com/embed/31P2-LSBBbo'
+      },
+      {
+        title: 'SELL BITCOIN, BUY BITTENSOR? TAO AND SUBNETS ARE HEATING UP',
+        category: 'BITTENSOR',
+        link: 'https://www.youtube.com/embed/pAH9auzOqdo'
+      },
+      {
         title: "SHIZZY'S UNTOLD STORY FROM MACHINIST",
         category: 'AI AGENTS',
         link: 'https://www.youtube.com/embed/Ks696rfT1jU'
-      },
-      {
-        title: 'BITTENSOR TAO MARKET UPDATE',
-        category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/OnPTglAFzO0'
-      },
-      {
-        title: 'WHY I LEFT ONCHAIN REVOLUTION',
-        category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/ipkjDOogY2w'
       }
     ]
   },

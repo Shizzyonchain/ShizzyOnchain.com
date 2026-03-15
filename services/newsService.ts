@@ -8,6 +8,46 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: 'Ks696rfT1jU',
+    title: "SHIZZY'S UNTOLD STORY FROM MACHINIST",
+    url: 'https://www.youtube.com/watch?v=Ks696rfT1jU',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-16T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/Ks696rfT1jU/maxresdefault.jpg',
+    excerpt: `The untold story of Shizzy's journey from a machinist to the forefront of the decentralized AI revolution.`,
+    tags: ['Story', 'Journey', 'AI']
+  },
+  {
+    id: 'ipkjDOogY2w',
+    title: 'WHY I LEFT ONCHAIN REVOLUTION',
+    url: 'https://www.youtube.com/watch?v=ipkjDOogY2w',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-15T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/ipkjDOogY2w/maxresdefault.jpg',
+    excerpt: `A candid discussion on the reasons behind leaving Onchain Revolution and the vision for the future.`,
+    tags: ['Update', 'Vision', 'Future']
+  },
+  {
+    id: '31P2-LSBBbo',
+    title: 'TAO SUBNETS ARE ABSOLUTELY RIPPING RIGHT NOW',
+    url: 'https://www.youtube.com/watch?v=31P2-LSBBbo',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-14T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/31P2-LSBBbo/maxresdefault.jpg',
+    excerpt: `TAO subnets are seeing massive growth and adoption. Here is what you need to know about the current market dynamics.`,
+    tags: ['Bittensor', 'TAO', 'Subnets']
+  },
+  {
+    id: 'pAH9auzOqdo',
+    title: 'SELL BITCOIN, BUY BITTENSOR? TAO AND SUBNETS ARE HEATING UP',
+    url: 'https://www.youtube.com/watch?v=pAH9auzOqdo',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-13T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/pAH9auzOqdo/maxresdefault.jpg',
+    excerpt: `Is it time to rotate from Bitcoin to Bittensor? Analyzing the heating up of TAO and its subnets.`,
+    tags: ['Bitcoin', 'Bittensor', 'TAO']
+  },
+  {
     id: 'gvjPJpxAjNs',
     title: 'BITTENSOR TAO MARKET UPDATE',
     url: 'https://youtube.com/watch?v=gvjPJpxAjNs',
