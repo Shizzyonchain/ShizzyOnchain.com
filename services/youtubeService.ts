@@ -18,6 +18,13 @@ export const youtubeService = {
       return {
         lives: [
           {
+            id: '1_-bAGtRdHY',
+            title: 'Getting Started with Bittensor Tao Subnets',
+            thumbnail: 'https://img.youtube.com/vi/1_-bAGtRdHY/maxresdefault.jpg',
+            url: 'https://www.youtube.com/watch?v=1_-bAGtRdHY',
+            type: 'live'
+          },
+          {
             id: '31P2-LSBBbo',
             title: 'TAO Subnets Are Absolutely Ripping Right Now',
             thumbnail: 'https://img.youtube.com/vi/31P2-LSBBbo/maxresdefault.jpg',

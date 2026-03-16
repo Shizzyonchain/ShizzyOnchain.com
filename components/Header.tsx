@@ -81,6 +81,14 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         {/* Right-aligned Utility Icons */}
         <div className="flex items-center gap-3 md:gap-6 shrink-0">
           <button 
+            id="send-tip-btn-header"
+            onClick={() => handleNavClick('send-tip')}
+            className="hidden md:block px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:scale-105 transition-all shadow-lg"
+          >
+            SEND A TIP
+          </button>
+          
+          <button 
             id="contact-btn-header"
             onClick={() => handleNavClick('contact')}
             className="px-6 py-2.5 bg-orange-600 text-white rounded-xl text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-orange-700 hover:scale-105 transition-all shadow-lg shadow-orange-500/20"
@@ -131,6 +139,14 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                 </button>
               )
             ))}
+            <button 
+              onClick={() => handleNavClick('send-tip')}
+              className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
+                currentView === 'send-tip' ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'
+              }`}
+            >
+              SEND A TIP
+            </button>
             <button 
               onClick={() => handleNavClick('contact')}
               className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${

@@ -71,6 +71,44 @@ export const Overview: React.FC = () => {
           </motion.div>
         </section>
 
+        {/* BITTENSOR FOR BEGINNERS SECTION */}
+        <section className="space-y-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-4">
+              <h3 className="text-4xl md:text-6xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">
+                Bittensor for Beginners
+              </h3>
+            </div>
+            <div className="h-[1px] flex-grow hidden md:block mx-12 bg-slate-200 dark:bg-white/10"></div>
+            <p className="text-slate-500 dark:text-slate-400 font-medium max-w-xs text-sm">
+              Your starting point for understanding the decentralized AI revolution.
+            </p>
+          </div>
+
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className="group space-y-6 max-w-4xl mx-auto"
+          >
+            <div className="aspect-video relative bg-slate-100 dark:bg-[#0a0a0a] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl transition-all duration-500 group-hover:border-orange-500/50">
+              <iframe
+                src="https://www.youtube.com/embed/1_-bAGtRdHY"
+                title="Getting Started with Bittensor Tao Subnets"
+                className="w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <div className="space-y-3 px-2 text-center">
+              <h3 className="text-3xl font-black font-space italic leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-orange-500 transition-colors">
+                Getting Started with Bittensor Tao Subnets
+              </h3>
+              <div className="flex items-center justify-center gap-2 text-slate-400 dark:text-slate-500 text-sm font-bold uppercase tracking-widest">
+                Watch Now <ArrowUpRight size={16} />
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
         {/* LATEST CONTENT SECTION */}
         <section id="latest-videos" className="space-y-16">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">

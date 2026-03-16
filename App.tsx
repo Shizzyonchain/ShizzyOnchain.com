@@ -14,6 +14,7 @@ import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
 import { BittensorHub } from './components/BittensorHub.tsx';
 import { ContactPage } from './components/ContactPage.tsx';
+import { SendTip } from './components/SendTip.tsx';
 import { View } from './types.ts';
 
 const App: React.FC = () => {
@@ -37,6 +38,7 @@ const App: React.FC = () => {
       else if (hash === '#/bittensor') setCurrentView('bittensor');
       else if (hash === '#/ai-history') setCurrentView('ai-history');
       else if (hash === '#/contact') setCurrentView('contact');
+      else if (hash === '#/send-tip') setCurrentView('send-tip');
       else setCurrentView('home');
     };
 
@@ -99,6 +101,7 @@ const App: React.FC = () => {
     if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
     if (currentView === 'bittensor') return <BittensorHub />;
     if (currentView === 'contact') return <ContactPage />;
+    if (currentView === 'send-tip') return <SendTip />;
 
     return <Overview />;
   };

@@ -8,6 +8,16 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: '1_-bAGtRdHY',
+    title: 'GETTING STARTED WITH BITTENSOR TAO SUBNETS',
+    url: 'https://www.youtube.com/watch?v=1_-bAGtRdHY',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-16T12:00:00Z',
+    image_url: 'https://img.youtube.com/vi/1_-bAGtRdHY/maxresdefault.jpg',
+    excerpt: `A complete beginner's guide to understanding Bittensor, TAO, and how subnets work in the decentralized AI ecosystem.`,
+    tags: ['Beginner', 'Bittensor', 'TAO']
+  },
+  {
     id: '31P2-LSBBbo',
     title: 'TAO SUBNETS ARE ABSOLUTELY RIPPING RIGHT NOW',
     url: 'https://www.youtube.com/watch?v=31P2-LSBBbo',
