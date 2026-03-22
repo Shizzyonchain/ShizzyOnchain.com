@@ -32,6 +32,11 @@ export const OVERVIEW_CONTENT = {
     title: '',
     cards: [
       {
+        title: 'THE TAO FLYWHEEL IS SPINNING UP FAST',
+        category: 'BITTENSOR',
+        link: 'https://www.youtube.com/embed/UlOEVeBL5QI'
+      },
+      {
         title: 'TAO SUBNETS ARE ABSOLUTELY RIPPING RIGHT NOW',
         category: 'BITTENSOR',
         link: 'https://www.youtube.com/embed/31P2-LSBBbo'
@@ -40,11 +45,6 @@ export const OVERVIEW_CONTENT = {
         title: 'SELL BITCOIN, BUY BITTENSOR? TAO AND SUBNETS ARE HEATING UP',
         category: 'BITTENSOR',
         link: 'https://www.youtube.com/embed/pAH9auzOqdo'
-      },
-      {
-        title: "SHIZZY'S UNTOLD STORY FROM MACHINIST",
-        category: 'AI AGENTS',
-        link: 'https://www.youtube.com/embed/Ks696rfT1jU'
       }
     ]
   },

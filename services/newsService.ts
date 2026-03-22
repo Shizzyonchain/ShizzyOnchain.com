@@ -8,6 +8,16 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: 'UlOEVeBL5QI',
+    title: 'THE TAO FLYWHEEL IS SPINNING UP FAST',
+    url: 'https://www.youtube.com/watch?v=UlOEVeBL5QI',
+    source: 'Shizzy Unchained',
+    published_at: '2026-03-22T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/UlOEVeBL5QI/maxresdefault.jpg',
+    excerpt: `The TAO flywheel is spinning up fast.`,
+    tags: ['Bittensor', 'TAO', 'Flywheel']
+  },
+  {
     id: '1_-bAGtRdHY',
     title: 'GETTING STARTED WITH BITTENSOR TAO SUBNETS',
     url: 'https://www.youtube.com/watch?v=1_-bAGtRdHY',

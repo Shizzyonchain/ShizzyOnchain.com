@@ -18,6 +18,13 @@ export const youtubeService = {
       return {
         lives: [
           {
+            id: 'UlOEVeBL5QI',
+            title: 'The TAO Flywheel Is Spinning Up Fast',
+            thumbnail: 'https://img.youtube.com/vi/UlOEVeBL5QI/maxresdefault.jpg',
+            url: 'https://www.youtube.com/watch?v=UlOEVeBL5QI',
+            type: 'live'
+          },
+          {
             id: '1_-bAGtRdHY',
             title: 'Getting Started with Bittensor Tao Subnets',
             thumbnail: 'https://img.youtube.com/vi/1_-bAGtRdHY/maxresdefault.jpg',
