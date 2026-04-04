@@ -40,7 +40,7 @@ export const Portfolio: React.FC = () => {
         {/* Image Section */}
         <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4">
           <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
-          <a href="https://postimages.org/" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
+          <a href="https://x.com/ShizzyUnchained/status/2040489440318001574?s=20" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
             <img 
               src="https://i.postimg.cc/Wz78T7C9/2f40ed52-9425-4dc0-860e-b49cccf86a47.jpg" 
               alt="Shizzy's Portfolio" 
