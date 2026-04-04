@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Youtube, Send, Mail, ExternalLink } from 'lucide-react';
+import { Youtube, Send, Mail } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 
 const XIcon = ({ className = "w-5 h-5" }) => (

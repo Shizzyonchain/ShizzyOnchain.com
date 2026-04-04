@@ -6,7 +6,6 @@ import {
   RefreshCw, 
   Cpu, 
   TrendingUp, 
-  Zap, 
   Layers, 
   ArrowUpDown,
   ExternalLink

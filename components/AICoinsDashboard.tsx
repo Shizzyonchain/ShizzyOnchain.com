@@ -4,8 +4,6 @@ import { coinGeckoProxy } from '../services/coinGeckoService.ts';
 import { GeckoCoin, GeckoCategory } from '../types.ts';
 import { 
   Loader2, 
-  TrendingUp, 
-  TrendingDown, 
   Activity, 
   Cpu, 
   Globe, 

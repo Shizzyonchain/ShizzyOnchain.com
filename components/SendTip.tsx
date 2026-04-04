@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
 import { Copy, CheckCircle2, Wallet } from 'lucide-react';
 
-export const SendTip: React.FC = () => {
-  const [copied, setCopied] = useState(false);
-  const walletAddress = '5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM';
+const WALLETS = [
+  {
+    name: 'Tao / Bittensor Subnet Wallet',
+    address: '5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM',
+  },
+  {
+    name: 'Bitcoin',
+    address: 'bc1ps0y5sw7yq5xvwsy7ca8ed9d9nca0kaw2k8g9z0vlh7sxy8untvrqa62ld4',
+  },
+  {
+    name: 'EVM',
+    address: '0x76f2ee7758b5AceBF5cab1819A810983EFcd1CCE',
+  },
+  {
+    name: 'Solana',
+    address: '5AQRnR7gsQznYtZDdXRke1iZQEmdhWju7V5dgXGx9h9J',
+  }
+];
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(walletAddress);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+export const SendTip: React.FC = () => {
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopy = (id: string, address: string) => {
+    navigator.clipboard.writeText(address);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
   return (
@@ -29,31 +47,35 @@ export const SendTip: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-6 md:p-8 space-y-4 relative z-10">
-          <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
-            Tao / Bittensor Subnet Wallet
-          </p>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-            <code className="text-sm md:text-base font-mono bg-white dark:bg-black px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white break-all max-w-full">
-              {walletAddress}
-            </code>
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold uppercase tracking-wider transition-all active:scale-95 shrink-0"
-            >
-              {copied ? (
-                <>
-                  <CheckCircle2 size={18} />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy size={18} />
-                  Copy
-                </>
-              )}
-            </button>
-          </div>
+        <div className="space-y-4 relative z-10 text-left">
+          {WALLETS.map((wallet) => (
+            <div key={wallet.name} className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-6 space-y-3">
+              <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                {wallet.name}
+              </p>
+              <div className="flex flex-col md:flex-row items-center gap-3">
+                <code className="flex-grow text-xs md:text-sm font-mono bg-white dark:bg-black px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white break-all w-full">
+                  {wallet.address}
+                </code>
+                <button
+                  onClick={() => handleCopy(wallet.name, wallet.address)}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-bold uppercase tracking-wider transition-all active:scale-95 shrink-0 w-full md:w-auto"
+                >
+                  {copiedId === wallet.name ? (
+                    <>
+                      <CheckCircle2 size={18} />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={18} />
+                      Copy
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

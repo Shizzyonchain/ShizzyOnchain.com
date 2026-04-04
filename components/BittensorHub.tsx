@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from '../types.ts';
 import { 
   Layers, 
   Wallet,

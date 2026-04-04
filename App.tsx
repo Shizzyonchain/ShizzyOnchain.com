@@ -6,7 +6,6 @@ import { DefiDashboard } from './components/DefiDashboard.tsx';
 import { BubblesDashboard } from './components/BubblesDashboard.tsx';
 import { Overview } from './components/Overview.tsx';
 import { AINewsFeed } from './components/AINewsFeed.tsx';
-import { CryptoNewsFeed } from './components/CryptoNewsFeed.tsx';
 import { VideosFeed } from './components/VideosFeed.tsx';
 import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
@@ -15,6 +14,7 @@ import { ToolsHub } from './components/ToolsHub.tsx';
 import { BittensorHub } from './components/BittensorHub.tsx';
 import { ContactPage } from './components/ContactPage.tsx';
 import { SendTip } from './components/SendTip.tsx';
+import { Portfolio } from './components/Portfolio.tsx';
 import { View } from './types.ts';
 
 const App: React.FC = () => {
@@ -39,6 +39,7 @@ const App: React.FC = () => {
       else if (hash === '#/ai-history') setCurrentView('ai-history');
       else if (hash === '#/contact') setCurrentView('contact');
       else if (hash === '#/send-tip') setCurrentView('send-tip');
+      else if (hash === '#/portfolio') setCurrentView('portfolio');
       else setCurrentView('home');
     };
 
@@ -102,6 +103,7 @@ const App: React.FC = () => {
     if (currentView === 'bittensor') return <BittensorHub />;
     if (currentView === 'contact') return <ContactPage />;
     if (currentView === 'send-tip') return <SendTip />;
+    if (currentView === 'portfolio') return <Portfolio />;
 
     return <Overview />;
   };

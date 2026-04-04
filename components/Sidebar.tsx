@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { newsService } from '../services/newsService.ts';
-import { Flame, ChevronRight, Zap } from 'lucide-react';
+import { ChevronRight, Zap } from 'lucide-react';
 
 interface SidebarProps {
   onStoryClick: (id: string) => void;

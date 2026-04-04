@@ -6,24 +6,13 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  // API Proxy for Taostats to avoid CORS and handle API Key server-side
+  // API Proxy for Taostats to avoid CORS
   app.get("/api/taostats/subnets", async (req, res) => {
     try {
-      const apiKey = process.env.TAOSTATS_API_KEY;
       const headers: any = { 
         'Accept': 'application/json',
         'User-Agent': 'Mozilla/5.0 (compatible; TAOStatsProxy/1.0)'
       };
-      
-      if (apiKey && apiKey.trim() !== '') {
-        // Taostats API expects the token in the Authorization header
-        // Some versions expect 'Bearer ' prefix, others just the token.
-        // We'll try Bearer as the error message mentions "Token".
-        headers['Authorization'] = apiKey.startsWith('Bearer ') ? apiKey : `Bearer ${apiKey}`;
-        console.log('Using TAOSTATS_API_KEY for request (Bearer format)');
-      } else {
-        console.log('No TAOSTATS_API_KEY found in environment, attempting public request');
-      }
 
       console.log('Fetching from Taostats API: https://api.taostats.io/api/subnet/latest/v1');
       const response = await fetch('https://api.taostats.io/api/subnet/latest/v1', { headers });

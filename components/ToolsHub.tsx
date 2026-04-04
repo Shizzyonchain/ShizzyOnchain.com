@@ -6,10 +6,7 @@ import {
   Layers, 
   Zap, 
   ChevronRight, 
-  Search,
-  ShieldCheck,
-  Coins,
-  Library
+  Coins
 } from 'lucide-react';
 
 interface ToolCardProps {

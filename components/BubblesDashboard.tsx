@@ -8,13 +8,7 @@ import {
   X, 
   Pin, 
   RefreshCw,
-  TrendingUp,
-  BarChart3,
   ChevronDown,
-  LayoutGrid,
-  Settings,
-  ChevronLeft,
-  ChevronRight,
   Info
 } from 'lucide-react';
 

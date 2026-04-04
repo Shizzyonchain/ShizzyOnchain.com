@@ -1,14 +1,8 @@
 
 import React, { useState } from 'react';
-import { Sun, Moon, Menu, X, MessageSquare, ChevronDown, Phone } from 'lucide-react';
+import { Sun, Moon, Menu, X, ChevronDown } from 'lucide-react';
 import { SOCIAL_LINKS } from '../constants.tsx';
 import { View } from '../types.ts';
-
-const XIcon = ({ className = "w-5 h-5" }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-  </svg>
-);
 
 interface HeaderProps {
   darkMode: boolean;
@@ -29,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'HOME', view: 'home' as View },
     { label: 'VIDEOS', view: 'ainews' as View },
     { label: 'BITTENSOR TAO', view: 'bittensor' as View },
+    { label: 'PORTFOLIO', view: 'portfolio' as View },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { OVERVIEW_CONTENT, SOCIAL_LINKS } from '../constants.tsx';
-import { ArrowUpRight, Shield, Zap } from 'lucide-react';
+import { ArrowUpRight, Zap } from 'lucide-react';
 
 export const Overview: React.FC = () => {
   const { hero, latestSignal } = OVERVIEW_CONTENT;
@@ -152,7 +152,6 @@ export const Overview: React.FC = () => {
           </div>
         </section>
 
-        {/* COMMUNITY SECTION REMOVED */}
       </div>
     </div>
   );
