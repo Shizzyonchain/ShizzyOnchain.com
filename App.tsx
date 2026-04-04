@@ -15,6 +15,7 @@ import { BittensorHub } from './components/BittensorHub.tsx';
 import { ContactPage } from './components/ContactPage.tsx';
 import { SendTip } from './components/SendTip.tsx';
 import { Portfolio } from './components/Portfolio.tsx';
+import { AllComments } from './components/AllComments.tsx';
 import { View } from './types.ts';
 
 const App: React.FC = () => {
@@ -40,6 +41,7 @@ const App: React.FC = () => {
       else if (hash === '#/contact') setCurrentView('contact');
       else if (hash === '#/send-tip') setCurrentView('send-tip');
       else if (hash === '#/portfolio') setCurrentView('portfolio');
+      else if (hash === '#/all-comments') setCurrentView('all-comments');
       else setCurrentView('home');
     };
 
@@ -104,6 +106,7 @@ const App: React.FC = () => {
     if (currentView === 'contact') return <ContactPage />;
     if (currentView === 'send-tip') return <SendTip />;
     if (currentView === 'portfolio') return <Portfolio />;
+    if (currentView === 'all-comments') return <AllComments />;
 
     return <Overview />;
   };
