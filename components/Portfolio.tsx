@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layers, PieChart, MessageSquare, ThumbsUp, User, Send, Clock } from 'lucide-react';
+import { collection, onSnapshot, addDoc, updateDoc, doc, query, orderBy, increment } from 'firebase/firestore';
+import { db } from '../firebase';
 
 interface Comment {
   id: string;
@@ -31,67 +33,85 @@ export const Portfolio: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [authorName, setAuthorName] = useState('');
+  const [likedComments, setLikedComments] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const savedComments = localStorage.getItem('shizzy_portfolio_comments');
-    if (savedComments) {
+    // Load liked comments from local storage
+    const savedLikes = localStorage.getItem('shizzy_liked_comments');
+    if (savedLikes) {
       try {
-        setComments(JSON.parse(savedComments));
+        setLikedComments(new Set(JSON.parse(savedLikes)));
       } catch (e) {
-        console.error('Failed to parse comments', e);
+        console.error('Failed to parse liked comments', e);
       }
-    } else {
-      setComments([
-        {
-          id: '1',
-          author: 'TaoMaxi',
-          content: 'Ridges at 19.7% is a bold move, but I respect the conviction. Have you looked into SN13?',
-          timestamp: Date.now() - 1000 * 60 * 60 * 2,
-          likes: 12,
-        },
-        {
-          id: '2',
-          author: 'AlphaSeeker',
-          content: 'Great breakdown. Chutes is definitely undervalued right now given their compute scaling.',
-          timestamp: Date.now() - 1000 * 60 * 60 * 24,
-          likes: 8,
-        }
-      ]);
     }
+
+    // Subscribe to Firestore comments
+    const q = query(collection(db, 'portfolio_comments'), orderBy('timestamp', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedComments: Comment[] = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        fetchedComments.push({
+          id: doc.id,
+          author: data.author,
+          content: data.content,
+          timestamp: data.timestamp,
+          likes: data.likes || 0,
+        });
+      });
+      setComments(fetchedComments);
+    }, (error) => {
+      console.error("Error fetching comments:", error);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (comments.length > 0) {
-      localStorage.setItem('shizzy_portfolio_comments', JSON.stringify(comments));
-    }
-  }, [comments]);
-
-  const handlePostComment = (e: React.FormEvent) => {
+  const handlePostComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim()) return;
 
-    const comment: Comment = {
-      id: Date.now().toString(),
-      author: authorName.trim() || 'Anonymous Alpha',
-      content: newComment.trim(),
-      timestamp: Date.now(),
-      likes: 0,
-    };
-
-    setComments([comment, ...comments]);
-    setNewComment('');
+    try {
+      await addDoc(collection(db, 'portfolio_comments'), {
+        author: authorName.trim() || 'Anonymous Alpha',
+        content: newComment.trim(),
+        timestamp: Date.now(),
+        likes: 0,
+      });
+      setNewComment('');
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
   };
 
-  const handleLike = (id: string) => {
-    setComments(comments.map(c => {
-      if (c.id === id) {
-        if (c.isLiked) {
-          return { ...c, likes: c.likes - 1, isLiked: false };
-        }
-        return { ...c, likes: c.likes + 1, isLiked: true };
+  const handleLike = async (id: string) => {
+    const isLiked = likedComments.has(id);
+    const commentRef = doc(db, 'portfolio_comments', id);
+    
+    try {
+      if (isLiked) {
+        // Unlike
+        await updateDoc(commentRef, {
+          likes: increment(-1)
+        });
+        const newLiked = new Set(likedComments);
+        newLiked.delete(id);
+        setLikedComments(newLiked);
+        localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
+      } else {
+        // Like
+        await updateDoc(commentRef, {
+          likes: increment(1)
+        });
+        const newLiked = new Set(likedComments);
+        newLiked.add(id);
+        setLikedComments(newLiked);
+        localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
       }
-      return c;
-    }));
+    } catch (error) {
+      console.error("Error updating like:", error);
+    }
   };
 
   const formatTimeAgo = (timestamp: number) => {
@@ -192,12 +212,12 @@ export const Portfolio: React.FC = () => {
                       <button 
                         onClick={() => handleLike(comment.id)}
                         className={`flex items-center gap-1.5 text-xs font-bold transition-colors ${
-                          comment.isLiked 
+                          likedComments.has(comment.id) 
                             ? 'text-orange-500' 
                             : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
                         }`}
                       >
-                        <ThumbsUp size={14} className={comment.isLiked ? 'fill-current' : ''} />
+                        <ThumbsUp size={14} className={likedComments.has(comment.id) ? 'fill-current' : ''} />
                         {comment.likes}
                       </button>
                     </div>

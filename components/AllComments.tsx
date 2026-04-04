@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, ThumbsUp, Clock, ArrowLeft } from 'lucide-react';
+import { collection, onSnapshot, updateDoc, doc, query, orderBy, increment } from 'firebase/firestore';
+import { db } from '../firebase';
 
 interface Comment {
   id: string;
@@ -7,32 +9,72 @@ interface Comment {
   content: string;
   timestamp: number;
   likes: number;
-  isLiked?: boolean;
 }
 
 export const AllComments: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [likedComments, setLikedComments] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const savedComments = localStorage.getItem('shizzy_portfolio_comments');
-    if (savedComments) {
+    // Load liked comments from local storage
+    const savedLikes = localStorage.getItem('shizzy_liked_comments');
+    if (savedLikes) {
       try {
-        setComments(JSON.parse(savedComments));
+        setLikedComments(new Set(JSON.parse(savedLikes)));
       } catch (e) {
-        console.error('Failed to parse comments', e);
+        console.error('Failed to parse liked comments', e);
       }
     }
+
+    // Subscribe to Firestore comments
+    const q = query(collection(db, 'portfolio_comments'), orderBy('timestamp', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedComments: Comment[] = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        fetchedComments.push({
+          id: doc.id,
+          author: data.author,
+          content: data.content,
+          timestamp: data.timestamp,
+          likes: data.likes || 0,
+        });
+      });
+      setComments(fetchedComments);
+    }, (error) => {
+      console.error("Error fetching comments:", error);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const handleLike = (id: string) => {
-    const updated = comments.map(c => {
-      if (c.id === id) {
-        return { ...c, likes: c.isLiked ? c.likes - 1 : c.likes + 1, isLiked: !c.isLiked };
+  const handleLike = async (id: string) => {
+    const isLiked = likedComments.has(id);
+    const commentRef = doc(db, 'portfolio_comments', id);
+    
+    try {
+      if (isLiked) {
+        // Unlike
+        await updateDoc(commentRef, {
+          likes: increment(-1)
+        });
+        const newLiked = new Set(likedComments);
+        newLiked.delete(id);
+        setLikedComments(newLiked);
+        localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
+      } else {
+        // Like
+        await updateDoc(commentRef, {
+          likes: increment(1)
+        });
+        const newLiked = new Set(likedComments);
+        newLiked.add(id);
+        setLikedComments(newLiked);
+        localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
       }
-      return c;
-    });
-    setComments(updated);
-    localStorage.setItem('shizzy_portfolio_comments', JSON.stringify(updated));
+    } catch (error) {
+      console.error("Error updating like:", error);
+    }
   };
 
   const formatTimeAgo = (timestamp: number) => {
@@ -95,12 +137,12 @@ export const AllComments: React.FC = () => {
                   <button 
                     onClick={() => handleLike(comment.id)}
                     className={`flex items-center gap-1.5 text-xs font-bold transition-colors ${
-                      comment.isLiked 
+                      likedComments.has(comment.id) 
                         ? 'text-orange-500' 
                         : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
                     }`}
                   >
-                    <ThumbsUp size={14} className={comment.isLiked ? 'fill-current' : ''} />
+                    <ThumbsUp size={14} className={likedComments.has(comment.id) ? 'fill-current' : ''} />
                     {comment.likes}
                   </button>
                 </div>

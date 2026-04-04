@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    // Collection: portfolio_comments
+    // Document ID: auto-generated
+    // Fields:
+    //   - author: string (required, max 50 chars)
+    //   - content: string (required, max 1000 chars)
+    //   - timestamp: number (required)
+    //   - likes: number (required, >= 0)
+    // ===============================================================
+
+    function hasOnlyAllowedFields(allowedFields) {
+      return request.resource.data.keys().hasOnly(allowedFields);
+    }
+
+    function isValidComment(data) {
+      return hasOnlyAllowedFields(['author', 'content', 'timestamp', 'likes']) &&
+             data.author is string && data.author.size() <= 50 &&
+             data.content is string && data.content.size() > 0 && data.content.size() <= 1000 &&
+             data.timestamp is number &&
+             data.likes is number && data.likes >= 0;
+    }
+
+    function isValidLikeUpdate() {
+      let diff = request.resource.data.diff(resource.data);
+      return diff.affectedKeys().hasOnly(['likes']) &&
+             (request.resource.data.likes == resource.data.likes + 1 || 
+              request.resource.data.likes == resource.data.likes - 1);
+    }
+
+    match /portfolio_comments/{commentId} {
+      // Public read since the user explicitly wants everyone to see the comments
+      allow read: if true;
+      
+      // Allow public create (anonymous comments allowed per UI design)
+      allow create: if isValidComment(request.resource.data) && request.resource.data.likes == 0;
+      
+      // Allow public update ONLY for incrementing/decrementing likes
+      allow update: if isValidComment(request.resource.data) && isValidLikeUpdate();
+    }
+  }
+}
