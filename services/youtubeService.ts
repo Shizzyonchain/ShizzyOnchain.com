@@ -18,6 +18,20 @@ export const youtubeService = {
       return {
         lives: [
           {
+            id: 'OLZOXa5XkUw',
+            title: 'TAO ETF, Subnet Risk, and the Future of Decentralized AI',
+            thumbnail: 'https://img.youtube.com/vi/OLZOXa5XkUw/maxresdefault.jpg',
+            url: 'https://youtu.be/OLZOXa5XkUw',
+            type: 'live'
+          },
+          {
+            id: 'cO_ud4ZJEMY',
+            title: 'Subnet 97 Distil, Arbos, and the Future of Agent-Run Bittensor',
+            thumbnail: 'https://img.youtube.com/vi/cO_ud4ZJEMY/maxresdefault.jpg',
+            url: 'https://www.youtube.com/watch?v=cO_ud4ZJEMY',
+            type: 'live'
+          },
+          {
             id: 'UlOEVeBL5QI',
             title: 'The TAO Flywheel Is Spinning Up Fast',
             thumbnail: 'https://img.youtube.com/vi/UlOEVeBL5QI/maxresdefault.jpg',

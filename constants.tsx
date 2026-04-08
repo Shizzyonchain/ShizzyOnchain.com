@@ -32,19 +32,19 @@ export const OVERVIEW_CONTENT = {
     title: '',
     cards: [
       {
+        title: 'TAO ETF, SUBNET RISK, AND THE FUTURE OF DECENTRALIZED AI',
+        category: 'BITTENSOR',
+        link: 'https://www.youtube.com/embed/OLZOXa5XkUw'
+      },
+      {
+        title: 'SUBNET 97 DISTIL, ARBOS, AND THE FUTURE OF AGENT-RUN BITTENSOR',
+        category: 'BITTENSOR',
+        link: 'https://www.youtube.com/embed/cO_ud4ZJEMY'
+      },
+      {
         title: 'THE TAO FLYWHEEL IS SPINNING UP FAST',
         category: 'BITTENSOR',
         link: 'https://www.youtube.com/embed/UlOEVeBL5QI'
-      },
-      {
-        title: 'TAO SUBNETS ARE ABSOLUTELY RIPPING RIGHT NOW',
-        category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/31P2-LSBBbo'
-      },
-      {
-        title: 'SELL BITCOIN, BUY BITTENSOR? TAO AND SUBNETS ARE HEATING UP',
-        category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/pAH9auzOqdo'
       }
     ]
   },

@@ -8,6 +8,26 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: 'OLZOXa5XkUw',
+    title: 'TAO ETF, SUBNET RISK, AND THE FUTURE OF DECENTRALIZED AI',
+    url: 'https://youtu.be/OLZOXa5XkUw',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-08T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/OLZOXa5XkUw/maxresdefault.jpg',
+    excerpt: `TAO ETF, Subnet Risk, and the Future of Decentralized AI.`,
+    tags: ['Bittensor', 'TAO', 'ETF']
+  },
+  {
+    id: 'cO_ud4ZJEMY',
+    title: 'SUBNET 97 DISTIL, ARBOS, AND THE FUTURE OF AGENT-RUN BITTENSOR',
+    url: 'https://www.youtube.com/watch?v=cO_ud4ZJEMY',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-08T09:00:00Z',
+    image_url: 'https://img.youtube.com/vi/cO_ud4ZJEMY/maxresdefault.jpg',
+    excerpt: `Subnet 97 Distil, Arbos, and the Future of Agent-Run Bittensor.`,
+    tags: ['Bittensor', 'TAO', 'Subnet 97']
+  },
+  {
     id: 'UlOEVeBL5QI',
     title: 'THE TAO FLYWHEEL IS SPINNING UP FAST',
     url: 'https://www.youtube.com/watch?v=UlOEVeBL5QI',

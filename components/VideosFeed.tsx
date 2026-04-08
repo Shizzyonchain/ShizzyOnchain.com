@@ -28,8 +28,8 @@ export const VideosFeed: React.FC = () => {
     );
   }
 
-  const featuredVideo = videos.lives[0];
-  const remainingLongForm = videos.lives.slice(1);
+  const featuredVideos = videos.lives.slice(0, 2);
+  const remainingLongForm = videos.lives.slice(2);
 
   return (
     <div className="max-w-[1400px] mx-auto px-6 py-6 space-y-24 animate-in fade-in duration-1000">
@@ -51,39 +51,47 @@ export const VideosFeed: React.FC = () => {
       </div>
 
       {/* FEATURED INTEL HERO */}
-      {featuredVideo && (
+      {featuredVideos.length > 0 && (
         <section className="space-y-8">
           <div className="flex items-center gap-4">
              <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.5em] font-mono">FEATURED INTELLIGENCE</h3>
              <div className="flex-grow h-[1px] bg-slate-200 dark:bg-white/5"></div>
           </div>
           
-          <a 
-            href={featuredVideo.url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group relative block w-full aspect-video rounded-[2.5rem] lg:rounded-[4rem] overflow-hidden border border-slate-200 dark:border-white/10 bg-black shadow-2xl transition-all hover:border-orange-500/50"
-          >
-            <img 
-              src={featuredVideo.thumbnail} 
-              alt={featuredVideo.title}
-              className="w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-1000"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-            
-            <div className="absolute inset-0 flex items-center justify-center">
-               <div className="w-20 h-20 md:w-32 md:h-32 rounded-full bg-orange-600 text-white flex items-center justify-center shadow-2xl shadow-orange-500/50 group-hover:scale-110 transition-transform duration-500">
-                  <Play size={40} fill="currentColor" className="ml-2" />
-               </div>
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {featuredVideos.map((video, index) => (
+              <a 
+                key={video.id}
+                href={video.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group relative block w-full aspect-video rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 bg-black shadow-2xl transition-all hover:border-orange-500/50"
+              >
+                <img 
+                  src={video.thumbnail} 
+                  alt={video.title}
+                  className="w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-1000"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                
+                <div className="absolute inset-0 flex items-center justify-center">
+                   <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-orange-600 text-white flex items-center justify-center shadow-2xl shadow-orange-500/50 group-hover:scale-110 transition-transform duration-500">
+                      <Play size={32} fill="currentColor" className="ml-2" />
+                   </div>
+                </div>
 
-            <div className="absolute bottom-10 left-10 md:bottom-20 md:left-20 right-10 md:right-20 space-y-4">
-               <span className="px-4 py-2 bg-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl font-mono">LATEST UPLOAD</span>
-               <h2 className="text-3xl md:text-6xl font-black text-white font-space uppercase italic tracking-tighter leading-none group-hover:text-orange-400 transition-colors">
-                 {featuredVideo.title}
-               </h2>
-            </div>
-          </a>
+                <div className="absolute bottom-8 left-8 right-8 space-y-4">
+                   <span className="px-3 py-1.5 bg-orange-600 text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-xl font-mono">
+                     {index === 0 ? 'LATEST UPLOAD' : 'RECENT UPLOAD'}
+                   </span>
+                   <h2 className="text-2xl md:text-4xl font-black text-white font-space uppercase italic tracking-tighter leading-none group-hover:text-orange-400 transition-colors line-clamp-3">
+                     {video.title}
+                   </h2>
+                </div>
+              </a>
+            ))}
+          </div>
         </section>
       )}
 
