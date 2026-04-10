@@ -13,20 +13,10 @@ interface Comment {
 }
 
 const PORTFOLIO_DATA = [
-  { sn: 'SN62', name: 'Ridges', percent: 19.7 },
-  { sn: 'SN3', name: 'Templar', percent: 14.0 },
-  { sn: 'SN4', name: 'Targon', percent: 12.1 },
-  { sn: 'SN64', name: 'Chutes', percent: 12.0 },
-  { sn: 'SN120', name: 'Affine', percent: 11.9 },
-  { sn: 'SN44', name: 'Score', percent: 7.4 },
-  { sn: 'SN81', name: 'Grail', percent: 6.3 },
-  { sn: 'SN39', name: 'Basilica', percent: 5.4 },
-  { sn: 'SN58', name: 'Handshake', percent: 3.4 },
-  { sn: 'SN105', name: 'Beam', percent: 2.6 },
-  { sn: 'SN9', name: 'iota', percent: 2.49 },
-  { sn: 'SN97', name: 'distil', percent: 1.42 },
-  { sn: 'SN46', name: 'RESI', percent: 1.08 },
-  { sn: 'SN93', name: 'Bitcast', percent: 0.26 },
+  { sn: 'SN97', name: 'Distil', percent: 50.8 },
+  { sn: 'SN4', name: 'Targon', percent: 21.1 },
+  { sn: 'SN62', name: 'Ridges', percent: 19.0 },
+  { sn: 'SN44', name: 'Score', percent: 9.1 },
 ];
 
 export const Portfolio: React.FC = () => {
@@ -164,9 +154,9 @@ export const Portfolio: React.FC = () => {
           {/* Image Section */}
           <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4">
             <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
-            <a href="https://x.com/ShizzyUnchained/status/2040489440318001574?s=20" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
+            <a href="https://x.com/ShizzyUnchained/status/2042629558155850011" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
               <img 
-                src="https://i.postimg.cc/Wz78T7C9/2f40ed52-9425-4dc0-860e-b49cccf86a47.jpg" 
+                src="https://i.postimg.cc/C1Krv0cM/Untitled-design-(3).png" 
                 alt="Shizzy's Portfolio" 
                 className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
