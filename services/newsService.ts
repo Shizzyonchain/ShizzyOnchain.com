@@ -8,6 +8,26 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: 'nXykq3tHv5c',
+    title: 'COVENANT AI JUST CALLED OUT BITTENSOR AND LEFT. TEMPLAR TO 0?',
+    url: 'https://youtu.be/nXykq3tHv5c',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-10T11:00:00Z',
+    image_url: 'https://img.youtube.com/vi/nXykq3tHv5c/maxresdefault.jpg',
+    excerpt: `Covenant AI Just Called Out Bittensor And Left. Templar to 0?`,
+    tags: ['Bittensor', 'Covenant AI', 'Templar']
+  },
+  {
+    id: 'ADTmw1DGuS8',
+    title: 'TAO VOLATILITY, TEMPLAR DUMP, AND BITTENSOR’S NEXT MOVE',
+    url: 'https://youtu.be/ADTmw1DGuS8',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-10T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/ADTmw1DGuS8/maxresdefault.jpg',
+    excerpt: `TAO Volatility, Templar Dump, and Bittensor’s Next Move.`,
+    tags: ['Bittensor', 'TAO', 'Volatility']
+  },
+  {
     id: 'OLZOXa5XkUw',
     title: 'TAO ETF, SUBNET RISK, AND THE FUTURE OF DECENTRALIZED AI',
     url: 'https://youtu.be/OLZOXa5XkUw',

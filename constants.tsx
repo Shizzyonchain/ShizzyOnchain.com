@@ -32,19 +32,19 @@ export const OVERVIEW_CONTENT = {
     title: '',
     cards: [
       {
+        title: 'COVENANT AI JUST CALLED OUT BITTENSOR AND LEFT. TEMPLAR TO 0?',
+        category: 'BITTENSOR',
+        link: 'https://www.youtube.com/embed/nXykq3tHv5c'
+      },
+      {
+        title: 'TAO VOLATILITY, TEMPLAR DUMP, AND BITTENSOR’S NEXT MOVE',
+        category: 'BITTENSOR',
+        link: 'https://www.youtube.com/embed/ADTmw1DGuS8'
+      },
+      {
         title: 'TAO ETF, SUBNET RISK, AND THE FUTURE OF DECENTRALIZED AI',
         category: 'BITTENSOR',
         link: 'https://www.youtube.com/embed/OLZOXa5XkUw'
-      },
-      {
-        title: 'SUBNET 97 DISTIL, ARBOS, AND THE FUTURE OF AGENT-RUN BITTENSOR',
-        category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/cO_ud4ZJEMY'
-      },
-      {
-        title: 'THE TAO FLYWHEEL IS SPINNING UP FAST',
-        category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/UlOEVeBL5QI'
       }
     ]
   },

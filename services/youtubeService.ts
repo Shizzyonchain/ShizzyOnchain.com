@@ -18,6 +18,20 @@ export const youtubeService = {
       return {
         lives: [
           {
+            id: 'nXykq3tHv5c',
+            title: 'Covenant AI Just Called Out Bittensor And Left. Templar to 0?',
+            thumbnail: 'https://img.youtube.com/vi/nXykq3tHv5c/maxresdefault.jpg',
+            url: 'https://youtu.be/nXykq3tHv5c',
+            type: 'live'
+          },
+          {
+            id: 'ADTmw1DGuS8',
+            title: 'TAO Volatility, Templar Dump, and Bittensor’s Next Move',
+            thumbnail: 'https://img.youtube.com/vi/ADTmw1DGuS8/maxresdefault.jpg',
+            url: 'https://youtu.be/ADTmw1DGuS8',
+            type: 'live'
+          },
+          {
             id: 'OLZOXa5XkUw',
             title: 'TAO ETF, Subnet Risk, and the Future of Decentralized AI',
             thumbnail: 'https://img.youtube.com/vi/OLZOXa5XkUw/maxresdefault.jpg',
