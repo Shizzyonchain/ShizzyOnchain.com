@@ -40,7 +40,7 @@ export const SendTip: React.FC = () => {
             <Wallet className="w-10 h-10 text-orange-500" />
           </div>
           <h1 className="text-4xl md:text-6xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
-            Send a Tip
+            Tip Creator
           </h1>
           <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 font-inter leading-relaxed max-w-2xl mx-auto">
             Want me to look into your favorite subnet? Drop a tip to the wallet below and I will research it for a future Shizzy Portfolio Update. I am always hunting for strong Bittensor subnets, and some of the best ideas come straight from the community. If it passes the test, it could earn a spot in the portfolio.

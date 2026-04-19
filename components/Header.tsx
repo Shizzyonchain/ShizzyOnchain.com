@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   const navItems: { label: string; view?: View; url?: string; icon?: React.ReactNode }[] = [
     { label: 'HOME', view: 'home' as View },
     { label: 'VIDEOS', view: 'ainews' as View },
-    { label: 'BITTENSOR TAO', view: 'bittensor' as View },
+    { label: 'BITTENSOR', view: 'bittensor' as View },
     { label: 'PORTFOLIO', view: 'portfolio' as View },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];
@@ -43,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-12">
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
           {navItems.map((item) => (
             item.url ? (
               <a
@@ -74,19 +74,28 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         </nav>
 
         {/* Right-aligned Utility Icons */}
-        <div className="flex items-center gap-3 md:gap-6 shrink-0">
+        <div className="flex items-center gap-2 md:gap-4 shrink-0">
+          <a 
+            href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:flex items-center px-4 xl:px-6 py-2 xl:py-2.5 bg-blue-600 text-white rounded-xl text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-blue-700 hover:scale-105 transition-all shadow-lg shadow-blue-500/20"
+          >
+            GET VPN
+          </a>
+          
           <button 
             id="send-tip-btn-header"
             onClick={() => handleNavClick('send-tip')}
-            className="hidden md:block px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:scale-105 transition-all shadow-lg"
+            className="hidden md:block px-4 xl:px-6 py-2 xl:py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:scale-105 transition-all shadow-lg"
           >
-            SEND A TIP
+            TIP CREATOR
           </button>
           
           <button 
             id="contact-btn-header"
             onClick={() => handleNavClick('contact')}
-            className="px-6 py-2.5 bg-orange-600 text-white rounded-xl text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-orange-700 hover:scale-105 transition-all shadow-lg shadow-orange-500/20"
+            className="px-4 xl:px-6 py-2 xl:py-2.5 bg-orange-600 text-white rounded-xl text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-orange-700 hover:scale-105 transition-all shadow-lg shadow-orange-500/20"
           >
             CONTACT SHIZZY
           </button>
@@ -134,13 +143,21 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                 </button>
               )
             ))}
+            <a 
+              href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic text-blue-500"
+            >
+              GET VPN
+            </a>
             <button 
               onClick={() => handleNavClick('send-tip')}
               className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
                 currentView === 'send-tip' ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'
               }`}
             >
-              SEND A TIP
+              TIP CREATOR
             </button>
             <button 
               onClick={() => handleNavClick('contact')}
