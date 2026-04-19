@@ -76,6 +76,15 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         {/* Right-aligned Utility Icons */}
         <div className="flex items-center gap-2 md:gap-4 shrink-0">
           <a 
+            href="https://shop.ledger.com/?r=49c0bef9b376"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:flex items-center px-2 xl:px-4 py-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space transition-colors"
+          >
+            GET LEDGER
+          </a>
+
+          <a 
             href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
             target="_blank"
             rel="noopener noreferrer"
@@ -143,6 +152,14 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                 </button>
               )
             ))}
+            <a 
+              href="https://shop.ledger.com/?r=49c0bef9b376"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic text-slate-900 dark:text-white"
+            >
+              GET LEDGER
+            </a>
             <a 
               href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
               target="_blank"
