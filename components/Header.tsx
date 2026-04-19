@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
 
   return (
     <header className="sticky top-0 z-[100] transition-all duration-500 glass border-b border-slate-200 dark:border-white/5">
-      <div className="max-w-[1400px] mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
         {/* Logo Section */}
         <button 
           onClick={() => handleNavClick('home')}
@@ -79,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
             href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden lg:flex items-center px-4 xl:px-6 py-2 xl:py-2.5 bg-blue-600 text-white rounded-xl text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-blue-700 hover:scale-105 transition-all shadow-lg shadow-blue-500/20"
+            className="hidden lg:flex items-center px-2 xl:px-4 py-2 text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space transition-colors"
           >
             GET VPN
           </a>
@@ -87,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
           <button 
             id="send-tip-btn-header"
             onClick={() => handleNavClick('send-tip')}
-            className="hidden md:block px-4 xl:px-6 py-2 xl:py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:scale-105 transition-all shadow-lg"
+            className="hidden md:block px-2 xl:px-4 py-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space transition-colors"
           >
             TIP CREATOR
           </button>
@@ -95,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
           <button 
             id="contact-btn-header"
             onClick={() => handleNavClick('contact')}
-            className="px-4 xl:px-6 py-2 xl:py-2.5 bg-orange-600 text-white rounded-xl text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space italic hover:bg-orange-700 hover:scale-105 transition-all shadow-lg shadow-orange-500/20"
+            className="px-4 xl:px-5 py-2 bg-[#FF6321] text-white rounded-xl text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space hover:bg-[#E5591D] hover:scale-105 transition-all shadow-lg shadow-orange-500/20 shadow-[0_0_15px_rgba(255,99,33,0.3)]"
           >
             CONTACT SHIZZY
           </button>
