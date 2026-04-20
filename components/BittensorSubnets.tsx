@@ -1,5 +1,5 @@
-import React from 'react';
-import { ArrowLeft, Activity, Database } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { ArrowLeft, Search, Filter, X, ChevronDown } from 'lucide-react';
 
 const SUBNETS_DATA = [
   { sn: 1, name: "Apex", category: "AI Agents / AI Tools", description: "Decentralized AI agent infrastructure built for real usage, inference, and task execution." },
@@ -76,57 +76,191 @@ const SUBNETS_DATA = [
   { sn: 72, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
   { sn: 73, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
   { sn: 74, name: "Gittensor", category: "Unknown", description: "TaoStats currently shows the name Gittensor, but the role is not clear enough to label harder." },
-  { sn: 75, name: "Hippius", category: "Data / Storage", description: "Decentralized storage infrastructure built for persistent data availability." }
+  { sn: 75, name: "Hippius", category: "Data / Storage", description: "Decentralized storage and network infrastructure with IP management, bucket storage, and bandwidth allocation." },
+  { sn: 76, name: "Byzantium", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced yet." },
+  { sn: 77, name: "Liquidity", category: "DeFi / Trading", description: "Liquidity subnet built to incentivize external pool provisioning and liquidity voting for Bittensor assets." },
+  { sn: 78, name: "Loosh", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
+  { sn: 79, name: "MVTRX", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
+  { sn: 80, name: "dogelayer", category: "Mining", description: "Mining pool subnet connecting Scrypt miners to Bittensor through merged LTC/DOGE mining." },
+  { sn: 81, name: "deprecated", category: "Deprecated", description: "Subnet is no longer active." },
+  { sn: 82, name: "Hermes", category: "Data", description: "Decentralized query layer that lets AI agents access blockchain data through structured GraphQL-style queries." },
+  { sn: 83, name: "CliqueAI", category: "AI Agents / AI Tools", description: "Distributed AI subnet focused on solving maximum-clique and graph-optimization problems." },
+  { sn: 84, name: "ChipForge (Tatsu)", category: "Infrastructure / Hardware", description: "Decentralized hardware design subnet where miners compete to design real silicon components." },
+  { sn: 85, name: "Vidaio", category: "Generative AI", description: "AI video processing subnet focused on upscaling, optimization, and higher-quality video output." },
+  { sn: 86, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { sn: 87, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { sn: 88, name: "Investing", category: "DeFi / Trading", description: "Decentralized asset management subnet using human and AI quant strategies." },
+  { sn: 89, name: "InfiniteHash", category: "Mining", description: "Bitcoin mining subnet combining decentralized mining with Lightning Network infrastructure." },
+  { sn: 90, name: "brain", category: "Predictive Systems", description: "Subnet focused on validating prediction-market outcomes through decentralized verification." },
+  { sn: 91, name: "Bitstarter #1", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
+  { sn: 92, name: "LUCID", category: "Unknown", description: "Live subnet with a confirmed name, but the current public role is not surfaced cleanly enough." },
+  { sn: 93, name: "Bitcast", category: "Creator Economy", description: "Connects creators with brands and rewards content through decentralized incentives." },
+  { sn: 94, name: "Bitsota", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
+  { sn: 95, name: "Actual Computer", category: "Compute", description: "Live subnet with a confirmed name and compute focus, but the current public utility details are limited." },
+  { sn: 96, name: "FLock OFF", category: "Unknown", description: "Live subnet with a confirmed name, but the current public role is not surfaced cleanly enough." },
+  { sn: 97, name: "distil", category: "AI Training", description: "Model distillation subnet where miners compete to replicate frontier-model behavior." },
+  { sn: 98, name: "ForeverMoney", category: "DeFi / Trading", description: "AI-managed liquidity subnet optimizing Uniswap V3 and Aerodrome positions through competitive strategies." },
+  { sn: 99, name: "Leoma", category: "Generative AI", description: "AI video generation subnet focused on text-and-image-to-video workflows." },
+  { sn: 100, name: "Plaτform", category: "AI Research Infrastructure", description: "Decentralized AI evaluation framework built around challenge-based assessment and secure execution." },
+  { sn: 101, name: "Subnet 101", category: "Unknown", description: "No clearly confirmed public role available." },
+  { sn: 102, name: "ConnitoAI", category: "AI Training", description: "Decentralized model training subnet." },
+  { sn: 103, name: "Djinn", category: "AI Agents / AI Tools", description: "Encrypted sports signals marketplace with verifiable performance and escrow-backed settlement." },
+  { sn: 104, name: "for sale (burn to uid1)", category: "Unknown", description: "Listed as for sale rather than a normal branded subnet." },
+  { sn: 105, name: "Beam", category: "Compute", description: "Infrastructure-focused subnet tied to bandwidth and data-transfer coordination." },
+  { sn: 106, name: "VoidAI", category: "DeFi / Trading", description: "Cross-chain liquidity and wrapped-asset infrastructure." },
+  { sn: 107, name: "Minos", category: "DeSci", description: "Genomic-variant calling and biomedical benchmarking subnet." },
+  { sn: 108, name: "TalkHead", category: "Unknown", description: "No clearly confirmed public role available." },
+  { sn: 109, name: "Academia", category: "Unknown", description: "No clearly confirmed public role available." },
+  { sn: 110, name: "Rich Kids of TAO", category: "Unknown", description: "No clearly confirmed public role available." },
+  { sn: 111, name: "oneoneone", category: "AI Agents / AI Tools", description: "Decentralized AI data network focused on collecting, validating, and serving authentic user-generated content." },
+  { sn: 112, name: "minotaur", category: "DeFi / Trading", description: "AI-driven DEX aggregation and swap routing subnet." },
+  { sn: 113, name: "TensorUSD", category: "DeFi / Trading", description: "TAO-backed stablecoin and settlement-focused subnet." },
+  { sn: 114, name: "SOMA", category: "AI Agents / AI Tools", description: "Intelligence bridge connecting AI subnets through MCP-style services." },
+  { sn: 115, name: "HashiChain", category: "Unknown", description: "Name is surfaced, but the public role is not clear enough to label harder." },
+  { sn: 116, name: "TaoLend", category: "DeFi / Trading", description: "Decentralized lending infrastructure using Bittensor alpha tokens as collateral." },
+  { sn: 117, name: "BrainPlay", category: "Unknown", description: "Competitive model benchmarking built around game-based evaluation." },
+  { sn: 118, name: "HODL", category: "DeFi / Trading", description: "Long-term conviction and ETF-style portfolio subnet." },
+  { sn: 119, name: "Satori", category: "Unknown", description: "No clearly confirmed public role available." },
+  { sn: 120, name: "Affine", category: "Compute", description: "Infrastructure layer connecting and coordinating multiple subnets for scalable inference." },
+  { sn: 121, name: "sundae_bar", category: "AI Agents / AI Tools", description: "AI agent marketplace focused on incentivizing solutions to real-world problems." },
+  { sn: 122, name: "Bitrecs", category: "AI Agents / AI Tools", description: "AI recommendation engine for e-commerce personalization." },
+  { sn: 123, name: "MANTIS", category: "DeFi / Trading", description: "High-frequency BTC trading signals and incentive-aligned AI cooperation." },
+  { sn: 124, name: "Swarm", category: "Robotics", description: "Autonomous drone autopilot and embodied distributed-AI subnet." },
+  { sn: 125, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet name or role available." },
+  { sn: 126, name: "Cortex", category: "AI Agents / AI Tools", description: "Modern inference stack focused on decentralized logic and agent-based execution." },
+  { sn: 127, name: "Synergy", category: "AI Agents / AI Tools", description: "Inference orchestration layer for cross-subnet task distribution and coordination." },
+  { sn: 128, name: "Unverified", category: "Unknown", description: "Recently activated or reserved slot awaiting clear public identification." }
 ];
 
 export const BittensorSubnets: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const categories = useMemo(() => {
+    const cats = new Set(SUBNETS_DATA.map(s => s.category));
+    return ['All', ...Array.from(cats).sort()];
+  }, []);
+
+  const filteredSubnets = useMemo(() => {
+    return SUBNETS_DATA.filter(subnet => {
+      const matchesSearch = 
+        subnet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        subnet.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        subnet.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        subnet.sn.toString().includes(searchQuery);
+      
+      const matchesCategory = selectedCategory === 'All' || subnet.category === selectedCategory;
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, selectedCategory]);
+
   return (
     <div className="max-w-[1400px] mx-auto px-6 py-12 space-y-12 animate-in fade-in duration-700 pb-20">
-      <div className="flex items-center gap-4 border-b border-slate-200 dark:border-white/10 pb-8">
-        <button
-          onClick={() => window.location.hash = '#/bittensor'}
-          className="p-3 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-colors text-slate-600 dark:text-slate-300"
-        >
-          <ArrowLeft size={20} />
-        </button>
-        <div>
-          <h1 className="text-4xl md:text-5xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
-            Bittensor <span className="text-orange-600">Subnets</span>
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 font-mono text-sm uppercase tracking-widest mt-2">
-            Live network directory
-          </p>
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-slate-200 dark:border-white/10 pb-8">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => window.location.hash = '#/bittensor'}
+            className="p-3 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-colors text-slate-600 dark:text-slate-300"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <div>
+            <h1 className="text-4xl md:text-5xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
+              Bittensor <span className="text-orange-600">Subnets</span>
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400 font-mono text-sm uppercase tracking-widest mt-2">
+              Live network directory • {filteredSubnets.length} subnets
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-4 w-full lg:w-auto">
+          {/* Category Dropdown */}
+          <div className="relative w-full md:w-64">
+            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full pl-12 pr-10 py-4 bg-slate-100 dark:bg-white/5 border border-transparent focus:border-orange-500/50 rounded-2xl outline-none text-slate-900 dark:text-white appearance-none transition-all font-mono text-[10px] uppercase tracking-widest cursor-pointer"
+            >
+              {categories.map(cat => (
+                <option key={cat} value={cat} className="bg-white dark:bg-[#0b0e14] text-slate-900 dark:text-white">
+                  {cat === 'All' ? 'ALL CATEGORIES' : cat.toUpperCase()}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
+          </div>
+
+          <div className="relative w-full md:w-96">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <input
+              type="text"
+              placeholder="Search by name, SN, or role..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:border-orange-500/50 rounded-2xl outline-none text-slate-900 dark:text-white transition-all font-mono text-sm"
+            />
+            {searchQuery && (
+              <button 
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {SUBNETS_DATA.map((subnet) => (
-          <div 
-            key={subnet.sn}
-            className="group flex flex-col bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-[2rem] p-6 md:p-8 hover:border-orange-500/40 hover:shadow-2xl hover:shadow-orange-500/5 transition-all duration-300"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 flex-shrink-0 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 font-black text-lg border border-orange-500/20">
-                  {subnet.sn}
-                </div>
-                <div>
-                  <h3 className="text-xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
-                    {subnet.name}
-                  </h3>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest px-2 py-1 bg-slate-100 dark:bg-white/5 rounded-md mt-1 inline-block">
-                    {subnet.category}
-                  </span>
+
+      {filteredSubnets.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredSubnets.map((subnet) => (
+            <div 
+              key={subnet.sn}
+              className="group flex flex-col bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-[2rem] p-6 md:p-8 hover:border-orange-500/40 hover:shadow-2xl hover:shadow-orange-500/5 transition-all duration-300"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 flex-shrink-0 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 font-black text-lg border border-orange-500/20 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
+                    {subnet.sn}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
+                      {subnet.name}
+                    </h3>
+                    <span className="text-[10px] font-mono text-orange-600 dark:text-orange-400 uppercase tracking-widest px-2 py-1 bg-orange-500/5 rounded-md mt-1 inline-block">
+                      {subnet.category}
+                    </span>
+                  </div>
                 </div>
               </div>
+              
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-grow mt-2">
+                {subnet.description}
+              </p>
             </div>
-            
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-grow mt-2">
-              {subnet.description}
-            </p>
+          ))}
+        </div>
+      ) : (
+        <div className="py-20 text-center space-y-4">
+          <div className="w-20 h-20 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto text-slate-400">
+            <Filter size={32} />
           </div>
-        ))}
-      </div>
+          <div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">No subnets found</h3>
+            <p className="text-slate-500 dark:text-slate-400">Try adjusting your search or category filters.</p>
+          </div>
+          <button 
+            onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
+            className="text-orange-600 font-mono text-xs uppercase tracking-widest hover:underline"
+          >
+            Clear all filters
+          </button>
+        </div>
+      )}
     </div>
   );
 };
