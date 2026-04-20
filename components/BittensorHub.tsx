@@ -16,13 +16,18 @@ interface ToolCardProps {
   title: string;
   description: string;
   icon: React.ReactNode;
-  url: string;
+  url?: string;
+  internalRoute?: string;
   colorClass: string;
 }
 
-const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, url, colorClass }) => {
+const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, url, internalRoute, colorClass }) => {
   const handleClick = () => {
-    window.open(url, '_blank', 'noopener,noreferrer');
+    if (internalRoute) {
+      window.location.hash = internalRoute;
+    } else if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
@@ -50,7 +55,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, url, colo
       </div>
       
       <div className="mt-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 group-hover:translate-x-2 transition-transform duration-300">
-        GO TO SITE <ChevronRight size={14} />
+        {internalRoute ? 'VIEW SUBNETS' : 'GO TO SITE'} <ChevronRight size={14} />
       </div>
     </button>
   );
@@ -59,17 +64,17 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, url, colo
 export const BittensorHub: React.FC = () => {
   const tools = [
     {
+      title: 'BITTENSOR SUBNETS',
+      description: 'The complete directory of live Bittensor subnets. Dive into the utility, categories, and infrastructure powering the decentralized AI network.',
+      icon: <Layers />,
+      internalRoute: '#/bittensor-subnets',
+      colorClass: 'text-orange-500'
+    },
+    {
       title: 'TAO FLUTE',
       description: 'Comprehensive overview and analytics for Bittensor subnets.',
       icon: <Layers />,
       url: 'https://taoflute.com/d/c043704a-865a-4eaf-8d41-7ffdbcaad6c7/subnets-overview?orgId=2&from=now-6h&to=now&timezone=browser&kiosk=&var-target_subnets=$__all',
-      colorClass: 'text-orange-500'
-    },
-    {
-      title: 'BITTENSOR SUBNETS',
-      description: 'Real-time tracking of all 128 Bittensor subnets. Emissions, stake, and market dynamics in USD.',
-      icon: <Layers />,
-      url: 'https://taostats.io/subnets',
       colorClass: 'text-orange-500'
     },
     {

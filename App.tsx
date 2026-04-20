@@ -12,6 +12,7 @@ import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
 import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
 import { BittensorHub } from './components/BittensorHub.tsx';
+import { BittensorSubnets } from './components/BittensorSubnets.tsx';
 import { ContactPage } from './components/ContactPage.tsx';
 import { SendTip } from './components/SendTip.tsx';
 import { Portfolio } from './components/Portfolio.tsx';
@@ -37,6 +38,7 @@ const App: React.FC = () => {
       else if (hash === '#/cryptocoins') setCurrentView('cryptocoins');
       else if (hash === '#/tools') setCurrentView('tools');
       else if (hash === '#/bittensor') setCurrentView('bittensor');
+      else if (hash === '#/bittensor-subnets') setCurrentView('bittensor-subnets');
       else if (hash === '#/ai-history') setCurrentView('ai-history');
       else if (hash === '#/contact') setCurrentView('contact');
       else if (hash === '#/send-tip') setCurrentView('send-tip');
@@ -103,6 +105,7 @@ const App: React.FC = () => {
     );
     if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
     if (currentView === 'bittensor') return <BittensorHub />;
+    if (currentView === 'bittensor-subnets') return <BittensorSubnets />;
     if (currentView === 'contact') return <ContactPage />;
     if (currentView === 'send-tip') return <SendTip />;
     if (currentView === 'portfolio') return <Portfolio />;
