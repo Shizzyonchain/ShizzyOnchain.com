@@ -71,6 +71,13 @@ export const BittensorHub: React.FC = () => {
       colorClass: 'text-orange-500'
     },
     {
+      title: 'TAO BUBBLES',
+      description: 'Real-time visualization of Bittensor subnets and performance.',
+      icon: <Layers />,
+      url: 'https://taobubbles.net',
+      colorClass: 'text-orange-500'
+    },
+    {
       title: 'TAO FLUTE',
       description: 'Comprehensive overview and analytics for Bittensor subnets.',
       icon: <Layers />,
