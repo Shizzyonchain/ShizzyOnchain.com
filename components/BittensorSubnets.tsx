@@ -226,6 +226,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Iota", 
     category: "AI Training", 
     description: "Pretraining subnet focused on building language models across distributed compute.",
+    teamStatus: "Documented Team",
     details: {
       website: "https://macrocosmos.ai",
       github: "https://github.com/macrocosm-os/pretraining",
@@ -350,6 +351,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TAOHash", 
     category: "Infrastructure / Other", 
     description: "Network-level compute and hashing infrastructure supporting the broader system.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://taohash.com",
       github: "https://github.com/taohash/taohash-subnet",
@@ -1327,6 +1329,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Gradients", 
     category: "AI Training", 
     description: "Open training infrastructure designed to make model training more accessible on Bittensor.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://gradients.ai",
       github: "https://github.com/gradients-ai/gradients-subnet",
@@ -1352,6 +1355,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Handshake", 
     category: "AI Agents / AI Tools", 
     description: "Payment and transaction rails designed for AI agents.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://handshake58.com",
       github: "https://github.com/handshake-subnet/handshake",
@@ -1376,6 +1380,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Bitsec", 
     category: "AI Safety", 
     description: "AI-powered security subnet focused on code vulnerability detection.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://bitsec.ai",
       github: "https://github.com/bitsec-ai/bitsec-subnet",
@@ -1424,6 +1429,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Ridges", 
     category: "AI Agents / AI Tools", 
     description: "Competitive coding agents built to solve real software tasks.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://ridges.ai",
       github: "https://github.com/ridges-ai/ridges-subnet",
@@ -1448,6 +1454,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Chutes", 
     category: "Compute", 
     description: "Serverless AI compute layer built to run models at scale.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://chutes.ai",
       github: "https://github.com/chutes-ai/chutes",
@@ -1471,6 +1478,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TAO Private Network", 
     category: "Privacy / Infrastructure", 
     description: "Private network infrastructure focused on secure and geographically distributed access.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://tpn.sh",
       github: "https://github.com/tpn-subnet/tpn",
@@ -1494,6 +1502,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ninja", 
     category: "AI Agents / AI Tools", 
     description: "Coding-focused subnet aimed at solving software and engineering tasks.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://ninja.ridges.ai",
       github: "https://github.com/ridges-ai/ninja-subnet",
@@ -1542,6 +1551,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "NOVA", 
     category: "DeSci", 
     description: "Decentralized drug discovery subnet using AI to accelerate therapeutic research.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://nova-desci.com",
       github: "https://github.com/NOVA-DeSci/nova-subnet",
@@ -1591,6 +1601,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Leadpoet", 
     category: "AI Agents / AI Tools", 
     description: "AI-driven lead generation and marketing intelligence platform.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://leadpoet.ai",
       github: "https://github.com/leadpoet/leadpoet-subnet",
@@ -1664,6 +1675,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Gittensor", 
     category: "Infrastructure", 
     description: "Decentralized Git hosting and incentive layer for open-source development.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://gittensor.io",
       github: "https://github.com/gittensor/gittensor-subnet",
@@ -1687,6 +1699,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Hippius", 
     category: "Data / Storage", 
     description: "Decentralized storage and network infrastructure with IP and bandwidth management.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://hippius.com",
       github: "https://github.com/hippius-ai/hippius-subnet",
@@ -1705,12 +1718,13 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 76, name: "Byzantium", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced yet." },
+  { sn: 76, name: "Byzantium", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced yet.", teamStatus: "Undocumented Team" },
   { 
     sn: 77, 
     name: "Liquidity", 
     category: "DeFi / Trading", 
     description: "Liquidity subnet built to incentivize external pool provisioning and liquidity voting for Bittensor assets.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://liquidity.bittensor.com",
       github: "https://github.com/liquidity-subnet/liquidity",
@@ -1730,14 +1744,15 @@ const SUBNETS_DATA: Subnet[] = [
     }
   },
   { sn: 78, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
-  { sn: 79, name: "MVTRX", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
-  { sn: 80, name: "dogelayer", category: "Mining", description: "Mining pool subnet connecting Scrypt miners to Bittensor through merged LTC/DOGE mining." },
-  { sn: 81, name: "deprecated", category: "Deprecated", description: "Subnet is no longer active." },
+  { sn: 79, name: "MVTRX", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough.", teamStatus: "Undocumented Team" },
+  { sn: 80, name: "dogelayer", category: "Mining", description: "Mining pool subnet connecting Scrypt miners to Bittensor through merged LTC/DOGE mining.", teamStatus: "Undocumented Team" },
+  { sn: 81, name: "deprecated", category: "Deprecated", description: "Subnet is no longer active.", teamStatus: "Undocumented Team" },
   { 
     sn: 82, 
     name: "Hermes", 
     category: "Data", 
     description: "Decentralized query layer that lets AI agents access blockchain data through structured GraphQL-style queries.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://hermes-subnet.ai",
       github: "https://github.com/hermes-subnet/hermes",
@@ -1761,6 +1776,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "CliqueAI", 
     category: "AI Agents / AI Tools", 
     description: "Distributed AI subnet focused on solving maximum-clique and graph-optimization problems.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://cliqueai.com",
       github: "https://github.com/cliqueai/cliqueai-subnet",
@@ -1829,7 +1845,7 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 86, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { sn: 86, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
   { 
     sn: 87, 
     name: "Luminar Network", 
@@ -1930,7 +1946,7 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 91, name: "Bitstarter #1", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
+  { sn: 91, name: "Bitstarter #1", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough.", teamStatus: "Undocumented Team" },
   { 
     sn: 92, 
     name: "Tensor Claw", 
@@ -1981,9 +1997,9 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 94, name: "Bitsota", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
+  { sn: 94, name: "Bitsota", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough.", teamStatus: "Undocumented Team" },
   { sn: 95, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
-  { sn: 96, name: "FLock OFF", category: "Unknown", description: "Live subnet with a confirmed name, but the current public role is not surfaced cleanly enough." },
+  { sn: 96, name: "FLock OFF", category: "Unknown", description: "Live subnet with a confirmed name, but the current public role is not surfaced cleanly enough.", teamStatus: "Undocumented Team" },
   { 
     sn: 97, 
     name: "distil", 
@@ -2084,13 +2100,13 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 101, name: "Subnet 101", category: "Unknown", description: "No clearly confirmed public role available." },
+  { sn: 101, name: "Subnet 101", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Undocumented Team" },
   { 
     sn: 102, 
     name: "ConnitoAI", 
     category: "AI Training", 
     description: "Decentralized model training subnet.",
-    teamStatus: "Undocumented Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://connito.ai",
       github: "https://github.com/connito-ai/connito-subnet",
@@ -2135,7 +2151,7 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 104, name: "for sale (burn to uid1)", category: "Unknown", description: "Listed as for sale rather than a normal branded subnet." },
+  { sn: 104, name: "for sale (burn to uid1)", category: "Unknown", description: "Listed as for sale rather than a normal branded subnet.", teamStatus: "Undocumented Team" },
   { 
     sn: 105, 
     name: "Beam", 
@@ -2314,7 +2330,7 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 115, name: "HashiChain", category: "Unknown", description: "Name is surfaced, but the public role is not clear enough to label harder." },
+  { sn: 115, name: "HashiChain", category: "Unknown", description: "Name is surfaced, but the public role is not clear enough to label harder.", teamStatus: "Undocumented Team" },
   { 
     sn: 116, 
     name: "TaoLend", 
@@ -2365,7 +2381,7 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 118, name: "HODL", category: "DeFi / Trading", description: "Long-term conviction and ETF-style portfolio subnet." },
+  { sn: 118, name: "HODL", category: "DeFi / Trading", description: "Long-term conviction and ETF-style portfolio subnet.", teamStatus: "Undocumented Team" },
   { 
     sn: 119, 
     name: "Satori", 
@@ -2471,6 +2487,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "MANTIS", 
     category: "DeFi / Trading", 
     description: "High-frequency BTC trading signals and incentive-aligned AI cooperation.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://mantis.ai",
       github: "https://github.com/mantis-ai/mantis-subnet",
@@ -2495,6 +2512,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Swarm", 
     category: "Robotics", 
     description: "Autonomous drone autopilot and embodied distributed-AI subnet.",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://swarm-robotics.ai",
       github: "https://github.com/swarm-robotics/swarm-subnet",
