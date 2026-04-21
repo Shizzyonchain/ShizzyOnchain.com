@@ -32,19 +32,19 @@ export const OVERVIEW_CONTENT = {
     title: '',
     cards: [
       {
-        title: 'COVENANT AI JUST CALLED OUT BITTENSOR AND LEFT. TEMPLAR TO 0?',
+        title: 'BITTENSOR SUBNET UPDATE | SUBNETS TAKING OVER DEPIN?',
         category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/nXykq3tHv5c'
+        link: 'https://www.youtube.com/embed/-Yn6AYfNOVI'
       },
       {
-        title: 'TAO VOLATILITY, TEMPLAR DUMP, AND BITTENSOR’S NEXT MOVE',
+        title: 'TAO FALLING OFF A CLIFF! REBOUND SOON?',
         category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/ADTmw1DGuS8'
+        link: 'https://www.youtube.com/embed/YC-E7LDxWy0'
       },
       {
-        title: 'TAO ETF, SUBNET RISK, AND THE FUTURE OF DECENTRALIZED AI',
+        title: 'BITTENSOR IS HEATING UP, RIDGES GOES SILENT, AND CHUTES BREAKS THROUGH',
         category: 'BITTENSOR',
-        link: 'https://www.youtube.com/embed/OLZOXa5XkUw'
+        link: 'https://www.youtube.com/embed/9IWhkrH4zoA'
       }
     ]
   },

@@ -18,6 +18,27 @@ export const youtubeService = {
       return {
         lives: [
           {
+            id: '-Yn6AYfNOVI',
+            title: 'Bittensor Subnet Update | Subnets Taking Over DePIN?',
+            thumbnail: 'https://img.youtube.com/vi/-Yn6AYfNOVI/maxresdefault.jpg',
+            url: 'https://youtu.be/-Yn6AYfNOVI',
+            type: 'live'
+          },
+          {
+            id: 'YC-E7LDxWy0',
+            title: 'TAO Falling Off a Cliff! Rebound Soon?',
+            thumbnail: 'https://img.youtube.com/vi/YC-E7LDxWy0/maxresdefault.jpg',
+            url: 'https://youtu.be/YC-E7LDxWy0',
+            type: 'live'
+          },
+          {
+            id: '9IWhkrH4zoA',
+            title: 'Bittensor Is Heating Up, Ridges Goes Silent, and Chutes Breaks Through',
+            thumbnail: 'https://img.youtube.com/vi/9IWhkrH4zoA/maxresdefault.jpg',
+            url: 'https://youtu.be/9IWhkrH4zoA',
+            type: 'live'
+          },
+          {
             id: 'nXykq3tHv5c',
             title: 'Covenant AI Just Called Out Bittensor And Left. Templar to 0?',
             thumbnail: 'https://img.youtube.com/vi/nXykq3tHv5c/maxresdefault.jpg',

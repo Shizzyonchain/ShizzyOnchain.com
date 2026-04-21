@@ -8,6 +8,36 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: '-Yn6AYfNOVI',
+    title: 'BITTENSOR SUBNET UPDATE | SUBNETS TAKING OVER DEPIN?',
+    url: 'https://youtu.be/-Yn6AYfNOVI',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-21T15:00:00Z',
+    image_url: 'https://img.youtube.com/vi/-Yn6AYfNOVI/maxresdefault.jpg',
+    excerpt: `Bittensor Subnet Update | Subnets Taking Over DePIN?`,
+    tags: ['Bittensor', 'DePIN', 'Subnet']
+  },
+  {
+    id: 'YC-E7LDxWy0',
+    title: 'TAO FALLING OFF A CLIFF! REBOUND SOON?',
+    url: 'https://youtu.be/YC-E7LDxWy0',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-21T14:00:00Z',
+    image_url: 'https://img.youtube.com/vi/YC-E7LDxWy0/maxresdefault.jpg',
+    excerpt: `TAO Falling Off a Cliff! Rebound Soon?`,
+    tags: ['Bittensor', 'TAO', 'Markets']
+  },
+  {
+    id: '9IWhkrH4zoA',
+    title: 'BITTENSOR IS HEATING UP, RIDGES GOES SILENT, AND CHUTES BREAKS THROUGH',
+    url: 'https://youtu.be/9IWhkrH4zoA',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-21T13:00:00Z',
+    image_url: 'https://img.youtube.com/vi/9IWhkrH4zoA/maxresdefault.jpg',
+    excerpt: `Bittensor Is Heating Up, Ridges Goes Silent, and Chutes Breaks Through`,
+    tags: ['Bittensor', 'Ridges', 'Chutes']
+  },
+  {
     id: 'nXykq3tHv5c',
     title: 'COVENANT AI JUST CALLED OUT BITTENSOR AND LEFT. TEMPLAR TO 0?',
     url: 'https://youtu.be/nXykq3tHv5c',

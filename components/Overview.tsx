@@ -76,8 +76,8 @@ export const Overview: React.FC = () => {
                 className="flex flex-wrap items-center justify-center gap-3 pt-6"
               >
                 {[
-                  { label: "VIDEOS", href: "#/ainews" },
-                  { label: "BITTENSOR", href: "#/bittensor" },
+                  { label: "VIDEOS", href: "#/videos" },
+                  { label: "BITTENSOR", href: "#/bittensor-subnets" },
                   { label: "PORTFOLIO", href: "#/portfolio" },
                   { label: "TOOLS", href: "#/tools" }
                 ].map((pill, i) => (
