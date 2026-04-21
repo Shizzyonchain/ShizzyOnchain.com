@@ -65,29 +65,34 @@ export const VideosFeed: React.FC = () => {
                 href={video.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group relative block w-full aspect-video rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 bg-black shadow-2xl transition-all hover:border-orange-500/50"
+                className="group flex flex-col space-y-6 bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-6 hover:border-orange-500/30 transition-all hover:shadow-2xl hover:shadow-orange-500/5"
               >
-                <img 
-                  src={video.thumbnail} 
-                  alt={video.title}
-                  className="w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-1000"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                
-                <div className="absolute inset-0 flex items-center justify-center">
-                   <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-orange-600 text-white flex items-center justify-center shadow-2xl shadow-orange-500/50 group-hover:scale-110 transition-transform duration-500">
-                      <Play size={32} fill="currentColor" className="ml-2" />
-                   </div>
+                <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-lg">
+                  <img 
+                    src={video.thumbnail} 
+                    alt={video.title}
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-orange-600 text-white flex items-center justify-center shadow-2xl shadow-orange-500/50">
+                        <Play size={28} fill="currentColor" className="ml-1.5" />
+                     </div>
+                  </div>
                 </div>
 
-                <div className="absolute bottom-8 left-8 right-8 space-y-4">
-                   <span className="px-3 py-1.5 bg-orange-600 text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-xl font-mono">
-                     {index === 0 ? 'LATEST UPLOAD' : 'RECENT UPLOAD'}
-                   </span>
-                   <h2 className="text-2xl md:text-4xl font-black text-white font-space uppercase italic tracking-tighter leading-none group-hover:text-orange-400 transition-colors line-clamp-3">
+                <div className="space-y-4 px-2">
+                   <div className="flex items-center">
+                     <span className="px-3 py-1.5 bg-orange-600/10 text-orange-600 text-[9px] font-black uppercase tracking-widest rounded-lg font-mono border border-orange-600/20">
+                       {index === 0 ? 'LATEST UPLOAD' : 'RECENT UPLOAD'}
+                     </span>
+                   </div>
+                   <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white font-space uppercase italic tracking-tighter leading-tight group-hover:text-orange-500 transition-colors line-clamp-3">
                      {video.title}
                    </h2>
+                   <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-orange-400 transition-colors pt-2">
+                     Watch Breakdown <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                   </div>
                 </div>
               </a>
             ))}

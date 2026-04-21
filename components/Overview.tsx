@@ -43,17 +43,7 @@ export const Overview: React.FC = () => {
               {hero.subheadline}
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-6 pt-8">
-              <a 
-                href={SOCIAL_LINKS.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-16 py-6 bg-[#FF6321] text-white rounded-2xl text-lg font-black uppercase tracking-[0.2em] font-edo italic hover:bg-[#E5591D] hover:scale-105 transition-all shadow-2xl shadow-orange-500/40 flex items-center gap-4 text-outline"
-              >
-                <Zap size={24} className="fill-current" />
-                JOIN COMMUNITY
-              </a>
-              
+            <div className="flex flex-col items-center justify-center pt-8">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -62,33 +52,31 @@ export const Overview: React.FC = () => {
               >
                 <img 
                   src="https://i.postimg.cc/Bn74GKFX/Untitled-(500-x-200-mm).png" 
-                  alt="SHIZZY UNCHAINED" 
-                  className="w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(255,99,33,0.3)]"
+                  alt="UNCHAINED INSIDERS" 
+                  className="w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(255,99,33,0.3)] mb-4"
                   referrerPolicy="no-referrer"
                 />
               </motion.div>
 
-              {/* Quick-Link Pills */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
-                className="flex flex-wrap items-center justify-center gap-3 pt-6"
+                className="flex flex-col items-center gap-8 max-w-2xl mx-auto px-4"
               >
-                {[
-                  { label: "VIDEOS", href: "#/videos" },
-                  { label: "BITTENSOR", href: "#/bittensor-subnets" },
-                  { label: "PORTFOLIO", href: "#/portfolio" },
-                  { label: "TOOLS", href: "#/tools" }
-                ].map((pill, i) => (
-                  <a 
-                    key={i} 
-                    href={pill.href}
-                    className="px-6 py-2.5 rounded-full border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/5 text-slate-700 dark:text-slate-300 text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] font-space backdrop-blur-md hover:border-orange-500/50 hover:bg-orange-500/10 hover:text-orange-500 dark:hover:text-orange-400 transition-all shadow-sm"
-                  >
-                    {pill.label}
-                  </a>
-                ))}
+                <p className="text-slate-500 dark:text-slate-400 font-medium text-sm md:text-lg leading-relaxed text-center">
+                  The premier Bittensor alpha group on Telegram. Get exclusive subnet analysis and high-signal market intelligence before the crowd.
+                </p>
+
+                <a 
+                  href={SOCIAL_LINKS.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-12 md:px-16 py-5 md:py-6 bg-[#FF6321] text-white rounded-2xl text-base md:text-lg font-black uppercase tracking-[0.2em] font-edo italic hover:bg-[#E5591D] hover:scale-105 transition-all shadow-2xl shadow-orange-500/40 flex items-center gap-4 text-outline"
+                >
+                  <Zap size={24} className="fill-current" />
+                  JOIN THE ALPHA
+                </a>
               </motion.div>
             </div>
           </motion.div>

@@ -380,7 +380,7 @@ const SUBNETS_DATA: Subnet[] = [
     details: {
       website: "https://oroagents.com",
       github: "https://github.com/ORO-Agents/oro-subnet",
-      twitter: "https://x.com/ORO_Agents",
+      twitter: "https://x.com/oroagents",
       extendedDescription: "ORO is an agentic platform designed to bring AI to the real world of commerce and tasks. It incentivizes agents that can handle payments, logistics, and user actions on external websites, creating a decentralized 'Automator of Everything'.",
       partnerships: [
         "E-Commerce Integration Partners",
