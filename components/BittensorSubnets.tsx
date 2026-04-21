@@ -16,7 +16,7 @@ interface Subnet {
   name: string;
   category: string;
   description: string;
-  teamStatus?: "Public Team" | "Pseudonymous" | "Anonymous";
+  teamStatus?: "Documented Team" | "Undocumented Team";
   details?: SubnetDetails;
 }
 
@@ -26,7 +26,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Apex", 
     category: "AI Agents / AI Tools", 
     description: "Decentralized AI agent infrastructure built for real usage, inference, and task execution.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://macrocosmos.ai",
       github: "https://github.com/macrocosm-os/prompting",
@@ -51,7 +51,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "DSperse", 
     category: "Compute", 
     description: "Distributed compute layer powering decentralized AI inference across the network.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://dsperse.com",
       github: "https://github.com/dsperse/dsperse-subnet",
@@ -76,7 +76,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Teutonic", 
     category: "AI Training", 
     description: "AI training subnet using market-driven incentives to improve model performance.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://teutonic.ai",
       github: "https://github.com/teutonical/teutonic-subnet",
@@ -101,7 +101,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Targon", 
     category: "Compute", 
     description: "Scalable GPU compute and inference infrastructure for real-world AI applications.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://manifold.inc",
       github: "https://github.com/manifold-inc/targon",
@@ -126,7 +126,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Hone", 
     category: "AI Training", 
     description: "Training systems focused on improving reasoning and advancing model intelligence.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://hone.ai",
       github: "https://github.com/hone-ai/hone-subnet",
@@ -151,7 +151,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Numinous", 
     category: "Predictive Systems", 
     description: "AI agents competing to generate high-quality forecasts and real-world predictions.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://numinous.ai",
       github: "https://github.com/numinous-ai/numinous",
@@ -176,7 +176,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Always", 
     category: "Infrastructure / Other", 
     description: "Decentralized cloud infrastructure and ultra-low latency relays powering the next generation of AI applications.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://always.ai",
       github: "https://github.com/always-ai/always",
@@ -201,7 +201,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Vanta", 
     category: "DeFi / Trading", 
     description: "Decentralized trading infrastructure for liquidity, execution, and market activity.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://taoshi.io",
       github: "https://github.com/taoshifine/vanta",
@@ -250,7 +250,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Swap", 
     category: "DeFi / Trading", 
     description: "Decentralized liquidity and automated market making (AMM) infrastructure optimized for high-speed trading.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://swap.bittensor.com",
       github: "https://github.com/Swap-Subnet/swap",
@@ -275,7 +275,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TrajectoryRL", 
     category: "AI Training", 
     description: "Reinforcement learning subnet improving agent behavior through competition.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://trajectory.ai",
       github: "https://github.com/trajectory-rl/trajectory-subnet",
@@ -300,7 +300,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Compute Horde", 
     category: "Compute", 
     description: "Decentralized GPU marketplace supplying compute for AI training and inference.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://computehorde.io",
       github: "https://github.com/backend-developers-ltd/compute-horde",
@@ -325,7 +325,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Data Universe", 
     category: "Data", 
     description: "Large-scale decentralized data layer powering AI training and aggregation.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://macrocosmos.ai",
       github: "https://github.com/macrocosm-os/data-universe",
@@ -374,7 +374,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ORO", 
     category: "AI Agents / AI Tools", 
     description: "Agent platform focused on real-world actions like commerce and task execution.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://oroagents.com",
       github: "https://github.com/ORO-Agents/oro-subnet",
@@ -399,7 +399,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "BitAds", 
     category: "AI Agents / AI Tools", 
     description: "AI-powered advertising system focused on verified actions and conversion tracking.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://bitads.ai",
       github: "https://github.com/ese-enterprise/bitads-subnet",
@@ -424,7 +424,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "404-GEN", 
     category: "Generative AI", 
     description: "Generative AI subnet producing synthetic content across digital environments.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://404.gen",
       github: "https://github.com/404-gen/generative-subnet",
@@ -449,7 +449,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Zeus", 
     category: "Predictive Systems", 
     description: "Decentralized forecasting system focused on market analysis and environmental prediction.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://taoshi.io",
       github: "https://github.com/taoshifine/zeus",
@@ -474,7 +474,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "BlockMachine", 
     category: "Inference / Multimodal", 
     description: "High-performance multi-modal inference and visual reasoning subnet powering the next generation of decentralized intelligence.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://blockmachine.ai",
       github: "https://github.com/Omega-Labs-Inc/blockmachine",
@@ -499,7 +499,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "GroundLayer", 
     category: "AI Agents / AI Tools", 
     description: "Evaluation and tooling layer for language model agents performing real tasks.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://groundlayer.xyz",
       github: "https://github.com/groundlayer/groundlayer-subnet",
@@ -524,7 +524,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ADTAO", 
     category: "AI Training / AdTech", 
     description: "AI-driven optimization subnet focused on improving ad performance and delivery.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://adtao.ai",
       github: "https://github.com/adtao/adtao-subnet",
@@ -549,7 +549,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Desearch", 
     category: "AI Tools", 
     description: "Decentralized search engine powered by Bittensor, providing open and privacy-focused search results.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://desearch.ai",
       github: "https://github.com/desearch-ai/desearch",
@@ -574,7 +574,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Trishool", 
     category: "AI Safety", 
     description: "AI safety subnet focused on alignment, monitoring, and secure model behavior.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://trishool.ai",
       github: "https://github.com/trishool-ai/safety-subnet",
@@ -599,7 +599,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Quasar", 
     category: "AI Agents / AI Tools", 
     description: "Long-context AI subnet built for deep reasoning and extended memory tasks.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://quasar.ai",
       github: "https://github.com/quasar-ai/quasar-subnet",
@@ -624,7 +624,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Mainframe", 
     category: "Infrastructure / Other", 
     description: "Core infrastructure subnet supporting foundational network services.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://bitstarter.ai",
       github: "https://github.com/bitstarter/mainframe-subnet",
@@ -649,7 +649,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Beqar", 
     category: "Inference / Multimodal", 
     description: "Multi-modal inference subnet specializing in image-to-text and visual understanding at scale.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://beqar.ai",
       github: "https://github.com/beqar-ai/beqar",
@@ -674,7 +674,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Nodexo", 
     category: "Compute", 
     description: "Universal GPU compute orchestration and decentralized infrastructure optimized for AI training and inference.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://nodexo.ai",
       github: "https://github.com/nodexo/nodexo",
@@ -699,7 +699,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "GM", 
     category: "Predictive Systems", 
     description: "Decentralized prediction markets for global financial assets and real-time market sentiment.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://gm.ai",
       github: "https://github.com/vogel-core/gm-subnet",
@@ -724,7 +724,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "coldint", 
     category: "Compute", 
     description: "Decentralized cloud computing and high-performance inference marketplace.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://coldint.io",
       github: "https://github.com/coldint/coldint-subnet",
@@ -749,7 +749,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Pending", 
     category: "AI Data / Labeling", 
     description: "High-fidelity data labeling and human-in-the-loop validation for AI training.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://pending.ai",
       github: "https://github.com/pending-ai/pending-subnet",
@@ -774,7 +774,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "halftime", 
     category: "Predictive Systems", 
     description: "Sports forecasting and predictive performance marketplace using ensemble-AI strategies.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://halftime.ai",
       github: "https://github.com/halftime-ai/halftime-subnet",
@@ -799,7 +799,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ItS-AI", 
     category: "AI Safety", 
     description: "Detection and verification layer for identifying AI-generated content.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://its-ai.io",
       github: "https://github.com/its-ai-subnet/its-ai",
@@ -824,7 +824,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Ready AI", 
     category: "AI Tools", 
     description: "Decentralized AI toolkit and inference layer for edge-computed visual and audio intelligence.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://ready.ai",
       github: "https://github.com/ready-ai/ready-ai-subnet",
@@ -849,7 +849,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "BitMind", 
     category: "AI Safety", 
     description: "Detection and classification of AI-generated media and deepfakes.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://bitmind.ai",
       github: "https://github.com/bitmind-ai/bitmind-subnet",
@@ -874,7 +874,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "OxMarkets", 
     category: "DeFi / Trading", 
     description: "AI-powered decentralized trading platform for managing liquidity and execution.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://0xmarkets.io",
       github: "https://github.com/0xmarkets/0xmarkets-subnet",
@@ -894,13 +894,13 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 36, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
+  { sn: 36, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
   { 
     sn: 37, 
     name: "Aurelius", 
     category: "Data", 
     description: "Adversarial dataset validation improving training data quality.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://proximity.tech",
       github: "https://github.com/btclayer2/aurelius",
@@ -925,7 +925,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Colosseum", 
     category: "AI Training", 
     description: "Decentralized competition for training world-class LLMs and synthetic agents.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://macrocosmos.ai",
       github: "https://github.com/macrocosmos/colosseum",
@@ -945,13 +945,13 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 39, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
+  { sn: 39, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
   { 
     sn: 40, 
     name: "Chucking", 
     category: "AI Training", 
     description: "Decentralized machine learning and optimization for efficient model training.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://chucking.ai",
       github: "https://github.com/Chucking-Subnet/chucking",
@@ -976,7 +976,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Almanac", 
     category: "Predictive Systems", 
     description: "AI-driven forecasting platform focused on sports and event outcomes.",
-    teamStatus: "Anonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://almanac.ai",
       github: "https://github.com/Almanac-Subnet/almanac",
@@ -996,13 +996,13 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 42, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
+  { sn: 42, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
   { 
     sn: 43, 
     name: "Graphite", 
     category: "AI Training", 
     description: "Competitive training environment for high-accuracy large language models.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://graphite.ai",
       github: "https://github.com/graphite-ai/graphite",
@@ -1027,7 +1027,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Score", 
     category: "Vision Models", 
     description: "Large-scale vision models trained to understand real-world visual data.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://score.ai",
       github: "https://github.com/Score-Subnet/score-subnet",
@@ -1052,7 +1052,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Talisman AI", 
     category: "DeFi / Trading", 
     description: "Wallet intelligence evolving into AI-driven command and execution systems.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://talisman.xyz",
       github: "https://github.com/Talisman-AI/talisman-subnet",
@@ -1077,7 +1077,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "RESI", 
     category: "Data", 
     description: "Real estate data network powering AI-driven valuation and analysis.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://resi.ai",
       github: "https://github.com/Resi-Subnet/resi-subnet",
@@ -1102,7 +1102,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Evolai", 
     category: "AI Services", 
     description: "Decentralized evolutionary AI and adaptive model optimization platform.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://evolai.ai",
       github: "https://github.com/evolai/evolai-subnet",
@@ -1127,7 +1127,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Quantum", 
     category: "Compute", 
     description: "Marketplace for quantum compute circuits and experimental workloads.",
-    teamStatus: "Anonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://quantum.ai",
       github: "https://github.com/quantum-subnet/quantum",
@@ -1152,7 +1152,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Nepher", 
     category: "Robotics", 
     description: "Simulation environment for training AI in physical and autonomous systems.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://nepher.ai",
       github: "https://github.com/Nepher-AI/nepher-subnet",
@@ -1177,7 +1177,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Synth", 
     category: "Predictive Systems", 
     description: "Probabilistic forecasting across crypto and traditional markets.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://synthdata.co",
       github: "https://github.com/synth-forecasting/synth-subnet",
@@ -1202,7 +1202,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "lium.io", 
     category: "Compute", 
     description: "Decentralized compute and GPU marketplace for AI workloads.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://lium.io",
       github: "https://github.com/Lium-Labs/lium-subnet",
@@ -1227,7 +1227,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Dojo", 
     category: "Data", 
     description: "Human feedback and data collection subnet focused on improving AI training quality.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://oakresearch.io",
       github: "https://github.com/tensorplex-labs/dojo",
@@ -1252,7 +1252,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Efficient Frontier", 
     category: "DeFi / Trading", 
     description: "AI-driven trading subnet built around risk-weighted market strategies.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://ef.ai",
       github: "https://github.com/efficient-frontier/ef-subnet",
@@ -1277,7 +1277,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Yanez", 
     category: "AI Compliance", 
     description: "Decentralized regulatory compliance and automated identity verification layer.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://yanez.ai",
       github: "https://github.com/yanez-bt/yanez",
@@ -1302,7 +1302,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Niome", 
     category: "AI Data / Labeling", 
     description: "Decentralized data collection and annotation platform for fine-tuning frontier models.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://niome.ai",
       github: "https://github.com/niome-subnet/niome",
@@ -1399,7 +1399,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "The RedTeam", 
     category: "AI Safety", 
     description: "Adversarial stress-testing and safety auditing for large language models.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://theredteam.io",
       github: "https://github.com/the-redteam/redteam-subnet",
@@ -1517,7 +1517,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Harnyx", 
     category: "Compute / AI Training", 
     description: "Decentralized compute and model training orchestration for the next generation of AI.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://harnyx.ai",
       github: "https://github.com/harnyx/harnyx",
@@ -1566,7 +1566,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Nexis Gen", 
     category: "AI Agents / AI Tools", 
     description: "Decentralized intelligence layer for personalized AI and agentic automation.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://nexisgen.ai",
       github: "https://github.com/nexis-gen/nexis-subnet",
@@ -1614,7 +1614,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "StreetVision", 
     category: "Vision Models / Data", 
     description: "Real-world visual intelligence layer powered by decentralized mobile sensor data.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://natix.network",
       github: "https://github.com/NATIX-Network/streetvision",
@@ -1639,7 +1639,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Meta Hash", 
     category: "Compute / Mining", 
     description: "Multivariate hashing and compute optimization network for decentralized proof-of-work.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://metahash73.com",
       github: "https://github.com/metahash-subnet/metahash",
@@ -1729,7 +1729,7 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 78, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
+  { sn: 78, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
   { sn: 79, name: "MVTRX", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
   { sn: 80, name: "dogelayer", category: "Mining", description: "Mining pool subnet connecting Scrypt miners to Bittensor through merged LTC/DOGE mining." },
   { sn: 81, name: "deprecated", category: "Deprecated", description: "Subnet is no longer active." },
@@ -1784,7 +1784,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ChipForge (Tatsu)", 
     category: "Infrastructure / Hardware", 
     description: "Decentralized hardware design subnet where miners compete to design real silicon components.",
-    teamStatus: "Public Team",
+    teamStatus: "Documented Team",
     details: {
       website: "https://tatsuecosystem.io",
       github: "https://github.com/tatsu-ecosystem/chipforge",
@@ -1809,7 +1809,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Vidaio", 
     category: "Generative AI", 
     description: "AI video processing subnet focused on upscaling, optimization, and higher-quality video output.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://vidaio.io",
       github: "https://github.com/vidaio/vidaio-subnet",
@@ -1835,7 +1835,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Luminar Network", 
     category: "Compute / Inference", 
     description: "Decentralized inference and LLM hosting infrastructure for the Bittensor network.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://luminar.network",
       github: "https://github.com/luminar-network/luminar",
@@ -1860,7 +1860,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Investing", 
     category: "DeFi / Trading", 
     description: "Decentralized asset management subnet using human and AI quant strategies.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://investing.bittensor.com",
       github: "https://github.com/investing-subnet/investing",
@@ -1885,7 +1885,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "InfiniteHash", 
     category: "Mining", 
     description: "Bitcoin mining subnet combining decentralized mining with Lightning Network infrastructure.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://infinitehash.io",
       github: "https://github.com/infinitehash/infinitehash-subnet",
@@ -1910,7 +1910,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Brain", 
     category: "Predictive Systems", 
     description: "Subnet focused on validating prediction-market outcomes through decentralized verification.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://subnet90.com",
       github: "https://github.com/brain-subnet/brain",
@@ -1936,7 +1936,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Tensor Claw", 
     category: "Data / Scraping", 
     description: "Large-scale decentralized web scraping and data crawling platform.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://tensorclaw.ai",
       github: "https://github.com/Tensor-Claw/tensor-claw",
@@ -1961,7 +1961,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Bitcast", 
     category: "Creator Economy", 
     description: "Connects creators with brands and rewards content through decentralized incentives.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://bitcast.ai",
       github: "https://github.com/bitcast-ai/bitcast-subnet",
@@ -1982,14 +1982,14 @@ const SUBNETS_DATA: Subnet[] = [
     }
   },
   { sn: 94, name: "Bitsota", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
-  { sn: 95, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
+  { sn: 95, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Undocumented Team" },
   { sn: 96, name: "FLock OFF", category: "Unknown", description: "Live subnet with a confirmed name, but the current public role is not surfaced cleanly enough." },
   { 
     sn: 97, 
     name: "distil", 
     category: "AI Training", 
     description: "Model distillation subnet where miners compete to replicate frontier-model behavior.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://distil.ai",
       github: "https://github.com/distil-ai/distil-subnet",
@@ -2014,7 +2014,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ForeverMoney", 
     category: "DeFi / Trading", 
     description: "AI-managed liquidity subnet optimizing Uniswap V3 and Aerodrome positions through competitive strategies.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://forevermoney.ai",
       github: "https://github.com/forever-money/forever-money-subnet",
@@ -2039,7 +2039,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Leoma", 
     category: "Generative AI", 
     description: "AI video generation subnet focused on text-and-image-to-video workflows.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://leoma.ai",
       github: "https://github.com/leoma-ai/leoma-subnet",
@@ -2064,7 +2064,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Plaτform", 
     category: "AI Research Infrastructure", 
     description: "Decentralized AI evaluation framework built around challenge-based assessment and secure execution.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://platform.ai",
       github: "https://github.com/platform-ai/platform-subnet",
@@ -2090,7 +2090,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ConnitoAI", 
     category: "AI Training", 
     description: "Decentralized model training subnet.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://connito.ai",
       github: "https://github.com/connito-ai/connito-subnet",
@@ -2115,7 +2115,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Djinn", 
     category: "AI Agents / AI Tools", 
     description: "Encrypted sports signals marketplace with verifiable performance and escrow-backed settlement.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://djinn.ai",
       github: "https://github.com/djinn-ai/djinn-subnet",
@@ -2141,7 +2141,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Beam", 
     category: "Compute", 
     description: "Infrastructure-focused subnet tied to bandwidth and data-transfer coordination.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://beam.ai",
       github: "https://github.com/beam-ai/beam-subnet",
@@ -2166,7 +2166,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "VoidAI", 
     category: "DeFi / Trading", 
     description: "Cross-chain liquidity and wrapped-asset infrastructure.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://voidai.com",
       github: "https://github.com/voidai-subnet/voidai",
@@ -2191,7 +2191,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Minos", 
     category: "DeSci", 
     description: "Genomic-variant calling and biomedical benchmarking subnet.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://theminos.ai",
       github: "https://github.com/theminos/minos-subnet",
@@ -2211,15 +2211,15 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 108, name: "TalkHead", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Anonymous" },
-  { sn: 109, name: "Academia", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Anonymous" },
-  { sn: 110, name: "Rich Kids of TAO", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Anonymous" },
+  { sn: 108, name: "TalkHead", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Undocumented Team" },
+  { sn: 109, name: "Academia", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Undocumented Team" },
+  { sn: 110, name: "Rich Kids of TAO", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Undocumented Team" },
   { 
     sn: 111, 
     name: "oneoneone", 
     category: "AI Agents / AI Tools", 
     description: "Decentralized AI data network focused on collecting, validating, and serving authentic user-generated content.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://oneoneone.io",
       github: "https://github.com/oneoneone-ai/oneoneone-subnet",
@@ -2244,7 +2244,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "minotaur", 
     category: "DeFi / Trading", 
     description: "AI-driven DEX aggregation and swap routing subnet.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://minotaur.ai",
       github: "https://github.com/minotaur-ai/minotaur-subnet",
@@ -2269,7 +2269,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TensorUSD", 
     category: "DeFi / Trading", 
     description: "TAO-backed stablecoin and settlement-focused subnet.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://tensorusd.com",
       github: "https://github.com/tensorusd/tensorusd-subnet",
@@ -2294,7 +2294,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "SOMA", 
     category: "AI Agents / AI Tools", 
     description: "Intelligence bridge connecting AI subnets through MCP-style services.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://thesoma.ai",
       github: "https://github.com/soma-ai/soma-subnet",
@@ -2320,7 +2320,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TaoLend", 
     category: "DeFi / Trading", 
     description: "Decentralized lending infrastructure using Bittensor alpha tokens as collateral.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://taolend.ai",
       github: "https://github.com/taolend/taolend-subnet",
@@ -2345,7 +2345,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "BrainPlay", 
     category: "Unknown", 
     description: "Competitive model benchmarking built around game-based evaluation.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://brainplay.ai",
       github: "https://github.com/brainplay-ai/brainplay-subnet",
@@ -2371,7 +2371,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Satori", 
     category: "Predictive Systems", 
     description: "Decentralized time-series forecasting focused on global economic and energy data.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://satorilab.ai",
       github: "https://github.com/satorilab/satori-subnet",
@@ -2396,7 +2396,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Affine", 
     category: "Compute", 
     description: "Infrastructure layer connecting and coordinating multiple subnets for scalable inference.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://affine.ai",
       github: "https://github.com/affine-subnet/affine",
@@ -2421,7 +2421,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "sundae_bar", 
     category: "AI Agents / AI Tools", 
     description: "AI agent marketplace focused on incentivizing solutions to real-world problems.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://sundaebar.ai",
       github: "https://github.com/sundaebar-ai/sundaebar-subnet",
@@ -2446,7 +2446,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Bitrecs", 
     category: "AI Agents / AI Tools", 
     description: "AI recommendation engine for e-commerce personalization.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://bitrecs.ai",
       github: "https://github.com/bitrecs-ai/bitrecs-subnet",
@@ -2519,7 +2519,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "8ball", 
     category: "Predictive Systems", 
     description: "Decentralized wagering and prediction-market infrastructure on Bittensor.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://8ball.ai",
       github: "https://github.com/8ball-subnet/8ball",
@@ -2544,7 +2544,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "poker44", 
     category: "AI Training", 
     description: "Competitive training and validation for high-level poker agents.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://poker44.net",
       github: "https://github.com/poker44/poker44-subnet",
@@ -2569,7 +2569,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Astrid", 
     category: "AI Agents / AI Tools", 
     description: "Personalized AI assistants and decentralized agentic orchestration.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://astrid.ai",
       github: "https://github.com/astrid-ai/astrid-subnet",
@@ -2594,7 +2594,7 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ByteLeap", 
     category: "Compute / Data", 
     description: "High-performance compute and decentralized data processing network.",
-    teamStatus: "Pseudonymous",
+    teamStatus: "Undocumented Team",
     details: {
       website: "https://byteleap.ai",
       github: "https://github.com/byteleap/byteleap-subnet",
@@ -2619,12 +2619,15 @@ const SUBNETS_DATA: Subnet[] = [
 export const BittensorSubnets: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedTeamFilter, setSelectedTeamFilter] = useState('All');
   const [selectedSubnet, setSelectedSubnet] = useState<Subnet | null>(null);
 
   const categories = useMemo(() => {
     const cats = new Set(SUBNETS_DATA.map(s => s.category));
     return ['All', ...Array.from(cats).sort()];
   }, []);
+
+  const teamFilters = useMemo(() => ['All', 'Documented Team', 'Undocumented Team'], []);
 
   const filteredSubnets = useMemo(() => {
     return SUBNETS_DATA.filter(subnet => {
@@ -2635,10 +2638,11 @@ export const BittensorSubnets: React.FC = () => {
         subnet.sn.toString().includes(searchQuery);
       
       const matchesCategory = selectedCategory === 'All' || subnet.category === selectedCategory;
+      const matchesTeam = selectedTeamFilter === 'All' || subnet.teamStatus === selectedTeamFilter;
       
-      return matchesSearch && matchesCategory;
+      return matchesSearch && matchesCategory && matchesTeam;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, selectedTeamFilter]);
 
   return (
     <div className="max-w-[1400px] mx-auto px-6 py-12 space-y-12 animate-in fade-in duration-700 pb-20">
@@ -2661,15 +2665,44 @@ export const BittensorSubnets: React.FC = () => {
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 w-full lg:w-auto md:items-center">
-          {(searchQuery !== '' || selectedCategory !== 'All') && (
+          {(searchQuery !== '' || selectedCategory !== 'All' || selectedTeamFilter !== 'All') && (
             <button 
-              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
+              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); setSelectedTeamFilter('All'); }}
               className="flex items-center justify-center gap-2 px-4 py-4 bg-orange-600/5 border border-orange-600/20 rounded-2xl text-orange-600 font-mono text-[10px] uppercase tracking-widest hover:bg-orange-600/10 transition-all whitespace-nowrap order-last md:order-first"
             >
               <X size={14} />
               Clear Filters
             </button>
           )}
+
+          {/* Team Filter Dropdown */}
+          <div className="relative w-full md:w-56 group/team">
+            <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <select
+              value={selectedTeamFilter}
+              onChange={(e) => setSelectedTeamFilter(e.target.value)}
+              className="w-full pl-12 pr-10 py-4 bg-slate-100 dark:bg-white/5 border border-transparent focus:border-orange-500/50 rounded-2xl outline-none text-slate-900 dark:text-white appearance-none transition-all font-mono text-[10px] uppercase tracking-widest cursor-pointer"
+            >
+              {teamFilters.map(filter => (
+                <option key={filter} value={filter} className="bg-white dark:bg-[#0b0e14] text-slate-900 dark:text-white">
+                  {filter === 'All' ? 'ALL TEAMS' : filter.toUpperCase()}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
+            
+            {/* Info Tooltip for Team Status Definitions */}
+            <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden group-hover/team:block">
+              <div className="relative group/info">
+                <Info size={12} className="text-slate-400 hover:text-orange-500 transition-colors cursor-help" />
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 bg-slate-900 text-[10px] leading-relaxed text-white rounded-xl shadow-2xl border border-white/10 z-[110] opacity-0 group-hover/info:opacity-100 pointer-events-none transition-all uppercase tracking-tighter text-center">
+                  <div className="text-orange-500 font-black mb-1 italic">Documentation Status</div>
+                  <div className="mb-2 underline decoration-orange-500/30">Documented Team: Verified identities via official sites.</div>
+                  <div className="opacity-70 italic font-mono lowercase">Undocumented Team: Pseudonymous or anonymous profiles.</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Category Dropdown */}
           <div className="relative w-full md:w-64">
@@ -2727,14 +2760,25 @@ export const BittensorSubnets: React.FC = () => {
                     <h3 className="text-xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
                       {subnet.name}
                     </h3>
-                    <span className="text-[10px] font-mono text-orange-600 dark:text-orange-400 uppercase tracking-widest px-2 py-1 bg-orange-500/5 rounded-md mt-1 inline-block">
-                      {subnet.category}
-                    </span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[10px] font-mono text-orange-600 dark:text-orange-400 uppercase tracking-widest px-2 py-1 bg-orange-500/5 rounded-md">
+                        {subnet.category}
+                      </span>
+                      {subnet.teamStatus && (
+                        <span className={`text-[9px] font-mono uppercase tracking-widest px-2 py-1 rounded-md border ${
+                          subnet.teamStatus === 'Documented Team' 
+                            ? 'bg-green-500/10 text-green-500 border-green-500/20' 
+                            : 'bg-slate-500/10 text-slate-500 border-slate-500/20'
+                        }`}>
+                          {subnet.teamStatus === 'Documented Team' ? 'DOCUMENTED TEAM' : 'UNDOCUMENTED TEAM'}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
               
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-grow mt-2">
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-grow mt-4">
                 {subnet.description}
               </p>
             </div>
@@ -2790,15 +2834,23 @@ export const BittensorSubnets: React.FC = () => {
                         {selectedSubnet.category}
                       </span>
                       {selectedSubnet.teamStatus && (
-                        <span className={`text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border ${
-                          selectedSubnet.teamStatus === 'Public Team' 
-                            ? 'bg-green-500/10 text-green-500 border-green-500/20' 
-                            : selectedSubnet.teamStatus === 'Pseudonymous'
-                            ? 'bg-blue-500/10 text-blue-500 border-blue-500/20'
-                            : 'bg-slate-500/10 text-slate-500 border-slate-500/20'
-                        }`}>
-                          {selectedSubnet.teamStatus}
-                        </span>
+                        <div className="group relative flex items-center gap-1.5">
+                          <span className={`text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border ${
+                            selectedSubnet.teamStatus === 'Documented Team' 
+                              ? 'bg-green-500/10 text-green-500 border-green-500/20' 
+                              : 'bg-slate-500/10 text-slate-500 border-slate-500/20'
+                          }`}>
+                            {selectedSubnet.teamStatus === 'Documented Team' ? 'DOCUMENTED TEAM' : 'UNDOCUMENTED TEAM'}
+                          </span>
+                          <div className="relative">
+                            <Info size={12} className="text-slate-400 cursor-help hover:text-orange-500 transition-colors" />
+                            <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 p-2 bg-slate-900 text-[10px] text-white rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 shadow-xl border border-white/10 text-center uppercase tracking-tighter">
+                              {selectedSubnet.teamStatus === 'Documented Team' 
+                                ? "Public identities verified via website or official social channels."
+                                : "Pseudonymous or anonymous team profiles with unverified identities."}
+                            </div>
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
