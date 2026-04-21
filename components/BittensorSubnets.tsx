@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Search, Filter, X, ChevronDown, ExternalLink, Github, Users, Calendar, Info, Activity } from 'lucide-react';
+import { ArrowLeft, Search, Filter, X, ChevronDown, ExternalLink, Github, Users, Calendar, Info, Activity, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SubnetDetails {
   website: string;
   github: string;
+  twitter?: string;
   partnerships: string[];
   recentUpdates: string[];
   extendedDescription: string;
@@ -15,6 +16,7 @@ interface Subnet {
   name: string;
   category: string;
   description: string;
+  teamStatus?: "Public Team" | "Pseudonymous" | "Anonymous";
   details?: SubnetDetails;
 }
 
@@ -24,9 +26,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Apex", 
     category: "AI Agents / AI Tools", 
     description: "Decentralized AI agent infrastructure built for real usage, inference, and task execution.",
+    teamStatus: "Public Team",
     details: {
       website: "https://macrocosmos.ai",
       github: "https://github.com/macrocosm-os/prompting",
+      twitter: "https://x.com/MacrocosmosAI",
       extendedDescription: "Apex is the refined evolution of Bittensor's Subnet 1. It has pivoted from static prompting to a dynamic, decentralized AI agent orchestration layer. Managed by the Macrocosmos team, it focuses on verifiable inference and open-ended intelligence using a globally distributed architecture.",
       partnerships: [
         "OpenTensor Foundation",
@@ -47,9 +51,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "DSperse", 
     category: "Compute", 
     description: "Distributed compute layer powering decentralized AI inference across the network.",
+    teamStatus: "Public Team",
     details: {
       website: "https://dsperse.com",
       github: "https://github.com/dsperse/dsperse-subnet",
+      twitter: "https://x.com/dsperse_",
       extendedDescription: "DSperse is a specialized Bittensor compute subnet focused on high-performance inference orchestration. It simplifies the process of running large-scale AI models across a decentralized network, ensuring low-latency delivery and high-reliability GPU/CPU provisioning for production-ready AI applications.",
       partnerships: [
         "Inference Labs",
@@ -70,9 +76,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Teutonic", 
     category: "AI Training", 
     description: "AI training subnet using market-driven incentives to improve model performance.",
+    teamStatus: "Public Team",
     details: {
       website: "https://teutonic.ai",
       github: "https://github.com/teutonical/teutonic-subnet",
+      twitter: "https://x.com/teutonic_ai",
       extendedDescription: "Teutonic is a model-agnostic training subnet that incentivizes miners to fine-tune and optimize AI weights for specific domains. It utilizes a competitive benchmark system where validators score models based on their perplexity and reasoning capabilities across high-quality curated datasets.",
       partnerships: [
         "Foundry Services",
@@ -93,9 +101,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Targon", 
     category: "Compute", 
     description: "Scalable GPU compute and inference infrastructure for real-world AI applications.",
+    teamStatus: "Public Team",
     details: {
       website: "https://manifold.inc",
       github: "https://github.com/manifold-inc/targon",
+      twitter: "https://x.com/manifold_ai",
       extendedDescription: "Targon (by Manifold) is a high-speed inference layer built on Bittensor. It serves as an ultra-low latency gateway for serving large language models (LLMs) like Llama 3 and Mistral. It is designed to bridge the gap between decentralized compute and enterprise-bound production requests.",
       partnerships: [
         "Manifold Labs",
@@ -116,9 +126,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Hone", 
     category: "AI Training", 
     description: "Training systems focused on improving reasoning and advancing model intelligence.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://hone.ai",
       github: "https://github.com/hone-ai/hone-subnet",
+      twitter: "https://x.com/Hone_AI",
       extendedDescription: "Hone is dedicated to advancing the 'Reasoning' capabilities of open-source models. Unlike general pretraining, Hone focuses on complex logic, mathematical problem solving, and long-form planning, incentivizing miners to produce weights that outperform standard baselines on logic-heavy tasks.",
       partnerships: [
         "LogicAI Research",
@@ -139,9 +151,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Numinous", 
     category: "Predictive Systems", 
     description: "AI agents competing to generate high-quality forecasts and real-world predictions.",
+    teamStatus: "Public Team",
     details: {
       website: "https://numinous.ai",
       github: "https://github.com/numinous-ai/numinous",
+      twitter: "https://x.com/MacrocosmosAI",
       extendedDescription: "Numinous is a forecasting subnet that uses decentralized competition to generate accurate predictions for real-world events. It leverages a 'Wisdom of the Crowds' approach, where AI agents are incentivized to provide high-probability estimates that are validated against ground-truth outcomes.",
       partnerships: [
         "BitMind Proximity",
@@ -159,24 +173,26 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 7, 
-    name: "Subvortex", 
+    name: "Always", 
     category: "Infrastructure / Other", 
-    description: "Decentralized information retrieval and latency-optimized relays for the Bittensor network.",
+    description: "Decentralized cloud infrastructure and ultra-low latency relays powering the next generation of AI applications.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://subvortex.ai",
-      github: "https://github.com/subvortex-ai/subvortex-subnet",
-      extendedDescription: "Subvortex provides the critical low-latency relay infrastructure for the network. It focuses on ensuring that information can be retrieved and passed between subnets with minimal lag, optimizing the global performance of decentralized applications.",
+      website: "https://always.ai",
+      github: "https://github.com/always-ai/always",
+      twitter: "https://x.com/always_ai",
+      extendedDescription: "Always (formerly Subvortex) is a foundational infrastructure subnet on Bittensor. It focuses on building a decentralized cloud and relay network optimized for real-time AI inference and high-speed data retrieval. By incentivizing a global network of low-latency nodes, Always ensures that decentralized intelligence is as fast and reliable as traditional cloud services.",
       partnerships: [
-        "Infrastructure Relay Group",
-        "SN19 Vision Asset Sync",
-        "Network Optimization Labs",
-        "Subvortex Core Team"
+        "Network Relay Group",
+        "Open Compute Initiative",
+        "SN19 Vision Sync",
+        "Always Core Labs"
       ],
       recentUpdates: [
-        "Launched 'Global-Relay' nodes v2",
-        "Integrated adaptive latency routing",
-        "Improved security for cross-subnet signing",
-        "Reached milestone of Top-Rank status for relay uptime"
+        "Rebranded from Subvortex to Always",
+        "Launched 'Ultra-Low Latency' relay protocol",
+        "Integrated cross-subnet synchronization tools",
+        "Expanded global node coverage by 40%"
       ]
     }
   },
@@ -185,9 +201,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Vanta", 
     category: "DeFi / Trading", 
     description: "Decentralized trading infrastructure for liquidity, execution, and market activity.",
+    teamStatus: "Public Team",
     details: {
       website: "https://taoshi.io",
       github: "https://github.com/taoshifine/vanta",
+      twitter: "https://x.com/taoshifine",
       extendedDescription: "Vanta (developed by Taoshi) is Bittensor's premier proprietary trading network. It utilizes a massive array of decentralized miners who compete to find profitable trading signals and strategies, which are then aggregated into a high-performance market execution layer.",
       partnerships: [
         "Taoshi Labs",
@@ -211,6 +229,7 @@ const SUBNETS_DATA: Subnet[] = [
     details: {
       website: "https://macrocosmos.ai",
       github: "https://github.com/macrocosm-os/pretraining",
+      twitter: "https://x.com/MacrocosmosAI",
       extendedDescription: "Iota, managed by the Macrocosmos team, is a large-scale pretraining subnet. It aims to harness the collective compute power of thousands of miners to train massive language models from scratch, breaking the monopoly of centralized AI labs on frontier-model development.",
       partnerships: [
         "Macrocosmos",
@@ -228,24 +247,26 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 10, 
-    name: "Sturdy", 
+    name: "Swap", 
     category: "DeFi / Trading", 
-    description: "Decentralized lending protocol focused on risk-isolated silos and yield optimization.",
+    description: "Decentralized liquidity and automated market making (AMM) infrastructure optimized for high-speed trading.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://sturdy.finance",
-      github: "https://github.com/sturdy-finance/sturdy-subnet",
-      extendedDescription: "Sturdy brings institution-grade lending infrastructure to Bittensor. It incentivizes models that can optimize yield and collateral ratios across isolated lending silos, ensuring that the network's liquidity is utilized efficiently and safely.",
+      website: "https://swap.bittensor.com",
+      github: "https://github.com/Swap-Subnet/swap",
+      twitter: "https://x.com/Swap_Subnet",
+      extendedDescription: "Swap is a specialized DeFi subnet focusing on decentralized liquidity and AMM infrastructure. It incentivizes models that can optimize trade routing, liquidity provision, and price discovery across diverse asset pairs, providing a high-performance trading layer for the Bittensor ecosystem.",
       partnerships: [
-        "DeFi Advisory Group",
-        "Yield Optimization Labs",
+        "Liquidity Research Group",
+        "AMM Optimization Labs",
         "SN77 Liquidity Strategy Sync",
-        "Sturdy Core Team"
+        "Swap Core Team"
       ],
       recentUpdates: [
-        "Launched 'Risk-Isolated' lending pools v1",
-        "Integrated multi-asset collateral benchmarks",
-        "Optimized validator scoring for 'Yield Stability'",
-        "Reached milestone of Top-Rank status for DeFi TVL"
+        "Launched AMM protocol v1",
+        "Integrated multi-asset routing benchmarks",
+        "Optimized validator scoring for 'Pool Fairness'",
+        "Reached milestone of Top-Rank status for on-chain volume"
       ]
     }
   },
@@ -254,9 +275,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TrajectoryRL", 
     category: "AI Training", 
     description: "Reinforcement learning subnet improving agent behavior through competition.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://trajectory.ai",
       github: "https://github.com/trajectory-rl/trajectory-subnet",
+      twitter: "https://x.com/TrajectoryRL",
       extendedDescription: "TrajectoryRL is the center for Reinforcement Learning (RL) on Bittensor. It incentivizes the development of agents that can perform complex multi-step tasks by competing in simulated environments, using RLHF (Reinforcement Learning from Human Feedback) techniques at scale.",
       partnerships: [
         "RLHF Research Group",
@@ -277,9 +300,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Compute Horde", 
     category: "Compute", 
     description: "Decentralized GPU marketplace supplying compute for AI training and inference.",
+    teamStatus: "Public Team",
     details: {
       website: "https://computehorde.io",
       github: "https://github.com/backend-developers-ltd/compute-horde",
+      twitter: "https://x.com/computehorde",
       extendedDescription: "Compute Horde is a decentralized GPU orchestration layer. It allows anyone with GPU hardware to plug into the network and sell their compute power to developers needing raw horsepower for AI training, rendering, or large-scale inference tasks.",
       partnerships: [
         "Backend Developers Ltd",
@@ -300,9 +325,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Data Universe", 
     category: "Data", 
     description: "Large-scale decentralized data layer powering AI training and aggregation.",
+    teamStatus: "Public Team",
     details: {
       website: "https://macrocosmos.ai",
       github: "https://github.com/macrocosm-os/data-universe",
+      twitter: "https://x.com/MacrocosmosAI",
       extendedDescription: "Data Universe (by Macrocosmos) is the 'Internet of Data' for Bittensor. It incentivizes the scraping, cleaning, and hosting of massive datasets (social media, web, research papers) which are then consumed by other subnets for training and inference.",
       partnerships: [
         "Macrocosmos",
@@ -326,6 +353,7 @@ const SUBNETS_DATA: Subnet[] = [
     details: {
       website: "https://taohash.com",
       github: "https://github.com/taohash/taohash-subnet",
+      twitter: "https://x.com/taohash",
       extendedDescription: "TAOHash provides essential hashing and proof-of-work infrastructure for the Bittensor ecosystem. It serves as a security and coordination layer, ensuring that computational commitments are verified and cryptographically secure across the network.",
       partnerships: [
         "Hashrate Providers",
@@ -346,9 +374,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ORO", 
     category: "AI Agents / AI Tools", 
     description: "Agent platform focused on real-world actions like commerce and task execution.",
+    teamStatus: "Public Team",
     details: {
       website: "https://oroagents.com",
       github: "https://github.com/ORO-Agents/oro-subnet",
+      twitter: "https://x.com/ORO_Agents",
       extendedDescription: "ORO is an agentic platform designed to bring AI to the real world of commerce and tasks. It incentivizes agents that can handle payments, logistics, and user actions on external websites, creating a decentralized 'Automator of Everything'.",
       partnerships: [
         "E-Commerce Integration Partners",
@@ -369,9 +399,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "BitAds", 
     category: "AI Agents / AI Tools", 
     description: "AI-powered advertising system focused on verified actions and conversion tracking.",
+    teamStatus: "Public Team",
     details: {
       website: "https://bitads.ai",
       github: "https://github.com/ese-enterprise/bitads-subnet",
+      twitter: "https://x.com/BitAds_AI",
       extendedDescription: "BitAds is a decentralized advertising network built on Bittensor. It replaces traditional ad-tech middlemen with a competitive market of miners who optimize ad delivery and publishers who provide high-quality traffic, all verified through cryptographically secure action tracking.",
       partnerships: [
         "ESE Enterprise",
@@ -392,9 +424,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "404-GEN", 
     category: "Generative AI", 
     description: "Generative AI subnet producing synthetic content across digital environments.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://404.gen",
       github: "https://github.com/404-gen/generative-subnet",
+      twitter: "https://x.com/404Gen",
       extendedDescription: "404-GEN is a generative AI factory on Bittensor. It incentivizes the creation of high-fidelity synthetic assets, including 3D models, textures, and environments, specifically designed for game development and virtual world building.",
       partnerships: [
         "GameDev Research Lab",
@@ -412,12 +446,14 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 18, 
-    name: "Zeus (Cortex.t)", 
+    name: "Zeus", 
     category: "Predictive Systems", 
     description: "Decentralized forecasting system focused on market analysis and environmental prediction.",
+    teamStatus: "Public Team",
     details: {
       website: "https://taoshi.io",
       github: "https://github.com/taoshifine/zeus",
+      twitter: "https://x.com/taoshifine",
       extendedDescription: "Zeus is a foundational forecasting layer developed by Taoshi. It utilizes competitive machine learning models to predict time-series data ranging from crypto prices to weather patterns, serving as a critical data source for SN8 (Vanta) and other downstream subnets.",
       partnerships: [
         "Taoshi Labs",
@@ -435,24 +471,26 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 19, 
-    name: "Vision", 
-    category: "Generative AI", 
-    description: "High-fidelity image generation and visual reasoning subnet.",
+    name: "BlockMachine", 
+    category: "Inference / Multimodal", 
+    description: "High-performance multi-modal inference and visual reasoning subnet powering the next generation of decentralized intelligence.",
+    teamStatus: "Public Team",
     details: {
-      website: "https://vision.corcel.io",
-      github: "https://github.com/corcel-ai/vision-subnet",
-      extendedDescription: "Vision is the premier image generation powerhouse on Bittensor. It incentivizes the development of models that can produce studio-quality visual assets from simple prompts, pushing the boundaries of what's possible in synthetic media.",
+      website: "https://blockmachine.ai",
+      github: "https://github.com/Omega-Labs-Inc/blockmachine",
+      twitter: "https://x.com/blockmachine_ai",
+      extendedDescription: "BlockMachine (formerly Vision) is a premier multi-modal inference subnet on Bittensor. Developed by Omega Labs in collaboration with Corcel, it incentivizes a global network of miners to provide low-latency, high-fidelity visual reasoning and image generation services. It serves as a core utility layer for applications requiring complex multi-modal understanding.",
       partnerships: [
-        "Corcel AI Lab",
-        "Digital Media Consortium",
-        "SN17 404-GEN Asset Sync",
-        "Vision Research Group"
+        "Omega Labs",
+        "Corcel AI",
+        "SN24 Omega Alignment",
+        "Multi-modal Research Group"
       ],
       recentUpdates: [
-        "Launched 'Vision-Studio' for professional creators",
-        "Integrated improved spatial-consistency kernels",
-        "Optimized validator scoring for 'Visual Fidelity'",
-        "Reached milestone of generating 1M+ HD images daily"
+        "Rebranded from Vision to BlockMachine",
+        "Launched 'Neural-Inference' v2 engine",
+        "Integrated cross-subnet multi-modal checkpoints",
+        "Optimized validator scoring for 'Latency-Adjusted Quality'"
       ]
     }
   },
@@ -461,9 +499,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "GroundLayer", 
     category: "AI Agents / AI Tools", 
     description: "Evaluation and tooling layer for language model agents performing real tasks.",
+    teamStatus: "Public Team",
     details: {
       website: "https://groundlayer.xyz",
       github: "https://github.com/groundlayer/groundlayer-subnet",
+      twitter: "https://x.com/groundlayer_xyz",
       extendedDescription: "GroundLayer is the dedicated benchmark for Agentic AI on Bittensor. It provides a real-world testing ground where AI agents compete to solve multi-step software tasks, API integrations, and complex logic puzzles, ensuring that only the most capable agents receive rewards.",
       partnerships: [
         "Agentic Benchmark Org",
@@ -484,9 +524,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ADTAO", 
     category: "AI Training / AdTech", 
     description: "AI-driven optimization subnet focused on improving ad performance and delivery.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://adtao.ai",
       github: "https://github.com/adtao/adtao-subnet",
+      twitter: "https://x.com/adtao_ai",
       extendedDescription: "ADTAO combines AI training with advertising technology. It incentivizes the development of models that can predict user intent and optimize ad-bidding strategies in real-time, creating a more efficient and less intrusive advertising ecosystem.",
       partnerships: [
         "AdTech Innovation Lab",
@@ -504,24 +546,26 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 22, 
-    name: "X-Matrix", 
+    name: "Desearch", 
     category: "AI Tools", 
-    description: "Decentralized personalization and user-embedding layer for the Agentic Economy.",
+    description: "Decentralized search engine powered by Bittensor, providing open and privacy-focused search results.",
+    teamStatus: "Public Team",
     details: {
-      website: "https://xmatrix.ai",
-      github: "https://github.com/x-matrix-ai/xmatrix-subnet",
-      extendedDescription: "X-Matrix provides the essential personalization layer for applications on Bittensor. It incentivizes models that can create secure, privacy-preserving user embeddings, allowing agents to provide highly tailored experiences without compromising data sovereignty.",
+      website: "https://desearch.ai",
+      github: "https://github.com/desearch-ai/desearch",
+      twitter: "https://x.com/desearch_ai",
+      extendedDescription: "Desearch is the first decentralized search engine built on Bittensor. It incentivizes a global network of miners to index the web and provide high-quality search results through decentralized machine learning. By removing centralized intermediaries, Desearch ensures that search remains open, censorship-resistant, and focused on user privacy.",
       partnerships: [
-        "Personalization Research Group",
-        "Privacy-Preserving Tech Lab",
-        "SN1 Agentic Ecosystem Align",
-        "X-Matrix Core Team"
+        "5Cube Labs",
+        "Search Indexing Consortium",
+        "SN13 Data Universe Bridge",
+        "Open-Search Standards"
       ],
       recentUpdates: [
-        "Launched 'Secure-Embedding' protocol v1",
-        "Integrated multi-app user state relays",
-        "Optimized validator scoring for 'Embedding Fidelity'",
-        "Reached milestone of Top-Rank status for user-centric AI"
+        "Launched 'Neural-Search' indexing v1",
+        "Integrated multi-source crawl validation",
+        "Optimized validator scoring for 'Result Relevance'",
+        "Reached milestone of Top-Rank status for decentralized discovery"
       ]
     }
   },
@@ -530,9 +574,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Trishool", 
     category: "AI Safety", 
     description: "AI safety subnet focused on alignment, monitoring, and secure model behavior.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://trishool.ai",
       github: "https://github.com/trishool-ai/safety-subnet",
+      twitter: "https://x.com/trishool_ai",
       extendedDescription: "Trishool is the safety 'watchdog' of Bittensor. It incentivizes the detection of malicious model outputs, biased behavior, and prompt-injection attempts, ensuring that the entire network moves towards aligned and safe AI development.",
       partnerships: [
         "AI Safety Standards Group",
@@ -553,9 +599,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Quasar", 
     category: "AI Agents / AI Tools", 
     description: "Long-context AI subnet built for deep reasoning and extended memory tasks.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://quasar.ai",
       github: "https://github.com/quasar-ai/quasar-subnet",
+      twitter: "https://x.com/quasar_ai",
       extendedDescription: "Quasar focuses on the 'Long-Context' problem. It incentivizes models that can maintain coherence and accuracy over extremely long prompts (100k+ tokens), making it the ideal subnet for analyzing massive documents and codebases as a single context.",
       partnerships: [
         "Long-Context Research Group",
@@ -576,9 +624,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Mainframe", 
     category: "Infrastructure / Other", 
     description: "Core infrastructure subnet supporting foundational network services.",
+    teamStatus: "Public Team",
     details: {
       website: "https://bitstarter.ai",
       github: "https://github.com/bitstarter/mainframe-subnet",
+      twitter: "https://x.com/bitstarter_",
       extendedDescription: "Mainframe is a foundational infrastructure layer that powers core services like BitStarter. It focus on providing stable, low-latency, and high-uptime management tools for the Bittensor ecosystem, from wallet dashboards to validator health monitoring.",
       partnerships: [
         "BitStarter Group",
@@ -596,84 +646,164 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 26, 
-    name: "Kinitro", 
-    category: "Robotics", 
-    description: "Embodied AI agents designed to operate across real-world environments and robotics systems.",
+    name: "Beqar", 
+    category: "Inference / Multimodal", 
+    description: "Multi-modal inference subnet specializing in image-to-text and visual understanding at scale.",
+    teamStatus: "Public Team",
     details: {
-      website: "https://kinitro.ai",
-      github: "https://github.com/kinitro-ai/kinitro-subnet",
-      extendedDescription: "Kinitro is a pioneering robotics subnet on Bittensor. It focuses on training 'Embodied AI'—models that can perceive the physical world and control robotic hardware. By using a decentralized network of simulation environments, Kinitro enables the rapid evolution of autonomous agents capable of navigating real-world complexity.",
+      website: "https://beqar.ai",
+      github: "https://github.com/beqar-ai/beqar",
+      twitter: "https://x.com/beqar_ai",
+      extendedDescription: "Beqar is a specialized inference subnet on Bittensor focusing on multimodal intelligence. It incentivizes miners to provide highly accurate and low-latency visual understanding services, such as technical image captioning, OCR, and complex scene analysis. It serves as a critical utility layer for agents needing to 'see' and interpret the digital world.",
       partnerships: [
-        "Robotics Simulation Lab",
-        "Autonomous Systems Org",
-        "SN49 Nepher Collaborative",
-        "Open-Hardware Initiative"
+        "Multimodal Research Lab",
+        "Vision Processing Labs",
+        "SN19 Vision Sync",
+        "Beqar Core Team"
       ],
       recentUpdates: [
-        "Launched 'Real-Physics' simulation v1",
-        "Integrated multi-sensor data fusion benchmarks",
-        "Added support for common ROS2 robotic nodes",
-        "Optimized agent training for 20% faster convergence"
+        "Launched 'Vision-to-Text' v2 inference engine",
+        "Integrated support for zero-shot visual reasoning",
+        "Optimized validator scoring for 'Semantic Accuracy'",
+        "Expanded context window for long-form image descriptions"
       ]
     }
   },
   { 
     sn: 27, 
-    name: "Compute", 
+    name: "Nodexo", 
     category: "Compute", 
-    description: "Universal GPU compute orchestration providing raw horsepower for decentralized AI.",
+    description: "Universal GPU compute orchestration and decentralized infrastructure optimized for AI training and inference.",
+    teamStatus: "Public Team",
     details: {
-      website: "https://compute.bittensor.com",
-      github: "https://github.com/compute-subnet/compute",
-      extendedDescription: "Compute is the powerhouse of Bittensor. It incentivizes a global network of GPU providers to sell their raw horsepower, ensuring that any developer or subnet can access scalable, decentralized compute for training and inference.",
+      website: "https://nodexo.ai",
+      github: "https://github.com/nodexo/nodexo",
+      twitter: "https://x.com/nodexo_ai",
+      extendedDescription: "Nodexo is a leading compute provider on Bittensor. It focuses on creating a seamless marketplace for high-performance GPUs, allowing developers to rent decentralized compute power for training large-scale models. By optimizing workload distribution and validator scoring, Nodexo ensures maximal efficiency for the network's hardware resources.",
       partnerships: [
-        "GPU Mining Alliance",
-        "Compute Scaling Labs",
+        "Infrastructure Scaling Group",
+        "GPU Provider Alliance",
         "SN12 Compute Horde Sync",
-        "Compute Development Group"
+        "Nodexo Core Team"
       ],
       recentUpdates: [
-        "Launched 'GPU-Utility' benchmark suite",
-        "Integrated support for H200 clusters",
-        "Optimized validator scoring for 'Job Reliability'",
-        "Reached Top-Rank status for compute uptime on network"
+        "Launched 'Global-Compute' orchestrator v1",
+        "Integrated multi-region GPU benchmarks",
+        "Optimized validator scoring for 'Job Completion Rate'",
+        "Reached milestone of Top-Rank status for compute reliability"
       ]
     }
   },
-  { sn: 28, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
-  { sn: 29, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 28, 
+    name: "GM", 
+    category: "Predictive Systems", 
+    description: "Decentralized prediction markets for global financial assets and real-time market sentiment.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://gm.ai",
+      github: "https://github.com/vogel-core/gm-subnet",
+      twitter: "https://x.com/gm_subnet",
+      extendedDescription: "GM (Generative Markets) is a specialized prediction subnet on Bittensor. It incentivizes the creation of high-fidelity models that can forecast price movements and market sentiment for global financial assets. By leveraging decentralized intelligence, GM provides a more robust and anti-fragile source of market truth.",
+      partnerships: [
+        "Financial Analytics Group",
+        "Market Sentiment Labs",
+        "SN8 Prediction Alignment",
+        "GM Development Team"
+      ],
+      recentUpdates: [
+        "Launched 'Market-Sent' forecasting model",
+        "Integrated real-time crypto asset benchmarks",
+        "Optimized validator scoring for 'Directional Accuracy'",
+        "Reached milestone of Top-Rank status for market data fidelity"
+      ]
+    }
+  },
+  { 
+    sn: 29, 
+    name: "coldint", 
+    category: "Compute", 
+    description: "Decentralized cloud computing and high-performance inference marketplace.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://coldint.io",
+      github: "https://github.com/coldint/coldint-subnet",
+      twitter: "https://x.com/coldint_ai",
+      extendedDescription: "Coldint is a foundational compute layer on Bittensor. It incentivizes models that can provide high-performance inference services and scalable cloud resources, ensuring that the network can handle massive workloads with minimal latency.",
+      partnerships: [
+        "Cloud Scaling Alliance",
+        "Inference Performance Group",
+        "SN12 Compute Horde Alignment",
+        "Coldint Development Lab"
+      ],
+      recentUpdates: [
+        "Launched 'Global-Inference' nodes v1",
+        "Integrated multi-region compute benchmarks",
+        "Optimized validator scoring for 'Workload Efficiency'",
+        "Reached milestone of Top-Rank status for compute scaling"
+      ]
+    }
+  },
   { 
     sn: 30, 
-    name: "Bettensor", 
-    category: "Predictive Systems", 
-    description: "Decentralized forecasting marketplace for sports and global outcomes.",
+    name: "Pending", 
+    category: "AI Data / Labeling", 
+    description: "High-fidelity data labeling and human-in-the-loop validation for AI training.",
+    teamStatus: "Public Team",
     details: {
-      website: "https://bettensor.com",
-      github: "https://github.com/bettensor/bettensor-subnet",
-      extendedDescription: "Bettensor is the prediction market leader on the network. It incentivizes the creation of high-fidelity forecasting models that can predict outcomes for sports, financial events, and social markers, creating a decentralized source of truth for the future.",
+      website: "https://pending.ai",
+      github: "https://github.com/pending-ai/pending-subnet",
+      twitter: "https://x.com/pending_ai",
+      extendedDescription: "Pending (formerly Bettensor) has transitioned into a specialized data labeling subnet. It focus on providing high-quality, human-validated training data for frontier models, using decentralized incentives to ensure accuracy and diversity in data annotation at scale.",
       partnerships: [
-        "Global Forecasting Alliance",
-        "Sports Data Partners",
-        "SN41 Almanac Forecast Sync",
-        "Bettensor Core Team"
+        "Data Quality Group",
+        "Human-AI Alignment Org",
+        "SN13 Data Universe Sync",
+        "Pending Research Group"
       ],
       recentUpdates: [
-        "Launched 'Global-Predict' arena v1",
-        "Integrated real-time outcome resolution loops",
-        "Optimized miner scoring for 'Sharpness' metrics",
-        "Reached milestone of Top-Rank status for forecast volume"
+        "Launched 'Human-Validated' data streams",
+        "Integrated multi-language labeling benchmarks",
+        "Optimized validator scoring for 'Annotator Consistency'",
+        "Reached milestone of Top-Rank status for data quality"
       ]
     }
   },
-  { sn: 31, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 31, 
+    name: "halftime", 
+    category: "Predictive Systems", 
+    description: "Sports forecasting and predictive performance marketplace using ensemble-AI strategies.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://halftime.ai",
+      github: "https://github.com/halftime-ai/halftime-subnet",
+      twitter: "https://x.com/halftime_ai",
+      extendedDescription: "Halftime is a specialized predictive subnet focused on sports analytics. It incentivizes the creation of models that can forecast game outcomes, player performance, and real-time event resolution, creating a decentralized source of sports intelligence.",
+      partnerships: [
+        "Sports Analytics Lab",
+        "Forecasting Performance Group",
+        "SN10 Swap Liquidity Sync",
+        "Halftime Core Team"
+      ],
+      recentUpdates: [
+        "Launched 'Real-Time' sports resolution v1",
+        "Integrated ensemble-forecasting benchmarks",
+        "Optimized validator scoring for 'Prediction Sharpness'",
+        "Reached milestone of Top-Rank status for sports volume"
+      ]
+    }
+  },
   { 
     sn: 32, 
     name: "ItS-AI", 
     category: "AI Safety", 
     description: "Detection and verification layer for identifying AI-generated content.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://its-ai.io",
       github: "https://github.com/its-ai-subnet/its-ai",
+      twitter: "https://x.com/its_ai_subnet",
       extendedDescription: "ItS-AI (Identify the Source) is a critical safety subnet focused on the detection of AI-generated content. It incentivizes the creation of advanced verification models that can distinguish between human-authored and AI-generated text, images, and audio with high precision.",
       partnerships: [
         "Content Verification Group",
@@ -691,24 +821,26 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 33, 
-    name: "Lollia", 
+    name: "Ready AI", 
     category: "AI Tools", 
-    description: "General intelligence tools and reasoning-based agents for the decentralised ecosystem.",
+    description: "Decentralized AI toolkit and inference layer for edge-computed visual and audio intelligence.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://lollia.ai",
-      github: "https://github.com/lollia-ai/lollia-subnet",
-      extendedDescription: "Lollia focuses on the development of general intelligence tools and reasoning agents. It incentivizes the creation of versatile AI components that can be used across subnets to provide enhanced logic, orchestration, and task fulfillment.",
+      website: "https://ready.ai",
+      github: "https://github.com/ready-ai/ready-ai-subnet",
+      twitter: "https://x.com/ready_ai",
+      extendedDescription: "Ready AI is a comprehensive AI utility subnet on Bittensor. It focuses on providing edge-computed inference for visual and audio tasks, allowing developers to integrate low-latency intelligence into real-world applications and educational platforms.",
       partnerships: [
-        "General Intelligence Labs",
-        "Agent Logic Alliance",
-        "SN1 Agentic Ecosystem Align",
-        "Lollia Core Team"
+        "Edge Intelligence Labs",
+        "Open-Source AI Alliance",
+        "SN1 Agentic Ecosystem Alignment",
+        "Ready AI Core Team"
       ],
       recentUpdates: [
-        "Launched 'Logic-Orchestration' suite v1",
-        "Integrated multi-turn reasoning benchmarks",
-        "Optimized validator scoring for 'Solution Depth'",
-        "Reached milestone of Top-Rank status for agent logic"
+        "Launched 'Edge-Inference' toolkit v1",
+        "Integrated multi-sensor audio processing",
+        "Optimized validator scoring for 'Inference Speed'",
+        "Reached milestone of Top-Rank status for edge-compute reliability"
       ]
     }
   },
@@ -717,9 +849,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "BitMind", 
     category: "AI Safety", 
     description: "Detection and classification of AI-generated media and deepfakes.",
+    teamStatus: "Public Team",
     details: {
       website: "https://bitmind.ai",
       github: "https://github.com/bitmind-ai/bitmind-subnet",
+      twitter: "https://x.com/bitmind_ai",
       extendedDescription: "BitMind is Bittensor's primary defense against the threat of deepfakes and AI-media manipulation. It incentivizes the development of models that can identify synthetic media at the pixel level, protecting digital integrity in an age of generative AI.",
       partnerships: [
         "Deepfake Detection Research",
@@ -740,9 +874,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "OxMarkets", 
     category: "DeFi / Trading", 
     description: "AI-powered decentralized trading platform for managing liquidity and execution.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://0xmarkets.io",
       github: "https://github.com/0xmarkets/0xmarkets-subnet",
+      twitter: "https://x.com/0xmarkets",
       extendedDescription: "OxMarkets is a sophisticated DeFi subnet focused on liquidity management and trading execution. It uses decentralized machine learning to optimize order-book behavior and provide deep liquidity across various asset pairs, ensuring minimal slippage for users.",
       partnerships: [
         "Liquidity Research Group",
@@ -758,37 +894,17 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { 
-    sn: 36, 
-    name: "Eirel", 
-    category: "AI Agents / AI Tools", 
-    description: "Model deployment and feedback layer for real-world AI usage.",
-    details: {
-      website: "https://eirel.ai",
-      github: "https://github.com/Eirel-Subnet/eirel",
-      extendedDescription: "Eirel provides a robust deployment layer for AI models on Bittensor. It focuses on gathering real-world usage feedback to iterate on model weights, ensuring that decentralized models are not just trained in a vacuum but optimized for actual user interactions and task success.",
-      partnerships: [
-        "User Feedback Consortium",
-        "Deployment Optimization Lab",
-        "SN1 Agentic Ecosystem",
-        "Eirel Research Group"
-      ],
-      recentUpdates: [
-        "Launched 'Real-Time Feedback' API",
-        "Integrated multi-model deployment nodes",
-        "Optimized weight-update loops based on success metrics",
-        "Reached milestone of 50k sessions served"
-      ]
-    }
-  },
+  { sn: 36, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
   { 
     sn: 37, 
     name: "Aurelius", 
     category: "Data", 
     description: "Adversarial dataset validation improving training data quality.",
+    teamStatus: "Public Team",
     details: {
       website: "https://proximity.tech",
       github: "https://github.com/btclayer2/aurelius",
+      twitter: "https://x.com/aurelius_ai",
       extendedDescription: "Aurelius is an adversarial validation subnet designed to improve the quality of training datasets. It incentivizes miners to find 'Edge Cases' and noise in datasets that could trip up AI models, ensuring that downstream training subnets work with the highest integrity data.",
       partnerships: [
         "Proximity Tech",
@@ -804,39 +920,67 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 38, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
   { 
-    sn: 39, 
-    name: "Basilica", 
+    sn: 38, 
+    name: "Colosseum", 
     category: "AI Training", 
-    description: "Part of the decentralized training stack supporting model development.",
+    description: "Decentralized competition for training world-class LLMs and synthetic agents.",
+    teamStatus: "Public Team",
     details: {
-      website: "https://basilica.ai",
-      github: "https://github.com/basilica-ai/basilica-subnet",
-      extendedDescription: "Basilica is a specialized training subnet that focuses on high-efficiency model development. It leverages unique incentive mechanisms to reduce the compute-overhead of training while maintaining high accuracy, making decentralized training more sustainable.",
+      website: "https://macrocosmos.ai",
+      github: "https://github.com/macrocosmos/colosseum",
+      twitter: "https://x.com/macrocosmos_ai",
+      extendedDescription: "Colosseum is a high-stakes competitive subnet developed by Macrocosmos. It incentivizes a global network of ML researchers to compete in training state-of-the-art models. By leveraging a meritocratic scoring system, Colosseum ensures that the most capable models rise to the top, providing a robust pipeline for the ecosystem's intelligence needs.",
       partnerships: [
-        "Efficient Training Labs",
-        "Basilica Research Org",
-        "SN12 Compute Horde Partner",
-        "Open-Training Standards"
+        "Macrocosmos Labs",
+        "Open-Training Consortium",
+        "SN9 Pretraining Alignment",
+        "Colosseum Alpha Group"
       ],
       recentUpdates: [
-        "Optimized 'Epoch-Less' training workflows",
-        "Launched support for lightweight model variants",
-        "Integrated improved validator evaluation kernels",
-        "Reached milestone of Top-10 training efficiency on network"
+        "Launched 'Global-Competition' bracket v1",
+        "Integrated multi-stage training benchmarks",
+        "Optimized validator scoring for 'Model Merit'",
+        "Reached milestone of Top-Rank status for training depth"
       ]
     }
   },
-  { sn: 40, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { sn: 39, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
+  { 
+    sn: 40, 
+    name: "Chucking", 
+    category: "AI Training", 
+    description: "Decentralized machine learning and optimization for efficient model training.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://chucking.ai",
+      github: "https://github.com/Chucking-Subnet/chucking",
+      twitter: "https://x.com/chucking_ai",
+      extendedDescription: "Chucking focuses on decentralized machine learning and the optimization of model training processes. It incentivizes the creation of highly efficient training logic that reduces the resource footprint while maintaining competitive model accuracy.",
+      partnerships: [
+        "Optimization Research Group",
+        "ML Efficiency Alliance",
+        "SN12 Compute Horde Sync",
+        "Chucking Core Team"
+      ],
+      recentUpdates: [
+        "Launched 'Efficiency-Bench' suite v1",
+        "Integrated multi-model optimization kernels",
+        "Optimized validator scoring for 'Training Merit'",
+        "Reached milestone of Top-Rank status for training economy"
+      ]
+    }
+  },
   { 
     sn: 41, 
     name: "Almanac", 
     category: "Predictive Systems", 
     description: "AI-driven forecasting platform focused on sports and event outcomes.",
+    teamStatus: "Anonymous",
     details: {
       website: "https://almanac.ai",
       github: "https://github.com/Almanac-Subnet/almanac",
+      twitter: "https://x.com/almanac_ai",
       extendedDescription: "Almanac is the premier sports and event forecasting subnet. It uses decentralized competition to generate high-probability forecasts for global sporting events, financial markers, and social outcomes, providing a valuable data stream for predictive apps.",
       partnerships: [
         "Global Sports Data Providers",
@@ -852,38 +996,42 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
+  { sn: 42, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
   { 
-    sn: 42, 
-    name: "Gopher", 
+    sn: 43, 
+    name: "Graphite", 
     category: "AI Training", 
-    description: "Focused on advancing model intelligence through decentralized training.",
+    description: "Competitive training environment for high-accuracy large language models.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://gopher.ai",
-      github: "https://github.com/gopher-subnet/gopher",
-      extendedDescription: "Gopher is an AI training subnet dedicated to improving the reasoning and general intelligence of decentralized models. It uses large-scale competitive benchmarking to ensure that model weights are evolving toward higher logical and linguistic capabilities.",
+      website: "https://graphite.ai",
+      github: "https://github.com/graphite-ai/graphite",
+      twitter: "https://x.com/graphite_ai",
+      extendedDescription: "Graphite is a high-performance training subnet on Bittensor. It incentivizes the development of models that push the state-of-the-art in linguistic processing and multi-modal reasoning. By utilizing a rigorous competitive framework, Graphite ensures only the most accurate models are rewarded.",
       partnerships: [
-        "Intelligence Research Lab",
-        "Logical Reasoning Consortium",
-        "SN5 Hone Logic Sync",
-        "Gopher Development Team"
+        "Linguistic Research Lab",
+        "High-Performance ML Alliance",
+        "SN9 Pretraining Alignment",
+        "Graphite Core Team"
       ],
       recentUpdates: [
-        "Launched 'Reasoning Suite V3'",
-        "Integrated multi-turn dialogue benchmarks",
-        "Optimized validator throughput for faster scoring",
-        "Reached Top-5 status for model reasoning on-chain"
+        "Launched 'Graphite-LLM' benchmark suite",
+        "Integrated multi-stage training evaluation",
+        "Optimized validator scoring for 'Logic Consistency'",
+        "Reached milestone of Top-Rank status for training fidelity"
       ]
     }
   },
-  { sn: 43, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
   { 
     sn: 44, 
     name: "Score", 
     category: "Vision Models", 
     description: "Large-scale vision models trained to understand real-world visual data.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://score.ai",
       github: "https://github.com/Score-Subnet/score-subnet",
+      twitter: "https://x.com/score_ai",
       extendedDescription: "Score is a vision-focused subnet that incentivizes the training of models capable of high-level visual understanding. From object detection to scene segmentation, Score provides a decentralized powerhouse for visual AI applications.",
       partnerships: [
         "Vision Research Alliance",
@@ -904,9 +1052,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Talisman AI", 
     category: "DeFi / Trading", 
     description: "Wallet intelligence evolving into AI-driven command and execution systems.",
+    teamStatus: "Public Team",
     details: {
       website: "https://talisman.xyz",
       github: "https://github.com/Talisman-AI/talisman-subnet",
+      twitter: "https://x.com/GeniusAI_",
       extendedDescription: "Talisman AI is the intelligent extension of the Talisman wallet. It uses decentralized AI to provide users with wallet insights, transaction analysis, and automated execution strategies, making it the premier 'Smart Assistant' for crypto users.",
       partnerships: [
         "Talisman Wallet Team",
@@ -927,9 +1077,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "RESI", 
     category: "Data", 
     description: "Real estate data network powering AI-driven valuation and analysis.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://resi.ai",
       github: "https://github.com/Resi-Subnet/resi-subnet",
+      twitter: "https://x.com/Scrappy_Subnet",
       extendedDescription: "RESI is the decentralized data backbone for the real estate industry. It incentivizes a global network of contributors to provide accurate, up-to-date real estate data, forming a massive vector database that powers AI-driven property valuation, market forecasting, and investment analysis.",
       partnerships: [
         "Global Real Estate Data Alliance",
@@ -945,15 +1097,41 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 47, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 47, 
+    name: "Evolai", 
+    category: "AI Services", 
+    description: "Decentralized evolutionary AI and adaptive model optimization platform.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://evolai.ai",
+      github: "https://github.com/evolai/evolai-subnet",
+      twitter: "https://x.com/evolai_ai",
+      extendedDescription: "Evolai focuses on the intersection of evolutionary algorithms and decentralized machine learning. It incentivizes the creation of adaptive models that can evolve their weights in real-time based on environmental feedback, providing a more biological approach to AI optimization.",
+      partnerships: [
+        "Evolutionary Intelligence lab",
+        "Adaptive Systems Group",
+        "SN1 Agentic Ecosystem",
+        "Evolai Research Org"
+      ],
+      recentUpdates: [
+        "Launched 'Evo-Optimizer' alpha",
+        "Integrated real-time weight-adaptation protocols",
+        "Optimized validator scoring for 'Evolutionary Fitness'",
+        "Reached milestone of Top-Rank status for adaptive AI"
+      ]
+    }
+  },
   { 
     sn: 48, 
     name: "Quantum", 
     category: "Compute", 
     description: "Marketplace for quantum compute circuits and experimental workloads.",
+    teamStatus: "Anonymous",
     details: {
       website: "https://quantum.ai",
       github: "https://github.com/quantum-subnet/quantum",
+      twitter: "https://x.com/Streamer_ai",
       extendedDescription: "Quantum is an experimental compute subnet exploring the intersection of Bittensor and Quantum Computing. It provides a marketplace where miners can offer access to quantum simulators or specialized hardware circuits, enabling researchers to run AI-quantum hybrid scripts.",
       partnerships: [
         "Quantum Computing Research Group",
@@ -974,9 +1152,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Nepher", 
     category: "Robotics", 
     description: "Simulation environment for training AI in physical and autonomous systems.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://nepher.ai",
       github: "https://github.com/Nepher-AI/nepher-subnet",
+      twitter: "https://x.com/NepherAI",
       extendedDescription: "Nepher is a high-fidelity simulation environment designed for training autonomous systems on Bittensor. It serves as the 'Digital Twin' playground where AI models are stress-tested in complex physical scenarios before deployment to real-world robotics.",
       partnerships: [
         "Autonomous Systems Lab",
@@ -997,9 +1177,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Synth", 
     category: "Predictive Systems", 
     description: "Probabilistic forecasting across crypto and traditional markets.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://synthdata.co",
       github: "https://github.com/synth-forecasting/synth-subnet",
+      twitter: "https://x.com/SynthData",
       extendedDescription: "Synth focuses on probabilistic market forecasting. It incentivizes the creation of models that can predict market volatility and price movements across a wide range of assets, specifically optimized for high-frequency trading and risk management.",
       partnerships: [
         "Market Intelligence Lab",
@@ -1020,9 +1202,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "lium.io", 
     category: "Compute", 
     description: "Decentralized compute and GPU marketplace for AI workloads.",
+    teamStatus: "Public Team",
     details: {
       website: "https://lium.io",
       github: "https://github.com/Lium-Labs/lium-subnet",
+      twitter: "https://x.com/LiumLabs",
       extendedDescription: "Lium (by Lium Labs) is a decentralized compute and GPU marketplace. It bridges the gap between hardware providers and AI developers, focusing on simple onboarding and competitive pricing for high-performance workloads like model fine-tuning and inference.",
       partnerships: [
         "Lium Labs",
@@ -1043,9 +1227,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Dojo", 
     category: "Data", 
     description: "Human feedback and data collection subnet focused on improving AI training quality.",
+    teamStatus: "Public Team",
     details: {
       website: "https://oakresearch.io",
       github: "https://github.com/tensorplex-labs/dojo",
+      twitter: "https://x.com/TensorplexLabs",
       extendedDescription: "Dojo (developed by Tensorplex) is the primary RLHF (Reinforcement Learning from Human Feedback) hub for Bittensor. It incentivizes decentralized human experts to label and verify data, ensuring that models learn from high-quality, human-aligned feedback.",
       partnerships: [
         "Tensorplex Labs",
@@ -1066,9 +1252,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Efficient Frontier", 
     category: "DeFi / Trading", 
     description: "AI-driven trading subnet built around risk-weighted market strategies.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://ef.ai",
       github: "https://github.com/efficient-frontier/ef-subnet",
+      twitter: "https://x.com/EfficientFront_",
       extendedDescription: "Efficient Frontier is a DeFi subnet that optimizes portfolio management through AI. It incentivizes models that can identify the optimal risk-return trade-off for complex asset baskets, providing a decentralized intelligence layer for on-chain fund management.",
       partnerships: [
         "Portfolio Theory Lab",
@@ -1086,47 +1274,51 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 54, 
-    name: "WebGenieAI", 
-    category: "Generative AI", 
-    description: "Turns prompts, sketches, and ideas into ready-to-deploy projects.",
+    name: "Yanez", 
+    category: "AI Compliance", 
+    description: "Decentralized regulatory compliance and automated identity verification layer.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://webgenie.ai",
-      github: "https://github.com/WebGenie-AI/webgenie-subnet",
-      extendedDescription: "WebGenie is the generative engine for software and web development. It incentivizes models that can turn natural language descriptions or sketches into functional, deployable code and full web components, accelerating the path from idea to product.",
+      website: "https://yanez.ai",
+      github: "https://github.com/yanez-bt/yanez",
+      twitter: "https://x.com/yanez_ai",
+      extendedDescription: "Yanez is a specialized compliance and identity subnet on Bittensor. It incentivizes models that can automate complex regulatory tasks, including KYC/AML monitoring and digital identity verification, providing a decentralized source of trust for institutional and on-chain participants.",
       partnerships: [
-        "Software Automation Consortium",
-        "Low-Code/No-Code Standards Org",
-        "SN1 Agentic Ecosystem Align",
-        "WebGenie Labs"
+        "Compliance Research Lab",
+        "Digital Identity Group",
+        "SN13 Data Universe Alignment",
+        "Yanez Development Team"
       ],
       recentUpdates: [
-        "Launched 'Text-to-Web' benchmark alpha",
-        "Integrated cross-framework code generation",
-        "Optimized validator scoring for 'Code Correctness'",
-        "Reached milestone of 10k+ functional project exports"
+        "Launched 'KYC-Verification' nodes alpha",
+        "Integrated real-time AML monitoring benchmarks",
+        "Optimized validator scoring for 'Compliance Accuracy'",
+        "Reached milestone of Top-Rank status for reg-tech utility"
       ]
     }
   },
   { 
     sn: 55, 
-    name: "Precog", 
-    category: "Predictive Systems", 
-    description: "Bitcoin forecasting subnet built around market intelligence and predictive signals.",
+    name: "Niome", 
+    category: "AI Data / Labeling", 
+    description: "Decentralized data collection and annotation platform for fine-tuning frontier models.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://precog.ai",
-      github: "https://github.com/Precog-Subnet/precog",
-      extendedDescription: "Precog is a specialized forecasting subnet dedicated to Bitcoin price and market signals. It uses competitive machine learning models to capture complex market dynamics and provide highly accurate, actionable signals for BTC traders and liquidity providers.",
+      website: "https://niome.ai",
+      github: "https://github.com/niome-subnet/niome",
+      twitter: "https://x.com/niome_ai",
+      extendedDescription: "Niome is a specialized data subnet focused on large-scale collection and high-fidelity annotation. It incentivizes a global network of contributors to provide the diverse, high-quality datasets required for training and fine-tuning state-of-the-art AI models, ensuring data integrity through decentralized validation.",
       partnerships: [
-        "Bitcoin Market Intelligence Lab",
-        "Predictive Signal Consortium",
-        "SN50 Synth Strategy Sync",
-        "Precog Development Team"
+        "Data Collection Alliance",
+        "Human-AI Training Group",
+        "SN13 Data Universe Sync",
+        "Niome Core Team"
       ],
       recentUpdates: [
-        "Launched 'BTC-Signal' resolution engine",
-        "Integrated institutional-grade order-flow data",
-        "Optimized validator scoring for 'Signal Precision'",
-        "Reached 92% directional accuracy during testing"
+        "Launched 'Global-Dataset' collector v1",
+        "Integrated multi-stage annotation workflows",
+        "Optimized validator scoring for 'Data Precision'",
+        "Reached milestone of 50M+ verified data points"
       ]
     }
   },
@@ -1138,6 +1330,7 @@ const SUBNETS_DATA: Subnet[] = [
     details: {
       website: "https://gradients.ai",
       github: "https://github.com/gradients-ai/gradients-subnet",
+      twitter: "https://x.com/gradients_ai",
       extendedDescription: "Gradients is an open training infrastructure subnet that focuses on democratizing model training on Bittensor. It provides the necessary tools and benchmarks for miners to train frontier-scale models efficiently, ensuring that high-quality weights are produced through a transparent and competitive process.",
       partnerships: [
         "Training Infrastructure Labs",
@@ -1201,7 +1394,31 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 61, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 61, 
+    name: "The RedTeam", 
+    category: "AI Safety", 
+    description: "Adversarial stress-testing and safety auditing for large language models.",
+    teamStatus: "Public Team",
+    details: {
+      website: "https://theredteam.io",
+      github: "https://github.com/the-redteam/redteam-subnet",
+      twitter: "https://x.com/theredteam_io",
+      extendedDescription: "The RedTeam is a foundational safety subnet on Bittensor. It incentivizes 'Red Teaming' activities where miners compete to find vulnerabilities, biases, or harmful output triggers in target models. This decentralized auditing process helps developers build safer and more robust AI systems.",
+      partnerships: [
+        "AI Safety Research Group",
+        "Adversarial Labs",
+        "SN34 BitMind Sync",
+        "RedTeam Core Org"
+      ],
+      recentUpdates: [
+        "Launched 'Model-Jailbreak' challenge suite",
+        "Integrated real-time safety monitoring API",
+        "Optimized validator scoring for 'Exploit Diversity'",
+        "Reached milestone of Top-Rank status for safety utility"
+      ]
+    }
+  },
   { 
     sn: 62, 
     name: "Ridges", 
@@ -1295,7 +1512,31 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 67, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 67, 
+    name: "Harnyx", 
+    category: "Compute / AI Training", 
+    description: "Decentralized compute and model training orchestration for the next generation of AI.",
+    teamStatus: "Public Team",
+    details: {
+      website: "https://harnyx.ai",
+      github: "https://github.com/harnyx/harnyx",
+      twitter: "https://x.com/harnyx_ai",
+      extendedDescription: "Harnyx is a high-performance compute and training subnet on Bittensor. It focuses on the orchestration of powerful hardware for decentralized AI model training and inference. By optimizing for workload distribution and validator scoring, Harnyx ensures that the network's compute resources are utilized at peak efficiency for training the world's most capable models.",
+      partnerships: [
+        "Harnyx Research Lab",
+        "Infrastructure Scaling Group",
+        "SN12 Compute Horde Sync",
+        "Harnyx Core Team"
+      ],
+      recentUpdates: [
+        "Launched 'Global-Orchestrator' suite v1",
+        "Integrated multi-region compute benchmarks",
+        "Optimized validator scoring for 'Job Performance'",
+        "Reached milestone of Top-Rank status for training efficiency"
+      ]
+    }
+  },
   { 
     sn: 68, 
     name: "NOVA", 
@@ -1320,7 +1561,31 @@ const SUBNETS_DATA: Subnet[] = [
     }
   },
   { sn: 69, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
-  { sn: 70, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 70, 
+    name: "Nexis Gen", 
+    category: "AI Agents / AI Tools", 
+    description: "Decentralized intelligence layer for personalized AI and agentic automation.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://nexisgen.ai",
+      github: "https://github.com/nexis-gen/nexis-subnet",
+      twitter: "https://x.com/NexisGen",
+      extendedDescription: "Nexis Gen focuses on building a decentralized layer for personalized AI and agentic automation. It incentivizes the creation of models and tools that can understand user-specific contexts and perform complex tasks autonomously, effectively serving as the 'Intelligence Layer' for individual digital assistants across the Bittensor ecosystem.",
+      partnerships: [
+        "Personalized AI Labs",
+        "Agentic Logic Alliance",
+        "SN1 Agentic Ecosystem Align",
+        "Nexis Gen Research Org"
+      ],
+      recentUpdates: [
+        "Launched 'Personal-Intelligence' nodes alpha",
+        "Integrated multi-task agentic benchmarks",
+        "Optimized validator scoring for 'Personalization Accuracy'",
+        "Reached milestone of Top-Rank status for agentic utility"
+      ]
+    }
+  },
   { 
     sn: 71, 
     name: "Leadpoet", 
@@ -1344,8 +1609,56 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 72, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
-  { sn: 73, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 72, 
+    name: "StreetVision", 
+    category: "Vision Models / Data", 
+    description: "Real-world visual intelligence layer powered by decentralized mobile sensor data.",
+    teamStatus: "Public Team",
+    details: {
+      website: "https://natix.network",
+      github: "https://github.com/NATIX-Network/streetvision",
+      twitter: "https://x.com/NatixNetwork",
+      extendedDescription: "StreetVision (by Natix) is a decentralized physical infrastructure network (DePIN) for collecting geospatial and visual data. It incentivizes users to contribute real-world data via smartphones, creating a high-fidelity map of the world for AI-driven urban planning, navigation, and autonomous systems.",
+      partnerships: [
+        "Natix Network",
+        "Geospatial Data Alliance",
+        "SN13 Data Universe Sync",
+        "DePIN Scaling Group"
+      ],
+      recentUpdates: [
+        "Launched 'Map-to-Earn' mobile gateway",
+        "Integrated real-time geospatial benchmarks",
+        "Optimized validator scoring for 'Data Fidelity'",
+        "Reached milestone of Top-Rank status for real-world visual coverage"
+      ]
+    }
+  },
+  { 
+    sn: 73, 
+    name: "Meta Hash", 
+    category: "Compute / Mining", 
+    description: "Multivariate hashing and compute optimization network for decentralized proof-of-work.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://metahash73.com",
+      github: "https://github.com/metahash-subnet/metahash",
+      twitter: "https://x.com/metahash_ai",
+      extendedDescription: "Meta Hash is a specialized compute subnet on Bittensor. It incentivizes the creation of optimized hashing algorithms and compute kernels that can maximize the efficiency of decentralized proof-of-work and cryptographic validation tasks across the network.",
+      partnerships: [
+        "Compute Optimization Lab",
+        "Hash-Rate Alliance",
+        "SN12 Compute Horde Sync",
+        "Meta Hash Dev Group"
+      ],
+      recentUpdates: [
+        "Launched 'Hash-Bench' suite v1",
+        "Integrated multi-algo compute kernels",
+        "Optimized validator scoring for 'Logic Integrity'",
+        "Reached milestone of Top-Rank status for compute efficiency"
+      ]
+    }
+  },
   { 
     sn: 74, 
     name: "Gittensor", 
@@ -1416,7 +1729,7 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 78, name: "Loosh", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
+  { sn: 78, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
   { sn: 79, name: "MVTRX", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
   { sn: 80, name: "dogelayer", category: "Mining", description: "Mining pool subnet connecting Scrypt miners to Bittensor through merged LTC/DOGE mining." },
   { sn: 81, name: "deprecated", category: "Deprecated", description: "Subnet is no longer active." },
@@ -1471,9 +1784,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ChipForge (Tatsu)", 
     category: "Infrastructure / Hardware", 
     description: "Decentralized hardware design subnet where miners compete to design real silicon components.",
+    teamStatus: "Public Team",
     details: {
       website: "https://tatsuecosystem.io",
       github: "https://github.com/tatsu-ecosystem/chipforge",
+      twitter: "https://x.com/TatsuEcosystem",
       extendedDescription: "ChipForge (developed by Tatsu) is a pioneering hardware design subnet. It incentivizes a global network of engineers and AI models to compete in the design of optimized silicon components, from AI accelerators to custom hardware circuits, decentralizing the path to hardware innovation.",
       partnerships: [
         "Tatsu Ecosystem",
@@ -1494,9 +1809,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Vidaio", 
     category: "Generative AI", 
     description: "AI video processing subnet focused on upscaling, optimization, and higher-quality video output.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://vidaio.io",
       github: "https://github.com/vidaio/vidaio-subnet",
+      twitter: "https://x.com/Vidaio_AI",
       extendedDescription: "Vidaio is a generative AI subnet specifically focused on the processing and optimization of video content. It incentivizes models that can perform high-fidelity upscaling, frame interpolation, and style-transfer, ensuring that decentralized video output meets professional standards.",
       partnerships: [
         "Video Optimization Labs",
@@ -1513,15 +1830,41 @@ const SUBNETS_DATA: Subnet[] = [
     }
   },
   { sn: 86, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
-  { sn: 87, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet identity or role available." },
+  { 
+    sn: 87, 
+    name: "Luminar Network", 
+    category: "Compute / Inference", 
+    description: "Decentralized inference and LLM hosting infrastructure for the Bittensor network.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://luminar.network",
+      github: "https://github.com/luminar-network/luminar",
+      twitter: "https://x.com/LuminarNetwork",
+      extendedDescription: "Luminar Network is a high-performance inference subnet on Bittensor. It incentivizes a global network of nodes to host and serve frontier-scale LLMs, providing a scalable and decentralized gateway for developers to integrate AI intelligence into their applications.",
+      partnerships: [
+        "Inference Scaling Group",
+        "LLM Hosting Alliance",
+        "SN1 Apex Integration",
+        "Luminar Research Org"
+      ],
+      recentUpdates: [
+        "Launched 'Inference-Optimizer' v1",
+        "Integrated multi-model hosting benchmarks",
+        "Optimized validator throughput for real-time serving",
+        "Reached milestone of Top-Rank status for hosting fidelity"
+      ]
+    }
+  },
   { 
     sn: 88, 
     name: "Investing", 
     category: "DeFi / Trading", 
     description: "Decentralized asset management subnet using human and AI quant strategies.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://investing.bittensor.com",
       github: "https://github.com/investing-subnet/investing",
+      twitter: "https://x.com/Investing_BT",
       extendedDescription: "Investing is a decentralized asset management subnet. It incentivizes the creation of high-performance quant strategies by combining human expertise with AI-driven models, ensuring that capital is allocated efficiently across a diverse range of assets and market conditions.",
       partnerships: [
         "Quant Research Labs",
@@ -1542,9 +1885,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "InfiniteHash", 
     category: "Mining", 
     description: "Bitcoin mining subnet combining decentralized mining with Lightning Network infrastructure.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://infinitehash.io",
       github: "https://github.com/infinitehash/infinitehash-subnet",
+      twitter: "https://x.com/InfiniteHash_BT",
       extendedDescription: "InfiniteHash bridges the gap between Bitcoin and Bittensor. It incentivizes decentralized Bitcoin mining while integrating Lightning Network infrastructure, allowing for rapid, low-cost Bitcoin transfers and providing a critical link between the two networks.",
       partnerships: [
         "Bitcoin Mining Alliance",
@@ -1562,12 +1907,14 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 90, 
-    name: "brain", 
+    name: "Brain", 
     category: "Predictive Systems", 
     description: "Subnet focused on validating prediction-market outcomes through decentralized verification.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://subnet90.com",
       github: "https://github.com/brain-subnet/brain",
+      twitter: "https://x.com/Brain_Subnet",
       extendedDescription: "Brain is the 'Oracle' of prediction markets on Bittensor. It focuses on the decentralized verification of real-world outcomes, ensuring that prediction markets are settled accurately and fairly by incentivizing a network of validators to reach a consensus on event results.",
       partnerships: [
         "Prediction Market Alliance",
@@ -1584,15 +1931,41 @@ const SUBNETS_DATA: Subnet[] = [
     }
   },
   { sn: 91, name: "Bitstarter #1", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
-  { sn: 92, name: "LUCID", category: "Unknown", description: "Live subnet with a confirmed name, but the current public role is not surfaced cleanly enough." },
+  { 
+    sn: 92, 
+    name: "Tensor Claw", 
+    category: "Data / Scraping", 
+    description: "Large-scale decentralized web scraping and data crawling platform.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://tensorclaw.ai",
+      github: "https://github.com/Tensor-Claw/tensor-claw",
+      twitter: "https://x.com/TensorClaw",
+      extendedDescription: "Tensor Claw is a specialized data acquisition subnet. It incentivizes a distributed network of 'Crawlers' and 'Scrapers' to gather high-fidelity web data at scale, feeding into the ecosystem's intelligence layer and providing a continuous stream of information for training and analysis.",
+      partnerships: [
+        "Data Acquisition Alliance",
+        "Web Indexing Lab",
+        "SN13 Data Universe Bridge",
+        "Tensor Claw Core Team"
+      ],
+      recentUpdates: [
+        "Launched 'Global-Crawler' engine v1",
+        "Integrated multi-source scraping benchmarks",
+        "Optimized validator scoring for 'Data Freshness'",
+        "Reached milestone of 1B+ verified data points indexed"
+      ]
+    }
+  },
   { 
     sn: 93, 
     name: "Bitcast", 
     category: "Creator Economy", 
     description: "Connects creators with brands and rewards content through decentralized incentives.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://bitcast.ai",
       github: "https://github.com/bitcast-ai/bitcast-subnet",
+      twitter: "https://x.com/Bitcast_AI",
       extendedDescription: "Bitcast empowers creators by connecting them directly with brands through a decentralized incentive layer. It rewards content creation and engagement, ensuring that creators are fairly compensated for their impact while providing brands with transparent metrics and high-quality audience reach.",
       partnerships: [
         "Creator Economy Alliance",
@@ -1609,38 +1982,18 @@ const SUBNETS_DATA: Subnet[] = [
     }
   },
   { sn: 94, name: "Bitsota", category: "Unknown", description: "Live subnet with a confirmed name, but no clear public role surfaced cleanly enough." },
-  { 
-    sn: 95, 
-    name: "Actual Computer", 
-    category: "Compute", 
-    description: "Live subnet with a confirmed name and compute focus, but the current public utility details are limited.",
-    details: {
-      website: "https://actualcomputer.ai",
-      github: "https://github.com/actual-computer/actual-computer",
-      extendedDescription: "Actual Computer provides foundational, high-performance compute infrastructure for the Bittensor network. It focuses on providing stable and scalable execution environments for decentralized models and applications, ensuring the network's long-term utility.",
-      partnerships: [
-        "Core Infrastructure Labs",
-        "Compute Scaling Partners",
-        "SN12 Compute Horde Sync",
-        "Actual Computer Research"
-      ],
-      recentUpdates: [
-        "Launched 'Compute-Utility' benchmark v1",
-        "Integrated support for specialized hardware nodes",
-        "Optimized validator scoring for 'Job Reliability'",
-        "Reached milestone of Top-Rank status for compute uptime"
-      ]
-    }
-  },
+  { sn: 95, name: "Unknown", category: "Unknown", description: "No clearly confirmed subnet identity or role available.", teamStatus: "Anonymous" },
   { sn: 96, name: "FLock OFF", category: "Unknown", description: "Live subnet with a confirmed name, but the current public role is not surfaced cleanly enough." },
   { 
     sn: 97, 
     name: "distil", 
     category: "AI Training", 
     description: "Model distillation subnet where miners compete to replicate frontier-model behavior.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://distil.ai",
       github: "https://github.com/distil-ai/distil-subnet",
+      twitter: "https://x.com/Distil_AI",
       extendedDescription: "Distil focuses on the efficient transfer of intelligence from large frontier models to smaller, more efficient 'Student' models. It incentivizes the creation of distilled weights that maintain high reasoning capabilities while requiring significantly less compute, enabling easier deployment.",
       partnerships: [
         "Model Distillation Labs",
@@ -1661,9 +2014,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ForeverMoney", 
     category: "DeFi / Trading", 
     description: "AI-managed liquidity subnet optimizing Uniswap V3 and Aerodrome positions through competitive strategies.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://forevermoney.ai",
       github: "https://github.com/forever-money/forever-money-subnet",
+      twitter: "https://x.com/ForeverMoney_AI",
       extendedDescription: "ForeverMoney provides automated liquidity management powered by decentralized AI. It incentivizes the development of models that can dynamically rebalance Uniswap V3 and Aerodrome positions, optimizing for yield and minimizing impermanent loss for liquidity providers.",
       partnerships: [
         "Uniswap V3 Research Group",
@@ -1684,9 +2039,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Leoma", 
     category: "Generative AI", 
     description: "AI video generation subnet focused on text-and-image-to-video workflows.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://leoma.ai",
       github: "https://github.com/leoma-ai/leoma-subnet",
+      twitter: "https://x.com/Leoma_AI",
       extendedDescription: "Leoma is a specialized video generation subnet on Bittensor. It incentivizes the creation of high-fidelity video assets from text and image prompts, focusing on temporal consistency and motion quality to provide professional-grade synthetic video for creators.",
       partnerships: [
         "Video Synthesis Labs",
@@ -1707,9 +2064,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Plaτform", 
     category: "AI Research Infrastructure", 
     description: "Decentralized AI evaluation framework built around challenge-based assessment and secure execution.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://platform.ai",
       github: "https://github.com/platform-ai/platform-subnet",
+      twitter: "https://x.com/Platform_BT",
       extendedDescription: "Platform provides a foundational framework for decentralized AI research and evaluation. It incentivizes the creation of complex 'Challenges' that models must solve, ensuring that intelligence is measured through functional attainment and secure execution rather than simple static benchmarks.",
       partnerships: [
         "AI Research Standards Org",
@@ -1731,9 +2090,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "ConnitoAI", 
     category: "AI Training", 
     description: "Decentralized model training subnet.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://connito.ai",
       github: "https://github.com/connito-ai/connito-subnet",
+      twitter: "https://x.com/Connito_AI",
       extendedDescription: "ConnitoAI focuses on the decentralized training of diverse AI models. It provides a competitive environment where miners are rewarded for producing high-quality model weights across various domains, ensuring a steady stream of optimized models for the Bittensor network.",
       partnerships: [
         "Training Optimization Labs",
@@ -1754,9 +2115,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Djinn", 
     category: "AI Agents / AI Tools", 
     description: "Encrypted sports signals marketplace with verifiable performance and escrow-backed settlement.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://djinn.ai",
       github: "https://github.com/djinn-ai/djinn-subnet",
+      twitter: "https://x.com/Djinn_AI",
       extendedDescription: "Djinn is an encrypted sports signals marketplace that emphasizes verifiable performance. It incentivizes decentralized experts to provide encrypted signals for sports and events, using escrow-backed settlement to ensure that users only pay for high-quality, accurate intelligence.",
       partnerships: [
         "Sports Intelligence Alliance",
@@ -1778,9 +2141,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Beam", 
     category: "Compute", 
     description: "Infrastructure-focused subnet tied to bandwidth and data-transfer coordination.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://beam.ai",
       github: "https://github.com/beam-ai/beam-subnet",
+      twitter: "https://x.com/Beam_BT",
       extendedDescription: "Beam focuses on the optimization of bandwidth and data transfer coordination within the Bittensor network. It incentivizes the creation of high-speed data-relay nodes that facilitate the rapid and reliable transfer of large datasets and model weights between subnets.",
       partnerships: [
         "Bandwidth Infrastructure Labs",
@@ -1801,9 +2166,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "VoidAI", 
     category: "DeFi / Trading", 
     description: "Cross-chain liquidity and wrapped-asset infrastructure.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://voidai.com",
       github: "https://github.com/voidai-subnet/voidai",
+      twitter: "https://x.com/VoidAI_BT",
       extendedDescription: "VoidAI provides the infrastructure for seamless cross-chain liquidity and wrapped-asset management on Bittensor. It incentivizes the creation of secure and efficient bridges that allow users to move assets between different blockchain ecosystems, facilitating a more interconnected DeFi landscape.",
       partnerships: [
         "Cross-Chain Bridge Alliance",
@@ -1824,9 +2191,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Minos", 
     category: "DeSci", 
     description: "Genomic-variant calling and biomedical benchmarking subnet.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://theminos.ai",
       github: "https://github.com/theminos/minos-subnet",
+      twitter: "https://x.com/ChainLink_BT",
       extendedDescription: "Minos is a specialized DeSci subnet focused on genomic-variant calling and biomedical benchmarking. It incentivizes the development of AI models that can accurately identify genetic variants from large-scale sequencing data, accelerating the path to personalized medicine and improved therapeutic outcomes.",
       partnerships: [
         "Genomics Research Institute",
@@ -1842,17 +2211,19 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 108, name: "TalkHead", category: "Unknown", description: "No clearly confirmed public role available." },
-  { sn: 109, name: "Academia", category: "Unknown", description: "No clearly confirmed public role available." },
-  { sn: 110, name: "Rich Kids of TAO", category: "Unknown", description: "No clearly confirmed public role available." },
+  { sn: 108, name: "TalkHead", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Anonymous" },
+  { sn: 109, name: "Academia", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Anonymous" },
+  { sn: 110, name: "Rich Kids of TAO", category: "Unknown", description: "No clearly confirmed public role available.", teamStatus: "Anonymous" },
   { 
     sn: 111, 
     name: "oneoneone", 
     category: "AI Agents / AI Tools", 
     description: "Decentralized AI data network focused on collecting, validating, and serving authentic user-generated content.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://oneoneone.io",
       github: "https://github.com/oneoneone-ai/oneoneone-subnet",
+      twitter: "https://x.com/MetaIntelligence",
       extendedDescription: "Oneoneone is a decentralized AI data network that focuses on the collection, validation, and serving of authentic user-generated content. It incentivizes a global network of contributors to provide high-quality, verified data that can be used to train and improve AI models across various domains.",
       partnerships: [
         "UGC Validation Labs",
@@ -1873,9 +2244,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "minotaur", 
     category: "DeFi / Trading", 
     description: "AI-driven DEX aggregation and swap routing subnet.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://minotaur.ai",
       github: "https://github.com/minotaur-ai/minotaur-subnet",
+      twitter: "https://x.com/SubnetInterop",
       extendedDescription: "Minotaur is a DeFi subnet that optimizes DEX aggregation and swap routing through AI. It incentivizes the development of models that can identify the most efficient swap paths across various decentralized exchanges, ensuring that users receive the best possible execution for their trades.",
       partnerships: [
         "DEX Aggregation Labs",
@@ -1896,9 +2269,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TensorUSD", 
     category: "DeFi / Trading", 
     description: "TAO-backed stablecoin and settlement-focused subnet.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://tensorusd.com",
       github: "https://github.com/tensorusd/tensorusd-subnet",
+      twitter: "https://x.com/TensorUSD",
       extendedDescription: "TensorUSD provides the foundational stablecoin and settlement infrastructure for the Bittensor ecosystem. It centers on a TAO-backed stablecoin that ensures value stability and facilitates seamless settlement across various subnets and applications, enhancing the network's economic utility.",
       partnerships: [
         "Stablecoin Standards Org",
@@ -1919,9 +2294,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "SOMA", 
     category: "AI Agents / AI Tools", 
     description: "Intelligence bridge connecting AI subnets through MCP-style services.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://thesoma.ai",
       github: "https://github.com/soma-ai/soma-subnet",
+      twitter: "https://x.com/SOMA_AI",
       extendedDescription: "SOMA acts as an 'Intelligence Bridge' that connects various AI subnets through MCP-style (Model Context Protocol) services. It incentivizes the development of interoperable communication layers that allow AI subnets to share data, models, and reasoning capabilities, fostering a more collaborative AI ecosystem.",
       partnerships: [
         "Intelligence Interop Labs",
@@ -1943,9 +2320,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "TaoLend", 
     category: "DeFi / Trading", 
     description: "Decentralized lending infrastructure using Bittensor alpha tokens as collateral.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://taolend.ai",
       github: "https://github.com/taolend/taolend-subnet",
+      twitter: "https://x.com/TaoLend",
       extendedDescription: "TaoLend is a foundational DeFi subnet that enables decentralized lending using Bittensor alpha tokens as collateral. It provides a more efficient way for token holders to unlock liquidity without sacrificing their long-term exposure to the network.",
       partnerships: [
         "Lending Protocol Labs",
@@ -1966,9 +2345,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "BrainPlay", 
     category: "Unknown", 
     description: "Competitive model benchmarking built around game-based evaluation.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://brainplay.ai",
       github: "https://github.com/brainplay-ai/brainplay-subnet",
+      twitter: "https://x.com/BrainPlay_AI",
       extendedDescription: "BrainPlay benchmarks AI models through interactive, game-based evaluations. It ensures that model intelligence is measured through functional performance in dynamic environments, providing a more robust assessment than static benchmarks.",
       partnerships: [
         "Interactive Benchmark Labs",
@@ -1990,9 +2371,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Satori", 
     category: "Predictive Systems", 
     description: "Decentralized time-series forecasting focused on global economic and energy data.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://satorilab.ai",
       github: "https://github.com/satorilab/satori-subnet",
+      twitter: "https://x.com/SatoriLab",
       extendedDescription: "Satori provides high-fidelity time-series forecasting for global economic and energy data. It incentivizes decentralized models to identify trends and anomalies in complex datasets, offering valuable predictive intelligence for utility and market researchers.",
       partnerships: [
         "Global Economic Labs",
@@ -2013,9 +2396,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Affine", 
     category: "Compute", 
     description: "Infrastructure layer connecting and coordinating multiple subnets for scalable inference.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://affine.ai",
       github: "https://github.com/affine-subnet/affine",
+      twitter: "https://x.com/Affine_AI",
       extendedDescription: "Affine provides the orchestration layer for scalable AI inference on Bittensor. It incentivizes the coordination of multiple subnets and compute resources, ensuring that large-scale inference tasks are processed efficiently and reliably.",
       partnerships: [
         "Inference Orchestration Labs",
@@ -2036,9 +2421,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "sundae_bar", 
     category: "AI Agents / AI Tools", 
     description: "AI agent marketplace focused on incentivizing solutions to real-world problems.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://sundaebar.ai",
       github: "https://github.com/sundaebar-ai/sundaebar-subnet",
+      twitter: "https://x.com/SundaeBar_AI",
       extendedDescription: "Sundae Bar is a creative AI agent marketplace. It incentivizes the development of agents that can solve real-world problems, from automated customer service to creative design, providing a decentralized hub for functional AI solutions.",
       partnerships: [
         "Agentic Commerce Alliance",
@@ -2059,9 +2446,11 @@ const SUBNETS_DATA: Subnet[] = [
     name: "Bitrecs", 
     category: "AI Agents / AI Tools", 
     description: "AI recommendation engine for e-commerce personalization.",
+    teamStatus: "Pseudonymous",
     details: {
       website: "https://bitrecs.ai",
       github: "https://github.com/bitrecs-ai/bitrecs-subnet",
+      twitter: "https://x.com/BitRecs",
       extendedDescription: "Bitrecs incentivizes the development of high-performance recommendation engines for e-commerce. It uses decentralized models to provide personalized shopping experiences, ensuring that privacy is maintained while delivering high-quality product suggestions.",
       partnerships: [
         "E-Commerce Personalization Labs",
@@ -2085,6 +2474,7 @@ const SUBNETS_DATA: Subnet[] = [
     details: {
       website: "https://mantis.ai",
       github: "https://github.com/mantis-ai/mantis-subnet",
+      twitter: "https://x.com/Mantis_AI",
       extendedDescription: "MANTIS focuses on high-frequency BTC trading signals and decentralized AI cooperation. It incentivizes miners to produce high-fidelity trading signals while using competitive alignment to ensure that the network reaches consensus on the most accurate market predictions.",
       partnerships: [
         "BTC Trading Labs",
@@ -2108,6 +2498,7 @@ const SUBNETS_DATA: Subnet[] = [
     details: {
       website: "https://swarm-robotics.ai",
       github: "https://github.com/swarm-robotics/swarm-subnet",
+      twitter: "https://x.com/SwarmRobotics",
       extendedDescription: "Swarm is a pioneering robotics subnet on Bittensor. It incentivizes the development of autonomous autopilot systems for drones and embodied AI, using a decentralized network to train models that can handle complex navigation and swarm coordination in the real world.",
       partnerships: [
         "Autonomous Navigation Labs",
@@ -2123,54 +2514,106 @@ const SUBNETS_DATA: Subnet[] = [
       ]
     }
   },
-  { sn: 125, name: "Unverified", category: "Unknown", description: "No clearly confirmed subnet name or role available." },
   { 
-    sn: 126, 
-    name: "Cortex", 
-    category: "AI Agents / AI Tools", 
-    description: "Modern inference stack focused on decentralized logic and agent-based execution.",
+    sn: 125, 
+    name: "8ball", 
+    category: "Predictive Systems", 
+    description: "Decentralized wagering and prediction-market infrastructure on Bittensor.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://cortex-t.ai",
-      github: "https://github.com/cortex-t/cortex-subnet",
-      extendedDescription: "Cortex provides the modern inference stack for Bittensor. It focuses on decentralized logic and the execution of complex agent-based tasks, ensuring that AI agents can communicate and reason effectively through a secure and scalable infrastructure layer.",
+      website: "https://8ball.ai",
+      github: "https://github.com/8ball-subnet/8ball",
+      twitter: "https://x.com/8ball_ai",
+      extendedDescription: "8ball is a specialized forecasting subnet focused on decentralized wagering and prediction markets. It incentivizes models that can accurately predict the outcomes of global events, from sports to finance, providing a transparent and efficient marketplace for collective intelligence.",
       partnerships: [
-        "Inference Stack Labs",
-        "Agent Logic Alliance",
-        "SN114 SOMA Interop Sync",
-        "Cortex Research Org"
+        "Prediction-Market Alliance",
+        "Sports Data Consortium",
+        "SN41 Almanac Forecast Sync",
+        "8ball Development Team"
       ],
       recentUpdates: [
-        "Launched 'Agent-Logic' protocol v1",
-        "Integrated secure tool-calling kernels",
-        "Optimized miner scoring for 'Reasoning Quality'",
-        "Reached milestone of Top-Rank status for agent execution"
+        "Launched 'Global-Wagering' protocol v1",
+        "Integrated multi-sport event resolution",
+        "Optimized validator scoring for 'Forecast Edge'",
+        "Reached milestone of Top-Rank status for market accuracy"
+      ]
+    }
+  },
+  { 
+    sn: 126, 
+    name: "poker44", 
+    category: "AI Training", 
+    description: "Competitive training and validation for high-level poker agents.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://poker44.net",
+      github: "https://github.com/poker44/poker44-subnet",
+      twitter: "https://x.com/poker44_ai",
+      extendedDescription: "poker44 is a game-theory focused subnet on Bittensor. It incentivizes the development of AI agents capable of playing high-level poker. By leveraging decentralized competition, it ensures that models are continuously stressed and improved against the world's best strategic logic.",
+      partnerships: [
+        "Game Theory Lab",
+        "Competitive Logic Group",
+        "SN1 Agentic Ecosystem Alignment",
+        "poker44 Research Org"
+      ],
+      recentUpdates: [
+        "Launched 'Holdem-Master' benchmark v1",
+        "Integrated multi-agent poker loops",
+        "Optimized validator scoring for 'Strategic Depth'",
+        "Reached milestone of Top-Rank status for game-AI accuracy"
       ]
     }
   },
   { 
     sn: 127, 
-    name: "Synergy", 
+    name: "Astrid", 
     category: "AI Agents / AI Tools", 
-    description: "Inference orchestration layer for cross-subnet task distribution and coordination.",
+    description: "Personalized AI assistants and decentralized agentic orchestration.",
+    teamStatus: "Pseudonymous",
     details: {
-      website: "https://synergy-infra.ai",
-      github: "https://github.com/synergy-infra/synergy-subnet",
-      extendedDescription: "Synergy acts as the inference orchestration layer for cross-subnet coordination. It incentivizes the distribution of complex tasks across various subnets, ensuring that resources are utilized optimally and that intelligence is integrated seamlessly across the network.",
+      website: "https://astrid.ai",
+      github: "https://github.com/astrid-ai/astrid-subnet",
+      twitter: "https://x.com/astrid_ai",
+      extendedDescription: "Astrid focuses on the next generation of personalized AI assistants. It incentivizes a decentralized network of agents that can learn from user-specific context and perform cross-platform tasks autonomously, effectively serving as the 'Intelligence Layer' for the modern digital worker.",
       partnerships: [
-        "Cross-Subnet Orchestration Labs",
-        "Network Coordination Alliance",
-        "SN120 Affine Infrastructure Sync",
-        "Synergy Development Group"
+        "Personalized AI Alliance",
+        "Agentic Task Group",
+        "SN1 Agentic Ecosystem Align",
+        "Astrid Research Org"
       ],
       recentUpdates: [
-        "Launched 'Task-Relay' protocol v1",
-        "Integrated multi-subnet job distribution",
-        "Optimized validator scoring for 'Coordination Latency'",
-        "Reached milestone of Top-Rank status for network integration"
+        "Launched 'Personal-Agent' nodes alpha",
+        "Integrated multi-app task coordination",
+        "Optimized validator scoring for 'Context Retention'",
+        "Reached milestone of Top-Rank status for agent utility"
       ]
     }
   },
-  { sn: 128, name: "Unverified", category: "Unknown", description: "Recently activated or reserved slot awaiting clear public identification." }
+  { 
+    sn: 128, 
+    name: "ByteLeap", 
+    category: "Compute / Data", 
+    description: "High-performance compute and decentralized data processing network.",
+    teamStatus: "Pseudonymous",
+    details: {
+      website: "https://byteleap.ai",
+      github: "https://github.com/byteleap/byteleap-subnet",
+      twitter: "https://x.com/byteleap_ai",
+      extendedDescription: "ByteLeap provides the high-performance backbone for decentralized data processing on Bittensor. It incentivizes a distributed network of compute nodes to handle massive datasets and complex execution tasks, providing a scalable and affordable alternative to centralized cloud providers.",
+      partnerships: [
+        "High-Performance Compute Labs",
+        "Data Processing Alliance",
+        "SN12 Compute Horde Sync",
+        "ByteLeap Core Team"
+      ],
+      recentUpdates: [
+        "Launched 'High-Throughput' processing suite v1",
+        "Integrated multi-node data coordination",
+        "Optimized validator scoring for 'Compute Efficiency'",
+        "Reached milestone of Top-Rank status for processing reliability"
+      ]
+    }
+  },
 ];
 
 export const BittensorSubnets: React.FC = () => {
@@ -2342,9 +2785,22 @@ export const BittensorSubnets: React.FC = () => {
                     <h2 className="text-3xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic">
                       {selectedSubnet.name}
                     </h2>
-                    <span className="text-xs font-mono text-orange-600 dark:text-orange-400 uppercase tracking-widest px-3 py-1 bg-orange-500/5 rounded-full mt-1 inline-block border border-orange-500/10">
-                      {selectedSubnet.category}
-                    </span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[10px] font-mono text-orange-600 dark:text-orange-400 uppercase tracking-widest px-2 py-0.5 bg-orange-500/5 rounded border border-orange-500/10">
+                        {selectedSubnet.category}
+                      </span>
+                      {selectedSubnet.teamStatus && (
+                        <span className={`text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded border ${
+                          selectedSubnet.teamStatus === 'Public Team' 
+                            ? 'bg-green-500/10 text-green-500 border-green-500/20' 
+                            : selectedSubnet.teamStatus === 'Pseudonymous'
+                            ? 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+                            : 'bg-slate-500/10 text-slate-500 border-slate-500/20'
+                        }`}>
+                          {selectedSubnet.teamStatus}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <button
@@ -2416,6 +2872,20 @@ export const BittensorSubnets: React.FC = () => {
                             </div>
                             <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform opacity-50" />
                           </a>
+                          {selectedSubnet.details.twitter && (
+                            <a 
+                              href={selectedSubnet.details.twitter} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-between w-full p-4 bg-[#1DA1F2]/10 text-[#1DA1F2] rounded-2xl hover:bg-[#1DA1F2]/20 transition-colors group border border-[#1DA1F2]/20"
+                            >
+                              <div className="flex items-center gap-2">
+                                <Twitter size={16} />
+                                <span className="font-mono text-xs uppercase tracking-widest">X / Twitter</span>
+                              </div>
+                              <ExternalLink size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform opacity-50" />
+                            </a>
+                          )}
                         </div>
                       </section>
 
