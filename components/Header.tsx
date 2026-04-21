@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   const navItems: { label: string; view?: View; url?: string; icon?: React.ReactNode }[] = [
     { label: 'HOME', view: 'home' as View },
     { label: 'VIDEOS', view: 'ainews' as View },
-    { label: 'BITTENSOR', view: 'bittensor' as View },
+    { label: 'BITTENSOR', view: 'bittensor-subnets' as View },
     { label: 'PORTFOLIO', view: 'portfolio' as View },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];

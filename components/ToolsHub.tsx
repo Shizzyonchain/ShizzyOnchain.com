@@ -6,7 +6,13 @@ import {
   Layers, 
   Zap, 
   ChevronRight, 
-  Coins
+  Coins,
+  Wallet,
+  Rocket,
+  Search,
+  Building2,
+  Server,
+  Network
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -15,14 +21,17 @@ interface ToolCardProps {
   icon: React.ReactNode;
   view?: View;
   url?: string;
+  internalRoute?: string;
   colorClass: string;
   onNavigate: (view: View) => void;
   badge?: string;
 }
 
-const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, url, colorClass, onNavigate, badge }) => {
+const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, url, internalRoute, colorClass, onNavigate, badge }) => {
   const handleClick = () => {
-    if (url) {
+    if (internalRoute) {
+      window.location.hash = internalRoute;
+    } else if (url) {
       window.open(url, '_blank', 'noopener,noreferrer');
     } else if (view) {
       onNavigate(view);
@@ -53,13 +62,13 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, url
         <h3 className="text-2xl md:text-3xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic group-hover:text-orange-600 transition-colors">
           {title}
         </h3>
-        <p className="text-slate-500 dark:text-slate-400 font-inter leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+        <p className="text-slate-500 dark:text-slate-400 font-inter leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity whitespace-pre-line">
           {description}
         </p>
       </div>
       
       <div className="mt-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 group-hover:translate-x-2 transition-transform duration-300">
-        GO TO SITE <ChevronRight size={14} />
+        {internalRoute ? 'VIEW SITE' : 'GO TO SITE'} <ChevronRight size={14} />
       </div>
     </button>
   );
@@ -87,6 +96,76 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
       icon: <Layers />,
       view: 'bubbles' as View,
       colorClass: 'text-teal-500'
+    },
+    {
+      title: 'TAO BUBBLES',
+      description: 'Real-time visualization of Bittensor subnets and performance.',
+      icon: <Layers />,
+      url: 'https://taobubbles.net',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'TAO FLUTE',
+      description: 'Comprehensive overview and analytics for Bittensor subnets.',
+      icon: <Layers />,
+      url: 'https://taoflute.com/d/c043704a-865a-4eaf-8d41-7ffdbcaad6c7/subnets-overview?orgId=2&from=now-6h&to=now&timezone=browser&kiosk=&var-target_subnets=$__all',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'CRUCIBLE WALLET',
+      description: 'Securely manage your TAO assets with the Crucible Wallet Chrome extension.',
+      icon: <Wallet />,
+      url: 'https://chromewebstore.google.com/detail/crucible-wallet/capjnhbneiilplogojhmhepiocnjpgee?authuser=5&hl=en',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'TAO STATS WALLET',
+      description: 'The official Bittensor Chrome Wallet by Taostats.',
+      icon: <Wallet />,
+      url: 'https://taostats.io/bittensor-chrome-wallet',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'KICKSTARTER',
+      description: 'Discover new teams\nPre-vetted by protocol pros\nPledge TAO\nBack the alpha before it\'s Alpha\nLaunch new subnets\nGet subnet tokens at pre-launch rates',
+      icon: <Rocket />,
+      url: 'https://www.bitstarter.ai/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'TAO WALLET EXPLORER',
+      description: 'Explore the TAO blockchain and track wallet activity.',
+      icon: <Search />,
+      url: 'https://www.tao.app/explorer',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'STILLCORE CAPITAL',
+      description: 'A U.S. fund exclusively dedicated to Bittensor — bridging traditional capital to the decentralized AI revolution.',
+      icon: <Building2 />,
+      url: 'https://stillcorecapital.com/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'YUMA AI',
+      description: 'Yuma powers transformative\nprojects on Bittensor that will\nreshape our futures.',
+      icon: <Cpu />,
+      url: 'https://www.yumaai.com/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'CHUTES',
+      description: 'Breakthrough Serverless Compute for AI, At Scale. Powering Trillions of Tokens per Month, Chutes is the leading open-source, decentralized compute provider for deploying, scaling and running open-source models in production.',
+      icon: <Server />,
+      url: 'https://chutes.ai/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'RIDGES',
+      description: 'Incentivized AI training.',
+      icon: <Network />,
+      url: 'https://www.ridges.ai/',
+      colorClass: 'text-orange-500'
     }
   ];
 
