@@ -11,13 +11,21 @@ interface AINewsFeedProps {
 
 export const AINewsFeed: React.FC<AINewsFeedProps> = ({ hideHeader = false }) => {
   const [snapshotData, setSnapshotData] = useState(() => newsService.getLatestSnapshotItems());
+  const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
-    // Basic sync visual effect
-    const timer = setTimeout(() => {
+    const performSync = async () => {
+      setIsSyncing(true);
+      await newsService.sync();
       setSnapshotData(newsService.getLatestSnapshotItems());
-    }, 100);
-    return () => clearTimeout(timer);
+      setIsSyncing(false);
+    };
+
+    performSync();
+    
+    // Refresh periodically if kept open
+    const interval = setInterval(performSync, 600000); // 10 mins
+    return () => clearInterval(interval);
   }, []);
 
   const { items, lastUpdate } = snapshotData;
@@ -40,7 +48,7 @@ export const AINewsFeed: React.FC<AINewsFeedProps> = ({ hideHeader = false }) =>
       {!hideHeader && (
         <div className="text-center space-y-6">
           <h1 className="text-6xl md:text-9xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter italic leading-none">
-            Videos
+            Headlines
           </h1>
         </div>
       )}

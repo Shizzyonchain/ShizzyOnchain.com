@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Header } from './components/Header.tsx';
 import { ResearchDashboard } from './components/ResearchDashboard.tsx';
 import { DefiDashboard } from './components/DefiDashboard.tsx';
@@ -68,56 +69,69 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
-    if (currentView === 'research') return (
-      <div className="max-w-[1400px] mx-auto py-10 px-6">
-        <ResearchDashboard />
-      </div>
-    );
-    if (currentView === 'defi') return (
-      <div className="max-w-[1400px] mx-auto py-10 px-6">
-        <DefiDashboard />
-      </div>
-    );
-    if (currentView === 'bubbles') return <BubblesDashboard />;
-    if (currentView === 'ainews') return (
-      <div className="max-w-[1400px] mx-auto px-6">
-        <AINewsFeed />
-      </div>
-    );
-    if (currentView === 'cryptonews') return (
-      <TaoAlphaDashboard />
-    );
-    if (currentView === 'videos') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <VideosFeed />
-      </div>
-    );
-    if (currentView === 'aicoins') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <AICoinsDashboard />
-      </div>
-    );
-    if (currentView === 'cryptocoins') return (
-      <div className="max-w-[1400px] mx-auto px-6 py-10">
-        <CryptoCoinsDashboard />
-      </div>
-    );
-    if (currentView === 'tools') return <ToolsHub onNavigate={handleViewChange} />;
-    if (currentView === 'bittensor-subnets' || currentView === 'bittensor') return <BittensorSubnets />;
-    if (currentView === 'contact') return <ContactPage />;
-    if (currentView === 'send-tip') return <SendTip />;
-    if (currentView === 'portfolio') return <Portfolio />;
-    if (currentView === 'all-comments') return <AllComments />;
-
-    return <Overview />;
+    switch (currentView) {
+      case 'research': return (
+        <div className="max-w-[1400px] mx-auto py-10 px-6">
+          <ResearchDashboard />
+        </div>
+      );
+      case 'defi': return (
+        <div className="max-w-[1400px] mx-auto py-10 px-6">
+          <DefiDashboard />
+        </div>
+      );
+      case 'bubbles': return <BubblesDashboard />;
+      case 'ainews': return (
+        <div className="max-w-[1400px] mx-auto px-6">
+          <AINewsFeed />
+        </div>
+      );
+      case 'cryptonews': return <TaoAlphaDashboard />;
+      case 'videos': return (
+        <div className="max-w-[1400px] mx-auto px-6 py-10">
+          <VideosFeed />
+        </div>
+      );
+      case 'aicoins': return (
+        <div className="max-w-[1400px] mx-auto px-6 py-10">
+          <AICoinsDashboard />
+        </div>
+      );
+      case 'cryptocoins': return (
+        <div className="max-w-[1400px] mx-auto px-6 py-10">
+          <CryptoCoinsDashboard />
+        </div>
+      );
+      case 'tools': return <ToolsHub onNavigate={handleViewChange} />;
+      case 'bittensor-subnets':
+      case 'bittensor': return <BittensorSubnets />;
+      case 'contact': return <ContactPage />;
+      case 'send-tip': return <SendTip />;
+      case 'portfolio': return <Portfolio />;
+      case 'all-comments': return <AllComments />;
+      default: return <Overview />;
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#050505] transition-colors duration-300 font-sans text-[#111111] dark:text-slate-200 relative">
-      <div className="fixed inset-0 noise pointer-events-none z-[999]" />
+    <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#050505] transition-colors duration-300 font-sans text-[#111111] dark:text-slate-200 relative terminal-glow">
+      <div className="fixed inset-0 noise pointer-events-none z-[999] opacity-[0.03]" />
+      <div className="fixed inset-0 scanline pointer-events-none z-[998]" />
+      
       <Header darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} onViewChange={handleViewChange} currentView={currentView} />
+      
       <main className="relative z-10">
-        {renderContent()}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentView}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
+            {renderContent()}
+          </motion.div>
+        </AnimatePresence>
       </main>
     </div>
   );

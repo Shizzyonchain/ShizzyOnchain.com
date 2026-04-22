@@ -18,7 +18,9 @@ export const SOCIAL_LINKS = {
   email: 'Shizzyunchained@gmail.com',
   logo: 'https://i.postimg.cc/LsK32BC0/Overlay-main-(1).png',
   heroImage: 'https://i.postimg.cc/Y9fN4MJk/SU-Shizzy-Background-new-(25).png',
-  innovationFirstLogo: 'https://i.postimg.cc/85zXp9mX/Innovation-First-Logo.png' 
+  innovationFirstLogo: 'https://i.postimg.cc/85zXp9mX/Innovation-First-Logo.png',
+  nordVpn: 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained',
+  ledger: 'https://shop.ledger.com/?r=49c0bef9b376'
 };
 
 export const OVERVIEW_CONTENT = {
@@ -86,6 +88,17 @@ export const OVERVIEW_CONTENT = {
     disclaimer: 'Not financial advice. Just research and personal takes on the space.'
   }
 };
+
+export const TICKER_SIGNALS = [
+  "SN1 ACCESS GRANTED",
+  "LIQUIDITY ROTATION DETECTED",
+  "UPLINK STABLE",
+  "NEW SUBNET EMISSION SPIKE: SN15",
+  "VALI-SET UPDATE PENDING",
+  "TAO FLOWS POSITIVE",
+  "INSIDER SIGNAL: SN19 DEPLOYED",
+  "NETWORK STATUS: NOMINAL"
+];
 
 export const DAILY_RIP_POSTS = [
   {

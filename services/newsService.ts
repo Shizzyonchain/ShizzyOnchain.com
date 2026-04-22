@@ -181,6 +181,11 @@ const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
 
 export const newsService = {
   getLatestSnapshotItems(): { items: AINewsItem[], lastUpdate: number, isConfigured: boolean } {
+    const localData = localStorage.getItem('shizzy_news_cache');
+    if (localData) {
+      const { items, lastUpdate } = JSON.parse(localData);
+      return { items, lastUpdate, isConfigured: true };
+    }
     return { 
       items: MANUALLY_CURATED_SIGNALS, 
       lastUpdate: Date.now(),
@@ -189,6 +194,53 @@ export const newsService = {
   },
 
   async sync(): Promise<void> {
-    return Promise.resolve();
+    try {
+      // PROXY RSS FETCH FOR AI HEADLINES
+      const rssUrl = `https://cointelegraph.com/rss/category/artificial-intelligence`;
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+      
+      const response = await fetch(proxyUrl);
+      const data = await response.json();
+      
+      if (data.contents) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+        const items = xmlDoc.getElementsByTagName("item");
+        
+        const fetchedNews: AINewsItem[] = Array.from(items).slice(0, 10).map((entry, idx) => {
+          const title = entry.getElementsByTagName("title")[0]?.textContent || '';
+          const url = entry.getElementsByTagName("link")[0]?.textContent || '';
+          const published_at = entry.getElementsByTagName("pubDate")[0]?.textContent || '';
+          const description = entry.getElementsByTagName("description")[0]?.textContent || '';
+          
+          // Image Extraction from Cointelegraph RSS (often in media:content or <img>)
+          let imageUrl = 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=400&auto=format&fit=crop';
+          const mediaContent = entry.getElementsByTagName("media:content")[0];
+          if (mediaContent) imageUrl = mediaContent.getAttribute("url") || imageUrl;
+
+          return {
+            id: `rss-${idx}`,
+            title: title.toUpperCase(),
+            url,
+            source: 'Coingtelegraph AI',
+            published_at,
+            image_url: imageUrl,
+            excerpt: description.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...',
+            tags: ['AI News', 'Live Feed']
+          };
+        });
+
+        const combinedNews = [...MANUALLY_CURATED_SIGNALS, ...fetchedNews];
+        // Sort by date (mock date for curation, real for RSS)
+        combinedNews.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
+
+        localStorage.setItem('shizzy_news_cache', JSON.stringify({ 
+          items: combinedNews, 
+          lastUpdate: Date.now() 
+        }));
+      }
+    } catch (error) {
+      console.error('News Sync System Failure:', error);
+    }
   }
 };

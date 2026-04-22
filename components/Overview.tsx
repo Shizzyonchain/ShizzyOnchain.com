@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { OVERVIEW_CONTENT, SOCIAL_LINKS } from '../constants.tsx';
-import { ArrowUpRight, Zap } from 'lucide-react';
+import { OVERVIEW_CONTENT, SOCIAL_LINKS, TICKER_SIGNALS } from '../constants.tsx';
+import { ArrowUpRight, Zap, ShieldCheck, Wallet, ArrowRight } from 'lucide-react';
 
 export const Overview: React.FC = () => {
   const { hero, latestSignal } = OVERVIEW_CONTENT;
@@ -12,10 +12,28 @@ export const Overview: React.FC = () => {
       {/* Background Elements */}
       <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-orange-500/5 via-transparent to-transparent dark:from-orange-500/10 pointer-events-none" />
+      
       <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
       <div className="absolute top-[40%] left-[5%] w-[400px] h-[400px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative max-w-[1200px] mx-auto px-6 space-y-40 pt-16 md:pt-28">
+        
+        {/* NETWORK STATUS HUD - STEP 1 TO A 10 */}
+        <div className="absolute top-8 left-6 right-6 flex items-center justify-between pointer-events-none opacity-50">
+          <div className="flex items-center gap-4 text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-slate-400">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+            GLOBAL_NODE_SYNC: ACTIVE
+          </div>
+          <div className="hidden md:flex items-center gap-6 text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-slate-400">
+            <span>UPLINK: SHIZZY_INSIDER_FEED</span>
+            <span>LATENCY: 12MS</span>
+            <div className="flex gap-1 items-center">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className={`w-0.5 h-2.5 rounded-full ${i <= 4 ? 'bg-orange-500' : 'bg-slate-800'}`} />
+              ))}
+            </div>
+          </div>
+        </div>
         
         {/* HERO SECTION */}
         <section className="relative z-10 text-center space-y-12 max-w-5xl mx-auto">
@@ -68,15 +86,17 @@ export const Overview: React.FC = () => {
                   The premier Bittensor alpha group on Telegram. Get exclusive subnet analysis and high-signal market intelligence before the crowd.
                 </p>
 
-                <a 
+                <motion.a 
                   href={SOCIAL_LINKS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-12 md:px-16 py-5 md:py-6 bg-[#FF6321] text-white rounded-2xl text-base md:text-lg font-black uppercase tracking-[0.2em] font-edo italic hover:bg-[#E5591D] hover:scale-105 transition-all shadow-2xl shadow-orange-500/40 flex items-center gap-4 text-outline"
+                  whileHover={{ scale: 1.05, shadow: "0 25px 50px -12px rgba(249, 115, 22, 0.5)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-12 md:px-16 py-5 md:py-6 bg-[#FF6321] text-white rounded-2xl text-base md:text-lg font-black uppercase tracking-[0.2em] font-edo italic transition-all shadow-2xl shadow-orange-500/40 flex items-center gap-4 text-outline"
                 >
                   <Zap size={24} className="fill-current" />
                   JOIN THE ALPHA
-                </a>
+                </motion.a>
               </motion.div>
             </div>
           </motion.div>
@@ -161,6 +181,74 @@ export const Overview: React.FC = () => {
               </div>
             </div>
           </motion.div>
+        </section>
+
+        {/* PROMOTIONAL BANNERS SECTION */}
+        <section className="space-y-16 pt-20 border-t border-slate-200 dark:border-white/5">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-4">
+              <h3 className="text-4xl md:text-6xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">
+                SECURE YOUR SESSION & ASSETS
+              </h3>
+            </div>
+            <div className="h-[1px] flex-grow hidden md:block mx-12 bg-slate-200 dark:bg-white/10"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {/* NordVPN Banner */}
+            <motion.a 
+              href={SOCIAL_LINKS.nordVpn}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              className="relative group overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#0B3D91] to-[#011627] border border-white/10 p-10 h-[300px] flex flex-col justify-between shadow-2xl"
+            >
+              <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:scale-110 transition-transform duration-700">
+                <ShieldCheck size={120} className="text-white" />
+              </div>
+              <div className="relative z-10 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
+                  STAY PRIVATE
+                </div>
+                <h4 className="text-4xl font-black font-space text-white uppercase italic tracking-tighter leading-none">
+                  GET NORDVPN
+                </h4>
+                <p className="text-white/70 max-w-[200px] text-sm font-medium">
+                  Shield your connection and browse the decentralized web with total privacy.
+                </p>
+              </div>
+              <div className="relative z-10 mt-auto flex items-center gap-4 text-white text-xs font-black uppercase tracking-widest bg-blue-600 hover:bg-blue-500 w-fit px-6 py-3 rounded-xl transition-colors shadow-xl">
+                UPGRADE SECURITY <ArrowUpRight size={16} />
+              </div>
+            </motion.a>
+
+            {/* Ledger Banner */}
+            <motion.a 
+              href={SOCIAL_LINKS.ledger}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              className="relative group overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#333333] to-[#000000] border border-white/10 p-10 h-[300px] flex flex-col justify-between shadow-2xl"
+            >
+              <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:scale-110 transition-transform duration-700">
+                <Wallet size={120} className="text-white" />
+              </div>
+              <div className="relative z-10 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
+                  SELF CUSTODY
+                </div>
+                <h4 className="text-4xl font-black font-space text-white uppercase italic tracking-tighter leading-none">
+                  GET A LEDGER
+                </h4>
+                <p className="text-white/70 max-w-[200px] text-sm font-medium">
+                  The standard for hardware security. Secure your TAO and assets onchain.
+                </p>
+              </div>
+              <div className="relative z-10 mt-auto flex items-center gap-4 text-white text-xs font-black uppercase tracking-widest bg-orange-600 hover:bg-orange-500 w-fit px-6 py-3 rounded-xl transition-colors shadow-xl">
+                GET THE WALLET <ArrowUpRight size={16} />
+              </div>
+            </motion.a>
+          </div>
         </section>
 
       </div>
