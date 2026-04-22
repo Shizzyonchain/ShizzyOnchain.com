@@ -121,7 +121,7 @@ if (match) {
           nums.push('10');
           // sort so it's clean
           nums.sort((a,b) => parseInt(a) - parseInt(b));
-          newText = newText.replace(regexExisting, \`const existing = [\${nums.join(', ')}];\`);
+          newText = newText.replace(regexExisting, `const existing = [${nums.join(', ')}];`);
       }
   }
 
