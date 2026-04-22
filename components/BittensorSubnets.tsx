@@ -55,18 +55,10 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 3, 
-    name: "MyShell", 
-    category: "AI Agents / Bots", 
-    description: "Ecosystem for creating and deploying AI agents and personalized digital beings.",
-    teamStatus: "Documented Team",
-    details: {
-      website: "https://myshell.ai",
-      github: "https://github.com/myshell-ai/myshell-subnet",
-      twitter: "https://x.com/myshell_ai",
-      extendedDescription: "MyShell is a decentralized AI consumer layer for sophisticated AI agents.",
-      partnerships: ["MyShell Labs", "SN1 Apex"],
-      recentUpdates: ["Creator dashboard v2", "1M+ active sessions"]
-    }
+    name: "Deprecated", 
+    category: "Unknown", 
+    description: "This subnet is currently deprecated.",
+    teamStatus: "Undocumented Team"
   },
   { 
     sn: 4, 
@@ -85,18 +77,10 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 5, 
-    name: "Open-Kaito", 
-    category: "Search / Information", 
-    description: "Decentralized search and information retrieval built for the AI economy.",
-    teamStatus: "Documented Team",
-    details: {
-      website: "https://www.kaito.ai",
-      github: "https://github.com/OpenKaito/open-kaito",
-      twitter: "https://x.com/kaitoai",
-      extendedDescription: "Open-Kaito is a decentralized search engine index managed by the Kaito AI team.",
-      partnerships: ["Kaito AI", "OpenTensor Foundation"],
-      recentUpdates: ["V2 indexing protocol live", "Global search throughput increased"]
-    }
+    name: "Hone", 
+    category: "Unknown", 
+    description: "Hone subnet.",
+    teamStatus: "Undocumented Team"
   },
   { 
     sn: 6, 
@@ -115,21 +99,14 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 7, 
-    name: "Subvortex", 
+    name: "Always", 
     category: "Infrastructure", 
-    description: "Decentralized cloud infrastructure and low-latency relay network.",
-    teamStatus: "Undocumented Team",
-    details: {
-      website: "https://subvortex.ai",
-      github: "https://github.com/subvortex/subvortex",
-      extendedDescription: "Subvortex (sometimes branded as Always) provides core infrastructure for real-time AI and high-speed data routing.",
-      partnerships: ["Network Relay Group"],
-      recentUpdates: ["Ultra-low latency protocol", "Global node coverage expansion"]
-    }
+    description: "Always network.",
+    teamStatus: "Undocumented Team"
   },
   { 
     sn: 8, 
-    name: "Vanta (Taoshi)", 
+    name: "Vanta", 
     category: "DeFi / Trading", 
     description: "Proprietary trading network powered by decentralized signal intelligence.",
     teamStatus: "Documented Team",
@@ -144,7 +121,7 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 9, 
-    name: "Pretraining (Iota)", 
+    name: "iota", 
     category: "AI Training", 
     description: "Large-scale decentralized model pretraining infrastructure.",
     teamStatus: "Documented Team",
@@ -188,7 +165,7 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 18, 
-    name: "Zeus (Taoshi)", 
+    name: "Zeus", 
     category: "Predictive Systems", 
     description: "Time-series forecasting and market analysis powered by Taoshi.",
     teamStatus: "Documented Team",
@@ -203,7 +180,7 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 19, 
-    name: "Vision (Corcel/Omega)", 
+    name: "blockmachine", 
     category: "Generative AI", 
     description: "Multi-modal inference and image generation suite.",
     teamStatus: "Documented Team",
@@ -218,7 +195,7 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 22, 
-    name: "Desearch (5Cube)", 
+    name: "Desearch", 
     category: "Search / Information", 
     description: "Decentralized search index and unbiased information discovery.",
     teamStatus: "Documented Team",
@@ -233,7 +210,7 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 24, 
-    name: "Omega", 
+    name: "Quasar", 
     category: "Compute / Data", 
     description: "Scalable data scraping and real-time processing network.",
     teamStatus: "Documented Team",
@@ -248,7 +225,7 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 32, 
-    name: "Roleplay (Alpha Shizzy)", 
+    name: "ItsAI", 
     category: "AI Agents / Bots", 
     description: "Narrative and personality-driven AI agent ecosystem.",
     teamStatus: "Documented Team",
@@ -260,35 +237,7 @@ const SUBNETS_DATA: Subnet[] = [
       recentUpdates: ["Personality benchmark v1", "Narrative sync integrated"]
     }
   },
-  ...Array.from({ length: 128 }, (_, i) => {
-    const sn = i + 1;
-    const existing = [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 18, 19, 22, 24, 32];
-    if (existing.includes(sn)) return null;
-
-    const knownNames: Record<number, { name: string, category: string }> = {
-      10: { name: "Swap", category: "DeFi" },
-      11: { name: "TrajectoryRL", category: "AI Training" },
-      14: { name: "Prompting", category: "AI Agents" },
-      15: { name: "ORO", category: "AI Tools" },
-      16: { name: "BitAds", category: "AI Marketing" },
-      20: { name: "BitMind", category: "Security" },
-      21: { name: "FileTao", category: "Storage" },
-      27: { name: "Compute", category: "Compute" },
-      30: { name: "Bettensor", category: "Predictive" },
-      41: { name: "Almanac", category: "Predictive" },
-      97: { name: "Distil", category: "AI Training" }
-    };
-
-    const known = knownNames[sn];
-
-    return {
-      sn,
-      name: known ? known.name : `Subnet ${sn}`,
-      category: known ? known.category : "Bittensor Network",
-      description: "Active Bittensor subnet performing decentralized validation tasks.",
-      teamStatus: "Undocumented Team"
-    } as Subnet;
-  }).filter(Boolean) as Subnet[]
+  ...Array.from({ length: 128 }, (_, i) => { const sn = i + 1; const existing = [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 18, 19, 22, 24, 32]; if (existing.includes(sn)) return null; const names = {"0":"Root","1":"Apex","2":"DSperse","3":"Deprecated","4":"Targon","5":"Hone","6":"Numinous","7":"Always","8":"Vanta","9":"iota","10":"Swap","11":"TrajectoryRL","12":"Compute Horde","13":"Data Universe","14":"TAOHash","15":"ORO","16":"BitAds","17":"404—GEN","18":"Zeus","19":"blockmachine","20":"GroundLayer","21":"AdTAO","22":"Desearch","23":"Trishool","24":"Quasar","25":"Mainframe","26":"beqar","27":"Nodexo","28":"gm","29":"Coldint","30":"Pending","31":"Halftime","32":"ItsAI","33":"ReadyAI","34":"BitMind","35":"OxMarkets","36":"Unknown","37":"Aurelius","38":"colosseum","39":"deprecated","40":"Chunking","41":"Almanac","42":"Unknown","43":"Graphite","44":"Score","45":"Talisman AI","46":"RESI","47":"EvolAI","48":"Quantum Compute","49":"Nepher Robotics","50":"Synth","51":"lium.io","52":"Dojo","53":"EfficientFrontier","54":"Yanez MIID","55":"NIOME","56":"Gradients","57":"Sparket.AI","58":"Handshake","59":"Babelbit","60":"Bitsec.ai","61":"RedTeam","62":"Ridges","63":"Enigma","64":"Chutes","65":"TAO Private Network","66":"ninja","67":"Harnyx","68":"NOVA","69":"Unknown","70":"NexisGen","71":"Leadpoet","72":"StreetVision by NATIX","73":"MetaHash","74":"Gittensor","75":"Hippius","76":"Byzantium","77":"Liquidity","78":"Vocence","79":"MVTRX","80":"dogelayer","81":"deprecated","82":"Hermes","83":"CliqueAI","84":"ChipForge (Tatsu)","85":"Vidaio","86":"⚒","87":"Luminar Network","88":"Investing","89":"InfiniteHash","90":"Unknown","91":"Bitstarter #1","92":"TensorClaw","93":"Bitcast","94":"Bitsota","95":"Unknown","96":"Verathos","97":"distil","98":"ForeverMoney","99":"Leoma","100":"Plaτform","101":"Unknown","102":"ConnitoAI","103":"Djinn","104":"for sale (burn to uid1)","105":"Beam","106":"VoidAI","107":"Minos","108":"TalkHead","109":"Academia","110":"Green Compute","111":"oneoneone","112":"minotaur","113":"TensorUSD","114":"SOMA","115":"HashiChain","116":"TaoLend","117":"BrainPlay","118":"HODL","119":"Satori","120":"Affine","121":"sundae_bar","122":"Bitrecs","123":"MANTIS","124":"Swarm","125":"8 Ball","126":"Poker44","127":"Astrid","128":"ByteLeap"}; return { sn, name: names[sn] || 'Subnet ' + sn, category: 'Unknown', description: 'Active Bittensor subnet.', teamStatus: 'Undocumented Team' }; }).filter(Boolean) as Subnet[]
 ];
 export const BittensorSubnets: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
