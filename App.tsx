@@ -10,7 +10,7 @@ import { AINewsFeed } from './components/AINewsFeed.tsx';
 import { VideosFeed } from './components/VideosFeed.tsx';
 import { AICoinsDashboard } from './components/AICoinsDashboard.tsx';
 import { CryptoCoinsDashboard } from './components/CryptoCoinsDashboard.tsx';
-import { TaoAlphaDashboard } from './components/TaoAlphaDashboard.tsx';
+import { CryptoNewsFeed } from './components/CryptoNewsFeed.tsx';
 import { ToolsHub } from './components/ToolsHub.tsx';
 import { BittensorSubnets } from './components/BittensorSubnets.tsx';
 import { ContactPage } from './components/ContactPage.tsx';
@@ -86,7 +86,11 @@ const App: React.FC = () => {
           <AINewsFeed />
         </div>
       );
-      case 'cryptonews': return <TaoAlphaDashboard />;
+      case 'cryptonews': return (
+        <div className="max-w-[1400px] mx-auto px-6 py-10">
+          <CryptoNewsFeed />
+        </div>
+      );
       case 'videos': return (
         <div className="max-w-[1400px] mx-auto px-6 py-10">
           <VideosFeed />

@@ -75,26 +75,26 @@ const SUBNETS_DATA: Subnet[] = [
   },
   { 
     sn: 3, 
-    name: "Teutonic", 
-    category: "AI Training", 
-    description: "AI training subnet using market-driven incentives to improve model performance.",
+    name: "MyShell", 
+    category: "AI Agents / Bots", 
+    description: "An ecosystem for creating and deploying AI agents, chatbots, and personalized digital beings.",
     teamStatus: "Documented Team",
     details: {
-      website: "https://teutonic.ai",
-      github: "https://github.com/teutonical/teutonic-subnet",
-      twitter: "https://x.com/teutonic_ai",
-      extendedDescription: "Teutonic is a model-agnostic training subnet that incentivizes miners to fine-tune and optimize AI weights for specific domains. It utilizes a competitive benchmark system where validators score models based on their perplexity and reasoning capabilities across high-quality curated datasets.",
+      website: "https://myshell.ai",
+      github: "https://github.com/myshell-ai/myshell-subnet",
+      twitter: "https://x.com/myshell_ai",
+      extendedDescription: "MyShell is a decentralized AI consumer layer that enables creators to build and deploy sophisticated AI agents. It incentivizes the production of high-quality conversational bots and interactive digital personas, providing a seamless bridge between complex model weights and end-user experiences.",
       partnerships: [
-        "Foundry Services",
-        "SN9 Pretraining Collaborative",
-        "Corcel API Integration",
-        "OpenTensor Training Research"
+        "MyShell Labs",
+        "OpenTensor Foundation",
+        "SN1 Apex Integration",
+        "SN13 Data Repository"
       ],
       recentUpdates: [
-        "Implemented 'Dynamic Dataset' rotation for training",
-        "Enhanced validation logic to penalize overfitted models",
-        "Launched support for Mistral-7B optimization paths",
-        "Updated incentive mechanism for lower hardware barriers"
+        "Launched 'Pro-Creator' dashboard v2",
+        "Integrated cross-platform bot deployment",
+        "Optimized validator scoring for 'User Engagement'",
+        "Reached milestone of 1M+ active agent sessions"
       ]
     }
   },
@@ -2643,13 +2643,17 @@ export const BittensorSubnets: React.FC = () => {
   const [selectedSubnet, setSelectedSubnet] = useState<Subnet | null>(null);
   const [taoStats, setTaoStats] = useState<GeckoCoin | null>(null);
   const [loadingStats, setLoadingStats] = useState(false);
+  const [lastSync, setLastSync] = useState<string>('');
 
   const fetchTaoStats = async () => {
     setLoadingStats(true);
     try {
       const markets = await coinGeckoProxy.getTopMarkets(undefined, true);
       const tao = markets.find(m => m.id === 'bittensor');
-      if (tao) setTaoStats(tao);
+      if (tao) {
+        setTaoStats(tao);
+        setLastSync(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      }
     } catch (error) {
       console.error("Bittensor Network Sync Failure:", error);
     } finally {
@@ -2696,7 +2700,7 @@ export const BittensorSubnets: React.FC = () => {
         <div className="bg-white/5 rounded-2xl p-4 flex items-center justify-between border border-white/5">
           <div className="flex items-center gap-3">
             <RefreshCw className={`text-orange-500 ${loadingStats ? 'animate-spin' : ''}`} size={16} />
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Live TAO</span>
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Live TAO {lastSync && <span className="block text-[7px] opacity-50 mt-0.5">@ {lastSync}</span>}</span>
           </div>
           <div className="text-right">
             <p className="text-sm font-black text-white font-mono leading-none">
@@ -2735,7 +2739,9 @@ export const BittensorSubnets: React.FC = () => {
             <Zap className="text-white animate-pulse" size={16} fill="currentColor" />
             <span className="text-[10px] text-white uppercase tracking-widest">Network Pulse</span>
           </div>
-          <p className="text-sm text-white font-space uppercase">Operating</p>
+          <div className="text-[10px] bg-white/20 text-white px-3 py-1 rounded-full flex items-center gap-2">
+            OPERATING
+          </div>
         </div>
       </div>
 
@@ -2877,45 +2883,7 @@ export const BittensorSubnets: React.FC = () => {
                 {subnet.description}
               </p>
 
-              <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Activity size={14} className="text-orange-500" />
-                    <span className="text-[10px] font-black font-space text-slate-400 uppercase tracking-widest">Network Pulse</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
-                    <span className="text-[9px] font-mono text-emerald-500 font-bold">SYNCED</span>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-mono text-slate-500 uppercase">Vali Count</p>
-                    <p className="text-xs font-black dark:text-white">{(subnet.sn * 7) % 32 + 32}/64</p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-mono text-slate-500 uppercase">APY Mode</p>
-                    <p className="text-xs font-black text-orange-500 italic">{((subnet.sn * 13) % 15 + 18).toFixed(1)}%</p>
-                  </div>
-                </div>
-
-                <div className="pt-2">
-                  <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-tighter mb-1.5">
-                    <span>Inference Health</span>
-                    <span className="text-orange-500">{(subnet.sn * 3) % 8 + 92}%</span>
-                  </div>
-                  <div className="h-1 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(subnet.sn * 3) % 8 + 92}%` }}
-                      className="h-full bg-gradient-to-r from-orange-600 to-orange-400"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-orange-500 transition-colors pt-6">
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-orange-500 transition-colors pt-8 border-t border-slate-100 dark:border-white/5 mt-8">
                 Deep Dive Research <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </motion.div>
@@ -3016,44 +2984,6 @@ export const BittensorSubnets: React.FC = () => {
                         </p>
                       </section>
 
-                      {/* INSIDER'S TAKE - STEP 3 TO A 10 */}
-                      <section className="bg-orange-500/5 dark:bg-orange-500-[0.02] border border-orange-500/10 rounded-3xl p-6 md:p-8 space-y-6">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
-                              <Zap size={20} fill="currentColor" />
-                            </div>
-                            <div>
-                              <h4 className="text-sm font-black font-space text-slate-900 dark:text-white uppercase tracking-widest leading-none">The Insider's Take</h4>
-                              <p className="text-[10px] font-mono text-orange-600 dark:text-orange-400 uppercase tracking-widest mt-1">Alpha Analysis Exclusive</p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-4 bg-white dark:bg-black/40 px-4 py-2 rounded-xl border border-slate-200 dark:border-white/5">
-                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Signal Strength</span>
-                            <div className="flex gap-1">
-                              {[1, 2, 3, 4, 5].map((i) => (
-                                <div 
-                                  key={i} 
-                                  className={`w-1.5 h-4 rounded-full ${
-                                    i <= (selectedSubnet.sn % 3 + 3) ? 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]' : 'bg-slate-200 dark:bg-slate-800'
-                                  }`} 
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="relative">
-                          <MessageSquare className="absolute -left-2 -top-2 text-orange-500/20 w-12 h-12 -z-10" />
-                          <p className="text-slate-700 dark:text-slate-300 text-base md:text-lg leading-relaxed font-bold italic tracking-tight">
-                            "{(selectedSubnet.sn * 7) % 2 === 0 
-                              ? `This subnet is currently seeing a massive influx of institutional-grade compute. I'm watching the validator rotation here closely—if the top-tier pools start re-staking, we could see an emission spike that catches the market off guard.`
-                              : `The technical fundamentals here are solid, but the network-wide awareness is still lagging. This is a classic 'quiet before the storm' scenario where the infrastructure is ready but the tokenomics haven't fully priced in the new inference routing.`}"
-                          </p>
-                        </div>
-                      </section>
-
                       <section className="space-y-4">
                         <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold uppercase tracking-tight">
                           <Calendar size={18} className="text-orange-500" />
@@ -3064,27 +2994,6 @@ export const BittensorSubnets: React.FC = () => {
                             <div key={idx} className="flex gap-4 p-4 bg-slate-50 dark:bg-white/2 rounded-2xl border border-slate-200 dark:border-white/5 group hover:border-orange-500/20 transition-colors">
                               <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0 group-hover:scale-125 transition-transform" />
                               <p className="text-sm text-slate-600 dark:text-slate-400">{update}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </section>
-
-                      {/* NETWORK FORENSICS - STEP 2 TO A 10 */}
-                      <section className="pt-6 border-t border-slate-100 dark:border-white/5 space-y-6">
-                        <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold uppercase tracking-tight">
-                          <Activity size={18} className="text-orange-500" />
-                          Network Forensics
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                          {[
-                            { label: "Mining Power", value: `${((selectedSubnet.sn * 13) % 40 + 60).toFixed(1)} PH/s` },
-                            { label: "Difficulty", value: `${((selectedSubnet.sn * 9) % 50 + 10).toFixed(1)}T` },
-                            { label: "Cycle Pos", value: `${((selectedSubnet.sn * 2) % 100)}%` },
-                            { label: "Validator Stake", value: `${((selectedSubnet.sn * 11) % 500 + 1200).toFixed(0)} TAO` }
-                          ].map((stat, i) => (
-                            <div key={i} className="p-4 bg-slate-50 dark:bg-white/2 rounded-2xl border border-slate-200 dark:border-white/5">
-                              <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">{stat.label}</p>
-                              <p className="text-sm font-black dark:text-white font-space uppercase italic">{stat.value}</p>
                             </div>
                           ))}
                         </div>

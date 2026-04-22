@@ -122,15 +122,4 @@ export interface DexPair {
   };
 }
 
-export interface TaoSubnet {
-  netuid: number;
-  name: string;
-  symbol: string;
-  emission: number;
-  price_usd?: number;
-  market_cap?: number;
-  stake?: number;
-  daily_rewards?: number;
-}
-
 export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'cryptocoins' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'tools' | 'contact' | 'bittensor' | 'send-tip' | 'portfolio' | 'all-comments' | 'bittensor-subnets';

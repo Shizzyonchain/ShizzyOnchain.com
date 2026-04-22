@@ -26,7 +26,6 @@ export const Overview: React.FC = () => {
           </div>
           <div className="hidden md:flex items-center gap-6 text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-slate-400">
             <span>UPLINK: SHIZZY_INSIDER_FEED</span>
-            <span>LATENCY: 12MS</span>
             <div className="flex gap-1 items-center">
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className={`w-0.5 h-2.5 rounded-full ${i <= 4 ? 'bg-orange-500' : 'bg-slate-800'}`} />

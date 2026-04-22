@@ -78,13 +78,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
           ))}
         </nav>
 
-        {/* Right-aligned Utility Icons */}
         <div className="flex items-center gap-2 md:gap-4 shrink-0">
-          <div className="hidden lg:flex items-center gap-2 mr-4 px-3 py-1.5 bg-slate-100 dark:bg-white/5 rounded-full border border-slate-200 dark:border-white/10 group">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Live Sync: Active</span>
-          </div>
-
           <motion.a 
             href="https://shop.ledger.com/?r=49c0bef9b376"
             target="_blank"
