@@ -181,10 +181,14 @@ const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
 
 export const newsService = {
   getLatestSnapshotItems(): { items: AINewsItem[], lastUpdate: number, isConfigured: boolean } {
-    const localData = localStorage.getItem('shizzy_news_cache');
-    if (localData) {
-      const { items, lastUpdate } = JSON.parse(localData);
-      return { items, lastUpdate, isConfigured: true };
+    try {
+      const localData = localStorage.getItem('shizzy_news_cache');
+      if (localData) {
+        const { items, lastUpdate } = JSON.parse(localData);
+        return { items, lastUpdate, isConfigured: true };
+      }
+    } catch (e) {
+      console.warn("localStorage blocked in newsService", e);
     }
     return { 
       items: MANUALLY_CURATED_SIGNALS, 
@@ -234,10 +238,14 @@ export const newsService = {
         // Sort by date (mock date for curation, real for RSS)
         combinedNews.sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
 
-        localStorage.setItem('shizzy_news_cache', JSON.stringify({ 
-          items: combinedNews, 
-          lastUpdate: Date.now() 
-        }));
+        try {
+          localStorage.setItem('shizzy_news_cache', JSON.stringify({ 
+            items: combinedNews, 
+            lastUpdate: Date.now() 
+          }));
+        } catch (e) {
+          // Storage blocked
+        }
       }
     } catch (error) {
       console.error('News Sync System Failure:', error);

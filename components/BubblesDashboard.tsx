@@ -79,12 +79,20 @@ export const BubblesDashboard: React.FC = () => {
   const imagesCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
 
   useEffect(() => {
-    const saved = localStorage.getItem('onchainrev_bubbles_pinned');
-    if (saved) setPinnedIds(JSON.parse(saved));
+    try {
+      const saved = localStorage.getItem('onchainrev_bubbles_pinned');
+      if (saved) setPinnedIds(JSON.parse(saved));
+    } catch (e) {
+      console.warn("localStorage blocked", e);
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('onchainrev_bubbles_pinned', JSON.stringify(pinnedIds));
+    try {
+      localStorage.setItem('onchainrev_bubbles_pinned', JSON.stringify(pinnedIds));
+    } catch (e) {
+      // Ignore
+    }
   }, [pinnedIds]);
 
   const fetchData = async (force = false) => {

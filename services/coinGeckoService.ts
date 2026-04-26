@@ -71,6 +71,22 @@ class CoinGeckoProxy {
     }
   }
 
+  private safeGetItem(key: string): string | null {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+
+  private safeSetItem(key: string, value: string): void {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      // Storage blocked
+    }
+  }
+
   public async getBubbleMarkets(params: {
     limit: number;
     page?: number;
@@ -80,16 +96,20 @@ class CoinGeckoProxy {
   }): Promise<GeckoCoin[]> {
     const { limit, page = 1, category, force = false, onUpdate } = params;
     const cacheKey = `${BUBBLES_CACHE_KEY}_${limit}_p${page}_${category || 'all'}`;
-    const cached = localStorage.getItem(cacheKey);
+    const cached = this.safeGetItem(cacheKey);
 
     if (cached && !force) {
-      const { data, timestamp }: CacheEntry<GeckoCoin[]> = JSON.parse(cached);
-      if (Date.now() - timestamp < FRESH_THRESHOLD) {
-        return data;
-      }
-      if (onUpdate) {
-        this.executeMarketFetch(limit, page, category, cacheKey, onUpdate);
-        return data;
+      try {
+        const { data, timestamp }: CacheEntry<GeckoCoin[]> = JSON.parse(cached);
+        if (Date.now() - timestamp < FRESH_THRESHOLD) {
+          return data;
+        }
+        if (onUpdate) {
+          this.executeMarketFetch(limit, page, category, cacheKey, onUpdate);
+          return data;
+        }
+      } catch {
+        // Parse error or stale data
       }
     }
 
@@ -135,7 +155,7 @@ class CoinGeckoProxy {
         price_change_percentage_1y_in_currency: c.price_change_percentage_1y_in_currency,
       }));
       
-      localStorage.setItem(cacheKey, JSON.stringify({ data: mappedData, timestamp: Date.now() }));
+      this.safeSetItem(cacheKey, JSON.stringify({ data: mappedData, timestamp: Date.now() }));
       if (onUpdate) onUpdate(mappedData);
       return mappedData;
     }
@@ -144,15 +164,19 @@ class CoinGeckoProxy {
   }
 
   public async getCategoriesStats(onUpdate?: (data: GeckoCategory[]) => void): Promise<GeckoCategory[]> {
-    const cached = localStorage.getItem(CATEGORY_CACHE_KEY);
+    const cached = this.safeGetItem(CATEGORY_CACHE_KEY);
     if (cached) {
-      const { data, timestamp }: CacheEntry<GeckoCategory[]> = JSON.parse(cached);
-      if (Date.now() - timestamp < FRESH_THRESHOLD * 60) return data;
+      try {
+        const { data, timestamp }: CacheEntry<GeckoCategory[]> = JSON.parse(cached);
+        if (Date.now() - timestamp < FRESH_THRESHOLD * 60) return data;
+      } catch {
+        // Parse error
+      }
     }
 
     const data = await this.fetchWithRetry('https://api.coingecko.com/api/v3/coins/categories');
     if (Array.isArray(data)) {
-      localStorage.setItem(CATEGORY_CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+      this.safeSetItem(CATEGORY_CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
       if (onUpdate) onUpdate(data);
       return data;
     }

@@ -35,13 +35,13 @@ export const Portfolio: React.FC = () => {
 
   useEffect(() => {
     // Load liked comments from local storage
-    const savedLikes = localStorage.getItem('shizzy_liked_comments');
-    if (savedLikes) {
-      try {
+    try {
+      const savedLikes = localStorage.getItem('shizzy_liked_comments');
+      if (savedLikes) {
         setLikedComments(new Set(JSON.parse(savedLikes)));
-      } catch (e) {
-        console.error('Failed to parse liked comments', e);
       }
+    } catch (e) {
+      console.warn('localStorage blocked in Portfolio', e);
     }
 
     // Subscribe to Firestore comments
@@ -96,7 +96,9 @@ export const Portfolio: React.FC = () => {
         const newLiked = new Set(likedComments);
         newLiked.delete(id);
         setLikedComments(newLiked);
-        localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
+        try {
+          localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
+        } catch (e) {}
       } else {
         // Like
         await updateDoc(commentRef, {
@@ -105,7 +107,9 @@ export const Portfolio: React.FC = () => {
         const newLiked = new Set(likedComments);
         newLiked.add(id);
         setLikedComments(newLiked);
-        localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
+        try {
+          localStorage.setItem('shizzy_liked_comments', JSON.stringify(Array.from(newLiked)));
+        } catch (e) {}
       }
     } catch (error) {
       console.error("Error updating like:", error);

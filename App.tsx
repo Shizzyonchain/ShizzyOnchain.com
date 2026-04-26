@@ -19,6 +19,39 @@ import { Portfolio } from './components/Portfolio.tsx';
 import { AllComments } from './components/AllComments.tsx';
 import { View } from './types.ts';
 
+// v2.0.2 - Fixed localStorage crashes & Added Error Boundary
+class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: Error | null}> {
+  constructor(props: {children: React.ReactNode}) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-black text-rose-500 p-10 font-mono">
+          <div className="max-w-2xl space-y-4">
+            <h1 className="text-2xl font-black uppercase tracking-tighter">CRITICAL_SYSTEM_ERROR</h1>
+            <p className="text-xs opacity-60 uppercase tracking-widest">The intelligence node has encountered a fatal exception.</p>
+            <pre className="bg-rose-500/10 p-6 rounded-xl border border-rose-500/20 text-[10px] overflow-auto max-h-96">
+              {this.state.error?.stack || this.state.error?.message}
+            </pre>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-rose-500 text-black font-black uppercase tracking-widest text-[10px] rounded-lg"
+            >
+              Restart Node
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [currentView, setCurrentView] = useState<View>('home');
@@ -118,7 +151,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#050505] transition-colors duration-300 font-sans text-[#111111] dark:text-slate-200 relative terminal-glow">
+    <ErrorBoundary>
+      <div className="min-h-screen bg-[#F7F7F8] dark:bg-[#050505] transition-colors duration-300 font-sans text-[#111111] dark:text-slate-200 relative terminal-glow">
       <div className="fixed inset-0 noise pointer-events-none z-[999] opacity-[0.03]" />
       <div className="fixed inset-0 scanline pointer-events-none z-[998]" />
       
@@ -138,6 +172,7 @@ const App: React.FC = () => {
         </AnimatePresence>
       </main>
     </div>
+    </ErrorBoundary>
   );
 };
 
