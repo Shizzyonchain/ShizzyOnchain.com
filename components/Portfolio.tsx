@@ -13,18 +13,17 @@ interface Comment {
 }
 
 const PORTFOLIO_DATA = [
-  { sn: 'SN44', name: 'Score', percent: 21.7 },
+  { sn: 'SN15', name: 'ORO', percent: 20.7 },
+  { sn: 'SN44', name: 'Score', percent: 16.1 },
   { sn: 'SN4', name: 'Targon', percent: 14.7 },
-  { sn: 'SN64', name: 'Chutes', percent: 14.6 },
-  { sn: 'SN66', name: 'NINJA', percent: 9.7 },
-  { sn: 'SN58', name: 'Handshake', percent: 9.1 },
-  { sn: 'SN62', name: 'Ridges', percent: 8.4 },
-  { sn: 'SN5', name: 'Hone', percent: 6.1 },
-  { sn: 'SN105', name: 'Beam', percent: 5.8 },
-  { sn: 'SN68', name: 'NOVA', percent: 4.26 },
-  { sn: 'SN97', name: 'DISTIL', percent: 4.11 },
-  { sn: 'SN46', name: 'RESI', percent: 0.9 },
-  { sn: 'SN93', name: 'Bitcast', percent: 0.9 },
+  { sn: 'SN97', name: 'distil', percent: 8.7 },
+  { sn: 'SN62', name: 'Ridges', percent: 8.3 },
+  { sn: 'SN58', name: 'Handshake', percent: 8.3 },
+  { sn: 'SN5', name: 'Hone', percent: 5.6 },
+  { sn: 'SN66', name: 'ninja', percent: 5.5 },
+  { sn: 'SN105', name: 'Beam', percent: 4.97 },
+  { sn: 'SN68', name: 'NOVA', percent: 4.07 },
+  { sn: 'SN51', name: 'lium.io', percent: 3.06 },
 ];
 
 export const Portfolio: React.FC = () => {
@@ -166,9 +165,9 @@ export const Portfolio: React.FC = () => {
           {/* Image Section */}
           <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4">
             <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
-            <a href="https://x.com/ShizzyUnchained/status/2046078217430151554" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
+            <a href="https://x.com/ShizzyUnchained/status/2048599300125426068?s=20" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
               <img 
-                src="https://i.postimg.cc/yYSCP7hM/Gemini-Generated-Image-b6revyb6revyb6re.png" 
+                src="https://i.postimg.cc/t4hy7vTN/PORT.png" 
                 alt="Shizzy's Portfolio" 
                 className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"

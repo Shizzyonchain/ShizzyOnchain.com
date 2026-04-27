@@ -39,6 +39,41 @@ async function startServer() {
     }
   });
 
+  app.get("/api/env-debug", (req, res) => {
+    res.json({ key: process.env.GEMINI_API_KEY ? process.env.GEMINI_API_KEY.substring(0, 5) : 'MISSING' });
+  });
+
+  app.post("/api/extract-image", express.json(), async (req, res) => {
+    try {
+      const { GoogleGenAI } = await import("@google/genai");
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const response = await fetch('https://i.postimg.cc/t4hy7vTN/PORT.png');
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const result = await ai.models.generateContent({
+        model: 'gemini-2.5-pro',
+        contents: [
+          {
+            role: 'user',
+            parts: [
+              {
+                inlineData: {
+                  data: buffer.toString("base64"),
+                  mimeType: "image/png"
+                }
+              },
+              { text: "Extract the list of Subnet numbers, Subnet names, and their allocation percentages (as numbers) from this portfolio screenshot. Format the output STRICTLY as a JSON array of objects, e.g., [{\"sn\": \"SN15\", \"name\": \"ORO\", \"percent\": 20.7}].  Never use markdown backticks, just output raw JSON array." }
+            ]
+          }
+        ]
+      });
+      res.json({ result: result.text });
+    } catch (err: any) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
