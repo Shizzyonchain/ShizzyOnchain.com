@@ -50,6 +50,13 @@ export const youtubeService = {
       return {
         lives: [
           {
+            id: 'yGPLg_8ZfjA',
+            title: 'TAO Breakout Market Update: Subnet Surge, Institutional Flows, and the Next Leg Up',
+            thumbnail: 'https://img.youtube.com/vi/yGPLg_8ZfjA/maxresdefault.jpg',
+            url: 'https://youtu.be/yGPLg_8ZfjA',
+            type: 'live'
+          },
+          {
             id: '-Yn6AYfNOVI',
             title: 'Bittensor Subnet Update | Subnets Taking Over DePIN?',
             thumbnail: 'https://img.youtube.com/vi/-Yn6AYfNOVI/maxresdefault.jpg',

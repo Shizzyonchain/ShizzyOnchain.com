@@ -8,6 +8,16 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: 'yGPLg_8ZfjA',
+    title: 'TAO BREAKOUT MARKET UPDATE: SUBNET SURGE, INSTITUTIONAL FLOWS, AND THE NEXT LEG UP',
+    url: 'https://youtu.be/yGPLg_8ZfjA',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-27T10:00:00Z',
+    image_url: 'https://img.youtube.com/vi/yGPLg_8ZfjA/maxresdefault.jpg',
+    excerpt: `TAO Breakout Market Update: Subnet Surge, Institutional Flows, and the Next Leg Up`,
+    tags: ['TAO', 'Bittensor', 'Market Update']
+  },
+  {
     id: '-Yn6AYfNOVI',
     title: 'BITTENSOR SUBNET UPDATE | SUBNETS TAKING OVER DEPIN?',
     url: 'https://youtu.be/-Yn6AYfNOVI',
