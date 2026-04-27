@@ -17,6 +17,7 @@ import { ContactPage } from './components/ContactPage.tsx';
 import { SendTip } from './components/SendTip.tsx';
 import { Portfolio } from './components/Portfolio.tsx';
 import { AllComments } from './components/AllComments.tsx';
+import { Footer } from './components/Footer.tsx';
 import { View } from './types.ts';
 
 // v2.0.2 - Fixed localStorage crashes & Added Error Boundary
@@ -171,6 +172,8 @@ const App: React.FC = () => {
           </motion.div>
         </AnimatePresence>
       </main>
+      
+      <Footer />
     </div>
     </ErrorBoundary>
   );

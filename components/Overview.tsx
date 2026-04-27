@@ -247,6 +247,32 @@ export const Overview: React.FC = () => {
                 GET THE WALLET <ArrowUpRight size={16} />
               </div>
             </motion.a>
+            {/* Mentat Minds Banner */}
+            <motion.a 
+              href="https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              className="relative group overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#2b25ff] to-[#110e82] border border-white/10 p-10 md:h-[200px] flex flex-col justify-between shadow-2xl md:col-span-2 md:flex-row md:items-center"
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700 pointer-events-none w-full h-full">
+                <div className="w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent" />
+              </div>
+              <div className="relative z-10 space-y-4 md:space-y-2 md:max-w-[60%]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
+                  STAKING
+                </div>
+                <h4 className="text-4xl font-black font-space text-white uppercase italic tracking-tighter leading-none">
+                  DELEGATE YOUR TAO WITH MENTAT MINDS
+                </h4>
+                <p className="text-white/80 text-sm font-medium">
+                  Less risk, more returns, one click: stake TAO with Mentat Minds. Delegate to start earning TAO.
+                </p>
+              </div>
+              <div className="relative z-10 mt-8 md:mt-0 flex items-center gap-4 text-blue-900 text-xs font-black uppercase tracking-widest bg-white hover:bg-slate-200 px-6 py-4 rounded-xl transition-colors shadow-xl shrink-0">
+                START EARNING TAO <ArrowUpRight size={16} />
+              </div>
+            </motion.a>
           </div>
         </section>
 
