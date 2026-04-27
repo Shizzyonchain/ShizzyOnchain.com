@@ -8,6 +8,16 @@ import { AINewsItem } from '../types.ts';
 
 const MANUALLY_CURATED_SIGNALS: AINewsItem[] = [
   {
+    id: 'gfUUxm1zkFw',
+    title: 'BITCOIN HAS BEEN HIJACKED / BITTENSOR SUBNET UPDATE',
+    url: 'https://youtu.be/gfUUxm1zkFw',
+    source: 'Shizzy Unchained',
+    published_at: '2026-04-27T17:00:00Z',
+    image_url: 'https://img.youtube.com/vi/gfUUxm1zkFw/maxresdefault.jpg',
+    excerpt: `Bitcoin Has Been Hijacked / Bittensor Subnet Update`,
+    tags: ['Bitcoin', 'Bittensor', 'Subnet Update']
+  },
+  {
     id: 'yGPLg_8ZfjA',
     title: 'TAO BREAKOUT MARKET UPDATE: SUBNET SURGE, INSTITUTIONAL FLOWS, AND THE NEXT LEG UP',
     url: 'https://youtu.be/yGPLg_8ZfjA',

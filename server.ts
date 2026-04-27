@@ -1,10 +1,55 @@
 import "dotenv/config";
 import express from "express";
 import { createServer as createViteServer } from "vite";
+import Stripe from "stripe";
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  let stripeClient: Stripe | null = null;
+  function getStripe(): Stripe {
+    if (!stripeClient) {
+      const key = process.env.STRIPE_SECRET_KEY;
+      if (!key) {
+        throw new Error('STRIPE_SECRET_KEY environment variable is required');
+      }
+      stripeClient = new Stripe(key, { apiVersion: "2024-04-10" });
+    }
+    return stripeClient;
+  }
+
+  app.post("/api/create-checkout-session", express.json(), async (req, res) => {
+    try {
+      const stripe = getStripe();
+      const { items } = req.body; // array of { id, name, price, quantity, image }
+
+      const lineItems = items.map((item: any) => ({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: item.name,
+            images: item.image ? [item.image] : [],
+          },
+          unit_amount: Math.round(item.price * 100), // price in cents
+        },
+        quantity: item.quantity || 1,
+      }));
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',
+        line_items: lineItems,
+        success_url: `${req.headers.origin}/shop?success=true`,
+        cancel_url: `${req.headers.origin}/shop?canceled=true`,
+      });
+
+      res.json({ url: session.url });
+    } catch (e: any) {
+      console.error(e);
+      res.status(500).json({ error: e.message });
+    }
+  });
 
   // API Proxy for Taostats to avoid CORS
   app.get("/api/taostats/subnets", async (req, res) => {
