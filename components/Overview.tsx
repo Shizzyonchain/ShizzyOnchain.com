@@ -187,7 +187,7 @@ export const Overview: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-4">
               <h3 className="text-4xl md:text-6xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">
-                SECURE YOUR SESSION & ASSETS
+                SECURE & GROW YOUR ASSETS
               </h3>
             </div>
             <div className="h-[1px] flex-grow hidden md:block mx-12 bg-slate-200 dark:bg-white/10"></div>
