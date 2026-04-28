@@ -54,7 +54,7 @@ async function startServer() {
   // Printful API Integration
   app.get("/api/shop/products", async (req, res) => {
     try {
-      const apiKey = process.env.PRINTFUL_SECRET_KEY || process.env.PRINTFUL_API_KEY;
+      const apiKey = process.env.PRINTFUL_SECRET_KEY;
       if (!apiKey) {
         return res.status(400).json({ error: 'PRINTFUL_SECRET_KEY is missing. Please add it in the Settings menu (bottom left).' });
       }
@@ -157,7 +157,7 @@ async function startServer() {
               name: p.name || syncProduct?.name || 'Unnamed Product',
               price: price,
               image: imageUrl || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80',
-              category: (p.name || '').toLowerCase().includes('hat') ? 'Hat' : 'T-Shirt',
+              category: (p.name || '').toLowerCase().includes('hat') ? 'Hat' : (p.name || '').toLowerCase().includes('hoodie') ? 'Hoodie' : 'T-Shirt',
               description: 'Official Shizzy Unchained Apparel.'
             };
           } catch (e) {
@@ -241,7 +241,7 @@ async function startServer() {
       const arrayBuffer = await response.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
       const result = await ai.models.generateContent({
-        model: 'gemini-2.5-pro',
+        model: 'gemini-1.5-pro',
         contents: [
           {
             role: 'user',
