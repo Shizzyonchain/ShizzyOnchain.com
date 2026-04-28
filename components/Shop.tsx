@@ -24,15 +24,29 @@ export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewCh
         const res = await fetch('/api/shop/products');
         const data = await res.json();
         
-        if (res.ok && Array.isArray(data)) {
-          setProducts(data);
-          if (data.length === 0) {
-            setError('No published products found in your Printful store. Please ensure you have added products to your Printful store.');
+        if (res.ok) {
+          const fetchedProducts = data.products || [];
+          setProducts(fetchedProducts);
+          if (fetchedProducts.length === 0) {
+            setError(
+              <div className="space-y-4">
+                <p className="font-bold">{data.debug || 'No products found.'}</p>
+                <div className="bg-white/5 p-4 rounded-xl text-sm border border-white/10 space-y-2">
+                  <p className="text-orange-400 font-bold uppercase tracking-wider">Troubleshooting:</p>
+                  <ul className="list-disc list-inside space-y-1 opacity-70">
+                    <li>Go to your <b>Printful Dashboard</b></li>
+                    <li>Click <b>Product Templates</b> or <b>Product Catalog</b></li>
+                    <li>Ensure you have clicked <b>"Add to store"</b> for your Hoodie and Hat</li>
+                    <li>Verify the status is <b>"Synced"</b> or <b>"Active"</b></li>
+                    <li>Check if you have multiple stores and the products are in the first one</li>
+                  </ul>
+                  {data.hint && <p className="pt-2 text-white italic">{data.hint}</p>}
+                </div>
+              </div> as any
+            );
           }
-        } else if (data.error) {
-          setError(data.error);
         } else {
-          setError('Failed to fetch products from the server.');
+          setError(data.error || 'Failed to fetch products from the server.');
         }
       } catch (err) {
         console.error('Failed to fetch items:', err);
@@ -110,7 +124,7 @@ export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewCh
         <div className="lg:col-span-2 space-y-12">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-7xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">
-              Latest Gear
+              All Clothing and Hats
             </h1>
             <p className="text-slate-500 dark:text-white/60 text-lg max-w-xl">
               High-quality apparel for the Bittensor ecosystem. Stand out while contributing to decentralized AI.

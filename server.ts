@@ -56,48 +56,96 @@ async function startServer() {
     try {
       const apiKey = process.env.PRINTFUL_API_KEY;
       if (!apiKey) {
-        return res.status(400).json({ error: 'PRINTFUL_API_KEY is missing in environment variables. Please add it in Settings.' });
+        return res.status(400).json({ error: 'PRINTFUL_API_KEY is missing. Please add it in the Settings menu (bottom left).' });
       }
 
-      // 1. Get the list of products
-      const listResponse = await fetch('https://api.printful.com/store/products', {
+      console.log('Fetching stores to verify API key...');
+      const storesResponse = await fetch('https://api.printful.com/stores', {
         headers: { 'Authorization': `Bearer ${apiKey}` }
       });
+
+      if (!storesResponse.ok) {
+        const err = await storesResponse.text();
+        return res.status(storesResponse.status).json({ error: `Printful API Auth Failed: ${err}` });
+      }
+
+      const storesData = await storesResponse.json();
+      const stores = storesData.result || [];
+
+      if (stores.length === 0) {
+        console.log('No stores found, attempting global sync products fetch...');
+        return await fetchGlobalProducts(apiKey, res);
+      }
+
+      console.log(`Found ${stores.length} stores. Searching for products...`);
       
-      if (!listResponse.ok) {
-        const errorText = await listResponse.text();
-        console.error('Printful API error:', errorText);
-        return res.status(listResponse.status).json({ error: `Printful API returned ${listResponse.status}: ${errorText}` });
+      // Try to find products in ANY store
+      let allFoundProducts: any[] = [];
+      let debugStoresInfo = stores.map((s: any) => `${s.name} (ID: ${s.id})`).join(', ');
+      
+      for (const store of stores) {
+        const listResponse = await fetch(`https://api.printful.com/store/products?store_id=${store.id}`, {
+          headers: { 'Authorization': `Bearer ${apiKey}` }
+        });
+        
+        if (listResponse.ok) {
+          const listData = await listResponse.json();
+          if (listData.result && listData.result.length > 0) {
+            console.log(`Found ${listData.result.length} products in store: ${store.name}`);
+            allFoundProducts = [...allFoundProducts, ...listData.result];
+          }
+        }
       }
 
-      const listData = await listResponse.json();
-      const products = listData.result || [];
-
-      if (products.length === 0) {
-        return res.json([]);
+      // If still nothing, try the "Sync Products" endpoint
+      if (allFoundProducts.length === 0) {
+        console.log('No store products found, checking global sync products...');
+        const syncResponse = await fetch('https://api.printful.com/sync/products', {
+          headers: { 'Authorization': `Bearer ${apiKey}` }
+        });
+        if (syncResponse.ok) {
+          const syncData = await syncResponse.json();
+          if (syncData.result && syncData.result.length > 0) {
+            allFoundProducts = syncData.result;
+          }
+        }
       }
 
-      // 2. Fetch detailed info (including prices) for each product
+      if (allFoundProducts.length === 0) {
+        return res.json({ 
+          products: [], 
+          debug: `Connected to Printful stores [${debugStoresInfo}], but found 0 products.`,
+          hint: 'Your products might be "Templates" only. In Printful, go to "Product Templates", select your item, and click "Add to store". They must be synced to a store to show up here.'
+        });
+      }
+
+      // 2. Fetch detailed info
       const detailedProducts = await Promise.all(
-        products.slice(0, 15).map(async (p: any) => {
+        allFoundProducts.slice(0, 20).map(async (p: any) => {
           try {
-            const detailRes = await fetch(`https://api.printful.com/store/products/${p.id}`, {
+            // Try store endpoint first
+            let detailRes = await fetch(`https://api.printful.com/store/products/${p.id}`, {
               headers: { 'Authorization': `Bearer ${apiKey}` }
             });
-            const detailData = await detailRes.json();
-            const productData = detailData.result;
+            let detailData = await detailRes.json();
             
+            // Fallback to sync endpoint
+            if (!detailData.result) {
+              const syncDetailRes = await fetch(`https://api.printful.com/sync/products/${p.id}`, {
+                headers: { 'Authorization': `Bearer ${apiKey}` }
+              });
+              detailData = await syncDetailRes.json();
+            }
+
+            const productData = detailData.result;
             if (!productData) return null;
 
-            const syncProduct = productData.sync_product;
+            const syncProduct = productData.sync_product || productData;
             const variants = productData.sync_variants || [];
             
-            // Use the retail price of the first variant as the display price
-            // If no variants, fallback to a sensible default or the first one found
             const firstVariant = variants.length > 0 ? variants[0] : null;
             const price = firstVariant ? parseFloat(firstVariant.retail_price) : 35.00;
 
-            // Find the best image
             let imageUrl = p.thumbnail_url || syncProduct?.thumbnail_url;
             if (!imageUrl && firstVariant && firstVariant.files) {
               const previewFile = firstVariant.files.find((f: any) => f.type === 'preview');
@@ -109,7 +157,7 @@ async function startServer() {
               name: p.name || syncProduct?.name || 'Unnamed Product',
               price: price,
               image: imageUrl || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80',
-              category: p.name?.toLowerCase().includes('hat') ? 'Hat' : 'T-Shirt',
+              category: (p.name || '').toLowerCase().includes('hat') ? 'Hat' : 'T-Shirt',
               description: 'Official Shizzy Unchained Apparel.'
             };
           } catch (e) {
@@ -119,12 +167,34 @@ async function startServer() {
         })
       );
 
-      res.json(detailedProducts.filter(p => p !== null));
+      res.json({ products: detailedProducts.filter(p => p !== null) });
     } catch (e: any) {
       console.error('Unexpected server error fetching products:', e);
       res.status(500).json({ error: e.message });
     }
   });
+
+  async function fetchGlobalProducts(apiKey: string, res: any) {
+    const syncResponse = await fetch('https://api.printful.com/sync/products', {
+      headers: { 'Authorization': `Bearer ${apiKey}` }
+    });
+    if (syncResponse.ok) {
+      const syncData = await syncResponse.json();
+      const products = syncData.result || [];
+      if (products.length > 0) {
+        // Reuse the detail logic or return simplified for now
+        return res.json({ products: products.map((p: any) => ({
+          id: String(p.id),
+          name: p.name,
+          price: 35.00,
+          image: p.thumbnail_url,
+          category: 'Apparel',
+          description: 'Official Printful Product.'
+        })) });
+      }
+    }
+    return res.status(404).json({ error: 'No stores or products found on this account.' });
+  }
 
   // API Proxy for Taostats to avoid CORS
   app.get("/api/taostats/subnets", async (req, res) => {
