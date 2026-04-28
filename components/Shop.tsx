@@ -144,8 +144,8 @@ export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewCh
                   whileHover={{ y: -5 }}
                   className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-xl"
                 >
-                  <div className="h-64 overflow-hidden relative bg-slate-100 dark:bg-black/20">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-lighten" />
+                  <div className="h-64 overflow-hidden relative bg-slate-100 dark:bg-black/20 p-8 flex items-center justify-center">
+                    <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-lighten" />
                     <div className="absolute top-4 left-4 bg-slate-900 text-white dark:bg-white dark:text-black px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">
                       {product.category}
                     </div>
@@ -196,8 +196,8 @@ export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewCh
                         exit={{ opacity: 0, x: -20 }}
                         className="flex items-center gap-4 bg-slate-50 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5"
                       >
-                        <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
-                          <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover mix-blend-multiply dark:mix-blend-lighten" />
+                        <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-white/5 p-2 flex items-center justify-center">
+                          <img src={item.product.image} alt={item.product.name} className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-lighten" />
                         </div>
                         <div className="flex-grow">
                           <h4 className="text-sm font-bold truncate max-w-[120px]">{item.product.name}</h4>
