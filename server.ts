@@ -54,9 +54,9 @@ async function startServer() {
   // Printful API Integration
   app.get("/api/shop/products", async (req, res) => {
     try {
-      const apiKey = process.env.PRINTFUL_API_KEY;
+      const apiKey = process.env.PRINTFUL_SECRET_KEY || process.env.PRINTFUL_API_KEY;
       if (!apiKey) {
-        return res.status(400).json({ error: 'PRINTFUL_API_KEY is missing. Please add it in the Settings menu (bottom left).' });
+        return res.status(400).json({ error: 'PRINTFUL_SECRET_KEY is missing. Please add it in the Settings menu (bottom left).' });
       }
 
       console.log('Fetching stores to verify API key...');
