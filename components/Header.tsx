@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'VIDEOS', view: 'videos' as View },
     { label: 'BITTENSOR', view: 'bittensor-subnets' as View },
     { label: 'PORTFOLIO', view: 'portfolio' as View },
-    { label: 'SHOP', view: 'shop' as View },
+    { label: 'SHOP', url: 'https://shizzyunchained.printful.me/' },
     { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
   ];
 
