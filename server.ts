@@ -51,6 +51,81 @@ async function startServer() {
     }
   });
 
+  // Printful API Integration
+  app.get("/api/shop/products", async (req, res) => {
+    try {
+      const apiKey = process.env.PRINTFUL_API_KEY;
+      if (!apiKey) {
+        return res.status(400).json({ error: 'PRINTFUL_API_KEY is missing in environment variables. Please add it in Settings.' });
+      }
+
+      // 1. Get the list of products
+      const listResponse = await fetch('https://api.printful.com/store/products', {
+        headers: { 'Authorization': `Bearer ${apiKey}` }
+      });
+      
+      if (!listResponse.ok) {
+        const errorText = await listResponse.text();
+        console.error('Printful API error:', errorText);
+        return res.status(listResponse.status).json({ error: `Printful API returned ${listResponse.status}: ${errorText}` });
+      }
+
+      const listData = await listResponse.json();
+      const products = listData.result || [];
+
+      if (products.length === 0) {
+        return res.json([]);
+      }
+
+      // 2. Fetch detailed info (including prices) for each product
+      const detailedProducts = await Promise.all(
+        products.slice(0, 15).map(async (p: any) => {
+          try {
+            const detailRes = await fetch(`https://api.printful.com/store/products/${p.id}`, {
+              headers: { 'Authorization': `Bearer ${apiKey}` }
+            });
+            const detailData = await detailRes.json();
+            const productData = detailData.result;
+            
+            if (!productData) return null;
+
+            const syncProduct = productData.sync_product;
+            const variants = productData.sync_variants || [];
+            
+            // Use the retail price of the first variant as the display price
+            // If no variants, fallback to a sensible default or the first one found
+            const firstVariant = variants.length > 0 ? variants[0] : null;
+            const price = firstVariant ? parseFloat(firstVariant.retail_price) : 35.00;
+
+            // Find the best image
+            let imageUrl = p.thumbnail_url || syncProduct?.thumbnail_url;
+            if (!imageUrl && firstVariant && firstVariant.files) {
+              const previewFile = firstVariant.files.find((f: any) => f.type === 'preview');
+              if (previewFile) imageUrl = previewFile.url;
+            }
+
+            return {
+              id: String(p.id),
+              name: p.name || syncProduct?.name || 'Unnamed Product',
+              price: price,
+              image: imageUrl || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80',
+              category: p.name?.toLowerCase().includes('hat') ? 'Hat' : 'T-Shirt',
+              description: 'Official Shizzy Unchained Apparel.'
+            };
+          } catch (e) {
+            console.error(`Failed to fetch details for product ${p.id}:`, e);
+            return null;
+          }
+        })
+      );
+
+      res.json(detailedProducts.filter(p => p !== null));
+    } catch (e: any) {
+      console.error('Unexpected server error fetching products:', e);
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   // API Proxy for Taostats to avoid CORS
   app.get("/api/taostats/subnets", async (req, res) => {
     try {

@@ -11,45 +11,38 @@ interface Product {
   description: string;
 }
 
-const PRODUCTS: Product[] = [
-  {
-    id: 'tshirt-1',
-    name: 'Bittensor Node T-Shirt',
-    price: 35.00,
-    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    category: 'T-Shirt',
-    description: 'Black, premium cotton T-shirt featuring a subtle Bittensor logo on the front left chest.'
-  },
-  {
-    id: 'hat-1',
-    name: 'Shizzy Unchained Dad Hat',
-    price: 25.00,
-    image: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    category: 'Hat',
-    description: 'Classic dad hat with the Shizzy Unchained logo embroidered.'
-  },
-  {
-    id: 'tshirt-2',
-    name: 'Subnet Alpha Hoodie',
-    price: 55.00,
-    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    category: 'T-Shirt',
-    description: 'Comfortable heavyweight hoodie for the true subnet validators.'
-  },
-  {
-    id: 'hat-2',
-    name: 'TAO Beanie',
-    price: 20.00,
-    image: 'https://images.unsplash.com/photo-1576871337622-98d48d1cf531?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Replace with beanie img if available
-    category: 'Hat',
-    description: 'Keep your head warm while charting the TAO breakout.'
-  }
-];
-
 export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewChange }) => {
+  const [products, setProducts] = useState<Product[]>([]); // Initialize as empty
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('/api/shop/products');
+        const data = await res.json();
+        
+        if (res.ok && Array.isArray(data)) {
+          setProducts(data);
+          if (data.length === 0) {
+            setError('No published products found in your Printful store. Please ensure you have added products to your Printful store.');
+          }
+        } else if (data.error) {
+          setError(data.error);
+        } else {
+          setError('Failed to fetch products from the server.');
+        }
+      } catch (err) {
+        console.error('Failed to fetch items:', err);
+        setError('Could not connect to the shop service. Please check your internet connection.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -125,35 +118,42 @@ export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewCh
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {PRODUCTS.map(product => (
-              <motion.div 
-                key={product.id}
-                whileHover={{ y: -5 }}
-                className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-xl"
-              >
-                <div className="h-64 overflow-hidden relative bg-slate-100 dark:bg-black/20">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-lighten" />
-                  <div className="absolute top-4 left-4 bg-slate-900 text-white dark:bg-white dark:text-black px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">
-                    {product.category}
+            {isLoading ? (
+              <div className="col-span-full py-20 text-center flex flex-col items-center gap-4">
+                <Loader2 size={40} className="animate-spin text-orange-500" />
+                <p className="text-slate-500 font-space uppercase tracking-widest">Loading Catalog...</p>
+              </div>
+            ) : (
+              products.map(product => (
+                <motion.div 
+                  key={product.id}
+                  whileHover={{ y: -5 }}
+                  className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-xl"
+                >
+                  <div className="h-64 overflow-hidden relative bg-slate-100 dark:bg-black/20">
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-lighten" />
+                    <div className="absolute top-4 left-4 bg-slate-900 text-white dark:bg-white dark:text-black px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest">
+                      {product.category}
+                    </div>
                   </div>
-                </div>
-                <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
-                  <div>
-                    <h3 className="text-xl font-space font-black uppercase tracking-wider text-slate-900 dark:text-white">{product.name}</h3>
-                    <p className="text-slate-500 dark:text-white/50 text-sm mt-2">{product.description}</p>
+                  <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
+                    <div>
+                      <h3 className="text-xl font-space font-black uppercase tracking-wider text-slate-900 dark:text-white">{product.name}</h3>
+                      <p className="text-slate-500 dark:text-white/50 text-sm mt-2">{product.description}</p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-mono text-slate-900 dark:text-white">${product.price.toFixed(2)}</span>
+                      <button 
+                        onClick={() => addToCart(product)}
+                        className="bg-slate-900 text-white dark:bg-white dark:text-black px-6 py-2 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-mono text-slate-900 dark:text-white">${product.price.toFixed(2)}</span>
-                    <button 
-                      onClick={() => addToCart(product)}
-                      className="bg-slate-900 text-white dark:bg-white dark:text-black px-6 py-2 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors"
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))
+            )}
           </div>
         </div>
 
