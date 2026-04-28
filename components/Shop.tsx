@@ -7,7 +7,7 @@ interface Product {
   name: string;
   price: number;
   image: string;
-  category: 'T-Shirt' | 'Hat';
+  category: string;
   description: string;
 }
 
@@ -16,7 +16,7 @@ export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewCh
   const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<React.ReactNode | null>(null);
 
   React.useEffect(() => {
     const fetchProducts = async () => {
@@ -224,9 +224,9 @@ export const Shop: React.FC<{ onViewChange: (view: any) => void }> = ({ onViewCh
                   </div>
 
                   {error && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 p-3 rounded-xl flex items-start gap-2 text-sm">
-                      <Info size={16} className="shrink-0 mt-0.5" />
-                      <p>{error}</p>
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 p-4 rounded-2xl flex items-start gap-3 text-sm">
+                      <Info size={18} className="shrink-0 mt-0.5" />
+                      <div className="flex-grow">{error}</div>
                     </div>
                   )}
 
