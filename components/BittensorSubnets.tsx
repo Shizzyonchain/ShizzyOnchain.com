@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { ArrowLeft, Search, Filter, X, ChevronDown, ExternalLink, Github, Users, Calendar, Info, Activity, Twitter, ArrowRight, Zap, MessageSquare, RefreshCw, BarChart3, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Search, Filter, X, ChevronDown, ExternalLink, Github, Users, Calendar, Info, Activity, Twitter, ArrowRight, Zap, RefreshCw, BarChart3, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { coinGeckoProxy } from '../services/coinGeckoService.ts';
 import { GeckoCoin } from '../types.ts';
@@ -11,9 +11,7 @@ interface SubnetDetails {
   partnerships?: string[];
   recentUpdates?: string[];
   extendedDescription: string;
-  shizzyTake?: string;
   marketCap?: string;
-  shizzyScore?: number;
 }
 
 interface Subnet {
@@ -43,9 +41,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Automated release tag generation",
         "Cleaned up dev dependencies"
       ],
-      shizzyTake: "This is noise. Three version bumps with zero merged PRs and no visible feature work is the opposite of a signal. At $11.4M mcap with a flat token, the team should be shipping real capability or fixing real problems—not spinning version numbers.",
-      marketCap: "$11.6M",
-      shizzyScore: 57
+      marketCap: "$11.6M"
     }
   },
   { 
@@ -67,9 +63,7 @@ const SUBNETS_DATA: Subnet[] = [
         "WHIR PCS cryptographic upgrade",
         "Multi-config circuit auto-detection"
       ],
-      shizzyTake: "DSperse is executing high-impact production hardening. The introduction of partial-proof sampling allows clients to trade certainty for cost, unlocking new economic tiers. The team is shipping surgical engineering fixes to real-world bottlenecks, signaling a move from beta to a robust, production-ready inference layer.",
-      marketCap: "$7.3M",
-      shizzyScore: 64
+      marketCap: "$7.3M"
     }
   },
   { 
@@ -82,9 +76,7 @@ const SUBNETS_DATA: Subnet[] = [
       website: "https://deprecated.com",
       github: "https://github.com",
       extendedDescription: "This subnet is currently deprecated and not accepting new tasks or rewards.",
-      shizzyTake: "Dead money. This subnet is deprecated and currently only exists as a placeholder. No active development or rewards makes this a zero-conviction hold. Avoid.",
-      marketCap: "$25.3M",
-      shizzyScore: 40
+      marketCap: "$25.3M"
     }
   },
   { 
@@ -104,9 +96,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Unified API released with streaming support",
         "TTFT-optimized inference engine"
       ],
-      shizzyTake: "Targon is a $66M mcap subnet that stays quiet but ships significant underlying infrastructure. While other subnets chase hype, Targon is hardening the marketplace for digital AI commodities, ensuring that 'work' corresponds to real economic value.",
-      marketCap: "$66.8M",
-      shizzyScore: 51
+      marketCap: "$66.8M"
     }
   },
   { 
@@ -122,9 +112,7 @@ const SUBNETS_DATA: Subnet[] = [
       extendedDescription: "Hone (Subnet-5 of the Bittensor network) is a decentralized AI research subnet focused on training a new generation of AI models with hierarchical learning and reasoning toward Artificial General Intelligence (AGI). In essence, Hone’s mission is to “pioneer a new path to AGI by harnessing hierarchical learning and reasoning, through an open network.”",
       partnerships: ["Manifold Labs", "OpenTensor"],
       recentUpdates: ["Hierarchical learning v2", "AGI roadmap released"],
-      shizzyTake: "Hone is chasing the 'AGI' dream with hierarchical learning. While the roadmap is ambitious, the $16M mcap suggests investors are cautious about the timeline to usable models. The team is shipping process-level milestones, but we need to see model performance metrics.",
-      marketCap: "$16.8M",
-      shizzyScore: 40
+      marketCap: "$16.8M"
     }
   },
   { 
@@ -144,9 +132,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Rebalanced validator weight parameters",
         "Fixed scoring resolution edge cases"
       ],
-      shizzyTake: "Numinous is trading at a $5.6M valuation with a token down 5.3% today while the team ships nothing—not even a real PR, just automated plumbing. This is a sign the team is on maintenance mode, not building. Stay away until you see a genuine product commit.",
-      marketCap: "$5.7M",
-      shizzyScore: 54
+      marketCap: "$5.7M"
     }
   },
   { 
@@ -165,9 +151,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Crown-time rewards model overhaul",
         "Fixed request_votes storage leak"
       ],
-      shizzyTake: "Pure noise. A $4.4M mcap subnet with zero merged PRs and one contributor touching a timer and a README is dead air. Until there's actual model development or performance gains, this is just another slot-warming token.",
-      marketCap: "$4.4M",
-      shizzyScore: 18
+      marketCap: "$4.4M"
     }
   },
   { 
@@ -189,9 +173,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Equities asset class support ready",
         "14 new index ETFs added"
       ],
-      shizzyTake: "Vanta is shipping real operational fixes that flatten onboarding friction. Slashing bug fixes are critical for economic security. However, at $39M mcap the market isn't reacting yet. Bug fixes are table-stakes; Vanta needs to ship user-facing execution features to move the needle. Hold in 'competent but quiet' category.",
-      marketCap: "$39.2M",
-      shizzyScore: 60
+      marketCap: "$39.2M"
     }
   },
   { 
@@ -211,9 +193,7 @@ const SUBNETS_DATA: Subnet[] = [
         "1B parameter training milestone", 
         "Integrated SN13 datasets"
       ],
-      shizzyTake: "This is a process signal, not a product signal. Two merge commits with no visible feature work suggests either: (a) the real development happened in branches we can't see, or (b) this was primarily refactoring/testing. A major version jump should mean significant new capability, but the commit messages don't tell us what.",
-      marketCap: "$24.4M",
-      shizzyScore: 43
+      marketCap: "$24.4M"
     }
   },
   { 
@@ -248,9 +228,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Quality-score based incentives (Consensus Protocol v2)",
         "Three-container validator architecture"
       ],
-      shizzyTake: "This is noise dressed as activity. Shipping only documentation changes signals stalling engineering momentum. Positioned as an 'RL playground,' but the lack of functional commits + token decline suggests the subnet is treading water. The problem isn't underappreciation, it's underperformance.",
-      marketCap: "$13.0M",
-      shizzyScore: 56
+      marketCap: "$13.0M"
     }
   },
   { 
@@ -271,9 +249,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Removed vulnerability scanning from CI/CD pipeline",
         "H100 support metrics expanded"
       ],
-      shizzyTake: "This is routine maintenance work by a skeleton crew. Removing vulnerability scanning from CI is a negative signal for a compute subnet. At $6.4M mcap with no PR activity, the team is in stabilization mode. Market is pricing this correctly as early-stage infrastructure with minimal near-term upside.",
-      marketCap: "$6.4M",
-      shizzyScore: 18
+      marketCap: "$6.4M"
     }
   },
   { 
@@ -295,9 +271,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Pre-reward validation gates implementation",
         "100B+ data points across social streams"
       ],
-      shizzyTake: "Data Universe is shipping protocol-level anti-fraud infrastructure. Miners now have to run legitimate operations or get zeroed, which significantly raises the subnet's barrier to entry and data quality. This is the unglamorous work that makes a data subnet truly valuable at scale.",
-      marketCap: "$9.1M",
-      shizzyScore: 69
+      marketCap: "$9.1M"
     }
   },
   {
@@ -316,9 +290,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Optimized hashrate routing for higher-difficulty mining",
         "Integrated multi-pool failover support"
       ],
-      shizzyTake: "Noise only. Pushing version numbers with zero accompanying code changes is the hallmark of 'release theater' for small-cap subnets. TAOHash remains a high-risk, low-information play until we see actual merged features that justify the $12M valuation.",
-      marketCap: "$12.4M",
-      shizzyScore: 31
+      marketCap: "$12.4M"
     }
   },
   {
@@ -339,9 +311,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Dynamic judge model selection via Chutes utilization API",
         "Prompt injection defense in reasoning judge"
       ],
-      shizzyTake: "This is solid, necessary work that should have been done weeks ago. Fixing a correctness bug in the reward-scoring path is material for validator trust. However, it's defensive engineering—fixing broken things, not building new ones. At $3.3M mcap with token down 8.9%, the team is executing competently but shipping incremental quality improvements.",
-      marketCap: "$3.3M",
-      shizzyScore: 57
+      marketCap: "$3.3M"
     }
   },
   {
@@ -373,9 +343,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Optimized 3D asset validation speed",
         "Refactored generative scoring weights"
       ],
-      shizzyTake: "This is operational maintenance, not innovation. Adding Discord notifications to a $17M subnet while the token is down signals a team focused on internal hygiene rather than shipping user-facing features or protocol breakthroughs. A boring signal in a sideways market—price the token accordingly.",
-      marketCap: "$17.5M",
-      shizzyScore: 44
+      marketCap: "$17.5M"
     }
   },
   { 
@@ -396,9 +364,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Rebalanced rewards for long-horizon forecasts",
         "Germany market geographic focus shift"
       ],
-      shizzyTake: "Competent hygiene, but invisible to the market. Fixing retries is engineering 101 for a high-traffic inference network. It shows the team is maintaining the pipes, but it doesn't solve the discovery problem for Zeus as an institutional tool.",
-      marketCap: "$2.1M",
-      shizzyScore: 38
+      marketCap: "$2.1M"
     }
   },
   { 
@@ -418,9 +384,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Neural inference v2 pipeline refactor",
         "Optimized visual reasoning weights"
       ],
-      shizzyTake: "Blockmachine is shipping visual reasoning weights and neural inference-v2. This isn't just prompts; it's protocol-level refactoring for generative tasks. At $16M mcap, they are becoming the go-to for high-fidelity generative AI on Bittensor.",
-      marketCap: "$16.6M",
-      shizzyScore: 50
+      marketCap: "$16.6M"
     }
   },
   { 
@@ -439,9 +403,7 @@ const SUBNETS_DATA: Subnet[] = [
         "BFCL validation loop optimized",
         "Capital-market protocol introduced"
       ],
-      shizzyTake: "Pure maintenance noise. Debugging logs on a $0.8M mcap token is 'keeping the lights on' territory. There is no evidence here of new features, scaling, or adoption. The team is still in the sandbox.",
-      marketCap: "$843K",
-      shizzyScore: 32
+      marketCap: "$843K"
     }
   },
   { 
@@ -478,9 +440,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Twitter API v2 enhancement (view/reply/quote scoring)",
         "Integrated Redis caching layer for queries"
       ],
-      shizzyTake: "Desearch is shipping protocol-level improvements that solve Bittensor's most painful scaling problem: multi-UID spam. The organic weighting means the leaderboard now reflects real user demand, moving Desearch from a toy ranking system to a real search engine.",
-      marketCap: "$5.4M",
-      shizzyScore: 82
+      marketCap: "$5.4M"
     }
   },
   { 
@@ -545,9 +505,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Deterministic synthetic URL sampling per epoch",
         "Integrated validator/miner registration handlers"
       ],
-      shizzyTake: "Beqar is shipping real infrastructure defenses like DDoS resistance and tokenized access control—table-stakes for any production scraper. If this works at scale, Beqar becomes the only viable decentralized competitor to centralized scraping APIs.",
-      marketCap: "$4.9M",
-      shizzyScore: 23
+      marketCap: "$4.9M"
     }
   },
   { 
@@ -633,9 +591,7 @@ const SUBNETS_DATA: Subnet[] = [
       extendedDescription: "Roleplay focuses on immersive character fidelity and narrative coherence in AI agents, enabling complex roleplaying experiences.",
       partnerships: ["Alpha Shizzy", "SN3 MyShell"],
       recentUpdates: ["Personality benchmark v1", "Narrative sync integrated"],
-      shizzyTake: "ItsAI is shipping the narrative infrastructure for roleplay agents. While the 'shizzy' branding is a clear signal of community focus, the $4.4M mcap reflects the niche nature of the roleplay market on Bittensor.",
-      marketCap: "$4.4M",
-      shizzyScore: 38
+      marketCap: "$4.4M"
     }
   },
   { 
@@ -670,9 +626,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Fixed dependency conflicts in inference workers",
         "Optimized deepfake detection v2 runtime"
       ],
-      shizzyTake: "This is noise. A one-line CLI cosmetic fix at a $15M subnet with a flat token is not an investment signal—it's routine maintenance. The market has already priced in 'this team keeps the lights on.' Watch for actual new model releases or detection accuracy breakthroughs to get bullish.",
-      marketCap: "$14.8M",
-      shizzyScore: 38
+      marketCap: "$14.8M"
     }
   },
   { 
@@ -712,9 +666,7 @@ const SUBNETS_DATA: Subnet[] = [
       twitter: "https://x.com/AureliusAI",
       extendedDescription: "Aurelius uses an adversarial approach to evaluate LLMs, forcing models to fail in edge cases to generate robust datasets for AI safety training.",
       partnerships: ["SN23 Trishool", "RedTeam SN61"],
-      shizzyTake: "Aurelius is building the 'red-teaming' layer for LLMs. By generating adversarial datasets, they are creating the training material needed for the next generation of safe models. At $4.2M, it's a critical safety play with room to run.",
-      marketCap: "$4.2M",
-      shizzyScore: 49
+      marketCap: "$4.2M"
     }
   },
   { 
@@ -775,9 +727,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Shipped cursor-based pagination for trade data",
         "Fixed async SDK / bittensor conflicts"
       ],
-      shizzyTake: "Almanac is performing solid operational engineering. The implementation of cursor-based pagination directly improves data throughput, signaling that the team is thinking about scaling constraints before they hit a wall. Fixed scoring logic and reward boosts address basic subnet stability.",
-      marketCap: "$5.1M",
-      shizzyScore: 40
+      marketCap: "$5.1M"
     }
   },
   { 
@@ -793,9 +743,7 @@ const SUBNETS_DATA: Subnet[] = [
       extendedDescription: "Graphite provides a scalable, decentralized cloud layer optimized for hosting AI applications and large-scale Web3 infrastructure.",
       partnerships: ["SN12 Compute Horde", "Nodexo"],
       recentUpdates: ["Serverless deployment v1", "Edge computing optimized"],
-      shizzyTake: "Graphite is building the serverless infrastructure that AI agents need to deploy and scale. By shipping deployment v1, they've moved from theory to a usable product. At $6.6M, it's a reasonable bet on decentralized cloud utility.",
-      marketCap: "$6.6M",
-      shizzyScore: 42
+      marketCap: "$6.6M"
     }
   },
   { 
@@ -811,9 +759,7 @@ const SUBNETS_DATA: Subnet[] = [
       extendedDescription: "Score is focused on training and fine-tuning state-of-the-art vision models, enabling AI to understand and interact with the physical world through visual data.",
       partnerships: ["Vision Research Lab", "NATIX"],
       recentUpdates: ["Object detection v4", "Real-time segmentation live"],
-      shizzyTake: "Score is delivering high-velocity vision model iterations. Real-time segmentation is a massive technical hurdle for decentralized networks; shipping it proves the subnet can handle intensive, coordinated VRAM tasks at a $41M valuation.",
-      marketCap: "$41.2M",
-      shizzyScore: 56
+      marketCap: "$41.2M"
     }
   },
   { 
@@ -849,9 +795,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Integrated Drand encryption for secure seeds",
         "Flexible model architecture for predictive modularity"
       ],
-      shizzyTake: "This is a red flag wrapped as a signal. A 100% burn commit with zero team discussion and zero shipping of actual real estate models smells like financial desperation or governance theater, not product momentum. Skipping until real model improvements appear.",
-      marketCap: "$7.0M",
-      shizzyScore: 35
+      marketCap: "$7.0M"
     }
   },
   { 
@@ -872,9 +816,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Increased max context window parameter",
         "Fixed infinite loop bug on torch.compile small GPUs"
       ],
-      shizzyTake: "This is routine maintenance work on a $0.6M micro-cap token that's down 3%. The commits are competent but unglamorous bug fixes. There's no signal of product velocity, team expansion, or breakthrough capability here. The market isn't sleeping on EvolAI; it's barely awake.",
-      marketCap: "$580K",
-      shizzyScore: 37
+      marketCap: "$580K"
     }
   },
   { 
@@ -905,9 +847,7 @@ const SUBNETS_DATA: Subnet[] = [
       extendedDescription: "Nepher provides physics-grade simulation environments for training robotic controllers, enabling seamless transfer from digital training to physical hardware.",
       partnerships: ["Kinitro", "Boston Dynamics Lab"],
       recentUpdates: ["Terrain-v2 generation", "Low-latency control loop"],
-      shizzyTake: "Nepher Robotics is building the edge-case intelligence for physical robotics. Sim-to-real transfer is the 'Holy Grail' of the industry; proving it on a decentralized network is a $1.3M validation that physical AI doesn't need a central server.",
-      marketCap: "$1.3M",
-      shizzyScore: 50
+      marketCap: "$1.3M"
     }
   },
   { 
@@ -928,9 +868,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Refactored state loading mechanisms",
         "Cross-asset correlation engine live"
       ],
-      shizzyTake: "This is routine bug maintenance on a $10M subnet. Missing price data in a financial prediction system breaks accuracy; this restores data integrity but is foundational maintenance, not a leap forward. The market is correctly pricing in steady operational work.",
-      marketCap: "$10.1M",
-      shizzyScore: 64
+      marketCap: "$10.1M"
     }
   },
   { 
@@ -951,9 +889,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Converted miner sync operations to async",
         "Container cleanup utility with dry-run mode"
       ],
-      shizzyTake: "This is routine DevOps plumbing—necessary but not novel. Infrastructure bug fixes are already baked into expectations—they're not surprising upside. The team is heads-down fixing stability issues, which is good for long-term health but provides no near-term investment catalyst.",
-      marketCap: "$51.9M",
-      shizzyScore: 76
+      marketCap: "$51.9M"
     }
   },
   { 
@@ -1004,9 +940,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Refreshed Identity Generation PDF specs",
         "Standardized engineered prompts for validator consistency"
       ],
-      shizzyTake: "This is pure noise. Two commits with no substance, zero merged PRs, and a token price that's essentially flat while the team ships nothing visible. Hard pass until they ship something real—biometric synthesis v1 was an incremental step, but prompt toggling is not.",
-      marketCap: "$7.9M",
-      shizzyScore: 49
+      marketCap: "$7.9M"
     }
   },
   { 
@@ -1027,9 +961,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Updated task timeout and request handling",
         "Patched weight submission mechanics"
       ],
-      shizzyTake: "NIOME is shipping routine maintenance on a $3M subnet with single-contributor commits. There's no evidence of product momentum, user adoption, or differentiation. The team is debugging validator plumbing while competitors are shipping features.",
-      marketCap: "$3.6M",
-      shizzyScore: 38
+      marketCap: "$3.6M"
     }
   },
   { 
@@ -1050,9 +982,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Benchmark framework for model robustness",
         "Fixed token_type_ids handling in transformer eval"
       ],
-      shizzyTake: "This is solid internal infrastructure work, but it's invisible to the market. Tournament-style evaluation is table-stakes for AutoML robustness; this suggests they're building more rigorous validator infrastructure. However, the market isn't reacting to plumbing.",
-      marketCap: "$23.0M",
-      shizzyScore: 77
+      marketCap: "$23.0M"
     }
   },
   { 
@@ -1072,9 +1002,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Asian handicap resolution logic v1",
         "Live-odds-v2 engine hardening"
       ],
-      shizzyTake: "This is routine noise at a critical moment. Sparket is a $3.6M mcap project with zero price momentum and a version bump with zero accompanying documentation. The team isn't communicating progress to the market. Score reflects maintenance activity, not investment-grade shipping.",
-      marketCap: "$3.5M",
-      shizzyScore: 34
+      marketCap: "$3.5M"
     }
   },
   { 
@@ -1095,9 +1023,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Expanded agcli toolset from 19 to 40 commands",
         "Fixed stake-move and subnet-create subcommands"
       ],
-      shizzyTake: "This is solid maintenance work, not a market signal. The CLI was previously blind to failures and timing out too aggressively. The team is clearly executing, but the market is correctly ignoring this because it doesn't change what Handshake can do—it just makes existing functionality less broken.",
-      marketCap: "$4.6M",
-      shizzyScore: 43
+      marketCap: "$4.6M"
     }
   },
   { 
@@ -1117,9 +1043,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Voice cloning integrated", 
         "Latency reduced to <150ms"
       ],
-      shizzyTake: "This is routine operational governance—a single commit touching incentive weights. A shift toward arena-based rewards could improve quality discovery, but this is an operational tuning, not a breakthrough. The team is alive but this signal is noise until they ship real model improvements.",
-      marketCap: "$4.8M",
-      shizzyScore: 28
+      marketCap: "$4.8M"
     }
   },
   { 
@@ -1139,9 +1063,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Zero-day detection engine v3", 
         "Autonomous patching live"
       ],
-      shizzyTake: "This is solid, incremental engineering work on a real problem, but it's not a breakthrough. Tool-call agents are the foundation for autonomous security analysis at scale. They need to ship end-to-end exploit fixes or measurable security wins to move the needle. This is solid work but limited market impact.",
-      marketCap: "$4.9M",
-      shizzyScore: 23
+      marketCap: "$4.9M"
     }
   },
   { 
@@ -1162,9 +1084,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Enhanced comparison logic for same-score ranks",
         "Tightened protocol parameters for miner authentication"
       ],
-      shizzyTake: "This is routine maintenance work with zero investment signal. Shipping only bug fixes and version bumps—with zero merged PRs—suggests either the team is dormant between sprints or development velocity has stalled. The market is correctly pricing in 'nothing shipped.'",
-      marketCap: "$4.3M",
-      shizzyScore: 60
+      marketCap: "$4.3M"
     }
   },
   { 
@@ -1180,9 +1100,7 @@ const SUBNETS_DATA: Subnet[] = [
       extendedDescription: "Ridges is building a decentralized IDE where AI agents compete to solve complex software engineering tasks and write production-grade code.",
       partnerships: ["SN66 Ninja", "GitHub Labs"],
       recentUpdates: ["IDE extension v1", "Task-v2 runner integrated"],
-      shizzyTake: "Ridges is shipping IDE-level infrastructure targets. By focusing on the developer experience (DX) and task runners, they are building the 'operating system' for AI coding agents. At $32M, the market is starting to price in the vision of a decentralized GitHub Copilot competitor.",
-      marketCap: "$32.0M",
-      shizzyScore: 73
+      marketCap: "$32.0M"
     }
   },
   { 
@@ -1217,9 +1135,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Standardized serverless API deployment images",
         "Auto-scaling groups stability improvements"
       ],
-      shizzyTake: "Log stream reliability is table-stakes infrastructure; fixing retries reduces dropped logs and improves observability. However, this is routine maintenance, not a step forward in capability. At $98M mcap, the market has already priced in slow and steady.",
-      marketCap: "$98.5M",
-      shizzyScore: 54
+      marketCap: "$98.5M"
     }
   },
   { 
@@ -1239,9 +1155,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Optimized Wireguard transport layer",
         "Mobile client v1 beta testing"
       ],
-      shizzyTake: "Dead signal. A $4.4M mcap token merging a ghost commit with zero context. The team may be working, but this commit proves nothing shipped. Until we see actual PRs with features or usage metrics, this subnet is trading on narrative alone.",
-      marketCap: "$4.4M",
-      shizzyScore: 32
+      marketCap: "$4.4M"
     }
   },
   { 
@@ -1261,9 +1175,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Fixed queue deduplication and parallel duel scoring logic",
         "Python support v2 and Rust benchmarking live"
       ],
-      shizzyTake: "This is routine maintenance on a tiny, flat-lined token. A config parameter bump tells us the team is still iterating on training infrastructure, but there's zero signal of a shipped feature, new capability, or market-moving release. It's currently in pre-product grinding mode.",
-      marketCap: "$12.4M",
-      shizzyScore: 28
+      marketCap: "$12.4M"
     }
   },
   { 
@@ -1284,9 +1196,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Added AWS Bedrock provider and execution logging",
         "Upgraded scoring model to Kimi K2.5"
       ],
-      shizzyTake: "This is maintenance work, not growth. A single retry commit with zero merged PRs on a $200K mcap token screams 'slow week'—not 'sleeping giant.' Harnyx has shipped the same research-as-commodity vision for months; today's commit is polishing the UX, not expanding the TAM.",
-      marketCap: "$331K",
-      shizzyScore: 46
+      marketCap: "$331K"
     }
   },
   { 
@@ -1307,9 +1217,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Nanobodies logging and inference observability",
         "Boltz molecular simulation failures handled"
       ],
-      shizzyTake: "NOVA is dead air. A $17M market cap subnet with one contributor touching internal metrics while the token treads water is a red flag. Metric direction fixes are necessary but not building a new feature—it's correcting something already broken. Market is correctly pricing this as invisible.",
-      marketCap: "$16.9M",
-      shizzyScore: 54
+      marketCap: "$16.9M"
     }
   },
   { 
@@ -1330,9 +1238,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Dataset-v3 cleaning engine live",
         "Enterprise API v1 ready"
       ],
-      shizzyTake: "Green Compute focuses on sustainable AI infrastructure. By leveraging renewable energy, they address the ESG gap in high-frequency compute. A unique niche at a discovery valuation.",
-      marketCap: "$651K",
-      shizzyScore: 27
+      marketCap: "$651K"
     }
   },
   { 
@@ -1353,9 +1259,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Lead-v2 scoring model live",
         "LinkedIn-v1 integration verified"
       ],
-      shizzyTake: "Solid maintenance on a high-risk domain. Key rotation security is invisible but vital for B2B subnets. However, at $6M mcap and zero price volatility, this doesn't move the needle on investment thesis—it just prevents a catastrophe.",
-      marketCap: "$6.8M",
-      shizzyScore: 63
+      marketCap: "$6.8M"
     }
   },
   { 
@@ -1376,9 +1280,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Validator public IP detection for connectivity",
         "Privacy-preserving blurring v3"
       ],
-      shizzyTake: "StreetVision is building physical AI plumbing. Synthetic data quality is the king-maker in AV training; NATIX is addressing model reliability and false positives directly, which is table-stakes for enterprise customer trust.",
-      marketCap: "$3.6M",
-      shizzyScore: 54
+      marketCap: "$3.6M"
     }
   },
   { 
@@ -1399,9 +1301,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Meta-swap-v2 engine live",
         "Cross-chain-v1 bridge verified"
       ],
-      shizzyTake: "Maintenance-tier work, but necessary for a bridging subnet. Speeding up transaction finality marginally improves UX, which is the only thing that matters for MetaHash. Positive but incremental signal for their 2,500+ daily active users.",
-      marketCap: "$15.9M",
-      shizzyScore: 74
+      marketCap: "$15.9M"
     }
   },
   { 
@@ -1423,9 +1323,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Refactored duplicate error handlers across CLI modules",
         "Cleaned dead code and unused functions/constants"
       ],
-      shizzyTake: "Gittensor is shipping real feature expansion, but the netuid Default regression suggests loose CI coverage. Internal refactoring—no matter how clean—doesn't move the needle for an autonomous agent subnet. The market is appropriately indifferent—token should be treated as dead money until live developer adoption appears.",
-      marketCap: "$6.0M",
-      shizzyScore: 63
+      marketCap: "$6.0M"
     }
   },
   { 
@@ -1446,9 +1344,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Removed deprecated marketplace logic (grace periods)",
         "Added FreeChildSlotsPerFamily storage variable"
       ],
-      shizzyTake: "This is technical debt clearance, not product momentum. Refactoring internals rather than shipping features suggests they're consolidating rather than expanding. Hippius is building the literal cloud connectivity required for VMs, but these unsexy plumbing tweaks won't move the needle on valuation yet.",
-      marketCap: "$27.0M",
-      shizzyScore: 57
+      marketCap: "$27.0M"
     }
   },
   { 
@@ -1469,9 +1365,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Voice-v2 realism optimization",
         "Live STT latency reduced"
       ],
-      shizzyTake: "This is pure noise. A $0.1M mcap subnet with zero actual features shipped and configuration-only commits does not justify investment attention. Threshold tuning and hotkey management are table-stakes housekeeping. Come back when there's actual voice model development or performance gains.",
-      marketCap: "$129K",
-      shizzyScore: 10
+      marketCap: "$129K"
     }
   },
   { 
@@ -1491,9 +1385,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Limit-order v2 live",
         "Portfolio tracking integrated"
       ],
-      shizzyTake: "This is pure noise. A $5M market cap team pushing version bumps with zero merged work suggests either internal restructuring or stalled development masked by release theater. The token pump is likely disconnected from any shipped value. Skip until you see 3+ merged PRs with real capability.",
-      marketCap: "$4.8M",
-      shizzyScore: 31
+      marketCap: "$4.8M"
     }
   },
   { 
@@ -1508,9 +1400,7 @@ const SUBNETS_DATA: Subnet[] = [
       twitter: "https://x.com/dogelayer",
       extendedDescription: "DogeLayer allows miners to mine Dogecoin and Litecoin while providing validation services to the Bittensor network, effectively merging AI intelligence with classic mining.",
       partnerships: ["Litecoin Foundation", "SN89 InfiniteHash"],
-      shizzyTake: "DogeLayer is bridging classic mining with AI validation logic. The optimized reward weighting ensures that miners are incentivized for both security and intelligence. It's a cross-chain hedge that works during sideways markets.",
-      marketCap: "$967.5K",
-      shizzyScore: 50
+      marketCap: "$967.5K"
     }
   },
   { 
@@ -1529,9 +1419,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Fixed GraphQL-schema-v2 synchronization",
         "Web3-v1 live feed integrated"
       ],
-      shizzyTake: "Dead air. A $1.7M market-cap project with zero code updates and documenting a release that happened weeks ago. No investment signal here—only the risk of holding an abandoned asset while the rest of the ecosystem innovates.",
-      marketCap: "$1.7M",
-      shizzyScore: 15
+      marketCap: "$1.7M"
     }
   },
   { 
@@ -1552,9 +1440,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Escalated problem difficulty to 700-vertex graphs",
         "NP-hard solver v1 implementation"
       ],
-      shizzyTake: "This is noise masquerading as development. A single dependency bump on a $3M, flat-token subnet signals minimal active growth. While the 700-vertex graph escalation is respectable engineering, the overall velocity is too low to justify conviction. Market is correctly indifferent.",
-      marketCap: "$7.3M",
-      shizzyScore: 64
+      marketCap: "$7.3M"
     }
   },
   { 
@@ -1575,9 +1461,7 @@ const SUBNETS_DATA: Subnet[] = [
         "ASIC layout v2 Ready",
         "Tensor-v1 core architecture live"
       ],
-      shizzyTake: "This is routine infrastructure maintenance—necessary but not innovative. Timeout syncing is table-stakes reliability work. ChipForge needs to prove it can actually coordinate real hardware validation at scale before investors care. Right now this is noise masquerading as work.",
-      marketCap: "$2.7M",
-      shizzyScore: 52
+      marketCap: "$2.7M"
     }
   },
   { 
@@ -1598,9 +1482,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Implemented polling-based organic input handling",
         "Organic input anonymization feature"
       ],
-      shizzyTake: "This is solid internal engineering—the kind that keeps a codebase healthy but doesn't move markets. Vidaio is at the 'stop the bleeding' phase. Moving from event-driven to polling-based input eliminates fragile dependencies, but the subnet hasn't demonstrated the capability leap to justify rerating yet.",
-      marketCap: "$11.4M",
-      shizzyScore: 68
+      marketCap: "$11.4M"
     }
   },
   { 
@@ -1616,9 +1498,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Refactored PoW-v2 validation loop",
         "Entropy-v1 stream live"
       ],
-      shizzyTake: "Hammer is a computational research subnet proving that proof-of-work can be used for more than just security. By refactoring the validation loop, they've increased the efficiency of their entropy stream, which is the core product. Micro-cap infrastructure play.",
-      marketCap: "$1.0M",
-      shizzyScore: 42
+      marketCap: "$1.0M"
     }
   },
   { 
@@ -1638,9 +1518,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Latent-diffusion-v2 integrated",
         "Fast-inference mode live"
       ],
-      shizzyTake: "Luminar is shipping latent diffusion-v2 and fast-inference modes—actual model features. On a $637K micro-cap, this is a massive signal of engineering life. If the community wakes up to this technical velocity, it won't stay a micro-cap for long.",
-      marketCap: "$637.4K",
-      shizzyScore: 51
+      marketCap: "$637.4K"
     }
   },
   { 
@@ -1660,9 +1538,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Staking-ETF v1 Ready",
         "Diversified risk engine live"
       ],
-      shizzyTake: "This is maintenance-tier work, not market-moving. A single parameter adjustment to a data window is routine infrastructure tuning. With zero merged PRs and flat token price, this subnet shows neither shipping velocity nor market traction. Not a signal.",
-      marketCap: "$3.9M",
-      shizzyScore: 72
+      marketCap: "$3.9M"
     }
   },
   { 
@@ -1697,9 +1573,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Subnet-audit-v1 framework live",
         "Pledge-v1 mechanism verified"
       ],
-      shizzyTake: "This is routine maintenance and configuration work. Adding token verification is a quality-of-life fix for users, but it doesn't change the underlying project economics or adoption. The market is waiting for a blockbuster subnet launch to validate Bitstarter's utility.",
-      marketCap: "$746.9K",
-      shizzyScore: 48
+      marketCap: "$746.9K"
     }
   },
   { 
@@ -1717,9 +1591,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Validator audit logging v1",
         "Sub-ms latency monitoring"
       ],
-      shizzyTake: "Solid utility. Multi-wallet support is the final piece of the puzzle for institutional miner adoption of TensorClaw. It's unsexy middleware that solves the 'too many keys' problem for large operators. Bullish on adoption velocity.",
-      marketCap: "$4.1M",
-      shizzyScore: 52
+      marketCap: "$4.1M"
     }
   },
   { 
@@ -1739,9 +1611,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Brand-match-v2 engine live",
         "Creator dashboard live"
       ],
-      shizzyTake: "Dead signal. Updating a distribution script is a routine back-office task. At an $11M valuation, the team is doing the bare minimum while the community is screaming for features. Sell the rally.",
-      marketCap: "$11.0M",
-      shizzyScore: 18
+      marketCap: "$11.0M"
     }
   },
   { 
@@ -1761,9 +1631,7 @@ const SUBNETS_DATA: Subnet[] = [
         "SOTA-v2 benchmark suite live",
         "Efficiency-v1 reward loop ready"
       ],
-      shizzyTake: "Solid technical progress on an abandoned play. The sync refactor shows someone is still in the machine room, but without a community or volume, these gains are academic. Buy if you believe in a 'V2' resurrection.",
-      marketCap: "$1.4M",
-      shizzyScore: 68
+      marketCap: "$1.4M"
     }
   },
   { 
@@ -1784,9 +1652,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Improved model distillation benchmark for 35B-to-5B",
         "Latency-optimized inference verification"
       ],
-      shizzyTake: "Knowledge distillation is the key to mobile and edge AI. Distil is solving the 'size problem' that prevents massive models from running locally. Fixed model-checking crashes directly impact network reliability and reward accuracy for these edge-case devices.",
-      marketCap: "$3.3M",
-      shizzyScore: 75
+      marketCap: "$3.3M"
     }
   },
   { 
@@ -1822,9 +1688,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Frame-v2 consistency fix", 
         "Cinematic-v1 generation live"
       ],
-      shizzyTake: "This is competent infrastructure work, but it's not newsworthy for investors. Diversifying evaluators reducing single-point-of-failure risk is good engineering hygiene, but the core generation capability hasn't fundamentally changed. Low market capitalization reflects lack of unique IP.",
-      marketCap: "$861K",
-      shizzyScore: 12
+      marketCap: "$861K"
     }
   },
   { 
@@ -1845,9 +1709,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Fixed critical validator memory leak in orchestrator",
         "Autonomous agent-to-agent negotiation protocol"
       ],
-      shizzyTake: "Solid performance engineering. Sub-second latency is the 'holy grail' for real-time agents; without it, autonomous assistants are too slow for human use. This architectural fix unblocks actual productization of the subnet.",
-      marketCap: "$4.1M",
-      shizzyScore: 52
+      marketCap: "$4.1M"
     }
   },
   { 
@@ -1867,9 +1729,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Fixed orphaned validator reward records",
         "Integrated Stratum-v2 transport layer"
       ],
-      shizzyTake: "InfiniteHash is executing a smart operational expansion. Adding BCH increases miner yields-per-watt, the primary growth driver for hardware subnets. Merged mining is an elegant way to steal hashrate from legacy pools into the Bittensor ecosystem.",
-      marketCap: "$14.2M",
-      shizzyScore: 55
+      marketCap: "$14.2M"
     }
   },
   { 
@@ -1904,9 +1764,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Fixed ZK-proof verification race condition",
         "Integrated multi-sig payout protocol"
       ],
-      shizzyTake: "Djinn is shipping real privacy primitives. Encryption + Escrow makes this a professional signal marketplace, not just a leaderboard. This addresses the 'information leakage' problem that prevents top-tier traders from sharing signals.",
-      marketCap: "$2.4M",
-      shizzyScore: 45
+      marketCap: "$2.4M"
     }
   },
   { 
@@ -1935,9 +1793,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Added 10-block sleep between validator runs for stability",
         "Integrated KV-cache optimization for inference"
       ],
-      shizzyTake: "This is competent maintenance work on a broken incentive mechanism—exactly what should happen at this stage—but it's not a feature leap or breakthrough. Lip-sync duration fixes are literal plumbing work at a basement-valuation subnet.",
-      marketCap: "$895K",
-      shizzyScore: 38
+      marketCap: "$895K"
     }
   },
   { 
@@ -1959,9 +1815,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Proof-of-Bandwidth v2", 
         "Peer-v1 discovery engine"
       ],
-      shizzyTake: "This is incremental but directionally correct. The websocket reversal is a yellow flag: it suggests the team is moving fast without full validation, resulting in wasted cycles. Performance-based routing is the right move for a $3.1M bandwidth network, but the revert erodes confidence.",
-      marketCap: "$3.1M",
-      shizzyScore: 29
+      marketCap: "$3.1M"
     }
   },
   { 
@@ -1982,9 +1836,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Ethereum bridge live", 
         "Wrapped-v2 asset suite"
       ],
-      shizzyTake: "oneoneone is a micro-cap play on the data validation narrative. By shipping logic diversity scores, they are addressing the fundamental problem of model collapse in synthetic training. High-risk, high-reward bet on the data layer.",
-      marketCap: "$3.3M",
-      shizzyScore: 31
+      marketCap: "$3.3M"
     }
   },
   { 
@@ -2005,9 +1857,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Variant-v2 calling engine", 
         "Reference genome v1 integrated"
       ],
-      shizzyTake: "This is solid, defensive engineering fixing a correctness bug in the reward path. Correctly scoring miners based on timestamp-accurate registration is literal table-stakes. It doesn't move the needle on discovery, but it stops the bleeding of quality miners leaving the subnet.",
-      marketCap: "$534K",
-      shizzyScore: 12
+      marketCap: "$534K"
     }
   },
   { 
@@ -2029,9 +1879,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Human-verification v2", 
         "Deepfake-v1 check extension"
       ],
-      shizzyTake: "This is competent engineering that every production system needs, but it's not a market catalyst. Robust retries and error handling are invisible to users but critical for uptime. The project is technically sound but needs a broader utility signal to break out from $1.1M.",
-      marketCap: "$1.1M",
-      shizzyScore: 24
+      marketCap: "$1.1M"
     }
   },
   { 
@@ -2053,9 +1901,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Intent-v2 solver engine", 
         "Gas-v1 reduction pipeline"
       ],
-      shizzyTake: "Minotaur is building the 'DEX aggregator' for Bittensor. Success depends on cross-subnet liquidity depth; if they can solve the routing problem, $1.1M valuation is essentially a free option on Bittensor DeFi adoption.",
-      marketCap: "$1.1M",
-      shizzyScore: 38
+      marketCap: "$1.1M"
     }
   },
   { 
@@ -2077,9 +1923,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Vault-v2 architecture live", 
         "Stability-v1 model verified"
       ],
-      shizzyTake: "tUSD is a non-custodial stablecoin play on Bittensor. While the vault design is technically sound, the $1.6M mcap reflects the difficulty of bootstrapping a new stablecoin. They need to prove PEG stability under stress.",
-      marketCap: "$1.6M",
-      shizzyScore: 31
+      marketCap: "$1.6M"
     }
   },
   { 
@@ -2101,9 +1945,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Added test toolkit for SOMARIZER",
         "Subnet-interop v1 integrated"
       ],
-      shizzyTake: "SOMA is building the 'intelligence bridge' between subnets. By using MCP servers, they are creating a standard for cross-subnet communication. If adoptable, SOMA becomes the glue that makes the Bittensor hive-mind work.",
-      marketCap: "$1.8M",
-      shizzyScore: 35
+      marketCap: "$1.8M"
     }
   },
   { 
@@ -2125,9 +1967,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Collateral-v2 liquidation engine", 
         "Credit-v1 score live"
       ],
-      shizzyTake: "This is maintenance-tier activity fixing an execution bug. Correcting a scoring calculation that was penalizing miners for passing is necessary, but it's not innovation. The increased monitoring frequency allows for faster recovery from dead validators.",
-      marketCap: "$1.2M",
-      shizzyScore: 26
+      marketCap: "$1.2M"
     }
   },
   { 
@@ -2148,9 +1988,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Added design documentation for the SuperMario integration",
         "Go-v1 benchmark live"
       ],
-      shizzyTake: "This is solid, unglamorous maintenance work by a 2-person team. No new game integrations, no accuracy improvements—just fixing weight burn and sync bugs. The market is correctly ignoring it as non-material until the next 'Play' feature is released.",
-      marketCap: "$1.3M",
-      shizzyScore: 28
+      marketCap: "$1.3M"
     }
   },
   { 
@@ -2172,9 +2010,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Index-v2 balancing engine", 
         "Basket-v1 expansion live"
       ],
-      shizzyTake: "HODL is a conviction play on the Bittensor ecosystem. By providing a staking index, they are simplifying the holding experience for long-term investors. A low-velocity, high-conviction asset management tool.",
-      marketCap: "$4.9M",
-      shizzyScore: 31
+      marketCap: "$4.9M"
     }
   },
   { 
@@ -2196,9 +2032,7 @@ const SUBNETS_DATA: Subnet[] = [
         "RL-v2 trainer live", 
         "Multi-modal-v1 benchmark"
       ],
-      shizzyTake: "This is solid incremental work — engineering discipline on cycle times and scoring transparency — but it's not a feature leap. Institutional maintenance is necessary for its $52M mcap, and Pareto margin tuning signals sophisticated mathematical modeling of model evolution.",
-      marketCap: "$52.7M",
-      shizzyScore: 74
+      marketCap: "$52.7M"
     }
   },
   { 
@@ -2219,9 +2053,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Marketplace-v2 UI", 
         "Agent-v1 escrow live"
       ],
-      shizzyTake: "Sundae Bar is building the consumer discovery layer for agents. By moving to persistent TCP sockets, they are solving the scaling bottlenecks for high-volume agent discovery. Cosmetic updates hide a deepening infrastructure focus.",
-      marketCap: "$1.1M",
-      shizzyScore: 24
+      marketCap: "$1.1M"
     }
   },
   { 
@@ -2243,9 +2075,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Recommender-v2 engine", 
         "E-commerce-v1 API live"
       ],
-      shizzyTake: "Bitrecs is a personalization play on decentralized data. Fixing heartbeat timeouts and adding rejection filters are necessary steps to stabilize a recommendation network before integration. Value discovery is pending a retail catalyst.",
-      marketCap: "$1.2M",
-      shizzyScore: 18
+      marketCap: "$1.2M"
     }
   },
   { 
@@ -2267,9 +2097,7 @@ const SUBNETS_DATA: Subnet[] = [
         "BTC-v2 signal engine", 
         "HFT-v1 latency reduction"
       ],
-      shizzyTake: "Mantis is tuning its incentive engine for competitive variance. By rewarding the absolute best miners over average ones, they are surfacing true alpha in a noisy market. Audit logs improve institutional comfort.",
-      marketCap: "$1.1M",
-      shizzyScore: 24
+      marketCap: "$1.1M"
     }
   },
   { 
@@ -2291,9 +2119,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Autopilot-v2 obstacle avoidance", 
         "Swarm-v1 coordination live"
       ],
-      shizzyTake: "Swarm is proving it can coordinate complex tasks across distributed nodes. Fixing validator timeouts and preparing a PyPI release are signals of a project moving toward production-readiness. High-conviction robotics play.",
-      marketCap: "$310.8K",
-      shizzyScore: 55
+      marketCap: "$310.8K"
     }
   },
   { 
@@ -2313,9 +2139,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Fairness-v1 ZK-proofs live",
         "Player-v1 behavioral fingerprinting"
       ],
-      shizzyTake: "Poker44 is built on verifiable gaming integrity. Collusion detection is a major milestone for onchain poker; resolving it allows for high-stakes decentralized play. At $1.4M, it's a deep-value safety play.",
-      marketCap: "$1.4M",
-      shizzyScore: 52
+      marketCap: "$1.4M"
     }
   },
   { 
@@ -2335,9 +2159,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Sim-v1 market environment expansion",
         "Backtest-v1 validator engine"
       ],
-      shizzyTake: "Incremental but solid. Re-tuning the evolution loop for higher Sharpe-ratio targets shows the team understands institutional requirements. Most strategies are noise—Astrid is filtering for signal. At $0.8M mcap, it's a high-alpha/high-risk microcap.",
-      marketCap: "$0.8M",
-      shizzyScore: 52
+      marketCap: "$0.8M"
     }
   },
   { 
@@ -2357,9 +2179,7 @@ const SUBNETS_DATA: Subnet[] = [
         "CDN-v2 edge network",
         "Transfer-v1 speed bypass"
       ],
-      shizzyTake: "Solid scaling logic. Relay latency is the bottleneck for decentralized CDNs; optimizing orchestration makes ByteLeap more competitive with centralized alternatives. It's a technical win that doesn't yet show up in the price, but makes the network foundation stronger.",
-      marketCap: "$2.1M",
-      shizzyScore: 31
+      marketCap: "$2.1M"
     }
   },
   { 
@@ -2379,9 +2199,7 @@ const SUBNETS_DATA: Subnet[] = [
         "TPU-v4 optimization",
         "ASIC-v1 support live"
       ],
-      shizzyTake: "Dead air. Documentation updates on a $6.4M subnet with zero code changes is noise. There is no evidence here of actual compute utility or volume.",
-      marketCap: "$6.4M",
-      shizzyScore: 13
+      marketCap: "$6.4M"
     }
   },
   { 
@@ -2401,9 +2219,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Audit-v2 verification engine",
         "Signal-v1 history live"
       ],
-      shizzyTake: "Solid maintenance on a high-risk domain. Key rotation security is invisible but vital for auditability subnets. This doesn't change the valuation, but it prevents a disaster.",
-      marketCap: "$2.9M",
-      shizzyScore: 41
+      marketCap: "$2.9M"
     }
   },
   { 
@@ -2422,9 +2238,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Paper-replicability score v1",
         "Academic-v1 journal bridge"
       ],
-      shizzyTake: "A $24M market cap project shifting its scoring weight is interesting but incremental. Re-weighting replicability scores suggests the team is responding to feedback from researchers (likely SN67 partners). It preserves value but doesn't create a breakthrough yet.",
-      marketCap: "$24.1M",
-      shizzyScore: 56
+      marketCap: "$24.1M"
     }
   },
   { 
@@ -2444,9 +2258,7 @@ const SUBNETS_DATA: Subnet[] = [
         "Proof-of-Green v2",
         "Solar-v1 cluster live"
       ],
-      shizzyTake: "Fixed offset is a minor operational correction. For a subnet dependent on real-time solar data, sync accuracy is binary—it's either right or useless. This fix moves them closer to 'right.' However, at $650k mcap, they are still a microscopic experiment.",
-      marketCap: "$651K",
-      shizzyScore: 42
+      marketCap: "$651K"
     }
   },
   { 
@@ -2466,9 +2278,7 @@ const SUBNETS_DATA: Subnet[] = [
         "IBC-v2 bridge live",
         "Cross-subnet-v1 auth integrated"
       ],
-      shizzyTake: "Routine maintenance. Updating bridge keys is a required task for mainnet continuity, not a value-add. HashiChain remains the 'plumbing' that needs broad subnet adoption to be a real investment signal.",
-      marketCap: "$1.4M",
-      shizzyScore: 31
+      marketCap: "$1.4M"
     }
   },
   { 
@@ -2928,31 +2738,6 @@ export const BittensorSubnets: React.FC = () => {
                           {selectedSubnet.details.extendedDescription}
                         </p>
                       </section>
-
-                      {selectedSubnet.details.shizzyTake && (
-                        <section className="space-y-4 p-6 bg-orange-500/5 rounded-[2rem] border border-orange-500/10">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-orange-600 dark:text-orange-400 font-bold uppercase tracking-tight">
-                              <MessageSquare size={18} />
-                              Shizzy Take
-                            </div>
-                            {selectedSubnet.details.shizzyScore && (
-                              <div className="flex items-center gap-2 px-3 py-1 bg-orange-500 text-white rounded-full text-[10px] font-black tracking-widest">
-                                SHIZZY SCORE: {selectedSubnet.details.shizzyScore}
-                              </div>
-                            )}
-                          </div>
-                          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed italic">
-                            "{selectedSubnet.details.shizzyTake}"
-                          </p>
-                          {selectedSubnet.details.marketCap && (
-                            <div className="pt-4 border-t border-orange-500/10 flex items-center justify-between font-mono text-[10px] text-slate-500 uppercase tracking-widest">
-                              <span>Sourced via Shizzy Intelligence</span>
-                              <span className="text-orange-600 font-black">EST. MCAP: {selectedSubnet.details.marketCap}</span>
-                            </div>
-                          )}
-                        </section>
-                      )}
 
                       {selectedSubnet.details.recentUpdates && selectedSubnet.details.recentUpdates.length > 0 && (
                         <section className="space-y-4">
