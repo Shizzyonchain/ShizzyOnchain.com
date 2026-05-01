@@ -18,6 +18,20 @@ export const youtubeService = {
     return {
       lives: [
         {
+          id: '1MAGqGQUYk8',
+          title: 'Finding the Next Bittensor Subnet Runner',
+          thumbnail: 'https://img.youtube.com/vi/1MAGqGQUYk8/maxresdefault.jpg',
+          url: 'https://youtu.be/1MAGqGQUYk8',
+          type: 'live' as const
+        },
+        {
+          id: '8aCEqaDO6_I',
+          title: 'Bittensor Is the Only Opportunity',
+          thumbnail: 'https://img.youtube.com/vi/8aCEqaDO6_I/maxresdefault.jpg',
+          url: 'https://youtu.be/8aCEqaDO6_I',
+          type: 'live' as const
+        },
+        {
           id: 'gfUUxm1zkFw',
           title: 'Bitcoin Has Been Hijacked / Bittensor Subnet Update',
           thumbnail: 'https://img.youtube.com/vi/gfUUxm1zkFw/maxresdefault.jpg',
