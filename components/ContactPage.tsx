@@ -75,7 +75,7 @@ export const ContactPage: React.FC = () => {
       <div className="max-w-5xl mx-auto bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden shadow-sm p-8 md:p-12">
         <div className="flex flex-col md:flex-row gap-12 items-center md:items-start">
           <img 
-            src="https://i.postimg.cc/5tD4hg9d/SU-Shizzy-Background-new-(26).png" 
+            src="https://i.postimg.cc/QCQpMhQh/Shizzy-(10).png" 
             alt="Shizzy" 
             className="w-64 h-64 object-cover rounded-[2rem] shadow-2xl border border-slate-200 dark:border-white/10 shrink-0"
             referrerPolicy="no-referrer"
