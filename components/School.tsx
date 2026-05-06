@@ -1,7 +1,7 @@
 
-import React from 'react';
-import { motion } from 'motion/react';
-import { Calendar, ChevronRight, Zap, Target, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Calendar, ChevronRight, Zap, Target, Star, X, Loader2 } from 'lucide-react';
 
 export const School: React.FC = () => {
   const courses = [
@@ -12,7 +12,6 @@ export const School: React.FC = () => {
       duration: "60 Min",
       price: "$100",
       tag: "CORE",
-      bookingUrl: "https://calendly.com/shizzyunchained/beginner-tao"
     },
     {
       title: "Building a Subnet Portfolio",
@@ -21,7 +20,6 @@ export const School: React.FC = () => {
       duration: "60 Min",
       price: "$100",
       tag: "STRATEGY",
-      bookingUrl: "https://calendly.com/shizzyunchained/portfolio-strategy"
     },
     {
       title: "Content Creator Strategy",
@@ -30,12 +28,59 @@ export const School: React.FC = () => {
       duration: "60 Min",
       price: "$100",
       tag: "GROWTH",
-      bookingUrl: "https://calendly.com/shizzyunchained/creator-strategy"
     }
   ];
 
-  const handleBooking = (url: string) => {
-    window.location.href = url;
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', preferredTime: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const openModal = (title: string) => {
+    setSelectedCourse(title);
+    setError(null);
+  };
+
+  const closeModal = () => {
+    setSelectedCourse(null);
+    setFormData({ name: '', email: '', preferredTime: '' });
+  };
+
+  const handleBookingSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedCourse) return;
+    
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseTitle: selectedCourse,
+          name: formData.name,
+          email: formData.email,
+          preferredTime: formData.preferredTime
+        })
+      });
+      
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error('Server returned an invalid response.');
+      }
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
+    } catch (err: any) {
+      console.error('Payment Error:', err);
+      setError(err.message || 'Failed to initiate payment. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -119,7 +164,7 @@ export const School: React.FC = () => {
                   </div>
                   
                   <motion.button
-                    onClick={() => handleBooking(course.bookingUrl)}
+                    onClick={() => openModal(course.title)}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="flex items-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 transition-all"
@@ -179,6 +224,113 @@ export const School: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Booking Modal */}
+      <AnimatePresence>
+        {selectedCourse && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeModal}
+              className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-lg bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-3xl p-8 shadow-2xl"
+            >
+              <button 
+                onClick={closeModal}
+                className="absolute top-6 right-6 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                disabled={isSubmitting}
+              >
+                <X size={24} />
+              </button>
+
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white mb-2">
+                    Request Booking
+                  </h3>
+                  <p className="text-slate-500 dark:text-slate-400 font-medium">
+                    {selectedCourse} - $100
+                  </p>
+                </div>
+
+                {error && (
+                  <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-500 text-sm font-bold rounded-xl">
+                    {error}
+                  </div>
+                )}
+
+                <form onSubmit={handleBookingSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 pl-1">Name</label>
+                    <input 
+                      type="text" 
+                      required
+                      disabled={isSubmitting}
+                      value={formData.name}
+                      onChange={e => setFormData({...formData, name: e.target.value})}
+                      className="w-full px-5 py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-medium focus:outline-none focus:border-orange-500/50 transition-colors"
+                      placeholder="Satoshi Nakamoto"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 pl-1">Email</label>
+                    <input 
+                      type="email" 
+                      required
+                      disabled={isSubmitting}
+                      value={formData.email}
+                      onChange={e => setFormData({...formData, email: e.target.value})}
+                      className="w-full px-5 py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-medium focus:outline-none focus:border-orange-500/50 transition-colors"
+                      placeholder="satoshirunes@gmail.com"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 pl-1">Preferred Time / Day</label>
+                    <input 
+                      type="text" 
+                      required
+                      disabled={isSubmitting}
+                      value={formData.preferredTime}
+                      onChange={e => setFormData({...formData, preferredTime: e.target.value})}
+                      className="w-full px-5 py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-medium focus:outline-none focus:border-orange-500/50 transition-colors"
+                      placeholder="e.g. Wednesday afternoons (EST)"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full relative overflow-hidden flex items-center justify-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-xl font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="animate-spin" size={20} />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        Pay $100 & Request <ChevronRight size={18} />
+                      </>
+                    )}
+                  </button>
+                  <p className="text-center text-xs text-slate-500 mt-4">
+                    You will receive an email from Shizzy to finalize the exact time.
+                  </p>
+                </form>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

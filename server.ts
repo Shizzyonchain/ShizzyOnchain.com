@@ -58,6 +58,69 @@ async function startServer() {
     res.json({ status: "alive", time: new Date().toISOString() });
   });
 
+  // Stripe Checkout Session (Manual Calendar Flow)
+  app.post("/api/create-checkout-session", async (req, res) => {
+    try {
+      const { courseTitle, name, email, preferredTime, stripePriceId } = req.body;
+      const stripeKey = process.env.STRIPE_SECRET_KEY?.trim();
+      
+      if (!stripeKey) {
+        console.error("[Stripe] CRITICAL: STRIPE_SECRET_KEY is missing or empty.");
+        return res.status(403).json({ 
+          error: "Stripe is not configured. Please ensure STRIPE_SECRET_KEY is added to Project Secrets." 
+        });
+      }
+
+      const Stripe = (await import('stripe')).default;
+      const stripe = new Stripe(stripeKey, {
+        apiVersion: '2023-10-16' as any,
+      });
+      
+      const host = req.get('host');
+      const protocol = (req.headers['x-forwarded-proto'] as string) || req.protocol;
+      const origin = `${protocol}://${host}`;
+
+      console.log(`[Stripe] Creating session for: ${courseTitle}, Client: ${email}`);
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        customer_email: email || undefined,
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: `Unchained Academy: ${courseTitle || 'Strategy Session'}`,
+                description: '60-minute intensive Bittensor strategy session with Shizzy Unchained.',
+              },
+              unit_amount: 10000, // $100.00
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        // Pass metadata so it appears in the Stripe dashboard for the seller
+        metadata: {
+          clientName: name,
+          clientEmail: email,
+          requestedCourse: courseTitle,
+          preferredTime: preferredTime,
+        },
+        success_url: `${origin}/#/school?success=true`,
+        cancel_url: `${origin}/#/school`,
+      });
+
+      console.log(`[Stripe] Session Success: ${session.id}`);
+      return res.json({ id: session.id, url: session.url });
+    } catch (err: any) {
+      console.error('[Stripe] ERROR:', err);
+      return res.status(500).json({ 
+        error: err.message || "An error occurred during Stripe session creation.",
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      });
+    }
+  });
+
   app.post("/api/extract-image", async (req, res) => {
     try {
       const { GoogleGenAI } = await import("@google/genai");
