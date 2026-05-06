@@ -11,7 +11,8 @@ export const School: React.FC = () => {
       icon: <Zap className="text-orange-500" />,
       duration: "60 Min",
       price: "$100",
-      tag: "CORE"
+      tag: "CORE",
+      bookingUrl: "https://calendly.com/shizzyunchained/beginner-tao"
     },
     {
       title: "Building a Subnet Portfolio",
@@ -19,7 +20,8 @@ export const School: React.FC = () => {
       icon: <Target className="text-emerald-500" />,
       duration: "60 Min",
       price: "$100",
-      tag: "STRATEGY"
+      tag: "STRATEGY",
+      bookingUrl: "https://calendly.com/shizzyunchained/portfolio-strategy"
     },
     {
       title: "Content Creator Strategy",
@@ -27,43 +29,13 @@ export const School: React.FC = () => {
       icon: <Star className="text-purple-500" />,
       duration: "60 Min",
       price: "$100",
-      tag: "GROWTH"
+      tag: "GROWTH",
+      bookingUrl: "https://calendly.com/shizzyunchained/creator-strategy"
     }
   ];
 
-  const [isLoading, setIsLoading] = React.useState<string | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
-
-  const handlePayAndBook = async (courseTitle: string) => {
-    setIsLoading(courseTitle);
-    setError(null);
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ courseTitle })
-      });
-      
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text();
-        console.error('SERVER ERROR (Non-JSON):', text);
-        setError(`SERVER ERROR: ${text.substring(0, 100)}... Check if server is running and key is correct.`);
-        throw new Error('Server returned an invalid response.');
-      }
-
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(data.error || 'Failed to create checkout session');
-      }
-    } catch (error: any) {
-      console.error('Payment Error:', error);
-      setError(error.message || 'Failed to initiate payment. Please try again.');
-    } finally {
-      setIsLoading(null);
-    }
+  const handleBooking = (url: string) => {
+    window.location.href = url;
   };
 
   return (
@@ -101,16 +73,6 @@ export const School: React.FC = () => {
           >
             Master the Bittensor network with high-signal structured onboarding and elite strategy sessions.
           </motion.p>
-
-          {error && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-500 text-sm font-bold uppercase tracking-widest rounded-2xl inline-block"
-            >
-              Error: {error}
-            </motion.div>
-          )}
         </div>
 
         {/* Course List - Single Column Rectangles */}
@@ -157,20 +119,12 @@ export const School: React.FC = () => {
                   </div>
                   
                   <motion.button
-                    onClick={() => handlePayAndBook(course.title)}
-                    disabled={!!isLoading}
+                    onClick={() => handleBooking(course.bookingUrl)}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex items-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 transition-all ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className="flex items-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 transition-all"
                   >
-                    {isLoading === course.title ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        INITIATING...
-                      </div>
-                    ) : (
-                      <>PAY & BOOK <ChevronRight size={18} /></>
-                    )}
+                    SELECT & BOOK <ChevronRight size={18} />
                   </motion.button>
                 </div>
               </div>
