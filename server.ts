@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
 import Stripe from "stripe";
@@ -63,12 +62,12 @@ async function startServer() {
   app.post("/api/create-checkout-session", async (req, res) => {
     try {
       const { courseTitle, name, email, preferredTime, stripePriceId } = req.body;
-      const stripeKey = process.env.STRIPE_SECRET_KEY?.trim();
+      const stripeKey = (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_KEY)?.trim();
       
       if (!stripeKey) {
         console.error("[Stripe Error] Missing STRIPE_SECRET_KEY in environment variables.");
         return res.status(500).json({ 
-          error: "Stripe configuration error. Missing STRIPE_SECRET_KEY." 
+          error: "Stripe configuration error. Missing STRIPE_SECRET_KEY. Please add the live secret key (sk_live_...) to the project secrets." 
         });
       }
 
@@ -168,6 +167,7 @@ async function startServer() {
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -189,9 +189,18 @@ async function startServer() {
     });
   });
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  if (!process.env.VERCEL) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  }
+  
+  return app;
 }
 
-startServer();
+const appPromise = startServer();
+export default async function (req: any, res: any) {
+  const app = await appPromise;
+  app(req, res);
+}
+
