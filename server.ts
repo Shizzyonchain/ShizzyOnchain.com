@@ -43,6 +43,49 @@ async function startServer() {
     res.json({ key: process.env.GEMINI_API_KEY ? process.env.GEMINI_API_KEY.substring(0, 5) : 'MISSING' });
   });
 
+  // Stripe Checkout Session
+  app.post("/api/create-checkout-session", express.json(), async (req, res) => {
+    try {
+      const { courseTitle } = req.body;
+      const stripeKey = process.env.STRIPE_SECRET_KEY;
+      
+      if (!stripeKey) {
+        console.error("STRIPE_SECRET_KEY is missing from environment variables.");
+        return res.status(500).json({ 
+          error: "Stripe is not configured. Please add STRIPE_SECRET_KEY to your environment variables." 
+        });
+      }
+
+      const Stripe = (await import("stripe")).default;
+      const stripe = new Stripe(stripeKey);
+      
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: courseTitle || 'Unchained Academy Session',
+                description: '60-minute intensive Bittensor strategy session.',
+              },
+              unit_amount: 10000, // $100.00
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        success_url: `https://calendly.com/shizzyunchained?utm_source=stripe&utm_campaign=school&course=${encodeURIComponent(courseTitle)}`,
+        cancel_url: `${req.headers.origin}/#/school`,
+      });
+
+      res.json({ id: session.id, url: session.url });
+    } catch (err: any) {
+      console.error('Stripe Error:', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   app.post("/api/extract-image", express.json(), async (req, res) => {
     try {
       const { GoogleGenAI } = await import("@google/genai");

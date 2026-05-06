@@ -31,6 +31,33 @@ export const School: React.FC = () => {
     }
   ];
 
+  const [isLoading, setIsLoading] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+
+  const handlePayAndBook = async (courseTitle: string) => {
+    setIsLoading(courseTitle);
+    setError(null);
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ courseTitle })
+      });
+      
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
+    } catch (error: any) {
+      console.error('Payment Error:', error);
+      setError(error.message || 'Failed to initiate payment. Please try again.');
+    } finally {
+      setIsLoading(null);
+    }
+  };
+
   return (
     <div className="relative min-h-screen pb-24 overflow-hidden">
       {/* Background Decor */}
@@ -66,6 +93,16 @@ export const School: React.FC = () => {
           >
             Master the Bittensor network with high-signal structured onboarding and elite strategy sessions.
           </motion.p>
+
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-500 text-sm font-bold uppercase tracking-widest rounded-2xl inline-block"
+            >
+              Error: {error}
+            </motion.div>
+          )}
         </div>
 
         {/* Course List - Single Column Rectangles */}
@@ -111,16 +148,22 @@ export const School: React.FC = () => {
                     </div>
                   </div>
                   
-                  <motion.a
-                    href="https://calendly.com/shizzyunchained"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <motion.button
+                    onClick={() => handlePayAndBook(course.title)}
+                    disabled={!!isLoading}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20"
+                    className={`flex items-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 transition-all ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    PAY & BOOK <ChevronRight size={18} />
-                  </motion.a>
+                    {isLoading === course.title ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        PROCESSING...
+                      </div>
+                    ) : (
+                      <>PAY & BOOK <ChevronRight size={18} /></>
+                    )}
+                  </motion.button>
                 </div>
               </div>
 
