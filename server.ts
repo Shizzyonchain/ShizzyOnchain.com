@@ -1,11 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import path from "path";
-import { fileURLToPath } from "url";
 import Stripe from "stripe";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -65,7 +61,7 @@ app.post("/api/create-checkout-session", async (req, res) => {
     const stripeKey = (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_KEY)?.trim();
     
     if (!stripeKey) {
-      console.error("[Stripe Error] Missing STRIPE_SECRET_KEY in environment variables.");
+      console.error("[Stripe Error] Missing STRIPE_SECRET_KEY in environment variables. Could also be wrong environment variable name.");
       return res.status(500).json({ 
         error: "Stripe configuration error. Missing STRIPE_SECRET_KEY. Please add the live secret key (sk_live_...) to the project secrets." 
       });
@@ -74,6 +70,12 @@ app.post("/api/create-checkout-session", async (req, res) => {
     if (stripeKey.startsWith('pk_')) {
       console.error("[Stripe Error] Wrong key mode: STRIPE_SECRET_KEY appears to be a publishable key (pk_...). It must be a secret key (sk_...).");
       return res.status(500).json({ error: "Invalid Stripe key mode configured. You are using a 'pk_...' key but need a 'sk_...' key." });
+    }
+
+    if (stripeKey.startsWith('sk_test_')) {
+      console.warn("[Stripe Warning] You are using a test key (sk_test_...). Ensure you do not mix Test keys with Live price IDs.");
+    } else if (stripeKey.startsWith('sk_live_')) {
+      console.warn("[Stripe Warning] You are using a live key (sk_live_...). Ensure you do not mix Live keys with Test price IDs.");
     }
 
     const stripe = new Stripe(stripeKey, {
@@ -85,7 +87,13 @@ app.post("/api/create-checkout-session", async (req, res) => {
     const origin = `${protocol}://${host}`;
 
     if (!origin || !origin.startsWith('http')) {
-      console.error("[Stripe Error] Invalid origin resolved for success/cancel URLs:", origin);
+      console.error("[Stripe Error] Invalid origin resolved for success_url or cancel_url:", origin);
+      return res.status(500).json({ error: "Invalid origin resolved. Missing success_url or cancel_url capabilities." });
+    }
+
+    if (!req.method || req.method !== 'POST') {
+      console.error("[Stripe Error] Wrong HTTP method. Only POST is allowed.");
+      return res.status(405).json({ error: "Wrong HTTP method. Only POST is allowed." });
     }
 
     console.log(`[Stripe] Creating session for: ${courseTitle}, Client: ${email}`);
@@ -123,6 +131,10 @@ app.post("/api/create-checkout-session", async (req, res) => {
     console.error('[Stripe API Error] Message:', err.message);
     console.error('[Stripe API Error] Type:', err.type);
     console.error('[Stripe API Error] Code:', err.code);
+    
+    if (err.message && err.message.includes("No such price")) {
+       console.error("[Stripe Error] Invalid Price ID detected.");
+    }
     
     return res.status(500).json({ 
       error: err.message || "An error occurred during Stripe session creation."
@@ -197,9 +209,9 @@ if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   });
 } else {
   // Production / Vercel
-  app.use(express.static("dist"));
+  app.use(express.static(path.join(process.cwd(), "dist")));
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "dist/index.html"));
+    res.sendFile(path.join(process.cwd(), "dist/index.html"));
   });
 
   // Only listen directly if not hosted on Vercel
