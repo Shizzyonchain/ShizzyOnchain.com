@@ -3,6 +3,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
+import Stripe from "stripe";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,10 +74,9 @@ async function startServer() {
 
       if (stripeKey.startsWith('pk_')) {
         console.error("[Stripe Error] Wrong key mode: STRIPE_SECRET_KEY appears to be a publishable key (pk_...). It must be a secret key (sk_...).");
-        return res.status(500).json({ error: "Invalid Stripe key mode configured." });
+        return res.status(500).json({ error: "Invalid Stripe key mode configured. You are using a 'pk_...' key but need a 'sk_...' key." });
       }
 
-      const Stripe = (await import('stripe')).default;
       const stripe = new Stripe(stripeKey, {
         apiVersion: '2023-10-16' as any,
       });
