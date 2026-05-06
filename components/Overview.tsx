@@ -8,7 +8,7 @@ export const Overview: React.FC = () => {
   const { hero } = OVERVIEW_CONTENT;
 
   return (
-    <div className="relative min-h-screen overflow-hidden pb-24">
+    <div className="relative min-h-screen overflow-hidden pb-12">
       {/* Background Elements */}
       <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-orange-500/5 via-transparent to-transparent dark:from-orange-500/10 pointer-events-none" />
@@ -16,7 +16,7 @@ export const Overview: React.FC = () => {
       <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
       <div className="absolute top-[40%] left-[5%] w-[400px] h-[400px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
 
-      <div className="relative max-w-[1200px] mx-auto px-6 space-y-20 pt-12 md:pt-20">
+      <div className="relative max-w-[1200px] mx-auto px-6 space-y-12 pt-8 md:pt-12">
         
         {/* NETWORK STATUS HUD - STEP 1 TO A 10 */}
         <div className="absolute top-8 left-6 right-6 flex items-center justify-between pointer-events-none opacity-50">
@@ -102,7 +102,7 @@ export const Overview: React.FC = () => {
         </section>
 
         {/* BITTENSOR FOR BEGINNERS SECTION */}
-        <section className="space-y-12">
+        <section className="space-y-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-4">
               <h3 className="text-4xl md:text-6xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">
@@ -117,7 +117,7 @@ export const Overview: React.FC = () => {
 
           <motion.div 
             whileHover={{ y: -10 }}
-            className="group space-y-6 max-w-4xl mx-auto"
+            className="group space-y-4 max-w-4xl mx-auto"
           >
             <div className="aspect-video relative bg-slate-100 dark:bg-[#0a0a0a] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl transition-all duration-500 group-hover:border-orange-500/50">
               <iframe
@@ -140,7 +140,7 @@ export const Overview: React.FC = () => {
         </section>
 
         {/* PROMOTIONAL BANNERS SECTION */}
-        <section className="space-y-12 pt-12 border-t border-slate-200 dark:border-white/5">
+        <section className="space-y-8 pt-8 border-t border-slate-200 dark:border-white/5">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-4">
               <h3 className="text-4xl md:text-6xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">

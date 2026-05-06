@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Header } from './components/Header.tsx';
 import { ResearchDashboard } from './components/ResearchDashboard.tsx';
@@ -21,8 +21,17 @@ import { Footer } from './components/Footer.tsx';
 import { View } from './types.ts';
 
 // v2.0.2 - Fixed localStorage crashes & Added Error Boundary
-class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: Error | null }> {
-  constructor(props: { children: React.ReactNode }) {
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null };
   }
