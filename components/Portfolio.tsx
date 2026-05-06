@@ -13,17 +13,21 @@ interface Comment {
 }
 
 const PORTFOLIO_DATA = [
-  { sn: 'SN15', name: 'ORO', percent: 20.7 },
-  { sn: 'SN44', name: 'Score', percent: 16.1 },
-  { sn: 'SN4', name: 'Targon', percent: 14.7 },
-  { sn: 'SN97', name: 'distil', percent: 8.7 },
-  { sn: 'SN62', name: 'Ridges', percent: 8.3 },
-  { sn: 'SN58', name: 'Handshake', percent: 8.3 },
-  { sn: 'SN5', name: 'Hone', percent: 5.6 },
-  { sn: 'SN66', name: 'ninja', percent: 5.5 },
-  { sn: 'SN105', name: 'Beam', percent: 4.97 },
-  { sn: 'SN68', name: 'NOVA', percent: 4.07 },
-  { sn: 'SN51', name: 'lium.io', percent: 3.06 },
+  { sn: 'SN44', name: 'Score', percent: 17.3 },
+  { sn: 'SN4', name: 'Targon', percent: 13.0 },
+  { sn: 'SN62', name: 'Ridges', percent: 11.1 },
+  { sn: 'SN97', name: 'distil', percent: 11.1 },
+  { sn: 'SN66', name: 'ninja', percent: 8.0 },
+  { sn: 'SN58', name: 'Handshake', percent: 7.6 },
+  { sn: 'SN15', name: 'ORO', percent: 5.4 },
+  { sn: 'SN5', name: 'Hone', percent: 5.0 },
+  { sn: 'SN105', name: 'Beam', percent: 4.8 },
+  { sn: 'SN68', name: 'NOVA', percent: 4.7 },
+  { sn: '', name: 'Mentat 15', percent: 2.47 },
+  { sn: '', name: 'Mentat AI Training', percent: 2.45 },
+  { sn: '', name: 'Mentat Training', percent: 2.45 },
+  { sn: '', name: 'Mentat Agents', percent: 2.33 },
+  { sn: 'SN36', name: 'Automata', percent: 2.3 },
 ];
 
 export const Portfolio: React.FC = () => {
@@ -165,9 +169,9 @@ export const Portfolio: React.FC = () => {
           {/* Image Section */}
           <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4">
             <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
-            <a href="https://x.com/ShizzyUnchained/status/2048599300125426068?s=20" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
+            <a href="https://x.com/ShizzyUnchained/status/2052060502331629616?s=20" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
               <img 
-                src="https://i.postimg.cc/t4hy7vTN/PORT.png" 
+                src="https://i.postimg.cc/qMGWxD87/7c0f6933-05f7-4125-9e7a-aaa633381d1a.jpg" 
                 alt="Shizzy's Portfolio" 
                 className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
