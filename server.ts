@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import { createServer as createViteServer } from "vite";
-import Stripe from "stripe";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -59,34 +58,25 @@ async function startServer() {
     res.json({ status: "alive", time: new Date().toISOString() });
   });
 
-  // Stripe Checkout Session
+  // Stripe Checkout Session - Lazy load to handle missing keys gracefully
   app.post("/api/create-checkout-session", async (req, res) => {
     try {
-      console.log(`[Stripe] Incoming POST request to /api/create-checkout-session`);
-      console.log(`[Stripe] Request Headers:`, JSON.stringify(req.headers));
-      console.log(`[Stripe] Request Body:`, JSON.stringify(req.body));
-
       const { courseTitle } = req.body;
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       
       if (!stripeKey) {
-        console.error("[Stripe] CRITICAL: STRIPE_SECRET_KEY is missing/empty.");
         return res.status(403).json({ 
-          error: "Stripe is not configured. Please add STRIPE_SECRET_KEY to your project secrets." 
+          error: "Stripe configuration missing. Please ensure STRIPE_SECRET_KEY is set in settings." 
         });
       }
 
-      const stripe = new Stripe(stripeKey, {
-        // @ts-ignore
-        apiVersion: '2023-10-16',
-      });
+      // Dynamic import to avoid startup issues
+      const { default: Stripe } = await import("stripe");
+      const stripe = new Stripe(stripeKey);
       
       const host = req.get('host');
-      const protocol = req.protocol === 'http' && host?.includes('ais-') ? 'https' : req.protocol;
+      const protocol = (req.headers['x-forwarded-proto'] as string) || req.protocol;
       const origin = req.headers.origin || `${protocol}://${host}`;
-      
-      console.log(`[Stripe] Computed Origin: ${origin}`);
-      console.log(`[Stripe] Processing session for: ${courseTitle || 'Unknown Course'}`);
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -95,7 +85,7 @@ async function startServer() {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: `Unchained Academy: ${courseTitle || 'Strategy Session'}`,
+                name: `Unchained Academy: ${courseTitle || 'Intensive Session'}`,
                 description: '60-minute high-signal Bittensor strategy session.',
               },
               unit_amount: 10000, // $100.00
@@ -108,12 +98,11 @@ async function startServer() {
         cancel_url: `${origin}/#/school`,
       });
 
-      console.log(`[Stripe] Session successfully created: ${session.id}`);
       res.json({ id: session.id, url: session.url });
     } catch (err: any) {
       console.error('[Stripe] ERROR:', err);
       res.status(500).json({ 
-        error: err.message || "An error occurred during Stripe session creation.",
+        error: err.message || "Failed to create payment session.",
         type: err.type
       });
     }
