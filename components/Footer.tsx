@@ -4,7 +4,7 @@ import { Youtube, Send, Twitter } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#050505] relative z-10 py-12 md:py-16 mt-20">
+    <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#050505] relative z-10 py-8 md:py-12 mt-12">
       <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-slate-500 dark:text-slate-400">
         
         {/* Brand & Disclaimer */}
