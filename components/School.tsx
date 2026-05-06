@@ -289,7 +289,7 @@ export const School: React.FC = () => {
                       value={formData.email}
                       onChange={e => setFormData({...formData, email: e.target.value})}
                       className="w-full px-5 py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white font-medium focus:outline-none focus:border-orange-500/50 transition-colors"
-                      placeholder="satoshirunes@gmail.com"
+                      placeholder="Shizzyunchained@gmail.com"
                     />
                   </div>
 

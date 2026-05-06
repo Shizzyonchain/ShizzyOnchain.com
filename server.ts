@@ -65,10 +65,15 @@ async function startServer() {
       const stripeKey = process.env.STRIPE_SECRET_KEY?.trim();
       
       if (!stripeKey) {
-        console.error("[Stripe] CRITICAL: STRIPE_SECRET_KEY is missing or empty.");
-        return res.status(403).json({ 
-          error: "Stripe is not configured. Please ensure STRIPE_SECRET_KEY is added to Project Secrets." 
+        console.error("[Stripe Error] Missing STRIPE_SECRET_KEY in environment variables.");
+        return res.status(500).json({ 
+          error: "Stripe configuration error. Missing STRIPE_SECRET_KEY." 
         });
+      }
+
+      if (stripeKey.startsWith('pk_')) {
+        console.error("[Stripe Error] Wrong key mode: STRIPE_SECRET_KEY appears to be a publishable key (pk_...). It must be a secret key (sk_...).");
+        return res.status(500).json({ error: "Invalid Stripe key mode configured." });
       }
 
       const Stripe = (await import('stripe')).default;
@@ -80,8 +85,14 @@ async function startServer() {
       const protocol = (req.headers['x-forwarded-proto'] as string) || req.protocol;
       const origin = `${protocol}://${host}`;
 
+      if (!origin || !origin.startsWith('http')) {
+        console.error("[Stripe Error] Invalid origin resolved for success/cancel URLs:", origin);
+      }
+
       console.log(`[Stripe] Creating session for: ${courseTitle}, Client: ${email}`);
 
+      // Optional: If they provided a real price ID in the future, we could use `price: stripePriceId` 
+      // instead of `price_data`. For now, we use dynamic product_data (price_data).
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         customer_email: email || undefined,
@@ -113,7 +124,10 @@ async function startServer() {
       console.log(`[Stripe] Session Success: ${session.id}`);
       return res.json({ id: session.id, url: session.url });
     } catch (err: any) {
-      console.error('[Stripe] ERROR:', err);
+      console.error('[Stripe API Error] Message:', err.message);
+      console.error('[Stripe API Error] Type:', err.type);
+      console.error('[Stripe API Error] Code:', err.code);
+      
       return res.status(500).json({ 
         error: err.message || "An error occurred during Stripe session creation.",
         stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
