@@ -12,6 +12,8 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  app.use(express.json());
+
   // API Proxy for Taostats to avoid CORS
   app.get("/api/taostats/subnets", async (req, res) => {
     try {
@@ -46,28 +48,41 @@ async function startServer() {
   });
 
   app.get("/api/env-debug", (req, res) => {
-    res.json({ key: process.env.GEMINI_API_KEY ? process.env.GEMINI_API_KEY.substring(0, 5) : 'MISSING' });
+    res.json({ 
+      gemini: !!process.env.GEMINI_API_KEY,
+      stripe: !!process.env.STRIPE_SECRET_KEY,
+      node_env: process.env.NODE_ENV
+    });
+  });
+
+  app.get("/api/test-server", (req, res) => {
+    res.json({ status: "alive", time: new Date().toISOString() });
   });
 
   // Stripe Checkout Session
-  app.post("/api/create-checkout-session", express.json(), async (req, res) => {
+  app.post("/api/create-checkout-session", async (req, res) => {
     try {
       const { courseTitle } = req.body;
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       
-      console.log(`[Stripe] Creating session for: ${courseTitle}`);
+      console.log(`[Stripe] Request received for: ${courseTitle}`);
 
       if (!stripeKey) {
-        console.error("[Stripe] Missing STRIPE_SECRET_KEY");
-        return res.status(500).json({ 
-          error: "Stripe is not configured in environment variables." 
+        console.error("[Stripe] CRITICAL: STRIPE_SECRET_KEY is MISSING from environment.");
+        return res.status(403).json({ 
+          error: "Stripe is not configured. Please add STRIPE_SECRET_KEY to your project secrets." 
         });
       }
 
-      const stripe = new Stripe(stripeKey);
+      console.log(`[Stripe] Initializing with key length: ${stripeKey.length}`);
+      // Initialize Stripe with the latest API version if possible, or just default
+      const stripe = new Stripe(stripeKey, {
+        // @ts-ignore
+        apiVersion: '2023-10-16', // Standard stable version
+      });
       
       const origin = req.headers.origin || `${req.protocol}://${req.get('host')}`;
-      console.log(`[Stripe] Using origin for URLs: ${origin}`);
+      console.log(`[Stripe] Origin detected: ${origin}`);
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -76,8 +91,8 @@ async function startServer() {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: courseTitle || 'Unchained Academy Session',
-                description: '60-minute intensive Bittensor strategy session.',
+                name: `Unchained Academy: ${courseTitle || 'Intensive Session'}`,
+                description: '60-minute high-signal Bittensor strategy session.',
               },
               unit_amount: 10000, // $100.00
             },
@@ -89,15 +104,20 @@ async function startServer() {
         cancel_url: `${origin}/#/school`,
       });
 
-      console.log(`[Stripe] Session created: ${session.id}`);
+      console.log(`[Stripe] Session successfully created: ${session.id}`);
       res.json({ id: session.id, url: session.url });
     } catch (err: any) {
-      console.error('[Stripe] Error:', err);
-      res.status(500).json({ error: err.message || "An error occurred with the payment system." });
+      console.error('[Stripe] ERROR during session creation:', err);
+      // Return a 500 with the error message as JSON
+      res.status(500).json({ 
+        error: err.message || "An error occurred with the payment system.",
+        type: err.type,
+        code: err.code
+      });
     }
   });
 
-  app.post("/api/extract-image", express.json(), async (req, res) => {
+  app.post("/api/extract-image", async (req, res) => {
     try {
       const { GoogleGenAI } = await import("@google/genai");
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -141,6 +161,15 @@ async function startServer() {
       res.sendFile("dist/index.html", { root: "." });
     });
   }
+
+  // Global Error Handler to catch any unhandled exceptions and return JSON
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error('[Express] Global Error:', err);
+    res.status(500).json({ 
+      error: 'Internal Server Error', 
+      message: err.message 
+    });
+  });
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);

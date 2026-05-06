@@ -48,7 +48,7 @@ export const School: React.FC = () => {
       if (!contentType || !contentType.includes("application/json")) {
         const text = await response.text();
         console.error('Non-JSON response:', text);
-        throw new Error('Server returned an invalid response. This usually means a configuration issue or server crash.');
+        throw new Error(`Server Error: ${text.substring(0, 100)}...`);
       }
 
       const data = await response.json();
