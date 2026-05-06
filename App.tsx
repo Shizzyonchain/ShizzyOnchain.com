@@ -18,6 +18,7 @@ import { SendTip } from './components/SendTip.tsx';
 import { Portfolio } from './components/Portfolio.tsx';
 import { AllComments } from './components/AllComments.tsx';
 import { Footer } from './components/Footer.tsx';
+import { School } from './components/School.tsx';
 import { View } from './types.ts';
 
 // v2.0.2 - Fixed localStorage crashes & Added Error Boundary
@@ -93,6 +94,7 @@ const App: React.FC = () => {
       else if (hash === '#/contact') setCurrentView('contact');
       else if (hash === '#/send-tip') setCurrentView('send-tip');
       else if (hash === '#/portfolio') setCurrentView('portfolio');
+      else if (hash === '#/school') setCurrentView('school');
       else if (hash === '#/all-comments') setCurrentView('all-comments');
       else setCurrentView('home');
     };
@@ -162,6 +164,7 @@ const App: React.FC = () => {
       case 'contact': return <ContactPage />;
       case 'send-tip': return <SendTip />;
       case 'portfolio': return <Portfolio />;
+      case 'school': return <School />;
       case 'all-comments': return <AllComments />;
       default: return <Overview />;
     }

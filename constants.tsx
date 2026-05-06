@@ -20,7 +20,8 @@ export const SOCIAL_LINKS = {
   heroImage: 'https://i.postimg.cc/Y9fN4MJk/SU-Shizzy-Background-new-(25).png',
   innovationFirstLogo: 'https://i.postimg.cc/85zXp9mX/Innovation-First-Logo.png',
   nordVpn: 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained',
-  ledger: 'https://shop.ledger.com/?r=49c0bef9b376'
+  ledger: 'https://shop.ledger.com/?r=49c0bef9b376',
+  calendly: 'https://calendly.com/shizzyunchained'
 };
 
 export const OVERVIEW_CONTENT = {

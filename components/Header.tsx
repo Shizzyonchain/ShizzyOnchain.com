@@ -20,13 +20,24 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     setIsMenuOpen(false);
   };
 
-  const navItems: { label: string; view?: View; url?: string; icon?: React.ReactNode }[] = [
+  const navItems = [
     { label: 'HOME', view: 'home' as View },
     { label: 'VIDEOS', view: 'videos' as View },
     { label: 'BITTENSOR', view: 'bittensor-subnets' as View },
     { label: 'PORTFOLIO', view: 'portfolio' as View },
     { label: 'SHOP', url: 'https://shizzyunchained.printful.me/' },
-    { label: 'TOOLS', view: 'tools' as View, icon: <ChevronDown size={14} /> },
+    { label: 'SCHOOL', view: 'school' as View },
+    { 
+      label: 'RESOURCES', 
+      type: 'dropdown',
+      items: [
+        { label: 'AI TOOLS', view: 'tools' as View },
+        { label: 'TIP CREATOR', view: 'send-tip' as View },
+        { label: 'STAKE TAO', url: 'https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained' },
+        { label: 'GET LEDGER', url: 'https://shop.ledger.com/?r=49c0bef9b376' },
+        { label: 'GET VPN', url: 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained' },
+      ]
+    },
   ];
 
   return (
@@ -47,7 +58,44 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-10">
           {navItems.map((item) => (
-            item.url ? (
+            item.type === 'dropdown' ? (
+              <div key={item.label} className="relative group py-4">
+                <button className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] font-space text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer">
+                  {item.label} <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-300" />
+                </button>
+                
+                {/* Dropdown Menu */}
+                <div className="absolute top-full left-0 mt-0 w-56 bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 overflow-hidden">
+                  <div className="p-2 space-y-1">
+                    {item.items?.map((subItem) => (
+                      subItem.url ? (
+                        <a
+                          key={subItem.label}
+                          href={subItem.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-orange-500 rounded-xl transition-all"
+                        >
+                          {subItem.label}
+                        </a>
+                      ) : (
+                        <button
+                          key={subItem.label}
+                          onClick={() => handleNavClick(subItem.view!)}
+                          className={`w-full flex items-center px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all ${
+                            currentView === subItem.view 
+                              ? 'bg-orange-500/10 text-orange-600' 
+                              : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-orange-500'
+                          }`}
+                        >
+                          {subItem.label}
+                        </button>
+                      )
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : item.url ? (
               <motion.a
                 key={item.label}
                 href={item.url}
@@ -57,7 +105,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                 whileTap={{ scale: 0.98 }}
                 className="relative flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] font-space transition-all duration-300 hover:text-slate-900 dark:hover:text-white group text-slate-500 dark:text-slate-400"
               >
-                {item.icon && <span>{item.icon}</span>}
                 {item.label}
                 <span className="absolute -bottom-2 left-0 h-[2px] bg-orange-500 transition-all duration-500 w-0 group-hover:w-1/2" />
               </motion.a>
@@ -71,7 +118,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                   currentView === item.view ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'
                 }`}
               >
-                {item.icon && <span>{item.icon}</span>}
                 {item.label}
                 <span className={`absolute -bottom-2 left-0 h-[2px] bg-orange-500 transition-all duration-500 ${currentView === item.view ? 'w-full' : 'w-0 group-hover:w-1/2'}`} />
               </motion.button>
@@ -80,35 +126,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
         </nav>
 
         <div className="flex items-center gap-2 md:gap-4 shrink-0">
-          <motion.a 
-            href="https://shop.ledger.com/?r=49c0bef9b376"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ y: -2 }}
-            className="hidden lg:flex items-center px-2 xl:px-4 py-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space transition-colors"
-          >
-            GET LEDGER
-          </motion.a>
-
-          <motion.a 
-            href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ y: -2 }}
-            className="hidden lg:flex items-center px-2 xl:px-4 py-2 text-slate-500 hover:text-blue-500 dark:text-slate-400 dark:hover:text-blue-400 text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space transition-colors"
-          >
-            GET VPN
-          </motion.a>
-          
-          <motion.button 
-            id="send-tip-btn-header"
-            onClick={() => handleNavClick('send-tip')}
-            whileHover={{ y: -2 }}
-            className="hidden md:block px-2 xl:px-4 py-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white text-[10px] xl:text-[11px] font-black uppercase tracking-[0.2em] font-space transition-colors"
-          >
-            TIP CREATOR
-          </motion.button>
-          
           <motion.button 
             id="contact-btn-header"
             onClick={() => handleNavClick('contact')}
@@ -140,10 +157,39 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
 
       {/* Mobile/Hamburger Menu Overlay */}
       {isMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-12 px-8 space-y-8 shadow-2xl animate-in fade-in slide-in-from-top-4 z-[100]">
+        <div className="absolute top-full left-0 w-full bg-white dark:bg-[#0b0e14] border-b border-slate-200 dark:border-white/5 py-12 px-8 space-y-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 z-[100] max-h-[80vh] overflow-y-auto">
           <nav className="space-y-6">
             {navItems.map((item) => (
-              item.url ? (
+              item.type === 'dropdown' ? (
+                <div key={item.label} className="space-y-4">
+                  <div className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">{item.label}</div>
+                  <div className="pl-4 space-y-4">
+                    {item.items?.map((subItem) => (
+                      subItem.url ? (
+                        <a
+                          key={subItem.label}
+                          href={subItem.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block text-2xl font-black uppercase tracking-tighter font-space italic text-slate-400"
+                        >
+                          {subItem.label}
+                        </a>
+                      ) : (
+                        <button 
+                          key={subItem.label}
+                          onClick={() => handleNavClick(subItem.view!)} 
+                          className={`block text-2xl font-black uppercase tracking-tighter font-space italic ${
+                            currentView === subItem.view ? 'text-slate-900 dark:text-white' : 'text-slate-400'
+                          }`}
+                        >
+                          {subItem.label}
+                        </button>
+                      )
+                    ))}
+                  </div>
+                </div>
+              ) : item.url ? (
                 <a
                   key={item.label}
                   href={item.url}
@@ -165,30 +211,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
                 </button>
               )
             ))}
-            <a 
-              href="https://shop.ledger.com/?r=49c0bef9b376"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic text-slate-900 dark:text-white"
-            >
-              GET LEDGER
-            </a>
-            <a 
-              href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic text-blue-500"
-            >
-              GET VPN
-            </a>
-            <button 
-              onClick={() => handleNavClick('send-tip')}
-              className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
-                currentView === 'send-tip' ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'
-              }`}
-            >
-              TIP CREATOR
-            </button>
             <button 
               onClick={() => handleNavClick('contact')}
               className={`block w-full text-left text-2xl font-black uppercase tracking-tighter font-space italic ${
