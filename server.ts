@@ -3,14 +3,26 @@ import express from "express";
 import path from "path";
 import Stripe from "stripe";
 
+// Disable automatic Vercel body parsing so Express can handle raw bodies for Stripe Webhooks
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
 app.use((req, res, next) => {
-  if (req.originalUrl.includes('/api/webhook')) {
+  if (req.originalUrl && req.originalUrl.includes('/api/webhook')) {
     next();
   } else {
-    express.json({ limit: '50mb' })(req, res, next);
+    // If Vercel already parsed the body into an object, skip express.json()
+    if (process.env.VERCEL && req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
+      next();
+    } else {
+      express.json({ limit: '50mb' })(req, res, next);
+    }
   }
 });
 
@@ -263,4 +275,18 @@ if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   }
 }
 
-export default app;
+// Ensure proper error catching for Vercel Serverless environment
+export default async function handler(req: any, res: any) {
+  try {
+    return app(req, res);
+  } catch (err: any) {
+    console.error('[Vercel Fatal Error] Uncaught Server Error:', err);
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(500).json({
+        error: "Fatal Server Error",
+        message: err.message || "An unexpected error occurred during function invocation."
+      });
+    }
+  }
+}
