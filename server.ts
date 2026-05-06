@@ -63,12 +63,12 @@ async function startServer() {
   app.post("/api/create-checkout-session", async (req, res) => {
     try {
       const { courseTitle } = req.body;
-      const stripeKey = process.env.STRIPE_SECRET_KEY;
+      const stripeKey = process.env.STRIPE_SECRET_KEY?.trim();
       
       if (!stripeKey) {
-        console.error("[Stripe] Missing key in environment.");
+        console.error("[Stripe] CRITICAL: STRIPE_SECRET_KEY is missing or empty.");
         return res.status(403).json({ 
-          error: "Stripe is not configured. Please add STRIPE_SECRET_KEY to your project secrets." 
+          error: "Stripe is not configured. Please ensure STRIPE_SECRET_KEY is added to Project Secrets." 
         });
       }
 
@@ -80,6 +80,8 @@ async function startServer() {
       const protocol = (req.headers['x-forwarded-proto'] as string) || req.protocol;
       const origin = `${protocol}://${host}`;
 
+      console.log(`[Stripe] Creating session for: ${courseTitle}, Origin: ${origin}`);
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
@@ -88,7 +90,7 @@ async function startServer() {
               currency: 'usd',
               product_data: {
                 name: `Unchained Academy: ${courseTitle || 'Strategy Session'}`,
-                description: '60-minute high-signal Bittensor strategy session.',
+                description: '60-minute intensive Bittensor strategy session.',
               },
               unit_amount: 10000, // $100.00
             },
@@ -100,13 +102,13 @@ async function startServer() {
         cancel_url: `${origin}/#/school`,
       });
 
-      console.log(`[Stripe] Session Created: ${session.id}`);
-      res.json({ id: session.id, url: session.url });
+      console.log(`[Stripe] Session Success: ${session.id}`);
+      return res.json({ id: session.id, url: session.url });
     } catch (err: any) {
       console.error('[Stripe] ERROR:', err);
-      res.status(500).json({ 
-        error: err.message || "An error occurred during payment session creation.",
-        type: err.type
+      return res.status(500).json({ 
+        error: err.message || "An error occurred during Stripe session creation.",
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
       });
     }
   });

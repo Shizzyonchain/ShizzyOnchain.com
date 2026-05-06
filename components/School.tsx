@@ -48,7 +48,7 @@ export const School: React.FC = () => {
       if (!contentType || !contentType.includes("application/json")) {
         const text = await response.text();
         console.error('SERVER ERROR (Non-JSON):', text);
-        setError(`SERVER ERROR: ${text.substring(0, 150)}`);
+        setError(`SERVER ERROR: ${text.substring(0, 100)}... Check if server is running and key is correct.`);
         throw new Error('Server returned an invalid response.');
       }
 
@@ -166,7 +166,7 @@ export const School: React.FC = () => {
                     {isLoading === course.title ? (
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        PROCESSING...
+                        INITIATING...
                       </div>
                     ) : (
                       <>PAY & BOOK <ChevronRight size={18} /></>
