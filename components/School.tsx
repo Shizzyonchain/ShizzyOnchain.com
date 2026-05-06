@@ -44,6 +44,13 @@ export const School: React.FC = () => {
         body: JSON.stringify({ courseTitle })
       });
       
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error('Non-JSON response:', text);
+        throw new Error('Server returned an invalid response. This usually means a configuration issue or server crash.');
+      }
+
       const data = await response.json();
       if (data.url) {
         window.location.href = data.url;

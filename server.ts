@@ -1,6 +1,12 @@
 import "dotenv/config";
 import express from "express";
 import { createServer as createViteServer } from "vite";
+import Stripe from "stripe";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function startServer() {
   const app = express();
@@ -49,16 +55,20 @@ async function startServer() {
       const { courseTitle } = req.body;
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       
+      console.log(`[Stripe] Creating session for: ${courseTitle}`);
+
       if (!stripeKey) {
-        console.error("STRIPE_SECRET_KEY is missing from environment variables.");
+        console.error("[Stripe] Missing STRIPE_SECRET_KEY");
         return res.status(500).json({ 
-          error: "Stripe is not configured. Please add STRIPE_SECRET_KEY to your environment variables." 
+          error: "Stripe is not configured in environment variables." 
         });
       }
 
-      const Stripe = (await import("stripe")).default;
       const stripe = new Stripe(stripeKey);
       
+      const origin = req.headers.origin || `${req.protocol}://${req.get('host')}`;
+      console.log(`[Stripe] Using origin for URLs: ${origin}`);
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
@@ -76,13 +86,14 @@ async function startServer() {
         ],
         mode: 'payment',
         success_url: `https://calendly.com/shizzyunchained?utm_source=stripe&utm_campaign=school&course=${encodeURIComponent(courseTitle)}`,
-        cancel_url: `${req.headers.origin}/#/school`,
+        cancel_url: `${origin}/#/school`,
       });
 
+      console.log(`[Stripe] Session created: ${session.id}`);
       res.json({ id: session.id, url: session.url });
     } catch (err: any) {
-      console.error('Stripe Error:', err);
-      res.status(500).json({ error: err.message });
+      console.error('[Stripe] Error:', err);
+      res.status(500).json({ error: err.message || "An error occurred with the payment system." });
     }
   });
 
