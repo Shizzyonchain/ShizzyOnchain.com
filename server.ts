@@ -263,21 +263,4 @@ if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   }
 }
 
-// Ensure proper error catching for Vercel Serverless environment
-export default async function handler(req: any, res: any) {
-  try {
-    // Vercel Serverless functions need to wait for Express to handle the request
-    return app(req, res);
-  } catch (err: any) {
-    console.error('[Vercel Fatal Error] Uncaught Server Error:', err);
-    
-    // Ensure we ALWAYS return JSON
-    if (!res.headersSent) {
-      res.setHeader('Content-Type', 'application/json');
-      res.status(500).json({
-        error: "Fatal Server Error",
-        message: err.message || "An unexpected error occurred during function invocation."
-      });
-    }
-  }
-}
+export default app;
