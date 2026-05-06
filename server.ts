@@ -62,27 +62,31 @@ async function startServer() {
   // Stripe Checkout Session
   app.post("/api/create-checkout-session", async (req, res) => {
     try {
+      console.log(`[Stripe] Incoming POST request to /api/create-checkout-session`);
+      console.log(`[Stripe] Request Headers:`, JSON.stringify(req.headers));
+      console.log(`[Stripe] Request Body:`, JSON.stringify(req.body));
+
       const { courseTitle } = req.body;
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       
-      console.log(`[Stripe] Request received for: ${courseTitle}`);
-
       if (!stripeKey) {
-        console.error("[Stripe] CRITICAL: STRIPE_SECRET_KEY is MISSING from environment.");
+        console.error("[Stripe] CRITICAL: STRIPE_SECRET_KEY is missing/empty.");
         return res.status(403).json({ 
           error: "Stripe is not configured. Please add STRIPE_SECRET_KEY to your project secrets." 
         });
       }
 
-      console.log(`[Stripe] Initializing with key length: ${stripeKey.length}`);
-      // Initialize Stripe with the latest API version if possible, or just default
       const stripe = new Stripe(stripeKey, {
         // @ts-ignore
-        apiVersion: '2023-10-16', // Standard stable version
+        apiVersion: '2023-10-16',
       });
       
-      const origin = req.headers.origin || `${req.protocol}://${req.get('host')}`;
-      console.log(`[Stripe] Origin detected: ${origin}`);
+      const host = req.get('host');
+      const protocol = req.protocol === 'http' && host?.includes('ais-') ? 'https' : req.protocol;
+      const origin = req.headers.origin || `${protocol}://${host}`;
+      
+      console.log(`[Stripe] Computed Origin: ${origin}`);
+      console.log(`[Stripe] Processing session for: ${courseTitle || 'Unknown Course'}`);
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -91,7 +95,7 @@ async function startServer() {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: `Unchained Academy: ${courseTitle || 'Intensive Session'}`,
+                name: `Unchained Academy: ${courseTitle || 'Strategy Session'}`,
                 description: '60-minute high-signal Bittensor strategy session.',
               },
               unit_amount: 10000, // $100.00
@@ -100,19 +104,17 @@ async function startServer() {
           },
         ],
         mode: 'payment',
-        success_url: `https://calendly.com/shizzyunchained?utm_source=stripe&utm_campaign=school&course=${encodeURIComponent(courseTitle)}`,
+        success_url: `https://calendly.com/shizzyunchained?utm_source=stripe&utm_campaign=school&course=${encodeURIComponent(courseTitle || 'general')}`,
         cancel_url: `${origin}/#/school`,
       });
 
       console.log(`[Stripe] Session successfully created: ${session.id}`);
       res.json({ id: session.id, url: session.url });
     } catch (err: any) {
-      console.error('[Stripe] ERROR during session creation:', err);
-      // Return a 500 with the error message as JSON
+      console.error('[Stripe] ERROR:', err);
       res.status(500).json({ 
-        error: err.message || "An error occurred with the payment system.",
-        type: err.type,
-        code: err.code
+        error: err.message || "An error occurred during Stripe session creation.",
+        type: err.type
       });
     }
   });
