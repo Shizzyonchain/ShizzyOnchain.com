@@ -6,7 +6,13 @@ import Stripe from "stripe";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use((req, res, next) => {
+  if (req.originalUrl.includes('/api/webhook')) {
+    next();
+  } else {
+    express.json({ limit: '50mb' })(req, res, next);
+  }
+});
 
 // API Proxy for Taostats to avoid CORS
 app.get("/api/taostats/subnets", async (req, res) => {
@@ -34,10 +40,12 @@ app.get("/api/taostats/subnets", async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error('Proxy error:', error);
-    res.status(500).json({ 
-      error: 'Internal Server Error', 
-      details: error instanceof Error ? error.message : String(error) 
-    });
+    if (!res.headersSent) {
+      res.status(500).json({ 
+        error: 'Internal Server Error', 
+        details: error instanceof Error ? error.message : String(error) 
+      });
+    }
   }
 });
 
@@ -128,17 +136,48 @@ app.post("/api/create-checkout-session", async (req, res) => {
     console.log(`[Stripe] Session Success: ${session.id}`);
     return res.json({ id: session.id, url: session.url });
   } catch (err: any) {
-    console.error('[Stripe API Error] Message:', err.message);
-    console.error('[Stripe API Error] Type:', err.type);
-    console.error('[Stripe API Error] Code:', err.code);
+    console.error('[Stripe API Error] Message:', err?.message || err);
+    console.error('[Stripe API Error] Type:', err?.type);
+    console.error('[Stripe API Error] Code:', err?.code);
     
-    if (err.message && err.message.includes("No such price")) {
+    if (err?.message && String(err.message).includes("No such price")) {
        console.error("[Stripe Error] Invalid Price ID detected.");
     }
     
-    return res.status(500).json({ 
-      error: err.message || "An error occurred during Stripe session creation."
-    });
+    if (!res.headersSent) {
+      return res.status(500).json({ 
+        error: err?.message || "An error occurred during Stripe session creation."
+      });
+    }
+  }
+});
+
+// Optional Stripe Webhook
+app.post("/api/webhook", express.raw({ type: 'application/json' }), async (req, res) => {
+  try {
+    const signature = req.headers['stripe-signature'];
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET?.trim();
+    
+    if (!signature || !webhookSecret) {
+      console.error("[Stripe Webhook Error] Missing signature or STRIPE_WEBHOOK_SECRET");
+      return res.status(400).json({ error: "Webhook Error: Missing signature or STRIPE_WEBHOOK_SECRET" });
+    }
+
+    const stripeKey = (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_KEY)?.trim();
+    if (!stripeKey) return res.status(500).json({ error: "Missing STRIPE_SECRET_KEY" });
+    
+    const stripe = new Stripe(stripeKey, { apiVersion: '2023-10-16' as any });
+    const event = stripe.webhooks.constructEvent(req.body, signature, webhookSecret);
+
+    console.log(`[Stripe Webhook] Received event: ${event.type}`);
+    // Process event here if needed (e.g. checkout.session.completed)
+
+    res.json({ received: true });
+  } catch (err: any) {
+    console.error(`[Stripe Webhook Error]`, err.message);
+    if (!res.headersSent) {
+      res.status(400).json({ error: `Webhook Error: ${err.message}` });
+    }
   }
 });
 
@@ -180,8 +219,10 @@ app.post("/api/extract-image", async (req, res) => {
     });
     res.json({ result: result.text });
   } catch (err: any) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+    console.error('[Extract Image Error]', err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: err?.message || "An error occurred" });
+    }
   }
 });
 
@@ -222,4 +263,21 @@ if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   }
 }
 
-export default app;
+// Ensure proper error catching for Vercel Serverless environment
+export default async function handler(req: any, res: any) {
+  try {
+    // Vercel Serverless functions need to wait for Express to handle the request
+    return app(req, res);
+  } catch (err: any) {
+    console.error('[Vercel Fatal Error] Uncaught Server Error:', err);
+    
+    // Ensure we ALWAYS return JSON
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(500).json({
+        error: "Fatal Server Error",
+        message: err.message || "An unexpected error occurred during function invocation."
+      });
+    }
+  }
+}
