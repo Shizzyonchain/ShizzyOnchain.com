@@ -3,6 +3,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
+import Stripe from "stripe";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,25 +59,26 @@ async function startServer() {
     res.json({ status: "alive", time: new Date().toISOString() });
   });
 
-  // Stripe Checkout Session - Lazy load to handle missing keys gracefully
+  // Stripe Checkout Session
   app.post("/api/create-checkout-session", async (req, res) => {
     try {
       const { courseTitle } = req.body;
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       
       if (!stripeKey) {
+        console.error("[Stripe] Missing key in environment.");
         return res.status(403).json({ 
-          error: "Stripe configuration missing. Please ensure STRIPE_SECRET_KEY is set in settings." 
+          error: "Stripe is not configured. Please add STRIPE_SECRET_KEY to your project secrets." 
         });
       }
 
-      // Dynamic import to avoid startup issues
-      const { default: Stripe } = await import("stripe");
-      const stripe = new Stripe(stripeKey);
+      const stripe = new Stripe(stripeKey, {
+        apiVersion: '2023-10-16' as any,
+      });
       
       const host = req.get('host');
       const protocol = (req.headers['x-forwarded-proto'] as string) || req.protocol;
-      const origin = req.headers.origin || `${protocol}://${host}`;
+      const origin = `${protocol}://${host}`;
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -85,7 +87,7 @@ async function startServer() {
             price_data: {
               currency: 'usd',
               product_data: {
-                name: `Unchained Academy: ${courseTitle || 'Intensive Session'}`,
+                name: `Unchained Academy: ${courseTitle || 'Strategy Session'}`,
                 description: '60-minute high-signal Bittensor strategy session.',
               },
               unit_amount: 10000, // $100.00
@@ -94,15 +96,16 @@ async function startServer() {
           },
         ],
         mode: 'payment',
-        success_url: `https://calendly.com/shizzyunchained?utm_source=stripe&utm_campaign=school&course=${encodeURIComponent(courseTitle || 'general')}`,
+        success_url: `https://calendly.com/shizzyunchained?utm_source=stripe&course=${encodeURIComponent(courseTitle || 'general')}`,
         cancel_url: `${origin}/#/school`,
       });
 
+      console.log(`[Stripe] Session Created: ${session.id}`);
       res.json({ id: session.id, url: session.url });
     } catch (err: any) {
       console.error('[Stripe] ERROR:', err);
       res.status(500).json({ 
-        error: err.message || "Failed to create payment session.",
+        error: err.message || "An error occurred during payment session creation.",
         type: err.type
       });
     }
