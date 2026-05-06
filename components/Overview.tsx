@@ -18,22 +18,6 @@ export const Overview: React.FC = () => {
 
       <div className="relative max-w-[1200px] mx-auto px-6 space-y-12 pt-8 md:pt-12">
         
-        {/* NETWORK STATUS HUD - STEP 1 TO A 10 */}
-        <div className="absolute top-8 left-6 right-6 flex items-center justify-between pointer-events-none opacity-50">
-          <div className="flex items-center gap-4 text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-slate-400">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-            GLOBAL_NODE_SYNC: ACTIVE
-          </div>
-          <div className="hidden md:flex items-center gap-6 text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-slate-400">
-            <span>UPLINK: SHIZZY_INSIDER_FEED</span>
-            <div className="flex gap-1 items-center">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className={`w-0.5 h-2.5 rounded-full ${i <= 4 ? 'bg-orange-500' : 'bg-slate-800'}`} />
-              ))}
-            </div>
-          </div>
-        </div>
-        
         {/* HERO SECTION */}
         <section className="relative z-10 text-center space-y-8 max-w-5xl mx-auto">
           <motion.div
