@@ -4,7 +4,7 @@ import path from "path";
 import Stripe from "stripe";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use((req, res, next) => {
   if (req.originalUrl.includes('/api/webhook')) {
@@ -185,7 +185,7 @@ app.post("/api/extract-image", async (req, res) => {
   try {
     const { GoogleGenAI } = await import("@google/genai");
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    const Jimp = (await import("jimp")).default;
+    const { Jimp } = await import("jimp");
 
     const { images } = req.body;
     if (!images || images.length === 0) {
@@ -197,7 +197,7 @@ app.post("/api/extract-image", async (req, res) => {
     
     const jimpImage = await Jimp.read(buffer);
     jimpImage.quality(60); 
-    const compressedBuffer = await jimpImage.getBufferAsync(Jimp.MIME_JPEG);
+    const compressedBuffer = await jimpImage.getBufferAsync('image/jpeg' /* Jimp.MIME_JPEG */);
     const compressedBase64 = compressedBuffer.toString('base64');
 
     const result = await ai.models.generateContent({
