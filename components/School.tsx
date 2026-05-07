@@ -32,6 +32,14 @@ export const School: React.FC = () => {
       duration: "60 Min",
       price: "$100",
       tag: "GROWTH",
+    },
+    {
+      title: "Unchained Class",
+      description: "You pick the topic you pick the conversation your choice of anything",
+      icon: <Check className="text-orange-500" />,
+      duration: "60 Min",
+      price: "$100",
+      tag: "ELITE",
     }
   ];
 
@@ -66,142 +74,182 @@ export const School: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen pb-24 overflow-hidden">
+    <div className="relative min-h-screen pb-24 overflow-hidden selection:bg-orange-500 selection:text-white">
       {/* Background Decor */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-gradient-to-b from-orange-500/5 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-[radial-gradient(circle_at_50%_0%,rgba(249,115,22,0.08),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] pointer-events-none" />
       
-      <div className="relative max-w-[1400px] mx-auto px-6 pt-16 md:pt-28 space-y-12">
+      <div className="relative max-w-[1400px] mx-auto px-6 pt-20 md:pt-32 space-y-24">
         
         {/* Header Section */}
-        <div className="max-w-4xl space-y-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3 text-orange-500 font-black uppercase tracking-[0.3em] text-xs"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex items-center gap-3 text-orange-500 font-black uppercase tracking-[0.4em] text-[10px]"
+              >
+                <div className="w-10 h-[1px] bg-orange-500" />
+                SHIZ UNIVERSITY
+              </motion.div>
+              
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-6xl md:text-8xl lg:text-9xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white leading-[0.85]"
+              >
+                SHIZ <span className="text-orange-500">UNIVERSITY</span>
+              </motion.h1>
+            </div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="space-y-6 max-w-3xl"
+            >
+              <p className="text-xl md:text-2xl text-slate-900 dark:text-slate-200 font-bold leading-tight uppercase tracking-tight italic">
+                Learn anything you want 1-on-1 with Shizzy.
+              </p>
+              <div className="space-y-4">
+                 <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                   Content creation, crypto hardware, onchain trading, Bitcoin, Ethereum, TAO, Bittensor subnets, portfolio structure, risk management, or whatever you are trying to understand next.
+                 </p>
+                 <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                   Book as many sessions as you want. Shizzy will walk through his lessons, thoughts, commentary, and personal experience with you directly.
+                 </p>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="hidden lg:block pb-1"
           >
-            <div className="w-8 h-[2px] bg-orange-500" />
-            UNCHAINED ACADEMY
+            <div className="p-8 bg-orange-500/[0.03] border border-orange-500/20 rounded-[2.5rem] backdrop-blur-sm">
+              <p className="text-sm md:text-base font-black uppercase tracking-[0.1em] text-orange-500/90 italic leading-relaxed">
+                Nothing here is financial or life advice. This is education, commentary, and personal perspective only.
+              </p>
+            </div>
           </motion.div>
-          
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-6xl md:text-8xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white leading-[0.9]"
-          >
-            SHIZZY <span className="text-transparent border-text">SCHOOL</span>
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-2xl leading-relaxed"
-          >
-            Master the Bittensor network with high-signal structured onboarding and elite strategy sessions.
-          </motion.p>
         </div>
 
-        {/* Course List - Single Column Rectangles */}
-        <div className="flex flex-col gap-6">
-          {courses.map((course, i) => (
-            <motion.div
-              key={course.title}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 * i }}
-              className="p-6 md:p-10 bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/5 rounded-[2.5rem] shadow-sm relative overflow-hidden group hover:border-orange-500/30 transition-colors"
-            >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-                
-                <div className="flex items-start md:items-center gap-6 flex-grow">
-                  <div className="w-16 h-16 shrink-0 rounded-2xl bg-slate-50 dark:bg-white/5 flex items-center justify-center border border-slate-100 dark:border-white/10 group-hover:scale-110 transition-transform duration-500">
-                    {React.cloneElement(course.icon as React.ReactElement, { size: 32 })}
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-slate-900 dark:text-white leading-tight">
-                        {course.title}
-                      </h3>
-                      <span className="hidden md:block text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-slate-100 dark:bg-white/5 rounded-full text-slate-400">
-                        {course.tag}
-                      </span>
+        {/* Course Selection - Unified High-Impact Grid */}
+        <div className="space-y-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-white/5 pb-8">
+             <div className="space-y-2">
+               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500">CURRICULUM SELECTION</span>
+               <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white leading-none">CHOOSE YOUR PATH</h2>
+             </div>
+             <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Available Paths: {courses.length}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {courses.map((course, i) => (
+              <motion.div
+                key={course.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 * i }}
+                className="group relative p-10 bg-white dark:bg-[#0b0e14] border-2 border-orange-500/10 rounded-[3.5rem] hover:border-orange-500 transition-all duration-500 cursor-pointer overflow-hidden flex flex-col"
+                onClick={() => openModal(course.title)}
+              >
+                <div className="relative z-10 space-y-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start">
+                    <div className="w-20 h-20 shrink-0 rounded-[2rem] bg-orange-500/5 flex items-center justify-center border border-orange-500/10 group-hover:bg-orange-500 group-hover:scale-110 transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(249,115,22,0.4)]">
+                      {React.cloneElement(course.icon as React.ReactElement, { size: 36, className: "group-hover:text-white transition-colors" })}
                     </div>
-                    <p className="text-base text-slate-500 dark:text-slate-400 font-medium max-w-2xl leading-relaxed">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 bg-slate-100 dark:bg-white/5 rounded-full text-slate-500 dark:text-slate-400">
+                      {course.tag}
+                    </span>
+                  </div>
+
+                  <div className="space-y-4 flex-grow">
+                    <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-slate-900 dark:text-white leading-[0.9] italic">
+                      {course.title}
+                    </h3>
+                    <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-md">
                       {course.description}
                     </p>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-between md:justify-end md:gap-12 pt-6 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-white/5">
-                  <div className="flex flex-col items-end">
-                    <div className="flex items-center gap-3 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                      <Calendar size={18} className="text-orange-500" />
-                      {course.duration}
+                  <div className="pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                    <div className="flex gap-8">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">SESSION LENGTH</span>
+                        <span className="text-xl font-black text-slate-900 dark:text-white uppercase">{course.duration}</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500 underline decoration-orange-500/30 underline-offset-4">REGISTRATION</span>
+                        <span className="text-xl font-black text-slate-900 dark:text-white uppercase">$100 USD</span>
+                      </div>
                     </div>
-                    <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">
-                      {course.price}
+                    
+                    <div className="w-14 h-14 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all shadow-xl group-hover:scale-110">
+                      <ChevronRight size={28} strokeWidth={3} />
                     </div>
                   </div>
-                  
-                  <motion.button
-                    onClick={() => openModal(course.title)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-8 py-4 bg-orange-500 text-white rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 transition-all"
-                  >
-                    SELECT & BOOK <ChevronRight size={18} />
-                  </motion.button>
                 </div>
-              </div>
 
-              {/* Faded Background Icon */}
-              <div className="absolute top-1/2 right-12 -translate-y-1/2 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none hidden lg:block">
-                {React.cloneElement(course.icon as React.ReactElement, { size: 200 })}
-              </div>
-            </motion.div>
-          ))}
+                {/* Decorative Glow */}
+                <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-orange-500 opacity-[0.02] blur-[100px] rounded-full group-hover:opacity-[0.06] transition-opacity" />
+              </motion.div>
+            ))}
+          </div>
         </div>
 
-        {/* Benefits Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-20">
-          <div className="space-y-8 p-12 bg-orange-500 rounded-[3rem] text-white shadow-2xl shadow-orange-500/20">
-            <h3 className="text-4xl font-black italic uppercase tracking-tighter leading-none">
-              Academy <br /> Advantages
-            </h3>
-            <div className="space-y-6">
-              {[
-                "Exclusive access to the Unchained private network",
-                "Proven subnet analysis framework",
-                "Hands-on portfolio optimization",
-                "Structured onboarding into the TAO ecosystem"
-              ].map((benefit, i) => (
-                <div key={i} className="flex items-center gap-4 text-orange-100 font-medium">
-                  <Zap size={18} className="shrink-0" />
-                  {benefit}
-                </div>
-              ))}
-            </div>
+        {/* Advantages - Simplified and polished */}
+        <div className="space-y-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-white/5 pb-8">
+             <div className="space-y-2">
+               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500">OPERATIONAL EDGE</span>
+               <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white leading-none">ADVANTAGES</h2>
+             </div>
           </div>
 
-          <div className="space-y-8 p-12 bg-slate-900 dark:bg-white rounded-[3rem] text-white dark:text-black shadow-2xl">
-            <h3 className="text-4xl font-black italic uppercase tracking-tighter leading-none">
-              The Protocol <br /> Advantage
-            </h3>
-            <div className="space-y-6">
-              {[
-                "Priority booking for new launches",
-                "Access to Unchained Insider research",
-                "Custom research deep-dive requests",
-                "Lifetime connection to the Academy"
-              ].map((benefit, i) => (
-                <div key={i} className="flex items-center gap-4 text-slate-400 dark:text-slate-600 font-medium">
-                  <Zap size={18} className="shrink-0" />
-                  {benefit}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8">
+            {[
+              "Exclusive access to the Unchained private network",
+              "1-on-1 coaching with Shizzy",
+              "Content creation and crypto education",
+              "Onchain trading walkthroughs",
+              "Bitcoin, Ethereum, TAO, and subnet lessons",
+              "Hardware wallet and security basics",
+              "Portfolio structure and risk management discussion",
+              "Custom research deep dives",
+              "Access to Unchained Insider research",
+              "Lifetime connection to the University"
+            ].map((advantage, i) => (
+              <motion.div 
+                key={advantage}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.05 * i }}
+                className="flex items-center gap-5 group"
+              >
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/20 group-hover:bg-orange-500 group-hover:text-white transition-all underline decoration-transparent">
+                  <Check size={12} strokeWidth={4} />
                 </div>
-              ))}
-            </div>
+                <span className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase tracking-tighter">
+                  {advantage}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Disclaimer */}
+        <div className="lg:hidden">
+          <div className="p-8 bg-orange-500/[0.03] border border-orange-500/20 rounded-[2.5rem]">
+            <p className="text-sm font-black uppercase tracking-[0.1em] text-orange-500/90 italic leading-relaxed">
+              Nothing here is financial or life advice. This is education, commentary, and personal perspective only.
+            </p>
           </div>
         </div>
 
@@ -237,7 +285,7 @@ export const School: React.FC = () => {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 text-orange-500">
                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.25em]">SECURE_TRANSACTION_SESSION</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.25em]">SECURE TRANSACTION SESSION</span>
                       </div>
                       <h3 className="text-3xl font-black italic uppercase tracking-tighter text-white leading-none">
                         {selectedCourse}
@@ -302,7 +350,7 @@ export const School: React.FC = () => {
 
                       <div className="pt-4">
                         <a
-                          href="https://calendly.com/shizzyunchained/shizzy-academy"
+                          href="https://calendly.com/shizzyunchained/shiz-university"
                           target="_blank"
                           rel="noreferrer"
                           className="w-full inline-flex items-center justify-center gap-4 px-12 py-7 bg-white text-black rounded-[2.5rem] font-black uppercase tracking-[0.3em] text-sm hover:bg-orange-500 hover:text-white transition-all shadow-2xl active:scale-[0.98]"
@@ -316,7 +364,7 @@ export const School: React.FC = () => {
                       {/* Amount Display */}
                       <div className="relative group p-10 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5 rounded-[2.5rem] flex flex-col items-center justify-center gap-2 overflow-hidden">
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(249,115,22,0.1),transparent_70%)]" />
-                        <span className="relative text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">PAYMENT_TOTAL</span>
+                        <span className="relative text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">PAYMENT TOTAL</span>
                         <div className="relative flex items-baseline gap-2">
                           <span className="text-7xl font-black italic text-white tracking-tighter">$100</span>
                           <span className="text-lg font-black text-orange-500 opacity-80 uppercase italic tracking-tighter">USD</span>
@@ -331,8 +379,8 @@ export const School: React.FC = () => {
                         {/* Selector */}
                         <div className="space-y-3">
                           <div className="flex items-center justify-between px-1">
-                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">SELECT_CHANNEL</label>
-                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">LAYER_1_NETWORKS</span>
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">SELECT CHANNEL</label>
+                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">LAYER 1 NETWORKS</span>
                           </div>
                           <div className="grid grid-cols-3 gap-2 p-1 bg-white/5 border border-white/5 rounded-2xl">
                             {[
@@ -359,10 +407,10 @@ export const School: React.FC = () => {
                         {/* Address Field */}
                         <div className="space-y-3">
                           <div className="flex items-center justify-between px-1">
-                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">DESTINATION_ADDR</label>
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">DESTINATION ADDRESS</label>
                             <div className="flex items-center gap-1.5">
                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                               <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500/80">ACTIVE_ROUTE</span>
+                               <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500/80">ACTIVE ROUTE</span>
                             </div>
                           </div>
                           
@@ -389,7 +437,7 @@ export const School: React.FC = () => {
                                   exit={{ opacity: 0, y: 10, scale: 0.9 }}
                                   className="absolute -top-12 left-1/2 -translate-x-1/2 text-[10px] font-black bg-emerald-500 text-white px-4 py-2 rounded-xl shadow-2xl z-20"
                                 >
-                                  ADDRESS_COPIED_TO_CLIPBOARD
+                                  ADDRESS COPIED TO CLIPBOARD
                                 </motion.div>
                               )}
                             </AnimatePresence>
@@ -417,7 +465,7 @@ export const School: React.FC = () => {
                         </button>
                         <div className="text-center text-[9px] font-black uppercase tracking-[0.2em] text-slate-600 mt-6 flex items-center justify-center gap-3">
                           <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
-                          Awaiting Operator Verification Node
+                          Awaiting Operator Verification
                         </div>
                       </div>
                     </div>

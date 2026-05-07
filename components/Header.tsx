@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'BITTENSOR', view: 'bittensor-subnets' as View },
     { label: 'PORTFOLIO', view: 'portfolio' as View },
     { label: 'SHOP', url: 'https://shizzyunchained.printful.me/' },
-    { label: 'SCHOOL', view: 'school' as View },
+    { label: 'SHIZ UNIVERSITY', view: 'school' as View },
     { 
       label: 'RESOURCES', 
       type: 'dropdown',
