@@ -1,28 +1,16 @@
 import "dotenv/config";
 import express from "express";
 import path from "path";
-import Stripe from "stripe";
-
-// Disable automatic Vercel body parsing so Express can handle raw bodies for Stripe Webhooks
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
 app.use((req, res, next) => {
-  if (req.originalUrl && req.originalUrl.includes('/api/webhook')) {
+  // If Vercel already parsed the body into an object, skip express.json()
+  if (process.env.VERCEL && req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
     next();
   } else {
-    // If Vercel already parsed the body into an object, skip express.json()
-    if (process.env.VERCEL && req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
-      next();
-    } else {
-      express.json({ limit: '50mb' })(req, res, next);
-    }
+    express.json({ limit: '50mb' })(req, res, next);
   }
 });
 
@@ -64,7 +52,6 @@ app.get("/api/taostats/subnets", async (req, res) => {
 app.get("/api/env-debug", (req, res) => {
   res.json({ 
     gemini: !!process.env.GEMINI_API_KEY,
-    stripe: !!(process.env.STRIPE_SECRET_KEY || process.env.STRIPE_KEY),
     node_env: process.env.NODE_ENV,
     vercel: !!process.env.VERCEL
   });
@@ -72,125 +59,6 @@ app.get("/api/env-debug", (req, res) => {
 
 app.get("/api/test-server", (req, res) => {
   res.json({ status: "alive", time: new Date().toISOString() });
-});
-
-// Stripe Checkout Session (Manual Calendar Flow)
-app.post("/api/create-checkout-session", async (req, res) => {
-  try {
-    const { courseTitle, name, email, preferredTime, stripePriceId } = req.body;
-    const stripeKey = (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_KEY)?.trim();
-    
-    if (!stripeKey) {
-      console.error("[Stripe Error] Missing STRIPE_SECRET_KEY in environment variables. Could also be wrong environment variable name.");
-      return res.status(500).json({ 
-        error: "Stripe configuration error. Missing STRIPE_SECRET_KEY. Please add the live secret key (sk_live_...) to the project secrets." 
-      });
-    }
-
-    if (stripeKey.startsWith('pk_')) {
-      console.error("[Stripe Error] Wrong key mode: STRIPE_SECRET_KEY appears to be a publishable key (pk_...). It must be a secret key (sk_...).");
-      return res.status(500).json({ error: "Invalid Stripe key mode configured. You are using a 'pk_...' key but need a 'sk_...' key." });
-    }
-
-    if (stripeKey.startsWith('sk_test_')) {
-      console.warn("[Stripe Warning] You are using a test key (sk_test_...). Ensure you do not mix Test keys with Live price IDs.");
-    } else if (stripeKey.startsWith('sk_live_')) {
-      console.warn("[Stripe Warning] You are using a live key (sk_live_...). Ensure you do not mix Live keys with Test price IDs.");
-    }
-
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: '2023-10-16' as any,
-    });
-    
-    const host = req.get('host') || 'localhost:3000';
-    const protocol = (req.headers['x-forwarded-proto'] as string) || req.protocol || 'http';
-    const origin = `${protocol}://${host}`;
-
-    if (!origin || !origin.startsWith('http')) {
-      console.error("[Stripe Error] Invalid origin resolved for success_url or cancel_url:", origin);
-      return res.status(500).json({ error: "Invalid origin resolved. Missing success_url or cancel_url capabilities." });
-    }
-
-    if (!req.method || req.method !== 'POST') {
-      console.error("[Stripe Error] Wrong HTTP method. Only POST is allowed.");
-      return res.status(405).json({ error: "Wrong HTTP method. Only POST is allowed." });
-    }
-
-    console.log(`[Stripe] Creating session for: ${courseTitle}, Client: ${email}`);
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      customer_email: email || undefined,
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: `Unchained Academy: ${courseTitle || 'Strategy Session'}`,
-              description: '60-minute intensive Bittensor strategy session with Shizzy Unchained.',
-            },
-            unit_amount: 10000, // $100.00
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      metadata: {
-        clientName: name,
-        clientEmail: email,
-        requestedCourse: courseTitle,
-        preferredTime: preferredTime,
-      },
-      success_url: `${origin}/#/school?success=true`,
-      cancel_url: `${origin}/#/school`,
-    });
-
-    console.log(`[Stripe] Session Success: ${session.id}`);
-    return res.json({ id: session.id, url: session.url });
-  } catch (err: any) {
-    console.error('[Stripe API Error] Message:', err?.message || err);
-    console.error('[Stripe API Error] Type:', err?.type);
-    console.error('[Stripe API Error] Code:', err?.code);
-    
-    if (err?.message && String(err.message).includes("No such price")) {
-       console.error("[Stripe Error] Invalid Price ID detected.");
-    }
-    
-    if (!res.headersSent) {
-      return res.status(500).json({ 
-        error: err?.message || "An error occurred during Stripe session creation."
-      });
-    }
-  }
-});
-
-// Optional Stripe Webhook
-app.post("/api/webhook", express.raw({ type: 'application/json' }), async (req, res) => {
-  try {
-    const signature = req.headers['stripe-signature'];
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET?.trim();
-    
-    if (!signature || !webhookSecret) {
-      console.error("[Stripe Webhook Error] Missing signature or STRIPE_WEBHOOK_SECRET");
-      return res.status(400).json({ error: "Webhook Error: Missing signature or STRIPE_WEBHOOK_SECRET" });
-    }
-
-    const stripeKey = (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_KEY)?.trim();
-    if (!stripeKey) return res.status(500).json({ error: "Missing STRIPE_SECRET_KEY" });
-    
-    const stripe = new Stripe(stripeKey, { apiVersion: '2023-10-16' as any });
-    const event = stripe.webhooks.constructEvent(req.body, signature, webhookSecret);
-
-    console.log(`[Stripe Webhook] Received event: ${event.type}`);
-    // Process event here if needed (e.g. checkout.session.completed)
-
-    res.json({ received: true });
-  } catch (err: any) {
-    console.error(`[Stripe Webhook Error]`, err.message);
-    if (!res.headersSent) {
-      res.status(400).json({ error: `Webhook Error: ${err.message}` });
-    }
-  }
 });
 
 app.post("/api/extract-image", async (req, res) => {
@@ -207,9 +75,9 @@ app.post("/api/extract-image", async (req, res) => {
     const base64Data = images[0].replace(/^data:image\/(jpeg|png|webp);base64,/, "");
     const buffer = Buffer.from(base64Data, 'base64');
     
-    const jimpImage = await Jimp.read(buffer);
+    const jimpImage: any = await Jimp.read(buffer);
     jimpImage.quality(60); 
-    const compressedBuffer = await jimpImage.getBufferAsync('image/jpeg' /* Jimp.MIME_JPEG */);
+    const compressedBuffer = await jimpImage.getBuffer('image/jpeg');
     const compressedBase64 = compressedBuffer.toString('base64');
 
     const result = await ai.models.generateContent({
@@ -249,7 +117,8 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 // Vite middleware for development / static serving strategy
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
-  import("vite").then(({ createServer: createViteServer }) => {
+  const viteModule = "vi" + "te";
+  import(viteModule).then(({ createServer: createViteServer }) => {
     createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -276,17 +145,4 @@ if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
 }
 
 // Ensure proper error catching for Vercel Serverless environment
-export default async function handler(req: any, res: any) {
-  try {
-    return app(req, res);
-  } catch (err: any) {
-    console.error('[Vercel Fatal Error] Uncaught Server Error:', err);
-    if (!res.headersSent) {
-      res.setHeader('Content-Type', 'application/json');
-      res.status(500).json({
-        error: "Fatal Server Error",
-        message: err.message || "An unexpected error occurred during function invocation."
-      });
-    }
-  }
-}
+export default app;
