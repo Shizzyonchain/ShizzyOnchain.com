@@ -111,14 +111,14 @@ export const School: React.FC = () => {
               className="space-y-6 max-w-3xl"
             >
               <p className="text-xl md:text-2xl text-slate-900 dark:text-slate-200 font-bold leading-tight uppercase tracking-tight italic">
-                Learn anything you want 1-on-1 with Shizzy.
+                A private 1-on-1 learning experience built around what you actually want to master.
               </p>
               <div className="space-y-4">
                  <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                   Content creation, crypto hardware, onchain trading, Bitcoin, Ethereum, TAO, Bittensor subnets, portfolio structure, risk management, or whatever you are trying to understand next.
+                   From content creation and crypto security to onchain trading, Bitcoin, Ethereum, TAO, Bittensor subnets, portfolio structure, and risk management, each session is tailored to your goals.
                  </p>
                  <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                   Book as many sessions as you want. Shizzy will walk through his lessons, thoughts, commentary, and personal experience with you directly.
+                   Book one session or continue for as many as you need. Shizzy will help you break down the topic, understand the landscape, and think through it with real-world experience and honest commentary.
                  </p>
               </div>
             </motion.div>
@@ -132,7 +132,7 @@ export const School: React.FC = () => {
           >
             <div className="p-8 bg-orange-500/[0.03] border border-orange-500/20 rounded-[2.5rem] backdrop-blur-sm">
               <p className="text-sm md:text-base font-black uppercase tracking-[0.1em] text-orange-500/90 italic leading-relaxed">
-                Nothing here is financial or life advice. This is education, commentary, and personal perspective only.
+                Nothing here is financial or life advice. This is education, perspective, and personal commentary.
               </p>
             </div>
           </motion.div>
@@ -248,7 +248,7 @@ export const School: React.FC = () => {
         <div className="lg:hidden">
           <div className="p-8 bg-orange-500/[0.03] border border-orange-500/20 rounded-[2.5rem]">
             <p className="text-sm font-black uppercase tracking-[0.1em] text-orange-500/90 italic leading-relaxed">
-              Nothing here is financial or life advice. This is education, commentary, and personal perspective only.
+              Nothing here is financial or life advice. This is education, perspective, and personal commentary.
             </p>
           </div>
         </div>
