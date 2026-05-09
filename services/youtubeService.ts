@@ -18,6 +18,13 @@ export const youtubeService = {
     return {
       lives: [
         {
+          id: 'NJZBHVcFzyk',
+          title: 'TAO Hits Solana, Bittensor Subnets Heat Up, And The Compute Market Is Coming',
+          thumbnail: 'https://img.youtube.com/vi/NJZBHVcFzyk/maxresdefault.jpg',
+          url: 'https://youtu.be/NJZBHVcFzyk',
+          type: 'live' as const
+        },
+        {
           id: 'aQP8Wn6oKBU',
           title: 'Building the BEST Bittensor Subnet Portfolio',
           thumbnail: 'https://img.youtube.com/vi/aQP8Wn6oKBU/maxresdefault.jpg',
