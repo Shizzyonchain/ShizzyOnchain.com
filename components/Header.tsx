@@ -31,7 +31,8 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
       label: 'RESOURCES', 
       type: 'dropdown',
       items: [
-        { label: 'AI TOOLS', view: 'tools' as View },
+        { label: 'LATEST NEWS', view: 'latest-news' as View },
+        { label: 'TOOLS', view: 'tools' as View },
         { label: 'TIP CREATOR', view: 'send-tip' as View },
         { label: 'STAKE TAO', url: 'https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained' },
         { label: 'GET LEDGER', url: 'https://shop.ledger.com/?r=49c0bef9b376' },

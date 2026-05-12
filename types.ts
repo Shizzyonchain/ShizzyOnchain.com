@@ -122,4 +122,4 @@ export interface DexPair {
   };
 }
 
-export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'cryptocoins' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'tools' | 'contact' | 'bittensor' | 'send-tip' | 'portfolio' | 'all-comments' | 'bittensor-subnets' | 'school';
+export type View = 'home' | 'overview' | 'ainews' | 'cryptonews' | 'videos' | 'aicoins' | 'cryptocoins' | 'all-shorts' | 'all-stories' | 'research' | 'defi' | 'bubbles' | 'tools' | 'contact' | 'bittensor' | 'send-tip' | 'portfolio' | 'all-comments' | 'bittensor-subnets' | 'school' | 'latest-news';

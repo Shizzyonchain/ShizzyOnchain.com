@@ -18,6 +18,13 @@ export const youtubeService = {
     return {
       lives: [
         {
+          id: 'iVEeKybE5ZE',
+          title: 'Bittensor Subnets Just Changed Forever With Locked Conviction',
+          thumbnail: 'https://img.youtube.com/vi/iVEeKybE5ZE/maxresdefault.jpg',
+          url: 'https://youtu.be/iVEeKybE5ZE',
+          type: 'live' as const
+        },
+        {
           id: 'NJZBHVcFzyk',
           title: 'TAO Hits Solana, Bittensor Subnets Heat Up, And The Compute Market Is Coming',
           thumbnail: 'https://img.youtube.com/vi/NJZBHVcFzyk/maxresdefault.jpg',

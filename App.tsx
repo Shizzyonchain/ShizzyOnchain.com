@@ -19,6 +19,7 @@ import { Portfolio } from './components/Portfolio.tsx';
 import { AllComments } from './components/AllComments.tsx';
 import { Footer } from './components/Footer.tsx';
 import { School } from './components/School.tsx';
+import { LatestNews } from './components/LatestNews.tsx';
 import { View } from './types.ts';
 
 // v2.0.2 - Fixed localStorage crashes & Added Error Boundary
@@ -167,6 +168,7 @@ const App: React.FC = () => {
       case 'send-tip': return <SendTip />;
       case 'portfolio': return <Portfolio />;
       case 'school': return <School />;
+      case 'latest-news': return <LatestNews />;
       case 'all-comments': return <AllComments />;
       default: return <Overview />;
     }
