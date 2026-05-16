@@ -98,7 +98,7 @@ const App: React.FC = () => {
       else if (hash === '#/send-tip') setCurrentView('send-tip');
       else if (hash === '#/portfolio') setCurrentView('portfolio');
       else if (hash === '#/shiz-university') setCurrentView('shiz-university');
-      else if (hash === '#/latest-articles') setCurrentView('latest-articles');
+      else if (hash.startsWith('#/latest-articles')) setCurrentView('latest-articles');
       else if (hash === '#/all-comments') setCurrentView('all-comments');
       else setCurrentView('home');
     };

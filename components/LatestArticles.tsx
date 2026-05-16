@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 
@@ -21,6 +21,30 @@ const articles = [
 
 export const LatestArticles: React.FC = () => {
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#/latest-articles/')) {
+        const id = hash.replace('#/latest-articles/', '');
+        setSelectedArticleId(id);
+      } else {
+        setSelectedArticleId(null);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Initial check
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const handleArticleClick = (id: string | null) => {
+    if (id) {
+       window.location.hash = `#/latest-articles/${id}`;
+    } else {
+       window.location.hash = `#/latest-articles`;
+    }
+  };
 
   const selectedArticle = articles.find(a => a.id === selectedArticleId);
 
@@ -49,7 +73,7 @@ export const LatestArticles: React.FC = () => {
             {articles.map((article) => (
               <div 
                 key={article.id}
-                onClick={() => setSelectedArticleId(article.id)}
+                onClick={() => handleArticleClick(article.id)}
                 className="group cursor-pointer bg-white dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-3xl overflow-hidden hover:border-orange-500/40 transition-all duration-500 flex flex-col"
               >
                 <div className="w-full aspect-[4/3] bg-slate-100 dark:bg-black/50 overflow-hidden relative">
@@ -83,7 +107,7 @@ export const LatestArticles: React.FC = () => {
             className="space-y-8"
           >
             <button 
-              onClick={() => setSelectedArticleId(null)}
+              onClick={() => handleArticleClick(null)}
               className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-500 hover:text-orange-500 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Articles
