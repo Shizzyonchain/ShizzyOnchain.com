@@ -7,7 +7,7 @@ const SOL_ADDRESS = '5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM';
 const ETH_ADDRESS = '0x76f2ee7758b5AceBF5cab1819A810983EFcd1CCE';
 const TAO_ADDRESS = '5HEf8ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM'; // Example TAO address
 
-export const School: React.FC = () => {
+export const ShizUniversity: React.FC = () => {
   const courses = [
     {
       title: "Beginner TAO Onboarding",

@@ -26,12 +26,12 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
     { label: 'BITTENSOR', view: 'bittensor-subnets' as View },
     { label: 'PORTFOLIO', view: 'portfolio' as View },
     { label: 'SHOP', url: 'https://shizzyunchained.printful.me/' },
-    { label: 'SHIZ UNIVERSITY', view: 'school' as View },
+    { label: 'SHIZ UNIVERSITY', view: 'shiz-university' as View },
     { 
       label: 'RESOURCES', 
       type: 'dropdown',
       items: [
-        { label: 'LATEST NEWS', view: 'latest-news' as View },
+        { label: 'LATEST ARTICLES', view: 'latest-articles' as View },
         { label: 'TOOLS', view: 'tools' as View },
         { label: 'TIP CREATOR', view: 'send-tip' as View },
         { label: 'STAKE TAO', url: 'https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained' },
