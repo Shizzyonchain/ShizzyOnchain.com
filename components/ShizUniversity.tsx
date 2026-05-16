@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, ChevronRight, Zap, Target, Star, X, Loader2, Wallet, Copy, Check } from 'lucide-react';
 
-const SOL_ADDRESS = '5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM';
+const SOL_ADDRESS = '5AQRnR7gsQznYtZDdXRke1iZQEmdhWju7V5dgXGx9h9J';
 const ETH_ADDRESS = '0x76f2ee7758b5AceBF5cab1819A810983EFcd1CCE';
-const TAO_ADDRESS = '5HEf8ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM'; // Example TAO address
+const TAO_ADDRESS = '5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM';
 
 export const ShizUniversity: React.FC = () => {
   const courses = [
