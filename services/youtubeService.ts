@@ -200,15 +200,7 @@ export const youtubeService = {
           type: 'live' as const
         }
       ],
-      shorts: [
-        {
-          id: 'short1',
-          title: 'Macro Alert: 2026 Strategy',
-          thumbnail: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?q=80&w=400&auto=format&fit=crop',
-          url: `https://www.youtube.com/${CHANNEL_HANDLE}/shorts`,
-          type: 'short' as const
-        }
-      ]
+      shorts: []
     };
   }
 };

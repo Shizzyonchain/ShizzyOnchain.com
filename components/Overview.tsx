@@ -78,7 +78,7 @@ export const Overview: React.FC = () => {
                   className="px-12 md:px-16 py-5 md:py-6 bg-[#FF6321] text-white rounded-2xl text-base md:text-lg font-black uppercase tracking-[0.2em] font-edo italic transition-all shadow-2xl shadow-orange-500/40 flex items-center gap-4 text-outline"
                 >
                   <Zap size={24} className="fill-current" />
-                  JOIN THE ALPHA
+                  JOIN THE TELEGRAM
                 </motion.a>
               </motion.div>
             </div>
