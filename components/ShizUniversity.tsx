@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Calendar, ChevronRight, Zap, Target, Star, X, Loader2, Wallet, Copy, Check } from 'lucide-react';
+import { Calendar, ChevronRight, Zap, Target, Star, X, Loader2, Wallet, Copy, Check, ArrowUpRight } from 'lucide-react';
 
 const SOL_ADDRESS = '5AQRnR7gsQznYtZDdXRke1iZQEmdhWju7V5dgXGx9h9J';
 const ETH_ADDRESS = '0x76f2ee7758b5AceBF5cab1819A810983EFcd1CCE';
@@ -241,6 +241,129 @@ export const ShizUniversity: React.FC = () => {
                 </span>
               </motion.div>
             ))}
+          </div>
+        </div>
+
+        {/* PARTNER TOOLS SECTION */}
+        <div className="space-y-12 pt-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-white/5 pb-8">
+             <div className="space-y-2">
+               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#10b981]">HIGH-SIGNAL ENVIRONMENT</span>
+               <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-slate-900 dark:text-white leading-none">RESOURCES & PARTNER TOOLS</h2>
+             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* AlphaGap Card */}
+            <motion.a
+              href="https://alphagap.io/?ref=SHIZ"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="group relative p-8 bg-white dark:bg-[#061a14] border-2 border-[#10b981]/10 rounded-[2.5rem] hover:border-[#10b981] transition-all duration-500 overflow-hidden flex flex-col md:flex-row items-center gap-6"
+            >
+              <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-[#10b981]/30 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-[#10b981]/50 transition-all duration-300 shadow-xl overflow-hidden">
+                <img 
+                  src="https://i.postimg.cc/wvQ7j51G/q-IVTImp-C-400x400.jpg" 
+                  alt="AlphaGap Logo" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="space-y-2 flex-grow text-center md:text-left">
+                <h4 className="text-2xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">ALPHAGAP</h4>
+                <p className="text-sm text-slate-500 dark:text-[#10b981]/70 font-medium max-w-sm">Bridge the gap between retail and institutional intelligence. Highly recommended for students of global macro and onchain signals.</p>
+              </div>
+              <div className="shrink-0 w-12 h-12 bg-[#10b981]/10 text-[#10b981] rounded-full flex items-center justify-center group-hover:bg-[#10b981] group-hover:text-white transition-all">
+                <ArrowUpRight size={24} strokeWidth={3} />
+              </div>
+            </motion.a>
+
+            {/* Mentat Minds Card */}
+            <motion.a
+              href="https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="group relative p-8 bg-white dark:bg-[#0c0c2e] border-2 border-[#2e2ede]/10 rounded-[2.5rem] hover:border-[#2e2ede] transition-all duration-500 overflow-hidden flex flex-col md:flex-row items-center gap-6"
+            >
+              <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-[#2e2ede]/30 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-[#2e2ede]/50 transition-all duration-300 shadow-xl overflow-hidden">
+                <img 
+                  src="https://i.postimg.cc/7PNmppZV/0h-Aj-Uve3-400x400.jpg" 
+                  alt="Mentat Minds Logo" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="space-y-2 flex-grow text-center md:text-left">
+                <h4 className="text-2xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">MENTAT MINDS</h4>
+                <p className="text-sm text-slate-500 dark:text-[#2e2ede]/70 font-medium max-w-sm">High-performance TAO staking infrastructure. The standard for maximizing yield in the Bittensor network.</p>
+              </div>
+              <div className="shrink-0 w-12 h-12 bg-[#2e2ede]/10 text-[#2e2ede] rounded-full flex items-center justify-center group-hover:bg-[#2e2ede] group-hover:text-white transition-all">
+                <ArrowUpRight size={24} strokeWidth={3} />
+              </div>
+            </motion.a>
+
+            {/* Ledger Card */}
+            <motion.a
+              href="https://shop.ledger.com/?r=49c0bef9b376"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="group relative p-8 bg-white dark:bg-[#1a1a1a] border-2 border-white/5 rounded-[2.5rem] hover:border-orange-500 transition-all duration-500 overflow-hidden flex flex-col md:flex-row items-center gap-6"
+            >
+              <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-slate-200 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-orange-500 transition-all duration-300 shadow-xl overflow-hidden">
+                <img 
+                  src="https://i.postimg.cc/hPkzMGRm/QQRj-VYhi-400x400.jpg" 
+                  alt="Ledger Logo" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="space-y-2 flex-grow text-center md:text-left">
+                <h4 className="text-2xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">LEDGER</h4>
+                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium max-w-sm">The industry standard for self-custody. Essential hardware for securing your onchain assets and TAO earnings.</p>
+              </div>
+              <div className="shrink-0 w-12 h-12 bg-orange-500/10 text-orange-500 rounded-full flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all">
+                <ArrowUpRight size={24} strokeWidth={3} />
+              </div>
+            </motion.a>
+
+            {/* NordVPN Card */}
+            <motion.a
+              href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="group relative p-8 bg-white dark:bg-[#0c2340] border-2 border-[#1a3c6d]/10 rounded-[2.5rem] hover:border-[#2b65ba] transition-all duration-500 overflow-hidden flex flex-col md:flex-row items-center gap-6"
+            >
+              <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-slate-200 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-[#2b65ba] transition-all duration-300 shadow-xl overflow-hidden">
+                <img 
+                  src="https://i.postimg.cc/nL0L8Fgk/J6Qi3VW-400x400.jpg" 
+                  alt="NordVPN Logo" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="space-y-2 flex-grow text-center md:text-left">
+                <h4 className="text-2xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">NORDVPN</h4>
+                <p className="text-sm text-slate-500 dark:text-[#a5c2eb]/70 font-medium max-w-sm">Secure your digital footprint. Recommended for students to protect privacy and access global content securely.</p>
+              </div>
+              <div className="shrink-0 w-12 h-12 bg-[#2b65ba]/10 text-[#2b65ba] rounded-full flex items-center justify-center group-hover:bg-[#2b65ba] group-hover:text-white transition-all">
+                <ArrowUpRight size={24} strokeWidth={3} />
+              </div>
+            </motion.a>
           </div>
         </div>
 

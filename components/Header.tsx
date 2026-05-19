@@ -31,10 +31,11 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
       label: 'RESOURCES', 
       type: 'dropdown',
       items: [
+        { label: 'ALPHAGAP', url: 'https://alphagap.io/?ref=SHIZ' },
+        { label: 'STAKE TAO', url: 'https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained' },
         { label: 'LATEST ARTICLES', view: 'latest-articles' as View },
         { label: 'TOOLS', view: 'tools' as View },
         { label: 'TIP CREATOR', view: 'send-tip' as View },
-        { label: 'STAKE TAO', url: 'https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained' },
         { label: 'GET LEDGER', url: 'https://shop.ledger.com/?r=49c0bef9b376' },
         { label: 'GET VPN', url: 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained' },
       ]

@@ -18,6 +18,27 @@ export const youtubeService = {
     return {
       lives: [
         {
+          id: '2G87OabLc5c',
+          title: 'Road to 100 TAO : Week 1',
+          thumbnail: 'https://img.youtube.com/vi/2G87OabLc5c/maxresdefault.jpg',
+          url: 'https://youtu.be/2G87OabLc5c',
+          type: 'live' as const
+        },
+        {
+          id: '7GcxI-XRceY',
+          title: 'Bittensor Subnet Blood Bath! How Low Do We Go?',
+          thumbnail: 'https://img.youtube.com/vi/7GcxI-XRceY/maxresdefault.jpg',
+          url: 'https://youtu.be/7GcxI-XRceY',
+          type: 'live' as const
+        },
+        {
+          id: 'zrROnurtwEo',
+          title: 'Bittensor Is Still Bleeding. No Bottom Yet?',
+          thumbnail: 'https://img.youtube.com/vi/zrROnurtwEo/maxresdefault.jpg',
+          url: 'https://youtu.be/zrROnurtwEo',
+          type: 'live' as const
+        },
+        {
           id: 'iVEeKybE5ZE',
           title: 'Bittensor Subnets Just Changed Forever With Locked Conviction',
           thumbnail: 'https://img.youtube.com/vi/iVEeKybE5ZE/maxresdefault.jpg',
