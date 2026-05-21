@@ -115,9 +115,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
-// Serve components directory statically to allow direct loading of local assets like TAO.png
-app.use('/components', express.static(path.join(process.cwd(), 'components')));
-
 // Vite middleware for development / static serving strategy
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   const viteModule = "vi" + "te";
