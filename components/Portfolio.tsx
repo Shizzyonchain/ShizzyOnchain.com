@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Layers, PieChart, MessageSquare, ThumbsUp, User, Send, Clock } from 'lucide-react';
 import { collection, onSnapshot, addDoc, updateDoc, doc, query, orderBy, increment } from 'firebase/firestore';
 import { db } from '../firebase';
+// @ts-ignore
+import portfolioImage from './TAO.png';
 
 interface Comment {
   id: string;
@@ -13,21 +15,13 @@ interface Comment {
 }
 
 const PORTFOLIO_DATA = [
-  { sn: 'SN44', name: 'Score', percent: 17.3 },
-  { sn: 'SN4', name: 'Targon', percent: 13.0 },
-  { sn: 'SN62', name: 'Ridges', percent: 11.1 },
-  { sn: 'SN97', name: 'distil', percent: 11.1 },
-  { sn: 'SN66', name: 'ninja', percent: 8.0 },
-  { sn: 'SN58', name: 'Handshake', percent: 7.6 },
-  { sn: 'SN15', name: 'ORO', percent: 5.4 },
-  { sn: 'SN5', name: 'Hone', percent: 5.0 },
-  { sn: 'SN105', name: 'Beam', percent: 4.8 },
-  { sn: 'SN68', name: 'NOVA', percent: 4.7 },
-  { sn: '', name: 'Mentat 15', percent: 2.47 },
-  { sn: '', name: 'Mentat AI Training', percent: 2.45 },
-  { sn: '', name: 'Mentat Training', percent: 2.45 },
-  { sn: '', name: 'Mentat Agents', percent: 2.33 },
-  { sn: 'SN36', name: 'Automata', percent: 2.3 },
+  { sn: 'SN97', name: 'Distil', percent: 26.8 },
+  { sn: 'SN44', name: 'Score', percent: 22.0 },
+  { sn: 'SN4', name: 'Targon', percent: 21.1 },
+  { sn: 'SN8', name: 'Vanta', percent: 10.8 },
+  { sn: 'SN9', name: 'IOTA', percent: 9.0 },
+  { sn: 'SN62', name: 'Ridges', percent: 7.3 },
+  { sn: 'SN93', name: 'Bitcast', percent: 3.0 },
 ];
 
 export const Portfolio: React.FC = () => {
@@ -169,12 +163,11 @@ export const Portfolio: React.FC = () => {
           {/* Image Section */}
           <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4">
             <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
-            <a href="https://x.com/ShizzyUnchained/status/2052060502331629616?s=20" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
+            <a href="https://x.com/ShizzyUnchained/status/2057256770804896113?s=20" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
               <img 
-                src="https://i.postimg.cc/qMGWxD87/7c0f6933-05f7-4125-9e7a-aaa633381d1a.jpg" 
+                src={portfolioImage} 
                 alt="Shizzy's Portfolio" 
                 className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
-                referrerPolicy="no-referrer"
               />
             </a>
           </div>
