@@ -20,6 +20,8 @@ import { AllComments } from './components/AllComments.tsx';
 import { Footer } from './components/Footer.tsx';
 import { ShizUniversity } from './components/ShizUniversity.tsx';
 import { LatestArticles } from './components/LatestArticles.tsx';
+import { AlphaGapExplanation } from './components/AlphaGapExplanation.tsx';
+import { EmissionsExplained } from './components/EmissionsExplained.tsx';
 import { View } from './types.ts';
 
 // v2.0.2 - Fixed localStorage crashes & Added Error Boundary
@@ -100,6 +102,8 @@ const App: React.FC = () => {
       else if (hash === '#/shiz-university') setCurrentView('shiz-university');
       else if (hash.startsWith('#/latest-articles')) setCurrentView('latest-articles');
       else if (hash === '#/all-comments') setCurrentView('all-comments');
+      else if (hash === '#/alphagap') setCurrentView('alphagap');
+      else if (hash.startsWith('#/emissions-explained')) setCurrentView('emissions-explained');
       else setCurrentView('home');
     };
 
@@ -171,6 +175,8 @@ const App: React.FC = () => {
       case 'shiz-university': return <ShizUniversity />;
       case 'latest-articles': return <LatestArticles />;
       case 'all-comments': return <AllComments />;
+      case 'alphagap': return <AlphaGapExplanation />;
+      case 'emissions-explained': return <EmissionsExplained />;
       default: return <Overview />;
     }
   };

@@ -12,7 +12,8 @@ import {
   Search,
   Building2,
   Server,
-  Network
+  Network,
+  TrendingUp
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -68,7 +69,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, url
       </div>
       
       <div className="mt-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 group-hover:translate-x-2 transition-transform duration-300">
-        {internalRoute ? 'VIEW SITE' : 'GO TO SITE'} <ChevronRight size={14} />
+        {internalRoute ? 'VIEW SITE' : ((view === 'alphagap' || view === 'emissions-explained') ? 'VIEW GUIDE' : 'GO TO SITE')} <ChevronRight size={14} />
       </div>
     </button>
   );
@@ -77,25 +78,39 @@ const ToolCard: React.FC<ToolCardProps> = ({ title, description, icon, view, url
 export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNavigate }) => {
   const tools = [
     {
-      title: 'AI COINS',
-      description: 'Infrastructure monitoring of the emerging AI and Big Data economy with live data feeds from global nodes.',
-      icon: <Cpu />,
-      view: 'aicoins' as View,
+      title: 'ALPHAGAP MASTERCLASS',
+      description: 'Bridge the gap between retail and institutional intelligence. Highly recommended for students of global macro and onchain signals.',
+      icon: <Zap />,
+      view: 'alphagap' as View,
+      colorClass: 'text-[#10b981]'
+    },
+    {
+      title: 'BITTENSOR EMISSIONS EXPLAINED',
+      description: 'Cozy, simple math guide breaking down TAO pool deposits (tao_in) vs. participant Alpha minting (alpha_out). Includes an live interactive values simulator for quick reference.',
+      icon: <Layers />,
+      view: 'emissions-explained' as View,
+      colorClass: 'text-[#10b981]'
+    },
+    {
+      title: 'TAONSQUARE',
+      description: 'Discover products and services powered by the Bittensor network. An open market of decentralized intelligence that anyone can contribute to and use.',
+      icon: <Layers />,
+      url: 'https://taonsquare.com/',
       colorClass: 'text-orange-500'
     },
     {
-      title: 'CRYPTO COINS',
-      description: 'Macro scale dominance tracking and market leader analysis for the global onchain asset landscape.',
-      icon: <Coins />,
-      view: 'cryptocoins' as View,
-      colorClass: 'text-emerald-500'
+      title: 'TAO.COM',
+      description: 'The original Bittensor wallet app for buying TAO and trading subnet tokens.',
+      icon: <Wallet />,
+      url: 'https://tao.com/',
+      colorClass: 'text-orange-500'
     },
     {
-      title: 'BUBBLES',
-      description: 'High-performance interactive data visualization mapping market movements and volatility across the top 500 assets.',
-      icon: <Layers />,
-      view: 'bubbles' as View,
-      colorClass: 'text-teal-500'
+      title: 'TAO INSTITUTE',
+      description: 'Institutional-grade Bittensor subnet analytics, rankings, and investment risk platform.',
+      icon: <TrendingUp />,
+      url: 'https://taoinstitute.io',
+      colorClass: 'text-emerald-500'
     },
     {
       title: 'TAO BUBBLES',
@@ -119,21 +134,28 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
       colorClass: 'text-orange-500'
     },
     {
-      title: 'TAO STATS WALLET',
+      title: 'TAOSTATS',
+      description: 'The leading block explorer and analytics platform for the Bittensor network.',
+      icon: <Search />,
+      url: 'https://taostats.io/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'TAOSTATS WALLET',
       description: 'The official Bittensor Chrome Wallet by Taostats.',
       icon: <Wallet />,
       url: 'https://taostats.io/bittensor-chrome-wallet',
       colorClass: 'text-orange-500'
     },
     {
-      title: 'KICKSTARTER',
+      title: 'BITSTARTER',
       description: 'Discover new teams\nPre-vetted by protocol pros\nPledge TAO\nBack the alpha before it\'s Alpha\nLaunch new subnets\nGet subnet tokens at pre-launch rates',
       icon: <Rocket />,
       url: 'https://www.bitstarter.ai/',
       colorClass: 'text-orange-500'
     },
     {
-      title: 'TAO WALLET EXPLORER',
+      title: 'TAO.APP EXPLORER',
       description: 'Explore the TAO blockchain and track wallet activity.',
       icon: <Search />,
       url: 'https://www.tao.app/explorer',
@@ -152,20 +174,6 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
       icon: <Cpu />,
       url: 'https://www.yumaai.com/',
       colorClass: 'text-orange-500'
-    },
-    {
-      title: 'CHUTES',
-      description: 'Breakthrough Serverless Compute for AI, At Scale. Powering Trillions of Tokens per Month, Chutes is the leading open-source, decentralized compute provider for deploying, scaling and running open-source models in production.',
-      icon: <Server />,
-      url: 'https://chutes.ai/',
-      colorClass: 'text-orange-500'
-    },
-    {
-      title: 'RIDGES',
-      description: 'Incentivized AI training.',
-      icon: <Network />,
-      url: 'https://www.ridges.ai/',
-      colorClass: 'text-orange-500'
     }
   ];
 
@@ -178,7 +186,7 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
             ANALYSIS ARSENAL ACTIVE
           </div>
           <h1 className="text-5xl md:text-9xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
-            THE <span className="text-orange-600">TOOLKIT</span>
+            INFORMATION <span className="text-orange-600">HUB</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.4em] max-w-xl leading-relaxed italic">
             Strategic terminals for high-signal onchain navigation. No fluff. Just data.

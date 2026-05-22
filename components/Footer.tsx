@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
           </h4>
           <div className="flex flex-col gap-2 font-medium text-sm">
             <a href="#/overview" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Home</a>
-            <a href="https://alphagap.io/?ref=SHIZ" target="_blank" rel="noopener noreferrer" className="hover:text-[#10b981] transition-colors uppercase tracking-wider">AlphaGap</a>
+            <a href="#/alphagap" className="hover:text-[#10b981] transition-colors uppercase tracking-wider">AlphaGap</a>
             <a href="#/shiz-university" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Shiz University</a>
             <a href="#/bittensor" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Bittensor Tracker</a>
             <a href="#/tools" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Tools</a>

@@ -256,9 +256,7 @@ export const ShizUniversity: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* AlphaGap Card */}
             <motion.a
-              href="https://alphagap.io/?ref=SHIZ"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#/alphagap"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

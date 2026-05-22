@@ -93,9 +93,7 @@ export const Overview: React.FC = () => {
           className="max-w-4xl mx-auto"
         >
           <a 
-            href="https://alphagap.io/?ref=SHIZ" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="#/alphagap" 
             className="group block relative p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-500 via-[#10b981] to-blue-500 animate-gradient-x"
           >
             <div className="bg-white dark:bg-[#050505] rounded-[2.4rem] p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-12 relative overflow-hidden transition-all duration-500 group-hover:bg-transparent group-hover:dark:bg-transparent">
@@ -122,7 +120,7 @@ export const Overview: React.FC = () => {
               </p>
 
               <div className="relative z-10 ml-auto flex items-center gap-2 px-6 py-3 bg-[#10b981] text-white font-black uppercase tracking-widest text-xs rounded-xl group-hover:scale-105 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                Access Now <ArrowUpRight size={14} />
+                View Master Class <ArrowUpRight size={14} />
               </div>
             </div>
           </a>
@@ -166,9 +164,7 @@ export const Overview: React.FC = () => {
           <div className="flex flex-col gap-6">
             {/* AlphaGap Banner */}
             <a 
-              href="https://alphagap.io/?ref=SHIZ" 
-              target="_blank" 
-              rel="noopener noreferrer"
+              href="#/alphagap" 
               className="group relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-[#061a14] to-[#010a08] border border-[#10b981]/20 hover:border-[#10b981]/80 shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
             >
               {/* Background abstract element */}
@@ -189,7 +185,7 @@ export const Overview: React.FC = () => {
                   <p className="text-[#10b981]/70 font-medium max-w-md">Bridging the gap between retail and institutional alpha. High-signal crypto intelligence and automated trading tools.</p>
                 </div>
                 <div className="mt-6 md:mt-0 whitespace-nowrap shrink-0 flex items-center gap-2 px-6 py-3 bg-[#10b981] text-white font-black uppercase tracking-widest text-sm rounded-xl group-hover:bg-[#34d399] transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] group-hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]">
-                  Enter AlphaGap <ArrowRight size={16} />
+                  View Master Class <ArrowRight size={16} />
                 </div>
               </div>
             </a>
