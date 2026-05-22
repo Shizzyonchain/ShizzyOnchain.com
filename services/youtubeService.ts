@@ -18,6 +18,13 @@ export const youtubeService = {
     return {
       lives: [
         {
+          id: 'v5JquAosYpw',
+          title: 'Road to 100 TAO : Week 2',
+          thumbnail: 'https://img.youtube.com/vi/v5JquAosYpw/maxresdefault.jpg',
+          url: 'https://youtu.be/v5JquAosYpw',
+          type: 'live' as const
+        },
+        {
           id: '2G87OabLc5c',
           title: 'Road to 100 TAO : Week 1',
           thumbnail: 'https://img.youtube.com/vi/2G87OabLc5c/maxresdefault.jpg',

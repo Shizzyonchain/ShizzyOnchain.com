@@ -13,7 +13,8 @@ import {
   Building2,
   Server,
   Network,
-  TrendingUp
+  TrendingUp,
+  Youtube
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -174,6 +175,41 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
       icon: <Cpu />,
       url: 'https://www.yumaai.com/',
       colorClass: 'text-orange-500'
+    },
+    {
+      title: 'SIMPLY TAO',
+      description: 'Educational resources, tutorials, and deep dives into the Bittensor ecosystem.',
+      icon: <Network />,
+      url: 'https://simplytao.ai/blog',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'TAO DAILY',
+      description: 'Daily news, key updates, and essential insights from across the Bittensor network.',
+      icon: <TrendingUp />,
+      url: 'https://taodaily.io/',
+      colorClass: 'text-orange-500'
+    },
+    {
+      title: 'HASHRATE PODCAST',
+      description: 'Mark Jeffrey\'s Hashrate series providing valuable insights into Bittensor Subnets and decentralized AI.',
+      icon: <Youtube />,
+      url: 'https://www.youtube.com/@markjeffrey',
+      colorClass: 'text-[#ff0000]'
+    },
+    {
+      title: 'JESUS MARTINEZ CRYPTO',
+      description: 'Deep dives, analysis, and insights on Bittensor (TAO) and decentralized AI.',
+      icon: <Youtube />,
+      url: 'https://www.youtube.com/@JesusMartinezCrypto',
+      colorClass: 'text-[#ff0000]'
+    },
+    {
+      title: 'GORDON FRAYNE',
+      description: 'News, reviews, and insights into the expanding Bittensor and AI ecosystem.',
+      icon: <Youtube />,
+      url: 'https://www.youtube.com/@gordonfrayne',
+      colorClass: 'text-[#ff0000]'
     }
   ];
 
