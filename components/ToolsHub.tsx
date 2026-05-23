@@ -14,7 +14,8 @@ import {
   Server,
   Network,
   TrendingUp,
-  Youtube
+  Youtube,
+  MessageSquare
 } from 'lucide-react';
 
 interface ToolCardProps {
@@ -210,6 +211,13 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
       icon: <Youtube />,
       url: 'https://www.youtube.com/@gordonfrayne',
       colorClass: 'text-[#ff0000]'
+    },
+    {
+      title: 'BITTENSOR DISCORD',
+      description: 'The official Discord community for Bittensor developers, miners, validators, and enthusiasts.',
+      icon: <MessageSquare />,
+      url: 'https://discord.com/invite/qasY3HA9F9',
+      colorClass: 'text-[#5865F2]'
     }
   ];
 
