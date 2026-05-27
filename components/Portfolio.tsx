@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Layers, PieChart, MessageSquare, ThumbsUp, User, Send, Clock } from 'lucide-react';
 import { collection, onSnapshot, addDoc, updateDoc, doc, query, orderBy, increment } from 'firebase/firestore';
 import { db } from '../firebase';
-// @ts-ignore
-import portfolioImage from './TAO.png';
 
 interface Comment {
   id: string;
