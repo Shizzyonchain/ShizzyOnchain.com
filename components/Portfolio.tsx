@@ -15,13 +15,14 @@ interface Comment {
 }
 
 const PORTFOLIO_DATA = [
-  { sn: 'SN97', name: 'Distil', percent: 26.8 },
-  { sn: 'SN44', name: 'Score', percent: 22.0 },
-  { sn: 'SN4', name: 'Targon', percent: 21.1 },
-  { sn: 'SN8', name: 'Vanta', percent: 10.8 },
-  { sn: 'SN9', name: 'IOTA', percent: 9.0 },
-  { sn: 'SN62', name: 'Ridges', percent: 7.3 },
-  { sn: 'SN93', name: 'Bitcast', percent: 3.0 },
+  { sn: 'SN44', name: 'Score', percent: 22.1 },
+  { sn: 'SN4', name: 'Targon', percent: 21.3 },
+  { sn: 'SN97', name: 'Distil', percent: 16.7 },
+  { sn: 'SN9', name: 'IOTA', percent: 10.9 },
+  { sn: 'SN8', name: 'Vanta', percent: 9.7 },
+  { sn: 'SN15', name: 'ORO', percent: 8.4 },
+  { sn: 'SN85', name: 'Vidaio', percent: 7.0 },
+  { sn: 'SN93', name: 'Bitcast', percent: 4.0 },
 ];
 
 export const Portfolio: React.FC = () => {
@@ -148,30 +149,42 @@ export const Portfolio: React.FC = () => {
             <PieChart size={10} strokeWidth={3} className="animate-pulse" />
             PORTFOLIO ALLOCATION
           </div>
-          <h1 className="text-5xl md:text-9xl font-black font-space text-slate-900 dark:text-white uppercase tracking-tighter leading-none italic">
+          <h1 className="text-5xl md:text-9xl font-black font-edo text-slate-900 dark:text-white uppercase tracking-tighter leading-none default:tracking-wide">
             SHIZZY'S <span className="text-orange-600">PORTFOLIO</span>
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 font-mono text-xs uppercase tracking-[0.4em] max-w-xl leading-relaxed italic">
+          <p className="text-slate-500 dark:text-slate-400 font-edo text-lg md:text-2xl uppercase tracking-wider max-w-xl leading-relaxed">
             Current Bittensor Subnet Allocations.
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        {/* Left Column: Image + Comments List */}
-        <div className="space-y-12">
-          {/* Image Section */}
-          <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4">
-            <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
-            <a href="https://postimg.cc/HrpfWwfG" target="_blank" rel="noopener noreferrer" className="block relative z-10 rounded-3xl overflow-hidden">
-              <img 
-                src={portfolioImage} 
-                alt="Shizzy's Portfolio" 
-                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
-              />
-            </a>
+      {/* Portfolio Image Showcase (Bigger) */}
+      <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4 md:p-6 w-full">
+        <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
+        <a 
+          href="https://x.com/ShizzyUnchained/status/2059460595921924113?s=20" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="block relative z-10 rounded-3xl overflow-hidden cursor-pointer group"
+        >
+          <img 
+            src="https://i.postimg.cc/W1LCs4kx/s-HIZZYS-PORTFOLIO.png" 
+            alt="s-HIZZYS-PORTFOLIO" 
+            referrerPolicy="no-referrer"
+            className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="bg-slate-900/90 backdrop-blur-md px-6 py-3 rounded-full border border-orange-500/30 text-white font-space uppercase italic tracking-wider text-sm font-black flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-xl">
+              <span>View X Post</span>
+              <span className="text-xs font-mono text-orange-400 bg-orange-400/10 px-2 py-0.5 rounded border border-orange-400/20">X.com</span>
+            </div>
           </div>
+        </a>
+      </div>
 
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        {/* Left Column: Comments List */}
+        <div className="space-y-12">
           {/* Comments List */}
           <div className="bg-white dark:bg-[#0b0e14] border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-8 shadow-2xl shadow-orange-500/5">
             <div className="flex items-center gap-4 border-b border-slate-200 dark:border-white/10 pb-6 mb-6">
