@@ -16,7 +16,7 @@ export const SOCIAL_LINKS = {
   telegram: 'https://t.me/+0fW1AeQAUERhZTgx',
   contactTelegram: 'https://t.me/ShizzyUnchained',
   email: 'Shizzyunchained@gmail.com',
-  logo: 'https://i.postimg.cc/1zVqBW8X/Copy-of-(1).png',
+  logo: 'https://i.postimg.cc/LsK32BC0/Overlay-main-(1).png',
   heroImage: 'https://i.postimg.cc/Y9fN4MJk/SU-Shizzy-Background-new-(25).png',
   innovationFirstLogo: 'https://i.postimg.cc/85zXp9mX/Innovation-First-Logo.png',
   nordVpn: 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained',
