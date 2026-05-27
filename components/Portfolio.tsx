@@ -126,7 +126,7 @@ export const Portfolio: React.FC = () => {
   };
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 py-12 space-y-20 animate-in fade-in duration-700 pb-20">
+    <div className="max-w-[1400px] mx-auto px-6 py-12 space-y-12 animate-in fade-in duration-700 pb-20">
       <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
@@ -143,23 +143,8 @@ export const Portfolio: React.FC = () => {
         }
       `}</style>
       
-      <div className="flex flex-col md:flex-row items-end justify-between gap-8 border-b border-slate-200 dark:border-white/10 pb-16">
-        <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-600/10 text-orange-600 dark:text-orange-400 text-[9px] font-black uppercase tracking-widest rounded-md border border-orange-600/20">
-            <PieChart size={10} strokeWidth={3} className="animate-pulse" />
-            PORTFOLIO ALLOCATION
-          </div>
-          <h1 className="text-5xl md:text-9xl font-black font-edo text-slate-900 dark:text-white uppercase tracking-tighter leading-none default:tracking-wide">
-            SHIZZY'S <span className="text-orange-600">PORTFOLIO</span>
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 font-edo text-lg md:text-2xl uppercase tracking-wider max-w-xl leading-relaxed">
-            Current Bittensor Subnet Allocations.
-          </p>
-        </div>
-      </div>
-
-      {/* Portfolio Image Showcase (Bigger) */}
-      <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4 md:p-6 w-full">
+      {/* Portfolio Image Showcase (Bigger) - Moved to the very top */}
+      <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4 md:p-6 w-full mt-4">
         <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
         <a 
           href="https://x.com/ShizzyUnchained/status/2059460595921924113?s=20" 
