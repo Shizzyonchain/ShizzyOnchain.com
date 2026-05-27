@@ -80,6 +80,10 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('home');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentView]);
+
+  useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash || '#/home';
       
@@ -177,7 +181,7 @@ const App: React.FC = () => {
       case 'all-comments': return <AllComments />;
       case 'alphagap': return <AlphaGapExplanation />;
       case 'emissions-explained': return <EmissionsExplained />;
-      default: return <Overview />;
+      default: return <Overview onNavigate={handleViewChange} />;
     }
   };
 

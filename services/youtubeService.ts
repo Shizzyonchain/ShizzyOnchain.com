@@ -15,219 +15,175 @@ const CHANNEL_ID = 'UCXykq3tHv5cz8r9p7j4z2lw'; // Deduced/Calculated placeholder
 
 export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
-    return {
-      lives: [
-        {
-          id: 'v5JquAosYpw',
-          title: 'Road to 100 TAO : Week 2',
-          thumbnail: 'https://img.youtube.com/vi/v5JquAosYpw/maxresdefault.jpg',
-          url: 'https://youtu.be/v5JquAosYpw',
-          type: 'live' as const
-        },
-        {
-          id: '2G87OabLc5c',
-          title: 'Road to 100 TAO : Week 1',
-          thumbnail: 'https://img.youtube.com/vi/2G87OabLc5c/maxresdefault.jpg',
-          url: 'https://youtu.be/2G87OabLc5c',
-          type: 'live' as const
-        },
-        {
-          id: '7GcxI-XRceY',
-          title: 'Bittensor Subnet Blood Bath! How Low Do We Go?',
-          thumbnail: 'https://img.youtube.com/vi/7GcxI-XRceY/maxresdefault.jpg',
-          url: 'https://youtu.be/7GcxI-XRceY',
-          type: 'live' as const
-        },
-        {
-          id: 'zrROnurtwEo',
-          title: 'Bittensor Is Still Bleeding. No Bottom Yet?',
-          thumbnail: 'https://img.youtube.com/vi/zrROnurtwEo/maxresdefault.jpg',
-          url: 'https://youtu.be/zrROnurtwEo',
-          type: 'live' as const
-        },
-        {
-          id: 'iVEeKybE5ZE',
-          title: 'Bittensor Subnets Just Changed Forever With Locked Conviction',
-          thumbnail: 'https://img.youtube.com/vi/iVEeKybE5ZE/maxresdefault.jpg',
-          url: 'https://youtu.be/iVEeKybE5ZE',
-          type: 'live' as const
-        },
-        {
-          id: 'NJZBHVcFzyk',
-          title: 'TAO Hits Solana, Bittensor Subnets Heat Up, And The Compute Market Is Coming',
-          thumbnail: 'https://img.youtube.com/vi/NJZBHVcFzyk/maxresdefault.jpg',
-          url: 'https://youtu.be/NJZBHVcFzyk',
-          type: 'live' as const
-        },
-        {
-          id: 'aQP8Wn6oKBU',
-          title: 'Building the BEST Bittensor Subnet Portfolio',
-          thumbnail: 'https://img.youtube.com/vi/aQP8Wn6oKBU/maxresdefault.jpg',
-          url: 'https://youtu.be/aQP8Wn6oKBU',
-          type: 'live' as const
-        },
-        {
-          id: 'xtB5vUkIThQ',
-          title: 'Bittensor Subnet 118 Ditto AI Revealed',
-          thumbnail: 'https://img.youtube.com/vi/xtB5vUkIThQ/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=xtB5vUkIThQ',
-          type: 'live' as const
-        },
-        {
-          id: 'gcmz15fpMHI',
-          title: 'Calm Before The Bittensor Storm',
-          thumbnail: 'https://img.youtube.com/vi/gcmz15fpMHI/maxresdefault.jpg',
-          url: 'https://youtu.be/gcmz15fpMHI',
-          type: 'live' as const
-        },
-        {
-          id: '1MAGqGQUYk8',
-          title: 'Finding the Next Bittensor Subnet Runner',
-          thumbnail: 'https://img.youtube.com/vi/1MAGqGQUYk8/maxresdefault.jpg',
-          url: 'https://youtu.be/1MAGqGQUYk8',
-          type: 'live' as const
-        },
-        {
-          id: '8aCEqaDO6_I',
-          title: 'Bittensor Is the Only Opportunity',
-          thumbnail: 'https://img.youtube.com/vi/8aCEqaDO6_I/maxresdefault.jpg',
-          url: 'https://youtu.be/8aCEqaDO6_I',
-          type: 'live' as const
-        },
-        {
-          id: 'gfUUxm1zkFw',
-          title: 'Bitcoin Has Been Hijacked / Bittensor Subnet Update',
-          thumbnail: 'https://img.youtube.com/vi/gfUUxm1zkFw/maxresdefault.jpg',
-          url: 'https://youtu.be/gfUUxm1zkFw',
-          type: 'live' as const
-        },
-        {
-          id: 'yGPLg_8ZfjA',
-          title: 'TAO Breakout Market Update: Subnet Surge, Institutional Flows, and the Next Leg Up',
-          thumbnail: 'https://img.youtube.com/vi/yGPLg_8ZfjA/maxresdefault.jpg',
-          url: 'https://youtu.be/yGPLg_8ZfjA',
-          type: 'live' as const
-        },
-        {
-          id: '-Yn6AYfNOVI',
-          title: 'Bittensor Subnet Update | Subnets Taking Over DePIN?',
-          thumbnail: 'https://img.youtube.com/vi/-Yn6AYfNOVI/maxresdefault.jpg',
-          url: 'https://youtu.be/-Yn6AYfNOVI',
-          type: 'live' as const
-        },
-        {
-          id: 'YC-E7LDxWy0',
-          title: 'TAO Falling Off a Cliff! Rebound Soon?',
-          thumbnail: 'https://img.youtube.com/vi/YC-E7LDxWy0/maxresdefault.jpg',
-          url: 'https://youtu.be/YC-E7LDxWy0',
-          type: 'live' as const
-        },
-        {
-          id: '9IWhkrH4zoA',
-          title: 'Bittensor Is Heating Up, Ridges Goes Silent, and Chutes Breaks Through',
-          thumbnail: 'https://img.youtube.com/vi/9IWhkrH4zoA/maxresdefault.jpg',
-          url: 'https://youtu.be/9IWhkrH4zoA',
-          type: 'live' as const
-        },
-        {
-          id: 'nXykq3tHv5c',
-          title: 'Covenant AI Just Called Out Bittensor And Left. Templar to 0?',
-          thumbnail: 'https://img.youtube.com/vi/nXykq3tHv5c/maxresdefault.jpg',
-          url: 'https://youtu.be/nXykq3tHv5c',
-          type: 'live' as const
-        },
-        {
-          id: 'ADTmw1DGuS8',
-          title: 'TAO Volatility, Templar Dump, and Bittensor’s Next Move',
-          thumbnail: 'https://img.youtube.com/vi/ADTmw1DGuS8/maxresdefault.jpg',
-          url: 'https://youtu.be/ADTmw1DGuS8',
-          type: 'live' as const
-        },
-        {
-          id: 'OLZOXa5XkUw',
-          title: 'TAO ETF, Subnet Risk, and the Future of Decentralized AI',
-          thumbnail: 'https://img.youtube.com/vi/OLZOXa5XkUw/maxresdefault.jpg',
-          url: 'https://youtu.be/OLZOXa5XkUw',
-          type: 'live' as const
-        },
-        {
-          id: 'cO_ud4ZJEMY',
-          title: 'Subnet 97 Distil, Arbos, and the Future of Agent-Run Bittensor',
-          thumbnail: 'https://img.youtube.com/vi/cO_ud4ZJEMY/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=cO_ud4ZJEMY',
-          type: 'live' as const
-        },
-        {
-          id: 'UlOEVeBL5QI',
-          title: 'The TAO Flywheel Is Spinning Up Fast',
-          thumbnail: 'https://img.youtube.com/vi/UlOEVeBL5QI/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=UlOEVeBL5QI',
-          type: 'live' as const
-        },
-        {
-          id: '1_-bAGtRdHY',
-          title: 'Getting Started with Bittensor Tao Subnets',
-          thumbnail: 'https://img.youtube.com/vi/1_-bAGtRdHY/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=1_-bAGtRdHY',
-          type: 'live' as const
-        },
-        {
-          id: '31P2-LSBBbo',
-          title: 'TAO Subnets Are Absolutely Ripping Right Now',
-          thumbnail: 'https://img.youtube.com/vi/31P2-LSBBbo/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=31P2-LSBBbo',
-          type: 'live' as const
-        },
-        {
-          id: 'pAH9auzOqdo',
-          title: 'Sell Bitcoin, Buy Bittensor? TAO and Subnets Are Heating Up',
-          thumbnail: 'https://img.youtube.com/vi/pAH9auzOqdo/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=pAH9auzOqdo',
-          type: 'live' as const
-        },
-        {
-          id: 'gvjPJpxAjNs',
-          title: 'The Signal: AI Agents & Global Liquidity',
-          thumbnail: 'https://img.youtube.com/vi/gvjPJpxAjNs/maxresdefault.jpg',
-          url: 'https://youtube.com/watch?v=gvjPJpxAjNs',
-          type: 'live' as const
-        },
-        {
-          id: 'OnPTglAFzO0',
-          title: 'Bittensor Subnets: The Decentralized Intelligence Layer',
-          thumbnail: 'https://img.youtube.com/vi/OnPTglAFzO0/maxresdefault.jpg',
-          url: 'https://youtu.be/OnPTglAFzO0',
-          type: 'live' as const
-        },
-        {
-          id: '7AsrjwSB1Zs',
-          title: 'Crypto Infrastructure: The Middleware for AI',
-          thumbnail: 'https://img.youtube.com/vi/7AsrjwSB1Zs/maxresdefault.jpg',
-          url: 'https://youtu.be/7AsrjwSB1Zs',
-          type: 'live' as const
-        },
-        {
-          id: 'xuDjHk7dMTY',
-          title: 'Early Trends: Identifying the Next Wave',
-          thumbnail: 'https://img.youtube.com/vi/xuDjHk7dMTY/maxresdefault.jpg',
-          url: 'https://youtu.be/xuDjHk7dMTY',
-          type: 'live' as const
-        },
-        {
-          id: 'Ks696rfT1jU',
-          title: "Shizzy's Untold Story From Machinist",
-          thumbnail: 'https://img.youtube.com/vi/Ks696rfT1jU/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=Ks696rfT1jU',
-          type: 'live' as const
-        },
-        {
-          id: 'ipkjDOogY2w',
-          title: 'Why I Left Onchain Revolution',
-          thumbnail: 'https://img.youtube.com/vi/ipkjDOogY2w/maxresdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=ipkjDOogY2w',
-          type: 'live' as const
+    const fallbackLives: VideoItem[] = [
+      {
+        id: '4VOSqr9zmaM',
+        title: 'Can Bittensor Get Its Own Stablecoin? LIVE with TensorUSD',
+        thumbnail: 'https://img.youtube.com/vi/4VOSqr9zmaM/maxresdefault.jpg',
+        url: 'https://www.youtube.com/watch?v=4VOSqr9zmaM',
+        type: 'live' as const
+      },
+      {
+        id: 'IRJGpP48DyU',
+        title: 'Find The Next Bittensor Subnet Runner',
+        thumbnail: 'https://img.youtube.com/vi/IRJGpP48DyU/maxresdefault.jpg',
+        url: 'https://www.youtube.com/watch?v=IRJGpP48DyU',
+        type: 'live' as const
+      },
+      {
+        id: 'B9mhAENkNck',
+        title: 'BITTENSOR SNAPS BACK',
+        thumbnail: 'https://img.youtube.com/vi/B9mhAENkNck/maxresdefault.jpg',
+        url: 'https://youtu.be/B9mhAENkNck',
+        type: 'live' as const
+      },
+      {
+        id: 'v5JquAosYpw',
+        title: 'Road to 100 TAO : Week 2',
+        thumbnail: 'https://img.youtube.com/vi/v5JquAosYpw/maxresdefault.jpg',
+        url: 'https://youtu.be/v5JquAosYpw',
+        type: 'live' as const
+      },
+      {
+        id: '2G87OabLc5c',
+        title: 'Road to 100 TAO : Week 1',
+        thumbnail: 'https://img.youtube.com/vi/2G87OabLc5c/maxresdefault.jpg',
+        url: 'https://youtu.be/2G87OabLc5c',
+        type: 'live' as const
+      },
+      {
+        id: '7GcxI-XRceY',
+        title: 'Bittensor Subnet Blood Bath! How Low Do We Go?',
+        thumbnail: 'https://img.youtube.com/vi/7GcxI-XRceY/maxresdefault.jpg',
+        url: 'https://youtu.be/7GcxI-XRceY',
+        type: 'live' as const
+      },
+      {
+        id: 'zrROnurtwEo',
+        title: 'Bittensor Is Still Bleeding. No Bottom Yet?',
+        thumbnail: 'https://img.youtube.com/vi/zrROnurtwEo/maxresdefault.jpg',
+        url: 'https://youtu.be/zrROnurtwEo',
+        type: 'live' as const
+      },
+      {
+        id: 'iVEeKybE5ZE',
+        title: 'Bittensor Subnets Just Changed Forever With Locked Conviction',
+        thumbnail: 'https://img.youtube.com/vi/iVEeKybE5ZE/maxresdefault.jpg',
+        url: 'https://youtu.be/iVEeKybE5ZE',
+        type: 'live' as const
+      },
+      {
+        id: 'NJZBHVcFzyk',
+        title: 'TAO Hits Solana, Bittensor Subnets Heat Up, And The Compute Market Is Coming',
+        thumbnail: 'https://img.youtube.com/vi/NJZBHVcFzyk/maxresdefault.jpg',
+        url: 'https://youtu.be/NJZBHVcFzyk',
+        type: 'live' as const
+      },
+      {
+        id: 'aQP8Wn6oKBU',
+        title: 'Building the BEST Bittensor Subnet Portfolio',
+        thumbnail: 'https://img.youtube.com/vi/aQP8Wn6oKBU/maxresdefault.jpg',
+        url: 'https://youtu.be/aQP8Wn6oKBU',
+        type: 'live' as const
+      },
+      {
+        id: 'xtB5vUkIThQ',
+        title: 'Bittensor Subnet 118 Ditto AI Revealed',
+        thumbnail: 'https://img.youtube.com/vi/xtB5vUkIThQ/maxresdefault.jpg',
+        url: 'https://www.youtube.com/watch?v=xtB5vUkIThQ',
+        type: 'live' as const
+      },
+      {
+        id: 'gcmz15fpMHI',
+        title: 'Calm Before The Bittensor Storm',
+        thumbnail: 'https://img.youtube.com/vi/gcmz15fpMHI/maxresdefault.jpg',
+        url: 'https://youtu.be/gcmz15fpMHI',
+        type: 'live' as const
+      }
+    ];
+
+    try {
+      const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+      const response = await fetch(`${PROXY_URL}${encodeURIComponent(feedUrl)}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch from proxy');
+      }
+
+      const data = await response.json();
+      if (!data || !data.contents) {
+        throw new Error('Proxy returned empty content');
+      }
+
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
+      const entries = xmlDoc.getElementsByTagName('entry');
+      
+      if (entries.length === 0) {
+        throw new Error('No entries found in RSS XML');
+      }
+
+      const parsedVideos: VideoItem[] = [];
+      for (let i = 0; i < entries.length; i++) {
+        const entry = entries[i];
+        
+        // Attempt to find video ID via yt:videoId or split standard id tag
+        let videoId = '';
+        const ytIdNodes = entry.getElementsByTagName('yt:videoId');
+        if (ytIdNodes.length > 0 && ytIdNodes[0].textContent) {
+          videoId = ytIdNodes[0].textContent.trim();
+        } else {
+          const idNodes = entry.getElementsByTagName('id');
+          if (idNodes.length > 0 && idNodes[0].textContent) {
+            const rawId = idNodes[0].textContent.trim();
+            if (rawId.includes('yt:video:')) {
+              videoId = rawId.split('yt:video:')[1];
+            }
+          }
         }
-      ],
+
+        // Try extracting title
+        let title = '';
+        const titleNodes = entry.getElementsByTagName('title');
+        if (titleNodes.length > 0 && titleNodes[0].textContent) {
+          title = titleNodes[0].textContent.trim();
+        }
+
+        if (videoId && title) {
+          parsedVideos.push({
+            id: videoId,
+            title: title,
+            thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+            url: `https://www.youtube.com/watch?v=${videoId}`,
+            type: 'live' as const
+          });
+        }
+      }
+
+      if (parsedVideos.length > 0) {
+        // Merge the dynamic real-time videos with fallback array to ensure backup coverage, avoiding duplicates
+        const existingIds = new Set(parsedVideos.map(v => v.id));
+        const mergedVideos = [...parsedVideos];
+        
+        for (const fb of fallbackLives) {
+          if (!existingIds.has(fb.id)) {
+            mergedVideos.push(fb);
+            existingIds.add(fb.id);
+          }
+        }
+
+        // Keep it strictly to the newest/most relevant videos
+        return {
+          lives: mergedVideos.slice(0, 15),
+          shorts: []
+        };
+      }
+    } catch (error) {
+      console.warn('Real-time RSS fetch failed, falling back to curated newest video dataset:', error);
+    }
+
+    return {
+      lives: fallbackLives,
       shorts: []
     };
   }

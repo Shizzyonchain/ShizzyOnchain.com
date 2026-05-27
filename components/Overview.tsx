@@ -1,284 +1,534 @@
-
 import React from 'react';
-import { motion } from 'motion/react';
-import { OVERVIEW_CONTENT, SOCIAL_LINKS, TICKER_SIGNALS } from '../constants.tsx';
-import { ArrowUpRight, Zap, ShieldCheck, Wallet, ArrowRight, Plus } from 'lucide-react';
+import { SOCIAL_LINKS } from '../constants.tsx';
+import { View } from '../types.ts';
+import { 
+  ArrowRight, 
+  ArrowUpRight, 
+  Zap, 
+  CheckCircle, 
+  Play, 
+  Shield, 
+  Terminal, 
+  Activity, 
+  Users, 
+  ShoppingBag, 
+  Sparkles, 
+  TrendingUp, 
+  GraduationCap, 
+  Cpu 
+} from 'lucide-react';
 
-export const Overview: React.FC = () => {
-  const { hero } = OVERVIEW_CONTENT;
+interface OverviewProps {
+  onNavigate?: (view: View) => void;
+}
 
+export const Overview: React.FC<OverviewProps> = ({ onNavigate }) => {
   return (
-    <div className="relative min-h-screen overflow-hidden pb-12">
-      {/* Background Elements */}
-      <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-orange-500/5 via-transparent to-transparent dark:from-orange-500/10 pointer-events-none" />
+    <div className="relative min-h-screen bg-[#06080c] text-white overflow-hidden pb-24">
       
-      <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse" />
-      <div className="absolute top-[40%] left-[5%] w-[400px] h-[400px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none" />
+      {/* Premium Backlighting & Ambient Depth Glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[700px] bg-gradient-to-b from-cyan-500/5 via-blue-500/[0.02] to-transparent pointer-events-none blur-[140px] z-0" />
+      <div className="absolute top-[30%] left-[-10%] w-[500px] h-[500px] bg-indigo-500/[0.02] rounded-full pointer-events-none blur-[150px] z-0" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[600px] h-[600px] bg-cyan-600/[0.02] rounded-full pointer-events-none blur-[180px] z-0" />
 
-      <div className="relative max-w-[1200px] mx-auto px-6 space-y-12 pt-8 md:pt-12">
+      {/* Grid Pattern overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#111726_1px,transparent_1px),linear-gradient(to_bottom,#111726_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30 pointer-events-none z-0" />
+
+      <div className="relative max-w-[1200px] mx-auto px-6 pt-16 md:pt-24 space-y-32 z-10">
         
-        {/* HERO SECTION */}
-        <section className="relative z-10 text-center space-y-8 max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-8"
-          >
-            <h1 className="text-5xl md:text-[110px] font-black tracking-normal text-white leading-[0.9] font-edo uppercase italic text-outline">
-              {hero.headline.split(' | ').map((part, i, arr) => (
-                <span 
-                  key={i} 
-                  className={`block ${
-                    i === 1 ? 'text-3xl md:text-7xl opacity-80' : 
-                    i === arr.length - 1 ? 'text-2xl md:text-5xl mt-4' : ''
-                  }`}
-                >
-                  {part}
-                </span>
-              ))}
-            </h1>
+        {/* SECTION 1: HERO SECTION */}
+        <section className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center" id="hero-section">
+          
+          {/* Hero Content Left */}
+          <div className="lg:col-span-7 space-y-8 text-left">
             
-            <p className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto font-medium">
-              {hero.subheadline}
+
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black font-space tracking-tight leading-[1.05] uppercase text-white">
+              Find The Next <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400">
+                Bittensor Subnet Runner
+              </span> <br />
+              Before The Crowd
+            </h1>
+
+            {/* Supporting Subheadline */}
+            <p className="text-lg md:text-xl text-slate-300 font-normal leading-relaxed max-w-2xl font-sans">
+              ShizzyUnchained breaks down TAO, subnets, alpha tools, interviews, and market moves for retail users who want <strong className="text-cyan-400 font-semibold">signal, not noise</strong>.
             </p>
 
-            <div className="flex flex-col items-center justify-center pt-4">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="relative w-full max-w-2xl mx-auto"
+            {/* Primary & Secondary CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <button 
+                onClick={() => onNavigate?.('alphagap')}
+                className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white font-black uppercase text-xs tracking-widest rounded-xl transition-all shadow-[0_4px_25px_rgba(6,182,212,0.30)] hover:shadow-[0_8px_30px_rgba(6,182,212,0.45)] transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                id="btn-hero-masterclass"
               >
-                <img 
-                  src="https://i.postimg.cc/Bn74GKFX/Untitled-(500-x-200-mm).png" 
-                  alt="UNCHAINED INSIDERS" 
-                  className="w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(255,99,33,0.3)] mb-4"
-                  referrerPolicy="no-referrer"
-                />
-              </motion.div>
+                <GraduationCap size={16} /> ALPHAGAP MASTERCLASS
+              </button>
+              <button 
+                onClick={() => onNavigate?.('videos')}
+                className="px-8 py-4 bg-[#0a0e17] hover:bg-[#121824] border border-cyan-500/20 text-white font-bold uppercase text-xs tracking-widest rounded-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 hover:border-cyan-500/50"
+                id="btn-hero-latest-show"
+              >
+                <Play size={14} className="fill-current text-cyan-400" /> Watch The Latest Show
+              </button>
+            </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                className="flex flex-col items-center gap-4 max-w-2xl mx-auto px-4"
-              >
-                <p className="text-slate-500 dark:text-slate-400 font-medium text-sm md:text-lg leading-relaxed text-center">
-                  The premier Bittensor alpha group on Telegram. Get exclusive subnet analysis and high-signal market intelligence before the crowd.
+
+          </div>
+
+          {/* Hero Decorative Right Graphic */}
+          <div className="lg:col-span-5 relative flex justify-center">
+            <div className="relative w-full max-w-[460px]">
+              {/* Outer frame neon gradient glow */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-teal-400 to-indigo-500 rounded-3xl p-0.5 blur-lg opacity-25" />
+              
+              {/* Main Media Deck Box */}
+              <div className="relative bg-[#0d1321] border border-cyan-500/20 rounded-3xl overflow-hidden p-8 space-y-7 shadow-[0_10px_40px_rgba(6,182,212,0.15)]">
+                
+                {/* Visual Terminal Overlay with actual Shizzy image */}
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-[#212d42] bg-[#03060a]">
+                  <img 
+                    src="https://i.postimg.cc/X7BGRP29/Copy-of-SU-Shizzy-Background-new-(1).png" 
+                    alt="Shizzy Unchained HQ" 
+                    className="w-full h-full object-cover opacity-85 hover:opacity-100 transition-opacity duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                  
+                  {/* Subtle technical gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d1321] via-transparent to-transparent opacity-90" />
+                  
+                  {/* Internal Status Badges */}
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    <span className="px-3 py-1 bg-black/80 backdrop-blur-md text-cyan-400 text-xs font-mono font-bold border border-cyan-500/30 rounded shadow-md">
+                      TAO INSIDER: ON
+                    </span>
+                  </div>
+
+                  <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest font-black">SHIZZY UNCHAINED</span>
+                      <h3 className="text-xl font-black uppercase text-white font-space tracking-tight">FOUNDER & HOST</h3>
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+                  </div>
+                </div>
+
+                {/* Info Text & Quick Start Action block */}
+                <div className="space-y-6">
+                  <p className="text-sm text-slate-300 leading-relaxed font-sans italic border-l-2 border-cyan-400/50 pl-4 py-1">
+                    "Decentralized AI is the asymmetric gold-rush of this cycle, but 99% of retail will buy the wrong vaporware subnets. We track commits, emissions, and raw code to bypass the noise."
+                  </p>
+                  
+                  <a 
+                    href={SOCIAL_LINKS.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-5 bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-500 hover:to-teal-500 text-white font-edo uppercase tracking-widest transition-all block text-center rounded-2xl text-sm sm:text-base shadow-[0_4px_30px_rgba(6,182,212,0.4)] hover:shadow-[0_8px_40px_rgba(6,182,212,0.6)] transform hover:-translate-y-1 active:scale-[0.98] duration-300"
+                    id="hero-telegram-join"
+                  >
+                    JOIN UNCHAINED INSIDERS TELEGRAM
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        {/* SECTION 2: START HERE / QUICK PATHS */}
+        <section className="space-y-12">
+          
+          <div className="text-center space-y-4">
+            <h2 className="text-sm font-mono text-cyan-400 tracking-[0.25em] uppercase font-bold">MY X & YOUTUBE</h2>
+            <p className="text-3xl md:text-4xl font-space font-black uppercase tracking-tight text-white mb-2">
+              Accelerate Your Edge
+            </p>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-cyan-500 to-indigo-500 mx-auto" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6" id="quick-paths-grid">
+            
+            {/* Card 1: X (Twitter) */}
+            <div className="p-6 rounded-2xl bg-[#0a0e17] border border-cyan-500/10 hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl">
+              <div className="space-y-5">
+                <div className="aspect-video w-full overflow-hidden rounded-xl border border-slate-800 bg-black relative">
+                  <img 
+                    src="https://i.postimg.cc/wTHxbwGM/75e66bf8-7be9-4857-b95c-e7f413959394.png" 
+                    alt="X (Twitter) Preview" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 shrink-0">
+                    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-mono text-cyan-400 font-bold uppercase tracking-wider block">REAL-TIME FEEDS</span>
+                    <h3 className="text-lg font-bold uppercase text-white group-hover:text-cyan-400 transition-colors">
+                      Official X Account
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Follow real-time onchain alpha, immediate validation alerts, dynamic subnet adjustments, and rapid breaking news takes.
                 </p>
+              </div>
+              <div className="pt-6">
+                <a 
+                  href={SOCIAL_LINKS.unchainedX}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 bg-[#111827] hover:bg-[#1f2937] text-cyan-400 border border-cyan-500/20 hover:border-cyan-500/50 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 text-center"
+                >
+                  Follow on X <ArrowUpRight size={14} />
+                </a>
+              </div>
+            </div>
 
-                <motion.a 
+            {/* Card 2: YouTube */}
+            <div className="p-6 rounded-2xl bg-[#0a0e17] border border-cyan-500/10 hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl">
+              <div className="space-y-5">
+                <div className="aspect-video w-full overflow-hidden rounded-xl border border-slate-800 bg-black relative">
+                  <img 
+                    src="https://i.postimg.cc/k4z6bWJg/7adc4f37-3644-4af8-974b-395f766e632d.png" 
+                    alt="YouTube Channel Preview" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 shrink-0">
+                    <Play size={16} className="fill-current text-cyan-400" />
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-mono text-cyan-400 font-bold uppercase tracking-wider block">VIDEO DISPATCHES</span>
+                    <h3 className="text-lg font-bold uppercase text-white group-hover:text-cyan-400 transition-colors">
+                      YouTube Channel
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Subscribe for deep dives, unfiltered live broadcast streams, weekly token staking tutorials, and technical subnet code reviews.
+                </p>
+              </div>
+              <div className="pt-6">
+                <a 
+                  href={SOCIAL_LINKS.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 bg-[#111827] hover:bg-[#1f2937] text-cyan-400 border border-cyan-500/20 hover:border-cyan-500/50 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 text-center"
+                >
+                  Launch YouTube <ArrowUpRight size={14} />
+                </a>
+              </div>
+            </div>
+
+            {/* Card 3: Community Join */}
+            <div className="p-6 rounded-2xl bg-[#0a0e17] border border-cyan-500/10 hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl">
+              <div className="space-y-5">
+                <div className="aspect-video w-full overflow-hidden rounded-xl border border-slate-800 bg-black relative">
+                  <img 
+                    src="https://i.postimg.cc/TPWXPb4z/8f5769e6-e42d-41e8-b2e7-15179aed489a.png" 
+                    alt="Telegram Join Preview" 
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 shrink-0">
+                    <Users size={16} />
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-mono text-cyan-400 font-bold uppercase tracking-wider block">INTEL TELEGRAM</span>
+                    <h3 className="text-lg font-bold uppercase text-white group-hover:text-cyan-400 transition-colors">
+                      Join Insider Circle
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Gain immediate access to our telegram list where premium signals, validator pings, and community discussions are hosted daily.
+                </p>
+              </div>
+              <div className="pt-6">
+                <a 
                   href={SOCIAL_LINKS.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05, shadow: "0 25px 50px -12px rgba(249, 115, 22, 0.5)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-12 md:px-16 py-5 md:py-6 bg-[#FF6321] text-white rounded-2xl text-base md:text-lg font-black uppercase tracking-[0.2em] font-edo italic transition-all shadow-2xl shadow-orange-500/40 flex items-center gap-4 text-outline"
+                  className="w-full py-2.5 bg-[#111827] hover:bg-[#1f2937] text-cyan-400 border border-cyan-500/20 hover:border-cyan-500/50 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 text-center"
                 >
-                  <Zap size={24} className="fill-current" />
-                  JOIN THE TELEGRAM
-                </motion.a>
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* ALPHAGAP HIGH-SIGNAL CALLOUT */}
-        <motion.section 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          className="max-w-4xl mx-auto"
-        >
-          <a 
-            href="#/alphagap" 
-            className="group block relative p-1 rounded-[2.5rem] bg-gradient-to-r from-orange-500 via-[#10b981] to-blue-500 animate-gradient-x"
-          >
-            <div className="bg-white dark:bg-[#050505] rounded-[2.4rem] p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 md:gap-12 relative overflow-hidden transition-all duration-500 group-hover:bg-transparent group-hover:dark:bg-transparent">
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-[#10b981]/5 dark:bg-[#10b981]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="relative z-10 flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center p-2 border border-slate-200 dark:border-white/10 group-hover:border-[#10b981]/50 transition-colors shadow-lg overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/wvQ7j51G/q-IVTImp-C-400x400.jpg" 
-                    alt="AlphaGap Logo" 
-                    className="w-full h-full object-contain"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div>
-                  <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#10b981] mb-1">FEATURED PARTNER</div>
-                  <h3 className="text-2xl font-black font-space italic uppercase tracking-tight text-slate-900 dark:text-white">ALPHAGAP</h3>
-                </div>
-              </div>
-
-              <p className="relative z-10 text-slate-500 dark:text-slate-400 font-medium text-sm md:text-base max-w-sm">
-                Get institutional-grade signals and automated trading tools designed for the next cycle.
-              </p>
-
-              <div className="relative z-10 ml-auto flex items-center gap-2 px-6 py-3 bg-[#10b981] text-white font-black uppercase tracking-widest text-xs rounded-xl group-hover:scale-105 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                View Master Class <ArrowUpRight size={14} />
+                  Join Telegram <ArrowUpRight size={14} />
+                </a>
               </div>
             </div>
-          </a>
-        </motion.section>
 
-        {/* BITTENSOR FOR BEGINNERS SECTION */}
-        <section className="space-y-8">
-          <motion.div 
-            whileHover={{ y: -10 }}
-            className="group space-y-4 max-w-4xl mx-auto"
-          >
-            <div className="aspect-video relative bg-slate-100 dark:bg-[#0a0a0a] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-white/5 shadow-2xl transition-all duration-500 group-hover:border-orange-500/50">
-              <iframe
-                src="https://www.youtube.com/embed/1_-bAGtRdHY"
-                title="Getting Started with Bittensor Tao Subnets"
-                className="w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-            <div className="space-y-3 px-2 text-center">
-              <h3 className="text-3xl font-black font-space italic leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-orange-500 transition-colors">
-                Getting Started with Bittensor Tao Subnets
-              </h3>
-              <div className="flex items-center justify-center gap-2 text-slate-400 dark:text-slate-500 text-sm font-bold uppercase tracking-widest">
-                Watch Now <ArrowUpRight size={16} />
-              </div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* TRUSTED TOOLS & HARDWARE BANNERS */}
-        <section className="max-w-4xl mx-auto pt-16 pb-12 space-y-6">
-          <div className="text-center space-y-6 mb-12">
-            <h3 className="text-2xl md:text-4xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">
-              TRUSTED TOOLS & PARTNERS
-            </h3>
-            <div className="h-[1px] w-24 mx-auto bg-orange-500/30"></div>
           </div>
+        </section>
+
+
+
+
+        {/* SECTION 5: CREDIBILITY & SOCIAL PROOF */}
+        <section className="space-y-12">
           
-          <div className="flex flex-col gap-6">
-            {/* AlphaGap Banner */}
-            <a 
-              href="#/alphagap" 
-              className="group relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-[#061a14] to-[#010a08] border border-[#10b981]/20 hover:border-[#10b981]/80 shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
-            >
-              {/* Background abstract element */}
-              <div className="absolute right-0 top-0 w-[400px] h-[400px] bg-[#10b981]/10 rounded-full blur-[100px] group-hover:bg-[#10b981]/20 transition-colors pointer-events-none" />
-              <Zap size={200} className="absolute -right-12 -top-12 text-[#10b981]/[0.05] -rotate-12 group-hover:scale-110 group-hover:text-[#10b981]/[0.1] transition-all duration-700 pointer-events-none" />
-              
-              <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left w-full">
-                <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-[#10b981]/30 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-[#10b981]/50 transition-all duration-300 shadow-[0_0_30px_rgba(16,185,129,0.2)] overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/wvQ7j51G/q-IVTImp-C-400x400.jpg" 
-                    alt="AlphaGap Logo" 
-                    className="w-full h-full object-contain"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="space-y-2 flex-grow">
-                  <h4 className="text-3xl md:text-4xl font-black font-space italic uppercase tracking-tighter text-white">ALPHAGAP</h4>
-                  <p className="text-[#10b981]/70 font-medium max-w-md">Bridging the gap between retail and institutional alpha. High-signal crypto intelligence and automated trading tools.</p>
-                </div>
-                <div className="mt-6 md:mt-0 whitespace-nowrap shrink-0 flex items-center gap-2 px-6 py-3 bg-[#10b981] text-white font-black uppercase tracking-widest text-sm rounded-xl group-hover:bg-[#34d399] transition-colors shadow-[0_0_20px_rgba(16,185,129,0.4)] group-hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]">
-                  View Master Class <ArrowRight size={16} />
-                </div>
-              </div>
-            </a>
+          <div className="text-center space-y-4">
+            <h2 className="text-sm font-mono text-cyan-400 tracking-[0.25em] uppercase font-bold">CREDIBILITY INDEX</h2>
+            <p className="text-3xl md:text-4xl font-space font-black uppercase tracking-tight text-white mb-2">
+              Why Listen to ShizzyUnchained
+            </p>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-cyan-500 to-indigo-500 mx-auto" />
+          </div>
 
-            {/* Mentat Minds Banner */}
-            <a 
-              href="https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-[#0c0c2e] to-[#040414] border border-[#2e2ede]/20 hover:border-[#2e2ede]/80 shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
-            >
-              {/* Background abstract element */}
-              <div className="absolute right-0 top-0 w-[300px] h-[300px] bg-[#2e2ede]/10 rounded-full blur-[80px] group-hover:bg-[#2e2ede]/20 transition-colors pointer-events-none" />
-              <Plus size={180} className="absolute -right-8 -top-8 text-[#2e2ede]/[0.05] rotate-6 group-hover:scale-110 group-hover:text-[#2e2ede]/[0.1] transition-all duration-700 pointer-events-none" />
-              
-              <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left w-full">
-                <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-[#2e2ede]/30 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-[#2e2ede]/50 transition-all duration-300 shadow-[0_0_30px_rgba(46,46,222,0.15)] overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/7PNmppZV/0h-Aj-Uve3-400x400.jpg" 
-                    alt="Mentat Minds Logo" 
-                    className="w-full h-full object-contain"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="space-y-2 flex-grow">
-                  <h4 className="text-3xl md:text-4xl font-black font-space italic uppercase tracking-tighter text-white">MENTAT MINDS</h4>
-                  <p className="text-[#a0a0ff]/70 font-medium max-w-md">Maximize your TAO yield. High-performance staking infrastructure built specifically for the Bittensor ecosystem.</p>
-                </div>
-                <div className="mt-6 md:mt-0 whitespace-nowrap shrink-0 flex items-center gap-2 px-6 py-3 bg-[#2e2ede] text-white font-black uppercase tracking-widest text-sm rounded-xl group-hover:bg-[#3e3ede] transition-colors shadow-[0_0_20px_rgba(46,46,222,0.4)] group-hover:shadow-[0_0_30px_rgba(46,46,222,0.6)]">
-                  Delegate TAO <ArrowRight size={16} />
-                </div>
-              </div>
-            </a>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center" id="credibility-stats">
+            
+            {/* Stat Item 1 */}
+            <div className="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-2">
+              <span className="block text-4xl font-space font-black text-cyan-400">250</span>
+              <span className="block text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400">TELEGRAM INSIDERS</span>
+            </div>
+ 
+            {/* Stat Item 2 */}
+            <div className="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-2">
+              <span className="block text-4xl font-space font-black text-cyan-400">1,000+</span>
+              <span className="block text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400">YOUTUBE VIDEOS</span>
+            </div>
+ 
+            {/* Stat Item 3 */}
+            <div className="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-2">
+              <span className="block text-4xl font-space font-black text-cyan-400">128</span>
+              <span className="block text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400">SUBNETS MONITORED</span>
+            </div>
+ 
+            {/* Stat Item 4 */}
+            <div className="p-6 rounded-2xl bg-[#090d16] border border-slate-800 space-y-2">
+              <span className="block text-4xl font-space font-black text-cyan-400">500k+</span>
+              <span className="block text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400">PLATFORM VIEWS</span>
+            </div>
+ 
+          </div>
 
-            {/* Ledger Banner */}
-            <a 
-              href="https://shop.ledger.com/?r=49c0bef9b376" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-white/10 hover:border-orange-500/50 shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
-            >
-              {/* Background abstract element */}
-              <div className="absolute right-0 top-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-[100px] group-hover:bg-orange-500/10 transition-colors pointer-events-none" />
-              
-              <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left w-full">
-                <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-white/10 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-orange-500/30 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.05)] overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/hPkzMGRm/QQRj-VYhi-400x400.jpg" 
-                    alt="Ledger Logo" 
-                    className="w-full h-full object-contain"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="space-y-2 flex-grow">
-                  <h4 className="text-3xl md:text-4xl font-black font-space italic uppercase tracking-tighter text-white">LEDGER</h4>
-                  <p className="text-slate-400 font-medium max-w-md">The gold standard for self-custody. Secure your hardware keys and protect your onchain wealth with Ledger's battle-tested security.</p>
-                </div>
-                <div className="mt-6 md:mt-0 whitespace-nowrap shrink-0 flex items-center gap-2 px-6 py-3 bg-white text-black font-black uppercase tracking-widest text-sm rounded-xl group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                  Get Ledger <ArrowRight size={16} />
-                </div>
-              </div>
-            </a>
+          {/* Core Philosophy Paragraphs */}
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-slate-400 text-sm leading-relaxed font-sans">
+              ShizzyUnchained is built strictly on independent developer coverage. We run full-stack validators and node clients. We do not participate in paid venture capital dumping programs or accept corporate board seats that leverage retail capital. Pure, unfiltered alpha.
+            </p>
+          </div>
 
-            {/* NordVPN Banner */}
-            <a 
-              href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzyunchained" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-[2rem] bg-gradient-to-br from-[#0c2340] to-[#040e1a] border border-[#1a3c6d] hover:border-[#2b65ba]/80 shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
-            >
-              {/* Background abstract element */}
-              <div className="absolute right-0 top-0 w-[400px] h-[400px] bg-[#2b65ba]/10 rounded-full blur-[100px] group-hover:bg-[#2b65ba]/20 transition-colors pointer-events-none" />
-              
-              <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left w-full">
-                <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-[#1a3c6d] flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-[#2b65ba] transition-all duration-300 shadow-[0_0_30px_rgba(43,101,186,0.15)] overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/nL0L8Fgk/J6Qi3VW-400x400.jpg" 
-                    alt="NordVPN Logo" 
-                    className="w-full h-full object-contain"
-                    referrerPolicy="no-referrer"
-                  />
+        </section>
+
+        {/* SECTION 6: RECOMMENDED TOOLS / CAPITAL SPONSORS */}
+        <section className="space-y-12">
+          
+          <div className="text-center space-y-4">
+            <h2 className="text-sm font-mono text-cyan-400 tracking-[0.25em] uppercase font-bold">RECOMMENDED ARSENAL</h2>
+            <p className="text-3xl md:text-4xl font-space font-black uppercase tracking-tight text-white mb-2">
+              Trusted Onchain Tools & Partners
+            </p>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-cyan-500 to-indigo-500 mx-auto" />
+            <p className="text-xs text-slate-450 max-w-xl mx-auto leading-relaxed">
+              These are verified integrations we use at our active terminals to delegate TAO, secure server setups, and maintain network privacy.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-6 max-w-4xl mx-auto" id="sponsors-grid">
+            
+            {/* Sponsor Card 1: AlphaGap */}
+            <div className="p-6 md:p-8 rounded-2xl bg-[#03150f] border border-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8 shadow-xl relative overflow-hidden group">
+              <div className="flex flex-col sm:flex-row gap-5 items-start">
+                <div className="flex items-center justify-between w-full sm:w-auto self-start">
+                  <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-2 border border-[#111] shadow-md shrink-0">
+                    <img 
+                      src="https://i.postimg.cc/wvQ7j51G/q-IVTImp-C-400x400.jpg" 
+                      alt="AlphaGap Signature" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <span className="sm:hidden px-2 py-0.5 bg-emerald-500/15 text-emerald-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                    FEATURED PARTNER
+                  </span>
                 </div>
-                <div className="space-y-2 flex-grow">
-                  <h4 className="text-3xl md:text-4xl font-black font-space italic uppercase tracking-tighter text-white">NORDVPN</h4>
-                  <p className="text-[#a5c2eb]/70 font-medium max-w-md">Stay anonymous and bypass regional restrictions. Essential for secure research and browsing in the digital frontier.</p>
-                </div>
-                <div className="mt-6 md:mt-0 whitespace-nowrap shrink-0 flex items-center gap-2 px-6 py-3 bg-[#2b65ba] text-white font-black uppercase tracking-widest text-sm rounded-xl group-hover:bg-[#3b75ca] transition-colors shadow-[0_0_20px_rgba(43,101,186,0.4)] group-hover:shadow-[0_0_30px_rgba(43,101,186,0.6)]">
-                  Protect Connection <ArrowRight size={16} />
+                <div className="space-y-2 text-left">
+                  <div className="hidden sm:inline-flex items-center">
+                    <span className="px-2 py-0.5 bg-emerald-500/15 text-emerald-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                      FEATURED PARTNER
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-bold font-space text-white uppercase group-hover:text-emerald-400 transition-colors">AlphaGap Protocol</h4>
+                  <p className="text-slate-300 text-xs leading-relaxed max-w-xl">
+                    Bypass the retail trap. Secure institutional signals, customized algorithmic trackers, execution APIs, and automated tools designed for macro-yield miners.
+                  </p>
                 </div>
               </div>
-            </a>
+              <div className="shrink-0 w-full md:w-auto">
+                <button 
+                  onClick={() => onNavigate?.('alphagap')}
+                  className="w-full md:w-auto px-6 py-2.5 bg-[#0b1b15] hover:bg-emerald-950 text-emerald-400 border border-emerald-500/20 font-mono text-[10px] uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5"
+                >
+                  ACQUIRE STRATEGY <ArrowRight size={12} />
+                </button>
+              </div>
+            </div>
+
+            {/* Sponsor Card 2: Mentat Minds */}
+            <div className="p-6 md:p-8 rounded-2xl bg-[#090b1c] border border-blue-500/10 hover:border-blue-500/40 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8 shadow-xl relative overflow-hidden group">
+              <div className="flex flex-col sm:flex-row gap-5 items-start">
+                <div className="flex items-center justify-between w-full sm:w-auto self-start">
+                  <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-2 border border-[#111] shadow-md shrink-0">
+                    <img 
+                      src="https://i.postimg.cc/7PNmppZV/0h-Aj-Uve3-400x400.jpg" 
+                      alt="Mentat Minds Signature" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <span className="sm:hidden px-2 py-0.5 bg-blue-500/15 text-blue-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                    STAKING PARTNER
+                  </span>
+                </div>
+                <div className="space-y-2 text-left">
+                  <div className="hidden sm:inline-flex items-center">
+                    <span className="px-2 py-0.5 bg-blue-500/15 text-blue-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                      STAKING PARTNER
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-bold font-space text-white uppercase group-hover:text-blue-400 transition-colors">Mentat Minds</h4>
+                  <p className="text-slate-300 text-xs leading-relaxed max-w-xl">
+                    Maximize your block allocations. Delegate and stake TAO via top-tier low-latency high-reliability bare-metal staking validators.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 w-full md:w-auto">
+                <a 
+                  href="https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full md:w-auto px-6 py-2.5 bg-[#0b1022] hover:bg-blue-950 text-blue-300 border border-blue-500/20 font-mono text-[10px] uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 text-center"
+                >
+                  DELEGATE TAO <ArrowRight size={12} />
+                </a>
+              </div>
+            </div>
+
+            {/* Sponsor Card 3: Ledger */}
+            <div className="p-6 md:p-8 rounded-2xl bg-[#1c0f0a] border border-orange-500/10 hover:border-orange-500/40 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8 shadow-xl relative overflow-hidden group">
+              <div className="flex flex-col sm:flex-row gap-5 items-start">
+                <div className="flex items-center justify-between w-full sm:w-auto self-start">
+                  <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-2 border border-[#111] shadow-md shrink-0">
+                    <img 
+                      src="https://i.postimg.cc/hPkzMGRm/QQRj-VYhi-400x400.jpg" 
+                      alt="Ledger Signature" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <span className="sm:hidden px-2 py-0.5 bg-orange-500/15 text-orange-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                    SELF-CUSTODY KEYS
+                  </span>
+                </div>
+                <div className="space-y-2 text-left">
+                  <div className="hidden sm:inline-flex items-center">
+                    <span className="px-2 py-0.5 bg-orange-500/15 text-orange-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                      SELF-CUSTODY KEYS
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-bold font-space text-white uppercase group-hover:text-orange-400 transition-colors">Ledger Vault</h4>
+                  <p className="text-slate-300 text-xs leading-relaxed max-w-xl">
+                    The cold standard. Never store your seed phrases on volatile network hosting. Secure physical access coordinates using Ledger hardware vaults.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 w-full md:w-auto">
+                <a 
+                  href={SOCIAL_LINKS.ledger} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full md:w-auto px-6 py-2.5 bg-[#20120a] hover:bg-orange-950 text-orange-300 border border-orange-500/20 font-mono text-[10px] uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 text-center"
+                >
+                  ACQUIRE HARDWARE <ArrowRight size={12} />
+                </a>
+              </div>
+            </div>
+
+            {/* Sponsor Card 4: NordVPN */}
+            <div className="p-6 md:p-8 rounded-2xl bg-[#030d22] border border-cyan-500/10 hover:border-cyan-500/40 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8 shadow-xl relative overflow-hidden group">
+              <div className="flex flex-col sm:flex-row gap-5 items-start">
+                <div className="flex items-center justify-between w-full sm:w-auto self-start">
+                  <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-2 border border-[#111] shadow-md shrink-0">
+                    <img 
+                      src="https://i.postimg.cc/3xfvTssD/5d00cbe9-bb57-4596-92cb-752fccac831d.png" 
+                      alt="NordVPN Signature" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <span className="sm:hidden px-2 py-0.5 bg-cyan-500/15 text-cyan-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                    NETWORK SECURITY
+                  </span>
+                </div>
+                <div className="space-y-2 text-left">
+                  <div className="hidden sm:inline-flex items-center">
+                    <span className="px-2 py-0.5 bg-cyan-500/15 text-cyan-400 text-[9px] font-mono rounded uppercase tracking-wider">
+                      NETWORK SECURITY
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-bold font-space text-white uppercase group-hover:text-cyan-400 transition-colors">NordVPN</h4>
+                  <p className="text-slate-300 text-xs leading-relaxed max-w-xl">
+                    Protect your server terminals and node deployments. Encrypt onchain footprints, bypass geo-restrictions, and maintain total node infrastructure anonymity.
+                  </p>
+                </div>
+              </div>
+              <div className="shrink-0 w-full md:w-auto">
+                <a 
+                  href={SOCIAL_LINKS.nordVpn} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full md:w-auto px-6 py-2.5 bg-[#0a1735] hover:bg-[#122e5a] text-cyan-300 border border-cyan-500/20 font-mono text-[10px] uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 text-center"
+                >
+                  SECURE CONNECTION <ArrowRight size={12} />
+                </a>
+              </div>
+            </div>
+
           </div>
         </section>
+
+        {/* SECTION 7: MERCH OR BRAND EXTRAS */}
+        <section className="space-y-12">
+          
+          <div className="text-center space-y-4">
+            <h2 className="text-sm font-mono text-cyan-400 tracking-[0.25em] uppercase font-bold">MERCH DECK</h2>
+            <p className="text-3xl md:text-4xl font-space font-black uppercase tracking-tight text-white mb-2">
+              SHIZZY UNCHAINED COLLECTION
+            </p>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-cyan-500 to-indigo-500 mx-auto" />
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <a 
+              href="https://shizzyunchained.printful.me/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="block group relative overflow-hidden rounded-2xl border border-slate-800 bg-[#070b12] shadow-2xl transition-all duration-300 hover:border-cyan-500/30"
+            >
+              <img 
+                src="https://i.postimg.cc/rshrw7D7/0a9195dd-f840-4eca-a630-a5161e3a186a.png" 
+                alt="SHIZZY UNCHAINED COLLECTION" 
+                className="w-full h-auto block transition-transform duration-500 ease-out group-hover:scale-[1.01]"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-[#06b6d4]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            </a>
+          </div>
+
+        </section>
+
+
 
       </div>
     </div>

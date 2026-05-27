@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
         {/* Brand & Disclaimer */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <img src={SOCIAL_LINKS.logo} alt="Shizzy Unchained" className="h-8 md:h-10 object-contain invert dark:invert-0" />
+            <img src={SOCIAL_LINKS.logo} alt="Shizzy Unchained" className="h-12 md:h-16 object-contain invert dark:invert-0" />
             <span className="font-space font-black uppercase tracking-widest text-slate-900 dark:text-white text-lg">Shizzy Unchained</span>
           </div>
           <p className="text-sm font-medium leading-relaxed max-w-sm">
@@ -30,7 +30,6 @@ export const Footer: React.FC = () => {
             <a href="#/overview" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Home</a>
             <a href="#/alphagap" className="hover:text-[#10b981] transition-colors uppercase tracking-wider">AlphaGap</a>
             <a href="#/shiz-university" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Shiz University</a>
-            <a href="#/bittensor" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Bittensor Tracker</a>
             <a href="#/tools" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Tools</a>
             <a href="#/contact" className="hover:text-orange-500 transition-colors uppercase tracking-wider">Contact</a>
           </div>

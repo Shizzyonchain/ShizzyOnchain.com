@@ -106,6 +106,48 @@ app.post("/api/extract-image", async (req, res) => {
   }
 });
 
+// Shizzy's Interactive AI Guide Oracle
+app.post("/api/shizzy-guide", async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+    const { GoogleGenAI } = await import("@google/genai");
+    const ai = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build'
+        }
+      }
+    });
+
+    const systemInstruction = `You are "Shizzy", the legendary, unfiltered, direct, and brilliant custom guide through the Bittensor network.
+Your tone is conversational, no-BS, authentic, slightly cynical of tech-hype/VC vaporware, and incredibly passionate about true decentralized AI (TAO).
+Always speak in the first person ("I", "my"). Keep your answers extremely concise (usually 2-3 sentences max), engaging, and high-value, filled with "real talk" and raw alpha.
+If asked about who you are, say you are Shizzy, your guide, here to unchain you from the centralized tech overlords.
+Help the user navigate Bittensor, subnets, validation, staking, and the tools on this dashboard (AlphaGap, Shiz University, Emissions Explained, Bittensor Subnets).
+Do not use markdown backticks or flowery corporate jargon. Keep it real, clear, and extremely high-signal. Use simple, bold headings if needed, but keep it brief!`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: message,
+      config: {
+        systemInstruction: systemInstruction,
+        temperature: 0.7,
+      }
+    });
+
+    res.json({ reply: response.text });
+  } catch (error: any) {
+    console.error('[Shizzy Guide Error]', error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: error?.message || "An error occurred" });
+    }
+  }
+});
+
 // Global Error Handler to catch any unhandled exceptions and return JSON
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('[Express] Global Error:', err);

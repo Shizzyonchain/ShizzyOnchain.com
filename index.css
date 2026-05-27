@@ -17,6 +17,44 @@
   --color-ink: #141414;
   --color-line: rgba(20, 20, 20, 0.1);
   --color-line-dark: rgba(255, 255, 255, 0.05);
+
+  /* Override all tailwind orange, cyan, and teal colors globally with royal blue and sky blue theme */
+  --color-orange-50: #eff6ff;
+  --color-orange-100: #dbeafe;
+  --color-orange-200: #bfdbfe;
+  --color-orange-300: #93c5fd;
+  --color-orange-400: #38bdf8;
+  --color-orange-500: #1e60ff;
+  --color-orange-600: #1d4ed8;
+  --color-orange-700: #1d4ed8;
+  --color-orange-850: #1e40af;
+  --color-orange-800: #1e40af;
+  --color-orange-900: #1e3a8a;
+  --color-orange-950: #172554;
+
+  --color-cyan-50: #eff6ff;
+  --color-cyan-100: #dbeafe;
+  --color-cyan-200: #bfdbfe;
+  --color-cyan-300: #7dd3fc;
+  --color-cyan-400: #38bdf8;
+  --color-cyan-500: #1e60ff;
+  --color-cyan-600: #1d4ed8;
+  --color-cyan-700: #1d4ed8;
+  --color-cyan-800: #1e40af;
+  --color-cyan-900: #1e3a8a;
+  --color-cyan-950: #172554;
+
+  --color-teal-50: #eff6ff;
+  --color-teal-100: #dbeafe;
+  --color-teal-200: #bfdbfe;
+  --color-teal-300: #7dd3fc;
+  --color-teal-400: #38bdf8;
+  --color-teal-500: #1e60ff;
+  --color-teal-600: #1d4ed8;
+  --color-teal-700: #1d4ed8;
+  --color-teal-800: #1e40af;
+  --color-teal-900: #1e3a8a;
+  --color-teal-950: #172554;
 }
 
 @layer base {
@@ -56,18 +94,18 @@
 
   .scanline {
     background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(249, 115, 22, 0.03) 50%,
-      transparent 100%
-    );
-    background-size: 100% 4px;
-    animation: scanline 8s linear infinite;
-  }
-
-  .terminal-glow {
-    box-shadow: inset 0 0 100px rgba(249, 115, 22, 0.02);
-  }
+       to bottom,
+       transparent 0%,
+       rgba(30, 96, 255, 0.03) 50%,
+       transparent 100%
+     );
+     background-size: 100% 4px;
+     animation: scanline 8s linear infinite;
+   }
+ 
+   .terminal-glow {
+     box-shadow: inset 0 0 100px rgba(30, 96, 255, 0.02);
+   }
 
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;

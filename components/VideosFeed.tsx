@@ -201,7 +201,7 @@ export const VideosFeed: React.FC = () => {
           MEDIA ARCHIVE NODES: SYNCED
           <div className="w-20 h-[1px] bg-slate-200 dark:bg-white/10"></div>
         </div>
-        <img src={SOCIAL_LINKS.logo} alt="Logo" className="h-8 md:h-12" />
+        <img src={SOCIAL_LINKS.logo} alt="Logo" className="h-12 md:h-18" />
       </div>
     </div>
   );
