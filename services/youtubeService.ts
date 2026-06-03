@@ -17,6 +17,34 @@ export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
     const fallbackLives: VideoItem[] = [
       {
+        id: 'qxr-Q9d9Elw',
+        title: 'BITTENSOR’S SPECIAL K LIVE SN26 PERTURB, SN78 VOCENCE, AND THE FUTURE OF AI SUBNETS',
+        thumbnail: 'https://img.youtube.com/vi/qxr-Q9d9Elw/maxresdefault.jpg',
+        url: 'https://www.youtube.com/watch?v=qxr-Q9d9Elw',
+        type: 'live' as const
+      },
+      {
+        id: 'DK1_nZdHVw8',
+        title: 'BITTENSOR PROOF OF TALK TOMORROW + CONVICTION IS LIVE',
+        thumbnail: 'https://img.youtube.com/vi/DK1_nZdHVw8/maxresdefault.jpg',
+        url: 'https://youtu.be/DK1_nZdHVw8',
+        type: 'live' as const
+      },
+      {
+        id: 'T19_j-bER4c',
+        title: 'Down Bad? Week 3 Of The 10 TAO To 100 TAO Challenge',
+        thumbnail: 'https://img.youtube.com/vi/T19_j-bER4c/maxresdefault.jpg',
+        url: 'https://youtu.be/T19_j-bER4c',
+        type: 'live' as const
+      },
+      {
+        id: 'RMQW4J-fjCQ',
+        title: 'Stake and Chill: Bittensor Subnet Update',
+        thumbnail: 'https://img.youtube.com/vi/RMQW4J-fjCQ/maxresdefault.jpg',
+        url: 'https://www.youtube.com/watch?v=RMQW4J-fjCQ',
+        type: 'live' as const
+      },
+      {
         id: '4VOSqr9zmaM',
         title: 'Can Bittensor Get Its Own Stablecoin? LIVE with TensorUSD',
         thumbnail: 'https://img.youtube.com/vi/4VOSqr9zmaM/maxresdefault.jpg',
