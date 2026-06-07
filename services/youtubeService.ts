@@ -116,21 +116,21 @@ export const youtubeService = {
       },
       {
         id: 'aQP8Wn6oKBU',
-        title: 'Building the BEST Bittensor Subnet Portfolio',
+        title: 'Bittensor Subnet 118 Ditto AI Revealed',
         thumbnail: 'https://img.youtube.com/vi/aQP8Wn6oKBU/maxresdefault.jpg',
         url: 'https://youtu.be/aQP8Wn6oKBU',
         type: 'live' as const
       },
       {
         id: 'xtB5vUkIThQ',
-        title: 'Bittensor Subnet 118 Ditto AI Revealed',
+        title: 'Calm Before The Bittensor Storm',
         thumbnail: 'https://img.youtube.com/vi/xtB5vUkIThQ/maxresdefault.jpg',
         url: 'https://www.youtube.com/watch?v=xtB5vUkIThQ',
         type: 'live' as const
       },
       {
         id: 'gcmz15fpMHI',
-        title: 'Calm Before The Bittensor Storm',
+        title: 'Building the BEST Bittensor Subnet Portfolio',
         thumbnail: 'https://img.youtube.com/vi/gcmz15fpMHI/maxresdefault.jpg',
         url: 'https://youtu.be/gcmz15fpMHI',
         type: 'live' as const
