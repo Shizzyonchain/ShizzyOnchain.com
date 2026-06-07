@@ -17,6 +17,13 @@ export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
     const fallbackLives: VideoItem[] = [
       {
+        id: 'jfDjKoDDwtQ',
+        title: 'It Gets Worse? Week 4 Of The 10 TAO To 100 TAO Challenge',
+        thumbnail: 'https://img.youtube.com/vi/jfDjKoDDwtQ/maxresdefault.jpg',
+        url: 'https://youtu.be/jfDjKoDDwtQ',
+        type: 'live' as const
+      },
+      {
         id: 'qxr-Q9d9Elw',
         title: 'BITTENSOR’S SPECIAL K LIVE SN26 PERTURB, SN78 VOCENCE, AND THE FUTURE OF AI SUBNETS',
         thumbnail: 'https://img.youtube.com/vi/qxr-Q9d9Elw/maxresdefault.jpg',
