@@ -17,6 +17,20 @@ export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
     const fallbackLives: VideoItem[] = [
       {
+        id: 'ZiVtio59Z7s',
+        title: 'Bittensor Snapback! Will It Continue?',
+        thumbnail: 'https://img.youtube.com/vi/ZiVtio59Z7s/maxresdefault.jpg',
+        url: 'https://youtu.be/ZiVtio59Z7s?si=W-AvzJFhiQNiF8YG',
+        type: 'live' as const
+      },
+      {
+        id: '_DAintx1Zfs',
+        title: 'Live with Mark Jeffrey',
+        thumbnail: 'https://img.youtube.com/vi/_DAintx1Zfs/maxresdefault.jpg',
+        url: 'https://www.youtube.com/live/_DAintx1Zfs?si=yBaECExcJbWj64Vv',
+        type: 'live' as const
+      },
+      {
         id: 'jfDjKoDDwtQ',
         title: 'It Gets Worse? Week 4 Of The 10 TAO To 100 TAO Challenge',
         thumbnail: 'https://img.youtube.com/vi/jfDjKoDDwtQ/maxresdefault.jpg',
