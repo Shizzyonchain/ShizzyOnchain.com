@@ -13,14 +13,13 @@ interface Comment {
 }
 
 const PORTFOLIO_DATA = [
-  { sn: 'SN44', name: 'Score', percent: 22.1 },
-  { sn: 'SN4', name: 'Targon', percent: 21.3 },
-  { sn: 'SN97', name: 'Distil', percent: 16.7 },
-  { sn: 'SN9', name: 'IOTA', percent: 10.9 },
-  { sn: 'SN8', name: 'Vanta', percent: 9.7 },
-  { sn: 'SN15', name: 'ORO', percent: 8.4 },
-  { sn: 'SN85', name: 'Vidaio', percent: 7.0 },
-  { sn: 'SN93', name: 'Bitcast', percent: 4.0 },
+  { sn: 'SN38', name: 'ChronoLLM', percent: 28.3, colorClass: 'from-blue-600 to-blue-400', txtColor: 'text-blue-500 dark:text-blue-400', emoji: '🟦' },
+  { sn: 'SN97', name: 'Albedo', percent: 15.7, colorClass: 'from-purple-600 to-purple-400', txtColor: 'text-purple-500 dark:text-purple-400', emoji: '🟪' },
+  { sn: 'SN46', name: 'Zipcode', percent: 15.1, colorClass: 'from-orange-600 to-orange-400', txtColor: 'text-orange-500 dark:text-orange-400', emoji: '🟧' },
+  { sn: 'SN9', name: 'IOTA', percent: 13.3, colorClass: 'from-yellow-600 to-yellow-400', txtColor: 'text-yellow-500 dark:text-yellow-400', emoji: '🟨' },
+  { sn: 'SN15', name: 'ORO', percent: 11.3, colorClass: 'from-red-600 to-red-400', txtColor: 'text-red-500 dark:text-red-400', emoji: '🟥' },
+  { sn: 'SN118', name: 'Ditto', percent: 10.4, colorClass: 'from-pink-500 to-pink-300', txtColor: 'text-pink-500 dark:text-pink-400', emoji: '🩷' },
+  { sn: 'SN107', name: 'Minos', percent: 6.0, colorClass: 'from-emerald-600 to-emerald-400', txtColor: 'text-emerald-500 dark:text-emerald-400', emoji: '🟩' },
 ];
 
 export const Portfolio: React.FC = () => {
@@ -145,14 +144,14 @@ export const Portfolio: React.FC = () => {
       <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl bg-white dark:bg-[#0b0e14] p-4 md:p-6 w-full mt-4">
         <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
         <a 
-          href="https://x.com/ShizzyUnchained/status/2059460595921924113?s=20" 
+          href="https://x.com/ShizzyUnchained/status/2066282276413985011" 
           target="_blank" 
           rel="noopener noreferrer" 
           className="block relative z-10 rounded-3xl overflow-hidden cursor-pointer group"
         >
           <img 
-            src="https://i.postimg.cc/W1LCs4kx/s-HIZZYS-PORTFOLIO.png" 
-            alt="s-HIZZYS-PORTFOLIO" 
+            src="https://i.postimg.cc/WpHHkvVd/Shizzys-Portfolio-(1).png" 
+            alt="Shizzys-Portfolio" 
             referrerPolicy="no-referrer"
             className="w-full h-auto object-cover hover:scale-[1.01] transition-transform duration-700"
           />
@@ -250,14 +249,15 @@ export const Portfolio: React.FC = () => {
               <div key={item.sn} className="space-y-2 group">
                 <div className="flex justify-between items-end text-sm">
                   <div className="flex items-center gap-3">
-                    <span className="font-mono font-bold text-orange-600 dark:text-orange-400 w-12">{item.sn}</span>
+                    <span className="text-base leading-none">{item.emoji}</span>
+                    <span className={`font-mono font-bold ${item.txtColor} w-16`}>{item.sn}</span>
                     <span className="font-black uppercase tracking-widest text-slate-900 dark:text-white">{item.name}</span>
                   </div>
-                  <span className="font-mono font-bold text-slate-500 dark:text-slate-400">{item.percent.toFixed(2)}%</span>
+                  <span className="font-mono font-bold text-slate-500 dark:text-slate-400">{item.percent.toFixed(1)}%</span>
                 </div>
                 <div className="h-2 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-orange-600 to-orange-400 rounded-full transition-all duration-1000 ease-out group-hover:brightness-110"
+                    className={`h-full bg-gradient-to-r ${item.colorClass} rounded-full transition-all duration-1000 ease-out group-hover:brightness-110`}
                     style={{ width: `${item.percent}%` }}
                   />
                 </div>
