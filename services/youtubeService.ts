@@ -17,6 +17,27 @@ export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
     const fallbackLives: VideoItem[] = [
       {
+        id: 'vXSlbxzwPJw',
+        title: 'Subnet Summer Just Got Real',
+        thumbnail: 'https://img.youtube.com/vi/vXSlbxzwPJw/maxresdefault.jpg',
+        url: 'https://youtu.be/vXSlbxzwPJw?si=fBRO6UY-7e0Ntdjq',
+        type: 'live' as const
+      },
+      {
+        id: 'TuNmIi5NEI4',
+        title: "He Mined Bitcoin in 2009. Now He’s Betting on TAO",
+        thumbnail: 'https://img.youtube.com/vi/TuNmIi5NEI4/maxresdefault.jpg',
+        url: 'https://youtu.be/TuNmIi5NEI4?si=PvZUxNfPn0OIEnY-',
+        type: 'live' as const
+      },
+      {
+        id: 'zWPPQVkn9n0',
+        title: 'Week 5 10 TAO to 100 TAO Challenge',
+        thumbnail: 'https://img.youtube.com/vi/zWPPQVkn9n0/maxresdefault.jpg',
+        url: 'https://youtu.be/zWPPQVkn9n0?si=Nv_7tli-64Y6mI29',
+        type: 'live' as const
+      },
+      {
         id: 'ZiVtio59Z7s',
         title: 'Bittensor Snapback! Will It Continue?',
         thumbnail: 'https://img.youtube.com/vi/ZiVtio59Z7s/maxresdefault.jpg',
