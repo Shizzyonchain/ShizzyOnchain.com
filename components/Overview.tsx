@@ -375,14 +375,14 @@ export const Overview: React.FC<OverviewProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Sponsor Card 2: Mentat Minds */}
+            {/* Sponsor Card 2: Mentat */}
             <div className="p-6 md:p-8 rounded-2xl bg-white dark:bg-[#090b1c] border border-blue-500/10 hover:border-blue-500/40 transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8 shadow-xl relative overflow-hidden group">
               <div className="flex flex-col sm:flex-row gap-5 items-start">
                 <div className="flex items-center justify-between w-full sm:w-auto self-start">
                   <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-2 border border-[#111] shadow-md shrink-0">
                     <img 
                       src="https://i.postimg.cc/7PNmppZV/0h-Aj-Uve3-400x400.jpg" 
-                      alt="Mentat Minds Signature" 
+                      alt="Mentat Signature" 
                       className="w-full h-full object-contain"
                       referrerPolicy="no-referrer"
                     />
@@ -397,7 +397,7 @@ export const Overview: React.FC<OverviewProps> = ({ onNavigate }) => {
                       STAKING PARTNER
                     </span>
                   </div>
-                  <h4 className="text-lg font-bold font-space text-slate-900 dark:text-white uppercase group-hover:text-blue-400 transition-colors">Mentat Minds</h4>
+                  <h4 className="text-lg font-bold font-space text-slate-900 dark:text-white uppercase group-hover:text-blue-400 transition-colors">Mentat</h4>
                   <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed max-w-xl">
                     Maximize your block allocations. Delegate and stake TAO via top-tier low-latency high-reliability bare-metal staking validators.
                   </p>

@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
       items: [
         { label: 'INFORMATION HUB', view: 'tools' as View },
         { label: 'ALPHAGAP', view: 'alphagap' as View },
-        { label: 'MENTAT MINDS', url: 'https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained' },
+        { label: 'MENTAT', url: 'https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained' },
         { label: 'LATEST ARTICLES', view: 'latest-articles' as View },
         { label: 'TIP CREATOR', view: 'send-tip' as View },
         { label: 'GET LEDGER', url: 'https://shop.ledger.com/?r=49c0bef9b376' },

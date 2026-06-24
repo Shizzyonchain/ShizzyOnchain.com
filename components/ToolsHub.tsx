@@ -230,8 +230,8 @@ export const ToolsHub: React.FC<{ onNavigate: (view: View) => void }> = ({ onNav
       badge: 'COMMUNITY'
     },
     {
-      title: 'MENTAT MINDS',
-      description: 'Mentat Minds is a non-custodial TAO delegation manager for optimized yields in Bittensor.',
+      title: 'MENTAT',
+      description: 'Mentat is a non-custodial TAO delegation manager for optimized yields in Bittensor.',
       icon: <Coins />,
       url: 'https://mentatminds.com/',
       colorClass: 'text-orange-500',

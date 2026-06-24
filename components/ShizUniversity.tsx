@@ -279,7 +279,7 @@ export const ShizUniversity: React.FC = () => {
               </div>
             </motion.a>
 
-            {/* Mentat Minds Card */}
+            {/* Mentat Card */}
             <motion.a
               href="https://mentatminds.com/mentat-plus/?origin=ShizzyUnchained"
               target="_blank"
@@ -293,13 +293,13 @@ export const ShizUniversity: React.FC = () => {
               <div className="w-20 h-20 shrink-0 rounded-2xl bg-white p-2 border border-[#2e2ede]/30 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:border-[#2e2ede]/50 transition-all duration-300 shadow-xl overflow-hidden">
                 <img 
                   src="https://i.postimg.cc/7PNmppZV/0h-Aj-Uve3-400x400.jpg" 
-                  alt="Mentat Minds Logo" 
+                  alt="Mentat Logo" 
                   className="w-full h-full object-contain"
                   referrerPolicy="no-referrer"
                 />
               </div>
               <div className="space-y-2 flex-grow text-center md:text-left">
-                <h4 className="text-2xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">MENTAT MINDS</h4>
+                <h4 className="text-2xl font-black font-space italic uppercase tracking-tighter text-slate-900 dark:text-white">MENTAT</h4>
                 <p className="text-sm text-slate-500 dark:text-[#2e2ede]/70 font-medium max-w-sm">High-performance TAO staking infrastructure. The standard for maximizing yield in the Bittensor network.</p>
               </div>
               <div className="shrink-0 w-12 h-12 bg-[#2e2ede]/10 text-[#2e2ede] rounded-full flex items-center justify-center group-hover:bg-[#2e2ede] group-hover:text-white transition-all">
