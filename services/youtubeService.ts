@@ -17,6 +17,27 @@ export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
     const fallbackLives: VideoItem[] = [
       {
+        id: 'wyif_M_zbwg',
+        title: 'Bittensor Subnet 85 VIDAIO: AI Video Enhancement With Gareth Howells',
+        thumbnail: 'https://img.youtube.com/vi/wyif_M_zbwg/maxresdefault.jpg',
+        url: 'https://www.youtube.com/live/wyif_M_zbwg?si=elo4R0cGFT9LTq3F',
+        type: 'live' as const
+      },
+      {
+        id: 'pFPd1BoUe00',
+        title: 'Bittensor Subnet Update: Move Fast and Break People',
+        thumbnail: 'https://img.youtube.com/vi/pFPd1BoUe00/maxresdefault.jpg',
+        url: 'https://youtu.be/pFPd1BoUe00?si=7XAr8dAk_DNrOmvI',
+        type: 'live' as const
+      },
+      {
+        id: 'X3n7DVacpJA',
+        title: 'Week 6: 10 TAO to 100 TAO Challenge | Down But Not Out',
+        thumbnail: 'https://img.youtube.com/vi/X3n7DVacpJA/maxresdefault.jpg',
+        url: 'https://youtu.be/X3n7DVacpJA?si=3BHpnZ4OEgO8hMgx',
+        type: 'live' as const
+      },
+      {
         id: 'vXSlbxzwPJw',
         title: 'Subnet Summer Just Got Real',
         thumbnail: 'https://img.youtube.com/vi/vXSlbxzwPJw/maxresdefault.jpg',
