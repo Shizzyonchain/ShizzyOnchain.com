@@ -2,7 +2,7 @@
   "mutations": [],
   "queries": [
     {
-      "dehydratedAt": 1776872172739,
+      "dehydratedAt": 1782064048734,
       "state": {
         "data": {
           "analytics_available": true,
@@ -11,193 +11,193 @@
               {
                 "entity_type": "subnets",
                 "entity_id": "105",
-                "views": 4412,
-                "percentage_change": -34.57
-              },
-              {
-                "entity_type": "subnets",
-                "entity_id": "83",
-                "views": 4339,
-                "percentage_change": 681.8
-              },
-              {
-                "entity_type": "subnets",
-                "entity_id": "71",
-                "views": 2493,
-                "percentage_change": -1.62
-              },
-              {
-                "entity_type": "subnets",
-                "entity_id": "1",
-                "views": 2230,
-                "percentage_change": 35.89
-              },
-              {
-                "entity_type": "subnets",
-                "entity_id": "123",
-                "views": 2088,
-                "percentage_change": -6.12
-              },
-              {
-                "entity_type": "subnets",
-                "entity_id": "103",
-                "views": 1977,
-                "percentage_change": -53.15
-              },
-              {
-                "entity_type": "subnets",
-                "entity_id": "97",
-                "views": 1948,
-                "percentage_change": -14.19
-              },
-              {
-                "entity_type": "subnets",
-                "entity_id": "50",
-                "views": 1937,
-                "percentage_change": -9.99
+                "views": 5916,
+                "percentage_change": -33.24
               },
               {
                 "entity_type": "subnets",
                 "entity_id": "66",
-                "views": 1933,
-                "percentage_change": -21.93
+                "views": 3857,
+                "percentage_change": 47.66
               },
               {
                 "entity_type": "subnets",
-                "entity_id": "3",
-                "views": 1905,
-                "percentage_change": 2.25
+                "entity_id": "15",
+                "views": 3182,
+                "percentage_change": 8.05
+              },
+              {
+                "entity_type": "subnets",
+                "entity_id": "50",
+                "views": 3176,
+                "percentage_change": 6.61
+              },
+              {
+                "entity_type": "subnets",
+                "entity_id": "102",
+                "views": 3074,
+                "percentage_change": -14.06
+              },
+              {
+                "entity_type": "subnets",
+                "entity_id": "79",
+                "views": 2952,
+                "percentage_change": -29.39
+              },
+              {
+                "entity_type": "subnets",
+                "entity_id": "97",
+                "views": 2733,
+                "percentage_change": 38.66
+              },
+              {
+                "entity_type": "subnets",
+                "entity_id": "101",
+                "views": 2477,
+                "percentage_change": 1632.17
+              },
+              {
+                "entity_type": "subnets",
+                "entity_id": "120",
+                "views": 2377,
+                "percentage_change": 35.21
+              },
+              {
+                "entity_type": "subnets",
+                "entity_id": "83",
+                "views": 2309,
+                "percentage_change": 4.1
               }
             ],
             "validators": [
               {
                 "entity_type": "validators",
-                "entity_id": "5G9hfkx9wGB1CLMT9WXkpHSAiYzjZb5o1Boyq4KAdDhjwrc5",
-                "views": 232,
-                "percentage_change": 1557.14
-              },
-              {
-                "entity_type": "validators",
                 "entity_id": "5E2LP6EnZ54m3wS8s1yPvD5c3xo71kQroBw7aUVK32TKeZ5u",
-                "views": 134,
-                "percentage_change": 10.74
+                "views": 36,
+                "percentage_change": -60
               },
               {
                 "entity_type": "validators",
-                "entity_id": "5GKH9FPPnWSUoeeTJp19wVtd84XqFW4pyK2ijV2GsFbhTrP1",
-                "views": 41,
-                "percentage_change": 1950
-              },
-              {
-                "entity_type": "validators",
-                "entity_id": "5HmkM6X1D3W3CuCSPuHhrbYyZNBy2aGAiZy9NczoJmtY25H7",
-                "views": 32,
-                "percentage_change": 700
-              },
-              {
-                "entity_type": "validators",
-                "entity_id": "5DXdHixxtCvoa6GHKs2Jgrdzc61882Ftx1zN2sYFQuwgL1S1",
-                "views": 19,
-                "percentage_change": -47.22
-              },
-              {
-                "entity_type": "validators",
-                "entity_id": "5HK5tp6t2S59DywmHRWPBVJeJ86T61KjurYqeooqj8sREpeN",
-                "views": 17,
-                "percentage_change": 750
-              },
-              {
-                "entity_type": "validators",
-                "entity_id": "5CVS9d1NcQyWKUyadLevwGxg6LgBcF9Lik6NSnbe5q59jwhE",
-                "views": 16,
-                "percentage_change": 700
+                "entity_id": "5DM7CPqPKtMSADhFKYsstsCS4Tm4Kd6PMXoh6DdqY4MtxmtX",
+                "views": 21,
+                "percentage_change": 16.67
               },
               {
                 "entity_type": "validators",
                 "entity_id": "5GP7c3fFazW9GXK8Up3qgu2DJBk8inu4aK9TZy3RuoSWVCMi",
-                "views": 11,
+                "views": 21,
+                "percentage_change": 162.5
+              },
+              {
+                "entity_type": "validators",
+                "entity_id": "5G9hfkx9wGB1CLMT9WXkpHSAiYzjZb5o1Boyq4KAdDhjwrc5",
+                "views": 17,
+                "percentage_change": 0
+              },
+              {
+                "entity_type": "validators",
+                "entity_id": "5HK5tp6t2S59DywmHRWPBVJeJ86T61KjurYqeooqj8sREpeN",
+                "views": 9,
+                "percentage_change": 800
+              },
+              {
+                "entity_type": "validators",
+                "entity_id": "5DXdHixxtCvoa6GHKs2Jgrdzc61882Ftx1zN2sYFQuwgL1S1",
+                "views": 7,
+                "percentage_change": 600
+              },
+              {
+                "entity_type": "validators",
+                "entity_id": "5GTWwu3NCbYmVFzwfrXa1sx8y4UNLR3padWfVZwjNnDmySXP",
+                "views": 5,
+                "percentage_change": -16.67
+              },
+              {
+                "entity_type": "validators",
+                "entity_id": "5FTzsDqHH9QZVnirTodscPxQep4f98gda9RmZdKJ6jdGvweU",
+                "views": 5,
                 "percentage_change": 100
               },
               {
                 "entity_type": "validators",
-                "entity_id": "5CFxLBvpyQq3TCP7zLcu8dLcPBxhA6MdLvXiCyvJVojuK17J",
-                "views": 10,
-                "percentage_change": 100
+                "entity_id": "5CszMVts9ueMUSKdAwLFSLT7u4oyxN7fUBpo8Z3ETw1ggMUV",
+                "views": 4,
+                "percentage_change": 300
               },
               {
                 "entity_type": "validators",
-                "entity_id": "5D86nigvQZrTeXjHoSHkV2WVW9oZx8ddBL2TW17YvvSuVUvB",
-                "views": 8,
+                "entity_id": "5FnGPRV7fQSWjHo8Q3Bgrn7GzciQKJKUitv9WCwqTzZKMVZZ",
+                "views": 4,
                 "percentage_change": 33.33
               }
             ],
             "coldkeys": [
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5CwjKTzDX4JRkRMF2Xey3Lb4YUDrLHkw63saTUE8SSqnavp1",
-                "views": 218,
-                "percentage_change": -31.87
+                "entity_id": "5FKQzuTu34tAuTGL49Eh93mpfDcfFJUeoaSKGhWsWLA3cYdQ",
+                "views": 296,
+                "percentage_change": -19.13
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5CiiFar8bhofVBme5AHSbR3XhuGkPzTnM5YdqPvxKnmqiNYe",
-                "views": 197,
-                "percentage_change": 358.14
+                "entity_id": "5D3qGosCDYhBgvTGsuH1NptsFnTbyoffygPAi5W44x9cEFwh",
+                "views": 140,
+                "percentage_change": 40
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5HnFhCimV4ywoNADpzcwEFMADZWMnFEBfCfNNib1rsFcrN1r",
-                "views": 175,
-                "percentage_change": 548.15
+                "entity_id": "5FxHUG2gNNhNJA7JSeoVHumD4uHq5wmKMQjyvmtXTwATXN4P",
+                "views": 139,
+                "percentage_change": 13800
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5HWJbpFBqUD7SBgKeQT5Ut9ajckgr7w5bDRs8zfsvKYgc78M",
+                "entity_id": "5FKeyGsFEdDEzgahUCvahjmzKNWWhXtKmRmtY7aw87x7Q1sT",
+                "views": 139,
+                "percentage_change": 178
+              },
+              {
+                "entity_type": "coldkeys",
+                "entity_id": "5Ev95Paf5EF7rPy3W6Y12NQgzGqefUsDci6gakbKWwPtBnMw",
                 "views": 135,
-                "percentage_change": 28.57
+                "percentage_change": -6.25
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5CXSKaZV2rbj5KCs6Va5hTYD59dUwErggEfZvZD9nebbFF87",
-                "views": 125,
-                "percentage_change": -25.15
+                "entity_id": "5He82CDTZd5WNhoG73X9ri8BjzPD4BC39SNhgSMJVGEdUQ7T",
+                "views": 129,
+                "percentage_change": 100
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5FEYKdsY9gsFdwMTbAT9znupGFj7ebJ5hYriufk8D7kuj8D8",
-                "views": 121,
-                "percentage_change": -11.68
+                "entity_id": "5DhZ4m7Ka3DpVsPjiMgjaPf9Pr3rLWTSTGXWvjmAQevRkznk",
+                "views": 123,
+                "percentage_change": 412.5
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5GA6F1c5JkVuHUjyPV5JT7ChHVRfgD2uyKsoEfX8MYSV73pE",
-                "views": 113,
-                "percentage_change": 29.89
+                "entity_id": "5EFJFNYEsWqdVjmLxhqNZBVquByep64UuXgftx3EcYzSfTTL",
+                "views": 123,
+                "percentage_change": -3.15
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5EvjRMj8QTuhjhhG5YZMCPmr42mKjttfSRLeAG8yrPo9R1nS",
-                "views": 110,
-                "percentage_change": -27.15
+                "entity_id": "5GBhW8e4acgPvWtKrtPZkTiRmu7bMnvzkC9nmgH6uBEtW4Zo",
+                "views": 111,
+                "percentage_change": 76.19
               },
               {
                 "entity_type": "coldkeys",
-                "entity_id": "5CFLQ7LmtfELqoKkFSDpXGm3mLU6h2pbUKEW2Tf1odJYiqpX",
-                "views": 96,
-                "percentage_change": 585.71
-              },
-              {
-                "entity_type": "coldkeys",
-                "entity_id": "5FV99mBYw3tYrMTXXe52PDa69an1AE19aTrpnB4kzxW73yUj",
-                "views": 94,
-                "percentage_change": 840
+                "entity_id": "5FRyBdp89ut62aY4n8ci9Uq3EsV1W3Rma1bfUw9GUKwG2Mgj",
+                "views": 109,
+                "percentage_change": -49.54
               }
             ]
           },
           "total_items": 30
         },
         "dataUpdateCount": 1,
-        "dataUpdatedAt": 1776872172739,
+        "dataUpdatedAt": 1782064048734,
         "error": null,
         "errorUpdateCount": 0,
         "errorUpdatedAt": 0,

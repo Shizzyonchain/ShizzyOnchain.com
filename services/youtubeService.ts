@@ -17,6 +17,41 @@ export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
     const fallbackLives: VideoItem[] = [
       {
+        id: 'F3ogKcX3xpE',
+        title: 'Leadpoet SN71 Deep Dive with Gavin Zaentz | AI Sales Intelligence on Bittensor',
+        thumbnail: 'https://img.youtube.com/vi/F3ogKcX3xpE/maxresdefault.jpg',
+        url: 'https://www.youtube.com/live/F3ogKcX3xpE?si=TeN1_jxOBTIdssjm',
+        type: 'live' as const
+      },
+      {
+        id: '6oSJxSfVUBk',
+        title: 'The Bittensor Move No One Is Ready For',
+        thumbnail: 'https://img.youtube.com/vi/6oSJxSfVUBk/maxresdefault.jpg',
+        url: 'https://youtu.be/6oSJxSfVUBk?si=2RSM9fPiW1Ro5NuT',
+        type: 'live' as const
+      },
+      {
+        id: 'E8sZrmYiQ5Y',
+        title: 'The Trade Everyone Missed. Week 8 of the 10 to 100 TAO Challenge',
+        thumbnail: 'https://img.youtube.com/vi/E8sZrmYiQ5Y/maxresdefault.jpg',
+        url: 'https://youtu.be/E8sZrmYiQ5Y?si=vNrwe1LGBWQybro8',
+        type: 'live' as const
+      },
+      {
+        id: 'AymnXq08VDM',
+        title: 'Bittensor Subnet Update: Subnet Summer Is Canceled?',
+        thumbnail: 'https://img.youtube.com/vi/AymnXq08VDM/maxresdefault.jpg',
+        url: 'https://youtu.be/AymnXq08VDM?si=1FgYf_T8xxx_tzaa',
+        type: 'live' as const
+      },
+      {
+        id: 'beZ18Hdka0Q',
+        title: 'Week 7: 10 to 100 TAO Challenge. I’m Not Giving Up!',
+        thumbnail: 'https://img.youtube.com/vi/beZ18Hdka0Q/maxresdefault.jpg',
+        url: 'https://youtu.be/beZ18Hdka0Q?si=lNEaYf8zS7B1UNjy',
+        type: 'live' as const
+      },
+      {
         id: 'wyif_M_zbwg',
         title: 'Bittensor Subnet 85 VIDAIO: AI Video Enhancement With Gareth Howells',
         thumbnail: 'https://img.youtube.com/vi/wyif_M_zbwg/maxresdefault.jpg',

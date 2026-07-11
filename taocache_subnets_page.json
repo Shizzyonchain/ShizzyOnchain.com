@@ -1,0 +1,234 @@
+{
+  "props": {
+    "pageProps": {
+      "dehydratedState": {
+        "mutations": [],
+        "queries": [
+          {
+            "dehydratedAt": 1782264825807,
+            "state": {
+              "data": {
+                "analytics_available": true,
+                "data": {
+                  "subnets": [
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "105",
+                      "views": 8054,
+                      "percentage_change": 44
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "66",
+                      "views": 3209,
+                      "percentage_change": -19.23
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "50",
+                      "views": 2958,
+                      "percentage_change": -14.01
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "79",
+                      "views": 2907,
+                      "percentage_change": -21.35
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "15",
+                      "views": 2818,
+                      "percentage_change": -8.95
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "101",
+                      "views": 2737,
+                      "percentage_change": 355.41
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "67",
+                      "views": 2476,
+                      "percentage_change": 437.09
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "120",
+                      "views": 2389,
+                      "percentage_change": 8.99
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "102",
+                      "views": 2285,
+                      "percentage_change": -45.41
+                    },
+                    {
+                      "entity_type": "subnets",
+                      "entity_id": "32",
+                      "views": 2146,
+                      "percentage_change": 48.61
+                    }
+                  ],
+                  "validators": [
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5GP7c3fFazW9GXK8Up3qgu2DJBk8inu4aK9TZy3RuoSWVCMi",
+                      "views": 50,
+                      "percentage_change": 194.12
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5E2LP6EnZ54m3wS8s1yPvD5c3xo71kQroBw7aUVK32TKeZ5u",
+                      "views": 28,
+                      "percentage_change": -68.18
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5DvDypN8BPG4ThSTes2YQ64PUSYMngoQYnzR1Dw1a67TdiFp",
+                      "views": 27,
+                      "percentage_change": 100
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5G9hfkx9wGB1CLMT9WXkpHSAiYzjZb5o1Boyq4KAdDhjwrc5",
+                      "views": 23,
+                      "percentage_change": 155.56
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5DM7CPqPKtMSADhFKYsstsCS4Tm4Kd6PMXoh6DdqY4MtxmtX",
+                      "views": 13,
+                      "percentage_change": -43.48
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5DXdHixxtCvoa6GHKs2Jgrdzc61882Ftx1zN2sYFQuwgL1S1",
+                      "views": 7,
+                      "percentage_change": 600
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5GxsywPcZyWVYYJ7iuJpfmtujaA695M4FMCiqNRRcqNba82o",
+                      "views": 7,
+                      "percentage_change": 100
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5CszMVts9ueMUSKdAwLFSLT7u4oyxN7fUBpo8Z3ETw1ggMUV",
+                      "views": 5,
+                      "percentage_change": 400
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5HmkM6X1D3W3CuCSPuHhrbYyZNBy2aGAiZy9NczoJmtY25H7",
+                      "views": 4,
+                      "percentage_change": 33.33
+                    },
+                    {
+                      "entity_type": "validators",
+                      "entity_id": "5FLKnbMjHY8LarHZvk2q2RY9drWFbpxjAcR5x8tjr3GqtU6F",
+                      "views": 4,
+                      "percentage_change": 100
+                    }
+                  ],
+                  "coldkeys": [
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5HiveMEoWPmQmBAb8v63bKPcFhgTGCmST1TVZNvPHSTKFLCv",
+                      "views": 315,
+                      "percentage_change": 10400
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5FKQzuTu34tAuTGL49Eh93mpfDcfFJUeoaSKGhWsWLA3cYdQ",
+                      "views": 199,
+                      "percentage_change": -48.45
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5GBhW8e4acgPvWtKrtPZkTiRmu7bMnvzkC9nmgH6uBEtW4Zo",
+                      "views": 192,
+                      "percentage_change": 276.47
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5He82CDTZd5WNhoG73X9ri8BjzPD4BC39SNhgSMJVGEdUQ7T",
+                      "views": 157,
+                      "percentage_change": 390.62
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5EqHwcHVcpZWUiRUbp7Zu8eWrtuWcWqKyJMxH3XfHfnirKCD",
+                      "views": 153,
+                      "percentage_change": 100
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5HpyrhUbo56tygSuRaEiVsoUXrmecnu8aKyXkTQegUECm7e8",
+                      "views": 131,
+                      "percentage_change": 13000
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5Ev95Paf5EF7rPy3W6Y12NQgzGqefUsDci6gakbKWwPtBnMw",
+                      "views": 128,
+                      "percentage_change": -20.5
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5Gb2XtEJEdBBHSDMFBotb8t6q7hjLK39rta7QcwwEtnRMhTo",
+                      "views": 122,
+                      "percentage_change": 10.91
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5GEYsjsq78ijZQw3FjKjQ7wN7XtxXBX2NPr7w4CxgjYrLTxR",
+                      "views": 119,
+                      "percentage_change": -20.67
+                    },
+                    {
+                      "entity_type": "coldkeys",
+                      "entity_id": "5FRyBdp89ut62aY4n8ci9Uq3EsV1W3Rma1bfUw9GUKwG2Mgj",
+                      "views": 100,
+                      "percentage_change": -50.98
+                    }
+                  ]
+                },
+                "total_items": 30
+              },
+              "dataUpdateCount": 1,
+              "dataUpdatedAt": 1782264825807,
+              "error": null,
+              "errorUpdateCount": 0,
+              "errorUpdatedAt": 0,
+              "fetchFailureCount": 0,
+              "fetchFailureReason": null,
+              "fetchMeta": null,
+              "isInvalidated": false,
+              "status": "success",
+              "fetchStatus": "idle"
+            },
+            "queryKey": [
+              "/internal/v1/analytics/trending/",
+              {
+                "limit": 10
+              }
+            ],
+            "queryHash": "[\"/internal/v1/analytics/trending/\",{\"limit\":10}]"
+          }
+        ]
+      }
+    },
+    "__N_SSG": true
+  },
+  "page": "/subnets",
+  "query": {},
+  "buildId": "tWkgwEd2Be05DCWqQzpN8",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gsp": true,
+  "scriptLoader": []
+}
