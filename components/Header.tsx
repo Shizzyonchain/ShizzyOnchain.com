@@ -23,7 +23,6 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
   const navItems = [
     { label: 'HOME', view: 'home' as View },
     { label: 'VIDEOS', view: 'videos' as View },
-    { label: 'PORTFOLIO', view: 'portfolio' as View },
     { label: 'SHOP', url: 'https://shizzyunchained.printful.me/' },
     { label: 'SHIZ UNIVERSITY', view: 'shiz-university' as View },
     { 
