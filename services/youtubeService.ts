@@ -17,6 +17,34 @@ export const youtubeService = {
   async getLatestVideos(): Promise<{ lives: VideoItem[], shorts: VideoItem[] }> {
     const fallbackLives: VideoItem[] = [
       {
+        id: 'ealfKQI1q2g',
+        title: 'ChronoLLM SN38: The AI That Never Cheats Time | Live With Jean Hérelle, Founder of CrunchDAO',
+        thumbnail: 'https://img.youtube.com/vi/ealfKQI1q2g/maxresdefault.jpg',
+        url: 'https://www.youtube.com/live/ealfKQI1q2g?si=7fSU2nSiYCSA4NGH',
+        type: 'live' as const
+      },
+      {
+        id: 'T0BbzWFS7EE',
+        title: 'Bittensor Subnet update with Crypto Millie',
+        thumbnail: 'https://img.youtube.com/vi/T0BbzWFS7EE/maxresdefault.jpg',
+        url: 'https://www.youtube.com/live/T0BbzWFS7EE?si=4wgJYHYmeVh8c643',
+        type: 'live' as const
+      },
+      {
+        id: 'EJMXtvxC6Qo',
+        title: 'AI That Finds DNA Mutations: Minos SN107 Built on Bittensor',
+        thumbnail: 'https://img.youtube.com/vi/EJMXtvxC6Qo/maxresdefault.jpg',
+        url: 'https://www.youtube.com/live/EJMXtvxC6Qo?si=8oorDvSFFMN642Go',
+        type: 'live' as const
+      },
+      {
+        id: 'tdZGVfadd00',
+        title: 'The 10 to 100 TAO Challenge Is Getting Dangerous. Week 9',
+        thumbnail: 'https://img.youtube.com/vi/tdZGVfadd00/maxresdefault.jpg',
+        url: 'https://youtu.be/tdZGVfadd00?si=mgIe7vkaCjf1rpNd',
+        type: 'live' as const
+      },
+      {
         id: 'F3ogKcX3xpE',
         title: 'Leadpoet SN71 Deep Dive with Gavin Zaentz | AI Sales Intelligence on Bittensor',
         thumbnail: 'https://img.youtube.com/vi/F3ogKcX3xpE/maxresdefault.jpg',
