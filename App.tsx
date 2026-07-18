@@ -20,6 +20,7 @@ import { ShizUniversity } from './components/ShizUniversity.tsx';
 import { LatestArticles } from './components/LatestArticles.tsx';
 import { AlphaGapExplanation } from './components/AlphaGapExplanation.tsx';
 import { EmissionsExplained } from './components/EmissionsExplained.tsx';
+import { MassWalletCheck } from './components/MassWalletCheck.tsx';
 import { View } from './types.ts';
 
 // v2.0.2 - Fixed localStorage crashes & Added Error Boundary
@@ -104,6 +105,7 @@ const App: React.FC = () => {
       else if (hash.startsWith('#/latest-articles')) setCurrentView('latest-articles');
       else if (hash === '#/alphagap') setCurrentView('alphagap');
       else if (hash.startsWith('#/emissions-explained')) setCurrentView('emissions-explained');
+      else if (hash === '#/mass-wallet-check') setCurrentView('mass-wallet-check');
       else setCurrentView('home');
     };
 
@@ -175,6 +177,7 @@ const App: React.FC = () => {
       case 'latest-articles': return <LatestArticles />;
       case 'alphagap': return <AlphaGapExplanation />;
       case 'emissions-explained': return <EmissionsExplained />;
+      case 'mass-wallet-check': return <MassWalletCheck />;
       default: return <Overview onNavigate={handleViewChange} />;
     }
   };

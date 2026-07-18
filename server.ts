@@ -209,6 +209,106 @@ Do not use markdown backticks or flowery corporate jargon. Keep it real, clear, 
   }
 });
 
+app.post('/api/wallets', async (req, res) => {
+  const { addresses } = req.body;
+  
+  if (!addresses || !Array.isArray(addresses)) {
+    return res.status(400).json({ error: 'Invalid addresses provided.' });
+  }
+
+  const apiKey = process.env.TAOSTATS_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'TAOSTATS_API_KEY is not configured on the server.' });
+  }
+
+  try {
+    const results = [];
+    for (let i = 0; i < addresses.length; i++) {
+      const address = addresses[i];
+      if (i > 0) {
+        // Wait 300ms between requests to avoid rate limits
+        await new Promise(r => setTimeout(r, 300));
+      }
+      try {
+        let response = await fetch(`https://api.taostats.io/api/account/latest/v1?address=${address}`, {
+          headers: {
+            'Authorization': `${apiKey}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.status === 429) {
+          // If rate limited, wait 2 seconds and retry once
+          await new Promise(r => setTimeout(r, 2000));
+          response = await fetch(`https://api.taostats.io/api/account/latest/v1?address=${address}`, {
+            headers: {
+              'Authorization': `${apiKey}`,
+              'Content-Type': 'application/json'
+            }
+          });
+        }
+        
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+        
+        const json = await response.json();
+        const data = json.data && json.data[0];
+        
+        if (!data) {
+           results.push({
+             address,
+             error: 'No data found for address'
+           });
+           continue;
+        }
+        
+        const liquidTao = (Number(data.balance_free) || 0) / 1e9;
+        
+        const holdings = (data.alpha_balances || []).filter((h: any) => h.netuid !== 0).map((h: any) => {
+           const quantity = (Number(h.balance) || 0) / 1e9;
+           const valueTao = (Number(h.balance_as_tao) || 0) / 1e9;
+           const priceTao = quantity > 0 ? valueTao / quantity : 0;
+           return {
+             netuid: h.netuid,
+             name: `Subnet ${h.netuid}`,
+             quantity: quantity,
+             priceTao: priceTao
+           };
+        });
+
+        // Add root staking if any
+        if (data.balance_staked_root && Number(data.balance_staked_root) > 0) {
+           const rootValue = Number(data.balance_staked_root) / 1e9;
+           holdings.push({
+             netuid: 0,
+             name: 'Staked TAO',
+             quantity: rootValue,
+             priceTao: 1
+           });
+        }
+        
+        results.push({
+          address,
+          liquidTao,
+          holdings
+        });
+      } catch (error: any) {
+        console.error(`Error fetching wallet ${address}:`, error.message);
+        results.push({
+          address,
+          error: error.message
+        });
+      }
+    }
+
+    res.json(results);
+  } catch (error) {
+    console.error('Mass Wallet Check API Error:', error);
+    res.status(500).json({ error: 'Failed to fetch wallet data' });
+  }
+});
+
 // Global Error Handler to catch any unhandled exceptions and return JSON
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('[Express] Global Error:', err);

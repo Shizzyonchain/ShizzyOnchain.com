@@ -151,6 +151,30 @@ export const Overview: React.FC<OverviewProps> = ({ onNavigate }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6" id="quick-paths-grid">
             
+            {/* Mass Wallet Check Card */}
+            <div className="md:col-span-3 p-6 rounded-2xl bg-gradient-to-r from-[#03150f] via-[#090b1c] to-[#0a0e17] border border-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 flex flex-col md:flex-row items-center justify-between group shadow-xl">
+              <div className="flex items-center gap-6 mb-6 md:mb-0">
+                <div className="w-16 h-16 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 shrink-0 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.15)] group-hover:shadow-[0_0_25px_rgba(6,182,212,0.3)] transition-all">
+                  <Activity size={32} className="group-hover:scale-110 transition-transform" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-1">PORTFOLIO TRACKER</span>
+                  <h3 className="text-2xl font-black uppercase text-slate-900 dark:text-white font-space tracking-tight group-hover:text-cyan-400 transition-colors">
+                    Mass Wallet Check
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-xl">
+                    Check all your wallets at the same time.
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => onNavigate?.('mass-wallet-check')}
+                className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_25px_rgba(6,182,212,0.30)] hover:shadow-[0_8px_30px_rgba(6,182,212,0.45)] transform hover:-translate-y-1 flex items-center justify-center gap-2 text-sm shrink-0"
+              >
+                LAUNCH TOOL <ArrowUpRight size={16} />
+              </button>
+            </div>
+
             {/* Card 1: X (Twitter) */}
             <div className="p-6 rounded-2xl bg-white dark:bg-[#0a0e17] border border-cyan-500/10 hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl">
               <div className="space-y-5">
