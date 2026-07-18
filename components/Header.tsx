@@ -52,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme, onViewCha
           <img 
             src={SOCIAL_LINKS.logo} 
             alt="SHIZZYUNCHAINED" 
-            className="h-24 md:h-32 object-contain transition-all duration-500 group-hover:scale-105 group-hover:rotate-[-1deg]" 
+            className="h-24 md:h-32 object-contain transition-all duration-700 group-hover:scale-105 group-hover:animate-spin" 
           />
         </button>
 
