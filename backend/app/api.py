@@ -109,13 +109,13 @@ async def historical_prices(
     netuid: int,
     start: datetime = Query(default_factory=lambda: datetime.now(timezone.utc) - timedelta(days=1)),
     end: datetime = Query(default_factory=lambda: datetime.now(timezone.utc)),
-    interval: str = Query("1m", pattern="^(raw|1m|5m|15m|1h|4h|1d)$"),
+    interval: str = Query("1m", pattern="^(raw|1m|5m|10m|15m|1h|4h|1d)$"),
     limit: int = Query(5000, ge=1, le=10000),
 ):
     if start >= end or end - start > timedelta(days=366):
         raise HTTPException(422, "start must precede end; maximum range is 366 days")
     if interval != "raw":
-        buckets = {"1m": "1 minute", "5m": "5 minutes", "15m": "15 minutes",
+        buckets = {"1m": "1 minute", "5m": "5 minutes", "10m": "10 minutes", "15m": "15 minutes",
                    "1h": "1 hour", "4h": "4 hours", "1d": "1 day"}
         rows = await app.state.db.fetch(
             f"""SELECT date_bin('{buckets[interval]}',time,TIMESTAMPTZ '2000-01-01') AS time,netuid,
