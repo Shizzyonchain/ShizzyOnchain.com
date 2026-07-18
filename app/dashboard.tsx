@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 
 type ScreenerRow = {
   netuid: number; name?: string; symbol?: string; price_tao: string; tao_reserve?: string;
@@ -25,8 +25,17 @@ const fmt = (value?: string | number, digits = 2) => {
 };
 const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
 
-function PriceChart({ candles, row }: { candles: Candle[]; row?: ScreenerRow }) {
+function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row?: ScreenerRow; currency: "usd" | "tao"; taoUsd: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const visible = useMemo(() => candles.slice(-180), [candles]);
+  const price = (value: string) => {
+    const tao = Number(value || 0);
+    if (currency === "tao") return `τ ${fmt(tao, 6)}`;
+    if (!taoUsd) return "$—";
+    const usd = tao * taoUsd;
+    return usd.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: usd < 1 ? 4 : 2, maximumFractionDigits: usd < 1 ? 6 : 2 });
+  };
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
@@ -35,22 +44,54 @@ function PriceChart({ candles, row }: { candles: Candle[]; row?: ScreenerRow }) 
     canvas.width = box.width * ratio; canvas.height = box.height * ratio;
     const ctx = canvas.getContext("2d"); if (!ctx) return;
     ctx.scale(ratio, ratio); ctx.clearRect(0, 0, box.width, box.height);
-    let points = candles.map(c => Number(c.close));
-    const hasLiveTrend = points.length >= 2;
-    if (points.length < 2) {
-      const base = Number(row?.price_tao || 0.05);
-      points = Array.from({ length: 42 }, (_, i) => base * (0.88 + i * .004 + Math.sin(i / 2.7) * .035 + Math.cos(i / 7) * .018));
+    if (!visible.length) return;
+    const highs = visible.map(c => Number(c.high));
+    const lows = visible.map(c => Number(c.low));
+    const min = Math.min(...lows), max = Math.max(...highs), range = Math.max(max - min, max * .001, 1e-9);
+    const padX = 16, padY = 18, usableW = box.width - padX * 2, usableH = box.height - padY * 2;
+    const step = usableW / visible.length;
+    const bodyW = Math.max(2, Math.min(11, step * .62));
+    const y = (value: number) => padY + (max - value) * usableH / range;
+
+    visible.forEach((c, i) => {
+      const open = Number(c.open), high = Number(c.high), low = Number(c.low), close = Number(c.close);
+      const x = padX + step * (i + .5);
+      const color = close > open ? "#22c55e" : close < open ? "#ef4444" : "#ffffff";
+      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, y(high)); ctx.lineTo(x, y(low)); ctx.stroke();
+      const top = Math.min(y(open), y(close));
+      const height = Math.max(2, Math.abs(y(open) - y(close)));
+      ctx.fillRect(x - bodyW / 2, top, bodyW, height);
+    });
+
+    if (hovered !== null && visible[hovered]) {
+      const candle = visible[hovered];
+      const x = padX + step * (hovered + .5), crossY = y(Number(candle.close));
+      ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = "rgba(141,164,199,.65)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, padY); ctx.lineTo(x, box.height - padY); ctx.moveTo(padX, crossY); ctx.lineTo(box.width - padX, crossY); ctx.stroke(); ctx.restore();
     }
-    const min = Math.min(...points), max = Math.max(...points), pad = 16;
-    const xy = points.map((p, i) => [pad + i * (box.width - pad * 2) / (points.length - 1), pad + (max - p) * (box.height - pad * 2) / Math.max(max - min, 1e-9)]);
-    const trend = hasLiveTrend ? points.at(-1)! - points[0] : Number(row?.change_1h || 0);
-    const line = trend > 0 ? "#22c55e" : trend < 0 ? "#ef4444" : "#ffffff";
-    const fill = trend > 0 ? "rgba(34,197,94,.28)" : trend < 0 ? "rgba(239,68,68,.28)" : "rgba(255,255,255,.18)";
-    const grad = ctx.createLinearGradient(0, 0, 0, box.height); grad.addColorStop(0, fill); grad.addColorStop(1, "rgba(2,8,23,0)");
-    ctx.beginPath(); ctx.moveTo(xy[0][0], box.height); xy.forEach(([x,y]) => ctx.lineTo(x,y)); ctx.lineTo(xy.at(-1)![0], box.height); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
-    ctx.beginPath(); xy.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.strokeStyle = line; ctx.lineWidth = 2; ctx.stroke();
-  }, [candles, row]);
-  return <canvas ref={ref} className="price-canvas" aria-label={`Price chart for ${row?.name || "selected subnet"}`} />;
+  }, [visible, hovered]);
+
+  const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    if (!visible.length) return;
+    const box = event.currentTarget.getBoundingClientRect();
+    const pad = 16;
+    const x = Math.max(0, Math.min(box.width - pad * 2, event.clientX - box.left - pad));
+    setHovered(Math.min(visible.length - 1, Math.floor(x / (box.width - pad * 2) * visible.length)));
+  };
+  const candle = hovered === null ? undefined : visible[hovered];
+  const tooltipLeft = hovered === null || !visible.length ? 50 : Math.min(84, Math.max(16, ((hovered + .5) / visible.length) * 100));
+  return <div className="chart-stage">
+    <canvas ref={ref} className="price-canvas" aria-label={`Interactive candlestick price chart for ${row?.name || "selected subnet"}`} onPointerMove={move} onPointerLeave={() => setHovered(null)} />
+    {!visible.length && <div className="chart-empty">Building candle history from your node…</div>}
+    {candle && <div className="candle-tooltip" style={{ left: `${tooltipLeft}%` }}>
+      <time>{new Date(candle.time).toLocaleString()}</time>
+      <span><em>Open</em><b>{price(candle.open)}</b></span>
+      <span><em>High</em><b>{price(candle.high)}</b></span>
+      <span><em>Low</em><b>{price(candle.low)}</b></span>
+      <span><em>Close</em><b>{price(candle.close)}</b></span>
+    </div>}
+  </div>;
 }
 
 export function Dashboard() {
@@ -144,7 +185,7 @@ export function Dashboard() {
         <div className="chart-card panel">
           <div className="panel-head"><div><p className="eyebrow">SN{active?.netuid} · {active?.symbol || "ALPHA"}</p><h1>{active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{money(active?.price_tao, true)}</strong><span className={changeClass(active?.change_1h)}>{Number(active?.change_1h || 0) > 0 ? "+" : ""}{fmt(active?.change_1h)}% · 1 Hour</span></div></div>
           <div className="timeframes">{[{ value: "1m", label: "1 Minute" }, { value: "10m", label: "10 Minutes" }, { value: "1h", label: "1 Hour" }].map(t => <button key={t.value} className={timeframe === t.value ? "active" : ""} onClick={() => setTimeframe(t.value)}>{t.label}</button>)}</div>
-          <PriceChart candles={candles} row={active} />
+          <PriceChart candles={candles} row={active} currency={currency} taoUsd={taoUsd} />
           <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{money(active?.volume_24h_tao)}</b></span></div>
         </div>
         <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>setSelected(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
