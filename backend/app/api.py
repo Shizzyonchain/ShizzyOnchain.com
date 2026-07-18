@@ -178,6 +178,13 @@ async def mass_wallet_check(body: MassWalletRequest):
                             "staked_tao_value": None, "total_tao_value": None, "stakes": [],
                             "error": f"{type(exc).__name__}: wallet query failed"}
         results = await asyncio.gather(*(one(address) for address in body.addresses))
+    subnet_rows = await app.state.db.fetch("SELECT netuid,name,symbol FROM subnets")
+    subnet_identities = {row["netuid"]: dict(row) for row in subnet_rows}
+    for result in results:
+        for stake in result["stakes"]:
+            identity = subnet_identities.get(stake["netuid"], {})
+            stake["name"] = identity.get("name")
+            stake["symbol"] = identity.get("symbol")
     if body.persist:
         async with app.state.db.acquire() as conn, conn.transaction():
             for result in results:
