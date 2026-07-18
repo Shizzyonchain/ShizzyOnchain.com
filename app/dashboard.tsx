@@ -23,7 +23,7 @@ const fmt = (value?: string | number, digits = 2) => {
   const n = Number(value ?? 0);
   return n.toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: n < 1 ? Math.min(digits, 4) : 0 });
 };
-const changeClass = (v?: string) => Number(v ?? 0) >= 0 ? "positive" : "negative";
+const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
 
 function PriceChart({ candles, row }: { candles: Candle[]; row?: ScreenerRow }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -36,15 +36,19 @@ function PriceChart({ candles, row }: { candles: Candle[]; row?: ScreenerRow }) 
     const ctx = canvas.getContext("2d"); if (!ctx) return;
     ctx.scale(ratio, ratio); ctx.clearRect(0, 0, box.width, box.height);
     let points = candles.map(c => Number(c.close));
+    const hasLiveTrend = points.length >= 2;
     if (points.length < 2) {
       const base = Number(row?.price_tao || 0.05);
       points = Array.from({ length: 42 }, (_, i) => base * (0.88 + i * .004 + Math.sin(i / 2.7) * .035 + Math.cos(i / 7) * .018));
     }
     const min = Math.min(...points), max = Math.max(...points), pad = 16;
     const xy = points.map((p, i) => [pad + i * (box.width - pad * 2) / (points.length - 1), pad + (max - p) * (box.height - pad * 2) / Math.max(max - min, 1e-9)]);
-    const grad = ctx.createLinearGradient(0, 0, 0, box.height); grad.addColorStop(0, "rgba(19,200,255,.32)"); grad.addColorStop(1, "rgba(21,88,255,0)");
+    const trend = hasLiveTrend ? points.at(-1)! - points[0] : Number(row?.change_1h || 0);
+    const line = trend > 0 ? "#22c55e" : trend < 0 ? "#ef4444" : "#ffffff";
+    const fill = trend > 0 ? "rgba(34,197,94,.28)" : trend < 0 ? "rgba(239,68,68,.28)" : "rgba(255,255,255,.18)";
+    const grad = ctx.createLinearGradient(0, 0, 0, box.height); grad.addColorStop(0, fill); grad.addColorStop(1, "rgba(2,8,23,0)");
     ctx.beginPath(); ctx.moveTo(xy[0][0], box.height); xy.forEach(([x,y]) => ctx.lineTo(x,y)); ctx.lineTo(xy.at(-1)![0], box.height); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
-    ctx.beginPath(); xy.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.strokeStyle = "#13c8ff"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); xy.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.strokeStyle = line; ctx.lineWidth = 2; ctx.stroke();
   }, [candles, row]);
   return <canvas ref={ref} className="price-canvas" aria-label={`Price chart for ${row?.name || "selected subnet"}`} />;
 }
@@ -77,7 +81,9 @@ export function Dashboard() {
     }).catch(() => undefined);
   }, []);
   useEffect(() => {
-    const end = new Date(), start = new Date(end.getTime() - (timeframe === "1d" ? 30 : 7) * 86400000);
+    const end = new Date();
+    const windowMs = timeframe === "1m" ? 6 * 3600000 : timeframe === "10m" ? 2 * 86400000 : 14 * 86400000;
+    const start = new Date(end.getTime() - windowMs);
     fetch(`/api/backend/v1/subnets/${selected}/prices?interval=${timeframe}&start=${start.toISOString()}&end=${end.toISOString()}&limit=500`)
       .then(r => r.ok ? r.json() : Promise.reject()).then(json => setCandles(json.data || [])).catch(() => setCandles([]));
   }, [selected, timeframe]);
@@ -138,7 +144,7 @@ export function Dashboard() {
       <section className="market-grid">
         <div className="chart-card panel">
           <div className="panel-head"><div><p className="eyebrow">SN{active?.netuid} Â· {active?.symbol || "ALPHA"}</p><h1>{active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{money(active?.price_tao, true)}</strong><span className={changeClass(active?.change_24h)}>{Number(active?.change_24h || 0) >= 0 ? "+" : ""}{fmt(active?.change_24h)}%</span></div></div>
-          <div className="timeframes">{["5m","15m","1h","4h","1d"].map(t => <button key={t} className={timeframe === t ? "active" : ""} onClick={() => setTimeframe(t)}>{t}</button>)}</div>
+          <div className="timeframes">{["1m","10m","1h"].map(t => <button key={t} className={timeframe === t ? "active" : ""} onClick={() => setTimeframe(t)}>{t}</button>)}</div>
           <PriceChart candles={candles} row={active} />
           <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{money(active?.volume_24h_tao)}</b></span></div>
         </div>
