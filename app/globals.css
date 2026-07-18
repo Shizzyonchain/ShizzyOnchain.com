@@ -19,7 +19,7 @@ body{background:radial-gradient(circle at 72% -5%,rgba(21,88,255,.2),transparent
 .currency-toggle button.active{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;box-shadow:0 0 14px rgba(19,200,255,.28)}
 .topbar .status{margin-left:0}
 .brand{padding:5px 0}
-.brand img{display:block;width:230px;height:66px;object-fit:contain;object-position:left center}
+.brand img{display:block;width:285px;height:80px;object-fit:contain;object-position:left center}
 .brand-mark{display:none}
 nav button{font-family:var(--font-display);font-size:14px;font-weight:900;letter-spacing:.5px;text-transform:uppercase}
 nav button.active{color:#fff;text-shadow:0 0 14px rgba(19,200,255,.55)}
