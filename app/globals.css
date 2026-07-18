@@ -12,7 +12,7 @@ footer{height:76px;border-top:1px solid var(--line);display:flex;align-items:cen
 
 /* Shizzy Unchained electric-blue brand system */
 body{background:radial-gradient(circle at 72% -5%,rgba(19,200,255,.17),transparent 28%),radial-gradient(circle at 5% 35%,rgba(21,88,255,.12),transparent 25%),var(--bg)}
-.topbar{height:86px;background:rgba(2,6,18,.92);border-color:var(--line)}
+.topbar{height:86px;background:var(--bg);border-color:var(--line);backdrop-filter:none}
 .brand{padding:5px 0}
 .brand img{display:block;width:230px;height:66px;object-fit:contain;object-position:left center}
 .brand-mark{display:none}
@@ -35,3 +35,4 @@ tbody tr:hover,tbody tr.selected{background:#0a1d3e}
 .radar{border-color:#16447a}.radar:before,.radar:after{border-color:#102d55}
 footer{color:#6d86ac}
 @media(max-width:600px){.topbar{height:70px}.brand img{width:150px;height:54px}nav button{font-size:11px}.panel-head h1{font-size:24px}}
+
