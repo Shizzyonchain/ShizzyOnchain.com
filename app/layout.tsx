@@ -11,6 +11,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = "Live Bittensor subnet price action, market analytics, and mass wallet portfolio checks.";
   return {
     metadataBase, title, description,
+    icons: {
+      icon: [{ url: "/shizzy-unchained-logo.png", type: "image/png" }],
+      shortcut: "/shizzy-unchained-logo.png",
+      apple: "/shizzy-unchained-logo.png",
+    },
     openGraph: { title, description, type: "website" },
     twitter: { card: "summary", title, description },
   };
