@@ -5,7 +5,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    # Render supplies list settings as ordinary comma-separated strings. Disable
+    # Pydantic's automatic JSON decoding so the validator below can normalize
+    # both single values and comma-separated lists consistently.
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+        enable_decoding=False,
+    )
 
     database_url: str = "postgresql://shizzy:shizzy@localhost:5432/shizzy"
     subtensor_ws_url: str = "wss://entrypoint-finney.opentensor.ai:443"
