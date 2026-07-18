@@ -56,7 +56,7 @@ export const MassWalletCheck: React.FC = () => {
 
   useEffect(() => {
     // Fetch real TAO price
-    fetch('https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=TAO-USDT')
+    fetch('/api/tao-price')
       .then(res => res.json())
       .then(data => {
         if (data && data.data && data.data.price) {

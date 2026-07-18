@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
 import { 
   ShieldAlert, 
   Terminal, 

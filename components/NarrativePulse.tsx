@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
 import { Radio, RefreshCw, Activity, ChevronRight } from 'lucide-react';
 import { newsService } from '../services/newsService.ts';
 

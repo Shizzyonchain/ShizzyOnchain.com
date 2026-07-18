@@ -4,7 +4,22 @@ import path from "path";
 import { ApiPromise, WsProvider } from '@polkadot/api';
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+
+import { GoogleGenAI } from '@google/genai';
+
+app.post('/api/gemini/generateContent', async (req, res) => {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const { model, contents, config } = req.body;
+    const response = await ai.models.generateContent({ model, contents, config });
+    res.json({ text: response.text });
+  } catch (err) {
+    console.error('Gemini error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+const PORT = 3000;
 
 app.use((req, res, next) => {
   if (process.env.VERCEL && req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
@@ -71,6 +86,17 @@ async function updatePrices() {
     console.error("Failed to update prices:", err);
   }
 }
+
+
+app.get("/api/tao-price", async (req, res) => {
+  try {
+    const response = await fetch('https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=TAO-USDT');
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch TAO price" });
+  }
+});
 
 app.post("/api/wallets", async (req, res) => {
   try {
@@ -178,7 +204,7 @@ if (process.env.NODE_ENV !== "production") {
     res.sendFile(path.join(distPath, 'index.html'));
   });
   
-  if (import.meta.url === `file://${process.argv[1]}`) {
+  if (true) {
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on port ${PORT}`);
     });

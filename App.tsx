@@ -33,7 +33,7 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   // @ts-ignore
   state: ErrorBoundaryState = { hasError: false, error: null };
 
@@ -194,9 +194,9 @@ const App: React.FC = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView}
-            initial={{ opacity: 0, x: -10 }}
+            initial={false}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
+            exit={{}}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             {renderContent()}

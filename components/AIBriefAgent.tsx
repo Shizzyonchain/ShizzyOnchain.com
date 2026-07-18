@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { 
   BrainCircuit, 
   Zap, 
@@ -47,7 +46,6 @@ export const AIBriefAgent: React.FC = () => {
     }, 300);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const currentNews = newsService.getLatestSnapshotItems().items;
       
       const prompt = `You are a world-class AI Analyst. 
@@ -58,10 +56,17 @@ export const AIBriefAgent: React.FC = () => {
       2. Structure with: CRITICAL SIGNALS, RECALIBRATION, NOISE REMOVAL.
       3. Tone: Clinical, visionary, direct. Output in beautiful Markdown.`;
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt,
+      
+      const rawRes = await fetch('/api/gemini/generateContent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'gemini-3-flash-preview',
+          contents: prompt,
+        })
       });
+      const response = await rawRes.json();
+      if (!rawRes.ok) throw new Error(response.error || 'Failed to generate');
 
       setBrief(response.text || "Failed to synthesize intelligence.");
       setProgress(100);
