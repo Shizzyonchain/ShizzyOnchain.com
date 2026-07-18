@@ -1,6 +1,0 @@
-{
-  "name": "SHIZZYUNCHAINED",
-  "description": "Shizzy Unchained is a high-fidelity intelligence platform tracking the collision of AI, crypto, and decentralized markets.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

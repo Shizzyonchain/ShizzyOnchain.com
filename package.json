@@ -1,38 +1,30 @@
 {
-  "name": "shizzyunchained",
+  "name": "shizzyunchained-web",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
-    "dev": "tsx server.ts",
-    "build": "vite build && npx esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs", "start": "node dist/server.cjs",
-    "lint": "tsc --noEmit",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ignore-pattern .next"
   },
   "dependencies": {
-    "@google/genai": "^1.35.0",
-    "@polkadot/api": "^16.5.6",
-    "@polkadot/util": "^14.0.3",
-    "@polkadot/util-crypto": "^14.0.3",
-    "@tailwindcss/vite": "^4.2.0",
-    "@types/express": "^5.0.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "firebase": "^12.11.0",
-    "jimp": "^1.6.1",
-    "lucide-react": "^0.562.0",
-    "motion": "^12.35.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "tailwindcss": "^4.2.0",
-    "tesseract.js": "^7.0.0",
-    "tsx": "^4.21.0"
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "puppeteer": "^24.42.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
-  }
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3"
+  },
+  "type": "module"
 }
