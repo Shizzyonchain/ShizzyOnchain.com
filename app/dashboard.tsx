@@ -39,6 +39,13 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
   const ref = useRef<HTMLCanvasElement>(null);
   const [hovered, setHovered] = useState<number | null>(null);
   const visible = useMemo(() => candles.slice(-180), [candles]);
+  const layout = (width: number) => {
+    const pad = 16;
+    const usable = Math.max(1, width - pad * 2);
+    const step = Math.min(18, usable / Math.max(visible.length, 1));
+    const start = pad + usable - step * visible.length;
+    return { pad, usable, step, start };
+  };
   const price = (value: string) => {
     const tao = Number(value || 0);
     if (currency === "tao") return `τ ${fmt(tao, 6)}`;
@@ -58,14 +65,14 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
     const highs = visible.map(c => Number(c.high));
     const lows = visible.map(c => Number(c.low));
     const min = Math.min(...lows), max = Math.max(...highs), range = Math.max(max - min, max * .001, 1e-9);
-    const padX = 16, padY = 18, usableW = box.width - padX * 2, usableH = box.height - padY * 2;
-    const step = usableW / visible.length;
+    const { pad: padX, step, start } = layout(box.width);
+    const padY = 18, usableH = box.height - padY * 2;
     const bodyW = Math.max(2, Math.min(11, step * .62));
     const y = (value: number) => padY + (max - value) * usableH / range;
 
     visible.forEach((c, i) => {
       const open = Number(c.open), high = Number(c.high), low = Number(c.low), close = Number(c.close);
-      const x = padX + step * (i + .5);
+      const x = start + step * (i + .5);
       const color = close > open ? "#22c55e" : close < open ? "#ef4444" : "#ffffff";
       ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(x, y(high)); ctx.lineTo(x, y(low)); ctx.stroke();
@@ -76,7 +83,7 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
 
     if (hovered !== null && visible[hovered]) {
       const candle = visible[hovered];
-      const x = padX + step * (hovered + .5), crossY = y(Number(candle.close));
+      const x = start + step * (hovered + .5), crossY = y(Number(candle.close));
       ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = "rgba(141,164,199,.65)"; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(x, padY); ctx.lineTo(x, box.height - padY); ctx.moveTo(padX, crossY); ctx.lineTo(box.width - padX, crossY); ctx.stroke(); ctx.restore();
     }
@@ -85,12 +92,14 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
   const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
     if (!visible.length) return;
     const box = event.currentTarget.getBoundingClientRect();
-    const pad = 16;
-    const x = Math.max(0, Math.min(box.width - pad * 2, event.clientX - box.left - pad));
-    setHovered(Math.min(visible.length - 1, Math.floor(x / (box.width - pad * 2) * visible.length)));
+    const { step, start } = layout(box.width);
+    const x = event.clientX - box.left;
+    setHovered(Math.max(0, Math.min(visible.length - 1, Math.floor((x - start) / step))));
   };
   const candle = hovered === null ? undefined : visible[hovered];
-  const tooltipLeft = hovered === null || !visible.length ? 50 : Math.min(84, Math.max(16, ((hovered + .5) / visible.length) * 100));
+  const canvasWidth = ref.current?.getBoundingClientRect().width || 1000;
+  const tooltipLayout = layout(canvasWidth);
+  const tooltipLeft = hovered === null || !visible.length ? 50 : Math.min(84, Math.max(16, (tooltipLayout.start + tooltipLayout.step * (hovered + .5)) / canvasWidth * 100));
   return <div className="chart-stage">
     <canvas ref={ref} className="price-canvas" aria-label={`Interactive candlestick price chart for ${row?.name || "selected subnet"}`} onPointerMove={move} onPointerLeave={() => setHovered(null)} />
     {!visible.length && <div className="chart-empty">Building candle history from your node…</div>}
