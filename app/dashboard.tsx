@@ -28,6 +28,15 @@ const channelVideos = [
   { id: "pFPd1BoUe00", title: "Bittensor Subnet Update: Move Fast and Break People", meta: "24:23" },
   { id: "X3n7DVacpJA", title: "Week 6: 10 TAO to 100 TAO Challenge | Down But Not Out", meta: "22:30" },
 ];
+const universityCourses = [
+  { number: "01", title: "Bittensor Subnets 101", tag: "Foundation", description: "Understand miners, validators, emissions, alpha, subnet economics, and how the Bittensor network fits together.", lessons: ["How subnets work", "Reading emissions and incentives", "Finding real utility"] },
+  { number: "02", title: "Build the Best Subnet Portfolio", tag: "Portfolio", description: "Turn subnet research into a focused portfolio built around conviction, sizing, risk, and a repeatable decision process.", lessons: ["Subnet research framework", "Position sizing and risk", "Portfolio reviews"] },
+  { number: "03", title: "Content Creation Strategies", tag: "Creator", description: "Learn Shizzy’s system for finding ideas, building authority, packaging stories, and publishing content people actually watch.", lessons: ["Ideas that earn attention", "Titles, hooks, and structure", "Consistent publishing"] },
+  { number: "04", title: "Crypto Security & Wallet Safety", tag: "Security", description: "Protect your TAO and digital assets with practical wallet separation, transaction hygiene, and scam-resistant habits.", lessons: ["Cold and hot wallet setup", "Transaction safety", "Threats and recovery plans"] },
+];
+const stripeCheckout = "https://buy.stripe.com/fZudRb3u5dkA7Y45RNfAc00";
+const calendlyBooking = "https://calendly.com/shizzyunchained/shiz-university";
+const universityWallet = "5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM";
 
 const fmt = (value?: string | number, digits = 2) => {
   const n = Number(value ?? 0);
@@ -114,8 +123,10 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
 }
 
 export function Dashboard() {
-  const [view, setView] = useState<"screener" | "wallets" | "videos">("screener");
+  const [view, setView] = useState<"screener" | "wallets" | "videos" | "university">("screener");
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
+  const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
+  const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
   const [taoUsd, setTaoUsd] = useState(0);
   const [rows, setRows] = useState<ScreenerRow[]>(demoRows);
@@ -188,6 +199,7 @@ export function Dashboard() {
         <button className={view === "screener" ? "active" : ""} onClick={() => setView("screener")}>Market</button>
         <button className={view === "wallets" ? "active" : ""} onClick={() => setView("wallets")}>Wallet checker</button>
         <button className={view === "videos" ? "active" : ""} onClick={() => setView("videos")}>Videos</button>
+        <button className={view === "university" ? "active" : ""} onClick={() => setView("university")}>Shiz University</button>
       </nav>
       <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
         <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
@@ -223,7 +235,7 @@ export function Dashboard() {
       {wallets.length > 0 && <div className="portfolio-summary panel"><div><span>Total wallets</span><strong>{wallets.length}</strong></div><div><span>Free balance</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.free_tao||0),0))}</strong></div><div><span>Staked value</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.staked_tao_value||0),0))}</strong></div><div><span>Total portfolio</span><strong className="accent">{money(wallets.reduce((s,w)=>s+Number(w.total_tao_value||0),0))}</strong></div></div>}
       <div className="wallet-results">{wallets.map(w=><article className="wallet-card panel" key={w.address}><div className="wallet-card-head"><span className="wallet-ident">{w.address.slice(0,6)}</span><div><b>{w.address.slice(0,12)}…{w.address.slice(-8)}</b><small>{w.stakes.length} positions</small></div><strong>{money(w.total_tao_value)}</strong></div><div className="wallet-split"><span>Free <b>{money(w.free_tao)}</b></span><span>Staked <b>{money(w.staked_tao_value)}</b></span></div><div className="positions">{w.stakes.slice(0,8).map((s,i)=><div key={`${s.hotkey}-${s.netuid}-${i}`}><span><b>SN{s.netuid}</b><small>{s.name || s.hotkey.slice(0,7) + "…"}</small></span><span>{fmt(s.alpha,4)} α<small>{money(s.tao_value)}</small></span></div>)}</div></article>)}</div>
       {!wallets.length && <div className="wallet-empty"><div className="radar"><i/><i/><i/></div><p>Your combined portfolio will appear here.</p></div>}
-    </section> : <section className="videos-page">
+    </section> : view === "videos" ? <section className="videos-page">
       <div className="videos-intro">
         <div><p className="eyebrow">Shizzy Unchained TV</p><h1>Watch the latest.<br/><span>Stay ahead of TAO.</span></h1></div>
         <p>Deep dives, subnet updates, interviews, and the 10 to 100 TAO challenge—watch every episode right here.</p>
@@ -239,6 +251,15 @@ export function Dashboard() {
           <span className="video-info"><small>{String(index + 1).padStart(2, "0")}</small><b>{video.title}</b></span>
         </button>)}</div>
       </div>
+    </section> : <section className="university-page">
+      <div className="university-hero">
+        <div className="university-copy"><p className="eyebrow">Private education · Real experience</p><h1>Learn the game.<br/><span>Build your edge.</span></h1><p>Four focused, one-on-one classes built around Bittensor, portfolio construction, content, and security. Every class is practical, personal, and scheduled directly with Shizzy.</p><div className="university-proof"><span><b>$100</b> per class</span><span><b>1-on-1</b> with Shizzy</span><span><b>Card or TAO</b> payment</span></div></div>
+        <img src="/shiz-university-logo.png" alt="Shiz University" />
+      </div>
+      <div className="course-heading"><div><p className="eyebrow">Choose your class</p><h2>Build your curriculum</h2></div><p>Pick the skill you want to sharpen now. Add another session whenever you’re ready.</p></div>
+      <div className="course-grid">{universityCourses.map(course => <article className="course-card panel" key={course.number}><div className="course-top"><span>{course.number}</span><em>{course.tag}</em></div><h3>{course.title}</h3><p>{course.description}</p><ul>{course.lessons.map(lesson => <li key={lesson}>{lesson}</li>)}</ul><div className="course-foot"><strong>$100</strong><button onClick={() => { setCheckoutCourse(course); setWalletCopied(false); }}>Enroll now →</button></div></article>)}</div>
+      <div className="university-note"><span>Education, perspective, and personal guidance.</span><p>Nothing here is financial or life advice. Every decision remains yours.</p></div>
+      {checkoutCourse && <div className="checkout-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) setCheckoutCourse(null); }}><section className="course-checkout panel" role="dialog" aria-modal="true" aria-labelledby="checkout-title"><button className="checkout-close" aria-label="Close checkout" onClick={() => setCheckoutCourse(null)}>×</button><p className="eyebrow">Shiz University enrollment</p><h2 id="checkout-title">{checkoutCourse.title}</h2><div className="checkout-price"><strong>$100</strong><span>One private class</span></div><a className="card-checkout" href={stripeCheckout} target="_blank" rel="noreferrer">Pay securely with card →</a><div className="checkout-divider"><span>or pay with TAO</span></div><div className="tao-payment"><div><span>Send exactly</span><strong>{taoUsd ? `${fmt(100 / taoUsd, 4)} TAO` : "$100 in TAO"}</strong><small>{taoUsd ? `Based on the current $${fmt(taoUsd)} TAO price` : "Use the live TAO price when sending"}</small></div><button onClick={async () => { await navigator.clipboard.writeText(universityWallet); setWalletCopied(true); }}>{walletCopied ? "Wallet copied ✓" : "Copy TAO wallet"}</button><code>{universityWallet}</code></div><div className="schedule-step"><span>After payment</span><p>Choose your session time on the Shiz University calendar.</p><a href={calendlyBooking} target="_blank" rel="noreferrer">Schedule with Shizzy →</a></div></section></div>}
     </section>}
     <footer><span>SHIZZYUNCHAINED</span><p>Finalized on-chain data · {currency === "usd" ? "USD values use the live TAO spot rate" : "TAO-denominated values"} · Not financial advice</p><b>Built on Bittensor</b></footer>
   </main>;
