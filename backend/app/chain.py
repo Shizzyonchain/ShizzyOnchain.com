@@ -51,7 +51,7 @@ class ChainClient:
 
     async def subnets_at(self, block_number: int) -> list[dict]:
         view = await self.client.at(block_number)
-        infos, prices, tao_rows, alpha_rows, out_rows, volume_rows, symbol_rows = await asyncio.gather(
+        infos, prices, tao_rows, alpha_rows, out_rows, volume_rows, symbol_rows, identity_rows = await asyncio.gather(
             view.subnets.all(),
             view.prices.alpha_prices(),
             view.query_map(("SubtensorModule", "SubnetTAO")),
@@ -59,12 +59,17 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetAlphaOut")),
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "TokenSymbol")),
+            view.query_map(("SubtensorModule", "SubnetIdentitiesV3")),
         )
         tao = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in tao_rows}
         alpha = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in alpha_rows}
         alpha_out = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in out_rows}
         volume = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in volume_rows}
         symbols = {int(k): self._text(v) for k, v in symbol_rows}
+        names = {
+            int(k): self._text(field(v, "subnet_name"))
+            for k, v in identity_rows
+        }
         rows = []
         for info in infos:
             netuid = int(field(info, "netuid"))
@@ -76,7 +81,7 @@ class ChainClient:
                 "alpha_reserve": alpha.get(netuid),
                 "alpha_out": alpha_out.get(netuid),
                 "volume_tao": volume.get(netuid),
-                "name": None,
+                "name": names.get(netuid),
                 "symbol": symbols.get(netuid),
             })
         return rows
