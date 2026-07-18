@@ -12,7 +12,6 @@
   "dependencies": {
     "@google/genai": "^1.35.0",
     "@tailwindcss/vite": "^4.2.0",
-    "@taostats/sdk": "^1.2.0",
     "@types/express": "^5.0.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
