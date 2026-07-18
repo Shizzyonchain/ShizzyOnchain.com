@@ -5,15 +5,15 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 type ScreenerRow = {
   netuid: number; name?: string; symbol?: string; price_tao: string; tao_reserve?: string;
   alpha_out?: string; market_cap_tao?: string; volume_24h_tao?: string;
-  change_1h?: string; change_24h?: string; change_7d?: string;
+  change_10m?: string; change_1h?: string; change_24h?: string; change_7d?: string;
 };
 type Candle = { time: string; open: string; high: string; low: string; close: string; volume_tao?: string };
 type Stake = { hotkey: string; netuid: number; alpha: string; tao_value?: string };
 type Wallet = { address: string; free_tao: string; staked_tao_value?: string; total_tao_value?: string; stakes: Stake[]; error?: string };
 
 const demoRows: ScreenerRow[] = [
-  { netuid: 64, name: "Chutes", symbol: "α64", price_tao: "0.1842", market_cap_tao: "246812", tao_reserve: "18842", volume_24h_tao: "3284", change_1h: "1.84", change_24h: "8.42", change_7d: "24.8" },
-  { netuid: 4, name: "Targon", symbol: "α4", price_tao: "0.0541", market_cap_tao: "184402", tao_reserve: "12770", volume_24h_tao: "2241", change_1h: "-0.74", change_24h: "3.18", change_7d: "12.4" },
+  { netuid: 64, name: "Chutes", symbol: "α64", price_tao: "0.1842", market_cap_tao: "246812", tao_reserve: "18842", volume_24h_tao: "3284", change_10m: ".34", change_1h: "1.84", change_24h: "8.42", change_7d: "24.8" },
+  { netuid: 4, name: "Targon", symbol: "α4", price_tao: "0.0541", market_cap_tao: "184402", tao_reserve: "12770", volume_24h_tao: "2241", change_10m: "-.12", change_1h: "-0.74", change_24h: "3.18", change_7d: "12.4" },
   { netuid: 18, name: "Cortex.t", symbol: "α18", price_tao: "0.0328", market_cap_tao: "115092", tao_reserve: "9414", volume_24h_tao: "1628", change_1h: "2.14", change_24h: "-1.92", change_7d: "8.7" },
   { netuid: 8, name: "Proprietary", symbol: "α8", price_tao: "0.0194", market_cap_tao: "88430", tao_reserve: "7218", volume_24h_tao: "1102", change_1h: "0.38", change_24h: "6.51", change_7d: "-4.2" },
   { netuid: 1, name: "Apex", symbol: "α1", price_tao: "0.0147", market_cap_tao: "74611", tao_reserve: "6390", volume_24h_tao: "942", change_1h: "-1.12", change_24h: "-4.77", change_7d: "18.1" },
@@ -92,7 +92,7 @@ export function Dashboard() {
     .sort((a,b) => Number(b[sort] ?? 0) - Number(a[sort] ?? 0)), [rows, query, sort]);
   const active = rows.find(r => r.netuid === selected) || rows[0];
   const totalVolume = rows.reduce((sum,r) => sum + Number(r.volume_24h_tao || 0), 0);
-  const rankedMovers = [...rows].sort((a,b) => Number(b.change_24h || 0) - Number(a.change_24h || 0));
+  const rankedMovers = [...rows].sort((a,b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const money = (value?: string | number, price = false) => {
     const tao = Number(value ?? 0);
     if (currency === "tao") return `τ ${fmt(tao, price ? 6 : 4)}`;
@@ -137,22 +137,22 @@ export function Dashboard() {
       <section className="hero-strip">
         <div><span>TAO price</span><strong>{currency === "usd" ? money(1, true) : "τ 1"}</strong><small>Live spot price</small></div>
         <div><span>24h volume</span><strong>{money(totalVolume)}</strong><small>Across {rows.length} markets</small></div>
-        <div><span>Top mover</span><strong className="positive">{rankedMovers[0]?.name}</strong><small className="positive">+{fmt(rankedMovers[0]?.change_24h)}%</small></div>
+        <div><span>Top mover</span><strong className="positive">{rankedMovers[0]?.name}</strong><small className={changeClass(rankedMovers[0]?.change_1h)}>{Number(rankedMovers[0]?.change_1h || 0) > 0 ? "+" : ""}{fmt(rankedMovers[0]?.change_1h)}% · 1H</small></div>
         <div><span>Network</span><strong>FINNEY</strong><small>Finalized blocks only</small></div>
       </section>
       <section className="market-grid">
         <div className="chart-card panel">
-          <div className="panel-head"><div><p className="eyebrow">SN{active?.netuid} · {active?.symbol || "ALPHA"}</p><h1>{active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{money(active?.price_tao, true)}</strong><span className={changeClass(active?.change_24h)}>{Number(active?.change_24h || 0) >= 0 ? "+" : ""}{fmt(active?.change_24h)}%</span></div></div>
+          <div className="panel-head"><div><p className="eyebrow">SN{active?.netuid} · {active?.symbol || "ALPHA"}</p><h1>{active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{money(active?.price_tao, true)}</strong><span className={changeClass(active?.change_1h)}>{Number(active?.change_1h || 0) > 0 ? "+" : ""}{fmt(active?.change_1h)}% · 1H</span></div></div>
           <div className="timeframes">{["1m","10m","1h"].map(t => <button key={t} className={timeframe === t ? "active" : ""} onClick={() => setTimeframe(t)}>{t}</button>)}</div>
           <PriceChart candles={candles} row={active} />
           <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{money(active?.volume_24h_tao)}</b></span></div>
         </div>
-        <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>24H</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>setSelected(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_24h)}>{Number(r.change_24h)>=0?"+":""}{fmt(r.change_24h)}%</strong></button>)}</aside>
+        <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1H</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>setSelected(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
       </section>
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
-        <div className="table-wrap"><table><thead><tr><th>#</th><th>Subnet</th><th><button onClick={()=>setSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}</button></th><th><button onClick={()=>setSort("change_1h")}>1H</button></th><th><button onClick={()=>setSort("change_24h")}>24H</button></th><th><button onClick={()=>setSort("change_7d")}>7D</button></th><th><button onClick={()=>setSort("volume_24h_tao")}>Volume</button></th><th><button onClick={()=>setSort("tao_reserve")}>Liquidity</button></th><th><button onClick={()=>setSort("market_cap_tao")}>Mkt cap</button></th></tr></thead>
-        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>setSelected(r.netuid)}><td>{i+1}</td><td><span className="token">{r.symbol?.replace("α","") || r.netuid}</span><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td>{[r.change_1h,r.change_24h,r.change_7d].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>=0?"+":""}{fmt(v)}%</td>)}<td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td><td>{money(r.market_cap_tao)}</td></tr>)}</tbody></table></div>
+        <div className="table-wrap"><table><thead><tr><th>#</th><th>Subnet</th><th><button onClick={()=>setSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}</button></th><th><button onClick={()=>setSort("change_10m")}>10M</button></th><th><button onClick={()=>setSort("change_1h")}>1H</button></th><th><button onClick={()=>setSort("change_24h")}>1D</button></th><th><button onClick={()=>setSort("volume_24h_tao")}>Volume</button></th><th><button onClick={()=>setSort("tao_reserve")}>Liquidity</button></th><th><button onClick={()=>setSort("market_cap_tao")}>Mkt cap</button></th></tr></thead>
+        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>setSelected(r.netuid)}><td>{i+1}</td><td><span className="token">{r.symbol?.replace("α","") || r.netuid}</span><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td><td>{money(r.market_cap_tao)}</td></tr>)}</tbody></table></div>
       </section>
     </> : <section className="wallet-page">
       <div className="wallet-intro"><p className="eyebrow">Portfolio intelligence</p><h1>See every wallet.<br/><span>See the whole position.</span></h1><p>Paste up to 100 Bittensor coldkeys. We’ll combine free TAO, alpha positions, subnet exposure, and spot-value estimates at one finalized block.</p></div>
