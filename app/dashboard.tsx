@@ -112,7 +112,8 @@ export function Dashboard() {
 
   useEffect(() => {
     fetch("/api/backend/v1/screener").then(r => r.ok ? r.json() : Promise.reject()).then(json => {
-      if (json.data?.length) { setRows(json.data); setSelected(json.data[0].netuid); setLive(true); }
+      const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
+      if (subnetMarkets.length) { setRows(subnetMarkets); setSelected(subnetMarkets[0].netuid); setLive(true); }
     }).catch(() => setLive(false));
   }, []);
   useEffect(() => {
