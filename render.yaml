@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: shizzy-subtensor-api
+    runtime: docker
+    rootDir: backend
+    plan: starter
+    dockerCommand: uvicorn app.api:app --host 0.0.0.0 --port $PORT --proxy-headers
+    preDeployCommand: python -m app.migrate
+    healthCheckPath: /healthz
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shizzy-subtensor-db
+          property: connectionString
+      - key: API_KEYS
+        sync: false
+      - key: PUBLIC_READS
+        value: "false"
+      - key: ALLOWED_ORIGINS
+        value: https://shizzyunchained.com
+      - key: SUBTENSOR_WS_URL
+        value: wss://entrypoint-finney.opentensor.ai:443
+
+  - type: worker
+    name: shizzy-subtensor-indexer
+    runtime: docker
+    rootDir: backend
+    plan: starter
+    dockerCommand: python -m app.indexer
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shizzy-subtensor-db
+          property: connectionString
+      - key: SUBTENSOR_WS_URL
+        value: wss://entrypoint-finney.opentensor.ai:443
+      - key: INDEXER_START_BLOCK
+        value: latest
+      - key: LOG_LEVEL
+        value: INFO
+
+databases:
+  - name: shizzy-subtensor-db
+    plan: basic-256mb
+    databaseName: shizzy
+    user: shizzy
