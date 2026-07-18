@@ -75,10 +75,16 @@ async def screener():
                   l.tao_reserve,l.alpha_reserve,l.alpha_out,
                   (l.price_tao * l.alpha_out) AS market_cap_tao,
                   l.volume_tao - COALESCE(v24.volume_tao,l.volume_tao) AS volume_24h_tao,
+                  100 * (l.price_tao / NULLIF(p10.price_tao,0) - 1) AS change_10m,
                   100 * (l.price_tao / NULLIF(p1.price_tao,0) - 1) AS change_1h,
                   100 * (l.price_tao / NULLIF(p24.price_tao,0) - 1) AS change_24h,
                   100 * (l.price_tao / NULLIF(p7.price_tao,0) - 1) AS change_7d
            FROM latest l LEFT JOIN subnets s USING(netuid)
+           LEFT JOIN LATERAL (
+             SELECT price_tao FROM subnet_price_samples
+             WHERE netuid=l.netuid AND time <= l.time - interval '10 minutes'
+             ORDER BY time DESC LIMIT 1
+           ) p10 ON true
            LEFT JOIN LATERAL (
              SELECT price_tao FROM subnet_price_samples
              WHERE netuid=l.netuid AND time <= l.time - interval '1 hour'
