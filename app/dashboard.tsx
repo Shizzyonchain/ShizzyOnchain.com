@@ -18,6 +18,16 @@ const demoRows: ScreenerRow[] = [
   { netuid: 8, name: "Proprietary", symbol: "α8", price_tao: "0.0194", market_cap_tao: "88430", tao_reserve: "7218", volume_24h_tao: "1102", change_1h: "0.38", change_24h: "6.51", change_7d: "-4.2" },
   { netuid: 1, name: "Apex", symbol: "α1", price_tao: "0.0147", market_cap_tao: "74611", tao_reserve: "6390", volume_24h_tao: "942", change_1h: "-1.12", change_24h: "-4.77", change_7d: "18.1" },
 ];
+const channelVideos = [
+  { id: "AuUwiV1r_cs", title: "Bittensor TAO: Patience Pays Off", meta: "20:39 · Latest episode" },
+  { id: "tdZGVfadd00", title: "The 10 to 100 TAO Challenge Is Getting Dangerous. Week 9", meta: "22:45" },
+  { id: "6oSJxSfVUBk", title: "The Bittensor Move No One Is Ready For", meta: "26:35" },
+  { id: "E8sZrmYiQ5Y", title: "The Trade Everyone Missed. Week 8 of the 10 to 100 TAO Challenge", meta: "23:48" },
+  { id: "AymnXq08VDM", title: "Bittensor Subnet Update: Subnet Summer Is Canceled?", meta: "24:46" },
+  { id: "beZ18Hdka0Q", title: "Week 7: 10 to 100 TAO Challenge. I’m Not Giving Up!", meta: "22:36" },
+  { id: "pFPd1BoUe00", title: "Bittensor Subnet Update: Move Fast and Break People", meta: "24:23" },
+  { id: "X3n7DVacpJA", title: "Week 6: 10 TAO to 100 TAO Challenge | Down But Not Out", meta: "22:30" },
+];
 
 const fmt = (value?: string | number, digits = 2) => {
   const n = Number(value ?? 0);
@@ -95,7 +105,8 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
 }
 
 export function Dashboard() {
-  const [view, setView] = useState<"screener" | "wallets">("screener");
+  const [view, setView] = useState<"screener" | "wallets" | "videos">("screener");
+  const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
   const [taoUsd, setTaoUsd] = useState(0);
   const [rows, setRows] = useState<ScreenerRow[]>(demoRows);
@@ -167,6 +178,7 @@ export function Dashboard() {
       <nav aria-label="Primary navigation">
         <button className={view === "screener" ? "active" : ""} onClick={() => setView("screener")}>Market</button>
         <button className={view === "wallets" ? "active" : ""} onClick={() => setView("wallets")}>Wallet checker</button>
+        <button className={view === "videos" ? "active" : ""} onClick={() => setView("videos")}>Videos</button>
       </nav>
       <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
         <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
@@ -196,12 +208,28 @@ export function Dashboard() {
         <div className="table-wrap"><table><thead><tr><th>#</th><th>Subnet</th><th><button onClick={()=>setSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}</button></th><th><button onClick={()=>setSort("change_10m")}>10 Minutes</button></th><th><button onClick={()=>setSort("change_1h")}>1 Hour</button></th><th><button onClick={()=>setSort("change_24h")}>1 Day</button></th><th><button onClick={()=>setSort("volume_24h_tao")}>Volume</button></th><th><button onClick={()=>setSort("tao_reserve")}>Liquidity</button></th><th><button onClick={()=>setSort("market_cap_tao")}>Mkt cap</button></th></tr></thead>
         <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>setSelected(r.netuid)}><td>{i+1}</td><td><span className="token">{r.symbol?.replace("α","") || r.netuid}</span><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td><td>{money(r.market_cap_tao)}</td></tr>)}</tbody></table></div>
       </section>
-    </> : <section className="wallet-page">
+    </> : view === "wallets" ? <section className="wallet-page">
       <div className="wallet-intro"><p className="eyebrow">Portfolio intelligence</p><h1>See every wallet.<br/><span>See the whole position.</span></h1><p>Paste up to 100 Bittensor coldkeys. We’ll combine free TAO, alpha positions, subnet exposure, and spot-value estimates at one finalized block.</p></div>
       <form className="wallet-form panel" onSubmit={checkWallets}><label htmlFor="wallets">Coldkey addresses</label><textarea id="wallets" value={walletInput} onChange={e=>setWalletInput(e.target.value)} placeholder={"5F...\n5G...\n5H..."} /><div className="form-foot"><span>One per line, space, or comma</span><button disabled={checking}>{checking ? "Checking chain…" : "Check wallets →"}</button></div>{walletError && <p className="form-error">{walletError}</p>}</form>
       {wallets.length > 0 && <div className="portfolio-summary panel"><div><span>Total wallets</span><strong>{wallets.length}</strong></div><div><span>Free balance</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.free_tao||0),0))}</strong></div><div><span>Staked value</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.staked_tao_value||0),0))}</strong></div><div><span>Total portfolio</span><strong className="accent">{money(wallets.reduce((s,w)=>s+Number(w.total_tao_value||0),0))}</strong></div></div>}
       <div className="wallet-results">{wallets.map(w=><article className="wallet-card panel" key={w.address}><div className="wallet-card-head"><span className="wallet-ident">{w.address.slice(0,6)}</span><div><b>{w.address.slice(0,12)}…{w.address.slice(-8)}</b><small>{w.stakes.length} positions</small></div><strong>{money(w.total_tao_value)}</strong></div><div className="wallet-split"><span>Free <b>{money(w.free_tao)}</b></span><span>Staked <b>{money(w.staked_tao_value)}</b></span></div><div className="positions">{w.stakes.slice(0,8).map((s,i)=><div key={`${s.hotkey}-${s.netuid}-${i}`}><span><b>SN{s.netuid}</b><small>{s.name || s.hotkey.slice(0,7) + "…"}</small></span><span>{fmt(s.alpha,4)} α<small>{money(s.tao_value)}</small></span></div>)}</div></article>)}</div>
       {!wallets.length && <div className="wallet-empty"><div className="radar"><i/><i/><i/></div><p>Your combined portfolio will appear here.</p></div>}
+    </section> : <section className="videos-page">
+      <div className="videos-intro">
+        <div><p className="eyebrow">Shizzy Unchained TV</p><h1>Watch the latest.<br/><span>Stay ahead of TAO.</span></h1></div>
+        <p>Deep dives, subnet updates, interviews, and the 10 to 100 TAO challenge—watch every episode right here.</p>
+      </div>
+      <div className="featured-video panel">
+        <div className="video-frame"><iframe key={activeVideo.id} src={`https://www.youtube-nocookie.com/embed/${activeVideo.id}?rel=0`} title={activeVideo.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div>
+        <div className="video-caption"><span>Now playing</span><h2>{activeVideo.title}</h2><small>{activeVideo.meta}</small></div>
+      </div>
+      <div className="video-library">
+        <div className="library-head"><div><p className="eyebrow">From the channel</p><h2>Recent videos</h2></div><span>{channelVideos.length} episodes</span></div>
+        <div className="video-grid">{channelVideos.map((video, index) => <button key={video.id} className={video.id === activeVideo.id ? "active" : ""} onClick={() => { setActiveVideo(video); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+          <span className="video-thumb"><img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" /><i>▶</i><em>{video.meta.split(" · ")[0]}</em></span>
+          <span className="video-info"><small>{String(index + 1).padStart(2, "0")}</small><b>{video.title}</b></span>
+        </button>)}</div>
+      </div>
     </section>}
     <footer><span>SHIZZYUNCHAINED</span><p>Finalized on-chain data · {currency === "usd" ? "USD values use the live TAO spot rate" : "TAO-denominated values"} · Not financial advice</p><b>Built on Bittensor</b></footer>
   </main>;
