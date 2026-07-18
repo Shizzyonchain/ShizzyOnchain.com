@@ -42,9 +42,9 @@ function PriceChart({ candles, row }: { candles: Candle[]; row?: ScreenerRow }) 
     }
     const min = Math.min(...points), max = Math.max(...points), pad = 16;
     const xy = points.map((p, i) => [pad + i * (box.width - pad * 2) / (points.length - 1), pad + (max - p) * (box.height - pad * 2) / Math.max(max - min, 1e-9)]);
-    const grad = ctx.createLinearGradient(0, 0, 0, box.height); grad.addColorStop(0, "rgba(100,244,181,.28)"); grad.addColorStop(1, "rgba(100,244,181,0)");
+    const grad = ctx.createLinearGradient(0, 0, 0, box.height); grad.addColorStop(0, "rgba(19,200,255,.32)"); grad.addColorStop(1, "rgba(21,88,255,0)");
     ctx.beginPath(); ctx.moveTo(xy[0][0], box.height); xy.forEach(([x,y]) => ctx.lineTo(x,y)); ctx.lineTo(xy.at(-1)![0], box.height); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
-    ctx.beginPath(); xy.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.strokeStyle = "#64f4b5"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); xy.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.strokeStyle = "#13c8ff"; ctx.lineWidth = 2; ctx.stroke();
   }, [candles, row]);
   return <canvas ref={ref} className="price-canvas" aria-label={`Price chart for ${row?.name || "selected subnet"}`} />;
 }
@@ -95,7 +95,9 @@ export function Dashboard() {
 
   return <main className="shell">
     <header className="topbar">
-      <button className="brand" onClick={() => setView("screener")}><span className="brand-mark">S</span><span>SHIZZY<span className="accent">UNCHAINED</span></span></button>
+      <button className="brand" onClick={() => setView("screener")} aria-label="Shizzy Unchained home">
+        <img src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" />
+      </button>
       <nav aria-label="Primary navigation">
         <button className={view === "screener" ? "active" : ""} onClick={() => setView("screener")}>Market</button>
         <button className={view === "wallets" ? "active" : ""} onClick={() => setView("wallets")}>Wallet checker</button>
