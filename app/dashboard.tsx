@@ -91,7 +91,6 @@ export function Dashboard() {
   const filtered = useMemo(() => rows.filter(r => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase()))
     .sort((a,b) => Number(b[sort] ?? 0) - Number(a[sort] ?? 0)), [rows, query, sort]);
   const active = rows.find(r => r.netuid === selected) || rows[0];
-  const totalMarket = rows.reduce((sum,r) => sum + Number(r.market_cap_tao || 0), 0);
   const totalVolume = rows.reduce((sum,r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = [...rows].sort((a,b) => Number(b.change_24h || 0) - Number(a.change_24h || 0));
   const money = (value?: string | number, price = false) => {
@@ -136,7 +135,7 @@ export function Dashboard() {
 
     {view === "screener" ? <>
       <section className="hero-strip">
-        <div><span>Subnet market cap</span><strong>{money(totalMarket)}</strong><small className="positive">â†— live indexed value</small></div>
+        <div><span>TAO price</span><strong>{currency === "usd" ? money(1, true) : "Ï„ 1"}</strong><small>Live spot price</small></div>
         <div><span>24h volume</span><strong>{money(totalVolume)}</strong><small>Across {rows.length} markets</small></div>
         <div><span>Top mover</span><strong className="positive">{rankedMovers[0]?.name}</strong><small className="positive">+{fmt(rankedMovers[0]?.change_24h)}%</small></div>
         <div><span>Network</span><strong>FINNEY</strong><small>Finalized blocks only</small></div>
