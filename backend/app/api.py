@@ -81,13 +81,13 @@ async def screener():
     rows = await app.state.db.fetch(
         """WITH latest AS (
              SELECT DISTINCT ON (netuid) netuid,time,block_number,price_tao,tao_reserve,
-                    alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
+                    alpha_reserve,alpha_out,alpha_issuance,volume_tao,tao_in_emission,alpha_out_emission,
                     emission_share,root_prop,conviction_locked_alpha,tempo,
                     staker_epoch_dividends_alpha
              FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC
            )
            SELECT l.netuid,s.name,s.symbol,l.time,l.block_number,l.price_tao,
-                  l.tao_reserve,l.alpha_reserve,l.alpha_out,
+                  l.tao_reserve,l.alpha_reserve,l.alpha_out,l.alpha_issuance,
                   100 * l.emission_share AS emission_pct,
                   CASE WHEN l.tempo IS NULL OR l.tempo < 0 OR l.alpha_out <= 0
                          OR l.staker_epoch_dividends_alpha IS NULL THEN NULL ELSE
@@ -95,9 +95,9 @@ async def screener():
                       * (7200.0 / (l.tempo + 1)) * 365
                   END AS apy,
                   l.conviction_locked_alpha,
-                  CASE WHEN l.alpha_out IS NULL OR l.alpha_out <= 0
+                  CASE WHEN l.alpha_issuance IS NULL OR l.alpha_issuance <= 0
                          OR l.conviction_locked_alpha IS NULL THEN NULL ELSE
-                    100 * l.conviction_locked_alpha / l.alpha_out
+                    100 * l.conviction_locked_alpha / l.alpha_issuance
                   END AS conviction_locked_pct,
                   (l.price_tao *
                     (COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0))) AS market_cap_tao,

@@ -151,6 +151,7 @@ class ChainClient:
             tao_rows,
             alpha_rows,
             out_rows,
+            issuance_rows,
             volume_rows,
             tao_emission_rows,
             excess_tao_rows,
@@ -164,6 +165,7 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetTAO")),
             view.query_map(("SubtensorModule", "SubnetAlphaIn")),
             view.query_map(("SubtensorModule", "SubnetAlphaOut")),
+            view.query_map(("AlphaAssets", "TotalAlphaIssuance")),
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "SubnetTaoInEmission")),
             view.query_map(("SubtensorModule", "SubnetExcessTao")),
@@ -175,6 +177,9 @@ class ChainClient:
         tao = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_rows}
         alpha = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_rows}
         alpha_out = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in out_rows}
+        alpha_issuance = {
+            int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in issuance_rows
+        }
         volume = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in volume_rows}
         tao_emission = {
             int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_emission_rows
@@ -212,6 +217,7 @@ class ChainClient:
                 "tao_reserve": tao.get(netuid),
                 "alpha_reserve": alpha.get(netuid),
                 "alpha_out": alpha_out.get(netuid),
+                "alpha_issuance": alpha_issuance.get(netuid),
                 "volume_tao": volume.get(netuid),
                 "tao_in_emission": tao_emission.get(netuid, Decimal(0)),
                 "alpha_out_emission": alpha_emission.get(netuid, Decimal(0)),
