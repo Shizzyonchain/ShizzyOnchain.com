@@ -205,6 +205,52 @@ async def historical_prices(
     return {"data": [dict(row) for row in rows]}
 
 
+@app.get("/v1/activity", dependencies=[Depends(authorize)])
+async def chain_activity(
+    netuid: int | None = Query(None, ge=0),
+    limit: int = Query(50, ge=1, le=200),
+):
+    where = "WHERE ($1::integer IS NULL OR e.netuid=$1 OR e.destination_netuid=$1)"
+    rows = await app.state.db.fetch(
+        f"""SELECT e.block_number,e.event_index,e.time,e.event_type,e.netuid,
+                   e.destination_netuid,e.coldkey,e.destination_coldkey,e.hotkey,
+                   e.destination_hotkey,e.amount_alpha,e.amount_tao,e.perpetual,
+                   s.name,s.symbol,ds.name AS destination_name,
+                   ds.symbol AS destination_symbol
+            FROM chain_events e
+            LEFT JOIN subnets s ON s.netuid=e.netuid
+            LEFT JOIN subnets ds ON ds.netuid=e.destination_netuid
+            {where}
+            ORDER BY e.block_number DESC,e.event_index DESC LIMIT $2""",
+        netuid, limit,
+    )
+    summary = await app.state.db.fetchrow(
+        f"""SELECT
+              COALESCE(SUM(amount_alpha) FILTER (
+                WHERE event_type='StakeLocked' AND time >= now()-interval '24 hours'
+              ),0) AS locked_alpha_24h,
+              COALESCE(SUM(amount_alpha) FILTER (
+                WHERE event_type='StakeUnlocked' AND time >= now()-interval '24 hours'
+              ),0) AS unlocked_alpha_24h,
+              COUNT(*) FILTER (
+                WHERE event_type IN ('StakeMoved','StakeSwapped','StakeTransferred')
+                  AND time >= now()-interval '24 hours'
+              ) AS stake_moves_24h
+            FROM chain_events e {where}""",
+        netuid,
+    )
+    collecting_since = await app.state.db.fetchval("SELECT min(time) FROM chain_events")
+    summary_data = dict(summary)
+    summary_data["net_locked_alpha_24h"] = (
+        summary_data["locked_alpha_24h"] - summary_data["unlocked_alpha_24h"]
+    )
+    return {
+        "data": [dict(row) for row in rows],
+        "summary": summary_data,
+        "collecting_since": collecting_since,
+    }
+
+
 async def _persist_wallet(conn, result: dict, timestamp: datetime):
     await conn.execute(
         """INSERT INTO wallet_balance_snapshots

@@ -4,6 +4,7 @@ from app.chain import (
     ChainClient,
     emission_shares,
     fixed_to_decimal,
+    parse_chain_events,
     scale_int,
     total_locked_alpha,
 )
@@ -75,3 +76,61 @@ def test_total_locked_alpha_falls_back_to_hotkey_entries():
     }
 
     assert total_locked_alpha(result) == Decimal("2")
+
+
+def test_parse_chain_events_tracks_named_conviction_lock_fields():
+    records = [{
+        "event": {
+            "module_id": "SubtensorModule",
+            "event_id": "StakeLocked",
+            "attributes": {
+                "who": "5Cold",
+                "hotkey": "5Hot",
+                "netuid": 64,
+                "amount": FakeBalance(2_500_000_000),
+            },
+        }
+    }]
+
+    event = parse_chain_events(records)[0]
+    assert event["event_type"] == "StakeLocked"
+    assert event["coldkey"] == "5Cold"
+    assert event["hotkey"] == "5Hot"
+    assert event["netuid"] == 64
+    assert event["amount_alpha"] == Decimal("2.5")
+
+
+def test_parse_chain_events_tracks_positional_stake_transfer_fields():
+    records = [{
+        "event": {
+            "pallet": "SubtensorModule",
+            "name": "StakeTransferred",
+            "fields": ["5From", "5To", "5Hot", 4, 64, FakeBalance(3_000_000_000)],
+        }
+    }]
+
+    event = parse_chain_events(records)[0]
+    assert event["coldkey"] == "5From"
+    assert event["destination_coldkey"] == "5To"
+    assert event["netuid"] == 4
+    assert event["destination_netuid"] == 64
+    assert event["amount_tao"] == Decimal("3")
+
+
+def test_parse_chain_events_converts_raw_scale_balance_from_rao():
+    records = [{
+        "module_id": "SubtensorModule",
+        "event_id": "StakeUnlocked",
+        "attributes": ["5Cold", "5Hot", 9, 1_250_000_000],
+    }]
+
+    assert parse_chain_events(records)[0]["amount_alpha"] == Decimal("1.25")
+
+
+def test_parse_chain_events_ignores_unrelated_runtime_events():
+    records = [
+        {"event": {"module_id": "Balances", "event_id": "Transfer", "attributes": []}},
+        {"event": {"module_id": "SubtensorModule", "event_id": "NeuronRegistered", "attributes": []}},
+    ]
+
+    assert parse_chain_events(records) == []

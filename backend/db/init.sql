@@ -57,6 +57,29 @@ CREATE TABLE IF NOT EXISTS wallet_balance_snapshots (
 );
 CREATE INDEX IF NOT EXISTS wallet_history_idx ON wallet_balance_snapshots(address, time DESC);
 
+CREATE TABLE IF NOT EXISTS chain_events (
+  block_number BIGINT NOT NULL,
+  event_index INTEGER NOT NULL,
+  block_hash TEXT NOT NULL,
+  time TIMESTAMPTZ NOT NULL,
+  event_type TEXT NOT NULL,
+  netuid INTEGER,
+  destination_netuid INTEGER,
+  coldkey TEXT,
+  destination_coldkey TEXT,
+  hotkey TEXT,
+  destination_hotkey TEXT,
+  amount_alpha NUMERIC(38,9),
+  amount_tao NUMERIC(38,9),
+  perpetual BOOLEAN,
+  raw JSONB NOT NULL DEFAULT '{}'::jsonb,
+  PRIMARY KEY (block_number, event_index)
+);
+CREATE INDEX IF NOT EXISTS chain_events_time_idx ON chain_events(time DESC);
+CREATE INDEX IF NOT EXISTS chain_events_netuid_time_idx ON chain_events(netuid, time DESC);
+CREATE INDEX IF NOT EXISTS chain_events_destination_netuid_time_idx
+  ON chain_events(destination_netuid, time DESC);
+
 CREATE TABLE IF NOT EXISTS wallet_stake_snapshots (
   time TIMESTAMPTZ NOT NULL,
   block_number BIGINT NOT NULL,
