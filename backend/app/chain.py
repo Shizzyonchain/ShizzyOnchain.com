@@ -270,7 +270,9 @@ class ChainClient:
         view = await self.client.at(block_number)
         return parse_chain_events(await view.query(("System", "Events")))
 
-    async def subnets_at(self, block_number: int) -> list[dict]:
+    async def subnets_at(
+        self, block_number: int, *, include_auxiliary: bool = True
+    ) -> list[dict]:
         view = await self.client.at(block_number)
         (
             infos,
@@ -323,12 +325,23 @@ class ChainClient:
             int(k): self._text(field(v, "subnet_name"))
             for k, v in identity_rows
         }
-        if not self._conviction_locked or block_number - self._conviction_refresh_block >= 25:
-            self._conviction_locked = await self._locked_alpha_by_subnet(view, netuids)
-            self._conviction_refresh_block = block_number
-        if not self._yield_metrics or block_number - self._yield_refresh_block >= 100:
-            self._yield_metrics = await self._subnet_yield_metrics(view, netuids)
-            self._yield_refresh_block = block_number
+        if include_auxiliary:
+            if (
+                not self._conviction_locked
+                or block_number - self._conviction_refresh_block >= 25
+            ):
+                self._conviction_locked = await self._locked_alpha_by_subnet(
+                    view, netuids
+                )
+                self._conviction_refresh_block = block_number
+            if (
+                not self._yield_metrics
+                or block_number - self._yield_refresh_block >= 100
+            ):
+                self._yield_metrics = await self._subnet_yield_metrics(
+                    view, netuids
+                )
+                self._yield_refresh_block = block_number
         rows = []
         for info in infos:
             netuid = int(field(info, "netuid"))
@@ -344,9 +357,18 @@ class ChainClient:
                 "alpha_out_emission": alpha_emission.get(netuid, Decimal(0)),
                 "emission_share": emission_share.get(netuid, Decimal(0)),
                 "root_prop": root_prop.get(netuid),
-                "tempo": self._yield_metrics.get(netuid, (None, None))[0],
-                "staker_epoch_dividends_alpha": self._yield_metrics.get(netuid, (None, None))[1],
-                "conviction_locked_alpha": self._conviction_locked.get(netuid),
+                "tempo": (
+                    self._yield_metrics.get(netuid, (None, None))[0]
+                    if include_auxiliary else None
+                ),
+                "staker_epoch_dividends_alpha": (
+                    self._yield_metrics.get(netuid, (None, None))[1]
+                    if include_auxiliary else None
+                ),
+                "conviction_locked_alpha": (
+                    self._conviction_locked.get(netuid)
+                    if include_auxiliary else None
+                ),
                 "name": names.get(netuid),
                 "symbol": symbols.get(netuid),
             })
