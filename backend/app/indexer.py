@@ -50,13 +50,13 @@ async def persist_block(db, chain, number: int, announced_hash: str | None = Non
         log.warning("event read failed at finalized block %s: %s", number, exc)
         events = []
     async with db.acquire() as conn, conn.transaction():
-        exists = await conn.fetchval("SELECT 1 FROM chain_blocks WHERE block_number=$1", number)
-        if exists:
-            return
-        await conn.execute(
-            "INSERT INTO chain_blocks(block_number,block_hash,parent_hash,block_time) VALUES($1,$2,$3,$4)",
+        claimed = await conn.fetchval(
+            """INSERT INTO chain_blocks(block_number,block_hash,parent_hash,block_time)
+               VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING RETURNING block_number""",
             number, block_hash, _parent_hash(info), timestamp,
         )
+        if claimed is None:
+            return
         await conn.executemany(
             """INSERT INTO subnets(netuid,name,symbol,first_seen_block,last_seen_block)
                VALUES($1,$2,$3,$4,$4) ON CONFLICT(netuid) DO UPDATE SET
