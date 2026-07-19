@@ -364,7 +364,7 @@ export function Dashboard() {
         })}
       </section>
       {active && <aside className="bubble-detail panel">
-        <div><span className="bubble-token">{active.symbol?.replace("Î±", "") || active.netuid}</span><div><small>SN{active.netuid}</small><h2>{active.name || `Subnet ${active.netuid}`}</h2></div></div>
+        <div><span className="bubble-token">{active.symbol?.replace("α", "") || active.netuid}</span><div><small>SN{active.netuid}</small><h2>{active.name || `Subnet ${active.netuid}`}</h2></div></div>
         <dl><div><dt>Price</dt><dd>{money(active.price_tao, true)}</dd></div><div><dt>Market cap</dt><dd>{money(active.market_cap_tao)}</dd></div><div><dt>Liquidity</dt><dd>{money(active.tao_reserve)}</dd></div><div><dt>{bubbleTimeframe === "change_10m" ? "10 minutes" : bubbleTimeframe === "change_1h" ? "1 hour" : "1 day"}</dt><dd className={changeClass(bubbleChange(active))}>{Number(bubbleChange(active) || 0) > 0 ? "+" : ""}{fmt(bubbleChange(active))}%</dd></div></dl>
         <button onClick={() => setView("screener")}>Open market chart →</button>
       </aside>}
