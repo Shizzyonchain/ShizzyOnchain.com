@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
 type ScreenerRow = {
@@ -156,6 +156,11 @@ export function Dashboard() {
   const [selected, setSelected] = useState(64);
   const [timeframe, setTimeframe] = useState("1h");
   const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_1h");
+  const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
+  const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
+  const bubbleCloudRef = useRef<HTMLElement>(null);
+  const bubbleDragRef = useRef<{ netuid: number; pointerId: number; startX: number; startY: number; offsetX: number; offsetY: number; minX: number; maxX: number; minY: number; maxY: number; moved: boolean } | null>(null);
+  const suppressBubbleClick = useRef(false);
   const [candles, setCandles] = useState<Candle[]>([]);
   const [walletInput, setWalletInput] = useState("");
   const [wallets, setWallets] = useState<Wallet[]>([]);
@@ -220,6 +225,38 @@ export function Dashboard() {
     return Math.round(52 + Math.min(22, Math.sqrt(Math.abs(movement)) * 7));
   };
   const bubbleChange = (row: ScreenerRow) => row[bubbleTimeframe] as string | undefined;
+  const startBubbleDrag = (event: ReactPointerEvent<HTMLButtonElement>, netuid: number) => {
+    if (event.button !== 0 || !bubbleCloudRef.current) return;
+    const bubble = event.currentTarget.getBoundingClientRect();
+    const cloud = bubbleCloudRef.current.getBoundingClientRect();
+    const offset = bubbleOffsets[netuid] || { x: 0, y: 0 };
+    bubbleDragRef.current = {
+      netuid, pointerId: event.pointerId, startX: event.clientX, startY: event.clientY,
+      offsetX: offset.x, offsetY: offset.y,
+      minX: offset.x + cloud.left - bubble.left, maxX: offset.x + cloud.right - bubble.right,
+      minY: offset.y + cloud.top - bubble.top, maxY: offset.y + cloud.bottom - bubble.bottom,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setDraggingBubble(netuid);
+  };
+  const moveBubbleDrag = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const drag = bubbleDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const dx = event.clientX - drag.startX, dy = event.clientY - drag.startY;
+    if (Math.hypot(dx, dy) > 4) drag.moved = true;
+    const x = Math.max(drag.minX, Math.min(drag.maxX, drag.offsetX + dx));
+    const y = Math.max(drag.minY, Math.min(drag.maxY, drag.offsetY + dy));
+    setBubbleOffsets(current => ({ ...current, [drag.netuid]: { x, y } }));
+  };
+  const endBubbleDrag = (event: ReactPointerEvent<HTMLButtonElement>) => {
+    const drag = bubbleDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    suppressBubbleClick.current = drag.moved;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    bubbleDragRef.current = null;
+    setDraggingBubble(null);
+  };
   const money = (value?: string | number, price = false) => {
     const tao = Number(value ?? 0);
     if (currency === "tao") return `τ ${fmt(tao, price ? 6 : 4)}`;
@@ -314,12 +351,14 @@ export function Dashboard() {
           ].map(period => <button key={period.value} className={bubbleTimeframe === period.value ? "active" : ""} onClick={() => setBubbleTimeframe(period.value as typeof bubbleTimeframe)}>{period.label}</button>)}
         </div>
       </div>
-      <div className="bubble-legend"><span><i className="gain"/>Gaining</span><span><i className="flat"/>Flat</span><span><i className="loss"/>Falling</span><b>All 128 · big bubbles = exceptional gains</b></div>
-      <section className="bubble-cloud panel" aria-label="Subnet market cap bubbles">
+      <div className="bubble-legend"><span><i className="gain"/>Gaining</span><span><i className="flat"/>Flat</span><span><i className="loss"/>Falling</span><b>Drag any bubble · big bubbles = exceptional gains</b><button onClick={() => setBubbleOffsets({})}>Reset layout</button></div>
+      <section ref={bubbleCloudRef} className="bubble-cloud panel" aria-label="Draggable subnet market bubbles">
         {bubbleRows.map(row => {
           const movement = Number(bubbleChange(row) || 0);
           const size = bubbleSize(row);
-          return <button key={row.netuid} style={{ width: size, height: size }} className={`market-bubble ${size < 58 ? "compact" : ""} ${movement > 0.005 ? "gain" : movement < -0.005 ? "loss" : "flat"} ${selected === row.netuid ? "selected" : ""}`} onClick={() => setSelected(row.netuid)} aria-label={`${row.name || `Subnet ${row.netuid}`}, ${money(row.market_cap_tao)} market cap, ${movement >= 0 ? "+" : ""}${fmt(movement)} percent`}>
+          const offset = bubbleOffsets[row.netuid] || { x: 0, y: 0 };
+          const bubbleStyle = { width: size, height: size, "--bubble-x": `${offset.x}px`, "--bubble-y": `${offset.y}px` } as CSSProperties;
+          return <button key={row.netuid} style={bubbleStyle} className={`market-bubble ${size < 58 ? "compact" : ""} ${movement > 0.005 ? "gain" : movement < -0.005 ? "loss" : "flat"} ${selected === row.netuid ? "selected" : ""} ${draggingBubble === row.netuid ? "dragging" : ""}`} onPointerDown={event => startBubbleDrag(event, row.netuid)} onPointerMove={moveBubbleDrag} onPointerUp={endBubbleDrag} onPointerCancel={endBubbleDrag} onClick={() => { if (suppressBubbleClick.current) { suppressBubbleClick.current = false; return; } setSelected(row.netuid); }} aria-label={`${row.name || `Subnet ${row.netuid}`}, draggable, ${money(row.market_cap_tao)} market cap, ${movement >= 0 ? "+" : ""}${fmt(movement)} percent`}>
             <small>{row.name || "Unknown"}</small><strong>SN{row.netuid}</strong><em>{movement > 0 ? "+" : ""}{fmt(movement)}%</em><span>{money(row.market_cap_tao)}</span>
           </button>;
         })}
