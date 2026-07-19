@@ -13,6 +13,16 @@ type ScreenerRow = {
 type Candle = { time: string; open: string; high: string; low: string; close: string; volume_tao?: string };
 type Stake = { hotkey: string; netuid: number; name?: string; symbol?: string; alpha: string; tao_value?: string };
 type Wallet = { address: string; free_tao: string; staked_tao_value?: string; total_tao_value?: string; stakes: Stake[]; error?: string };
+type ChainEvent = {
+  block_number: number; event_index: number; time: string; event_type: string;
+  netuid?: number; destination_netuid?: number; name?: string; destination_name?: string;
+  coldkey?: string; destination_coldkey?: string; hotkey?: string; destination_hotkey?: string;
+  amount_alpha?: string; amount_tao?: string; perpetual?: boolean;
+};
+type ActivitySummary = {
+  locked_alpha_24h: string; unlocked_alpha_24h: string;
+  net_locked_alpha_24h: string; stake_moves_24h: number;
+};
 
 const channelVideos = [
   { id: "AuUwiV1r_cs", title: "Bittensor TAO: Patience Pays Off", meta: "20:39 · Latest episode" },
@@ -203,6 +213,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [wallets, setWallets] = useState<Wallet[]>([]);
   const [checking, setChecking] = useState(false);
   const [walletError, setWalletError] = useState("");
+  const [activity, setActivity] = useState<ChainEvent[]>([]);
+  const [activitySummary, setActivitySummary] = useState<ActivitySummary | null>(null);
+  const [activityCollectingSince, setActivityCollectingSince] = useState<string | null>(null);
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
@@ -263,6 +276,21 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     fetch(`/api/backend/v1/subnets/${selected}/prices?interval=${timeframe}&start=${start.toISOString()}&end=${end.toISOString()}&limit=500`)
       .then(r => r.ok ? r.json() : Promise.reject()).then(json => setCandles(json.data || [])).catch(() => setCandles([]));
   }, [selected, timeframe, showTaoChart]);
+  useEffect(() => {
+    const refreshActivity = () => {
+      fetch(`/api/backend/v1/activity?netuid=${selected}&limit=30`, { cache: "no-store" })
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(json => {
+          setActivity(json.data || []);
+          setActivitySummary(json.summary || null);
+          setActivityCollectingSince(json.collecting_since || null);
+        })
+        .catch(() => undefined);
+    };
+    refreshActivity();
+    const refreshTimer = window.setInterval(refreshActivity, 30_000);
+    return () => window.clearInterval(refreshTimer);
+  }, [selected]);
 
   const filtered = useMemo(() => rows.filter(r => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase()))
     .sort((a,b) => sortDirection === "desc"
@@ -371,6 +399,15 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     return { change10, change1h, change24, liquidityFlow, emissionFlow, volumeAcceleration, coverage, momentum, liquidityScore, emissionScore, activityScore, risk };
   })() : null;
   const sortArrow = (field: keyof ScreenerRow) => sort === field ? (sortDirection === "desc" ? " ↓" : " ↑") : "";
+  const shortKey = (value?: string) => value ? `${value.slice(0, 6)}…${value.slice(-5)}` : "—";
+  const eventLabel = (event: ChainEvent) => ({
+    StakeLocked: "Conviction locked", StakeUnlocked: "Conviction unlocked",
+    LockMoved: "Lock moved", PerpetualLockUpdated: event.perpetual ? "Perpetual lock enabled" : "Perpetual lock disabled",
+    StakeMoved: "Stake moved", StakeSwapped: "Stake swapped",
+    StakeTransferred: "Stake transferred", HotkeySwapped: "Hotkey swapped",
+    HotkeySwappedOnSubnet: "Subnet hotkey swapped", SubnetOwnerChanged: "Subnet owner changed",
+  }[event.event_type] || event.event_type);
+  const eventSubnet = (event: ChainEvent) => event.name || (event.netuid != null ? `SN${event.netuid}` : "Network");
 
   return <main className="shell">
     <section className="market-ticker" aria-label="Top subnet tokens by market capitalization">
@@ -434,6 +471,22 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           <article className="risk-signal"><div><span>Risk</span><strong>{signalData.risk}</strong></div><i style={{ "--score": `${signalData.risk}%` } as CSSProperties}/><p className={signalData.risk >= 65 ? "negative" : signalData.risk <= 35 ? "positive" : ""}>{signalData.risk >= 65 ? "Higher market risk" : signalData.risk <= 35 ? "Lower relative risk" : "Moderate market risk"}</p><small>{fmt(signalData.coverage)}% liquidity coverage · {fmt(Math.abs(signalData.change1h))}% 1h volatility</small></article>
         </div>
         <p className="signals-note">Scores compare current on-chain conditions, not future performance. Thin liquidity, missing history, and sudden chain events can make any signal unreliable.</p>
+      </section>}
+      {!showTaoChart && active && <section className="chain-activity panel" aria-labelledby="activity-title">
+        <div className="activity-head"><div><p className="eyebrow">Finalized chain events</p><h2 id="activity-title">Conviction & stake activity · {active.name || `SN${active.netuid}`}</h2></div><span>Refreshes every 30 seconds</span></div>
+        <div className="activity-summary">
+          <article><span>Locked · 24h</span><strong>{fmt(activitySummary?.locked_alpha_24h, 4)} α</strong></article>
+          <article><span>Unlocked · 24h</span><strong>{fmt(activitySummary?.unlocked_alpha_24h, 4)} α</strong></article>
+          <article><span>Net lock flow</span><strong className={Number(activitySummary?.net_locked_alpha_24h || 0) >= 0 ? "positive" : "negative"}>{Number(activitySummary?.net_locked_alpha_24h || 0) > 0 ? "+" : ""}{fmt(activitySummary?.net_locked_alpha_24h, 4)} α</strong></article>
+          <article><span>Stake moves · 24h</span><strong>{activitySummary?.stake_moves_24h || 0}</strong></article>
+        </div>
+        {activity.length ? <div className="activity-list">{activity.map(event => <article key={`${event.block_number}-${event.event_index}`}>
+          <time>{new Date(event.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}<small>Block {event.block_number.toLocaleString()}</small></time>
+          <span className={`event-badge ${event.event_type.toLowerCase()}`}>{eventLabel(event)}</span>
+          <div><b>{eventSubnet(event)}{event.destination_netuid != null ? ` → ${event.destination_name || `SN${event.destination_netuid}`}` : ""}</b><small>{event.hotkey ? `Hotkey ${shortKey(event.hotkey)}` : event.coldkey ? `Coldkey ${shortKey(event.coldkey)}` : "On-chain update"}{event.destination_hotkey ? ` → ${shortKey(event.destination_hotkey)}` : event.destination_coldkey ? ` → ${shortKey(event.destination_coldkey)}` : ""}</small></div>
+          <strong>{event.amount_alpha != null ? `${fmt(event.amount_alpha, 6)} α` : event.amount_tao != null ? `${fmt(event.amount_tao, 6)} τ` : "—"}</strong>
+        </article>)}</div> : <div className="activity-empty"><b>Listening for finalized activity…</b><span>{activityCollectingSince ? `No matching events since ${new Date(activityCollectingSince).toLocaleString()}.` : "Collection starts with this deployment; historical events are not fabricated."}</span></div>}
+        <p className="activity-note">Tracks conviction locks and unlocks, lock moves, stake moves, swaps and transfers, hotkey swaps, and subnet ownership changes directly from finalized Finney blocks.</p>
       </section>}
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>

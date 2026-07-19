@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 from dataclasses import asdict, is_dataclass
 from decimal import Decimal
@@ -8,6 +9,45 @@ from app.config import Settings
 
 RAO_PER_TAO = Decimal(1_000_000_000)
 logger = logging.getLogger(__name__)
+
+TRACKED_EVENTS = {
+    "StakeLocked": ("coldkey", "hotkey", "netuid", "amount_alpha"),
+    "StakeUnlocked": ("coldkey", "hotkey", "netuid", "amount_alpha"),
+    "LockMoved": ("coldkey", "hotkey", "destination_hotkey", "netuid"),
+    "PerpetualLockUpdated": ("coldkey", "netuid", "perpetual"),
+    "StakeMoved": (
+        "coldkey", "hotkey", "netuid", "destination_hotkey",
+        "destination_netuid", "amount_tao",
+    ),
+    "StakeSwapped": (
+        "coldkey", "hotkey", "netuid", "destination_netuid", "amount_tao",
+    ),
+    "StakeTransferred": (
+        "coldkey", "destination_coldkey", "hotkey", "netuid",
+        "destination_netuid", "amount_tao",
+    ),
+    "HotkeySwapped": ("coldkey", "hotkey", "destination_hotkey"),
+    "HotkeySwappedOnSubnet": (
+        "coldkey", "hotkey", "destination_hotkey", "netuid",
+    ),
+    "SubnetOwnerChanged": ("netuid", "coldkey", "destination_coldkey"),
+}
+
+EVENT_FIELD_ALIASES = {
+    "coldkey": ("coldkey", "who", "origin_coldkey", "old_owner", "owner"),
+    "destination_coldkey": (
+        "destination_coldkey", "dest_coldkey", "new_owner",
+    ),
+    "hotkey": ("hotkey", "origin_hotkey", "old_hotkey"),
+    "destination_hotkey": (
+        "destination_hotkey", "dest_hotkey", "new_hotkey",
+    ),
+    "netuid": ("netuid", "origin_netuid"),
+    "destination_netuid": ("destination_netuid", "dest_netuid"),
+    "amount_alpha": ("amount_alpha", "alpha", "amount"),
+    "amount_tao": ("amount_tao", "tao", "amount"),
+    "perpetual": ("perpetual", "enabled", "is_perpetual"),
+}
 
 
 def scale_int(value: Any) -> int:
@@ -79,6 +119,13 @@ def token_units(value: Any) -> Decimal:
     return Decimal(str(value))
 
 
+def event_token_units(value: Any) -> Decimal:
+    """Convert raw SCALE event balances (rao) or SDK Balance objects."""
+    if hasattr(value, "decimal") or hasattr(value, "rao") or hasattr(value, "amount"):
+        return token_units(value)
+    return Decimal(scale_int(value)) / RAO_PER_TAO
+
+
 def total_locked_alpha(result: Any) -> Decimal:
     """Read the rolled-forward total lock mass returned by Bittensor v11."""
     total = field(result, "total_locked_alpha")
@@ -116,6 +163,82 @@ def field(obj: Any, *names: str, default=None):
     return default
 
 
+def _plain(value: Any) -> Any:
+    """Turn decoded SCALE values into JSON-safe primitives."""
+    value = getattr(value, "value", value)
+    if is_dataclass(value):
+        value = asdict(value)
+    if isinstance(value, dict):
+        return {str(key): _plain(item) for key, item in value.items()}
+    if isinstance(value, (tuple, list)):
+        return [_plain(item) for item in value]
+    if isinstance(value, bytes):
+        return "0x" + value.hex()
+    if isinstance(value, Decimal):
+        return str(value)
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    return str(value)
+
+
+def _event_value(attributes: Any, position: int, logical_name: str) -> Any:
+    if isinstance(attributes, (list, tuple)):
+        return attributes[position] if position < len(attributes) else None
+    if isinstance(attributes, dict):
+        lowered = {str(key).lower(): value for key, value in attributes.items()}
+        for alias in EVENT_FIELD_ALIASES[logical_name]:
+            if alias.lower() in lowered:
+                return lowered[alias.lower()]
+    return None
+
+
+def parse_chain_events(records: Any) -> list[dict]:
+    """Normalize the Bittensor v11 decoded System.Events storage value."""
+    records = getattr(records, "value", records) or []
+    if isinstance(records, dict):
+        records = field(records, "records", "events", default=[])
+    parsed = []
+    for index, record in enumerate(records):
+        record = getattr(record, "value", record)
+        event = field(record, "event", default=record)
+        event = getattr(event, "value", event)
+        module = field(event, "module_id", "module", "pallet", "pallet_name")
+        name = field(event, "event_id", "event", "name", "variant")
+        if str(module).lower() not in {"subtensormodule", "subtensor"}:
+            continue
+        if name not in TRACKED_EVENTS:
+            continue
+        attributes = field(event, "attributes", "params", "fields", "data", default=[])
+        row = {
+            "event_index": index,
+            "event_type": name,
+            "netuid": None,
+            "destination_netuid": None,
+            "coldkey": None,
+            "destination_coldkey": None,
+            "hotkey": None,
+            "destination_hotkey": None,
+            "amount_alpha": None,
+            "amount_tao": None,
+            "perpetual": None,
+            "raw": json.dumps(_plain(record), separators=(",", ":")),
+        }
+        for position, logical_name in enumerate(TRACKED_EVENTS[name]):
+            value = _event_value(attributes, position, logical_name)
+            if value is None:
+                continue
+            if logical_name in {"netuid", "destination_netuid"}:
+                row[logical_name] = scale_int(value)
+            elif logical_name in {"amount_alpha", "amount_tao"}:
+                row[logical_name] = event_token_units(value)
+            elif logical_name == "perpetual":
+                row[logical_name] = bool(getattr(value, "value", value))
+            else:
+                row[logical_name] = str(getattr(value, "value", value))
+        parsed.append(row)
+    return parsed
+
+
 class ChainClient:
     """Small adapter around the current Bittensor v11 SDK; easy to fake in tests."""
 
@@ -142,6 +265,10 @@ class ChainClient:
 
     async def block_info(self, block: int | None = None):
         return await self.client.block_info(block)
+
+    async def events_at(self, block_number: int) -> list[dict]:
+        view = await self.client.at(block_number)
+        return parse_chain_events(await view.query(("System", "Events")))
 
     async def subnets_at(self, block_number: int) -> list[dict]:
         view = await self.client.at(block_number)

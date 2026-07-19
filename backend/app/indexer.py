@@ -44,6 +44,11 @@ async def persist_block(db, chain, number: int, announced_hash: str | None = Non
         raise RuntimeError(f"No hash returned for finalized block {number}")
     timestamp = _block_time(info)
     rows = await chain.subnets_at(number)
+    try:
+        events = await chain.events_at(number)
+    except Exception as exc:
+        log.warning("event read failed at finalized block %s: %s", number, exc)
+        events = []
     async with db.acquire() as conn, conn.transaction():
         exists = await conn.fetchval("SELECT 1 FROM chain_blocks WHERE block_number=$1", number)
         if exists:
@@ -71,7 +76,30 @@ async def persist_block(db, chain, number: int, announced_hash: str | None = Non
               r["conviction_locked_alpha"], r["tempo"],
               r["staker_epoch_dividends_alpha"]) for r in rows],
         )
-    log.info("indexed finalized block %s (%s subnets)", number, len(rows))
+        if events:
+            await conn.executemany(
+                """INSERT INTO chain_events
+                   (block_number,event_index,block_hash,time,event_type,netuid,
+                    destination_netuid,coldkey,destination_coldkey,hotkey,
+                    destination_hotkey,amount_alpha,amount_tao,perpetual,raw)
+                   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb)
+                   ON CONFLICT DO NOTHING""",
+                [
+                    (
+                        number, event["event_index"], block_hash, timestamp,
+                        event["event_type"], event["netuid"],
+                        event["destination_netuid"], event["coldkey"],
+                        event["destination_coldkey"], event["hotkey"],
+                        event["destination_hotkey"], event["amount_alpha"],
+                        event["amount_tao"], event["perpetual"], event["raw"],
+                    )
+                    for event in events
+                ],
+            )
+    log.info(
+        "indexed finalized block %s (%s subnets, %s tracked events)",
+        number, len(rows), len(events),
+    )
 
 
 async def indexer():
