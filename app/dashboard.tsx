@@ -69,6 +69,36 @@ const fmt = (value?: string | number, digits = 2) => {
   return n.toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: n < 1 ? Math.min(digits, 4) : 0 });
 };
 const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
+const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
+
+function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string, now = Date.now()) {
+  if (!candles.length || !Number.isFinite(spotPrice) || spotPrice <= 0) return candles;
+  const interval = candleIntervalMs[timeframe] || 60_000;
+  const bucketTime = Math.floor(now / interval) * interval;
+  const last = candles.at(-1)!;
+  const lastTime = new Date(last.time).getTime();
+  if (!Number.isFinite(lastTime)) return candles;
+  const updated = [...candles];
+  if (lastTime < bucketTime) {
+    const previousClose = Number(last.close);
+    updated.push({
+      time: new Date(bucketTime).toISOString(),
+      open: String(previousClose),
+      high: String(Math.max(previousClose, spotPrice)),
+      low: String(Math.min(previousClose, spotPrice)),
+      close: String(spotPrice),
+      volume_tao: "0",
+    });
+    return updated;
+  }
+  updated[updated.length - 1] = {
+    ...last,
+    high: String(Math.max(Number(last.high), spotPrice)),
+    low: String(Math.min(Number(last.low), spotPrice)),
+    close: String(spotPrice),
+  };
+  return updated;
+}
 
 function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency = "tao" }: { candles: Candle[]; row?: ScreenerRow; currency: "usd" | "tao"; taoUsd: number; timeframe: string; valueCurrency?: "tao" | "usd" }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -293,7 +323,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       }).catch(() => setDataState(current => current === "live" ? "live" : "error"));
     };
     refreshMarkets();
-    const refreshTimer = window.setInterval(refreshMarkets, 60_000);
+    const refreshTimer = window.setInterval(refreshMarkets, 12_000);
     return () => window.clearInterval(refreshTimer);
   }, []);
   useEffect(() => {
@@ -304,7 +334,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       }).catch(() => undefined);
     };
     refreshTaoPrice();
-    const refreshTimer = window.setInterval(refreshTaoPrice, 60_000);
+    const refreshTimer = window.setInterval(refreshTaoPrice, 12_000);
     return () => window.clearInterval(refreshTimer);
   }, []);
   useEffect(() => {
@@ -353,6 +383,10 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0)
       : Number(a[sort] ?? 0) - Number(b[sort] ?? 0)), [rows, query, sort, sortDirection]);
   const active = rows.find(r => r.netuid === selected) || rows[0];
+  const chartCandles = useMemo(
+    () => withLiveCandle(candles, showTaoChart ? taoUsd : Number(active?.price_tao || 0), timeframe),
+    [candles, showTaoChart, taoUsd, active?.price_tao, timeframe],
+  );
   const totalVolume = rows.reduce((sum,r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = [...rows].sort((a,b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const marketCapLeaders = [...rows].sort((a,b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0)).slice(0, 14);
@@ -439,7 +473,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     setView("screener");
     window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
-  const taoChartChange = candles.length > 1 ? (Number(candles.at(-1)?.close || 0) / Number(candles[0]?.open || 1) - 1) * 100 : 0;
+  const taoChartChange = chartCandles.length > 1 ? (Number(chartCandles.at(-1)?.close || 0) / Number(chartCandles[0]?.open || 1) - 1) * 100 : 0;
   const clampScore = (value: number) => Math.round(Math.max(0, Math.min(100, value)));
   const signalData = active ? (() => {
     const change10 = Number(active.change_10m || 0), change1h = Number(active.change_1h || 0), change24 = Number(active.change_24h || 0);
@@ -549,7 +583,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           {dataState === "live" && <>
           <div className="panel-head"><div><p className="eyebrow">{showTaoChart ? "TAO · USD" : `SN${active?.netuid} · ${active?.symbol || "ALPHA"}`}</p><h1>{showTaoChart ? "Bittensor" : active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{showTaoChart ? taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" }) : money(active?.price_tao, true)}</strong><span className={changeClass(showTaoChart ? String(taoChartChange) : active?.change_1h)}>{Number(showTaoChart ? taoChartChange : active?.change_1h || 0) > 0 ? "+" : ""}{fmt(showTaoChart ? taoChartChange : active?.change_1h)}% · {timeframe === "1d" ? "1 Day" : timeframe === "1h" ? "1 Hour" : timeframe === "10m" ? "10 Minutes" : "1 Minute"}</span></div></div>
           <div className="timeframes">{[{ value: "1m", label: "1 Minute" }, { value: "10m", label: "10 Minutes" }, { value: "1h", label: "1 Hour" }, { value: "1d", label: "1 Day" }].map(t => <button key={t.value} className={timeframe === t.value ? "active" : ""} onClick={() => setTimeframe(t.value)}>{t.label}</button>)}</div>
-          <PriceChart candles={candles} row={showTaoChart ? undefined : active} currency={currency} taoUsd={taoUsd} timeframe={timeframe} valueCurrency={showTaoChart ? "usd" : "tao"} />
+          <PriceChart candles={chartCandles} row={showTaoChart ? undefined : active} currency={currency} taoUsd={taoUsd} timeframe={timeframe} valueCurrency={showTaoChart ? "usd" : "tao"} />
           {showTaoChart ? <div className="chart-stats"><span>Pair <b>TAO / USD</b></span><span>Price source <b>Coinbase</b></span><span>History <b>{candles.length} candles</b></span></div> : <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>}
           </>}
         </div>
