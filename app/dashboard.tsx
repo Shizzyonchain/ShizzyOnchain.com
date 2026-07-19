@@ -159,6 +159,7 @@ export function Dashboard() {
   const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_1h");
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
+  const chartCardRef = useRef<HTMLDivElement>(null);
   const bubbleCloudRef = useRef<HTMLElement>(null);
   const bubbleDragRef = useRef<{ netuid: number; pointerId: number; startX: number; startY: number; offsetX: number; offsetY: number; minX: number; maxX: number; minY: number; maxY: number; moved: boolean } | null>(null);
   const suppressBubbleClick = useRef(false);
@@ -286,13 +287,18 @@ export function Dashboard() {
     if (sort === field) setSortDirection(current => current === "desc" ? "asc" : "desc");
     else { setSort(field); setSortDirection("desc"); }
   }
+  function openSubnetChart(netuid: number) {
+    setSelected(netuid);
+    setView("screener");
+    window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  }
   const sortArrow = (field: keyof ScreenerRow) => sort === field ? (sortDirection === "desc" ? " ↓" : " ↑") : "";
 
   return <main className="shell">
     <section className="market-ticker" aria-label="Top subnet tokens by market capitalization">
       <div className="ticker-label"><span>Market leaders</span><small>1 Hour</small></div>
       <div className="ticker-window">
-        <div className="ticker-track">{[...marketCapLeaders, ...marketCapLeaders].map((r, i) => <button key={`${r.netuid}-${i}`} onClick={() => { setSelected(r.netuid); setView("screener"); }}>
+        <div className="ticker-track">{[...marketCapLeaders, ...marketCapLeaders].map((r, i) => <button key={`${r.netuid}-${i}`} onClick={() => openSubnetChart(r.netuid)}>
           <span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span>
           <strong>{money(r.price_tao, true)}</strong>
           <em className={changeClass(r.change_1h)}>{Number(r.change_1h || 0) > 0 ? "+" : ""}{fmt(r.change_1h)}%</em>
@@ -329,18 +335,18 @@ export function Dashboard() {
         <div><span>Network</span><strong>FINNEY</strong><small>Finalized blocks only</small></div>
       </section>
       <section className="market-grid">
-        <div className="chart-card panel">
+        <div ref={chartCardRef} className="chart-card panel">
           <div className="panel-head"><div><p className="eyebrow">SN{active?.netuid} · {active?.symbol || "ALPHA"}</p><h1>{active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{money(active?.price_tao, true)}</strong><span className={changeClass(active?.change_1h)}>{Number(active?.change_1h || 0) > 0 ? "+" : ""}{fmt(active?.change_1h)}% · 1 Hour</span></div></div>
           <div className="timeframes">{[{ value: "1m", label: "1 Minute" }, { value: "10m", label: "10 Minutes" }, { value: "1h", label: "1 Hour" }].map(t => <button key={t.value} className={timeframe === t.value ? "active" : ""} onClick={() => setTimeframe(t.value)}>{t.label}</button>)}</div>
           <PriceChart candles={candles} row={active} currency={currency} taoUsd={taoUsd} />
           <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{money(active?.volume_24h_tao)}</b></span></div>
         </div>
-        <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>setSelected(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
+        <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>openSubnetChart(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
       </section>
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
         <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button></th><th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake."><button onClick={()=>changeSort("apy")}>Staker APY{sortArrow("apy")}</button></th><th title="Total conviction-locked alpha, valued at the current subnet price."><button onClick={()=>changeSort("conviction_locked_tao")}>Conviction Locked{sortArrow("conviction_locked_tao")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th></tr></thead>
-        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>setSelected(r.netuid)}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_tao == null ? "—" : money(r.conviction_locked_tao)}<small>{r.conviction_locked_alpha == null ? "" : `${fmt(r.conviction_locked_alpha, 2)} α locked`}</small></td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
+        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>openSubnetChart(r.netuid)} tabIndex={0} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openSubnetChart(r.netuid); } }}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_tao == null ? "—" : money(r.conviction_locked_tao)}<small>{r.conviction_locked_alpha == null ? "" : `${fmt(r.conviction_locked_alpha, 2)} α locked`}</small></td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
       </section>
     </> : view === "bubbles" ? <section className="bubbles-page">
       <div className="bubbles-hero">
@@ -368,7 +374,7 @@ export function Dashboard() {
       {active && <aside className="bubble-detail panel">
         <div><span className="bubble-token">{active.symbol?.replace("α", "") || active.netuid}</span><div><small>SN{active.netuid}</small><h2>{active.name || `Subnet ${active.netuid}`}</h2></div></div>
         <dl><div><dt>Price</dt><dd>{money(active.price_tao, true)}</dd></div><div><dt>Market cap</dt><dd>{money(active.market_cap_tao)}</dd></div><div><dt>Liquidity</dt><dd>{money(active.tao_reserve)}</dd></div><div><dt>{bubbleTimeframe === "change_10m" ? "10 minutes" : bubbleTimeframe === "change_1h" ? "1 hour" : "1 day"}</dt><dd className={changeClass(bubbleChange(active))}>{Number(bubbleChange(active) || 0) > 0 ? "+" : ""}{fmt(bubbleChange(active))}%</dd></div></dl>
-        <button onClick={() => setView("screener")}>Open market chart →</button>
+        <button onClick={() => openSubnetChart(active.netuid)}>Open market chart →</button>
       </aside>}
     </section> : view === "wallets" ? <section className="wallet-page">
       <div className="wallet-intro"><p className="eyebrow">Portfolio intelligence</p><h1>See every wallet.<br/><span>See the whole position.</span></h1><p>Paste up to 100 Bittensor coldkeys. We’ll combine free TAO, alpha positions, subnet exposure, and spot-value estimates at one finalized block.</p></div>

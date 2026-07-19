@@ -138,6 +138,7 @@ footer{color:#6d86ac}
 }
 
 /* Denser, easier-to-read subnet screener */
+.chart-card{scroll-margin-top:16px}
 .screener table{table-layout:fixed;min-width:1380px}
 .screener th:nth-child(1){width:54px}
 .screener th:nth-child(2){width:270px}
