@@ -308,16 +308,29 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     return () => window.clearInterval(refreshTimer);
   }, []);
   useEffect(() => {
-    if (showTaoChart) {
-      fetch(`/api/tao-chart?interval=${timeframe}`)
-        .then(r => r.ok ? r.json() : Promise.reject()).then(json => setCandles(json.data || [])).catch(() => setCandles([]));
-      return;
-    }
-    const end = new Date();
-    const windowMs = timeframe === "1m" ? 6 * 3600000 : timeframe === "10m" ? 2 * 86400000 : 14 * 86400000;
-    const start = new Date(end.getTime() - windowMs);
-    fetch(`/api/backend/v1/subnets/${selected}/prices?interval=${timeframe}&start=${start.toISOString()}&end=${end.toISOString()}&limit=500`)
-      .then(r => r.ok ? r.json() : Promise.reject()).then(json => setCandles(json.data || [])).catch(() => setCandles([]));
+    let activeRequest = true;
+    const refreshChart = () => {
+      if (showTaoChart) {
+        fetch(`/api/tao-chart?interval=${timeframe}`, { cache: "no-store" })
+          .then(r => r.ok ? r.json() : Promise.reject())
+          .then(json => { if (activeRequest) setCandles(json.data || []); })
+          .catch(() => undefined);
+        return;
+      }
+      const end = new Date();
+      const windowMs = timeframe === "1m" ? 6 * 3600000 : timeframe === "10m" ? 2 * 86400000 : 14 * 86400000;
+      const start = new Date(end.getTime() - windowMs);
+      fetch(`/api/backend/v1/subnets/${selected}/prices?interval=${timeframe}&start=${start.toISOString()}&end=${end.toISOString()}&limit=500`, { cache: "no-store" })
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(json => { if (activeRequest) setCandles(json.data || []); })
+        .catch(() => undefined);
+    };
+    refreshChart();
+    const refreshTimer = window.setInterval(refreshChart, 12_000);
+    return () => {
+      activeRequest = false;
+      window.clearInterval(refreshTimer);
+    };
   }, [selected, timeframe, showTaoChart]);
   useEffect(() => {
     const refreshActivity = () => {
