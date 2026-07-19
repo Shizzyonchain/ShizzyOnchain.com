@@ -48,10 +48,18 @@ async def health():
             "SELECT block_number, block_time, indexed_at FROM chain_blocks ORDER BY block_number DESC LIMIT 1"
         )
         if not latest:
-            raise HTTPException(503, "indexer has not stored a block yet")
+            return {
+                "status": "degraded",
+                "reason": "indexer has not stored a block yet",
+                "latest_indexed_block": None,
+            }
         lag_seconds = (datetime.now(timezone.utc) - latest["indexed_at"]).total_seconds()
         if lag_seconds > 300:
-            raise HTTPException(503, f"indexer stale by {int(lag_seconds)} seconds")
+            return {
+                "status": "degraded",
+                "reason": f"indexer stale by {int(lag_seconds)} seconds",
+                "latest_indexed_block": dict(latest),
+            }
         return {"status": "ok", "latest_indexed_block": dict(latest)}
     except Exception as exc:
         raise HTTPException(503, f"database unavailable: {type(exc).__name__}") from exc
