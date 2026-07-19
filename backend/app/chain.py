@@ -8,10 +8,27 @@ from app.config import Settings
 RAO_PER_TAO = Decimal(1_000_000_000)
 
 
+def scale_int(value: Any) -> int:
+    """Unwrap integer-like SCALE codec values returned by Bittensor v11."""
+    raw_value = getattr(value, "value", value)
+    while isinstance(raw_value, dict):
+        for key in ("bits", "value", "inner", "raw"):
+            if key in raw_value:
+                raw_value = raw_value[key]
+                break
+        else:
+            if len(raw_value) != 1:
+                raise TypeError(
+                    f"unsupported fixed-point mapping fields: {sorted(raw_value)}"
+                )
+            raw_value = next(iter(raw_value.values()))
+        raw_value = getattr(raw_value, "value", raw_value)
+    return int(raw_value)
+
+
 def fixed_to_decimal(value: Any, frac_bits: int = 32) -> Decimal:
     """Decode a SCALE fixed-point value without relying on SDK internals."""
-    raw_value = getattr(value, "value", value)
-    return Decimal(int(raw_value)) / Decimal(1 << frac_bits)
+    return Decimal(scale_int(value)) / Decimal(1 << frac_bits)
 
 
 def amount(value: Any) -> Decimal:
@@ -87,12 +104,16 @@ class ChainClient:
             view.query_map(("SubtensorModule", "TokenSymbol")),
             view.query_map(("SubtensorModule", "SubnetIdentitiesV3")),
         )
-        tao = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in tao_rows}
-        alpha = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in alpha_rows}
-        alpha_out = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in out_rows}
-        volume = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in volume_rows}
-        tao_emission = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in tao_emission_rows}
-        alpha_emission = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in alpha_emission_rows}
+        tao = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_rows}
+        alpha = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_rows}
+        alpha_out = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in out_rows}
+        volume = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in volume_rows}
+        tao_emission = {
+            int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_emission_rows
+        }
+        alpha_emission = {
+            int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_emission_rows
+        }
         emission_total = sum(tao_emission.values(), Decimal(0))
         emission_share = {
             netuid: value / emission_total if emission_total > 0 else Decimal(0)
@@ -148,12 +169,14 @@ class ChainClient:
             )
         except Exception:
             return {netuid: (None, None) for netuid in netuids}
-        tempos = {int(k): int(v) for k, v in tempo_rows}
+        tempos = {int(k): scale_int(v) for k, v in tempo_rows}
         totals: dict[int, Decimal] = {}
         for key, value in dividend_rows:
             netuid = self._first_int(key)
             if netuid is not None:
-                totals[netuid] = totals.get(netuid, Decimal(0)) + Decimal(int(value)) / RAO_PER_TAO
+                totals[netuid] = (
+                    totals.get(netuid, Decimal(0)) + Decimal(scale_int(value)) / RAO_PER_TAO
+                )
         return {netuid: (tempos.get(netuid), totals.get(netuid)) for netuid in netuids}
 
     @classmethod
@@ -163,6 +186,11 @@ class ChainClient:
             return value
         if isinstance(value, (tuple, list)):
             for item in value:
+                result = cls._first_int(item)
+                if result is not None:
+                    return result
+        if isinstance(value, dict):
+            for item in value.values():
                 result = cls._first_int(item)
                 if result is not None:
                     return result
