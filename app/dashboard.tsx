@@ -133,6 +133,7 @@ export function Dashboard() {
   const [live, setLive] = useState(false);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<keyof ScreenerRow>("market_cap_tao");
+  const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
   const [selected, setSelected] = useState(64);
   const [timeframe, setTimeframe] = useState("1h");
   const [candles, setCandles] = useState<Candle[]>([]);
@@ -162,7 +163,9 @@ export function Dashboard() {
   }, [selected, timeframe]);
 
   const filtered = useMemo(() => rows.filter(r => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase()))
-    .sort((a,b) => Number(b[sort] ?? 0) - Number(a[sort] ?? 0)), [rows, query, sort]);
+    .sort((a,b) => sortDirection === "desc"
+      ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0)
+      : Number(a[sort] ?? 0) - Number(b[sort] ?? 0)), [rows, query, sort, sortDirection]);
   const active = rows.find(r => r.netuid === selected) || rows[0];
   const totalVolume = rows.reduce((sum,r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = [...rows].sort((a,b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
@@ -189,6 +192,11 @@ export function Dashboard() {
       if (!res.ok) throw new Error(); const json = await res.json(); setWallets(json.data || []);
     } catch { setWalletError("The wallet service is not connected yet. Start the data pipeline, then try again."); }
     finally { setChecking(false); }
+  }
+
+  function changeSort(field: keyof ScreenerRow) {
+    if (sort === field) setSortDirection(current => current === "desc" ? "asc" : "desc");
+    else { setSort(field); setSortDirection("desc"); }
   }
 
   return <main className="shell">
@@ -237,7 +245,7 @@ export function Dashboard() {
       </section>
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
-        <div className="table-wrap"><table><thead><tr><th>#</th><th>Subnet</th><th><button onClick={()=>setSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}</button></th><th><button onClick={()=>setSort("change_10m")}>10 Minutes</button></th><th><button onClick={()=>setSort("change_1h")}>1 Hour</button></th><th><button onClick={()=>setSort("change_24h")}>1 Day</button></th><th><button onClick={()=>setSort("volume_24h_tao")}>Volume</button></th><th><button onClick={()=>setSort("tao_reserve")}>Liquidity</button></th><th><button onClick={()=>setSort("market_cap_tao")}>Mkt cap</button></th></tr></thead>
+        <div className="table-wrap"><table><thead><tr><th>#</th><th>Subnet</th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes</button></th><th><button onClick={()=>changeSort("change_1h")} aria-label={`Sort one-hour movement by ${sort === "change_1h" && sortDirection === "desc" ? "biggest losers" : "biggest gainers"}`}>1 Hour{sort === "change_1h" ? sortDirection === "desc" ? " ↓" : " ↑" : ""}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Mkt cap</button></th></tr></thead>
         <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>setSelected(r.netuid)}><td>{i+1}</td><td><span className="token">{r.symbol?.replace("α","") || r.netuid}</span><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td><td>{money(r.market_cap_tao)}</td></tr>)}</tbody></table></div>
       </section>
     </> : view === "wallets" ? <section className="wallet-page">
