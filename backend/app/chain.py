@@ -16,6 +16,19 @@ def amount(value: Any) -> Decimal:
     return Decimal(str(raw))
 
 
+def token_units(value: Any) -> Decimal:
+    """Convert SDK Balance values to whole TAO/alpha units."""
+    if value is None:
+        return Decimal(0)
+    tao_value = getattr(value, "tao", None)
+    if tao_value is not None:
+        return Decimal(str(tao_value))
+    rao_value = getattr(value, "rao", None)
+    if rao_value is not None:
+        return Decimal(str(rao_value)) / RAO_PER_TAO
+    return Decimal(str(value))
+
+
 def field(obj: Any, *names: str, default=None):
     data = asdict(obj) if is_dataclass(obj) else obj
     for name in names:
@@ -81,6 +94,8 @@ class ChainClient:
                 "alpha_reserve": alpha.get(netuid),
                 "alpha_out": alpha_out.get(netuid),
                 "volume_tao": volume.get(netuid),
+                "tao_in_emission": token_units(field(info, "tao_in_emission")),
+                "alpha_out_emission": token_units(field(info, "alpha_out_emission")),
                 "name": names.get(netuid),
                 "symbol": symbols.get(netuid),
             })
