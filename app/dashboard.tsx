@@ -64,8 +64,8 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
   const layout = (width: number) => {
     const pad = 16;
     const usable = Math.max(1, width - pad * 2);
-    const step = Math.min(18, usable / Math.max(visible.length, 1));
-    const start = pad + usable - step * visible.length;
+    const step = usable / Math.max(visible.length, 1);
+    const start = pad;
     return { pad, usable, step, start };
   };
   const price = (value: string) => {
@@ -89,7 +89,7 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
     const min = Math.min(...lows), max = Math.max(...highs), range = Math.max(max - min, max * .001, 1e-9);
     const { pad: padX, step, start } = layout(box.width);
     const padY = 18, usableH = box.height - padY * 2;
-    const bodyW = Math.max(2, Math.min(11, step * .62));
+    const bodyW = Math.max(2, Math.min(14, step * .62));
     const y = (value: number) => padY + (max - value) * usableH / range;
 
     visible.forEach((c, i) => {
