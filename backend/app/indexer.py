@@ -9,6 +9,7 @@ from app.db import close, connect
 from app.rpc import finalized_heads
 
 log = logging.getLogger("shizzy.indexer")
+MAX_CATCHUP_BLOCKS = 25
 
 
 def _block_hash(info) -> str:
@@ -86,7 +87,16 @@ async def indexer():
             async with ChainClient(settings) as chain:
                 async for head in finalized_heads(settings.subtensor_ws_url):
                     retry_delay = 5
-                    start = head["number"] if last is None else last + 1
+                    gap = head["number"] - last if last is not None else 0
+                    if last is not None and gap > MAX_CATCHUP_BLOCKS:
+                        log.warning(
+                            "indexer is %s blocks behind; jumping to finalized block %s",
+                            gap,
+                            head["number"],
+                        )
+                        start = head["number"]
+                    else:
+                        start = head["number"] if last is None else last + 1
                     for number in range(start, head["number"] + 1):
                         await persist_block(
                             db, chain, number,
