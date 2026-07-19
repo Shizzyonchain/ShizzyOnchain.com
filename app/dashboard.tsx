@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 
 type ScreenerRow = {
   netuid: number; name?: string; symbol?: string; price_tao: string; tao_reserve?: string;
@@ -45,6 +46,7 @@ const universityCourses = [
   { number: "04", title: "Crypto Security & Wallet Safety", tag: "Security", description: "Protect your TAO and digital assets with practical wallet separation, transaction hygiene, and scam-resistant habits.", lessons: ["Cold and hot wallet setup", "Transaction safety", "Threats and recovery plans"] },
 ];
 const stripeCheckout = "https://buy.stripe.com/fZudRb3u5dkA7Y45RNfAc00";
+const universityCalendly = "https://calendly.com/shizzyunchained/shiz-university";
 const universityWallet = "5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM";
 
 const fmt = (value?: string | number, digits = 2) => {
@@ -56,6 +58,7 @@ const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?
 function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row?: ScreenerRow; currency: "usd" | "tao"; taoUsd: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [hovered, setHovered] = useState<number | null>(null);
+  const [canvasWidth, setCanvasWidth] = useState(1000);
   const visible = useMemo(() => candles.slice(-180), [candles]);
   const layout = (width: number) => {
     const pad = 16;
@@ -110,12 +113,12 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
   const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
     if (!visible.length) return;
     const box = event.currentTarget.getBoundingClientRect();
+    setCanvasWidth(box.width);
     const { step, start } = layout(box.width);
     const x = event.clientX - box.left;
     setHovered(Math.max(0, Math.min(visible.length - 1, Math.floor((x - start) / step))));
   };
   const candle = hovered === null ? undefined : visible[hovered];
-  const canvasWidth = ref.current?.getBoundingClientRect().width || 1000;
   const tooltipLayout = layout(canvasWidth);
   const tooltipLeft = hovered === null || !visible.length ? 50 : Math.min(84, Math.max(16, (tooltipLayout.start + tooltipLayout.step * (hovered + .5)) / canvasWidth * 100));
   return <div className="chart-stage">
@@ -150,6 +153,11 @@ export function Dashboard() {
   const [wallets, setWallets] = useState<Wallet[]>([]);
   const [checking, setChecking] = useState(false);
   const [walletError, setWalletError] = useState("");
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("view");
+    if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener") queueMicrotask(() => setView(requested));
+  }, []);
 
   useEffect(() => {
     fetch("/api/backend/v1/screener").then(r => r.ok ? r.json() : Promise.reject()).then(json => {
@@ -207,6 +215,7 @@ export function Dashboard() {
     if (sort === field) setSortDirection(current => current === "desc" ? "asc" : "desc");
     else { setSort(field); setSortDirection("desc"); }
   }
+  const sortArrow = (field: keyof ScreenerRow) => sort === field ? (sortDirection === "desc" ? " ↓" : " ↑") : "";
 
   return <main className="shell">
     <section className="market-ticker" aria-label="Top subnet tokens by market capitalization">
@@ -225,9 +234,11 @@ export function Dashboard() {
       </button>
       <nav aria-label="Primary navigation">
         <button className={view === "screener" ? "active" : ""} onClick={() => setView("screener")}>Market</button>
-        <button className={view === "wallets" ? "active" : ""} onClick={() => setView("wallets")}>Wallet checker</button>
         <button className={view === "videos" ? "active" : ""} onClick={() => setView("videos")}>Videos</button>
+        <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer">Shop</a>
         <button className={view === "university" ? "active" : ""} onClick={() => setView("university")}>Shiz University</button>
+        <button className={view === "wallets" ? "active" : ""} onClick={() => setView("wallets")}>Wallet tracker</button>
+        <Link href="/about">About</Link>
       </nav>
       <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
         <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
@@ -254,7 +265,7 @@ export function Dashboard() {
       </section>
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
-        <div className="table-wrap"><table><thead><tr><th>#</th><th>Subnet</th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes</button></th><th><button onClick={()=>changeSort("change_1h")} aria-label={`Sort one-hour movement by ${sort === "change_1h" && sortDirection === "desc" ? "biggest losers" : "biggest gainers"}`}>1 Hour{sort === "change_1h" ? sortDirection === "desc" ? " ↓" : " ↑" : ""}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Mkt cap</button></th></tr></thead>
+        <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Mkt cap{sortArrow("market_cap_tao")}</button></th></tr></thead>
         <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>setSelected(r.netuid)}><td>{i+1}</td><td><span className="token">{r.symbol?.replace("α","") || r.netuid}</span><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td><td>{money(r.market_cap_tao)}</td></tr>)}</tbody></table></div>
       </section>
     </> : view === "wallets" ? <section className="wallet-page">
@@ -294,7 +305,7 @@ export function Dashboard() {
       <div className="course-heading"><div><p className="eyebrow">Choose your class</p><h2>Build your curriculum</h2></div><p>Pick the skill you want to sharpen now. Add another session whenever you’re ready.</p></div>
       <div className="course-grid">{universityCourses.map(course => <article className="course-card panel" key={course.number}><div className="course-top"><span>{course.number}</span><em>{course.tag}</em></div><h3>{course.title}</h3><p>{course.description}</p><ul>{course.lessons.map(lesson => <li key={lesson}>{lesson}</li>)}</ul><div className="course-foot"><strong>$100</strong><button onClick={() => { setCheckoutCourse(course); setWalletCopied(false); }}>Enroll now →</button></div></article>)}</div>
       <div className="university-note"><span>Education, perspective, and personal guidance.</span><p>Nothing here is financial or life advice. Every decision remains yours.</p></div>
-      {checkoutCourse && <div className="checkout-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) setCheckoutCourse(null); }}><section className="course-checkout panel" role="dialog" aria-modal="true" aria-labelledby="checkout-title"><button className="checkout-close" aria-label="Close checkout" onClick={() => setCheckoutCourse(null)}>×</button><p className="eyebrow">Shiz University enrollment</p><h2 id="checkout-title">{checkoutCourse.title}</h2><div className="checkout-price"><strong>$100</strong><span>One private class</span></div><a className="card-checkout" href={stripeCheckout} target="_blank" rel="noreferrer">Pay securely with card →</a><div className="checkout-divider"><span>or pay with TAO</span></div><div className="tao-payment"><div><span>Send exactly</span><strong>{taoUsd ? `${fmt(100 / taoUsd, 4)} TAO` : "$100 in TAO"}</strong><small>{taoUsd ? `Based on the current $${fmt(taoUsd)} TAO price` : "Use the live TAO price when sending"}</small></div><button onClick={async () => { await navigator.clipboard.writeText(universityWallet); setWalletCopied(true); }}>{walletCopied ? "Wallet copied ✓" : "Copy TAO wallet"}</button><code>{universityWallet}</code></div><div className="schedule-step locked"><span>Scheduling unlocks after payment</span><p>Stripe reveals the private booking link only after your $100 payment is confirmed. TAO payments are verified manually before scheduling.</p><b>🔒 Payment required</b></div></section></div>}
+      {checkoutCourse && <div className="checkout-backdrop" role="presentation" onMouseDown={e => { if (e.target === e.currentTarget) setCheckoutCourse(null); }}><section className="course-checkout panel" role="dialog" aria-modal="true" aria-labelledby="checkout-title"><button className="checkout-close" aria-label="Close checkout" onClick={() => setCheckoutCourse(null)}>×</button><p className="eyebrow">Shiz University enrollment</p><h2 id="checkout-title">{checkoutCourse.title}</h2><div className="checkout-price"><strong>$100</strong><span>One private class</span></div><a className="card-checkout" href={stripeCheckout} target="_blank" rel="noreferrer">Pay securely with card →</a><div className="checkout-divider"><span>or pay with TAO</span></div><div className="tao-payment"><div><span>Send exactly</span><strong>{taoUsd ? `${fmt(100 / taoUsd, 4)} TAO` : "$100 in TAO"}</strong><small>{taoUsd ? `Based on the current $${fmt(taoUsd)} TAO price` : "Use the live TAO price when sending"}</small></div><code>{universityWallet}</code><button onClick={async () => { await navigator.clipboard.writeText(universityWallet); setWalletCopied(true); }}>{walletCopied ? "Wallet copied ✓" : "Copy wallet address"}</button></div><div className="schedule-step"><span>Paid with TAO? Schedule your class</span><p>After sending your TAO, use the calendar below. You must include your transaction hash or transaction confirmation in the booking form so payment can be verified.</p><a className="card-checkout" href={universityCalendly} target="_blank" rel="noreferrer">Open scheduling calendar →</a><b>Bookings without transaction confirmation will not be accepted.</b></div></section></div>}
     </section>}
     <footer><span>SHIZZYUNCHAINED</span><p>Finalized on-chain data · {currency === "usd" ? "USD values use the live TAO spot rate" : "TAO-denominated values"} · Not financial advice</p><b>Built on Bittensor</b></footer>
   </main>;
