@@ -161,16 +161,30 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-    fetch("/api/backend/v1/screener").then(r => r.ok ? r.json() : Promise.reject()).then(json => {
-      const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
-      if (subnetMarkets.length) { setRows(subnetMarkets); setSelected(subnetMarkets[0].netuid); setLive(true); }
-    }).catch(() => setLive(false));
+    const refreshMarkets = () => {
+      fetch("/api/backend/v1/screener", { cache: "no-store" }).then(r => r.ok ? r.json() : Promise.reject()).then(json => {
+        const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
+        if (subnetMarkets.length) {
+          setRows(subnetMarkets);
+          setSelected(current => subnetMarkets.some((row: ScreenerRow) => row.netuid === current) ? current : subnetMarkets[0].netuid);
+          setLive(true);
+        }
+      }).catch(() => setLive(false));
+    };
+    refreshMarkets();
+    const refreshTimer = window.setInterval(refreshMarkets, 60_000);
+    return () => window.clearInterval(refreshTimer);
   }, []);
   useEffect(() => {
-    fetch("/api/tao-price").then(r => r.ok ? r.json() : Promise.reject()).then(json => {
-      const price = Number(json.usd);
-      if (Number.isFinite(price) && price > 0) setTaoUsd(price);
-    }).catch(() => undefined);
+    const refreshTaoPrice = () => {
+      fetch("/api/tao-price", { cache: "no-store" }).then(r => r.ok ? r.json() : Promise.reject()).then(json => {
+        const price = Number(json.usd);
+        if (Number.isFinite(price) && price > 0) setTaoUsd(price);
+      }).catch(() => undefined);
+    };
+    refreshTaoPrice();
+    const refreshTimer = window.setInterval(refreshTaoPrice, 60_000);
+    return () => window.clearInterval(refreshTimer);
   }, []);
   useEffect(() => {
     const end = new Date();
