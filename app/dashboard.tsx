@@ -482,11 +482,13 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <Link href="/about" onClick={() => setMobileMenuOpen(false)}>About</Link>
         <Link className={view === "partners" ? "active" : ""} href="/partners" onClick={() => setMobileMenuOpen(false)}>Partners</Link>
       </nav>
-      <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
-        <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
-        <button className={currency === "tao" ? "active" : ""} aria-pressed={currency === "tao"} onClick={() => setCurrency("tao")}>TAO</button>
+      <div className="header-actions">
+        <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
+          <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
+          <button className={currency === "tao" ? "active" : ""} aria-pressed={currency === "tao"} onClick={() => setCurrency("tao")}>TAO</button>
+        </div>
+        <div className={`status ${dataState === "live" ? "live" : "demo"}`} title={lastUpdated ? `Last updated ${lastUpdated.toLocaleTimeString()}` : undefined}><i />{dataState === "live" ? "Finney live" : dataState === "loading" ? "Connecting…" : "Reconnecting…"}</div>
       </div>
-      <div className={`status ${dataState === "live" ? "live" : "demo"}`} title={lastUpdated ? `Last updated ${lastUpdated.toLocaleTimeString()}` : undefined}><i />{dataState === "live" ? "Finney live" : dataState === "loading" ? "Connecting…" : "Reconnecting…"}</div>
     </header>
 
     {view === "screener" ? <>
