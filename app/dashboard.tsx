@@ -73,7 +73,20 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
   const ref = useRef<HTMLCanvasElement>(null);
   const [hovered, setHovered] = useState<number | null>(null);
   const [canvasWidth, setCanvasWidth] = useState(1000);
-  const visible = useMemo(() => candles.slice(-180), [candles]);
+  const visible = useMemo(() => candles
+    .filter(candle => ["open", "high", "low", "close"].every(field => Number(candle[field as keyof Candle]) > 0))
+    .slice(-180)
+    .map((candle, index, validCandles) => {
+      if (!index) return candle;
+      const previousClose = Number(validCandles[index - 1].close);
+      const close = Number(candle.close);
+      return {
+        ...candle,
+        open: String(previousClose),
+        high: String(Math.max(Number(candle.high), previousClose, close)),
+        low: String(Math.min(Number(candle.low), previousClose, close)),
+      };
+    }), [candles]);
   const sparse = visible.length > 1 && visible.length < 24;
   const layout = (width: number) => {
     const pad = 10;
