@@ -68,11 +68,13 @@ async def screener():
     rows = await app.state.db.fetch(
         """WITH latest AS (
              SELECT DISTINCT ON (netuid) netuid,time,block_number,price_tao,tao_reserve,
-                    alpha_reserve,alpha_out,volume_tao
+                    alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission
              FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC
            )
            SELECT l.netuid,s.name,s.symbol,l.time,l.block_number,l.price_tao,
                   l.tao_reserve,l.alpha_reserve,l.alpha_out,
+                  l.tao_in_emission AS emission_tao,
+                  100 * l.alpha_out_emission * 2628000 / NULLIF(l.alpha_out,0) AS apy,
                   (l.price_tao *
                     (COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0))) AS market_cap_tao,
                   l.volume_tao - COALESCE(v24.volume_tao,l.volume_tao) AS volume_24h_tao,
