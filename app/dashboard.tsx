@@ -289,7 +289,7 @@ export function Dashboard() {
     </section> : <section className="university-page">
       <div className="university-hero">
         <div className="university-copy"><p className="eyebrow">Private education · Real experience</p><h1>Learn the game.<br/><span>Build your edge.</span></h1><p>Four focused, one-on-one classes built around Bittensor, portfolio construction, content, and security. Every class is practical, personal, and scheduled directly with Shizzy.</p><div className="university-proof"><span><b>$100</b> per class</span><span><b>1-on-1</b> with Shizzy</span><span><b>Card or TAO</b> payment</span></div></div>
-        <img src="/shiz-university-logo.png" alt="Shiz University" />
+        <img src="/Copy%20of%20new%20shizzy%20logo.png" alt="Shiz University" />
       </div>
       <div className="course-heading"><div><p className="eyebrow">Choose your class</p><h2>Build your curriculum</h2></div><p>Pick the skill you want to sharpen now. Add another session whenever you’re ready.</p></div>
       <div className="course-grid">{universityCourses.map(course => <article className="course-card panel" key={course.number}><div className="course-top"><span>{course.number}</span><em>{course.tag}</em></div><h3>{course.title}</h3><p>{course.description}</p><ul>{course.lessons.map(lesson => <li key={lesson}>{lesson}</li>)}</ul><div className="course-foot"><strong>$100</strong><button onClick={() => { setCheckoutCourse(course); setWalletCopied(false); }}>Enroll now →</button></div></article>)}</div>
