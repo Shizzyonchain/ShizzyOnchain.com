@@ -143,6 +143,7 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
 
 export function Dashboard() {
   const [view, setView] = useState<"screener" | "bubbles" | "wallets" | "videos" | "university" | "partners">("screener");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
@@ -302,15 +303,16 @@ export function Dashboard() {
       <button className="brand" onClick={() => setView("screener")} aria-label="Shizzy Unchained home">
         <img src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" />
       </button>
-      <nav aria-label="Primary navigation">
-        <button className={view === "screener" ? "active" : ""} onClick={() => setView("screener")}>Market</button>
-        <button className={view === "bubbles" ? "active" : ""} onClick={() => setView("bubbles")}>Bubbles</button>
-        <button className={view === "videos" ? "active" : ""} onClick={() => setView("videos")}>Videos</button>
-        <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer">Shop</a>
-        <button className={view === "university" ? "active" : ""} onClick={() => setView("university")}>Shiz University</button>
-        <button className={view === "wallets" ? "active" : ""} onClick={() => setView("wallets")}>Wallet tracker</button>
-        <Link href="/about">About</Link>
-        <button className={view === "partners" ? "active" : ""} onClick={() => setView("partners")}>Partners</button>
+      <button className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`} aria-label="Open navigation menu" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen(open => !open)}><span /><span /><span /></button>
+      <nav id="primary-navigation" className={mobileMenuOpen ? "mobile-open" : ""} aria-label="Primary navigation">
+        <button className={view === "screener" ? "active" : ""} onClick={() => { setView("screener"); setMobileMenuOpen(false); }}>Market</button>
+        <button className={view === "bubbles" ? "active" : ""} onClick={() => { setView("bubbles"); setMobileMenuOpen(false); }}>Bubbles</button>
+        <button className={view === "videos" ? "active" : ""} onClick={() => { setView("videos"); setMobileMenuOpen(false); }}>Videos</button>
+        <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>Shop</a>
+        <button className={view === "university" ? "active" : ""} onClick={() => { setView("university"); setMobileMenuOpen(false); }}>Shiz University</button>
+        <button className={view === "wallets" ? "active" : ""} onClick={() => { setView("wallets"); setMobileMenuOpen(false); }}>Wallet tracker</button>
+        <Link href="/about" onClick={() => setMobileMenuOpen(false)}>About</Link>
+        <button className={view === "partners" ? "active" : ""} onClick={() => { setView("partners"); setMobileMenuOpen(false); }}>Partners</button>
       </nav>
       <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
         <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>

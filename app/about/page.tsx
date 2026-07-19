@@ -31,6 +31,7 @@ export default function AboutPage() {
     <header className="about-header">
       <Link className="about-brand" href="/" aria-label="Shizzy Unchained home"><Image src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" width={285} height={80} /></Link>
       <nav aria-label="Primary navigation"><Link href="/">Market</Link><Link href="/?view=videos">Videos</Link><a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer">Shop</a><Link href="/?view=university">Shiz University</Link><Link href="/?view=wallets">Wallet tracker</Link><Link className="active" href="/about">About</Link></nav>
+      <details className="about-mobile-menu"><summary aria-label="Open navigation menu"><span /><span /><span /></summary><div><Link href="/">Market</Link><Link href="/?view=bubbles">Bubbles</Link><Link href="/?view=videos">Videos</Link><a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer">Shop</a><Link href="/?view=university">Shiz University</Link><Link href="/?view=wallets">Wallet tracker</Link><Link href="/?view=partners">Partners</Link><Link className="active" href="/about">About</Link></div></details>
       <a className="about-contact-mini" href="mailto:shizzyunchained@gmail.com">Contact Shizzy</a>
     </header>
 
