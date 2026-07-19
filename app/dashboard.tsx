@@ -368,7 +368,7 @@ export function Dashboard() {
       <div className="partner-grid">
         {partners.map((partner, index) => <a className={`partner-banner ${partner.key}`} href={partner.href} target="_blank" rel="sponsored noreferrer" key={partner.name}>
           <div className="partner-number">0{index + 1}</div>
-          <div className="partner-logo" aria-hidden="true"><i/>{partner.name}</div>
+          <div className="partner-logo" aria-hidden="true">{partner.key === "mentat" ? <><span className="mentat-mark"><b/><b/><b/><b/></span><span>Mentat</span></> : <><i/>{partner.name}</>}</div>
           <div className="partner-copy"><span>{partner.kicker}</span><h2>{partner.name}</h2><p>{partner.description}</p></div>
           <strong>{partner.cta}<b>↗</b></strong>
         </a>)}
