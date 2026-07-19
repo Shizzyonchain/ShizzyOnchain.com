@@ -22,11 +22,14 @@ body{background:radial-gradient(circle at 72% -5%,rgba(21,88,255,.2),transparent
 .currency-toggle button{border:0;background:transparent;color:var(--muted);border-radius:99px;padding:6px 10px;font:10px var(--font-mono);letter-spacing:.6px;cursor:pointer}
 .currency-toggle button.active{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;box-shadow:0 0 14px rgba(19,200,255,.28)}
 .topbar .status{margin-left:0}
+.header-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:max-content}
 .topbar nav{align-items:stretch;min-width:0}
 .topbar nav>button,.topbar nav>a{height:100%;display:flex;align-items:center;white-space:nowrap;line-height:1}
 .brand{padding:5px 0}
 .brand img{display:block;width:285px;height:80px;object-fit:contain;object-position:left center}
 .brand-mark{display:none}
+@media(min-width:1200px){.topbar{display:grid;grid-template-columns:1fr auto 1fr;gap:24px}.topbar .brand{justify-self:start}.topbar nav{justify-self:center;gap:22px}.topbar .header-actions{justify-self:end;margin-left:0}.topbar .status{white-space:nowrap}}
+@media(min-width:761px) and (max-width:1199px){.topbar{gap:16px}.topbar .brand img{width:190px}.topbar nav{gap:14px}.topbar nav a{font-size:11px}.header-actions{gap:8px}.topbar .status{padding-inline:9px;font-size:9px}}
 nav button,nav a{font-family:var(--font-display);font-size:14px;font-weight:900;letter-spacing:.5px;text-transform:uppercase}
 nav button.active,nav a.active{color:#fff;text-shadow:0 0 14px rgba(19,200,255,.55)}
 nav button.active:after,nav a.active:after{height:3px;background:linear-gradient(90deg,var(--mint),var(--blue));box-shadow:0 0 14px var(--mint)}
@@ -127,7 +130,7 @@ footer{color:#6d86ac}
   .topbar nav button,.topbar nav a{min-height:48px;padding:0 14px;border:1px solid #15345f;background:#07152d;border-radius:7px;color:#a9bedc;font-size:12px;justify-content:flex-start}
   .topbar nav button.active{color:#fff;border-color:#1774c9;background:linear-gradient(135deg,#0b2854,#081a37)}
   .topbar nav button.active:after,.topbar nav a.active:after{left:12px;right:12px;bottom:5px}
-  .currency-toggle{order:2;margin-left:auto;flex:0 0 auto}.currency-toggle button{min-width:39px;min-height:36px;padding:5px 7px}.topbar .status{display:none}
+  .header-actions{order:2;margin-left:auto;flex:0 0 auto;gap:0}.currency-toggle{margin-left:0;flex:0 0 auto}.currency-toggle button{min-width:39px;min-height:36px;padding:5px 7px}.topbar .status{display:none}
   .hero-strip{margin-inline:-14px}.hero-strip>div{min-height:92px;padding:17px 14px}.hero-strip>div:first-child{padding-left:14px}.hero-strip span{font-size:9px}.hero-strip strong{font-size:17px;letter-spacing:-.5px}.hero-strip small{display:block;font-size:9px}
   .market-grid{padding-top:10px}.chart-card{min-height:410px;padding:20px 15px 15px}.panel-head{gap:16px}.panel-head>div:first-child{min-width:0}.panel-head h1{font-size:25px;overflow-wrap:anywhere}.quote{flex:0 0 auto}.quote strong{font-size:19px}.quote span{font-size:10px}.timeframes{overflow-x:auto;margin-top:16px}.timeframes button{min-height:40px;white-space:nowrap;padding-inline:12px}.price-canvas{height:238px}.chart-stats{gap:20px;padding-bottom:3px}.chart-stats span{font-size:9px}.chart-stats b{font-size:11px}
   .screener{margin-inline:-14px}.screener-head{padding:20px 14px}.screener-head h2{font-size:24px}.table-wrap{overscroll-behavior-inline:contain}.screener table{min-width:650px;table-layout:fixed}.screener th:nth-child(1),.screener td:nth-child(1),.screener th:nth-child(n+8),.screener td:nth-child(n+8){display:none}.screener th:nth-child(2){width:150px}.screener th:nth-child(3){width:90px}.screener th:nth-child(4){width:120px}.screener th:nth-child(5),.screener th:nth-child(6),.screener th:nth-child(7){width:88px}.screener th,.screener td{padding:14px 10px}.screener td:nth-child(2){gap:8px}.screener td:nth-child(2)>div b{font-size:15px}.screener td:nth-child(3){font-size:12px}.screener .token{display:none}
