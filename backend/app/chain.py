@@ -31,6 +31,28 @@ def fixed_to_decimal(value: Any, frac_bits: int = 32) -> Decimal:
     return Decimal(scale_int(value)) / Decimal(1 << frac_bits)
 
 
+def emission_shares(
+    tao_in: dict[int, Decimal], excess_tao: dict[int, Decimal]
+) -> dict[int, Decimal]:
+    """Return each subnet's total TAO allocation share for the block.
+
+    Subtensor splits a subnet's allocation between direct pool injection
+    (SubnetTaoInEmission) and excess TAO used for protocol chain buys
+    (SubnetExcessTao). Market dashboards call their sum "Emission".
+    """
+    netuids = tao_in.keys() | excess_tao.keys()
+    allocations = {
+        netuid: tao_in.get(netuid, Decimal(0))
+        + excess_tao.get(netuid, Decimal(0))
+        for netuid in netuids
+    }
+    total = sum(allocations.values(), Decimal(0))
+    return {
+        netuid: value / total if total > 0 else Decimal(0)
+        for netuid, value in allocations.items()
+    }
+
+
 def amount(value: Any) -> Decimal:
     """Convert v11 Balance/numeric values without crossing TAO/alpha units."""
     if value is None:
@@ -91,7 +113,20 @@ class ChainClient:
 
     async def subnets_at(self, block_number: int) -> list[dict]:
         view = await self.client.at(block_number)
-        infos, prices, tao_rows, alpha_rows, out_rows, volume_rows, tao_emission_rows, alpha_emission_rows, root_prop_rows, symbol_rows, identity_rows = await asyncio.gather(
+        (
+            infos,
+            prices,
+            tao_rows,
+            alpha_rows,
+            out_rows,
+            volume_rows,
+            tao_emission_rows,
+            excess_tao_rows,
+            alpha_emission_rows,
+            root_prop_rows,
+            symbol_rows,
+            identity_rows,
+        ) = await asyncio.gather(
             view.subnets.all(),
             view.prices.alpha_prices(),
             view.query_map(("SubtensorModule", "SubnetTAO")),
@@ -99,6 +134,7 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetAlphaOut")),
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "SubnetTaoInEmission")),
+            view.query_map(("SubtensorModule", "SubnetExcessTao")),
             view.query_map(("SubtensorModule", "SubnetAlphaOutEmission")),
             view.query_map(("SubtensorModule", "RootProp")),
             view.query_map(("SubtensorModule", "TokenSymbol")),
@@ -111,14 +147,13 @@ class ChainClient:
         tao_emission = {
             int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_emission_rows
         }
+        excess_tao = {
+            int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in excess_tao_rows
+        }
         alpha_emission = {
             int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_emission_rows
         }
-        emission_total = sum(tao_emission.values(), Decimal(0))
-        emission_share = {
-            netuid: value / emission_total if emission_total > 0 else Decimal(0)
-            for netuid, value in tao_emission.items()
-        }
+        emission_share = emission_shares(tao_emission, excess_tao)
         root_prop = {
             int(k): fixed_to_decimal(v)
             for k, v in root_prop_rows
