@@ -52,6 +52,10 @@ class FakeBalance:
     def __init__(self, rao: int):
         self.rao = rao
 
+    @property
+    def tao(self):
+        raise ValueError("alpha balances cannot be read as TAO")
+
 
 def test_total_locked_alpha_uses_bittensor_v11_aggregate():
     result = {

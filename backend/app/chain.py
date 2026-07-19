@@ -65,12 +65,15 @@ def token_units(value: Any) -> Decimal:
     """Convert SDK Balance values to whole TAO/alpha units."""
     if value is None:
         return Decimal(0)
-    tao_value = getattr(value, "tao", None)
-    if tao_value is not None:
-        return Decimal(str(tao_value))
+    decimal_value = getattr(value, "decimal", None)
+    if decimal_value is not None:
+        return Decimal(str(decimal_value))
     rao_value = getattr(value, "rao", None)
     if rao_value is not None:
         return Decimal(str(rao_value)) / RAO_PER_TAO
+    amount_value = getattr(value, "amount", None)
+    if amount_value is not None:
+        return Decimal(str(amount_value))
     return Decimal(str(value))
 
 
