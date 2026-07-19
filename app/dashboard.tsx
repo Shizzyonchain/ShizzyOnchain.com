@@ -135,7 +135,7 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
 }
 
 export function Dashboard() {
-  const [view, setView] = useState<"screener" | "wallets" | "videos" | "university">("screener");
+  const [view, setView] = useState<"screener" | "bubbles" | "wallets" | "videos" | "university">("screener");
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
@@ -148,6 +148,7 @@ export function Dashboard() {
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
   const [selected, setSelected] = useState(64);
   const [timeframe, setTimeframe] = useState("1h");
+  const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_1h");
   const [candles, setCandles] = useState<Candle[]>([]);
   const [walletInput, setWalletInput] = useState("");
   const [wallets, setWallets] = useState<Wallet[]>([]);
@@ -156,7 +157,7 @@ export function Dashboard() {
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
-    if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener") queueMicrotask(() => setView(requested));
+    if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "bubbles") queueMicrotask(() => setView(requested));
   }, []);
 
   useEffect(() => {
@@ -187,6 +188,18 @@ export function Dashboard() {
   const totalVolume = rows.reduce((sum,r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = [...rows].sort((a,b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const marketCapLeaders = [...rows].sort((a,b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0)).slice(0, 14);
+  const bubbleRows = useMemo(() => [...rows]
+    .filter(r => Number(r.market_cap_tao || 0) > 0)
+    .sort((a,b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0))
+    .slice(0, 42), [rows]);
+  const bubbleMax = Math.max(...bubbleRows.map(r => Number(r.market_cap_tao || 0)), 1);
+  const bubbleMin = Math.min(...bubbleRows.map(r => Number(r.market_cap_tao || 0)), bubbleMax);
+  const bubbleSize = (row: ScreenerRow) => {
+    const value = Math.sqrt(Number(row.market_cap_tao || 0));
+    const low = Math.sqrt(bubbleMin), high = Math.sqrt(bubbleMax);
+    return Math.round(88 + ((value - low) / Math.max(high - low, 1)) * 142);
+  };
+  const bubbleChange = (row: ScreenerRow) => row[bubbleTimeframe] as string | undefined;
   const money = (value?: string | number, price = false) => {
     const tao = Number(value ?? 0);
     if (currency === "tao") return `τ ${fmt(tao, price ? 6 : 4)}`;
@@ -234,6 +247,7 @@ export function Dashboard() {
       </button>
       <nav aria-label="Primary navigation">
         <button className={view === "screener" ? "active" : ""} onClick={() => setView("screener")}>Market</button>
+        <button className={view === "bubbles" ? "active" : ""} onClick={() => setView("bubbles")}>Bubbles</button>
         <button className={view === "videos" ? "active" : ""} onClick={() => setView("videos")}>Videos</button>
         <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer">Shop</a>
         <button className={view === "university" ? "active" : ""} onClick={() => setView("university")}>Shiz University</button>
@@ -268,7 +282,33 @@ export function Dashboard() {
         <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Mkt cap{sortArrow("market_cap_tao")}</button></th></tr></thead>
         <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>setSelected(r.netuid)}><td>{i+1}</td><td><span className="token">{r.symbol?.replace("α","") || r.netuid}</span><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td><td>{money(r.market_cap_tao)}</td></tr>)}</tbody></table></div>
       </section>
-    </> : view === "wallets" ? <section className="wallet-page">
+    </> : view === "bubbles" ? <section className="bubbles-page">
+      <div className="bubbles-hero">
+        <div><p className="eyebrow">Live Bittensor market map</p><h1>Subnet <span>bubbles.</span></h1><p>See the whole market at a glance. Bigger bubbles have larger market caps. Green is gaining, red is falling, and white is flat.</p></div>
+        <div className="bubble-controls" role="group" aria-label="Bubble performance period">
+          {[
+            { value: "change_10m", label: "10 Minutes" },
+            { value: "change_1h", label: "1 Hour" },
+            { value: "change_24h", label: "1 Day" },
+          ].map(period => <button key={period.value} className={bubbleTimeframe === period.value ? "active" : ""} onClick={() => setBubbleTimeframe(period.value as typeof bubbleTimeframe)}>{period.label}</button>)}
+        </div>
+      </div>
+      <div className="bubble-legend"><span><i className="gain"/>Gaining</span><span><i className="flat"/>Flat</span><span><i className="loss"/>Falling</span><b>Size = market cap</b></div>
+      <section className="bubble-cloud panel" aria-label="Subnet market cap bubbles">
+        {bubbleRows.map(row => {
+          const movement = Number(bubbleChange(row) || 0);
+          const size = bubbleSize(row);
+          return <button key={row.netuid} style={{ width: size, height: size }} className={`market-bubble ${movement > 0.005 ? "gain" : movement < -0.005 ? "loss" : "flat"} ${selected === row.netuid ? "selected" : ""}`} onClick={() => setSelected(row.netuid)} aria-label={`${row.name || `Subnet ${row.netuid}`}, ${money(row.market_cap_tao)} market cap, ${movement >= 0 ? "+" : ""}${fmt(movement)} percent`}>
+            <small>SN{row.netuid}</small><strong>{row.name || `Subnet ${row.netuid}`}</strong><em>{movement > 0 ? "+" : ""}{fmt(movement)}%</em><span>{money(row.market_cap_tao)}</span>
+          </button>;
+        })}
+      </section>
+      {active && <aside className="bubble-detail panel">
+        <div><span className="bubble-token">{active.symbol?.replace("α", "") || active.netuid}</span><div><small>SN{active.netuid}</small><h2>{active.name || `Subnet ${active.netuid}`}</h2></div></div>
+        <dl><div><dt>Price</dt><dd>{money(active.price_tao, true)}</dd></div><div><dt>Market cap</dt><dd>{money(active.market_cap_tao)}</dd></div><div><dt>Liquidity</dt><dd>{money(active.tao_reserve)}</dd></div><div><dt>{bubbleTimeframe === "change_10m" ? "10 minutes" : bubbleTimeframe === "change_1h" ? "1 hour" : "1 day"}</dt><dd className={changeClass(bubbleChange(active))}>{Number(bubbleChange(active) || 0) > 0 ? "+" : ""}{fmt(bubbleChange(active))}%</dd></div></dl>
+        <button onClick={() => setView("screener")}>Open market chart →</button>
+      </aside>}
+    </section> : view === "wallets" ? <section className="wallet-page">
       <div className="wallet-intro"><p className="eyebrow">Portfolio intelligence</p><h1>See every wallet.<br/><span>See the whole position.</span></h1><p>Paste up to 100 Bittensor coldkeys. We’ll combine free TAO, alpha positions, subnet exposure, and spot-value estimates at one finalized block.</p></div>
       <form className="wallet-form panel" onSubmit={checkWallets}><label htmlFor="wallets">Coldkey addresses</label><textarea id="wallets" value={walletInput} onChange={e=>setWalletInput(e.target.value)} placeholder={"5F...\n5G...\n5H..."} /><div className="form-foot"><span>One per line, space, or comma</span><button disabled={checking}>{checking ? "Checking chain…" : "Check wallets →"}</button></div>{walletError && <p className="form-error">{walletError}</p>}</form>
       {wallets.length > 0 && <div className="portfolio-summary panel"><div><span>Total wallets</span><strong>{wallets.length}</strong></div><div><span>Free balance</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.free_tao||0),0))}</strong></div><div><span>Staked value</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.staked_tao_value||0),0))}</strong></div><div><span>Total portfolio</span><strong className="accent">{money(wallets.reduce((s,w)=>s+Number(w.total_tao_value||0),0))}</strong></div></div>}
