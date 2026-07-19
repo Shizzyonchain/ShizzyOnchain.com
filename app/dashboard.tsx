@@ -118,7 +118,6 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
         low: String(Math.min(Number(candle.low), previousClose, close)),
       };
     }), [candles]);
-  const sparse = visible.length > 1 && visible.length < 24;
   const layout = (width: number) => {
     const pad = 10;
     const priceAxis = width < 520 ? 58 : 72;
@@ -191,34 +190,16 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
       ctx.fillText(axisTime(visible[candleIndex].time), gridX, box.height - 7);
     }
 
-    if (sparse) {
-      const points = visible.map((c, i) => ({ x: start + step * (i + .5), y: y(Number(c.close)) }));
-      const rising = Number(visible.at(-1)?.close) >= Number(visible[0]?.close);
-      const color = rising ? "#22c55e" : "#ef4444";
-      const fill = ctx.createLinearGradient(0, padY, 0, bottomY);
-      fill.addColorStop(0, rising ? "rgba(34,197,94,.2)" : "rgba(239,68,68,.18)");
-      fill.addColorStop(1, "rgba(2,8,23,0)");
-      ctx.beginPath(); ctx.moveTo(points[0].x, bottomY);
-      points.forEach(point => ctx.lineTo(point.x, point.y));
-      ctx.lineTo(points.at(-1)!.x, bottomY); ctx.closePath();
-      ctx.fillStyle = fill; ctx.fill();
-      ctx.beginPath();
-      points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
-      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
-      ctx.fillStyle = color;
-      points.forEach(point => { ctx.beginPath(); ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2); ctx.fill(); });
-    } else {
-      visible.forEach((c, i) => {
-        const open = Number(c.open), high = Number(c.high), low = Number(c.low), close = Number(c.close);
-        const x = start + step * (i + .5);
-        const color = close > open ? "#22c55e" : close < open ? "#ef4444" : "#ffffff";
-        ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(x, y(high)); ctx.lineTo(x, y(low)); ctx.stroke();
-        const top = Math.min(y(open), y(close));
-        const height = Math.max(2, Math.abs(y(open) - y(close)));
-        ctx.fillRect(x - bodyW / 2, top, bodyW, height);
-      });
-    }
+    visible.forEach((c, i) => {
+      const open = Number(c.open), high = Number(c.high), low = Number(c.low), close = Number(c.close);
+      const x = start + step * (i + .5);
+      const color = close > open ? "#22c55e" : close < open ? "#ef4444" : "#ffffff";
+      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, y(high)); ctx.lineTo(x, y(low)); ctx.stroke();
+      const top = Math.min(y(open), y(close));
+      const height = Math.max(2, Math.abs(y(open) - y(close)));
+      ctx.fillRect(x - bodyW / 2, top, bodyW, height);
+    });
 
     if (hovered !== null && visible[hovered]) {
       const candle = visible[hovered];
@@ -238,7 +219,7 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
       ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
       ctx.fillText(timeLabel, timeLeft + timeWidth / 2, bottomY + 10);
     }
-  }, [visible, hovered, sparse, currency, taoUsd, valueCurrency, timeframe, canvasWidth]);
+  }, [visible, hovered, currency, taoUsd, valueCurrency, timeframe, canvasWidth]);
 
   const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
     if (!visible.length) return;
