@@ -469,6 +469,18 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const visibleActivity = meaningfulActivity.filter(event => activityFilter === "all" || eventCategory(event) === activityFilter);
   const keyChangeCount = meaningfulActivity.filter(event => eventCategory(event) === "keys").length;
   const convictionEventCount = meaningfulActivity.filter(event => eventCategory(event) === "locks").length;
+  const convictionLeaders = [...rows]
+    .filter(row => row.conviction_locked_pct != null)
+    .sort((a, b) => Number(b.conviction_locked_pct || 0) - Number(a.conviction_locked_pct || 0))
+    .slice(0, 8);
+  const emissionMovers = [...rows]
+    .filter(row => row.emission_change_1h != null)
+    .sort((a, b) => Math.abs(Number(b.emission_change_1h || 0)) - Math.abs(Number(a.emission_change_1h || 0)))
+    .slice(0, 5);
+  const liquidityMovers = [...rows]
+    .filter(row => row.liquidity_change_1h != null)
+    .sort((a, b) => Math.abs(Number(b.liquidity_change_1h || 0)) - Math.abs(Number(a.liquidity_change_1h || 0)))
+    .slice(0, 5);
   const activityHours = activityCollectingSince ? Math.max(0, (Date.now() - new Date(activityCollectingSince).getTime()) / 3_600_000) : 0;
   const activityPeriod = activityHours < 24 ? `Since tracking began · ${activityHours < 1 ? "<1" : Math.floor(activityHours)}h` : "Last 24 hours";
   const eventDescription = (event: ChainEvent) => {
@@ -557,6 +569,36 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       </section>
     </> : view === "activity" ? <section className="activity-page">
       <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow conviction locks, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
+      <section className="chain-intel-grid" aria-label="Subnet chain intelligence">
+        <article className="conviction-board panel">
+          <div className="intel-panel-head"><div><p className="eyebrow">Conviction leaderboard</p><h2>Supply locked by subnet</h2></div><span>Live finalized state</span></div>
+          <div className="conviction-ranking">
+            {convictionLeaders.map((row, index) => <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
+              <em>{String(index + 1).padStart(2, "0")}</em>
+              <span><b>{row.name || `Subnet ${row.netuid}`}</b><small>SN{row.netuid}</small></span>
+              <i><u style={{ width: `${Math.min(100, Number(row.conviction_locked_pct || 0))}%` }} /></i>
+              <strong>{fmt(row.conviction_locked_pct, 2)}%</strong>
+            </button>)}
+            {!convictionLeaders.length && <div className="intel-empty">Waiting for finalized conviction data…</div>}
+          </div>
+        </article>
+        <div className="flow-panels">
+          <article className="flow-board panel">
+            <div className="intel-panel-head"><div><p className="eyebrow">Emission movement</p><h2>Largest 1-hour changes</h2></div><span>Percentage points</span></div>
+            <div className="flow-ranking">{emissionMovers.map(row => <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
+              <span><b>{row.name || `Subnet ${row.netuid}`}</b><small>SN{row.netuid}</small></span>
+              <strong className={changeClass(row.emission_change_1h)}>{Number(row.emission_change_1h || 0) > 0 ? "+" : ""}{fmt(row.emission_change_1h, 4)}</strong>
+            </button>)}</div>
+          </article>
+          <article className="flow-board panel">
+            <div className="intel-panel-head"><div><p className="eyebrow">Liquidity movement</p><h2>Largest 1-hour changes</h2></div><span>TAO reserves</span></div>
+            <div className="flow-ranking">{liquidityMovers.map(row => <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
+              <span><b>{row.name || `Subnet ${row.netuid}`}</b><small>SN{row.netuid}</small></span>
+              <strong className={changeClass(row.liquidity_change_1h)}>{Number(row.liquidity_change_1h || 0) > 0 ? "+" : ""}{fmt(row.liquidity_change_1h, 2)}%</strong>
+            </button>)}</div>
+          </article>
+        </div>
+      </section>
       <section className="chain-activity panel" aria-labelledby="activity-title">
         <div className="activity-head"><div><p className="eyebrow">Finalized chain intelligence</p><h2 id="activity-title">Conviction, keys, and ownership</h2></div><span>{activityPeriod} · Refreshes every 60 seconds</span></div>
         <div className="activity-summary">
