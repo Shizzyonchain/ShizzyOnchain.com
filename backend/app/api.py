@@ -19,7 +19,11 @@ settings = get_settings()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.db = await connect()
+    app.state.screener_cache = None
+    app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
     yield
+    if not app.state.screener_refresh_task.done():
+        app.state.screener_refresh_task.cancel()
     await close()
 
 
@@ -76,8 +80,7 @@ async def current_prices():
     return {"data": [dict(row) for row in rows]}
 
 
-@app.get("/v1/screener", dependencies=[Depends(authorize)])
-async def screener():
+async def _refresh_screener(current_app: FastAPI):
     rows = await app.state.db.fetch(
         """WITH latest AS (
              SELECT DISTINCT ON (netuid) netuid,time,block_number,price_tao,tao_reserve,
@@ -134,7 +137,25 @@ async def screener():
            ) v24 ON true
            ORDER BY market_cap_tao DESC NULLS LAST"""
     )
-    return {"data": [dict(row) for row in rows]}
+    current_app.state.screener_cache = {
+        "data": [dict(row) for row in rows],
+        "cached_at": datetime.now(timezone.utc),
+    }
+    return current_app.state.screener_cache
+
+
+@app.get("/v1/screener", dependencies=[Depends(authorize)])
+async def screener():
+    task = app.state.screener_refresh_task
+    if app.state.screener_cache is None:
+        try:
+            return await task
+        except Exception:
+            app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
+            return await app.state.screener_refresh_task
+    if task.done():
+        app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
+    return app.state.screener_cache
 
 
 @app.get("/v1/subnets/{netuid}/prices", dependencies=[Depends(authorize)])

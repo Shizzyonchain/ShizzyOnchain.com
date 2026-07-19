@@ -170,10 +170,25 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
+    try {
+      const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
+      const cachedRows = Array.isArray(cached?.data)
+        ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0)
+        : [];
+      if (cachedRows.length && Date.now() - Number(cached.savedAt || 0) < 10 * 60_000) {
+        setRows(cachedRows);
+        setSelected(current => cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid);
+        setDataState("live");
+        setLastUpdated(new Date(cached.savedAt));
+      }
+    } catch {
+      window.localStorage.removeItem("shizzy:screener");
+    }
     const refreshMarkets = () => {
       fetch("/api/backend/v1/screener", { cache: "no-store" }).then(r => r.ok ? r.json() : Promise.reject()).then(json => {
         const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
         if (subnetMarkets.length) {
+          window.localStorage.setItem("shizzy:screener", JSON.stringify({ data: json.data, savedAt: Date.now() }));
           setRows(subnetMarkets);
           setSelected(current => subnetMarkets.some((row: ScreenerRow) => row.netuid === current) ? current : subnetMarkets[0].netuid);
           setDataState("live");
