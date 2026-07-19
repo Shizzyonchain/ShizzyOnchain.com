@@ -35,6 +35,12 @@ services:
           property: connectionString
       - key: SUBTENSOR_WS_URL
         value: wss://entrypoint-finney.opentensor.ai:443
+      - key: BACKFILL_WS_URL
+        value: wss://archive.chain.opentensor.ai:443
+      - key: BACKFILL_PRICE_GAPS
+        value: "true"
+      - key: BACKFILL_SAMPLE_BLOCKS
+        value: "5"
       - key: INDEXER_START_BLOCK
         value: latest
       - key: LOG_LEVEL

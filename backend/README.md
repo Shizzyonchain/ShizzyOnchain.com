@@ -116,6 +116,10 @@ are decimal JSON strings where necessary; never convert token values through bin
 - Set `INDEXER_START_BLOCK=1234567` before the first start to backfill from that block. This requires
   an archive endpoint capable of serving every requested block.
 - After any restart, the indexer resumes at `max(chain_blocks.block_number) + 1` and fills gaps.
+- The worker also detects historical chart gaps and repairs them in the background from
+  `BACKFILL_WS_URL` (the official Finney archive endpoint by default). It stores a real
+  block-pinned market snapshot every `BACKFILL_SAMPLE_BLOCKS` blocks; the default of five
+  produces one-minute chart coverage while live indexing continues.
 - Inserts are idempotent. Never run two indexer replicas against one database unless you add a
   PostgreSQL advisory-lock leader election layer.
 

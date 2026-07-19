@@ -3,13 +3,14 @@ import logging
 from datetime import datetime, timezone
 
 
+from app.backfill import sample_blocks
 from app.chain import ChainClient
 from app.config import get_settings
 from app.db import close, connect
 from app.rpc import finalized_heads
 
 log = logging.getLogger("shizzy.indexer")
-MAX_CATCHUP_BLOCKS = 25
+MAX_CATCHUP_BLOCKS = 250
 
 
 def _block_hash(info) -> str:
@@ -37,18 +38,25 @@ def _block_time(info) -> datetime:
     return datetime.now(timezone.utc)
 
 
-async def persist_block(db, chain, number: int, announced_hash: str | None = None):
+async def persist_block(
+    db,
+    chain,
+    number: int,
+    announced_hash: str | None = None,
+    include_events: bool = True,
+):
     info = await chain.block_info(number)
     block_hash = _block_hash(info) or announced_hash
     if not block_hash:
         raise RuntimeError(f"No hash returned for finalized block {number}")
     timestamp = _block_time(info)
     rows = await chain.subnets_at(number)
-    try:
-        events = await chain.events_at(number)
-    except Exception as exc:
-        log.warning("event read failed at finalized block %s: %s", number, exc)
-        events = []
+    events = []
+    if include_events:
+        try:
+            events = await chain.events_at(number)
+        except Exception as exc:
+            log.warning("event read failed at finalized block %s: %s", number, exc)
     async with db.acquire() as conn, conn.transaction():
         claimed = await conn.fetchval(
             """INSERT INTO chain_blocks(block_number,block_hash,parent_hash,block_time)
@@ -102,6 +110,74 @@ async def persist_block(db, chain, number: int, announced_hash: str | None = Non
     )
 
 
+async def _missing_price_ranges(db, minimum_gap_blocks: int):
+    return await db.fetch(
+        """WITH ordered AS (
+             SELECT block_number,block_time,
+                    lead(block_number) OVER (ORDER BY block_number) AS next_block,
+                    lead(block_time) OVER (ORDER BY block_number) AS next_time
+             FROM chain_blocks
+           )
+           SELECT block_number AS start_block,next_block AS end_block,
+                  block_time AS start_time,next_time AS end_time
+           FROM ordered
+           WHERE next_block-block_number > $1
+             AND next_time-block_time > interval '90 seconds'
+           ORDER BY block_number""",
+        minimum_gap_blocks,
+    )
+
+
+async def backfill_missing_prices(db, settings):
+    """Repair historical chart gaps with real archive-node state at one-minute resolution."""
+    if not settings.backfill_price_gaps or not settings.backfill_ws_url:
+        return
+    step = max(1, settings.backfill_sample_blocks)
+    ranges = await _missing_price_ranges(db, step)
+    if not ranges:
+        log.info("historical price backfill found no missing ranges")
+        return
+    total = sum(len(sample_blocks(row["start_block"], row["end_block"], step)) for row in ranges)
+    log.warning(
+        "historical price backfill found %s ranges (%s archive samples)",
+        len(ranges),
+        total,
+    )
+    completed = 0
+    backfill_settings = settings.model_copy(update={"subtensor_ws_url": settings.backfill_ws_url})
+    async with ChainClient(backfill_settings) as archive:
+        for gap in ranges:
+            log.warning(
+                "repairing chart gap %s..%s (%s to %s)",
+                gap["start_block"],
+                gap["end_block"],
+                gap["start_time"],
+                gap["end_time"],
+            )
+            for number in sample_blocks(gap["start_block"], gap["end_block"], step):
+                try:
+                    await persist_block(db, archive, number, include_events=False)
+                except Exception:
+                    log.exception("archive backfill failed at block %s; continuing", number)
+                    await asyncio.sleep(2)
+                    continue
+                completed += 1
+                if completed % 25 == 0 or completed == total:
+                    log.info("historical price backfill progress %s/%s", completed, total)
+    log.warning("historical price backfill completed %s/%s archive samples", completed, total)
+
+
+async def backfill_loop(db, settings):
+    while True:
+        try:
+            await backfill_missing_prices(db, settings)
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            log.exception("historical price backfill cycle failed")
+        await asyncio.sleep(300)
+
+
 async def indexer():
     settings = get_settings()
     logging.basicConfig(level=settings.log_level)
@@ -109,6 +185,7 @@ async def indexer():
     last = await db.fetchval("SELECT max(block_number) FROM chain_blocks")
     if last is None and settings.indexer_start_block.isdigit():
         last = int(settings.indexer_start_block) - 1
+    asyncio.create_task(backfill_loop(db, settings))
     retry_delay = 5
     while True:
         try:

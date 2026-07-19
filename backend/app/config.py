@@ -16,6 +16,9 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql://shizzy:shizzy@localhost:5432/shizzy"
     subtensor_ws_url: str = "wss://entrypoint-finney.opentensor.ai:443"
+    backfill_ws_url: str = "wss://archive.chain.opentensor.ai:443"
+    backfill_price_gaps: bool = True
+    backfill_sample_blocks: int = 5
     subtensor_network: str = "finney"
     indexer_start_block: str = "latest"
     indexer_confirmation_mode: str = "finalized"
