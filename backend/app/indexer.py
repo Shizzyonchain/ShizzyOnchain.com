@@ -44,13 +44,16 @@ async def persist_block(
     number: int,
     announced_hash: str | None = None,
     include_events: bool = True,
+    include_auxiliary: bool = True,
 ):
     info = await chain.block_info(number)
     block_hash = _block_hash(info) or announced_hash
     if not block_hash:
         raise RuntimeError(f"No hash returned for finalized block {number}")
     timestamp = _block_time(info)
-    rows = await chain.subnets_at(number)
+    rows = await chain.subnets_at(
+        number, include_auxiliary=include_auxiliary
+    )
     events = []
     if include_events:
         try:
@@ -156,7 +159,13 @@ async def backfill_missing_prices(db, settings):
             )
             for number in sample_blocks(gap["start_block"], gap["end_block"], step):
                 try:
-                    await persist_block(db, archive, number, include_events=False)
+                    await persist_block(
+                        db,
+                        archive,
+                        number,
+                        include_events=False,
+                        include_auxiliary=False,
+                    )
                 except Exception:
                     log.exception("archive backfill failed at block %s; continuing", number)
                     await asyncio.sleep(2)
