@@ -169,8 +169,10 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe }: { candles: Ca
   </div>;
 }
 
-export function Dashboard() {
-  const [view, setView] = useState<"screener" | "bubbles" | "wallets" | "videos" | "university" | "partners">("screener");
+export type DashboardView = "screener" | "bubbles" | "wallets" | "videos" | "university" | "partners";
+
+export function Dashboard({ initialView = "screener" }: { initialView?: DashboardView }) {
+  const [view, setView] = useState<DashboardView>(initialView);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
@@ -352,19 +354,19 @@ export function Dashboard() {
       </div>
     </section>
     <header className="topbar">
-      <button className="brand" onClick={() => setView("screener")} aria-label="Shizzy Unchained home">
+      <Link className="brand" href="/" aria-label="Shizzy Unchained home">
         <img src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" />
-      </button>
+      </Link>
       <button className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`} aria-label="Open navigation menu" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen(open => !open)}><span /><span /><span /></button>
       <nav id="primary-navigation" className={mobileMenuOpen ? "mobile-open" : ""} aria-label="Primary navigation">
-        <button className={view === "screener" ? "active" : ""} onClick={() => { setView("screener"); setMobileMenuOpen(false); }}>Market</button>
-        <button className={view === "bubbles" ? "active" : ""} onClick={() => { setView("bubbles"); setMobileMenuOpen(false); }}>Bubbles</button>
-        <button className={view === "videos" ? "active" : ""} onClick={() => { setView("videos"); setMobileMenuOpen(false); }}>Videos</button>
+        <Link className={view === "screener" ? "active" : ""} href="/" onClick={() => setMobileMenuOpen(false)}>Market</Link>
+        <Link className={view === "bubbles" ? "active" : ""} href="/bubbles" onClick={() => setMobileMenuOpen(false)}>Bubbles</Link>
+        <Link className={view === "videos" ? "active" : ""} href="/video" onClick={() => setMobileMenuOpen(false)}>Videos</Link>
         <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>Shop</a>
-        <button className={view === "university" ? "active" : ""} onClick={() => { setView("university"); setMobileMenuOpen(false); }}>Shiz University</button>
-        <button className={view === "wallets" ? "active" : ""} onClick={() => { setView("wallets"); setMobileMenuOpen(false); }}>Wallet tracker</button>
+        <Link className={view === "university" ? "active" : ""} href="/university" onClick={() => setMobileMenuOpen(false)}>Shiz University</Link>
+        <Link className={view === "wallets" ? "active" : ""} href="/wallet-tracker" onClick={() => setMobileMenuOpen(false)}>Wallet tracker</Link>
         <Link href="/about" onClick={() => setMobileMenuOpen(false)}>About</Link>
-        <button className={view === "partners" ? "active" : ""} onClick={() => { setView("partners"); setMobileMenuOpen(false); }}>Partners</button>
+        <Link className={view === "partners" ? "active" : ""} href="/partners" onClick={() => setMobileMenuOpen(false)}>Partners</Link>
       </nav>
       <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
         <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
