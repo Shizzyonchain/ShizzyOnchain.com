@@ -21,7 +21,7 @@ body{background:radial-gradient(circle at 72% -5%,rgba(21,88,255,.2),transparent
 .currency-toggle{margin-left:auto;display:flex;align-items:center;padding:3px;border:1px solid var(--line);border-radius:99px;background:#020a1b;box-shadow:inset 0 0 18px rgba(19,200,255,.04)}
 .currency-toggle button{border:0;background:transparent;color:var(--muted);border-radius:99px;padding:6px 10px;font:10px var(--font-mono);letter-spacing:.6px;cursor:pointer}
 .currency-toggle button.active{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;box-shadow:0 0 14px rgba(19,200,255,.28)}
-.topbar .status{margin-left:0}
+.topbar .status{margin-left:0;min-width:118px;justify-content:center;white-space:nowrap}
 .header-actions{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;gap:18px;min-width:max-content}
 .topbar nav{align-items:stretch;min-width:0}
 .topbar nav>button,.topbar nav>a{height:100%;display:flex;align-items:center;white-space:nowrap;line-height:1}
