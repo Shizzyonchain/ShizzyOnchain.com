@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from dataclasses import asdict, is_dataclass
 from decimal import Decimal
 from typing import Any
@@ -6,6 +7,7 @@ from typing import Any
 from app.config import Settings
 
 RAO_PER_TAO = Decimal(1_000_000_000)
+logger = logging.getLogger(__name__)
 
 
 def scale_int(value: Any) -> int:
@@ -275,7 +277,12 @@ class ChainClient:
             try:
                 result = await view.locks.subnet_convictions(netuid=netuid)
                 return netuid, total_locked_alpha(result)
-            except Exception:
+            except Exception as exc:
+                logger.warning(
+                    "conviction lock read failed for netuid %s: %s",
+                    netuid,
+                    exc,
+                )
                 return netuid, None
 
         for start in range(0, len(netuids), 16):
