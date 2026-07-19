@@ -183,6 +183,37 @@ footer{color:#6d86ac}
 .partner-banner.mentat{color:#fff;background:radial-gradient(circle at 88% 18%,rgba(96,66,255,.34),transparent 36%),linear-gradient(145deg,#3124f4,#160e9c)}
 .partner-banner.mentat .partner-logo{gap:18px;font:500 38px/1 Arial,sans-serif;letter-spacing:-1.5px}
 .partner-banner.mentat .partner-logo>span:last-child{color:#fff}
+
+/* Reliability and responsive polish */
+html,body{overflow-x:clip}
+.market-loading{min-height:365px;display:grid;place-content:center;justify-items:center;text-align:center;gap:10px;color:#7893bb}
+.market-loading i{width:30px;height:30px;border:2px solid #174275;border-top-color:var(--mint);border-radius:50%;animation:market-spin .9s linear infinite}
+.market-loading strong{color:#fff;font:900 15px var(--font-display);text-transform:uppercase;letter-spacing:.05em}
+.market-loading span{font:10px var(--font-mono);text-transform:uppercase;letter-spacing:.08em}
+.wallet-safety{margin:0 0 12px;padding:10px 12px;border:1px solid #174275;background:#06142c;color:#92acd0;font:10px/1.5 var(--font-mono);text-transform:uppercase;letter-spacing:.04em}
+@keyframes market-spin{to{transform:rotate(360deg)}}
+
+@media(min-width:761px) and (max-width:1260px){
+  .topbar{gap:12px}
+  .topbar .brand img{width:170px;height:auto}
+  .mobile-menu-toggle{order:3;display:grid;place-content:center;gap:4px;width:44px;height:44px;margin-left:0;padding:0;border:1px solid var(--line);border-radius:8px;background:#06152d;cursor:pointer}
+  .mobile-menu-toggle span{display:block;width:19px;height:2px;background:#dceaff;transition:transform .18s,opacity .18s}
+  .mobile-menu-toggle.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}.mobile-menu-toggle.open span:nth-child(2){opacity:0}.mobile-menu-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+  .topbar nav{display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;height:auto;padding:14px;grid-template-columns:repeat(4,1fr);gap:8px;background:rgba(2,8,23,.99);border-bottom:1px solid #1a4b82;box-shadow:0 24px 50px rgba(0,0,0,.58)}
+  .topbar nav.mobile-open{display:grid}
+  .topbar nav button,.topbar nav a{min-height:48px;padding:0 14px;border:1px solid #15345f;background:#07152d;border-radius:7px;color:#a9bedc;font-size:11px;justify-content:center}
+  .currency-toggle{margin-left:auto}.topbar .status{margin-left:0}
+}
+
+@media(max-width:760px){
+  .chart-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:visible;padding-bottom:0}
+  .chart-stats span{min-width:0;padding:9px 10px;border:1px solid #15345f;background:#06142c;white-space:normal}
+  .chart-stats span:last-child{grid-column:1/-1}
+  .chart-stats b{display:block;margin:4px 0 0;overflow-wrap:anywhere}
+  .market-loading{min-height:350px}
+}
+
+@media(prefers-reduced-motion:reduce){.market-loading i{animation:none}}
 .mentat-mark{position:relative;display:grid;width:74px;height:31px;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr)}
 .mentat-mark b{display:block;background:#fff}
 .mentat-mark b:nth-child(1){grid-column:1;grid-row:1/3}

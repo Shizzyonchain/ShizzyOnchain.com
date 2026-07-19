@@ -13,13 +13,6 @@ type Candle = { time: string; open: string; high: string; low: string; close: st
 type Stake = { hotkey: string; netuid: number; name?: string; symbol?: string; alpha: string; tao_value?: string };
 type Wallet = { address: string; free_tao: string; staked_tao_value?: string; total_tao_value?: string; stakes: Stake[]; error?: string };
 
-const demoRows: ScreenerRow[] = [
-  { netuid: 64, name: "Chutes", symbol: "α64", price_tao: "0.1842", market_cap_tao: "246812", tao_reserve: "18842", volume_24h_tao: "3284", change_10m: ".34", change_1h: "1.84", change_24h: "8.42", change_7d: "24.8" },
-  { netuid: 4, name: "Targon", symbol: "α4", price_tao: "0.0541", market_cap_tao: "184402", tao_reserve: "12770", volume_24h_tao: "2241", change_10m: "-.12", change_1h: "-0.74", change_24h: "3.18", change_7d: "12.4" },
-  { netuid: 18, name: "Cortex.t", symbol: "α18", price_tao: "0.0328", market_cap_tao: "115092", tao_reserve: "9414", volume_24h_tao: "1628", change_1h: "2.14", change_24h: "-1.92", change_7d: "8.7" },
-  { netuid: 8, name: "Proprietary", symbol: "α8", price_tao: "0.0194", market_cap_tao: "88430", tao_reserve: "7218", volume_24h_tao: "1102", change_1h: "0.38", change_24h: "6.51", change_7d: "-4.2" },
-  { netuid: 1, name: "Apex", symbol: "α1", price_tao: "0.0147", market_cap_tao: "74611", tao_reserve: "6390", volume_24h_tao: "942", change_1h: "-1.12", change_24h: "-4.77", change_7d: "18.1" },
-];
 const channelVideos = [
   { id: "AuUwiV1r_cs", title: "Bittensor TAO: Patience Pays Off", meta: "20:39 · Latest episode" },
   { id: "tdZGVfadd00", title: "The 10 to 100 TAO Challenge Is Getting Dangerous. Week 9", meta: "22:45" },
@@ -47,7 +40,8 @@ const universityCourses = [
   { number: "04", title: "Crypto Security & Wallet Safety", tag: "Security", description: "Protect your TAO and digital assets with practical wallet separation, transaction hygiene, and scam-resistant habits.", lessons: ["Cold and hot wallet setup", "Transaction safety", "Threats and recovery plans"] },
 ];
 const stripeCheckout = "https://buy.stripe.com/fZudRb3u5dkA7Y45RNfAc00";
-const universityCalendly = "https://calendly.com/shizzyunchained/shiz-university";
+// Scheduling is never exposed publicly. TAO buyers submit a transaction hash first.
+const universityCalendly = "mailto:shizzyunchained@gmail.com?subject=Shiz%20University%20TAO%20payment&body=Transaction%20hash%3A%0A%0ABittensor%20wallet%20address%3A%0A%0AClass%20name%3A";
 const universityWallet = "5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM";
 const partners = [
   { key: "mentat", name: "Mentat", kicker: "TAO delegation", description: "Automated Bittensor staking strategies designed to keep your TAO delegated across strong validator opportunities.", href: "https://mentatminds.com/?origin=ShizzyUnchained", cta: "Explore Mentat" },
@@ -149,8 +143,9 @@ export function Dashboard() {
   const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
   const [taoUsd, setTaoUsd] = useState(0);
-  const [rows, setRows] = useState<ScreenerRow[]>(demoRows);
-  const [live, setLive] = useState(false);
+  const [rows, setRows] = useState<ScreenerRow[]>([]);
+  const [dataState, setDataState] = useState<"loading" | "live" | "error">("loading");
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<keyof ScreenerRow>("market_cap_tao");
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
@@ -181,9 +176,10 @@ export function Dashboard() {
         if (subnetMarkets.length) {
           setRows(subnetMarkets);
           setSelected(current => subnetMarkets.some((row: ScreenerRow) => row.netuid === current) ? current : subnetMarkets[0].netuid);
-          setLive(true);
+          setDataState("live");
+          setLastUpdated(new Date());
         }
-      }).catch(() => setLive(false));
+      }).catch(() => setDataState(current => current === "live" ? "live" : "error"));
     };
     refreshMarkets();
     const refreshTimer = window.setInterval(refreshMarkets, 60_000);
@@ -260,6 +256,7 @@ export function Dashboard() {
     setDraggingBubble(null);
   };
   const money = (value?: string | number, price = false) => {
+    if (value == null || value === "") return currency === "tao" ? "τ —" : "$—";
     const tao = Number(value ?? 0);
     if (currency === "tao") return `τ ${fmt(tao, price ? 6 : 4)}`;
     if (!taoUsd) return "$—";
@@ -324,22 +321,25 @@ export function Dashboard() {
         <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
         <button className={currency === "tao" ? "active" : ""} aria-pressed={currency === "tao"} onClick={() => setCurrency("tao")}>TAO</button>
       </div>
-      <div className={`status ${live ? "live" : "demo"}`}><i />{live ? "Finney live" : "Preview data"}</div>
+      <div className={`status ${dataState === "live" ? "live" : "demo"}`} title={lastUpdated ? `Last updated ${lastUpdated.toLocaleTimeString()}` : undefined}><i />{dataState === "live" ? "Finney live" : dataState === "loading" ? "Connecting…" : "Reconnecting…"}</div>
     </header>
 
     {view === "screener" ? <>
       <section className="hero-strip">
         <div><span>TAO price</span><strong>{currency === "usd" ? money(1, true) : "τ 1"}</strong><small>Live spot price</small></div>
-        <div><span>24h volume</span><strong>{money(totalVolume)}</strong><small>Across {rows.length} markets</small></div>
-        <div><span>Top mover</span><strong className="positive">{rankedMovers[0]?.name}</strong><small className={changeClass(rankedMovers[0]?.change_1h)}>{Number(rankedMovers[0]?.change_1h || 0) > 0 ? "+" : ""}{fmt(rankedMovers[0]?.change_1h)}% · 1 Hour</small></div>
+        <div><span>24h volume</span><strong>{dataState !== "live" || totalVolume === 0 ? "—" : money(totalVolume)}</strong><small>{dataState === "live" ? (totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Connecting to Finney"}</small></div>
+        <div><span>Top mover</span><strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong><small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small></div>
         <div><span>Network</span><strong>FINNEY</strong><small>Finalized blocks only</small></div>
       </section>
       <section className="market-grid">
         <div ref={chartCardRef} className="chart-card panel">
+          {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong><span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span></div>}
+          {dataState === "live" && <>
           <div className="panel-head"><div><p className="eyebrow">SN{active?.netuid} · {active?.symbol || "ALPHA"}</p><h1>{active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{money(active?.price_tao, true)}</strong><span className={changeClass(active?.change_1h)}>{Number(active?.change_1h || 0) > 0 ? "+" : ""}{fmt(active?.change_1h)}% · 1 Hour</span></div></div>
           <div className="timeframes">{[{ value: "1m", label: "1 Minute" }, { value: "10m", label: "10 Minutes" }, { value: "1h", label: "1 Hour" }].map(t => <button key={t.value} className={timeframe === t.value ? "active" : ""} onClick={() => setTimeframe(t.value)}>{t.label}</button>)}</div>
           <PriceChart candles={candles} row={active} currency={currency} taoUsd={taoUsd} />
-          <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{money(active?.volume_24h_tao)}</b></span></div>
+          <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>
+          </>}
         </div>
         <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>openSubnetChart(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
       </section>
@@ -361,6 +361,7 @@ export function Dashboard() {
       </div>
       <div className="bubble-legend"><span><i className="gain"/>Gaining</span><span><i className="flat"/>Flat</span><span><i className="loss"/>Falling</span><b>Drag any bubble · big bubbles = exceptional gains</b><button onClick={() => setBubbleOffsets({})}>Reset layout</button></div>
       <section ref={bubbleCloudRef} className="bubble-cloud panel" aria-label="Draggable subnet market bubbles">
+        {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Building the live market map" : "Bubble data unavailable"}</strong><span>{dataState === "loading" ? "Waiting for all finalized subnets…" : "We’ll reconnect automatically."}</span></div>}
         {bubbleRows.map(row => {
           const movement = Number(bubbleChange(row) || 0);
           const size = bubbleSize(row);
@@ -378,7 +379,7 @@ export function Dashboard() {
       </aside>}
     </section> : view === "wallets" ? <section className="wallet-page">
       <div className="wallet-intro"><p className="eyebrow">Portfolio intelligence</p><h1>See every wallet.<br/><span>See the whole position.</span></h1><p>Paste up to 100 Bittensor coldkeys. We’ll combine free TAO, alpha positions, subnet exposure, and spot-value estimates at one finalized block.</p></div>
-      <form className="wallet-form panel" onSubmit={checkWallets}><label htmlFor="wallets">Coldkey addresses</label><textarea id="wallets" value={walletInput} onChange={e=>setWalletInput(e.target.value)} placeholder={"5F...\n5G...\n5H..."} /><div className="form-foot"><span>One per line, space, or comma</span><button disabled={checking}>{checking ? "Checking chain…" : "Check wallets →"}</button></div>{walletError && <p className="form-error">{walletError}</p>}</form>
+      <form className="wallet-form panel" onSubmit={checkWallets}><label htmlFor="wallets">Coldkey addresses</label><p className="wallet-safety">Read-only lookup. Never enter a seed phrase, private key, or password.</p><textarea id="wallets" value={walletInput} onChange={e=>setWalletInput(e.target.value)} placeholder={"5F...\n5G...\n5H..."} /><div className="form-foot"><span>One public coldkey per line, space, or comma</span><button disabled={checking}>{checking ? "Checking chain…" : "Check wallets →"}</button></div>{walletError && <p className="form-error">{walletError}</p>}</form>
       {wallets.length > 0 && <div className="portfolio-summary panel"><div><span>Total wallets</span><strong>{wallets.length}</strong></div><div><span>Free balance</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.free_tao||0),0))}</strong></div><div><span>Staked value</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.staked_tao_value||0),0))}</strong></div><div><span>Total portfolio</span><strong className="accent">{money(wallets.reduce((s,w)=>s+Number(w.total_tao_value||0),0))}</strong></div></div>}
       <div className="wallet-results">{wallets.map(w=><article className="wallet-card panel" key={w.address}><div className="wallet-card-head"><span className="wallet-ident">{w.address.slice(0,6)}</span><div><b>{w.address.slice(0,12)}…{w.address.slice(-8)}</b><small>{w.stakes.length} positions</small></div><strong>{money(w.total_tao_value)}</strong></div><div className="wallet-split"><span>Free <b>{money(w.free_tao)}</b></span><span>Staked <b>{money(w.staked_tao_value)}</b></span></div><div className="positions">{w.stakes.slice(0,8).map((s,i)=><div key={`${s.hotkey}-${s.netuid}-${i}`}><span><b>SN{s.netuid}</b><small>{s.name || s.hotkey.slice(0,7) + "…"}</small></span><span>{fmt(s.alpha,4)} α<small>{money(s.tao_value)}</small></span></div>)}</div></article>)}</div>
       {!wallets.length && <div className="wallet-empty"><div className="radar"><i/><i/><i/></div><p>Your combined portfolio will appear here.</p></div>}
