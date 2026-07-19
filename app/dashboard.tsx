@@ -337,7 +337,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         .catch(() => undefined);
     };
     refreshActivity();
-    const refreshTimer = window.setInterval(refreshActivity, 30_000);
+    const refreshTimer = window.setInterval(refreshActivity, 60_000);
     return () => window.clearInterval(refreshTimer);
   }, []);
 
@@ -555,7 +555,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     </> : view === "activity" ? <section className="activity-page">
       <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow conviction locks, stake flows, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
       <section className="chain-activity panel" aria-labelledby="activity-title">
-        <div className="activity-head"><div><p className="eyebrow">Finalized chain intelligence</p><h2 id="activity-title">Where stake and conviction are moving</h2></div><span>{activityPeriod} · Refreshes every 30 seconds</span></div>
+        <div className="activity-head"><div><p className="eyebrow">Finalized chain intelligence</p><h2 id="activity-title">Where stake and conviction are moving</h2></div><span>{activityPeriod} · Refreshes every 60 seconds</span></div>
         <div className="activity-summary">
           <article><span>TAO moved</span><strong>{fmt(activitySummary?.tao_moved_24h, 3)} τ</strong><small>{taoUsd ? `≈ ${(Number(activitySummary?.tao_moved_24h || 0) * taoUsd).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}` : activityPeriod}</small></article>
           <article><span>Finalized events</span><strong>{activitySummary?.event_count_24h || 0}</strong><small>{activitySummary?.active_subnets_24h || 0} source subnets active</small></article>
