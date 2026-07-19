@@ -100,7 +100,7 @@ footer{color:#6d86ac}
 .schedule-step.locked{padding:18px;border:1px solid #17345f;background:#030b19}.schedule-step.locked p{margin-bottom:12px}.schedule-step.locked b{color:#6f89af;font:10px var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
 
 /* Denser, easier-to-read subnet screener */
-.screener table{table-layout:fixed;min-width:1120px}
+.screener table{table-layout:fixed;min-width:1380px}
 .screener th:nth-child(1){width:54px}
 .screener th:nth-child(2){width:270px}
 .screener th:nth-child(3){width:145px}
@@ -111,6 +111,7 @@ footer{color:#6d86ac}
 .screener .token+div b{font-size:17px;line-height:1.1}
 .screener td:nth-child(2) small{font-size:11px}
 .screener td:nth-child(3){font-size:13px;font-weight:700}
+.screener .emission-cell,.screener .apy-cell{color:#fff;font-size:12px;font-weight:800}.screener .emission-cell small,.screener .apy-cell small{display:block;margin-top:4px;color:#5f80ad;font-size:8px;text-transform:uppercase;letter-spacing:.05em}.screener .apy-cell{color:#30dc85}
 
 /* Live market-cap ticker */
 .market-ticker{height:36px;position:sticky;top:0;z-index:30;display:grid;grid-template-columns:auto minmax(0,1fr);margin-inline:calc(50% - 50vw);padding-inline:max(18px,calc((100vw - 1512px)/2));background:#020817;border-bottom:1px solid #17345f;box-shadow:0 8px 24px rgba(0,0,0,.25);overflow:hidden}
