@@ -228,7 +228,7 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
   </div>;
 }
 
-export type DashboardView = "screener" | "bubbles" | "wallets" | "videos" | "university" | "partners";
+export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "videos" | "university" | "partners";
 
 export function Dashboard({ initialView = "screener" }: { initialView?: DashboardView }) {
   const [view, setView] = useState<DashboardView>(initialView);
@@ -265,7 +265,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
-    if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "bubbles" || requested === "partners") queueMicrotask(() => setView(requested));
+    if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "activity" || requested === "bubbles" || requested === "partners") queueMicrotask(() => setView(requested));
   }, []);
 
   useEffect(() => {
@@ -473,6 +473,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       <button className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`} aria-label="Open navigation menu" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen(open => !open)}><span /><span /><span /></button>
       <nav id="primary-navigation" className={mobileMenuOpen ? "mobile-open" : ""} aria-label="Primary navigation">
         <Link className={view === "screener" ? "active" : ""} href="/" onClick={() => setMobileMenuOpen(false)}>Market</Link>
+        <Link className={view === "activity" ? "active" : ""} href="/activity" onClick={() => setMobileMenuOpen(false)}>Chain</Link>
         <Link className={view === "bubbles" ? "active" : ""} href="/bubbles" onClick={() => setMobileMenuOpen(false)}>Bubbles</Link>
         <Link className={view === "videos" ? "active" : ""} href="/video" onClick={() => setMobileMenuOpen(false)}>Videos</Link>
         <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>Shop</a>
@@ -518,7 +519,14 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         </div>
         <p className="signals-note">Scores compare current on-chain conditions, not future performance. Thin liquidity, missing history, and sudden chain events can make any signal unreliable.</p>
       </section>}
-      {!showTaoChart && active && <section className="chain-activity panel" aria-labelledby="activity-title">
+      <section className="screener panel">
+        <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
+        <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button></th><th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake."><button onClick={()=>changeSort("apy")}>Staker APY{sortArrow("apy")}</button></th><th title="Percentage of the subnet's full on-chain Alpha supply currently conviction locked."><button onClick={()=>changeSort("conviction_locked_pct")}>Supply Locked{sortArrow("conviction_locked_pct")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th></tr></thead>
+        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>openSubnetChart(r.netuid)} tabIndex={0} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openSubnetChart(r.netuid); } }}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_pct == null ? "—" : `${fmt(r.conviction_locked_pct, 2)}%`}</td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
+      </section>
+    </> : view === "activity" ? <section className="activity-page">
+      <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow conviction locks, stake flows, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
+      <section className="chain-activity panel" aria-labelledby="activity-title">
         <div className="activity-head"><div><p className="eyebrow">Finalized chain events</p><h2 id="activity-title">Network-wide conviction & stake activity</h2></div><span>Refreshes every 30 seconds</span></div>
         <div className="activity-summary">
           <article><span>Locked · 24h</span><strong>{fmt(activitySummary?.locked_alpha_24h, 4)} α</strong></article>
@@ -533,13 +541,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           <strong>{event.amount_alpha != null ? `${fmt(event.amount_alpha, 6)} α` : event.amount_tao != null ? `${fmt(event.amount_tao, 6)} τ` : "—"}</strong>
         </article>)}</div> : <div className="activity-empty"><b>Listening for finalized activity…</b><span>{activityCollectingSince ? `No matching events since ${new Date(activityCollectingSince).toLocaleString()}.` : "Collection starts with this deployment; historical events are not fabricated."}</span></div>}
         <p className="activity-note">Tracks conviction locks and unlocks, lock moves, stake moves, swaps and transfers, hotkey swaps, and subnet ownership changes directly from finalized Finney blocks.</p>
-      </section>}
-      <section className="screener panel">
-        <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
-        <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button></th><th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake."><button onClick={()=>changeSort("apy")}>Staker APY{sortArrow("apy")}</button></th><th title="Percentage of the subnet's full on-chain Alpha supply currently conviction locked."><button onClick={()=>changeSort("conviction_locked_pct")}>Supply Locked{sortArrow("conviction_locked_pct")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th></tr></thead>
-        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>openSubnetChart(r.netuid)} tabIndex={0} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openSubnetChart(r.netuid); } }}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_pct == null ? "—" : `${fmt(r.conviction_locked_pct, 2)}%`}</td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
       </section>
-    </> : view === "bubbles" ? <section className="bubbles-page">
+    </section> : view === "bubbles" ? <section className="bubbles-page">
       <div className="bubbles-hero">
         <div><p className="eyebrow">All 128 subnets · live market map</p><h1>Subnet <span>bubbles.</span></h1><p>Every subnet in one view. Subnet numbers lead, names stay compact, and only exceptional green movers grow large.</p></div>
         <div className="bubble-controls" role="group" aria-label="Bubble performance period">
