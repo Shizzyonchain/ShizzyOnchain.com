@@ -60,6 +60,8 @@ footer{color:#6d86ac}
 @media(max-width:900px){.bubbles-page{padding-inline:18px}.bubbles-hero{align-items:start;flex-direction:column;gap:24px}.bubble-cloud{padding:18px;min-height:520px}.bubble-detail{grid-template-columns:1fr}.bubble-detail dl{grid-template-columns:repeat(2,1fr)}.bubble-detail>button{width:100%}}
 @media(max-width:600px){.bubbles-page{padding-top:32px}.bubbles-hero h1{font-size:53px}.bubble-controls{width:100%}.bubble-controls button{flex:1;padding-inline:8px}.bubble-legend{gap:12px;flex-wrap:wrap}.bubble-legend b{width:100%;margin:0}.bubble-cloud{gap:6px;padding:12px}.market-bubble{transform:scale(.82);margin:-9px}.market-bubble:hover,.market-bubble:focus-visible{transform:scale(.88)}}
 
+.market-bubble.tiny{padding:3px;gap:0}.market-bubble.tiny small,.market-bubble.tiny strong,.market-bubble.tiny span{display:none}.market-bubble.tiny em{font-size:9px;letter-spacing:-.04em}
+
 /* Roomier portfolio dashboard */
 .portfolio-summary{max-width:none;margin-top:32px}
 .portfolio-summary>div{padding:27px 32px;gap:11px}
