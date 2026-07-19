@@ -17,11 +17,12 @@ type ChainEvent = {
   block_number: number; event_index: number; time: string; event_type: string;
   netuid?: number; destination_netuid?: number; name?: string; destination_name?: string;
   coldkey?: string; destination_coldkey?: string; hotkey?: string; destination_hotkey?: string;
-  amount_alpha?: string; amount_tao?: string; perpetual?: boolean;
+  amount_alpha?: string; amount_tao?: string; tao_value?: string; perpetual?: boolean;
 };
 type ActivitySummary = {
   locked_alpha_24h: string; unlocked_alpha_24h: string;
   net_locked_alpha_24h: string; stake_moves_24h: number;
+  locked_tao_24h: string; unlocked_tao_24h: string; net_locked_tao_24h: string;
   event_count_24h: number; tao_moved_24h: string;
   largest_move_tao_24h: string; active_subnets_24h: number;
 };
@@ -458,7 +459,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const eventSubnet = (event: ChainEvent) => subnetLabel(event.netuid, event.name);
   const eventDestination = (event: ChainEvent) => subnetLabel(event.destination_netuid, event.destination_name);
   const eventCategory = (event: ChainEvent) => event.event_type.includes("Lock") ? "locks" : event.event_type.includes("Hotkey") || event.event_type === "SubnetOwnerChanged" ? "keys" : "stake";
-  const meaningfulActivity = activity.filter(event => eventCategory(event) !== "stake");
+  const meaningfulActivity = activity.filter(event => eventCategory(event) !== "stake"
+    && (!["StakeLocked", "StakeUnlocked"].includes(event.event_type) || Number(event.tao_value || 0) >= 10));
   const visibleActivity = meaningfulActivity.filter(event => activityFilter === "all" || eventCategory(event) === activityFilter);
   const keyChangeCount = meaningfulActivity.filter(event => eventCategory(event) === "keys").length;
   const convictionEventCount = meaningfulActivity.filter(event => eventCategory(event) === "locks").length;
@@ -591,9 +593,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       <section className="chain-activity panel" aria-labelledby="activity-title">
         <div className="activity-head"><div><p className="eyebrow">Finalized chain intelligence</p><h2 id="activity-title">Conviction, keys, and ownership</h2></div><span>{activityPeriod} · Refreshes every 60 seconds</span></div>
         <div className="activity-summary">
-          <article><span>Conviction locked</span><strong>{fmt(activitySummary?.locked_alpha_24h, 4)} α</strong><small>{activityPeriod}</small></article>
-          <article><span>Conviction unlocked</span><strong>{fmt(activitySummary?.unlocked_alpha_24h, 4)} α</strong><small>{activityPeriod}</small></article>
-          <article><span>Net conviction flow</span><strong className={Number(activitySummary?.net_locked_alpha_24h || 0) >= 0 ? "positive" : "negative"}>{Number(activitySummary?.net_locked_alpha_24h || 0) > 0 ? "+" : ""}{fmt(activitySummary?.net_locked_alpha_24h, 4)} α</strong><small>{fmt(activitySummary?.locked_alpha_24h, 3)} locked · {fmt(activitySummary?.unlocked_alpha_24h, 3)} unlocked</small></article>
+          <article><span>Conviction locked</span><strong>{fmt(activitySummary?.locked_tao_24h, 3)} τ</strong><small>Locks worth at least 10 TAO · {activityPeriod}</small></article>
+          <article><span>Conviction unlocked</span><strong>{fmt(activitySummary?.unlocked_tao_24h, 3)} τ</strong><small>Unlocks worth at least 10 TAO · {activityPeriod}</small></article>
+          <article><span>Net conviction flow</span><strong className={Number(activitySummary?.net_locked_tao_24h || 0) >= 0 ? "positive" : "negative"}>{Number(activitySummary?.net_locked_tao_24h || 0) > 0 ? "+" : ""}{fmt(activitySummary?.net_locked_tao_24h, 3)} τ</strong><small>{fmt(activitySummary?.locked_tao_24h, 2)} locked · {fmt(activitySummary?.unlocked_tao_24h, 2)} unlocked</small></article>
           <article><span>Key & owner changes</span><strong>{keyChangeCount}</strong><small>{convictionEventCount} conviction events collected</small></article>
         </div>
         <div className="activity-toolbar"><div role="group" aria-label="Filter chain events">{[
@@ -603,9 +605,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           <time>{new Date(event.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}<small>Block {event.block_number.toLocaleString()}</small></time>
           <span className={`event-badge ${event.event_type.toLowerCase()}`}>{eventLabel(event)}</span>
           <div><b>{eventDescription(event)}</b><small>{event.coldkey ? `Wallet ${shortKey(event.coldkey)}` : "Finalized on Finney"}{event.hotkey ? ` · Hotkey ${shortKey(event.hotkey)}` : ""}{event.destination_hotkey ? ` → ${shortKey(event.destination_hotkey)}` : event.destination_coldkey ? ` → ${shortKey(event.destination_coldkey)}` : ""}</small></div>
-          <strong>{event.amount_alpha != null ? `${fmt(event.amount_alpha, 6)} α` : event.amount_tao != null ? `${fmt(event.amount_tao, 6)} τ` : "—"}</strong>
+          <strong>{event.tao_value != null ? `${fmt(event.tao_value, 3)} τ` : "—"}</strong>
         </article>)}</div> : <div className="activity-empty"><b>No {activityFilter === "all" ? "" : activityFilter} events in the collected window.</b><span>Try another filter. New finalized events appear automatically.</span></div>}
-        <p className="activity-note">Routine stake reallocations are intentionally excluded. This page focuses on conviction locks and changes to operational keys or subnet ownership. Collection began {activityCollectingSince ? new Date(activityCollectingSince).toLocaleString() : "with this deployment"}.</p>
+        <p className="activity-note">Routine stake reallocations and conviction events worth less than 10 TAO are intentionally excluded. TAO values use the subnet price at the finalized event time. Collection began {activityCollectingSince ? new Date(activityCollectingSince).toLocaleString() : "with this deployment"}.</p>
       </section>
     </section> : view === "bubbles" ? <section className="bubbles-page">
       <div className="bubbles-hero">
