@@ -235,7 +235,19 @@ async def chain_activity(
               COUNT(*) FILTER (
                 WHERE event_type IN ('StakeMoved','StakeSwapped','StakeTransferred')
                   AND time >= now()-interval '24 hours'
-              ) AS stake_moves_24h
+              ) AS stake_moves_24h,
+              COUNT(*) FILTER (
+                WHERE time >= now()-interval '24 hours'
+              ) AS event_count_24h,
+              COALESCE(SUM(amount_tao) FILTER (
+                WHERE time >= now()-interval '24 hours'
+              ),0) AS tao_moved_24h,
+              COALESCE(MAX(amount_tao) FILTER (
+                WHERE time >= now()-interval '24 hours'
+              ),0) AS largest_move_tao_24h,
+              COUNT(DISTINCT netuid) FILTER (
+                WHERE time >= now()-interval '24 hours'
+              ) AS active_subnets_24h
             FROM chain_events e {where}""",
         netuid,
     )

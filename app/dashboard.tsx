@@ -22,6 +22,8 @@ type ChainEvent = {
 type ActivitySummary = {
   locked_alpha_24h: string; unlocked_alpha_24h: string;
   net_locked_alpha_24h: string; stake_moves_24h: number;
+  event_count_24h: number; tao_moved_24h: string;
+  largest_move_tao_24h: string; active_subnets_24h: number;
 };
 
 const channelVideos = [
@@ -262,6 +264,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [activity, setActivity] = useState<ChainEvent[]>([]);
   const [activitySummary, setActivitySummary] = useState<ActivitySummary | null>(null);
   const [activityCollectingSince, setActivityCollectingSince] = useState<string | null>(null);
+  const [activityFilter, setActivityFilter] = useState<"all" | "stake" | "locks" | "keys">("all");
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
@@ -453,7 +456,30 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     StakeTransferred: "Stake transferred", HotkeySwapped: "Hotkey swapped",
     HotkeySwappedOnSubnet: "Subnet hotkey swapped", SubnetOwnerChanged: "Subnet owner changed",
   }[event.event_type] || event.event_type);
-  const eventSubnet = (event: ChainEvent) => event.name || (event.netuid != null ? `SN${event.netuid}` : "Network");
+  const subnetLabel = (netuid?: number, name?: string) => {
+    if (netuid === 0) return "Root";
+    if (name && name.toLowerCase() !== "deprecated") return name;
+    if (netuid != null) return name ? `Retired SN${netuid}` : `SN${netuid}`;
+    return "Network";
+  };
+  const eventSubnet = (event: ChainEvent) => subnetLabel(event.netuid, event.name);
+  const eventDestination = (event: ChainEvent) => subnetLabel(event.destination_netuid, event.destination_name);
+  const eventCategory = (event: ChainEvent) => event.event_type.includes("Lock") ? "locks" : event.event_type.includes("Hotkey") || event.event_type === "SubnetOwnerChanged" ? "keys" : "stake";
+  const visibleActivity = activity.filter(event => activityFilter === "all" || eventCategory(event) === activityFilter);
+  const activityHours = activityCollectingSince ? Math.max(0, (Date.now() - new Date(activityCollectingSince).getTime()) / 3_600_000) : 0;
+  const activityPeriod = activityHours < 24 ? `Since tracking began · ${activityHours < 1 ? "<1" : Math.floor(activityHours)}h` : "Last 24 hours";
+  const eventDescription = (event: ChainEvent) => {
+    const source = eventSubnet(event), destination = eventDestination(event);
+    if (event.event_type === "StakeLocked") return `Conviction locked on ${source}`;
+    if (event.event_type === "StakeUnlocked") return `Conviction unlocked on ${source}`;
+    if (event.event_type === "StakeSwapped") return `Stake swapped from ${source} into ${destination}`;
+    if (event.event_type === "StakeTransferred") return `Stake transferred from ${source} to ${destination}`;
+    if (event.event_type === "StakeMoved") return source === destination ? `Stake moved between hotkeys on ${source}` : `Stake moved from ${source} to ${destination}`;
+    if (event.event_type === "LockMoved") return `Conviction lock moved on ${source}`;
+    if (event.event_type.includes("Hotkey")) return `Hotkey changed${event.netuid != null ? ` on ${source}` : ""}`;
+    if (event.event_type === "SubnetOwnerChanged") return `${source} ownership changed`;
+    return eventLabel(event);
+  };
 
   return <main className="shell">
     <section className="market-ticker" aria-label="Top subnet tokens by market capitalization">
@@ -529,20 +555,23 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     </> : view === "activity" ? <section className="activity-page">
       <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow conviction locks, stake flows, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
       <section className="chain-activity panel" aria-labelledby="activity-title">
-        <div className="activity-head"><div><p className="eyebrow">Finalized chain events</p><h2 id="activity-title">Network-wide conviction & stake activity</h2></div><span>Refreshes every 30 seconds</span></div>
+        <div className="activity-head"><div><p className="eyebrow">Finalized chain intelligence</p><h2 id="activity-title">Where stake and conviction are moving</h2></div><span>{activityPeriod} · Refreshes every 30 seconds</span></div>
         <div className="activity-summary">
-          <article><span>Locked · 24h</span><strong>{fmt(activitySummary?.locked_alpha_24h, 4)} α</strong></article>
-          <article><span>Unlocked · 24h</span><strong>{fmt(activitySummary?.unlocked_alpha_24h, 4)} α</strong></article>
-          <article><span>Net lock flow</span><strong className={Number(activitySummary?.net_locked_alpha_24h || 0) >= 0 ? "positive" : "negative"}>{Number(activitySummary?.net_locked_alpha_24h || 0) > 0 ? "+" : ""}{fmt(activitySummary?.net_locked_alpha_24h, 4)} α</strong></article>
-          <article><span>Stake moves · 24h</span><strong>{activitySummary?.stake_moves_24h || 0}</strong></article>
+          <article><span>TAO moved</span><strong>{fmt(activitySummary?.tao_moved_24h, 3)} τ</strong><small>{taoUsd ? `≈ ${(Number(activitySummary?.tao_moved_24h || 0) * taoUsd).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}` : activityPeriod}</small></article>
+          <article><span>Finalized events</span><strong>{activitySummary?.event_count_24h || 0}</strong><small>{activitySummary?.active_subnets_24h || 0} source subnets active</small></article>
+          <article><span>Largest stake move</span><strong>{fmt(activitySummary?.largest_move_tao_24h, 3)} τ</strong><small>{activityPeriod}</small></article>
+          <article><span>Net conviction flow</span><strong className={Number(activitySummary?.net_locked_alpha_24h || 0) >= 0 ? "positive" : "negative"}>{Number(activitySummary?.net_locked_alpha_24h || 0) > 0 ? "+" : ""}{fmt(activitySummary?.net_locked_alpha_24h, 4)} α</strong><small>{fmt(activitySummary?.locked_alpha_24h, 3)} locked · {fmt(activitySummary?.unlocked_alpha_24h, 3)} unlocked</small></article>
         </div>
-        {activity.length ? <div className="activity-list">{activity.map(event => <article key={`${event.block_number}-${event.event_index}`}>
+        <div className="activity-toolbar"><div role="group" aria-label="Filter chain events">{[
+          ["all", "All activity"], ["stake", "Stake flow"], ["locks", "Conviction"], ["keys", "Keys & owners"],
+        ].map(([value, label]) => <button key={value} className={activityFilter === value ? "active" : ""} onClick={() => setActivityFilter(value as typeof activityFilter)}>{label}</button>)}</div><span>{visibleActivity.length} recent events</span></div>
+        {visibleActivity.length ? <div className="activity-list">{visibleActivity.map(event => <article key={`${event.block_number}-${event.event_index}`}>
           <time>{new Date(event.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}<small>Block {event.block_number.toLocaleString()}</small></time>
           <span className={`event-badge ${event.event_type.toLowerCase()}`}>{eventLabel(event)}</span>
-          <div><b>{eventSubnet(event)}{event.destination_netuid != null ? ` → ${event.destination_name || `SN${event.destination_netuid}`}` : ""}</b><small>{event.hotkey ? `Hotkey ${shortKey(event.hotkey)}` : event.coldkey ? `Coldkey ${shortKey(event.coldkey)}` : "On-chain update"}{event.destination_hotkey ? ` → ${shortKey(event.destination_hotkey)}` : event.destination_coldkey ? ` → ${shortKey(event.destination_coldkey)}` : ""}</small></div>
+          <div><b>{eventDescription(event)}</b><small>{event.coldkey ? `Wallet ${shortKey(event.coldkey)}` : "Finalized on Finney"}{event.hotkey ? ` · Hotkey ${shortKey(event.hotkey)}` : ""}{event.destination_hotkey ? ` → ${shortKey(event.destination_hotkey)}` : event.destination_coldkey ? ` → ${shortKey(event.destination_coldkey)}` : ""}</small></div>
           <strong>{event.amount_alpha != null ? `${fmt(event.amount_alpha, 6)} α` : event.amount_tao != null ? `${fmt(event.amount_tao, 6)} τ` : "—"}</strong>
-        </article>)}</div> : <div className="activity-empty"><b>Listening for finalized activity…</b><span>{activityCollectingSince ? `No matching events since ${new Date(activityCollectingSince).toLocaleString()}.` : "Collection starts with this deployment; historical events are not fabricated."}</span></div>}
-        <p className="activity-note">Tracks conviction locks and unlocks, lock moves, stake moves, swaps and transfers, hotkey swaps, and subnet ownership changes directly from finalized Finney blocks.</p>
+        </article>)}</div> : <div className="activity-empty"><b>No {activityFilter === "all" ? "" : activityFilter} events in the collected window.</b><span>Try another filter. New finalized events appear automatically.</span></div>}
+        <p className="activity-note">Amounts show the TAO value reported by the finalized chain event. This is on-chain movement, not necessarily a market buy or sell. Collection began {activityCollectingSince ? new Date(activityCollectingSince).toLocaleString() : "with this deployment"}.</p>
       </section>
     </section> : view === "bubbles" ? <section className="bubbles-page">
       <div className="bubbles-hero">
