@@ -49,6 +49,8 @@ class ChainClient:
         self.client = None
         self._conviction_locked: dict[int, Decimal | None] = {}
         self._conviction_refresh_block = -1
+        self._yield_metrics: dict[int, tuple[int | None, Decimal | None]] = {}
+        self._yield_refresh_block = -1
 
     async def __aenter__(self):
         import bittensor as bt
@@ -68,7 +70,7 @@ class ChainClient:
 
     async def subnets_at(self, block_number: int) -> list[dict]:
         view = await self.client.at(block_number)
-        infos, prices, tao_rows, alpha_rows, out_rows, volume_rows, tao_emission_rows, alpha_emission_rows, emission_rows, root_prop_rows, symbol_rows, identity_rows = await asyncio.gather(
+        infos, prices, tao_rows, alpha_rows, out_rows, volume_rows, tao_emission_rows, alpha_emission_rows, root_prop_rows, symbol_rows, identity_rows = await asyncio.gather(
             view.subnets.all(),
             view.prices.alpha_prices(),
             view.query_map(("SubtensorModule", "SubnetTAO")),
@@ -77,7 +79,6 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "SubnetTaoInEmission")),
             view.query_map(("SubtensorModule", "SubnetAlphaOutEmission")),
-            view.query_map(("SubtensorModule", "EmissionValues")),
             view.query_map(("SubtensorModule", "RootProp")),
             view.query_map(("SubtensorModule", "TokenSymbol")),
             view.query_map(("SubtensorModule", "SubnetIdentitiesV3")),
@@ -88,7 +89,11 @@ class ChainClient:
         volume = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in volume_rows}
         tao_emission = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in tao_emission_rows}
         alpha_emission = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in alpha_emission_rows}
-        emission_share = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in emission_rows}
+        emission_total = sum(tao_emission.values(), Decimal(0))
+        emission_share = {
+            netuid: value / emission_total if emission_total > 0 else Decimal(0)
+            for netuid, value in tao_emission.items()
+        }
         root_prop = {
             int(k): Decimal(str(fixed_to_float(v, frac_bits=32, total_bits=128)))
             for k, v in root_prop_rows
@@ -102,6 +107,9 @@ class ChainClient:
         if not self._conviction_locked or block_number - self._conviction_refresh_block >= 25:
             self._conviction_locked = await self._locked_alpha_by_subnet(view, netuids)
             self._conviction_refresh_block = block_number
+        if not self._yield_metrics or block_number - self._yield_refresh_block >= 100:
+            self._yield_metrics = await self._subnet_yield_metrics(view, netuids)
+            self._yield_refresh_block = block_number
         rows = []
         for info in infos:
             netuid = int(field(info, "netuid"))
@@ -117,11 +125,50 @@ class ChainClient:
                 "alpha_out_emission": alpha_emission.get(netuid, Decimal(0)),
                 "emission_share": emission_share.get(netuid, Decimal(0)),
                 "root_prop": root_prop.get(netuid),
+                "tempo": self._yield_metrics.get(netuid, (None, None))[0],
+                "staker_epoch_dividends_alpha": self._yield_metrics.get(netuid, (None, None))[1],
                 "conviction_locked_alpha": self._conviction_locked.get(netuid),
                 "name": names.get(netuid),
                 "symbol": symbols.get(netuid),
             })
         return rows
+
+    async def _subnet_yield_metrics(
+        self, view, netuids: list[int]
+    ) -> dict[int, tuple[int | None, Decimal | None]]:
+        """Read latest realized validator dividends; these change once per subnet tempo."""
+        try:
+            tempo_rows, dividend_rows = await asyncio.gather(
+                view.query_map(("SubtensorModule", "Tempo")),
+                view.query_map(("SubtensorModule", "AlphaDividendsPerSubnet")),
+            )
+        except Exception:
+            return {netuid: (None, None) for netuid in netuids}
+        tempos = {int(k): int(v) for k, v in tempo_rows}
+        totals: dict[int, Decimal] = {}
+        for key, value in dividend_rows:
+            netuid = self._first_int(key)
+            if netuid is not None:
+                totals[netuid] = totals.get(netuid, Decimal(0)) + Decimal(int(value)) / RAO_PER_TAO
+        return {netuid: (tempos.get(netuid), totals.get(netuid)) for netuid in netuids}
+
+    @classmethod
+    def _first_int(cls, value: Any) -> int | None:
+        """Extract a netuid from SDK composite storage keys across codec versions."""
+        if isinstance(value, int):
+            return value
+        if isinstance(value, (tuple, list)):
+            for item in value:
+                result = cls._first_int(item)
+                if result is not None:
+                    return result
+        raw = getattr(value, "value", None)
+        if raw is not None and raw is not value:
+            return cls._first_int(raw)
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
 
     async def _locked_alpha_by_subnet(self, view, netuids: list[int]) -> dict[int, Decimal | None]:
         """Sum rolled-forward conviction lock mass, refreshing in bounded batches."""

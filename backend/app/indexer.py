@@ -61,12 +61,14 @@ async def persist_block(db, chain, number: int, announced_hash: str | None = Non
         await conn.executemany(
             """INSERT INTO subnet_price_samples
                (time,block_number,block_hash,netuid,price_tao,tao_reserve,alpha_reserve,alpha_out,volume_tao,
-                tao_in_emission,alpha_out_emission,emission_share,root_prop,conviction_locked_alpha)
-               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) ON CONFLICT DO NOTHING""",
+                tao_in_emission,alpha_out_emission,emission_share,root_prop,conviction_locked_alpha,
+                tempo,staker_epoch_dividends_alpha)
+               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) ON CONFLICT DO NOTHING""",
             [(timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
               r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
               r["alpha_out_emission"], r["emission_share"], r["root_prop"],
-              r["conviction_locked_alpha"]) for r in rows],
+              r["conviction_locked_alpha"], r["tempo"],
+              r["staker_epoch_dividends_alpha"]) for r in rows],
         )
     log.info("indexed finalized block %s (%s subnets)", number, len(rows))
 
@@ -75,15 +77,29 @@ async def indexer():
     settings = get_settings()
     logging.basicConfig(level=settings.log_level)
     db = await connect()
-    async with ChainClient(settings) as chain:
-        last = await db.fetchval("SELECT max(block_number) FROM chain_blocks")
-        if last is None and settings.indexer_start_block.isdigit():
-            last = int(settings.indexer_start_block) - 1
-        async for head in finalized_heads(settings.subtensor_ws_url):
-            start = head["number"] if last is None else last + 1
-            for number in range(start, head["number"] + 1):
-                await persist_block(db, chain, number, head.get("hash") if number == head["number"] else None)
-                last = number
+    last = await db.fetchval("SELECT max(block_number) FROM chain_blocks")
+    if last is None and settings.indexer_start_block.isdigit():
+        last = int(settings.indexer_start_block) - 1
+    retry_delay = 5
+    while True:
+        try:
+            async with ChainClient(settings) as chain:
+                async for head in finalized_heads(settings.subtensor_ws_url):
+                    retry_delay = 5
+                    start = head["number"] if last is None else last + 1
+                    for number in range(start, head["number"] + 1):
+                        await persist_block(
+                            db, chain, number,
+                            head.get("hash") if number == head["number"] else None,
+                        )
+                        last = number
+                raise ConnectionError("finalized-head stream ended")
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            log.exception("indexer connection failed; reconnecting in %s seconds", retry_delay)
+            await asyncio.sleep(retry_delay)
+            retry_delay = min(retry_delay * 2, 60)
 
 
 async def main():

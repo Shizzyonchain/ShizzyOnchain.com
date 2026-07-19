@@ -107,8 +107,7 @@ footer{color:#6d86ac}
 .screener th:nth-child(n+4){width:130px}
 .screener th,.screener td{padding-block:17px}
 .screener td:nth-child(2){gap:14px}
-.screener .token{width:40px;height:40px;font-size:12px;flex:0 0 40px}
-.screener .token+div b{font-size:17px;line-height:1.1}
+.screener td:nth-child(2)>div b{font-size:17px;line-height:1.1}
 .screener td:nth-child(2) small{font-size:11px}
 .screener td:nth-child(3){font-size:13px;font-weight:700}
 .screener .emission-cell,.screener .apy-cell{color:#fff;font-size:12px;font-weight:800}.screener .emission-cell small,.screener .apy-cell small{display:block;margin-top:4px;color:#5f80ad;font-size:8px;text-transform:uppercase;letter-spacing:.05em}.screener .apy-cell{color:#30dc85}

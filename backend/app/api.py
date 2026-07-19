@@ -47,7 +47,12 @@ async def health():
         latest = await app.state.db.fetchrow(
             "SELECT block_number, block_time, indexed_at FROM chain_blocks ORDER BY block_number DESC LIMIT 1"
         )
-        return {"status": "ok", "latest_indexed_block": dict(latest) if latest else None}
+        if not latest:
+            raise HTTPException(503, "indexer has not stored a block yet")
+        lag_seconds = (datetime.now(timezone.utc) - latest["indexed_at"]).total_seconds()
+        if lag_seconds > 300:
+            raise HTTPException(503, f"indexer stale by {int(lag_seconds)} seconds")
+        return {"status": "ok", "latest_indexed_block": dict(latest)}
     except Exception as exc:
         raise HTTPException(503, f"database unavailable: {type(exc).__name__}") from exc
 
@@ -69,21 +74,17 @@ async def screener():
         """WITH latest AS (
              SELECT DISTINCT ON (netuid) netuid,time,block_number,price_tao,tao_reserve,
                     alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
-                    emission_share,root_prop,conviction_locked_alpha
+                    emission_share,root_prop,conviction_locked_alpha,tempo,
+                    staker_epoch_dividends_alpha
              FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC
            )
            SELECT l.netuid,s.name,s.symbol,l.time,l.block_number,l.price_tao,
                   l.tao_reserve,l.alpha_reserve,l.alpha_out,
                   100 * l.emission_share AS emission_pct,
-                  CASE WHEN l.root_prop IS NULL OR l.alpha_out <= 0 THEN NULL ELSE
-                    100 * (POWER(
-                      1 + (
-                        l.alpha_out_emission * 0.41
-                        * (1 - LEAST(GREATEST(l.root_prop, 0), 1))
-                        * 7200 / l.alpha_out
-                      )::double precision,
-                      365
-                    ) - 1)
+                  CASE WHEN l.tempo IS NULL OR l.tempo < 0 OR l.alpha_out <= 0
+                         OR l.staker_epoch_dividends_alpha IS NULL THEN NULL ELSE
+                    100 * l.staker_epoch_dividends_alpha / l.alpha_out
+                      * (7200.0 / (l.tempo + 1)) * 365
                   END AS apy,
                   l.conviction_locked_alpha,
                   l.conviction_locked_alpha * l.price_tao AS conviction_locked_tao,
