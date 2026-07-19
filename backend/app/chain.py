@@ -3,11 +3,15 @@ from dataclasses import asdict, is_dataclass
 from decimal import Decimal
 from typing import Any
 
-from bittensor.utils.balance import fixed_to_float
-
 from app.config import Settings
 
 RAO_PER_TAO = Decimal(1_000_000_000)
+
+
+def fixed_to_decimal(value: Any, frac_bits: int = 32) -> Decimal:
+    """Decode a SCALE fixed-point value without relying on SDK internals."""
+    raw_value = getattr(value, "value", value)
+    return Decimal(int(raw_value)) / Decimal(1 << frac_bits)
 
 
 def amount(value: Any) -> Decimal:
@@ -95,7 +99,7 @@ class ChainClient:
             for netuid, value in tao_emission.items()
         }
         root_prop = {
-            int(k): Decimal(str(fixed_to_float(v, frac_bits=32, total_bits=128)))
+            int(k): fixed_to_decimal(v)
             for k, v in root_prop_rows
         }
         symbols = {int(k): self._text(v) for k, v in symbol_rows}
