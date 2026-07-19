@@ -41,6 +41,8 @@ services:
         value: "true"
       - key: BACKFILL_SAMPLE_BLOCKS
         value: "5"
+      - key: BACKFILL_CONCURRENCY
+        value: "4"
       - key: INDEXER_START_BLOCK
         value: latest
       - key: LOG_LEVEL

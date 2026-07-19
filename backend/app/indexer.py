@@ -149,15 +149,11 @@ async def backfill_missing_prices(db, settings):
     completed = 0
     backfill_settings = settings.model_copy(update={"subtensor_ws_url": settings.backfill_ws_url})
     async with ChainClient(backfill_settings) as archive:
-        for gap in ranges:
-            log.warning(
-                "repairing chart gap %s..%s (%s to %s)",
-                gap["start_block"],
-                gap["end_block"],
-                gap["start_time"],
-                gap["end_time"],
-            )
-            for number in sample_blocks(gap["start_block"], gap["end_block"], step):
+        semaphore = asyncio.Semaphore(max(1, settings.backfill_concurrency))
+
+        async def repair(number):
+            nonlocal completed
+            async with semaphore:
                 try:
                     await persist_block(
                         db,
@@ -167,12 +163,30 @@ async def backfill_missing_prices(db, settings):
                         include_auxiliary=False,
                     )
                 except Exception:
-                    log.exception("archive backfill failed at block %s; continuing", number)
-                    await asyncio.sleep(2)
-                    continue
+                    log.exception(
+                        "archive backfill failed at block %s; continuing", number
+                    )
+                    return
                 completed += 1
                 if completed % 25 == 0 or completed == total:
-                    log.info("historical price backfill progress %s/%s", completed, total)
+                    log.info(
+                        "historical price backfill progress %s/%s",
+                        completed,
+                        total,
+                    )
+
+        for gap in ranges:
+            log.warning(
+                "repairing chart gap %s..%s (%s to %s)",
+                gap["start_block"],
+                gap["end_block"],
+                gap["start_time"],
+                gap["end_time"],
+            )
+            blocks = sample_blocks(
+                gap["start_block"], gap["end_block"], step
+            )
+            await asyncio.gather(*(repair(number) for number in blocks))
     log.warning("historical price backfill completed %s/%s archive samples", completed, total)
 
 
