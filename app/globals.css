@@ -101,6 +101,9 @@ footer{color:#6d86ac}
 @media(max-width:600px){.university-page{padding-inline:16px}.university-copy h1{font-size:44px}.university-actions{flex-direction:column}.university-actions a{text-align:center}.course-card{padding:24px;min-height:0}.course-foot{align-items:flex-start;flex-direction:column}.course-foot button{width:100%}.process-grid{grid-template-columns:1fr}.process-grid>div:nth-child(even){border-left:0}.process-grid>div+div{border-top:1px solid #17345f}.university-about{padding:26px;gap:30px}.university-note{display:block;line-height:1.7}.course-checkout{padding:28px 20px}.tao-payment{grid-template-columns:1fr}.tao-payment button{width:100%}}
 .schedule-step.locked{padding:18px;border:1px solid #17345f;background:#030b19}.schedule-step.locked p{margin-bottom:12px}.schedule-step.locked b{color:#6f89af;font:10px var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
 
+.hero-strip>button{padding:24px 28px;border:0;border-right:1px solid var(--line);background:transparent;text-align:left;display:grid;gap:6px;color:inherit}.hero-strip>button:first-child{padding-left:0}.tao-price-tile{cursor:pointer;position:relative}.tao-price-tile:hover,.tao-price-tile.active{background:linear-gradient(90deg,rgba(19,200,255,.08),transparent)}.tao-price-tile.active:after{content:"";position:absolute;left:0;right:28px;bottom:-1px;height:2px;background:var(--mint);box-shadow:0 0 12px var(--mint)}
+@media(max-width:600px){.hero-strip>button{padding:17px 12px}.hero-strip>button:first-child{padding-left:12px}}
+
 /* Mobile navigation and touch-first layout */
 .mobile-menu-toggle,.about-mobile-menu{display:none}
 @media(max-width:760px){
