@@ -215,11 +215,20 @@ async def chain_activity(
         f"""SELECT e.block_number,e.event_index,e.time,e.event_type,e.netuid,
                    e.destination_netuid,e.coldkey,e.destination_coldkey,e.hotkey,
                    e.destination_hotkey,e.amount_alpha,e.amount_tao,e.perpetual,
+                   CASE WHEN e.amount_alpha IS NOT NULL
+                     THEN e.amount_alpha * ep.price_tao
+                     ELSE e.amount_tao
+                   END AS tao_value,
                    s.name,s.symbol,ds.name AS destination_name,
                    ds.symbol AS destination_symbol
             FROM chain_events e
             LEFT JOIN subnets s ON s.netuid=e.netuid
             LEFT JOIN subnets ds ON ds.netuid=e.destination_netuid
+            LEFT JOIN LATERAL (
+              SELECT price_tao FROM subnet_price_samples
+              WHERE netuid=e.netuid AND time <= e.time
+              ORDER BY time DESC LIMIT 1
+            ) ep ON true
             {where}
             ORDER BY e.block_number DESC,e.event_index DESC LIMIT $2""",
         netuid, limit,
@@ -232,6 +241,16 @@ async def chain_activity(
               COALESCE(SUM(amount_alpha) FILTER (
                 WHERE event_type='StakeUnlocked' AND time >= now()-interval '24 hours'
               ),0) AS unlocked_alpha_24h,
+              COALESCE(SUM(e.amount_alpha * ep.price_tao) FILTER (
+                WHERE e.event_type='StakeLocked'
+                  AND e.time >= now()-interval '24 hours'
+                  AND e.amount_alpha * ep.price_tao >= 10
+              ),0) AS locked_tao_24h,
+              COALESCE(SUM(e.amount_alpha * ep.price_tao) FILTER (
+                WHERE e.event_type='StakeUnlocked'
+                  AND e.time >= now()-interval '24 hours'
+                  AND e.amount_alpha * ep.price_tao >= 10
+              ),0) AS unlocked_tao_24h,
               COUNT(*) FILTER (
                 WHERE event_type IN ('StakeMoved','StakeSwapped','StakeTransferred')
                   AND time >= now()-interval '24 hours'
@@ -248,13 +267,22 @@ async def chain_activity(
               COUNT(DISTINCT netuid) FILTER (
                 WHERE time >= now()-interval '24 hours'
               ) AS active_subnets_24h
-            FROM chain_events e {where}""",
+            FROM chain_events e
+            LEFT JOIN LATERAL (
+              SELECT price_tao FROM subnet_price_samples
+              WHERE netuid=e.netuid AND time <= e.time
+              ORDER BY time DESC LIMIT 1
+            ) ep ON true
+            {where}""",
         netuid,
     )
     collecting_since = await app.state.db.fetchval("SELECT min(time) FROM chain_events")
     summary_data = dict(summary)
     summary_data["net_locked_alpha_24h"] = (
         summary_data["locked_alpha_24h"] - summary_data["unlocked_alpha_24h"]
+    )
+    summary_data["net_locked_tao_24h"] = (
+        summary_data["locked_tao_24h"] - summary_data["unlocked_tao_24h"]
     )
     return {
         "data": [dict(row) for row in rows],
