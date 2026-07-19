@@ -177,9 +177,21 @@ class ChainClient:
         tao = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_rows}
         alpha = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_rows}
         alpha_out = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in out_rows}
-        alpha_issuance = {
-            int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in issuance_rows
-        }
+        netuids = [int(field(info, "netuid")) for info in infos]
+        if issuance_rows:
+            alpha_issuance = {
+                int(k): Decimal(scale_int(v)) / RAO_PER_TAO
+                for k, v in issuance_rows
+            }
+        else:
+            issuance_values = await view.query_batch(
+                ("AlphaAssets", "TotalAlphaIssuance"),
+                [[netuid] for netuid in netuids],
+            )
+            alpha_issuance = {
+                netuid: Decimal(scale_int(value)) / RAO_PER_TAO
+                for netuid, value in zip(netuids, issuance_values)
+            }
         volume = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in volume_rows}
         tao_emission = {
             int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_emission_rows
@@ -200,7 +212,6 @@ class ChainClient:
             int(k): self._text(field(v, "subnet_name"))
             for k, v in identity_rows
         }
-        netuids = [int(field(info, "netuid")) for info in infos]
         if not self._conviction_locked or block_number - self._conviction_refresh_block >= 25:
             self._conviction_locked = await self._locked_alpha_by_subnet(view, netuids)
             self._conviction_refresh_block = block_number
