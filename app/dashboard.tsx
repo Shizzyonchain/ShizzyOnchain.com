@@ -278,7 +278,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }, [selected, timeframe, showTaoChart]);
   useEffect(() => {
     const refreshActivity = () => {
-      fetch(`/api/backend/v1/activity?netuid=${selected}&limit=30`, { cache: "no-store" })
+      fetch("/api/backend/v1/activity?limit=30", { cache: "no-store" })
         .then(r => r.ok ? r.json() : Promise.reject())
         .then(json => {
           setActivity(json.data || []);
@@ -290,7 +290,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     refreshActivity();
     const refreshTimer = window.setInterval(refreshActivity, 30_000);
     return () => window.clearInterval(refreshTimer);
-  }, [selected]);
+  }, []);
 
   const filtered = useMemo(() => rows.filter(r => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase()))
     .sort((a,b) => sortDirection === "desc"
@@ -473,7 +473,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <p className="signals-note">Scores compare current on-chain conditions, not future performance. Thin liquidity, missing history, and sudden chain events can make any signal unreliable.</p>
       </section>}
       {!showTaoChart && active && <section className="chain-activity panel" aria-labelledby="activity-title">
-        <div className="activity-head"><div><p className="eyebrow">Finalized chain events</p><h2 id="activity-title">Conviction & stake activity · {active.name || `SN${active.netuid}`}</h2></div><span>Refreshes every 30 seconds</span></div>
+        <div className="activity-head"><div><p className="eyebrow">Finalized chain events</p><h2 id="activity-title">Network-wide conviction & stake activity</h2></div><span>Refreshes every 30 seconds</span></div>
         <div className="activity-summary">
           <article><span>Locked · 24h</span><strong>{fmt(activitySummary?.locked_alpha_24h, 4)} α</strong></article>
           <article><span>Unlocked · 24h</span><strong>{fmt(activitySummary?.unlocked_alpha_24h, 4)} α</strong></article>
