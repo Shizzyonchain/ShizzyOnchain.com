@@ -473,12 +473,10 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     .sort((a, b) => Number(b.conviction_locked_pct || 0) - Number(a.conviction_locked_pct || 0));
   const emissionMovers = [...rows]
     .filter(row => row.emission_change_1h != null)
-    .sort((a, b) => Math.abs(Number(b.emission_change_1h || 0)) - Math.abs(Number(a.emission_change_1h || 0)))
-    .slice(0, 5);
+    .sort((a, b) => Math.abs(Number(b.emission_change_1h || 0)) - Math.abs(Number(a.emission_change_1h || 0)));
   const liquidityMovers = [...rows]
     .filter(row => row.liquidity_change_1h != null)
-    .sort((a, b) => Math.abs(Number(b.liquidity_change_1h || 0)) - Math.abs(Number(a.liquidity_change_1h || 0)))
-    .slice(0, 5);
+    .sort((a, b) => Math.abs(Number(b.liquidity_change_1h || 0)) - Math.abs(Number(a.liquidity_change_1h || 0)));
   const activityHours = activityCollectingSince ? Math.max(0, (Date.now() - new Date(activityCollectingSince).getTime()) / 3_600_000) : 0;
   const activityPeriod = activityHours < 24 ? `Since tracking began · ${activityHours < 1 ? "<1" : Math.floor(activityHours)}h` : "Last 24 hours";
   const eventDescription = (event: ChainEvent) => {
