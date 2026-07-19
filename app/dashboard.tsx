@@ -48,6 +48,12 @@ const universityCourses = [
 const stripeCheckout = "https://buy.stripe.com/fZudRb3u5dkA7Y45RNfAc00";
 const universityCalendly = "https://calendly.com/shizzyunchained/shiz-university";
 const universityWallet = "5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM";
+const partners = [
+  { key: "mentat", name: "Mentat Minds", kicker: "TAO delegation", description: "Automated Bittensor staking strategies designed to keep your TAO delegated across strong validator opportunities.", href: "https://mentatminds.com/?origin=ShizzyUnchained", cta: "Explore Mentat Minds" },
+  { key: "alphagap", name: "AlphaGap", kicker: "Subnet intelligence", description: "AI-powered Bittensor research tracking development, market signals, whale activity, emissions, and all active subnets.", href: "https://www.alphagap.io/?ref=SHIZ", cta: "Find the Alpha Gap" },
+  { key: "ledger", name: "Ledger", kicker: "Hardware security", description: "Protect and manage crypto with a secure hardware wallet and the Ledger ecosystem built for self-custody.", href: "https://shop.ledger.com/?r=49c0bef9b376", cta: "Shop Ledger" },
+  { key: "nord", name: "NordVPN", kicker: "Online privacy", description: "Add an encrypted layer of protection to your internet connection across desktop, mobile, and public networks.", href: "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=145365&source=Shizzy", cta: "Get NordVPN" },
+];
 
 const fmt = (value?: string | number, digits = 2) => {
   const n = Number(value ?? 0);
@@ -135,7 +141,7 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
 }
 
 export function Dashboard() {
-  const [view, setView] = useState<"screener" | "bubbles" | "wallets" | "videos" | "university">("screener");
+  const [view, setView] = useState<"screener" | "bubbles" | "wallets" | "videos" | "university" | "partners">("screener");
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
@@ -157,7 +163,7 @@ export function Dashboard() {
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
-    if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "bubbles") queueMicrotask(() => setView(requested));
+    if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "bubbles" || requested === "partners") queueMicrotask(() => setView(requested));
   }, []);
 
   useEffect(() => {
@@ -267,6 +273,7 @@ export function Dashboard() {
         <button className={view === "university" ? "active" : ""} onClick={() => setView("university")}>Shiz University</button>
         <button className={view === "wallets" ? "active" : ""} onClick={() => setView("wallets")}>Wallet tracker</button>
         <Link href="/about">About</Link>
+        <button className={view === "partners" ? "active" : ""} onClick={() => setView("partners")}>Partners</button>
       </nav>
       <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
         <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>USD</button>
@@ -351,6 +358,21 @@ export function Dashboard() {
           <span className="video-info"><small>{String(index + 1).padStart(2, "0")}</small><b>{video.title}</b></span>
         </button>)}</div>
       </div>
+    </section> : view === "partners" ? <section className="partners-page">
+      <div className="partners-hero">
+        <p className="eyebrow">Tools Shizzy trusts</p>
+        <h1>Power your journey.<br/><span>Meet our partners.</span></h1>
+        <p>Research smarter, protect your assets, strengthen your privacy, and put your TAO to work with handpicked products from across the ecosystem.</p>
+      </div>
+      <div className="partner-grid">
+        {partners.map((partner, index) => <a className={`partner-banner ${partner.key}`} href={partner.href} target="_blank" rel="sponsored noreferrer" key={partner.name}>
+          <div className="partner-number">0{index + 1}</div>
+          <div className="partner-logo" aria-hidden="true"><i/>{partner.name}</div>
+          <div className="partner-copy"><span>{partner.kicker}</span><h2>{partner.name}</h2><p>{partner.description}</p></div>
+          <strong>{partner.cta}<b>↗</b></strong>
+        </a>)}
+      </div>
+      <div className="partner-note"><span>Shizzy-approved resources</span><p>Some links are affiliate links. If you use them, Shizzy Unchained may earn a commission at no additional cost to you.</p></div>
     </section> : <section className="university-page">
       <div className="university-hero">
         <div className="university-copy"><p className="eyebrow">Private education · Real experience</p><h1>Learn the game.<br/><span>Build your edge.</span></h1><p>Four focused, one-on-one classes built around Bittensor, portfolio construction, content, and security. Every class is practical, personal, and scheduled directly with Shizzy.</p><div className="university-proof"><span><b>$100</b> per class</span><span><b>1-on-1</b> with Shizzy</span><span><b>Card or TAO</b> payment</span></div></div>
