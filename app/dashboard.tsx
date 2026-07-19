@@ -56,11 +56,12 @@ const fmt = (value?: string | number, digits = 2) => {
 };
 const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
 
-function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row?: ScreenerRow; currency: "usd" | "tao"; taoUsd: number }) {
+function PriceChart({ candles, row, currency, taoUsd, timeframe }: { candles: Candle[]; row?: ScreenerRow; currency: "usd" | "tao"; taoUsd: number; timeframe: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [hovered, setHovered] = useState<number | null>(null);
   const [canvasWidth, setCanvasWidth] = useState(1000);
   const visible = useMemo(() => candles.slice(-180), [candles]);
+  const sparse = visible.length > 1 && visible.length < 24;
   const layout = (width: number) => {
     const pad = 16;
     const usable = Math.max(1, width - pad * 2);
@@ -88,20 +89,52 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
     const lows = visible.map(c => Number(c.low));
     const min = Math.min(...lows), max = Math.max(...highs), range = Math.max(max - min, max * .001, 1e-9);
     const { pad: padX, step, start } = layout(box.width);
-    const padY = 18, usableH = box.height - padY * 2;
+    const padY = 18, bottomY = box.height - 28, usableH = bottomY - padY;
     const bodyW = Math.max(2, Math.min(14, step * .62));
     const y = (value: number) => padY + (max - value) * usableH / range;
 
-    visible.forEach((c, i) => {
-      const open = Number(c.open), high = Number(c.high), low = Number(c.low), close = Number(c.close);
-      const x = start + step * (i + .5);
-      const color = close > open ? "#22c55e" : close < open ? "#ef4444" : "#ffffff";
-      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(x, y(high)); ctx.lineTo(x, y(low)); ctx.stroke();
-      const top = Math.min(y(open), y(close));
-      const height = Math.max(2, Math.abs(y(open) - y(close)));
-      ctx.fillRect(x - bodyW / 2, top, bodyW, height);
-    });
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(38,85,132,.35)";
+    for (let line = 0; line < 4; line++) {
+      const gridY = padY + usableH * line / 3;
+      ctx.beginPath(); ctx.moveTo(padX, gridY); ctx.lineTo(box.width - padX, gridY); ctx.stroke();
+    }
+
+    if (sparse) {
+      const points = visible.map((c, i) => ({ x: start + step * (i + .5), y: y(Number(c.close)) }));
+      const rising = Number(visible.at(-1)?.close) >= Number(visible[0]?.close);
+      const color = rising ? "#22c55e" : "#ef4444";
+      const fill = ctx.createLinearGradient(0, padY, 0, bottomY);
+      fill.addColorStop(0, rising ? "rgba(34,197,94,.2)" : "rgba(239,68,68,.18)");
+      fill.addColorStop(1, "rgba(2,8,23,0)");
+      ctx.beginPath(); ctx.moveTo(points[0].x, bottomY);
+      points.forEach(point => ctx.lineTo(point.x, point.y));
+      ctx.lineTo(points.at(-1)!.x, bottomY); ctx.closePath();
+      ctx.fillStyle = fill; ctx.fill();
+      ctx.beginPath();
+      points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = color;
+      points.forEach(point => { ctx.beginPath(); ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2); ctx.fill(); });
+    } else {
+      visible.forEach((c, i) => {
+        const open = Number(c.open), high = Number(c.high), low = Number(c.low), close = Number(c.close);
+        const x = start + step * (i + .5);
+        const color = close > open ? "#22c55e" : close < open ? "#ef4444" : "#ffffff";
+        ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x, y(high)); ctx.lineTo(x, y(low)); ctx.stroke();
+        const top = Math.min(y(open), y(close));
+        const height = Math.max(2, Math.abs(y(open) - y(close)));
+        ctx.fillRect(x - bodyW / 2, top, bodyW, height);
+      });
+    }
+
+    ctx.fillStyle = "rgba(141,164,199,.75)";
+    ctx.font = "10px monospace";
+    const firstLabel = new Date(visible[0].time).toLocaleString([], { month: "short", day: "numeric", hour: "numeric" });
+    const lastLabel = new Date(visible.at(-1)!.time).toLocaleString([], { month: "short", day: "numeric", hour: "numeric" });
+    ctx.textAlign = "left"; ctx.fillText(firstLabel, padX, box.height - 7);
+    ctx.textAlign = "right"; ctx.fillText(lastLabel, box.width - padX, box.height - 7);
 
     if (hovered !== null && visible[hovered]) {
       const candle = visible[hovered];
@@ -109,7 +142,7 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
       ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = "rgba(141,164,199,.65)"; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(x, padY); ctx.lineTo(x, box.height - padY); ctx.moveTo(padX, crossY); ctx.lineTo(box.width - padX, crossY); ctx.stroke(); ctx.restore();
     }
-  }, [visible, hovered]);
+  }, [visible, hovered, sparse, currency, taoUsd]);
 
   const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
     if (!visible.length) return;
@@ -125,6 +158,7 @@ function PriceChart({ candles, row, currency, taoUsd }: { candles: Candle[]; row
   return <div className="chart-stage">
     <canvas ref={ref} className="price-canvas" aria-label={`Interactive candlestick price chart for ${row?.name || "selected subnet"}`} onPointerMove={move} onPointerLeave={() => setHovered(null)} />
     {!visible.length && <div className="chart-empty">Building candle history from your node…</div>}
+    {sparse && <div className="chart-history-note">History building · {visible.length} {timeframe === "1d" ? "daily" : timeframe === "1h" ? "hourly" : timeframe === "10m" ? "10-minute" : "minute"} candles</div>}
     {candle && <div className="candle-tooltip" style={{ left: `${tooltipLeft}%` }}>
       <time>{new Date(candle.time).toLocaleString()}</time>
       <span><em>Open</em><b>{price(candle.open)}</b></span>
@@ -352,7 +386,7 @@ export function Dashboard() {
           {dataState === "live" && <>
           <div className="panel-head"><div><p className="eyebrow">SN{active?.netuid} · {active?.symbol || "ALPHA"}</p><h1>{active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{money(active?.price_tao, true)}</strong><span className={changeClass(active?.change_1h)}>{Number(active?.change_1h || 0) > 0 ? "+" : ""}{fmt(active?.change_1h)}% · 1 Hour</span></div></div>
           <div className="timeframes">{[{ value: "1m", label: "1 Minute" }, { value: "10m", label: "10 Minutes" }, { value: "1h", label: "1 Hour" }, { value: "1d", label: "1 Day" }].map(t => <button key={t.value} className={timeframe === t.value ? "active" : ""} onClick={() => setTimeframe(t.value)}>{t.label}</button>)}</div>
-          <PriceChart candles={candles} row={active} currency={currency} taoUsd={taoUsd} />
+          <PriceChart candles={candles} row={active} currency={currency} taoUsd={taoUsd} timeframe={timeframe} />
           <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>
           </>}
         </div>
