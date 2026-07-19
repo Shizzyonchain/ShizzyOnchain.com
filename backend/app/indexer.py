@@ -60,10 +60,12 @@ async def persist_block(db, chain, number: int, announced_hash: str | None = Non
         )
         await conn.executemany(
             """INSERT INTO subnet_price_samples
-               (time,block_number,block_hash,netuid,price_tao,tao_reserve,alpha_reserve,alpha_out,volume_tao)
-               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT DO NOTHING""",
+               (time,block_number,block_hash,netuid,price_tao,tao_reserve,alpha_reserve,alpha_out,volume_tao,
+                tao_in_emission,alpha_out_emission)
+               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) ON CONFLICT DO NOTHING""",
             [(timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
-              r["alpha_reserve"], r["alpha_out"], r["volume_tao"]) for r in rows],
+              r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
+              r["alpha_out_emission"]) for r in rows],
         )
     log.info("indexed finalized block %s (%s subnets)", number, len(rows))
 
