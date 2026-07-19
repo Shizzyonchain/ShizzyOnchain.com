@@ -209,16 +209,14 @@ export function Dashboard() {
   const rankedMovers = [...rows].sort((a,b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const marketCapLeaders = [...rows].sort((a,b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0)).slice(0, 14);
   const bubbleRows = useMemo(() => [...rows]
-    .filter(r => Number(r.market_cap_tao || 0) > 0)
-    .sort((a,b) => Math.abs(Number(b[bubbleTimeframe] || 0)) - Math.abs(Number(a[bubbleTimeframe] || 0)))
-    .slice(0, 60), [rows, bubbleTimeframe]);
-  const strongestGain = Math.max(...bubbleRows.map(r => Math.max(Number(r[bubbleTimeframe] || 0), 0)), .01);
-  const strongestLoss = Math.max(...bubbleRows.map(r => Math.max(-Number(r[bubbleTimeframe] || 0), 0)), .01);
+    .filter(r => r.netuid !== 0)
+    .sort((a,b) => a.netuid - b.netuid)
+    .slice(0, 128), [rows]);
   const bubbleSize = (row: ScreenerRow) => {
     const movement = Number(row[bubbleTimeframe] || 0);
-    if (Math.abs(movement) <= .005) return 58;
-    if (movement > 0) return Math.round(78 + Math.sqrt(movement / strongestGain) * 158);
-    return Math.round(72 + Math.sqrt(Math.abs(movement) / strongestLoss) * 100);
+    if (Math.abs(movement) <= .005) return 48;
+    if (movement > 0) return Math.round(54 + Math.min(98, Math.pow(movement, .62) * 13));
+    return Math.round(52 + Math.min(22, Math.sqrt(Math.abs(movement)) * 7));
   };
   const bubbleChange = (row: ScreenerRow) => row[bubbleTimeframe] as string | undefined;
   const money = (value?: string | number, price = false) => {
@@ -306,7 +304,7 @@ export function Dashboard() {
       </section>
     </> : view === "bubbles" ? <section className="bubbles-page">
       <div className="bubbles-hero">
-        <div><p className="eyebrow">Live Bittensor market map</p><h1>Subnet <span>bubbles.</span></h1><p>See momentum at a glance. Green bubbles grow with their gains, red shows losses, and flat white bubbles stay small.</p></div>
+        <div><p className="eyebrow">All 128 subnets · live market map</p><h1>Subnet <span>bubbles.</span></h1><p>Every subnet in one view. Subnet numbers lead, names stay compact, and only exceptional green movers grow large.</p></div>
         <div className="bubble-controls" role="group" aria-label="Bubble performance period">
           {[
             { value: "change_10m", label: "10 Minutes" },
@@ -315,13 +313,13 @@ export function Dashboard() {
           ].map(period => <button key={period.value} className={bubbleTimeframe === period.value ? "active" : ""} onClick={() => setBubbleTimeframe(period.value as typeof bubbleTimeframe)}>{period.label}</button>)}
         </div>
       </div>
-      <div className="bubble-legend"><span><i className="gain"/>Gaining</span><span><i className="flat"/>Flat</span><span><i className="loss"/>Falling</span><b>Size = price movement</b></div>
+      <div className="bubble-legend"><span><i className="gain"/>Gaining</span><span><i className="flat"/>Flat</span><span><i className="loss"/>Falling</span><b>All 128 · big bubbles = exceptional gains</b></div>
       <section className="bubble-cloud panel" aria-label="Subnet market cap bubbles">
         {bubbleRows.map(row => {
           const movement = Number(bubbleChange(row) || 0);
           const size = bubbleSize(row);
-          return <button key={row.netuid} style={{ width: size, height: size }} className={`market-bubble ${size < 70 ? "tiny" : ""} ${movement > 0.005 ? "gain" : movement < -0.005 ? "loss" : "flat"} ${selected === row.netuid ? "selected" : ""}`} onClick={() => setSelected(row.netuid)} aria-label={`${row.name || `Subnet ${row.netuid}`}, ${money(row.market_cap_tao)} market cap, ${movement >= 0 ? "+" : ""}${fmt(movement)} percent`}>
-            <small>SN{row.netuid}</small><strong>{row.name || `Subnet ${row.netuid}`}</strong><em>{movement > 0 ? "+" : ""}{fmt(movement)}%</em><span>{money(row.market_cap_tao)}</span>
+          return <button key={row.netuid} style={{ width: size, height: size }} className={`market-bubble ${size < 58 ? "compact" : ""} ${movement > 0.005 ? "gain" : movement < -0.005 ? "loss" : "flat"} ${selected === row.netuid ? "selected" : ""}`} onClick={() => setSelected(row.netuid)} aria-label={`${row.name || `Subnet ${row.netuid}`}, ${money(row.market_cap_tao)} market cap, ${movement >= 0 ? "+" : ""}${fmt(movement)} percent`}>
+            <small>{row.name || "Unknown"}</small><strong>SN{row.netuid}</strong><em>{movement > 0 ? "+" : ""}{fmt(movement)}%</em><span>{money(row.market_cap_tao)}</span>
           </button>;
         })}
       </section>
