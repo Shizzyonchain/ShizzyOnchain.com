@@ -12,8 +12,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase, title, description,
     icons: {
-      icon: [{ url: "/shizzy-unchained-logo.svg", type: "image/svg+xml" }],
-      shortcut: "/shizzy-unchained-logo.svg",
+      icon: [{ url: "/favicon.svg?v=2", type: "image/svg+xml", sizes: "any" }],
+      shortcut: "/favicon.svg?v=2",
       apple: "/shizzy-unchained-logo.png",
     },
     openGraph: { title, description, type: "website" },
