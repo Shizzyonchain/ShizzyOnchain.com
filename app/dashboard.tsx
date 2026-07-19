@@ -84,15 +84,6 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
     const start = pad;
     return { pad, priceAxis, chartRight, usable, step, start };
   };
-  const price = (value: string) => {
-    const raw = Number(value || 0);
-    if (valueCurrency === "usd") return raw.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const tao = raw;
-    if (currency === "tao") return `τ ${fmt(tao, 6)}`;
-    if (!taoUsd) return "$—";
-    const usd = tao * taoUsd;
-    return usd.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: usd < 1 ? 4 : 2, maximumFractionDigits: usd < 1 ? 6 : 2 });
-  };
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
@@ -213,20 +204,9 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
     const x = event.clientX - box.left;
     setHovered(Math.max(0, Math.min(visible.length - 1, Math.floor((x - start) / step))));
   };
-  const candle = hovered === null ? undefined : visible[hovered];
-  const tooltipLayout = layout(canvasWidth);
-  const tooltipLeft = hovered === null || !visible.length ? 50 : Math.min(84, Math.max(16, (tooltipLayout.start + tooltipLayout.step * (hovered + .5)) / canvasWidth * 100));
   return <div className="chart-stage">
     <canvas ref={ref} className="price-canvas" aria-label={`Interactive candlestick price chart for ${row?.name || "selected subnet"}`} onPointerMove={move} onPointerLeave={() => setHovered(null)} />
     {!visible.length && <div className="chart-empty">Building candle history from your node…</div>}
-    {sparse && <div className="chart-history-note">History building · {visible.length} {timeframe === "1d" ? "daily" : timeframe === "1h" ? "hourly" : timeframe === "10m" ? "10-minute" : "minute"} candles</div>}
-    {candle && <div className="candle-tooltip" style={{ left: `${tooltipLeft}%` }}>
-      <time>{new Date(candle.time).toLocaleString()}</time>
-      <span><em>Open</em><b>{price(candle.open)}</b></span>
-      <span><em>High</em><b>{price(candle.high)}</b></span>
-      <span><em>Low</em><b>{price(candle.low)}</b></span>
-      <span><em>Close</em><b>{price(candle.close)}</b></span>
-    </div>}
   </div>;
 }
 
