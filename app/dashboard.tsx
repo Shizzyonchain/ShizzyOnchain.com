@@ -74,11 +74,13 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
   const visible = useMemo(() => candles.slice(-180), [candles]);
   const sparse = visible.length > 1 && visible.length < 24;
   const layout = (width: number) => {
-    const pad = 16;
-    const usable = Math.max(1, width - pad * 2);
+    const pad = 10;
+    const priceAxis = width < 520 ? 58 : 72;
+    const chartRight = width - priceAxis;
+    const usable = Math.max(1, chartRight - pad);
     const step = usable / Math.max(visible.length, 1);
     const start = pad;
-    return { pad, usable, step, start };
+    return { pad, priceAxis, chartRight, usable, step, start };
   };
   const price = (value: string) => {
     const raw = Number(value || 0);
@@ -92,6 +94,13 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
+    const observer = new ResizeObserver(entries => setCanvasWidth(entries[0].contentRect.width));
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
     const ratio = window.devicePixelRatio || 1;
     const box = canvas.getBoundingClientRect();
     canvas.width = box.width * ratio; canvas.height = box.height * ratio;
@@ -101,16 +110,48 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
     const highs = visible.map(c => Number(c.high));
     const lows = visible.map(c => Number(c.low));
     const min = Math.min(...lows), max = Math.max(...highs), range = Math.max(max - min, max * .001, 1e-9);
-    const { pad: padX, step, start } = layout(box.width);
-    const padY = 18, bottomY = box.height - 28, usableH = bottomY - padY;
+    const { pad: padX, chartRight, step, start } = layout(box.width);
+    const padY = 16, bottomY = box.height - 34, usableH = bottomY - padY;
     const bodyW = Math.max(2, Math.min(14, step * .62));
     const y = (value: number) => padY + (max - value) * usableH / range;
+    const axisPrice = (value: number) => {
+      const displayed = valueCurrency === "usd" ? value : currency === "usd" ? value * taoUsd : value;
+      if (valueCurrency === "usd" || currency === "usd") {
+        if (displayed >= 1000) return `$${fmt(displayed, 0)}`;
+        return `$${fmt(displayed, displayed < 1 ? 4 : 2)}`;
+      }
+      return `τ${fmt(displayed, displayed < 1 ? 4 : 2)}`;
+    };
+    const axisTime = (value: string) => {
+      const date = new Date(value);
+      if (timeframe === "1d") return date.toLocaleDateString([], { month: "short", day: "numeric" });
+      return date.toLocaleTimeString([], { hour: "numeric", minute: timeframe === "1m" || timeframe === "10m" ? "2-digit" : undefined });
+    };
 
     ctx.lineWidth = 1;
-    ctx.strokeStyle = "rgba(38,85,132,.35)";
-    for (let line = 0; line < 4; line++) {
-      const gridY = padY + usableH * line / 3;
-      ctx.beginPath(); ctx.moveTo(padX, gridY); ctx.lineTo(box.width - padX, gridY); ctx.stroke();
+    ctx.font = "10px monospace";
+    ctx.fillStyle = "rgba(141,164,199,.82)";
+    for (let line = 0; line < 5; line++) {
+      const ratioY = line / 4;
+      const gridY = padY + usableH * ratioY;
+      const gridPrice = max - range * ratioY;
+      ctx.strokeStyle = "rgba(38,85,132,.32)";
+      ctx.beginPath(); ctx.moveTo(padX, gridY); ctx.lineTo(chartRight, gridY); ctx.stroke();
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText(axisPrice(gridPrice), chartRight + 7, gridY);
+    }
+    const timeTickCount = box.width < 600 ? 3 : 5;
+    for (let tick = 0; tick < timeTickCount; tick++) {
+      const ratioX = tick / (timeTickCount - 1);
+      const candleIndex = Math.round((visible.length - 1) * ratioX);
+      const gridX = start + step * (candleIndex + .5);
+      ctx.strokeStyle = "rgba(38,85,132,.24)";
+      ctx.beginPath(); ctx.moveTo(gridX, padY); ctx.lineTo(gridX, bottomY); ctx.stroke();
+      ctx.fillStyle = "rgba(141,164,199,.82)";
+      ctx.textBaseline = "alphabetic";
+      ctx.textAlign = tick === 0 ? "left" : tick === timeTickCount - 1 ? "right" : "center";
+      ctx.fillText(axisTime(visible[candleIndex].time), gridX, box.height - 7);
     }
 
     if (sparse) {
@@ -142,20 +183,25 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
       });
     }
 
-    ctx.fillStyle = "rgba(141,164,199,.75)";
-    ctx.font = "10px monospace";
-    const firstLabel = new Date(visible[0].time).toLocaleString([], { month: "short", day: "numeric", hour: "numeric" });
-    const lastLabel = new Date(visible.at(-1)!.time).toLocaleString([], { month: "short", day: "numeric", hour: "numeric" });
-    ctx.textAlign = "left"; ctx.fillText(firstLabel, padX, box.height - 7);
-    ctx.textAlign = "right"; ctx.fillText(lastLabel, box.width - padX, box.height - 7);
-
     if (hovered !== null && visible[hovered]) {
       const candle = visible[hovered];
       const x = start + step * (hovered + .5), crossY = y(Number(candle.close));
       ctx.save(); ctx.setLineDash([4, 4]); ctx.strokeStyle = "rgba(141,164,199,.65)"; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(x, padY); ctx.lineTo(x, box.height - padY); ctx.moveTo(padX, crossY); ctx.lineTo(box.width - padX, crossY); ctx.stroke(); ctx.restore();
+      ctx.beginPath(); ctx.moveTo(x, padY); ctx.lineTo(x, bottomY); ctx.moveTo(padX, crossY); ctx.lineTo(chartRight, crossY); ctx.stroke(); ctx.restore();
+      const priceLabel = axisPrice(Number(candle.close));
+      ctx.font = "10px monospace";
+      const priceWidth = Math.min(box.width - chartRight, ctx.measureText(priceLabel).width + 12);
+      ctx.fillStyle = "#1676ad"; ctx.fillRect(chartRight, crossY - 10, priceWidth, 20);
+      ctx.fillStyle = "#fff"; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+      ctx.fillText(priceLabel, chartRight + 6, crossY);
+      const timeLabel = axisTime(candle.time);
+      const timeWidth = ctx.measureText(timeLabel).width + 14;
+      const timeLeft = Math.max(padX, Math.min(chartRight - timeWidth, x - timeWidth / 2));
+      ctx.fillStyle = "#1676ad"; ctx.fillRect(timeLeft, bottomY, timeWidth, 20);
+      ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(timeLabel, timeLeft + timeWidth / 2, bottomY + 10);
     }
-  }, [visible, hovered, sparse, currency, taoUsd, valueCurrency]);
+  }, [visible, hovered, sparse, currency, taoUsd, valueCurrency, timeframe, canvasWidth]);
 
   const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
     if (!visible.length) return;
