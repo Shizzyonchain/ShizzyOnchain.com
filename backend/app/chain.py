@@ -74,6 +74,33 @@ def token_units(value: Any) -> Decimal:
     return Decimal(str(value))
 
 
+def total_locked_alpha(result: Any) -> Decimal:
+    """Read the rolled-forward total lock mass returned by Bittensor v11."""
+    total = field(result, "total_locked_alpha")
+    if total is not None:
+        return token_units(total)
+
+    entries = field(result, "entries", "convictions", "hotkeys", default=[])
+    if isinstance(entries, dict):
+        entries = entries.values()
+    return sum(
+        (
+            token_units(
+                field(
+                    entry,
+                    "locked_alpha",
+                    "locked_mass",
+                    "locked",
+                    "alpha_locked",
+                    default=0,
+                )
+            )
+            for entry in entries or []
+        ),
+        Decimal(0),
+    )
+
+
 def field(obj: Any, *names: str, default=None):
     data = asdict(obj) if is_dataclass(obj) else obj
     for name in names:
@@ -244,14 +271,7 @@ class ChainClient:
         async def one(netuid: int):
             try:
                 result = await view.locks.subnet_convictions(netuid=netuid)
-                entries = field(result, "entries", "convictions", "hotkeys", default=result)
-                if isinstance(entries, dict):
-                    entries = entries.values()
-                total = Decimal(0)
-                for entry in entries or []:
-                    locked = field(entry, "locked_mass", "locked", "alpha_locked", default=0)
-                    total += token_units(locked)
-                return netuid, total
+                return netuid, total_locked_alpha(result)
             except Exception:
                 return netuid, None
 

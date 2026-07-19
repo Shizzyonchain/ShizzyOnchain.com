@@ -95,7 +95,10 @@ async def screener():
                       * (7200.0 / (l.tempo + 1)) * 365
                   END AS apy,
                   l.conviction_locked_alpha,
-                  l.conviction_locked_alpha * l.price_tao AS conviction_locked_tao,
+                  CASE WHEN l.alpha_out IS NULL OR l.alpha_out <= 0
+                         OR l.conviction_locked_alpha IS NULL THEN NULL ELSE
+                    100 * l.conviction_locked_alpha / l.alpha_out
+                  END AS conviction_locked_pct,
                   (l.price_tao *
                     (COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0))) AS market_cap_tao,
                   l.volume_tao - COALESCE(v24.volume_tao,l.volume_tao) AS volume_24h_tao,

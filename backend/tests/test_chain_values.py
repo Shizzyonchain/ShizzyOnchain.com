@@ -1,6 +1,12 @@
 from decimal import Decimal
 
-from app.chain import ChainClient, emission_shares, fixed_to_decimal, scale_int
+from app.chain import (
+    ChainClient,
+    emission_shares,
+    fixed_to_decimal,
+    scale_int,
+    total_locked_alpha,
+)
 
 
 def test_scale_int_unwraps_bittensor_v11_codec_shapes():
@@ -40,3 +46,28 @@ def test_emission_share_handles_disabled_and_zero_allocation_subnets():
     )
 
     assert shares == {4: Decimal("0"), 5: Decimal("0")}
+
+
+class FakeBalance:
+    def __init__(self, rao: int):
+        self.rao = rao
+
+
+def test_total_locked_alpha_uses_bittensor_v11_aggregate():
+    result = {
+        "total_locked_alpha": FakeBalance(1_500_000_000),
+        "hotkeys": [{"locked_alpha": FakeBalance(999)}],
+    }
+
+    assert total_locked_alpha(result) == Decimal("1.5")
+
+
+def test_total_locked_alpha_falls_back_to_hotkey_entries():
+    result = {
+        "hotkeys": [
+            {"locked_alpha": FakeBalance(1_250_000_000)},
+            {"locked_alpha": FakeBalance(750_000_000)},
+        ]
+    }
+
+    assert total_locked_alpha(result) == Decimal("2")
