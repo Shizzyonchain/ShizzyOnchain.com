@@ -123,8 +123,10 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
     const priceAxis = width < 520 ? 58 : 72;
     const chartRight = width - priceAxis;
     const usable = Math.max(1, chartRight - pad);
-    const step = usable / Math.max(visible.length, 1);
-    const start = pad;
+    const naturalStep = usable / Math.max(visible.length, 1);
+    const maxHourlyStep = width < 600 ? 34 : 52;
+    const step = timeframe === "1h" ? Math.min(naturalStep, maxHourlyStep) : naturalStep;
+    const start = timeframe === "1h" && step < naturalStep ? chartRight - step * visible.length : pad;
     return { pad, priceAxis, chartRight, usable, step, start };
   };
   useEffect(() => {
@@ -227,6 +229,10 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
     setCanvasWidth(box.width);
     const { step, start } = layout(box.width);
     const x = event.clientX - box.left;
+    if (x < start || x > start + step * visible.length) {
+      setHovered(null);
+      return;
+    }
     setHovered(Math.max(0, Math.min(visible.length - 1, Math.floor((x - start) / step))));
   };
   return <div className="chart-stage">
