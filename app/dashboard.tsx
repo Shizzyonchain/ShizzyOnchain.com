@@ -8,6 +8,7 @@ type ScreenerRow = {
   alpha_out?: string; market_cap_tao?: string; volume_24h_tao?: string;
   emission_pct?: string; apy?: string; conviction_locked_alpha?: string; conviction_locked_pct?: string;
   change_10m?: string; change_1h?: string; change_24h?: string; change_7d?: string;
+  liquidity_change_1h?: string; emission_change_1h?: string; volume_1h_tao?: string; volume_acceleration_1h?: string;
 };
 type Candle = { time: string; open: string; high: string; low: string; close: string; volume_tao?: string };
 type Stake = { hotkey: string; netuid: number; name?: string; symbol?: string; alpha: string; tao_value?: string };
@@ -355,6 +356,20 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
   const taoChartChange = candles.length > 1 ? (Number(candles.at(-1)?.close || 0) / Number(candles[0]?.open || 1) - 1) * 100 : 0;
+  const clampScore = (value: number) => Math.round(Math.max(0, Math.min(100, value)));
+  const signalData = active ? (() => {
+    const change10 = Number(active.change_10m || 0), change1h = Number(active.change_1h || 0), change24 = Number(active.change_24h || 0);
+    const liquidityFlow = Number(active.liquidity_change_1h || 0), emissionFlow = Number(active.emission_change_1h || 0);
+    const volumeAcceleration = Number(active.volume_acceleration_1h || 0);
+    const marketCap = Number(active.market_cap_tao || 0), liquidity = Number(active.tao_reserve || 0);
+    const coverage = marketCap > 0 ? liquidity / marketCap * 100 : 0;
+    const momentum = clampScore(50 + (change10 * .2 + change1h * .45 + change24 * .35) * 6);
+    const liquidityScore = clampScore(50 + liquidityFlow * 8);
+    const emissionScore = clampScore(50 + emissionFlow * 40);
+    const activityScore = clampScore(Number.isFinite(volumeAcceleration) ? volumeAcceleration * 50 : 0);
+    const risk = clampScore(78 - coverage * 1.6 + Math.abs(change1h) * 5);
+    return { change10, change1h, change24, liquidityFlow, emissionFlow, volumeAcceleration, coverage, momentum, liquidityScore, emissionScore, activityScore, risk };
+  })() : null;
   const sortArrow = (field: keyof ScreenerRow) => sort === field ? (sortDirection === "desc" ? " ↓" : " ↑") : "";
 
   return <main className="shell">
@@ -409,6 +424,17 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         </div>
         <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>openSubnetChart(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
       </section>
+      {!showTaoChart && active && signalData && <section className="trading-signals panel" aria-labelledby="signals-title">
+        <div className="signals-head"><div><p className="eyebrow">On-chain research</p><h2 id="signals-title">Trading signals · {active.name || `SN${active.netuid}`}</h2></div><span>Transparent indicators · Not financial advice</span></div>
+        <div className="signal-grid">
+          <article><div><span>Momentum</span><strong>{signalData.momentum}</strong></div><i style={{ "--score": `${signalData.momentum}%` } as CSSProperties}/><p className={signalData.momentum >= 55 ? "positive" : signalData.momentum <= 45 ? "negative" : ""}>{signalData.momentum >= 55 ? "Positive alignment" : signalData.momentum <= 45 ? "Negative alignment" : "Mixed direction"}</p><small>10m {signalData.change10 >= 0 ? "+" : ""}{fmt(signalData.change10)}% · 1h {signalData.change1h >= 0 ? "+" : ""}{fmt(signalData.change1h)}% · 1d {signalData.change24 >= 0 ? "+" : ""}{fmt(signalData.change24)}%</small></article>
+          <article><div><span>Liquidity flow</span><strong>{active.liquidity_change_1h == null ? "—" : signalData.liquidityScore}</strong></div><i style={{ "--score": `${signalData.liquidityScore}%` } as CSSProperties}/><p className={signalData.liquidityFlow > 0 ? "positive" : signalData.liquidityFlow < 0 ? "negative" : ""}>{active.liquidity_change_1h == null ? "Collecting history" : signalData.liquidityFlow > 0 ? "TAO entering pool" : signalData.liquidityFlow < 0 ? "TAO leaving pool" : "Liquidity unchanged"}</p><small>{active.liquidity_change_1h == null ? "Needs one hour of comparable reserve data" : `${signalData.liquidityFlow >= 0 ? "+" : ""}${fmt(signalData.liquidityFlow)}% TAO reserve over 1h`}</small></article>
+          <article><div><span>Emission trend</span><strong>{active.emission_change_1h == null ? "—" : signalData.emissionScore}</strong></div><i style={{ "--score": `${signalData.emissionScore}%` } as CSSProperties}/><p className={signalData.emissionFlow > 0 ? "positive" : signalData.emissionFlow < 0 ? "negative" : ""}>{active.emission_change_1h == null ? "Collecting history" : signalData.emissionFlow > 0 ? "Allocation increasing" : signalData.emissionFlow < 0 ? "Allocation decreasing" : "Allocation steady"}</p><small>{active.emission_change_1h == null ? "Needs one hour of comparable emission data" : `${signalData.emissionFlow >= 0 ? "+" : ""}${fmt(signalData.emissionFlow, 4)} percentage points over 1h`}</small></article>
+          <article><div><span>Volume activity</span><strong>{active.volume_acceleration_1h == null ? "—" : signalData.activityScore}</strong></div><i style={{ "--score": `${signalData.activityScore}%` } as CSSProperties}/><p>{active.volume_acceleration_1h == null ? "Collecting history" : signalData.volumeAcceleration >= 1.25 ? "Volume accelerating" : signalData.volumeAcceleration <= .75 ? "Volume cooling" : "Normal activity"}</p><small>{active.volume_acceleration_1h == null ? "Needs two complete hourly windows" : `${fmt(signalData.volumeAcceleration, 2)}× previous hour`}</small></article>
+          <article className="risk-signal"><div><span>Risk</span><strong>{signalData.risk}</strong></div><i style={{ "--score": `${signalData.risk}%` } as CSSProperties}/><p className={signalData.risk >= 65 ? "negative" : signalData.risk <= 35 ? "positive" : ""}>{signalData.risk >= 65 ? "Higher market risk" : signalData.risk <= 35 ? "Lower relative risk" : "Moderate market risk"}</p><small>{fmt(signalData.coverage)}% liquidity coverage · {fmt(Math.abs(signalData.change1h))}% 1h volatility</small></article>
+        </div>
+        <p className="signals-note">Scores compare current on-chain conditions, not future performance. Thin liquidity, missing history, and sudden chain events can make any signal unreliable.</p>
+      </section>}
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
         <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button></th><th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake."><button onClick={()=>changeSort("apy")}>Staker APY{sortArrow("apy")}</button></th><th title="Percentage of the subnet's full on-chain Alpha supply currently conviction locked."><button onClick={()=>changeSort("conviction_locked_pct")}>Supply Locked{sortArrow("conviction_locked_pct")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th></tr></thead>
