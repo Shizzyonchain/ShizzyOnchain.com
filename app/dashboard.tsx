@@ -28,6 +28,16 @@ const channelVideos = [
   { id: "pFPd1BoUe00", title: "Bittensor Subnet Update: Move Fast and Break People", meta: "24:23" },
   { id: "X3n7DVacpJA", title: "Week 6: 10 TAO to 100 TAO Challenge | Down But Not Out", meta: "22:30" },
 ];
+const liveStreams = [
+  { id: "ealfKQI1q2g", title: "ChronoLLM SN38: The AI That Never Cheats Time", meta: "51:47 · Streamed 3 days ago" },
+  { id: "T0BbzWFS7EE", title: "Bittensor Subnet Update with Crypto Millie", meta: "1:35:16 · Streamed 5 days ago" },
+  { id: "EJMXtvxC6Qo", title: "AI That Finds DNA Mutations: Minos SN107", meta: "1:03:36 · Streamed 11 days ago" },
+  { id: "F3ogKcX3xpE", title: "Leadpoet SN71 Deep Dive with Gavin Zaentz", meta: "58:46 · Streamed 2 weeks ago" },
+  { id: "wyif_M_zbwg", title: "Bittensor Subnet 85 VIDAIO: AI Video Enhancement", meta: "42:43 · Streamed 3 weeks ago" },
+  { id: "rvfP0aSEGkQ", title: "Live With Tom From Bitcast and Stitch3", meta: "44:15 · Streamed 1 month ago" },
+  { id: "_DAintx1Zfs", title: "Live with Mark Jeffrey", meta: "1:21:33 · Streamed 1 month ago" },
+  { id: "qxr-Q9d9Elw", title: "Bittensor’s Special K Live", meta: "48:22 · Streamed 1 month ago" },
+];
 const universityCourses = [
   { number: "01", title: "Bittensor Subnets 101", tag: "Foundation", description: "Understand miners, validators, emissions, alpha, subnet economics, and how the Bittensor network fits together.", lessons: ["How subnets work", "Reading emissions and incentives", "Finding real utility"] },
   { number: "02", title: "Build the Best Subnet Portfolio", tag: "Portfolio", description: "Turn subnet research into a focused portfolio built around conviction, sizing, risk, and a repeatable decision process.", lessons: ["Subnet research framework", "Position sizing and risk", "Portfolio reviews"] },
@@ -262,6 +272,13 @@ export function Dashboard() {
       <div className="featured-video panel">
         <div className="video-frame"><iframe key={activeVideo.id} src={`https://www.youtube-nocookie.com/embed/${activeVideo.id}?rel=0`} title={activeVideo.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div>
         <div className="video-caption"><span>Now playing</span><h2>{activeVideo.title}</h2><small>{activeVideo.meta}</small></div>
+      </div>
+      <div className="live-library">
+        <div className="library-head"><div><p className="eyebrow">Shizzy live</p><h2>Live streams & replays</h2></div><span>{liveStreams.length} streams</span></div>
+        <div className="live-grid">{liveStreams.map((video, index) => <button key={video.id} className={video.id === activeVideo.id ? "active" : ""} onClick={() => { setActiveVideo(video); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+          <span className="video-thumb"><img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" /><i>▶</i><em className="stream-badge">Live replay</em></span>
+          <span className="video-info"><small>{String(index + 1).padStart(2, "0")}</small><span><b>{video.title}</b><em>{video.meta}</em></span></span>
+        </button>)}</div>
       </div>
       <div className="video-library">
         <div className="library-head"><div><p className="eyebrow">From the channel</p><h2>Recent videos</h2></div><span>{channelVideos.length} episodes</span></div>
