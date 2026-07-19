@@ -470,9 +470,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const keyChangeCount = meaningfulActivity.filter(event => eventCategory(event) === "keys").length;
   const convictionEventCount = meaningfulActivity.filter(event => eventCategory(event) === "locks").length;
   const convictionLeaders = [...rows]
-    .filter(row => row.conviction_locked_pct != null)
-    .sort((a, b) => Number(b.conviction_locked_pct || 0) - Number(a.conviction_locked_pct || 0))
-    .slice(0, 8);
+    .sort((a, b) => Number(b.conviction_locked_pct || 0) - Number(a.conviction_locked_pct || 0));
   const emissionMovers = [...rows]
     .filter(row => row.emission_change_1h != null)
     .sort((a, b) => Math.abs(Number(b.emission_change_1h || 0)) - Math.abs(Number(a.emission_change_1h || 0)))
@@ -571,7 +569,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow conviction locks, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
       <section className="chain-intel-grid" aria-label="Subnet chain intelligence">
         <article className="conviction-board panel">
-          <div className="intel-panel-head"><div><p className="eyebrow">Conviction leaderboard</p><h2>Supply locked by subnet</h2></div><span>Live finalized state</span></div>
+          <div className="intel-panel-head"><div><p className="eyebrow">Conviction leaderboard</p><h2>Supply locked by subnet</h2></div><span>All {convictionLeaders.length} subnets · Live finalized state</span></div>
           <div className="conviction-ranking">
             {convictionLeaders.map((row, index) => <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
               <em>{String(index + 1).padStart(2, "0")}</em>
