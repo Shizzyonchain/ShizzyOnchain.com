@@ -73,7 +73,7 @@ async def screener():
            )
            SELECT l.netuid,s.name,s.symbol,l.time,l.block_number,l.price_tao,
                   l.tao_reserve,l.alpha_reserve,l.alpha_out,
-                  l.tao_in_emission AS emission_tao,
+                  100 * l.tao_in_emission / NULLIF(SUM(l.tao_in_emission) OVER (),0) AS emission_pct,
                   100 * l.alpha_out_emission * 2628000 / NULLIF(l.alpha_out,0) AS apy,
                   (l.price_tao *
                     (COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0))) AS market_cap_tao,
