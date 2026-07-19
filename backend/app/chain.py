@@ -3,6 +3,8 @@ from dataclasses import asdict, is_dataclass
 from decimal import Decimal
 from typing import Any
 
+from bittensor.utils.balance import fixed_to_float
+
 from app.config import Settings
 
 RAO_PER_TAO = Decimal(1_000_000_000)
@@ -45,6 +47,8 @@ class ChainClient:
     def __init__(self, settings: Settings):
         self.settings = settings
         self.client = None
+        self._conviction_locked: dict[int, Decimal | None] = {}
+        self._conviction_refresh_block = -1
 
     async def __aenter__(self):
         import bittensor as bt
@@ -64,7 +68,7 @@ class ChainClient:
 
     async def subnets_at(self, block_number: int) -> list[dict]:
         view = await self.client.at(block_number)
-        infos, prices, tao_rows, alpha_rows, out_rows, volume_rows, tao_emission_rows, alpha_emission_rows, symbol_rows, identity_rows = await asyncio.gather(
+        infos, prices, tao_rows, alpha_rows, out_rows, volume_rows, tao_emission_rows, alpha_emission_rows, emission_rows, root_prop_rows, symbol_rows, identity_rows = await asyncio.gather(
             view.subnets.all(),
             view.prices.alpha_prices(),
             view.query_map(("SubtensorModule", "SubnetTAO")),
@@ -73,6 +77,8 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "SubnetTaoInEmission")),
             view.query_map(("SubtensorModule", "SubnetAlphaOutEmission")),
+            view.query_map(("SubtensorModule", "EmissionValues")),
+            view.query_map(("SubtensorModule", "RootProp")),
             view.query_map(("SubtensorModule", "TokenSymbol")),
             view.query_map(("SubtensorModule", "SubnetIdentitiesV3")),
         )
@@ -82,11 +88,20 @@ class ChainClient:
         volume = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in volume_rows}
         tao_emission = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in tao_emission_rows}
         alpha_emission = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in alpha_emission_rows}
+        emission_share = {int(k): Decimal(int(v)) / RAO_PER_TAO for k, v in emission_rows}
+        root_prop = {
+            int(k): Decimal(str(fixed_to_float(v, frac_bits=32, total_bits=128)))
+            for k, v in root_prop_rows
+        }
         symbols = {int(k): self._text(v) for k, v in symbol_rows}
         names = {
             int(k): self._text(field(v, "subnet_name"))
             for k, v in identity_rows
         }
+        netuids = [int(field(info, "netuid")) for info in infos]
+        if not self._conviction_locked or block_number - self._conviction_refresh_block >= 25:
+            self._conviction_locked = await self._locked_alpha_by_subnet(view, netuids)
+            self._conviction_refresh_block = block_number
         rows = []
         for info in infos:
             netuid = int(field(info, "netuid"))
@@ -100,10 +115,36 @@ class ChainClient:
                 "volume_tao": volume.get(netuid),
                 "tao_in_emission": tao_emission.get(netuid, Decimal(0)),
                 "alpha_out_emission": alpha_emission.get(netuid, Decimal(0)),
+                "emission_share": emission_share.get(netuid, Decimal(0)),
+                "root_prop": root_prop.get(netuid),
+                "conviction_locked_alpha": self._conviction_locked.get(netuid),
                 "name": names.get(netuid),
                 "symbol": symbols.get(netuid),
             })
         return rows
+
+    async def _locked_alpha_by_subnet(self, view, netuids: list[int]) -> dict[int, Decimal | None]:
+        """Sum rolled-forward conviction lock mass, refreshing in bounded batches."""
+        totals: dict[int, Decimal | None] = {}
+
+        async def one(netuid: int):
+            try:
+                result = await view.locks.subnet_convictions(netuid=netuid)
+                entries = field(result, "entries", "convictions", "hotkeys", default=result)
+                if isinstance(entries, dict):
+                    entries = entries.values()
+                total = Decimal(0)
+                for entry in entries or []:
+                    locked = field(entry, "locked_mass", "locked", "alpha_locked", default=0)
+                    total += token_units(locked)
+                return netuid, total
+            except Exception:
+                return netuid, None
+
+        for start in range(0, len(netuids), 16):
+            for netuid, total in await asyncio.gather(*(one(n) for n in netuids[start:start + 16])):
+                totals[netuid] = total
+        return totals
 
     @staticmethod
     def _text(value: Any) -> str | None:

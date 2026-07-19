@@ -68,13 +68,25 @@ async def screener():
     rows = await app.state.db.fetch(
         """WITH latest AS (
              SELECT DISTINCT ON (netuid) netuid,time,block_number,price_tao,tao_reserve,
-                    alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission
+                    alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
+                    emission_share,root_prop,conviction_locked_alpha
              FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC
            )
            SELECT l.netuid,s.name,s.symbol,l.time,l.block_number,l.price_tao,
                   l.tao_reserve,l.alpha_reserve,l.alpha_out,
-                  100 * l.tao_in_emission / NULLIF(SUM(l.tao_in_emission) OVER (),0) AS emission_pct,
-                  100 * l.alpha_out_emission * 2628000 / NULLIF(l.alpha_out,0) AS apy,
+                  100 * l.emission_share AS emission_pct,
+                  CASE WHEN l.root_prop IS NULL OR l.alpha_out <= 0 THEN NULL ELSE
+                    100 * (POWER(
+                      1 + (
+                        l.alpha_out_emission * 0.41
+                        * (1 - LEAST(GREATEST(l.root_prop, 0), 1))
+                        * 7200 / l.alpha_out
+                      )::double precision,
+                      365
+                    ) - 1)
+                  END AS apy,
+                  l.conviction_locked_alpha,
+                  l.conviction_locked_alpha * l.price_tao AS conviction_locked_tao,
                   (l.price_tao *
                     (COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0))) AS market_cap_tao,
                   l.volume_tao - COALESCE(v24.volume_tao,l.volume_tao) AS volume_24h_tao,
