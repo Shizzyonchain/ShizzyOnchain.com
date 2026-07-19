@@ -110,7 +110,14 @@ async def _refresh_screener(current_app: FastAPI):
                   100 * (l.price_tao / NULLIF(p10.price_tao,0) - 1) AS change_10m,
                   100 * (l.price_tao / NULLIF(p1.price_tao,0) - 1) AS change_1h,
                   100 * (l.price_tao / NULLIF(p24.price_tao,0) - 1) AS change_24h,
-                  100 * (l.price_tao / NULLIF(p7.price_tao,0) - 1) AS change_7d
+                  100 * (l.price_tao / NULLIF(p7.price_tao,0) - 1) AS change_7d,
+                  100 * (l.tao_reserve / NULLIF(p1.tao_reserve,0) - 1)
+                    AS liquidity_change_1h,
+                  100 * (l.emission_share - p1.emission_share)
+                    AS emission_change_1h,
+                  l.volume_tao - p1.volume_tao AS volume_1h_tao,
+                  (l.volume_tao - p1.volume_tao) /
+                    NULLIF(p1.volume_tao - p2.volume_tao,0) AS volume_acceleration_1h
            FROM latest l LEFT JOIN subnets s USING(netuid)
            LEFT JOIN LATERAL (
              SELECT price_tao FROM subnet_price_samples
@@ -118,10 +125,15 @@ async def _refresh_screener(current_app: FastAPI):
              ORDER BY time DESC LIMIT 1
            ) p10 ON true
            LEFT JOIN LATERAL (
-             SELECT price_tao FROM subnet_price_samples
+             SELECT price_tao,tao_reserve,emission_share,volume_tao
              WHERE netuid=l.netuid AND time <= l.time - interval '1 hour'
              ORDER BY time DESC LIMIT 1
            ) p1 ON true
+           LEFT JOIN LATERAL (
+             SELECT volume_tao FROM subnet_price_samples
+             WHERE netuid=l.netuid AND time <= l.time - interval '2 hours'
+             ORDER BY time DESC LIMIT 1
+           ) p2 ON true
            LEFT JOIN LATERAL (
              SELECT price_tao FROM subnet_price_samples
              WHERE netuid=l.netuid AND time <= l.time - interval '24 hours'
