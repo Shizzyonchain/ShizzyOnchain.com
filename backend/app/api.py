@@ -125,14 +125,15 @@ async def _refresh_screener(current_app: FastAPI):
              ORDER BY time DESC LIMIT 1
            ) p10 ON true
            LEFT JOIN LATERAL (
-             SELECT price_tao,tao_reserve,emission_share,volume_tao
-             WHERE netuid=l.netuid AND time <= l.time - interval '1 hour'
-             ORDER BY time DESC LIMIT 1
+             SELECT hist1.price_tao,hist1.tao_reserve,hist1.emission_share,hist1.volume_tao
+             FROM subnet_price_samples hist1
+             WHERE hist1.netuid=l.netuid AND hist1.time <= l.time - interval '1 hour'
+             ORDER BY hist1.time DESC LIMIT 1
            ) p1 ON true
            LEFT JOIN LATERAL (
-             SELECT volume_tao FROM subnet_price_samples
-             WHERE netuid=l.netuid AND time <= l.time - interval '2 hours'
-             ORDER BY time DESC LIMIT 1
+             SELECT hist2.volume_tao FROM subnet_price_samples hist2
+             WHERE hist2.netuid=l.netuid AND hist2.time <= l.time - interval '2 hours'
+             ORDER BY hist2.time DESC LIMIT 1
            ) p2 ON true
            LEFT JOIN LATERAL (
              SELECT price_tao FROM subnet_price_samples
