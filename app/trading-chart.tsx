@@ -184,10 +184,19 @@ export default function TradingChart({
     }
     setSelected({ ...data.at(-1)!, time: Number(data.at(-1)!.time) });
     if (!fittedRef.current) {
-      chartRef.current?.timeScale().fitContent();
+      const timeScale = chartRef.current?.timeScale();
+      if (timeframe === "1m" && data.length > 1) {
+        const visibleCandles = Math.min(data.length, 90);
+        timeScale?.setVisibleLogicalRange({
+          from: data.length - visibleCandles - 0.5,
+          to: data.length + 2,
+        });
+      } else {
+        timeScale?.fitContent();
+      }
       fittedRef.current = true;
     }
-  }, [data]);
+  }, [data, timeframe]);
 
   const current = selected || (data.length ? { ...data.at(-1)!, time: Number(data.at(-1)!.time) } : null);
   const change = current?.open ? (current.close / current.open - 1) * 100 : 0;
@@ -196,6 +205,18 @@ export default function TradingChart({
     if (!terminalRef.current) return;
     if (document.fullscreenElement) await document.exitFullscreen();
     else await terminalRef.current.requestFullscreen();
+  };
+  const fitChart = () => {
+    const timeScale = chartRef.current?.timeScale();
+    if (timeframe === "1m" && data.length > 1) {
+      const visibleCandles = Math.min(data.length, 90);
+      timeScale?.setVisibleLogicalRange({
+        from: data.length - visibleCandles - 0.5,
+        to: data.length + 2,
+      });
+      return;
+    }
+    timeScale?.fitContent();
   };
 
   return <div ref={terminalRef} className="trading-terminal">
@@ -212,7 +233,7 @@ export default function TradingChart({
         )}
       </div>
       <div className="chart-control-group chart-actions">
-        <button onClick={() => chartRef.current?.timeScale().fitContent()}>Fit</button>
+        <button onClick={fitChart}>Fit</button>
         <button onClick={toggleFullscreen} aria-label="Toggle chart fullscreen">⛶</button>
       </div>
     </div>
