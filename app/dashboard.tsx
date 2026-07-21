@@ -345,6 +345,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [checking, setChecking] = useState(false);
   const [walletProgress, setWalletProgress] = useState("");
   const [walletError, setWalletError] = useState("");
+  const walletPollingRef = useRef(false);
   const [activity, setActivity] = useState<ChainEvent[]>([]);
   const [activitySummary, setActivitySummary] = useState<ActivitySummary | null>(null);
   const [activityCollectingSince, setActivityCollectingSince] = useState<string | null>(null);
@@ -353,6 +354,21 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
     if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "activity" || requested === "bubbles" || requested === "partners") queueMicrotask(() => setView(requested));
+  }, []);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("shizzy:wallet-job");
+    if (!saved) return;
+    try {
+      const job = JSON.parse(saved);
+      if (!job?.id || !job?.total) return;
+      setChecking(true); setWalletError(""); setWalletProgress("Reconnecting to wallet lookup…");
+      void pollWalletJob(job.id, job.total)
+        .catch(error => setWalletError(error instanceof Error ? error.message : "The wallet lookup could not reconnect."))
+        .finally(() => { setChecking(false); setWalletProgress(""); });
+    } catch {
+      window.localStorage.removeItem("shizzy:wallet-job");
+    }
   }, []);
 
   useEffect(() => {
@@ -637,6 +653,42 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   };
   const privateMoney = (value?: string | number, price = false) => hideBalances ? "$••••" : money(value, price);
 
+  async function pollWalletJob(jobId: string, total: number) {
+    if (walletPollingRef.current) return;
+    walletPollingRef.current = true;
+    let missedPolls = 0;
+    try {
+      for (let attempt = 0; attempt < 240; attempt++) {
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        let job: { completed?: number; total?: number; status: string; error?: string; results?: Wallet[] };
+        try {
+          const response = await fetch(`/api/backend/v1/wallets/jobs/${jobId}`, { cache: "no-store" });
+          if (!response.ok) throw new Error(`status ${response.status}`);
+          job = await response.json();
+          missedPolls = 0;
+        } catch {
+          missedPolls += 1;
+          setWalletProgress(`Reconnecting… ${missedPolls}`);
+          if (missedPolls >= 48) throw new Error("The wallet lookup could not reconnect after two minutes. Refresh the page to resume the same job.");
+          continue;
+        }
+        setWalletProgress(`Checking ${job.completed || 0} of ${job.total || total}…`);
+        if (job.status === "failed") {
+          window.localStorage.removeItem("shizzy:wallet-job");
+          throw new Error(job.error || "The wallet lookup could not complete.");
+        }
+        if (job.status === "complete") {
+          window.localStorage.removeItem("shizzy:wallet-job");
+          setWallets(job.results || []); setWalletDisplay("wallets");
+          return;
+        }
+      }
+      throw new Error("This lookup is still running after ten minutes. Refresh the page to resume the same job.");
+    } finally {
+      walletPollingRef.current = false;
+    }
+  }
+
   async function checkWallets(e: FormEvent) {
     e.preventDefault(); setWalletError("");
     const addresses = [...new Set(walletInput.split(/[\s,]+/).map(v => v.trim()).filter(Boolean))];
@@ -653,19 +705,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         throw new Error("The live wallet lookup is temporarily unavailable. Your addresses were not saved; please try again shortly.");
       }
       const started = await res.json();
-      for (let attempt = 0; attempt < 120; attempt++) {
-        await new Promise(resolve => setTimeout(resolve, 2500));
-        const statusResponse = await fetch(`/api/backend/v1/wallets/jobs/${started.job_id}`, { cache: "no-store" });
-        if (!statusResponse.ok) throw new Error("The wallet lookup lost its connection. Please try again.");
-        const job = await statusResponse.json();
-        setWalletProgress(`Checking ${job.completed || 0} of ${job.total || addresses.length}…`);
-        if (job.status === "failed") throw new Error(job.error || "The wallet lookup could not complete.");
-        if (job.status === "complete") {
-          setWallets(job.results || []); setWalletDisplay("wallets"); setWalletProgress("");
-          return;
-        }
-      }
-      throw new Error("This lookup is taking longer than five minutes. You can safely try again.");
+      window.localStorage.setItem("shizzy:wallet-job", JSON.stringify({ id: started.job_id, total: addresses.length }));
+      await pollWalletJob(started.job_id, addresses.length);
     } catch (error) { setWalletError(error instanceof Error ? error.message : "The live wallet lookup is temporarily unavailable. Please try again shortly."); }
     finally { setChecking(false); setWalletProgress(""); }
   }
