@@ -23,9 +23,12 @@ async def lifespan(app: FastAPI):
     app.state.candle_cache = {}
     app.state.candle_refreshing = set()
     app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
+    app.state.candle_warm_task = asyncio.create_task(_warm_default_candles())
     yield
     if not app.state.screener_refresh_task.done():
         app.state.screener_refresh_task.cancel()
+    if not app.state.candle_warm_task.done():
+        app.state.candle_warm_task.cancel()
     await close()
 
 
@@ -279,6 +282,20 @@ async def _refresh_candle_cache(cache_key, netuid: int, interval: str, limit: in
             if value["cached_at"] >= cutoff
         }
     return payload
+
+
+async def _warm_default_candles():
+    # The market opens on Chutes/SN64. Warm its most-used views without
+    # delaying API startup, then let browser prefetch cover subsequent picks.
+    for interval in ("1h", "10m", "1m", "1d"):
+        key = (64, interval, 180)
+        try:
+            await _refresh_candle_cache(key, 64, interval, 180)
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            # A normal request can retry; startup must remain healthy.
+            continue
 
 
 @app.get("/v1/activity", dependencies=[Depends(authorize)])

@@ -376,17 +376,24 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
 
   useEffect(() => {
     if (showTaoChart || !selected || chartLoading) return;
+    let cancelled = false;
     const idle = window.setTimeout(() => {
-      (["1m", "10m", "1h", "1d"] as const).filter(value => value !== timeframe).forEach(value => {
-        const key = `${selected}:${value}`;
-        if (candleCache.has(key)) return;
-        fetch(`/api/backend/v1/subnets/${selected}/candles?interval=${value}&limit=180`)
-          .then(response => response.ok ? response.json() : Promise.reject())
-          .then(json => candleCache.set(key, { data: decodeCompactCandles(json.data || []), savedAt: Date.now() }))
-          .catch(() => undefined);
-      });
+      const prefetch = async () => {
+        for (const value of (["10m", "1m", "1h", "1d"] as const).filter(item => item !== timeframe)) {
+          if (cancelled) return;
+          const key = `${selected}:${value}`;
+          if (candleCache.has(key)) continue;
+          try {
+            const response = await fetch(`/api/backend/v1/subnets/${selected}/candles?interval=${value}&limit=180`);
+            if (!response.ok) continue;
+            const json = await response.json();
+            if (!cancelled) candleCache.set(key, { data: decodeCompactCandles(json.data || []), savedAt: Date.now() });
+          } catch { /* A direct selection will retry if prefetch fails. */ }
+        }
+      };
+      void prefetch();
     }, 750);
-    return () => window.clearTimeout(idle);
+    return () => { cancelled = true; window.clearTimeout(idle); };
   }, [selected, timeframe, showTaoChart, chartLoading]);
   useEffect(() => {
     const refreshActivity = () => {
