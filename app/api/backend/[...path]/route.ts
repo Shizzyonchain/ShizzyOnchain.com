@@ -11,7 +11,11 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
     body: request.method === "GET" ? undefined : await request.text(),
     cache: "no-store",
   });
-  return new NextResponse(response.body, { status: response.status, headers: { "Content-Type": response.headers.get("content-type") || "application/json" } });
+  const isCandleRequest = path.at(-1) === "candles";
+  return new NextResponse(response.body, { status: response.status, headers: {
+    "Content-Type": response.headers.get("content-type") || "application/json",
+    ...(isCandleRequest ? { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=90" } : {}),
+  } });
 }
 export const GET = proxy;
 export const POST = proxy;

@@ -20,6 +20,7 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     app.state.db = await connect()
     app.state.screener_cache = None
+    app.state.candle_cache = {}
     app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
     yield
     if not app.state.screener_refresh_task.done():
@@ -203,6 +204,61 @@ async def historical_prices(
                ORDER BY time LIMIT $4""", netuid, start, end, limit,
         )
     return {"data": [dict(row) for row in rows]}
+
+
+@app.get("/v1/subnets/{netuid}/candles", dependencies=[Depends(authorize)])
+async def compact_candles(
+    netuid: int,
+    interval: str = Query("1m", pattern="^(1m|10m|1h|1d)$"),
+    limit: int = Query(180, ge=20, le=500),
+):
+    """Return recent chart-ready OHLC rows with a short in-process cache.
+
+    The dashboard does not need reserves, names, or repeated object keys for
+    every candle. Keeping this response compact makes subnet/timeframe changes
+    fast and avoids re-running the same aggregation on every browser poll.
+    """
+    cache_key = (netuid, interval, limit)
+    now = datetime.now(timezone.utc)
+    cached = app.state.candle_cache.get(cache_key)
+    if cached and (now - cached["cached_at"]).total_seconds() < 30:
+        return cached["payload"]
+
+    buckets = {"1m": "1 minute", "10m": "10 minutes", "1h": "1 hour", "1d": "1 day"}
+    windows = {"1m": "6 hours", "10m": "3 days", "1h": "14 days", "1d": "180 days"}
+    rows = await app.state.db.fetch(
+        f"""WITH candles AS (
+               SELECT date_bin('{buckets[interval]}',time,TIMESTAMPTZ '2000-01-01') AS bucket,
+                      (array_agg(price_tao ORDER BY time))[1] AS open,
+                      max(price_tao) AS high,
+                      min(price_tao) AS low,
+                      (array_agg(price_tao ORDER BY time DESC))[1] AS close,
+                      max(volume_tao)-min(volume_tao) AS volume
+               FROM subnet_price_samples
+               WHERE netuid=$1 AND time >= now()-interval '{windows[interval]}'
+               GROUP BY 1
+               ORDER BY 1 DESC
+               LIMIT $2
+             )
+             SELECT bucket,open,high,low,close,volume FROM candles ORDER BY bucket""",
+        netuid, limit,
+    )
+    payload = {
+        "data": [
+            [row["bucket"], row["open"], row["high"], row["low"], row["close"], row["volume"]]
+            for row in rows
+        ],
+        "interval": interval,
+        "cached_at": now,
+    }
+    app.state.candle_cache[cache_key] = {"cached_at": now, "payload": payload}
+    if len(app.state.candle_cache) > 1024:
+        cutoff = now - timedelta(minutes=5)
+        app.state.candle_cache = {
+            key: value for key, value in app.state.candle_cache.items()
+            if value["cached_at"] >= cutoff
+        }
+    return payload
 
 
 @app.get("/v1/activity", dependencies=[Depends(authorize)])

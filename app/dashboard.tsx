@@ -71,6 +71,17 @@ const fmt = (value?: string | number, digits = 2) => {
 };
 const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
 const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
+const candleCache = new Map<string, { data: Candle[]; savedAt: number }>();
+
+function decodeCompactCandles(rows: unknown[]): Candle[] {
+  return rows.flatMap(row => {
+    if (!Array.isArray(row) || row.length < 5) return [];
+    return [{
+      time: String(row[0]), open: String(row[1]), high: String(row[2]),
+      low: String(row[3]), close: String(row[4]), volume_tao: String(row[5] ?? 0),
+    }];
+  });
+}
 
 function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string, now = Date.now()) {
   if (!candles.length || !Number.isFinite(spotPrice) || spotPrice <= 0) return candles;
@@ -332,35 +343,51 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }, []);
   useEffect(() => {
     let activeRequest = true;
+    const controller = new AbortController();
+    const cacheKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
+    const cached = candleCache.get(cacheKey);
     queueMicrotask(() => {
       if (!activeRequest) return;
-      setCandles([]);
-      setChartLoading(true);
+      if (cached?.data.length) setCandles(cached.data);
+      setChartLoading(!cached?.data.length);
       setChartError(false);
     });
-    const refreshChart = () => {
+    const refreshChart = (background = false) => {
       if (showTaoChart) {
-        fetch(`/api/tao-chart?interval=${timeframe}`, { cache: "no-store" })
+        fetch(`/api/tao-chart?interval=${timeframe}`, { cache: "no-store", signal: controller.signal })
           .then(r => r.ok ? r.json() : Promise.reject())
-          .then(json => { if (activeRequest) { setCandles(json.data || []); setChartLoading(false); setChartError(false); } })
+          .then(json => { if (activeRequest) { const data = json.data || []; candleCache.set(cacheKey, { data, savedAt: Date.now() }); setCandles(data); setChartLoading(false); setChartError(false); } })
           .catch(() => { if (activeRequest) { setChartLoading(false); setChartError(true); } });
         return;
       }
-      const end = new Date();
-      const windowMs = timeframe === "1m" ? 6 * 3600000 : timeframe === "10m" ? 2 * 86400000 : 14 * 86400000;
-      const start = new Date(end.getTime() - windowMs);
-      fetch(`/api/backend/v1/subnets/${selected}/prices?interval=${timeframe}&start=${start.toISOString()}&end=${end.toISOString()}&limit=500`, { cache: "no-store" })
+      fetch(`/api/backend/v1/subnets/${selected}/candles?interval=${timeframe}&limit=180`, { cache: background ? "no-store" : "default", signal: controller.signal })
         .then(r => r.ok ? r.json() : Promise.reject())
-        .then(json => { if (activeRequest) { setCandles(json.data || []); setChartLoading(false); setChartError(false); } })
-        .catch(() => { if (activeRequest) { setChartLoading(false); setChartError(true); } });
+        .then(json => { if (activeRequest) { const data = decodeCompactCandles(json.data || []); candleCache.set(cacheKey, { data, savedAt: Date.now() }); setCandles(data); setChartLoading(false); setChartError(false); } })
+        .catch(error => { if (activeRequest && error?.name !== "AbortError") { setChartLoading(false); setChartError(!cached?.data.length); } });
     };
     refreshChart();
-    const refreshTimer = window.setInterval(refreshChart, 12_000);
+    const refreshTimer = window.setInterval(() => refreshChart(true), 30_000);
     return () => {
       activeRequest = false;
+      controller.abort();
       window.clearInterval(refreshTimer);
     };
   }, [selected, timeframe, showTaoChart]);
+
+  useEffect(() => {
+    if (showTaoChart || !selected || chartLoading) return;
+    const idle = window.setTimeout(() => {
+      (["1m", "10m", "1h", "1d"] as const).filter(value => value !== timeframe).forEach(value => {
+        const key = `${selected}:${value}`;
+        if (candleCache.has(key)) return;
+        fetch(`/api/backend/v1/subnets/${selected}/candles?interval=${value}&limit=180`)
+          .then(response => response.ok ? response.json() : Promise.reject())
+          .then(json => candleCache.set(key, { data: decodeCompactCandles(json.data || []), savedAt: Date.now() }))
+          .catch(() => undefined);
+      });
+    }, 750);
+    return () => window.clearTimeout(idle);
+  }, [selected, timeframe, showTaoChart, chartLoading]);
   useEffect(() => {
     const refreshActivity = () => {
       fetch("/api/backend/v1/activity?limit=200", { cache: "no-store" })

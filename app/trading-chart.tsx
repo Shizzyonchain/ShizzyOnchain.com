@@ -82,6 +82,11 @@ export default function TradingChart({
   const bollUpperRef = useRef<ISeriesApi<"Line"> | null>(null);
   const bollLowerRef = useRef<ISeriesApi<"Line"> | null>(null);
   const fittedRef = useRef(false);
+  const timeframeRef = useRef(timeframe);
+
+  useEffect(() => {
+    timeframeRef.current = timeframe;
+  }, [timeframe]);
 
   const usd = valueCurrency === "usd" || currency === "usd";
   const data = useMemo(() => {
@@ -147,10 +152,10 @@ export default function TradingChart({
       },
       timeScale: {
         borderColor: "#173b68",
-        timeVisible: timeframe !== "1d",
+        timeVisible: timeframeRef.current !== "1d",
         secondsVisible: false,
         rightOffset: 4,
-        barSpacing: timeframe === "1h" ? 18 : timeframe === "1d" ? 12 : 8,
+        barSpacing: timeframeRef.current === "1h" ? 18 : timeframeRef.current === "1d" ? 12 : 8,
         minBarSpacing: 4,
       },
       handleScroll: true,
@@ -159,7 +164,6 @@ export default function TradingChart({
     chartRef.current = chart;
     const precision = usd ? 4 : 6;
     const priceFormat = { type: "price" as const, precision, minMove: 10 ** -precision };
-    const minimumVisibleMove = timeframe === "1m" ? 0.005 : timeframe === "10m" ? 0.01 : timeframe === "1h" ? 0.02 : 0.05;
     const candleSeries = chart.addSeries(CandlestickSeries, {
       upColor: "#20d17a",
       downColor: "#ff4d5e",
@@ -175,6 +179,8 @@ export default function TradingChart({
         const { minValue, maxValue } = info.priceRange;
         const midpoint = (minValue + maxValue) / 2;
         const currentRange = maxValue - minValue;
+        const activeTimeframe = timeframeRef.current;
+        const minimumVisibleMove = activeTimeframe === "1m" ? 0.005 : activeTimeframe === "10m" ? 0.01 : activeTimeframe === "1h" ? 0.02 : 0.05;
         const minimumRange = Math.max(Math.abs(midpoint) * minimumVisibleMove, 10 ** -precision * 20);
         if (currentRange >= minimumRange) return info;
 
@@ -212,7 +218,20 @@ export default function TradingChart({
       bollUpperRef.current = null;
       bollLowerRef.current = null;
     };
-  }, [timeframe, ma, ema, boll, usd]);
+  }, [ma, ema, boll, usd]);
+
+  useEffect(() => {
+    chartRef.current?.applyOptions({
+      timeScale: {
+        timeVisible: timeframe !== "1d",
+        secondsVisible: false,
+        rightOffset: 4,
+        barSpacing: timeframe === "1h" ? 18 : timeframe === "1d" ? 12 : 8,
+        minBarSpacing: 4,
+      },
+    });
+    fittedRef.current = false;
+  }, [timeframe]);
 
   useEffect(() => {
     if (!data.length || !candleSeriesRef.current) return;
