@@ -1,7 +1,5 @@
 import asyncio
 import hmac
-import json
-import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
 
@@ -396,28 +394,16 @@ async def mass_wallet_check(body: MassWalletRequest):
     if not latest:
         raise HTTPException(503, "indexer has not stored a block yet")
     semaphore = asyncio.Semaphore(settings.wallet_query_concurrency)
-    price_rows = await app.state.db.fetch(
-        """SELECT DISTINCT ON (netuid) netuid,price_tao
-           FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC"""
-    )
-    subnet_prices = {row["netuid"]: row["price_tao"] for row in price_rows}
-    def failed(address, error_type="TimeoutError"):
-        return {"address": address, "block_number": latest["block_number"], "free_tao": 0,
-                "staked_tao_value": None, "total_tao_value": None, "stakes": [],
-                "error": f"{error_type}: wallet query failed"}
-
-    try:
-        async with asyncio.timeout(25):
-            async with ChainClient(settings) as chain:
-                async def one(address):
-                    async with semaphore:
-                        try:
-                            return await chain.wallet(address, latest["block_number"], subnet_prices)
-                        except Exception as exc:
-                            return failed(address, type(exc).__name__)
-                results = await asyncio.gather(*(one(address) for address in body.addresses))
-    except TimeoutError:
-        results = [failed(address) for address in body.addresses]
+    async with ChainClient(settings) as chain:
+        async def one(address):
+            async with semaphore:
+                try:
+                    return await chain.wallet(address, latest["block_number"])
+                except Exception as exc:
+                    return {"address": address, "block_number": latest["block_number"], "free_tao": 0,
+                            "staked_tao_value": None, "total_tao_value": None, "stakes": [],
+                            "error": f"{type(exc).__name__}: wallet query failed"}
+        results = await asyncio.gather(*(one(address) for address in body.addresses))
     subnet_rows = await app.state.db.fetch("SELECT netuid,name,symbol FROM subnets")
     subnet_identities = {row["netuid"]: dict(row) for row in subnet_rows}
     for result in results:
@@ -431,33 +417,6 @@ async def mass_wallet_check(body: MassWalletRequest):
                 if not result.get("error"):
                     await _persist_wallet(conn, result, latest["block_time"])
     return {"block_number": latest["block_number"], "data": results}
-
-
-@app.post("/v1/wallets/jobs", status_code=202, dependencies=[Depends(authorize)])
-async def create_wallet_job(body: MassWalletRequest):
-    if len(body.addresses) > settings.max_mass_wallets:
-        raise HTTPException(413, f"maximum {settings.max_mass_wallets} addresses per request")
-    job_id = uuid.uuid4().hex
-    await app.state.db.execute(
-        """INSERT INTO wallet_lookup_jobs(id,addresses,total)
-           VALUES($1,$2::jsonb,$3)""",
-        job_id, json.dumps(body.addresses), len(body.addresses),
-    )
-    return {"job_id": job_id, "status": "queued", "completed": 0, "total": len(body.addresses)}
-
-
-@app.get("/v1/wallets/jobs/{job_id}", dependencies=[Depends(authorize)])
-async def wallet_job_status(job_id: str):
-    row = await app.state.db.fetchrow(
-        """SELECT id,status,results,completed,total,block_number,error,created_at,updated_at
-           FROM wallet_lookup_jobs WHERE id=$1""", job_id,
-    )
-    if not row:
-        raise HTTPException(404, "wallet lookup job not found")
-    payload = dict(row)
-    if isinstance(payload["results"], str):
-        payload["results"] = json.loads(payload["results"])
-    return payload
 
 
 @app.get("/v1/wallets/{address}/history", dependencies=[Depends(authorize)])
