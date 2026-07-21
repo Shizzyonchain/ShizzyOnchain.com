@@ -93,8 +93,25 @@ function loadSubnetCandles(netuid: number, timeframe: string) {
   if (cached?.data.length) return Promise.resolve(cached.data);
   const pending = candleRequests.get(key);
   if (pending) return pending;
-  const request = fetch(`/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`)
-    .then(response => response.ok ? response.json() : Promise.reject())
+  const url = `/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`;
+  const fetchWithRetry = async () => {
+    let lastError: unknown;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 8_000);
+      try {
+        const response = await fetch(url, { cache: "no-store", signal: controller.signal });
+        if (!response.ok) throw new Error(`Chart request failed: ${response.status}`);
+        return await response.json();
+      } catch (error) {
+        lastError = error;
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    }
+    throw lastError;
+  };
+  const request = fetchWithRetry()
     .then(json => {
       const data = decodeCompactCandles(json.data || []);
       candleCache.set(key, { data, savedAt: Date.now() });
@@ -417,6 +434,25 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     }, 750);
     return () => { cancelled = true; window.clearTimeout(idle); };
   }, [selected, timeframe, showTaoChart, chartLoading]);
+  useEffect(() => {
+    if (showTaoChart || !rows.length) return;
+    let cancelled = false;
+    const warmTimer = window.setTimeout(() => {
+      const leaders = [...rows]
+        .sort((a, b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0))
+        .slice(0, 14);
+      const warm = async () => {
+        for (const row of leaders) {
+          if (cancelled) return;
+          try {
+            await loadSubnetCandles(row.netuid, timeframe);
+          } catch { /* A direct selection retries stalled requests. */ }
+        }
+      };
+      void warm();
+    }, 500);
+    return () => { cancelled = true; window.clearTimeout(warmTimer); };
+  }, [rows, timeframe, showTaoChart]);
   useEffect(() => {
     const refreshActivity = () => {
       fetch("/api/backend/v1/activity?limit=200", { cache: "no-store" })
