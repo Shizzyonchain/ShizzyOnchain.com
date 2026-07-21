@@ -611,8 +611,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const eventSubnet = (event: ChainEvent) => subnetLabel(event.netuid, event.name);
   const eventDestination = (event: ChainEvent) => subnetLabel(event.destination_netuid, event.destination_name);
   const eventCategory = (event: ChainEvent) => event.event_type.includes("Lock") ? "locks" : event.event_type.includes("Hotkey") || event.event_type === "SubnetOwnerChanged" ? "keys" : "stake";
-  const meaningfulActivity = activity.filter(event => eventCategory(event) !== "stake"
-    && (!["StakeLocked", "StakeUnlocked"].includes(event.event_type) || Number(event.tao_value || 0) >= 10));
+  const meaningfulActivity = activity.filter(event =>
+    !["StakeLocked", "StakeUnlocked"].includes(event.event_type) || Number(event.tao_value || 0) >= 10
+  );
   const visibleActivity = meaningfulActivity.filter(event => activityFilter === "all" || eventCategory(event) === activityFilter);
   const keyChangeCount = meaningfulActivity.filter(event => eventCategory(event) === "keys").length;
   const convictionEventCount = meaningfulActivity.filter(event => eventCategory(event) === "locks").length;
@@ -710,7 +711,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onPointerEnter={()=>warmSubnetChart(r.netuid)} onFocus={()=>warmSubnetChart(r.netuid)} onClick={()=>openSubnetChart(r.netuid)} tabIndex={0} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openSubnetChart(r.netuid); } }}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_pct == null ? "—" : `${fmt(r.conviction_locked_pct, 2)}%`}</td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
       </section>
     </> : view === "activity" ? <section className="activity-page">
-      <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow conviction locks, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
+      <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow stake flows, conviction locks, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
       <section className="chain-intel-grid" aria-label="Subnet chain intelligence">
         <article className="conviction-board panel">
           <div className="intel-panel-head"><div><p className="eyebrow">Conviction leaderboard</p><h2>Supply locked by subnet</h2></div><span>All {convictionLeaders.length} subnets · Live finalized state</span></div>
@@ -758,7 +759,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           <div><b>{eventDescription(event)}</b><small>{event.coldkey ? `Wallet ${shortKey(event.coldkey)}` : "Finalized on Finney"}{event.hotkey ? ` · Hotkey ${shortKey(event.hotkey)}` : ""}{event.destination_hotkey ? ` → ${shortKey(event.destination_hotkey)}` : event.destination_coldkey ? ` → ${shortKey(event.destination_coldkey)}` : ""}</small></div>
           <strong>{event.tao_value != null ? `${fmt(event.tao_value, 3)} τ` : "—"}</strong>
         </article>)}</div> : <div className="activity-empty"><b>No {activityFilter === "all" ? "" : activityFilter} events in the collected window.</b><span>Try another filter. New finalized events appear automatically.</span></div>}
-        <p className="activity-note">Routine stake reallocations and conviction events worth less than 10 TAO are intentionally excluded. TAO values use the subnet price at the finalized event time. Collection began {activityCollectingSince ? new Date(activityCollectingSince).toLocaleString() : "with this deployment"}.</p>
+        <p className="activity-note">All tracked finalized stake movements are included. Conviction lock and unlock events worth less than 10 TAO are excluded. TAO values use the subnet price at the finalized event time. Collection began {activityCollectingSince ? new Date(activityCollectingSince).toLocaleString() : "with this deployment"}.</p>
       </section>
     </section> : view === "bubbles" ? <section className="bubbles-page">
       <div className="bubbles-hero">
