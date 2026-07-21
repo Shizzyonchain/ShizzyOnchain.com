@@ -485,6 +485,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0)
       : Number(a[sort] ?? 0) - Number(b[sort] ?? 0)), [rows, query, sort, sortDirection]);
   const active = rows.find(r => r.netuid === selected) || rows[0];
+  const hasActiveMetadata = Boolean(active && (active.description || active.website || active.github_repo || active.discord || active.contact || active.additional));
   const portfolioAssets = useMemo(() => {
     const assets = new Map<string, PortfolioAsset>();
     const add = (key: string, netuid: number | null, name: string, symbol: string, alpha: number, taoValue: number, address: string) => {
@@ -613,7 +614,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }
   function openSubnetChart(netuid: number) {
     setShowTaoChart(false);
-    setSubnetPanel("overview");
+    const subnet = rows.find(row => row.netuid === netuid);
+    setSubnetPanel(subnet && (subnet.description || subnet.website || subnet.github_repo || subnet.discord || subnet.contact || subnet.additional) ? "overview" : "chart");
     setSelected(netuid);
     setView("screener");
     window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
@@ -754,8 +756,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong><span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span></div>}
           {dataState === "live" && <>
           <div className="panel-head"><div><p className="eyebrow chart-subnet-id">{showTaoChart ? "TAO · USD" : `SN${active?.netuid} · ${active?.symbol || "ALPHA"}`}</p><h1>{showTaoChart ? "Bittensor" : active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{showTaoChart ? taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" }) : money(active?.price_tao, true)}</strong><span className={changeClass(showTaoChart ? String(taoChartChange) : active?.change_1h)}>{Number(showTaoChart ? taoChartChange : active?.change_1h || 0) > 0 ? "+" : ""}{fmt(showTaoChart ? taoChartChange : active?.change_1h)}% · {timeframe === "1d" ? "1 Day" : timeframe === "1h" ? "1 Hour" : "10 Minutes"}</span></div></div>
-          {!showTaoChart && <div className="subnet-view-tabs" role="tablist" aria-label="Subnet details"><button role="tab" aria-selected={subnetPanel === "overview"} className={subnetPanel === "overview" ? "active" : ""} onClick={() => setSubnetPanel("overview")}>Overview</button><button role="tab" aria-selected={subnetPanel === "chart"} className={subnetPanel === "chart" ? "active" : ""} onClick={() => setSubnetPanel("chart")}>Chart</button></div>}
-          {showTaoChart || subnetPanel === "chart" ? <>
+          {!showTaoChart && hasActiveMetadata && <div className="subnet-view-tabs" role="tablist" aria-label="Subnet details"><button role="tab" aria-selected={subnetPanel === "overview"} className={subnetPanel === "overview" ? "active" : ""} onClick={() => setSubnetPanel("overview")}>Overview</button><button role="tab" aria-selected={subnetPanel === "chart"} className={subnetPanel === "chart" ? "active" : ""} onClick={() => setSubnetPanel("chart")}>Chart</button></div>}
+          {showTaoChart || !hasActiveMetadata || subnetPanel === "chart" ? <>
             <TradingChart key={requestedChartKey} candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
             {showTaoChart ? <div className="chart-stats"><span>Pair <b>TAO / USD</b></span><span>Price source <b>Coinbase</b></span><span>History <b>{candles.length} candles</b></span></div> : <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>}
           </> : active && <div className="subnet-overview" role="tabpanel">
