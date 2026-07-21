@@ -330,6 +330,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
   const chartCardRef = useRef<HTMLDivElement>(null);
+  const marketModalCloseRef = useRef<HTMLButtonElement>(null);
   const bubbleCloudRef = useRef<HTMLElement>(null);
   const bubbleDragRef = useRef<{ netuid: number; pointerId: number; startX: number; startY: number; offsetX: number; offsetY: number; minX: number; maxX: number; minY: number; maxY: number; moved: boolean } | null>(null);
   const suppressBubbleClick = useRef(false);
@@ -352,6 +353,21 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     const requested = new URLSearchParams(window.location.search).get("view");
     if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "activity" || requested === "bubbles" || requested === "partners") queueMicrotask(() => setView(requested));
   }, []);
+
+  useEffect(() => {
+    if (!marketDetailOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    marketModalCloseRef.current?.focus();
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMarketDetailOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [marketDetailOpen]);
 
   useEffect(() => {
     try {
@@ -620,7 +636,6 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     setSubnetPanel(subnet && (subnet.description || subnet.website || subnet.github_repo || subnet.discord || subnet.contact || subnet.additional) ? "overview" : "chart");
     setSelected(netuid);
     setView("screener");
-    window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
   function warmSubnetChart(netuid: number) {
     void loadSubnetCandles(netuid, timeframe).catch(() => undefined);
@@ -630,7 +645,6 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     setMarketDetailOpen(true);
     setSubnetPanel("chart");
     setView("screener");
-    window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
   const taoChartChange = chartCandles.length > 1 ? (Number(chartCandles.at(-1)?.close || 0) / Number(chartCandles[0]?.open || 1) - 1) * 100 : 0;
   const clampScore = (value: number) => Math.round(Math.max(0, Math.min(100, value)));
@@ -755,7 +769,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <div><span>Network</span><strong>FINNEY</strong><small>Finalized blocks only</small></div>
       </section>
       <div className="market-content">
-      {marketDetailOpen && <section className="market-grid">
+      {marketDetailOpen && <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}><div className="market-modal" role="dialog" aria-modal="true" aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={event => event.stopPropagation()}><button ref={marketModalCloseRef} className="market-modal-close" onClick={() => setMarketDetailOpen(false)} aria-label="Close market details">×</button><section className="market-grid">
         <div ref={chartCardRef} className="chart-card panel">
           {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong><span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span></div>}
           {dataState === "live" && <>
@@ -777,8 +791,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           </>}
         </div>
         <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>openSubnetChart(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
-      </section>}
-      {marketDetailOpen && !showTaoChart && active && signalData && <section className="trading-signals panel" aria-labelledby="signals-title">
+      </section>
+      {!showTaoChart && active && signalData && <section className="trading-signals panel" aria-labelledby="signals-title">
         <div className="signals-head"><div><p className="eyebrow">On-chain research</p><h2 id="signals-title">Trading signals · {active.name || `SN${active.netuid}`}</h2></div><span>Transparent indicators · Not financial advice</span></div>
         <div className="signal-grid">
           <article><div><span>Momentum</span><strong>{signalData.momentum}</strong></div><i style={{ "--score": `${signalData.momentum}%` } as CSSProperties}/><p className={signalData.momentum >= 55 ? "positive" : signalData.momentum <= 45 ? "negative" : ""}>{signalData.momentum >= 55 ? "Positive alignment" : signalData.momentum <= 45 ? "Negative alignment" : "Mixed direction"}</p><small>10m {signalData.change10 >= 0 ? "+" : ""}{fmt(signalData.change10)}% · 1h {signalData.change1h >= 0 ? "+" : ""}{fmt(signalData.change1h)}% · 1d {signalData.change24 >= 0 ? "+" : ""}{fmt(signalData.change24)}%</small></article>
@@ -789,6 +803,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         </div>
         <p className="signals-note">Scores compare current on-chain conditions, not future performance. Thin liquidity, missing history, and sudden chain events can make any signal unreliable.</p>
       </section>}
+      </div></div>}
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
         <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button></th><th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake."><button onClick={()=>changeSort("apy")}>Staker APY{sortArrow("apy")}</button></th><th title="Percentage of the subnet's full on-chain Alpha supply currently conviction locked."><button onClick={()=>changeSort("conviction_locked_pct")}>Supply Locked{sortArrow("conviction_locked_pct")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th></tr></thead>
