@@ -3,6 +3,9 @@ services:
     name: shizzy-subtensor-api
     runtime: docker
     rootDir: backend
+    buildFilter:
+      paths:
+        - backend/**
     plan: starter
     dockerCommand: uvicorn app.api:app --host 0.0.0.0 --port $PORT --proxy-headers
     preDeployCommand: python -m app.migrate
@@ -25,6 +28,9 @@ services:
     name: shizzy-subtensor-indexer
     runtime: docker
     rootDir: backend
+    buildFilter:
+      paths:
+        - backend/**
     plan: starter
     dockerCommand: python -m app.indexer
     preDeployCommand: python -m app.migrate
