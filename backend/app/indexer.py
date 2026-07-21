@@ -87,6 +87,25 @@ async def persist_block(
               r["conviction_locked_alpha"], r["tempo"],
               r["staker_epoch_dividends_alpha"]) for r in rows],
         )
+        await conn.executemany(
+            """INSERT INTO subnet_candles_1m
+               (time,netuid,first_block,last_block,open,high,low,close,volume_open,volume_close)
+               VALUES(date_trunc('minute',$1::timestamptz),$2,$3,$3,$4,$4,$4,$4,$5,$5)
+               ON CONFLICT(netuid,time) DO UPDATE SET
+                 first_block=LEAST(subnet_candles_1m.first_block,EXCLUDED.first_block),
+                 last_block=GREATEST(subnet_candles_1m.last_block,EXCLUDED.last_block),
+                 open=CASE WHEN EXCLUDED.first_block < subnet_candles_1m.first_block
+                           THEN EXCLUDED.open ELSE subnet_candles_1m.open END,
+                 high=GREATEST(subnet_candles_1m.high,EXCLUDED.high),
+                 low=LEAST(subnet_candles_1m.low,EXCLUDED.low),
+                 close=CASE WHEN EXCLUDED.last_block >= subnet_candles_1m.last_block
+                            THEN EXCLUDED.close ELSE subnet_candles_1m.close END,
+                 volume_open=CASE WHEN EXCLUDED.first_block < subnet_candles_1m.first_block
+                                  THEN EXCLUDED.volume_open ELSE subnet_candles_1m.volume_open END,
+                 volume_close=CASE WHEN EXCLUDED.last_block >= subnet_candles_1m.last_block
+                                   THEN EXCLUDED.volume_close ELSE subnet_candles_1m.volume_close END""",
+            [(timestamp, r["netuid"], number, r["price_tao"], r["volume_tao"]) for r in rows],
+        )
         if events:
             await conn.executemany(
                 """INSERT INTO chain_events

@@ -229,12 +229,12 @@ async def compact_candles(
     rows = await app.state.db.fetch(
         f"""WITH candles AS (
                SELECT date_bin('{buckets[interval]}',time,TIMESTAMPTZ '2000-01-01') AS bucket,
-                      (array_agg(price_tao ORDER BY time))[1] AS open,
-                      max(price_tao) AS high,
-                      min(price_tao) AS low,
-                      (array_agg(price_tao ORDER BY time DESC))[1] AS close,
-                      max(volume_tao)-min(volume_tao) AS volume
-               FROM subnet_price_samples
+                      (array_agg(open ORDER BY time))[1] AS open,
+                      max(high) AS high,
+                      min(low) AS low,
+                      (array_agg(close ORDER BY time DESC))[1] AS close,
+                      max(volume_close)-min(volume_open) AS volume
+               FROM subnet_candles_1m
                WHERE netuid=$1 AND time >= now()-interval '{windows[interval]}'
                GROUP BY 1
                ORDER BY 1 DESC
