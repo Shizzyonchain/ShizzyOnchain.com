@@ -23,7 +23,8 @@ async def run(job_id: str):
         job = await db.fetchrow("SELECT addresses FROM wallet_lookup_jobs WHERE id=$1", job_id)
         if not job:
             return
-        addresses = list(job["addresses"])
+        raw_addresses = job["addresses"]
+        addresses = json.loads(raw_addresses) if isinstance(raw_addresses, str) else list(raw_addresses)
         latest = await db.fetchrow(
             "SELECT block_number FROM chain_blocks ORDER BY block_number DESC LIMIT 1"
         )

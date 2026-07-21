@@ -463,7 +463,10 @@ async def wallet_job_status(job_id: str):
     )
     if not row:
         raise HTTPException(404, "wallet lookup job not found")
-    return dict(row)
+    payload = dict(row)
+    if isinstance(payload["results"], str):
+        payload["results"] = json.loads(payload["results"])
+    return payload
 
 
 @app.get("/v1/wallets/{address}/history", dependencies=[Depends(authorize)])
