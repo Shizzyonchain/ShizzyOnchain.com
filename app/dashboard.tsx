@@ -595,6 +595,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   })() : null;
   const sortArrow = (field: keyof ScreenerRow) => sort === field ? (sortDirection === "desc" ? " ↓" : " ↑") : "";
   const shortKey = (value?: string) => value ? `${value.slice(0, 6)}…${value.slice(-5)}` : "—";
+  const knownValidatorNames: Record<string, string> = {
+    "5E4z3h9yVhmQyCFWNbY9BPpwhx4xFiPwq3eeqmBgVF6KULde": "Tensorplex Labs",
+  };
   const eventLabel = (event: ChainEvent) => ({
     StakeLocked: "Conviction locked", StakeUnlocked: "Conviction unlocked",
     LockMoved: "Lock moved", PerpetualLockUpdated: event.perpetual ? "Perpetual lock enabled" : "Perpetual lock disabled",
@@ -638,6 +641,20 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     if (event.event_type.includes("Hotkey")) return `Hotkey changed${event.netuid != null ? ` on ${source}` : ""}`;
     if (event.event_type === "SubnetOwnerChanged") return `${source} ownership changed`;
     return eventLabel(event);
+  };
+  const validatorIdentity = (hotkey?: string) => {
+    if (!hotkey) return null;
+    const knownName = knownValidatorNames[hotkey];
+    return knownName ? `${knownName} (${shortKey(hotkey)})` : shortKey(hotkey);
+  };
+  const eventIdentity = (event: ChainEvent) => {
+    const parts: string[] = [];
+    const category = eventCategory(event);
+    if (event.coldkey) parts.push(`${category === "stake" || category === "locks" ? "Delegator wallet" : "Wallet"} ${shortKey(event.coldkey)}`);
+    if (event.hotkey) parts.push(`${category === "stake" || category === "locks" ? "Validator" : "Hotkey"} ${validatorIdentity(event.hotkey)}`);
+    if (event.destination_hotkey) parts.push(`→ ${category === "stake" || category === "locks" ? "Validator" : "Hotkey"} ${validatorIdentity(event.destination_hotkey)}`);
+    else if (event.destination_coldkey) parts.push(`→ Wallet ${shortKey(event.destination_coldkey)}`);
+    return parts.length ? parts.join(" · ") : "Finalized on Finney";
   };
 
   return <main className="shell">
@@ -756,7 +773,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         {visibleActivity.length ? <div className="activity-list">{visibleActivity.map(event => <article key={`${event.block_number}-${event.event_index}`}>
           <time>{new Date(event.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}<small>Block {event.block_number.toLocaleString()}</small></time>
           <span className={`event-badge ${event.event_type.toLowerCase()}`}>{eventLabel(event)}</span>
-          <div><b>{eventDescription(event)}</b><small>{event.coldkey ? `Wallet ${shortKey(event.coldkey)}` : "Finalized on Finney"}{event.hotkey ? ` · Hotkey ${shortKey(event.hotkey)}` : ""}{event.destination_hotkey ? ` → ${shortKey(event.destination_hotkey)}` : event.destination_coldkey ? ` → ${shortKey(event.destination_coldkey)}` : ""}</small></div>
+          <div><b>{eventDescription(event)}</b><small>{eventIdentity(event)}</small></div>
           <strong>{event.tao_value != null ? `${fmt(event.tao_value, 3)} τ` : "—"}</strong>
         </article>)}</div> : <div className="activity-empty"><b>No {activityFilter === "all" ? "" : activityFilter} events in the collected window.</b><span>Try another filter. New finalized events appear automatically.</span></div>}
         <p className="activity-note">All tracked finalized stake movements are included. Conviction lock and unlock events worth less than 10 TAO are excluded. TAO values use the subnet price at the finalized event time. Collection began {activityCollectingSince ? new Date(activityCollectingSince).toLocaleString() : "with this deployment"}.</p>
