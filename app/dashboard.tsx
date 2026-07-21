@@ -282,7 +282,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const bubbleCloudRef = useRef<HTMLElement>(null);
   const bubbleDragRef = useRef<{ netuid: number; pointerId: number; startX: number; startY: number; offsetX: number; offsetY: number; minX: number; maxX: number; minY: number; maxY: number; moved: boolean } | null>(null);
   const suppressBubbleClick = useRef(false);
-  const [candles, setCandles] = useState<Candle[]>([]);
+  const [chartData, setChartData] = useState<{ key: string; candles: Candle[] }>({ key: "", candles: [] });
   const [chartLoading, setChartLoading] = useState(true);
   const [chartError, setChartError] = useState(false);
   const [walletInput, setWalletInput] = useState("");
@@ -348,7 +348,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     const cached = candleCache.get(cacheKey);
     queueMicrotask(() => {
       if (!activeRequest) return;
-      if (cached?.data.length) setCandles(cached.data);
+      setChartData({ key: cacheKey, candles: cached?.data || [] });
       setChartLoading(!cached?.data.length);
       setChartError(false);
     });
@@ -356,13 +356,13 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       if (showTaoChart) {
         fetch(`/api/tao-chart?interval=${timeframe}`, { cache: "no-store", signal: controller.signal })
           .then(r => r.ok ? r.json() : Promise.reject())
-          .then(json => { if (activeRequest) { const data = json.data || []; candleCache.set(cacheKey, { data, savedAt: Date.now() }); setCandles(data); setChartLoading(false); setChartError(false); } })
+          .then(json => { if (activeRequest) { const data = json.data || []; candleCache.set(cacheKey, { data, savedAt: Date.now() }); setChartData({ key: cacheKey, candles: data }); setChartLoading(false); setChartError(false); } })
           .catch(() => { if (activeRequest) { setChartLoading(false); setChartError(true); } });
         return;
       }
       fetch(`/api/backend/v1/subnets/${selected}/candles?interval=${timeframe}&limit=180`, { cache: background ? "no-store" : "default", signal: controller.signal })
         .then(r => r.ok ? r.json() : Promise.reject())
-        .then(json => { if (activeRequest) { const data = decodeCompactCandles(json.data || []); candleCache.set(cacheKey, { data, savedAt: Date.now() }); setCandles(data); setChartLoading(false); setChartError(false); } })
+        .then(json => { if (activeRequest) { const data = decodeCompactCandles(json.data || []); candleCache.set(cacheKey, { data, savedAt: Date.now() }); setChartData({ key: cacheKey, candles: data }); setChartLoading(false); setChartError(false); } })
         .catch(error => { if (activeRequest && error?.name !== "AbortError") { setChartLoading(false); setChartError(!cached?.data.length); } });
     };
     refreshChart();
@@ -416,6 +416,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0)
       : Number(a[sort] ?? 0) - Number(b[sort] ?? 0)), [rows, query, sort, sortDirection]);
   const active = rows.find(r => r.netuid === selected) || rows[0];
+  const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
+  const candles = chartData.key === requestedChartKey ? chartData.candles : [];
   const chartCandles = useMemo(
     () => withLiveCandle(candles, showTaoChart ? taoUsd : Number(active?.price_tao || 0), timeframe),
     [candles, showTaoChart, taoUsd, active?.price_tao, timeframe],

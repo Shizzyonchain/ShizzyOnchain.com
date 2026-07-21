@@ -234,7 +234,15 @@ export default function TradingChart({
   }, [timeframe]);
 
   useEffect(() => {
-    if (!data.length || !candleSeriesRef.current) return;
+    if (!candleSeriesRef.current) return;
+    if (!data.length) {
+      candleSeriesRef.current.setData([]);
+      maSeriesRef.current?.setData([]);
+      emaSeriesRef.current?.setData([]);
+      bollUpperRef.current?.setData([]);
+      bollLowerRef.current?.setData([]);
+      return;
+    }
     candleSeriesRef.current.setData(data);
     maSeriesRef.current?.setData(data.length >= 20 ? movingAverage(data, 20) : []);
     emaSeriesRef.current?.setData(exponentialAverage(data, 20));
@@ -243,7 +251,6 @@ export default function TradingChart({
       bollUpperRef.current.setData(bands.map(point => ({ time: point.time, value: point.upper })));
       bollLowerRef.current.setData(bands.map(point => ({ time: point.time, value: point.lower })));
     }
-    setSelected({ ...data.at(-1)!, time: Number(data.at(-1)!.time) });
     if (!fittedRef.current) {
       const timeScale = chartRef.current?.timeScale();
       if (timeframe === "1m" && data.length > 1) {
@@ -259,7 +266,35 @@ export default function TradingChart({
     }
   }, [data, timeframe]);
 
-  const current = selected || (data.length ? { ...data.at(-1)!, time: Number(data.at(-1)!.time) } : null);
+  useEffect(() => {
+    const host = hostRef.current;
+    const chart = chartRef.current;
+    if (!host || !chart) return;
+    const zoomPriceAxis = (event: WheelEvent) => {
+      const bounds = host.getBoundingClientRect();
+      if (event.clientX < bounds.right - 88) return;
+      const priceScale = chart.priceScale("right");
+      const range = priceScale.getVisibleRange();
+      if (!range || range.to <= range.from) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const pointerRatio = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+      const pointerPrice = range.to - (range.to - range.from) * pointerRatio;
+      const factor = event.deltaY < 0 ? 0.82 : 1.22;
+      priceScale.setAutoScale(false);
+      priceScale.setVisibleRange({
+        from: pointerPrice - (pointerPrice - range.from) * factor,
+        to: pointerPrice + (range.to - pointerPrice) * factor,
+      });
+    };
+    host.addEventListener("wheel", zoomPriceAxis, { passive: false, capture: true });
+    return () => host.removeEventListener("wheel", zoomPriceAxis, { capture: true });
+  }, [data]);
+
+  const selectedInCurrentData = selected && data.some(candle => Number(candle.time) === selected.time);
+  const current = data.length
+    ? (selectedInCurrentData ? selected : { ...data.at(-1)!, time: Number(data.at(-1)!.time) })
+    : null;
   const change = current?.open ? (current.close / current.open - 1) * 100 : 0;
 
   const toggleFullscreen = async () => {
@@ -269,6 +304,7 @@ export default function TradingChart({
   };
   const fitChart = () => {
     const timeScale = chartRef.current?.timeScale();
+    chartRef.current?.priceScale("right").setAutoScale(true);
     if (timeframe === "1m" && data.length > 1) {
       const visibleCandles = Math.min(data.length, 90);
       timeScale?.setVisibleLogicalRange({
