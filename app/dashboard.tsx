@@ -324,6 +324,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [selected, setSelected] = useState(64);
   const [showTaoChart, setShowTaoChart] = useState(false);
   const [subnetPanel, setSubnetPanel] = useState<"overview" | "chart">("overview");
+  const [marketDetailOpen, setMarketDetailOpen] = useState(false);
   const [timeframe, setTimeframe] = useState("10m");
   const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_1h");
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
@@ -614,6 +615,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }
   function openSubnetChart(netuid: number) {
     setShowTaoChart(false);
+    setMarketDetailOpen(true);
     const subnet = rows.find(row => row.netuid === netuid);
     setSubnetPanel(subnet && (subnet.description || subnet.website || subnet.github_repo || subnet.discord || subnet.contact || subnet.additional) ? "overview" : "chart");
     setSelected(netuid);
@@ -625,6 +627,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }
   function openTaoChart() {
     setShowTaoChart(true);
+    setMarketDetailOpen(true);
     setSubnetPanel("chart");
     setView("screener");
     window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
@@ -751,7 +754,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <div><span>Top mover</span><strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong><small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small></div>
         <div><span>Network</span><strong>FINNEY</strong><small>Finalized blocks only</small></div>
       </section>
-      <section className="market-grid">
+      <div className="market-content">
+      {marketDetailOpen && <section className="market-grid">
         <div ref={chartCardRef} className="chart-card panel">
           {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong><span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span></div>}
           {dataState === "live" && <>
@@ -773,8 +777,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           </>}
         </div>
         <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>openSubnetChart(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
-      </section>
-      {!showTaoChart && active && signalData && <section className="trading-signals panel" aria-labelledby="signals-title">
+      </section>}
+      {marketDetailOpen && !showTaoChart && active && signalData && <section className="trading-signals panel" aria-labelledby="signals-title">
         <div className="signals-head"><div><p className="eyebrow">On-chain research</p><h2 id="signals-title">Trading signals · {active.name || `SN${active.netuid}`}</h2></div><span>Transparent indicators · Not financial advice</span></div>
         <div className="signal-grid">
           <article><div><span>Momentum</span><strong>{signalData.momentum}</strong></div><i style={{ "--score": `${signalData.momentum}%` } as CSSProperties}/><p className={signalData.momentum >= 55 ? "positive" : signalData.momentum <= 45 ? "negative" : ""}>{signalData.momentum >= 55 ? "Positive alignment" : signalData.momentum <= 45 ? "Negative alignment" : "Mixed direction"}</p><small>10m {signalData.change10 >= 0 ? "+" : ""}{fmt(signalData.change10)}% · 1h {signalData.change1h >= 0 ? "+" : ""}{fmt(signalData.change1h)}% · 1d {signalData.change24 >= 0 ? "+" : ""}{fmt(signalData.change24)}%</small></article>
@@ -790,6 +794,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button></th><th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake."><button onClick={()=>changeSort("apy")}>Staker APY{sortArrow("apy")}</button></th><th title="Percentage of the subnet's full on-chain Alpha supply currently conviction locked."><button onClick={()=>changeSort("conviction_locked_pct")}>Supply Locked{sortArrow("conviction_locked_pct")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th></tr></thead>
         <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onPointerEnter={()=>warmSubnetChart(r.netuid)} onFocus={()=>warmSubnetChart(r.netuid)} onClick={()=>openSubnetChart(r.netuid)} tabIndex={0} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openSubnetChart(r.netuid); } }}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_pct == null ? "—" : `${fmt(r.conviction_locked_pct, 2)}%`}</td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
       </section>
+      </div>
     </> : view === "activity" ? <section className="activity-page">
       <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow stake flows, conviction locks, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
       <section className="chain-intel-grid" aria-label="Subnet chain intelligence">
