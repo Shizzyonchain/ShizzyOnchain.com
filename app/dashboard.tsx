@@ -643,8 +643,16 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     setChecking(true);
     try {
       const res = await fetch("/api/backend/v1/wallets/mass-check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ addresses, persist: false }) });
-      if (!res.ok) throw new Error(); const json = await res.json(); setWallets(json.data || []); setWalletDisplay("wallets");
-    } catch { setWalletError("The wallet service is not connected yet. Start the data pipeline, then try again."); }
+      if (!res.ok) {
+        const contentType = res.headers.get("content-type") || "";
+        const errorBody = contentType.includes("application/json") ? await res.json().catch(() => null) : null;
+        const validationMessage = errorBody?.detail?.[0]?.msg?.replace(/^Value error, /, "");
+        if (res.status === 422) throw new Error(validationMessage || "One or more entries are not valid Bittensor public coldkeys.");
+        if (res.status === 413) throw new Error("Too many coldkeys. Paste no more than 100 at once.");
+        throw new Error("The live wallet lookup is temporarily unavailable. Your addresses were not saved; please try again shortly.");
+      }
+      const json = await res.json(); setWallets(json.data || []); setWalletDisplay("wallets");
+    } catch (error) { setWalletError(error instanceof Error ? error.message : "The live wallet lookup is temporarily unavailable. Please try again shortly."); }
     finally { setChecking(false); }
   }
 
