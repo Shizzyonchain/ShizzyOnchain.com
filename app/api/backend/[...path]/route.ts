@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Keep the API relay close to the Render service in Oregon. Routing these
+// requests through Vercel's default Virginia region caused intermittent 502s
+// even while the Render origin was healthy.
+export const preferredRegion = "sfo1";
+
 async function proxy(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
   const { path } = await context.params;
   const base = process.env.BACKEND_API_URL || "http://api:8000";
