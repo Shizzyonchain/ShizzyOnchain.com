@@ -46,40 +46,6 @@ ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS alpha_issuance NUMERIC
 CREATE UNIQUE INDEX IF NOT EXISTS subnet_price_block_uidx ON subnet_price_samples(netuid, block_number, time);
 CREATE INDEX IF NOT EXISTS subnet_price_lookup_idx ON subnet_price_samples(netuid, time DESC);
 
-CREATE TABLE IF NOT EXISTS subnet_candles_1m (
-  time TIMESTAMPTZ NOT NULL,
-  netuid INTEGER NOT NULL,
-  first_block BIGINT NOT NULL,
-  last_block BIGINT NOT NULL,
-  open NUMERIC(38,18) NOT NULL,
-  high NUMERIC(38,18) NOT NULL,
-  low NUMERIC(38,18) NOT NULL,
-  close NUMERIC(38,18) NOT NULL,
-  volume_open NUMERIC(38,9),
-  volume_close NUMERIC(38,9),
-  PRIMARY KEY (netuid, time)
-);
-CREATE INDEX IF NOT EXISTS subnet_candles_1m_lookup_idx
-  ON subnet_candles_1m(netuid, time DESC);
-
--- Existing installations already have raw finalized-block samples. Seed the
--- minute table once so all chart timeframes are fast immediately after deploy.
-DO $$
-BEGIN
-  IF NOT EXISTS (SELECT 1 FROM subnet_candles_1m LIMIT 1) THEN
-    INSERT INTO subnet_candles_1m
-      (time,netuid,first_block,last_block,open,high,low,close,volume_open,volume_close)
-    SELECT date_trunc('minute',time),netuid,min(block_number),max(block_number),
-           (array_agg(price_tao ORDER BY block_number))[1],max(price_tao),min(price_tao),
-           (array_agg(price_tao ORDER BY block_number DESC))[1],
-           (array_agg(volume_tao ORDER BY block_number))[1],
-           (array_agg(volume_tao ORDER BY block_number DESC))[1]
-    FROM subnet_price_samples
-    GROUP BY 1,2
-    ON CONFLICT DO NOTHING;
-  END IF;
-END $$;
-
 CREATE TABLE IF NOT EXISTS wallet_balance_snapshots (
   time TIMESTAMPTZ NOT NULL,
   block_number BIGINT NOT NULL,
