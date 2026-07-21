@@ -5,16 +5,17 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
   const base = process.env.BACKEND_API_URL || "http://api:8000";
   const target = new URL(`/${path.join("/")}`, base);
   request.nextUrl.searchParams.forEach((value, key) => target.searchParams.set(key, value));
+  const isCandleRequest = request.method === "GET" && path.at(-1) === "candles";
   const response = await fetch(target, {
     method: request.method,
     headers: { "Content-Type": request.headers.get("content-type") || "application/json", "X-API-Key": process.env.BACKEND_API_KEY || "" },
     body: request.method === "GET" ? undefined : await request.text(),
-    cache: "no-store",
+    cache: isCandleRequest ? "force-cache" : "no-store",
+    ...(isCandleRequest ? { next: { revalidate: 20 } } : {}),
   });
-  const isCandleRequest = path.at(-1) === "candles";
   return new NextResponse(response.body, { status: response.status, headers: {
     "Content-Type": response.headers.get("content-type") || "application/json",
-    ...(isCandleRequest ? { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=300" } : {}),
+    ...(isCandleRequest ? { "Cache-Control": "public, s-maxage=20, stale-while-revalidate=300", "CDN-Cache-Control": "public, s-maxage=20, stale-while-revalidate=300" } : {}),
   } });
 }
 export const GET = proxy;

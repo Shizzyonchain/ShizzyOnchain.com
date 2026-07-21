@@ -74,6 +74,7 @@ const fmt = (value?: string | number, digits = 2) => {
 const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
 const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
 const candleCache = new Map<string, { data: Candle[]; savedAt: number }>();
+const candleRequests = new Map<string, Promise<Candle[]>>();
 const portfolioColors = ["#16d9c4", "#ffb547", "#ff5d73", "#64748b", "#36d66b", "#ff8a4c", "#173766", "#c7e85b", "#40b8ff"];
 
 function decodeCompactCandles(rows: unknown[]): Candle[] {
@@ -84,6 +85,24 @@ function decodeCompactCandles(rows: unknown[]): Candle[] {
       low: String(row[3]), close: String(row[4]), volume_tao: String(row[5] ?? 0),
     }];
   });
+}
+
+function loadSubnetCandles(netuid: number, timeframe: string) {
+  const key = `${netuid}:${timeframe}`;
+  const cached = candleCache.get(key);
+  if (cached?.data.length) return Promise.resolve(cached.data);
+  const pending = candleRequests.get(key);
+  if (pending) return pending;
+  const request = fetch(`/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`)
+    .then(response => response.ok ? response.json() : Promise.reject())
+    .then(json => {
+      const data = decodeCompactCandles(json.data || []);
+      candleCache.set(key, { data, savedAt: Date.now() });
+      return data;
+    })
+    .finally(() => candleRequests.delete(key));
+  candleRequests.set(key, request);
+  return request;
 }
 
 function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string, now = Date.now()) {
@@ -366,9 +385,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           .catch(() => { if (activeRequest) { setChartLoading(false); setChartError(true); } });
         return;
       }
-      fetch(`/api/backend/v1/subnets/${selected}/candles?interval=${timeframe}&limit=180`, { cache: background ? "no-store" : "default", signal: controller.signal })
-        .then(r => r.ok ? r.json() : Promise.reject())
-        .then(json => { if (activeRequest) { const data = decodeCompactCandles(json.data || []); candleCache.set(cacheKey, { data, savedAt: Date.now() }); setChartData({ key: cacheKey, candles: data }); setChartLoading(false); setChartError(false); } })
+      if (background) candleCache.delete(cacheKey);
+      loadSubnetCandles(selected, timeframe)
+        .then(data => { if (activeRequest) { setChartData({ key: cacheKey, candles: data }); setChartLoading(false); setChartError(false); } })
         .catch(error => { if (activeRequest && error?.name !== "AbortError") { setChartLoading(false); setChartError(!cached?.data.length); } });
     };
     refreshChart();
@@ -390,10 +409,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           const key = `${selected}:${value}`;
           if (candleCache.has(key)) continue;
           try {
-            const response = await fetch(`/api/backend/v1/subnets/${selected}/candles?interval=${value}&limit=180`);
-            if (!response.ok) continue;
-            const json = await response.json();
-            if (!cancelled) candleCache.set(key, { data: decodeCompactCandles(json.data || []), savedAt: Date.now() });
+            await loadSubnetCandles(selected, value);
           } catch { /* A direct selection will retry if prefetch fails. */ }
         }
       };
@@ -554,6 +570,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     setView("screener");
     window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
+  function warmSubnetChart(netuid: number) {
+    void loadSubnetCandles(netuid, timeframe).catch(() => undefined);
+  }
   function openTaoChart() {
     setShowTaoChart(true);
     setView("screener");
@@ -688,7 +707,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       <section className="screener panel">
         <div className="screener-head"><div><p className="eyebrow">Bittensor markets</p><h2>Subnet screener</h2></div><label className="search"><span>⌕</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search subnet or netuid" /></label></div>
         <div className="table-wrap"><table><thead><tr><th>#</th><th><button onClick={()=>changeSort("netuid")}>Subnet{sortArrow("netuid")}</button></th><th><button onClick={()=>changeSort("price_tao")}>Price {currency === "usd" ? "$" : "τ"}{sortArrow("price_tao")}</button></th><th><button onClick={()=>changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button></th><th><button onClick={()=>changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button></th><th><button onClick={()=>changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button></th><th><button onClick={()=>changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button></th><th><button onClick={()=>changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button></th><th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake."><button onClick={()=>changeSort("apy")}>Staker APY{sortArrow("apy")}</button></th><th title="Percentage of the subnet's full on-chain Alpha supply currently conviction locked."><button onClick={()=>changeSort("conviction_locked_pct")}>Supply Locked{sortArrow("conviction_locked_pct")}</button></th><th><button onClick={()=>changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button></th><th><button onClick={()=>changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button></th></tr></thead>
-        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onClick={()=>openSubnetChart(r.netuid)} tabIndex={0} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openSubnetChart(r.netuid); } }}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_pct == null ? "—" : `${fmt(r.conviction_locked_pct, 2)}%`}</td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
+        <tbody>{filtered.map((r,i)=><tr key={r.netuid} className={r.netuid===selected?"selected":""} onPointerEnter={()=>warmSubnetChart(r.netuid)} onFocus={()=>warmSubnetChart(r.netuid)} onClick={()=>openSubnetChart(r.netuid)} tabIndex={0} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openSubnetChart(r.netuid); } }}><td>{i+1}</td><td><div><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></div></td><td>{money(r.price_tao, true)}</td><td>{money(r.market_cap_tao)}</td>{[r.change_10m,r.change_1h,r.change_24h].map((v,j)=><td key={j} className={changeClass(v)}>{Number(v||0)>0?"+":""}{fmt(v)}%</td>)}<td className="emission-cell">{r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}<small>of each block</small></td><td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">{r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}<small>latest realized tempo</small></td><td>{r.conviction_locked_pct == null ? "—" : `${fmt(r.conviction_locked_pct, 2)}%`}</td><td>{money(r.volume_24h_tao)}</td><td>{money(r.tao_reserve)}</td></tr>)}</tbody></table></div>
       </section>
     </> : view === "activity" ? <section className="activity-page">
       <div className="activity-hero"><div><p className="eyebrow">Live from your node</p><h1>Chain activity.<br/><span>Finalized and transparent.</span></h1></div><p>Follow conviction locks, hotkey changes, and subnet ownership events across Finney as they finalize.</p></div>
