@@ -74,7 +74,7 @@ const fmt = (value?: string | number, digits = 2) => {
 const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
 const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
 const candleCache = new Map<string, { data: Candle[]; savedAt: number }>();
-const portfolioColors = ["#16d9c4", "#ffb547", "#ff5d73", "#8b7cff", "#36d66b", "#ff8a4c", "#e56bd8", "#c7e85b", "#40b8ff"];
+const portfolioColors = ["#16d9c4", "#ffb547", "#ff5d73", "#64748b", "#36d66b", "#ff8a4c", "#173766", "#c7e85b", "#40b8ff"];
 
 function decodeCompactCandles(rows: unknown[]): Candle[] {
   return rows.flatMap(row => {
@@ -460,16 +460,11 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const portfolioGradient = useMemo(() => {
     if (!portfolioTotal) return "#0a1731";
     let cursor = 0;
-    const segments: string[] = [];
-    portfolioChartAssets.forEach((asset, index) => {
+    return `conic-gradient(${portfolioChartAssets.map((asset, index) => {
       const start = cursor;
       cursor += asset.taoValue / portfolioTotal * 100;
-      const gap = Math.min(.22, Math.max(0, (cursor - start) / 5));
-      segments.push(`#061127 ${start}% ${start + gap}%`);
-      segments.push(`${portfolioColors[index % portfolioColors.length]} ${start + gap}% ${Math.max(start + gap, cursor - gap)}%`);
-      segments.push(`#061127 ${Math.max(start + gap, cursor - gap)}% ${cursor}%`);
-    });
-    return `conic-gradient(${segments.join(",")})`;
+      return `${portfolioColors[index % portfolioColors.length]} ${start}% ${cursor}%`;
+    }).join(",")})`;
   }, [portfolioChartAssets, portfolioTotal]);
   const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
   const candles = chartData.key === requestedChartKey ? chartData.candles : [];
