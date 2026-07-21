@@ -30,6 +30,7 @@ type ActivitySummary = {
 };
 
 const channelVideos = [
+  { id: "RfiDazAg8r8", title: "Compute Wars: The Battle for AI Infrastructure Has Begun on Bittensor", meta: "35:17 · Latest episode" },
   { id: "AuUwiV1r_cs", title: "Bittensor TAO: Patience Pays Off", meta: "20:39 · Latest episode" },
   { id: "tdZGVfadd00", title: "The 10 to 100 TAO Challenge Is Getting Dangerous. Week 9", meta: "22:45" },
   { id: "6oSJxSfVUBk", title: "The Bittensor Move No One Is Ready For", meta: "26:35" },
