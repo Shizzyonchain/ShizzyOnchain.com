@@ -399,19 +399,23 @@ async def mass_wallet_check(body: MassWalletRequest):
            FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC"""
     )
     subnet_prices = {row["netuid"]: row["price_tao"] for row in price_rows}
-    async with ChainClient(settings) as chain:
-        async def one(address):
-            async with semaphore:
-                try:
-                    return await asyncio.wait_for(
-                        chain.wallet(address, latest["block_number"], subnet_prices),
-                        timeout=30,
-                    )
-                except Exception as exc:
-                    return {"address": address, "block_number": latest["block_number"], "free_tao": 0,
-                            "staked_tao_value": None, "total_tao_value": None, "stakes": [],
-                            "error": f"{type(exc).__name__}: wallet query failed"}
-        results = await asyncio.gather(*(one(address) for address in body.addresses))
+    def failed(address, error_type="TimeoutError"):
+        return {"address": address, "block_number": latest["block_number"], "free_tao": 0,
+                "staked_tao_value": None, "total_tao_value": None, "stakes": [],
+                "error": f"{error_type}: wallet query failed"}
+
+    try:
+        async with asyncio.timeout(25):
+            async with ChainClient(settings) as chain:
+                async def one(address):
+                    async with semaphore:
+                        try:
+                            return await chain.wallet(address, latest["block_number"], subnet_prices)
+                        except Exception as exc:
+                            return failed(address, type(exc).__name__)
+                results = await asyncio.gather(*(one(address) for address in body.addresses))
+    except TimeoutError:
+        results = [failed(address) for address in body.addresses]
     subnet_rows = await app.state.db.fetch("SELECT netuid,name,symbol FROM subnets")
     subnet_identities = {row["netuid"]: dict(row) for row in subnet_rows}
     for result in results:
