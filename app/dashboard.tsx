@@ -555,6 +555,29 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   );
   const totalVolume = rows.reduce((sum,r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = [...rows].sort((a,b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
+  const advancingMarkets = rows.filter(row => Number(row.change_1h || 0) > 0).length;
+  const decliningMarkets = rows.filter(row => Number(row.change_1h || 0) < 0).length;
+  const directionalMarkets = advancingMarkets + decliningMarkets;
+  const marketBreadth = directionalMarkets ? advancingMarkets / directionalMarkets * 100 : 0;
+  const liquidityFlowTao = rows.reduce((total, row) => {
+    if (row.liquidity_change_1h == null) return total;
+    const reserve = Number(row.tao_reserve || 0);
+    const change = Number(row.liquidity_change_1h || 0) / 100;
+    return reserve > 0 && change > -1 ? total + reserve - reserve / (1 + change) : total;
+  }, 0);
+  const emissionLeader = [...rows]
+    .filter(row => row.emission_change_1h != null)
+    .sort((a, b) => Number(b.emission_change_1h || 0) - Number(a.emission_change_1h || 0))[0];
+  const volumePulseTotals = rows.reduce((totals, row) => {
+    const current = Number(row.volume_1h_tao || 0);
+    const acceleration = Number(row.volume_acceleration_1h || 0);
+    if (current > 0 && acceleration > 0) {
+      totals.current += current;
+      totals.previous += current / acceleration;
+    }
+    return totals;
+  }, { current: 0, previous: 0 });
+  const volumePulse = volumePulseTotals.previous > 0 ? volumePulseTotals.current / volumePulseTotals.previous : 0;
   const marketCapLeaders = [...rows].sort((a,b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0)).slice(0, 14);
   const bubbleRows = useMemo(() => [...rows]
     .filter(r => r.netuid !== 0)
@@ -767,6 +790,14 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <div><span>24h volume</span><strong>{dataState !== "live" || totalVolume === 0 ? "—" : money(totalVolume)}</strong><small>{dataState === "live" ? (totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Connecting to Finney"}</small></div>
         <div><span>Top mover</span><strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong><small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small></div>
         <div><span>Network</span><strong>FINNEY</strong><small>Finalized blocks only</small></div>
+      </section>
+      <section className="network-pulse panel" aria-label="Network pulse">
+        <div className="network-pulse-label"><span>Network pulse</span><small>1 Hour</small></div>
+        <button onClick={() => { setSort("change_1h"); setSortDirection("desc"); }}><span>Breadth</span><strong className={marketBreadth >= 50 ? "positive" : "negative"}>{directionalMarkets ? `${Math.round(marketBreadth)}%` : "—"}</strong><small>{advancingMarkets} rising · {decliningMarkets} falling</small></button>
+        <button onClick={() => rankedMovers[0] && openSubnetChart(rankedMovers[0].netuid)}><span>Momentum</span><strong>{rankedMovers[0]?.name || "—"}</strong><small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) >= 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% leader` : "Collecting"}</small></button>
+        <button onClick={() => { setSort("liquidity_change_1h"); setSortDirection("desc"); }}><span>Liquidity flow</span><strong className={liquidityFlowTao > 0 ? "positive" : liquidityFlowTao < 0 ? "negative" : ""}>{liquidityFlowTao === 0 ? "—" : `${liquidityFlowTao > 0 ? "+" : "−"}${money(Math.abs(liquidityFlowTao))}`}</strong><small>Net TAO reserve</small></button>
+        <button onClick={() => { setSort("emission_change_1h"); setSortDirection("desc"); }}><span>Emission</span><strong>{emissionLeader?.name || "—"}</strong><small className={changeClass(emissionLeader?.emission_change_1h)}>{emissionLeader ? `${Number(emissionLeader.emission_change_1h || 0) >= 0 ? "+" : ""}${fmt(emissionLeader.emission_change_1h, 4)} pts` : "Collecting"}</small></button>
+        <button onClick={() => { setSort("volume_1h_tao"); setSortDirection("desc"); }}><span>Volume pulse</span><strong className={volumePulse >= 1 ? "positive" : volumePulse > 0 ? "negative" : ""}>{volumePulse ? `${fmt(volumePulse, 2)}×` : "—"}</strong><small>vs previous hour</small></button>
       </section>
       <div className="market-content">
       {marketDetailOpen && <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}><div className="market-modal" role="dialog" aria-modal="true" aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={event => event.stopPropagation()}><button ref={marketModalCloseRef} className="market-modal-close" onClick={() => setMarketDetailOpen(false)} aria-label="Close market details">×</button><section className="market-grid">
