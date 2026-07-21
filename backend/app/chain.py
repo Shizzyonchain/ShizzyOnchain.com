@@ -495,3 +495,37 @@ class ChainClient:
             "total_tao_value": free_tao + staked if staked is not None else None,
             "stakes": stakes,
         }
+
+    async def wallets(self, addresses: list[str], block_number: int, subnet_prices: dict[int, Decimal] | None = None) -> list[dict]:
+        """Read many coldkeys with the SDK's batched runtime and balance calls."""
+        view = await self.client.at(block_number)
+        free_by_address, positions_by_address = await asyncio.gather(
+            view.balances.get_many(addresses),
+            view.staking.stake_for_coldkeys(coldkey_ss58s=addresses),
+        )
+        prices = subnet_prices or {}
+        results = []
+        for address in addresses:
+            stakes = []
+            for position in positions_by_address.get(address, []):
+                netuid = int(field(position, "netuid"))
+                alpha = amount(field(position, "stake", "alpha", "amount"))
+                price = Decimal(1) if netuid == 0 else prices.get(netuid)
+                stakes.append({
+                    "hotkey": str(field(position, "hotkey_ss58", "hotkey")),
+                    "netuid": netuid,
+                    "alpha": alpha,
+                    "tao_value": alpha * price if price is not None else None,
+                })
+            stake_values = [stake["tao_value"] for stake in stakes]
+            staked = sum(stake_values, Decimal(0)) if all(value is not None for value in stake_values) else None
+            free_tao = amount(free_by_address.get(address, 0))
+            results.append({
+                "address": address,
+                "block_number": block_number,
+                "free_tao": free_tao,
+                "staked_tao_value": staked,
+                "total_tao_value": free_tao + staked if staked is not None else None,
+                "stakes": stakes,
+            })
+        return results
