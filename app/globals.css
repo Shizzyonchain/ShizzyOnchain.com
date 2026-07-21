@@ -268,3 +268,4 @@ html,body{overflow-x:clip}
 .market-bubble:hover,.market-bubble:focus-visible{transform:translate(var(--bubble-x,0),var(--bubble-y,0)) scale(1.16)}
 .market-bubble.dragging{z-index:5;cursor:grabbing;transform:translate(var(--bubble-x,0),var(--bubble-y,0)) scale(1.08);transition:none;filter:brightness(1.2)}
 @media(max-width:600px){.bubble-legend b{width:auto;margin:0}.bubble-legend>button{margin-left:auto}.market-bubble{transform:translate(var(--bubble-x,0),var(--bubble-y,0));margin:-5px}.market-bubble:hover,.market-bubble:focus-visible{transform:translate(var(--bubble-x,0),var(--bubble-y,0)) scale(1.08)}}
+.portfolio-amount{display:grid!important;gap:2px!important;justify-items:end;text-align:right;min-width:100px}.portfolio-amount>strong{font:800 15px var(--font-mono)}.portfolio-amount>small{color:var(--muted);font:700 10px var(--font-mono);white-space:nowrap}
