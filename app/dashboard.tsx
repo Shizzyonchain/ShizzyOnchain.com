@@ -14,6 +14,7 @@ type ScreenerRow = {
 type Candle = { time: string; open: string; high: string; low: string; close: string; volume_tao?: string };
 type Stake = { hotkey: string; netuid: number; name?: string; symbol?: string; alpha: string; tao_value?: string };
 type Wallet = { address: string; free_tao: string; staked_tao_value?: string; total_tao_value?: string; stakes: Stake[]; error?: string };
+type PortfolioAsset = { key: string; netuid: number | null; name: string; symbol: string; alpha: number; taoValue: number; wallets: Set<string> };
 type ChainEvent = {
   block_number: number; event_index: number; time: string; event_type: string;
   netuid?: number; destination_netuid?: number; name?: string; destination_name?: string;
@@ -72,6 +73,7 @@ const fmt = (value?: string | number, digits = 2) => {
 const changeClass = (v?: string) => Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral";
 const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
 const candleCache = new Map<string, { data: Candle[]; savedAt: number }>();
+const portfolioColors = ["#13c8ff", "#1558ff", "#20d17a", "#c28cff", "#ffb84d", "#ff5277", "#4da3ff", "#34d399", "#f472b6"];
 
 function decodeCompactCandles(rows: unknown[]): Candle[] {
   return rows.flatMap(row => {
@@ -287,6 +289,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [chartError, setChartError] = useState(false);
   const [walletInput, setWalletInput] = useState("");
   const [wallets, setWallets] = useState<Wallet[]>([]);
+  const [walletDisplay, setWalletDisplay] = useState<"wallets" | "portfolio">("wallets");
   const [checking, setChecking] = useState(false);
   const [walletError, setWalletError] = useState("");
   const [activity, setActivity] = useState<ChainEvent[]>([]);
@@ -416,6 +419,50 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0)
       : Number(a[sort] ?? 0) - Number(b[sort] ?? 0)), [rows, query, sort, sortDirection]);
   const active = rows.find(r => r.netuid === selected) || rows[0];
+  const portfolioAssets = useMemo(() => {
+    const assets = new Map<string, PortfolioAsset>();
+    const add = (key: string, netuid: number | null, name: string, symbol: string, alpha: number, taoValue: number, address: string) => {
+      const existing = assets.get(key) || { key, netuid, name, symbol, alpha: 0, taoValue: 0, wallets: new Set<string>() };
+      existing.alpha += Number.isFinite(alpha) ? alpha : 0;
+      existing.taoValue += Number.isFinite(taoValue) ? taoValue : 0;
+      existing.wallets.add(address);
+      assets.set(key, existing);
+    };
+    wallets.forEach(wallet => {
+      const free = Number(wallet.free_tao || 0);
+      if (free > 0) add("tao", null, "Bittensor", "TAO", free, free, wallet.address);
+      wallet.stakes.forEach(stake => add(
+        `sn-${stake.netuid}`,
+        stake.netuid,
+        stake.name || `Subnet ${stake.netuid}`,
+        stake.symbol || `SN${stake.netuid}`,
+        Number(stake.alpha || 0),
+        Number(stake.tao_value || 0),
+        wallet.address,
+      ));
+    });
+    return [...assets.values()].filter(asset => asset.taoValue > 0).sort((a, b) => b.taoValue - a.taoValue);
+  }, [wallets]);
+  const portfolioTotal = portfolioAssets.reduce((sum, asset) => sum + asset.taoValue, 0);
+  const portfolioChartAssets = useMemo(() => {
+    if (portfolioAssets.length <= 9) return portfolioAssets;
+    const primary = portfolioAssets.slice(0, 8);
+    const other = portfolioAssets.slice(8).reduce<PortfolioAsset>((combined, asset) => {
+      combined.taoValue += asset.taoValue;
+      asset.wallets.forEach(wallet => combined.wallets.add(wallet));
+      return combined;
+    }, { key: "other", netuid: null, name: "Other assets", symbol: "OTHER", alpha: 0, taoValue: 0, wallets: new Set<string>() });
+    return [...primary, other];
+  }, [portfolioAssets]);
+  const portfolioGradient = useMemo(() => {
+    if (!portfolioTotal) return "#0a1731";
+    let cursor = 0;
+    return `conic-gradient(${portfolioChartAssets.map((asset, index) => {
+      const start = cursor;
+      cursor += asset.taoValue / portfolioTotal * 100;
+      return `${portfolioColors[index % portfolioColors.length]} ${start}% ${cursor}%`;
+    }).join(",")})`;
+  }, [portfolioChartAssets, portfolioTotal]);
   const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
   const candles = chartData.key === requestedChartKey ? chartData.candles : [];
   const chartCandles = useMemo(
@@ -483,12 +530,12 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
 
   async function checkWallets(e: FormEvent) {
     e.preventDefault(); setWalletError("");
-    const addresses = walletInput.split(/[\s,]+/).map(v => v.trim()).filter(Boolean);
+    const addresses = [...new Set(walletInput.split(/[\s,]+/).map(v => v.trim()).filter(Boolean))];
     if (!addresses.length) return setWalletError("Paste at least one coldkey address.");
     setChecking(true);
     try {
       const res = await fetch("/api/backend/v1/wallets/mass-check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ addresses, persist: false }) });
-      if (!res.ok) throw new Error(); const json = await res.json(); setWallets(json.data || []);
+      if (!res.ok) throw new Error(); const json = await res.json(); setWallets(json.data || []); setWalletDisplay("wallets");
     } catch { setWalletError("The wallet service is not connected yet. Start the data pipeline, then try again."); }
     finally { setChecking(false); }
   }
@@ -723,7 +770,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       <div className="wallet-intro"><p className="eyebrow">Portfolio intelligence</p><h1>See every wallet.<br/><span>See the whole position.</span></h1><p>Paste up to 100 Bittensor coldkeys. We’ll combine free TAO, alpha positions, subnet exposure, and spot-value estimates at one finalized block.</p></div>
       <form className="wallet-form panel" onSubmit={checkWallets}><label htmlFor="wallets">Coldkey addresses</label><p className="wallet-safety">Read-only lookup. Never enter a seed phrase, private key, or password.</p><textarea id="wallets" value={walletInput} onChange={e=>setWalletInput(e.target.value)} placeholder={"5F...\n5G...\n5H..."} /><div className="form-foot"><span>One public coldkey per line, space, or comma</span><button disabled={checking}>{checking ? "Checking chain…" : "Check wallets →"}</button></div>{walletError && <p className="form-error">{walletError}</p>}</form>
       {wallets.length > 0 && <div className="portfolio-summary panel"><div><span>Total wallets</span><strong>{wallets.length}</strong></div><div><span>Free balance</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.free_tao||0),0))}</strong></div><div><span>Staked value</span><strong>{money(wallets.reduce((s,w)=>s+Number(w.staked_tao_value||0),0))}</strong></div><div><span>Total portfolio</span><strong className="accent">{money(wallets.reduce((s,w)=>s+Number(w.total_tao_value||0),0))}</strong></div></div>}
-      <div className="wallet-results">{wallets.map(w=><article className="wallet-card panel" key={w.address}><div className="wallet-card-head"><span className="wallet-ident">{w.address.slice(0,6)}</span><div><b>{w.address.slice(0,12)}…{w.address.slice(-8)}</b><small>{w.stakes.length} positions</small></div><strong>{money(w.total_tao_value)}</strong></div><div className="wallet-split"><span>Free <b>{money(w.free_tao)}</b></span><span>Staked <b>{money(w.staked_tao_value)}</b></span></div><div className="positions">{w.stakes.slice(0,8).map((s,i)=><div key={`${s.hotkey}-${s.netuid}-${i}`}><span><b>SN{s.netuid}</b><small>{s.name || s.hotkey.slice(0,7) + "…"}</small></span><span>{fmt(s.alpha,4)} α<small>{money(s.tao_value)}</small></span></div>)}</div></article>)}</div>
+      {wallets.length > 0 && <div className="wallet-view-tabs" role="tablist" aria-label="Wallet results views"><button role="tab" aria-selected={walletDisplay === "wallets"} className={walletDisplay === "wallets" ? "active" : ""} onClick={() => setWalletDisplay("wallets")}>Wallets</button><button role="tab" aria-selected={walletDisplay === "portfolio"} className={walletDisplay === "portfolio" ? "active" : ""} onClick={() => setWalletDisplay("portfolio")}>Portfolio</button></div>}
+      {walletDisplay === "wallets" && <div className="wallet-results">{wallets.map(w=><article className="wallet-card panel" key={w.address}><div className="wallet-card-head"><span className="wallet-ident">{w.address.slice(0,6)}</span><div><b>{w.address.slice(0,12)}…{w.address.slice(-8)}</b><small>{w.stakes.length} positions</small></div><strong>{money(w.total_tao_value)}</strong></div><div className="wallet-split"><span>Free <b>{money(w.free_tao)}</b></span><span>Staked <b>{money(w.staked_tao_value)}</b></span></div><div className="positions">{w.stakes.slice(0,8).map((s,i)=><div key={`${s.hotkey}-${s.netuid}-${i}`}><span><b>SN{s.netuid}</b><small>{s.name || s.hotkey.slice(0,7) + "…"}</small></span><span>{fmt(s.alpha,4)} α<small>{money(s.tao_value)}</small></span></div>)}</div></article>)}</div>}
+      {wallets.length > 0 && walletDisplay === "portfolio" && <section className="portfolio-view panel" role="tabpanel"><div className="portfolio-chart-column"><div className="portfolio-donut" style={{ "--portfolio-gradient": portfolioGradient } as CSSProperties} role="img" aria-label={`Portfolio allocation across ${portfolioAssets.length} assets`}><div><span>Combined value</span><strong>{money(portfolioTotal)}</strong><small>{portfolioAssets.length} assets</small></div></div><div className="portfolio-legend">{portfolioChartAssets.map((asset,index)=><div key={asset.key}><i style={{ background: portfolioColors[index % portfolioColors.length] }}/><span><b>{asset.symbol}</b><small>{portfolioTotal ? (asset.taoValue / portfolioTotal * 100).toFixed(1) : "0.0"}%</small></span><strong>{money(asset.taoValue)}</strong></div>)}</div></div><div className="portfolio-assets"><div className="portfolio-assets-head"><div><p className="eyebrow">Combined allocation</p><h2>All assets</h2></div><span>Grouped across {wallets.length} wallets</span></div>{portfolioAssets.map(asset=><article key={asset.key}><div><span>{asset.netuid == null ? "τ" : `SN${asset.netuid}`}</span><div><b>{asset.name}</b><small>{asset.wallets.size} {asset.wallets.size === 1 ? "wallet" : "wallets"}</small></div></div><div className="portfolio-bar"><i style={{ width: `${portfolioTotal ? Math.max(1, asset.taoValue / portfolioTotal * 100) : 0}%` }}/></div><div><strong>{money(asset.taoValue)}</strong><small>{portfolioTotal ? (asset.taoValue / portfolioTotal * 100).toFixed(2) : "0.00"}%{asset.netuid != null ? ` · ${fmt(asset.alpha,4)} α` : ""}</small></div></article>)}</div></section>}
       {!wallets.length && <div className="wallet-empty"><div className="radar"><i/><i/><i/></div><p>Your combined portfolio will appear here.</p></div>}
     </section> : view === "videos" ? <section className="videos-page">
       <div className="videos-intro">
