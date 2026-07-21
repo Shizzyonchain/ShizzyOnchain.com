@@ -438,18 +438,20 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     if (showTaoChart || !rows.length) return;
     let cancelled = false;
     const warmTimer = window.setTimeout(() => {
-      const leaders = [...rows]
-        .sort((a, b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0))
-        .slice(0, 14);
+      const markets = [...rows]
+        .sort((a, b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0));
+      let nextMarket = 0;
       const warm = async () => {
-        for (const row of leaders) {
-          if (cancelled) return;
+        while (!cancelled) {
+          const row = markets[nextMarket++];
+          if (!row) return;
           try {
             await loadSubnetCandles(row.netuid, timeframe);
           } catch { /* A direct selection retries stalled requests. */ }
         }
       };
-      void warm();
+      // Prime every subnet for instant switching without stampeding the API.
+      void Promise.all(Array.from({ length: 4 }, () => warm()));
     }, 500);
     return () => { cancelled = true; window.clearTimeout(warmTimer); };
   }, [rows, timeframe, showTaoChart]);
