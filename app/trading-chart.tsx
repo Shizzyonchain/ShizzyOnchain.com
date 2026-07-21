@@ -325,7 +325,7 @@ export default function TradingChart({
         <button className={boll ? "active" : ""} aria-pressed={boll} onClick={() => setBoll(value => !value)}>BOLL</button>
       </div>
       <div className="chart-control-group chart-periods">
-        {[["1m", "1M"], ["10m", "10M"], ["1h", "1H"], ["1d", "1D"]].map(([value, label]) =>
+        {[["10m", "10M"], ["1h", "1H"], ["1d", "1D"]].map(([value, label]) =>
           <button key={value} className={timeframe === value ? "active" : ""} aria-pressed={timeframe === value} onClick={() => onTimeframeChange(value)}>{label}</button>
         )}
       </div>

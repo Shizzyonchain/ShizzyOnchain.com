@@ -274,7 +274,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
   const [selected, setSelected] = useState(64);
   const [showTaoChart, setShowTaoChart] = useState(false);
-  const [timeframe, setTimeframe] = useState("1h");
+  const [timeframe, setTimeframe] = useState("10m");
   const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_1h");
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
@@ -379,7 +379,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     let cancelled = false;
     const idle = window.setTimeout(() => {
       const prefetch = async () => {
-        for (const value of (["10m", "1m", "1h", "1d"] as const).filter(item => item !== timeframe)) {
+        for (const value of (["10m", "1h", "1d"] as const).filter(item => item !== timeframe)) {
           if (cancelled) return;
           const key = `${selected}:${value}`;
           if (candleCache.has(key)) continue;
@@ -616,7 +616,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         <div ref={chartCardRef} className="chart-card panel">
           {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong><span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span></div>}
           {dataState === "live" && <>
-          <div className="panel-head"><div><p className="eyebrow">{showTaoChart ? "TAO · USD" : `SN${active?.netuid} · ${active?.symbol || "ALPHA"}`}</p><h1>{showTaoChart ? "Bittensor" : active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{showTaoChart ? taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" }) : money(active?.price_tao, true)}</strong><span className={changeClass(showTaoChart ? String(taoChartChange) : active?.change_1h)}>{Number(showTaoChart ? taoChartChange : active?.change_1h || 0) > 0 ? "+" : ""}{fmt(showTaoChart ? taoChartChange : active?.change_1h)}% · {timeframe === "1d" ? "1 Day" : timeframe === "1h" ? "1 Hour" : timeframe === "10m" ? "10 Minutes" : "1 Minute"}</span></div></div>
+          <div className="panel-head"><div><p className="eyebrow">{showTaoChart ? "TAO · USD" : `SN${active?.netuid} · ${active?.symbol || "ALPHA"}`}</p><h1>{showTaoChart ? "Bittensor" : active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{showTaoChart ? taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" }) : money(active?.price_tao, true)}</strong><span className={changeClass(showTaoChart ? String(taoChartChange) : active?.change_1h)}>{Number(showTaoChart ? taoChartChange : active?.change_1h || 0) > 0 ? "+" : ""}{fmt(showTaoChart ? taoChartChange : active?.change_1h)}% · {timeframe === "1d" ? "1 Day" : timeframe === "1h" ? "1 Hour" : "10 Minutes"}</span></div></div>
           <TradingChart candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
           {showTaoChart ? <div className="chart-stats"><span>Pair <b>TAO / USD</b></span><span>Price source <b>Coinbase</b></span><span>History <b>{candles.length} candles</b></span></div> : <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>}
           </>}
