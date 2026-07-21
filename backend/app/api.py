@@ -91,7 +91,8 @@ async def _refresh_screener(current_app: FastAPI):
                     staker_epoch_dividends_alpha
              FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC
            )
-           SELECT l.netuid,s.name,s.symbol,l.time,l.block_number,l.price_tao,
+           SELECT l.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
+                  s.discord,s.contact,s.logo_url,s.additional,l.time,l.block_number,l.price_tao,
                   l.tao_reserve,l.alpha_reserve,l.alpha_out,
                   100 * l.emission_share AS emission_pct,
                   CASE WHEN l.tempo IS NULL OR l.tempo < 0 OR l.alpha_out <= 0

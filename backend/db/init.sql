@@ -11,9 +11,23 @@ CREATE TABLE IF NOT EXISTS subnets (
   netuid INTEGER PRIMARY KEY,
   name TEXT,
   symbol TEXT,
+  description TEXT,
+  website TEXT,
+  github_repo TEXT,
+  discord TEXT,
+  contact TEXT,
+  logo_url TEXT,
+  additional TEXT,
   first_seen_block BIGINT NOT NULL,
   last_seen_block BIGINT NOT NULL
 );
+ALTER TABLE subnets ADD COLUMN IF NOT EXISTS description TEXT;
+ALTER TABLE subnets ADD COLUMN IF NOT EXISTS website TEXT;
+ALTER TABLE subnets ADD COLUMN IF NOT EXISTS github_repo TEXT;
+ALTER TABLE subnets ADD COLUMN IF NOT EXISTS discord TEXT;
+ALTER TABLE subnets ADD COLUMN IF NOT EXISTS contact TEXT;
+ALTER TABLE subnets ADD COLUMN IF NOT EXISTS logo_url TEXT;
+ALTER TABLE subnets ADD COLUMN IF NOT EXISTS additional TEXT;
 
 CREATE TABLE IF NOT EXISTS subnet_price_samples (
   time TIMESTAMPTZ NOT NULL,
