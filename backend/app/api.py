@@ -394,11 +394,19 @@ async def mass_wallet_check(body: MassWalletRequest):
     if not latest:
         raise HTTPException(503, "indexer has not stored a block yet")
     semaphore = asyncio.Semaphore(settings.wallet_query_concurrency)
+    price_rows = await app.state.db.fetch(
+        """SELECT DISTINCT ON (netuid) netuid,price_tao
+           FROM subnet_price_samples ORDER BY netuid,time DESC,block_number DESC"""
+    )
+    subnet_prices = {row["netuid"]: row["price_tao"] for row in price_rows}
     async with ChainClient(settings) as chain:
         async def one(address):
             async with semaphore:
                 try:
-                    return await chain.wallet(address, latest["block_number"])
+                    return await asyncio.wait_for(
+                        chain.wallet(address, latest["block_number"], subnet_prices),
+                        timeout=30,
+                    )
                 except Exception as exc:
                     return {"address": address, "block_number": latest["block_number"], "free_tao": 0,
                             "staked_tao_value": None, "total_tao_value": None, "stakes": [],
