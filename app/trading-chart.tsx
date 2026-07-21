@@ -5,6 +5,7 @@ import {
   CandlestickSeries,
   ColorType,
   CrosshairMode,
+  type AutoscaleInfoProvider,
   ISeriesApi,
   LineSeries,
   LineStyle,
@@ -158,6 +159,7 @@ export default function TradingChart({
     chartRef.current = chart;
     const precision = usd ? 4 : 6;
     const priceFormat = { type: "price" as const, precision, minMove: 10 ** -precision };
+    const minimumVisibleMove = timeframe === "1m" ? 0.005 : timeframe === "10m" ? 0.01 : timeframe === "1h" ? 0.02 : 0.05;
     const candleSeries = chart.addSeries(CandlestickSeries, {
       upColor: "#20d17a",
       downColor: "#ff4d5e",
@@ -166,6 +168,25 @@ export default function TradingChart({
       wickDownColor: "#ff4d5e",
       priceFormat,
       priceLineColor: "#20a7e8",
+      autoscaleInfoProvider: ((baseImplementation) => {
+        const info = baseImplementation();
+        if (!info?.priceRange) return info;
+
+        const { minValue, maxValue } = info.priceRange;
+        const midpoint = (minValue + maxValue) / 2;
+        const currentRange = maxValue - minValue;
+        const minimumRange = Math.max(Math.abs(midpoint) * minimumVisibleMove, 10 ** -precision * 20);
+        if (currentRange >= minimumRange) return info;
+
+        const padding = (minimumRange - currentRange) / 2;
+        return {
+          ...info,
+          priceRange: {
+            minValue: minValue - padding,
+            maxValue: maxValue + padding,
+          },
+        };
+      }) satisfies AutoscaleInfoProvider,
     });
     candleSeriesRef.current = candleSeries;
 
