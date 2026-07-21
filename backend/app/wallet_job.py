@@ -49,30 +49,17 @@ async def process_job(db, chain, job, concurrency: int):
         job_id, latest["block_number"],
     )
 
-    async def one(address):
-        try:
-            result = await chain.wallet(address, latest["block_number"], subnet_prices)
-            for stake in result["stakes"]:
-                identity = identities.get(stake["netuid"], {})
-                stake["name"] = identity.get("name")
-                stake["symbol"] = identity.get("symbol")
-            return result
-        except Exception as exc:
-            return {
-                "address": address, "block_number": latest["block_number"], "free_tao": 0,
-                "staked_tao_value": None, "total_tao_value": None, "stakes": [],
-                "error": f"{type(exc).__name__}: wallet query failed",
-            }
-
-    results = []
-    batch_size = max(1, min(concurrency, 8))
-    for start in range(0, len(addresses), batch_size):
-        results.extend(await asyncio.gather(*(one(address) for address in addresses[start:start + batch_size])))
-        await db.execute(
-            """UPDATE wallet_lookup_jobs SET results=$2::jsonb,completed=$3,updated_at=now()
-               WHERE id=$1""",
-            job_id, json.dumps(results, default=json_value), len(results),
-        )
+    results = await chain.wallets(addresses, latest["block_number"], subnet_prices)
+    for result in results:
+        for stake in result["stakes"]:
+            identity = identities.get(stake["netuid"], {})
+            stake["name"] = identity.get("name")
+            stake["symbol"] = identity.get("symbol")
+    await db.execute(
+        """UPDATE wallet_lookup_jobs SET results=$2::jsonb,completed=$3,updated_at=now()
+           WHERE id=$1""",
+        job_id, json.dumps(results, default=json_value), len(results),
+    )
     await db.execute(
         "UPDATE wallet_lookup_jobs SET status='complete',updated_at=now() WHERE id=$1", job_id
     )
