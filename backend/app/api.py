@@ -1,5 +1,9 @@
 import asyncio
 import hmac
+import json
+import subprocess
+import sys
+import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
 
@@ -429,6 +433,37 @@ async def mass_wallet_check(body: MassWalletRequest):
                 if not result.get("error"):
                     await _persist_wallet(conn, result, latest["block_time"])
     return {"block_number": latest["block_number"], "data": results}
+
+
+@app.post("/v1/wallets/jobs", status_code=202, dependencies=[Depends(authorize)])
+async def create_wallet_job(body: MassWalletRequest):
+    if len(body.addresses) > settings.max_mass_wallets:
+        raise HTTPException(413, f"maximum {settings.max_mass_wallets} addresses per request")
+    job_id = uuid.uuid4().hex
+    await app.state.db.execute(
+        """INSERT INTO wallet_lookup_jobs(id,addresses,total)
+           VALUES($1,$2::jsonb,$3)""",
+        job_id, json.dumps(body.addresses), len(body.addresses),
+    )
+    subprocess.Popen(
+        [sys.executable, "-m", "app.wallet_job", job_id],
+        cwd="/app",
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+    return {"job_id": job_id, "status": "queued", "completed": 0, "total": len(body.addresses)}
+
+
+@app.get("/v1/wallets/jobs/{job_id}", dependencies=[Depends(authorize)])
+async def wallet_job_status(job_id: str):
+    row = await app.state.db.fetchrow(
+        """SELECT id,status,results,completed,total,block_number,error,created_at,updated_at
+           FROM wallet_lookup_jobs WHERE id=$1""", job_id,
+    )
+    if not row:
+        raise HTTPException(404, "wallet lookup job not found")
+    return dict(row)
 
 
 @app.get("/v1/wallets/{address}/history", dependencies=[Depends(authorize)])
