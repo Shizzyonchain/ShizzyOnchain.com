@@ -79,6 +79,9 @@ function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string,
   const last = candles.at(-1)!;
   const lastTime = new Date(last.time).getTime();
   if (!Number.isFinite(lastTime)) return candles;
+  // Do not draw a synthetic spot candle across stale archive history.
+  // That creates a misleading vertical jump while the indexer fills the gap.
+  if (bucketTime - lastTime > interval * 2) return candles;
   const updated = [...candles];
   if (lastTime < bucketTime) {
     const previousClose = Number(last.close);
@@ -269,6 +272,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const bubbleDragRef = useRef<{ netuid: number; pointerId: number; startX: number; startY: number; offsetX: number; offsetY: number; minX: number; maxX: number; minY: number; maxY: number; moved: boolean } | null>(null);
   const suppressBubbleClick = useRef(false);
   const [candles, setCandles] = useState<Candle[]>([]);
+  const [chartLoading, setChartLoading] = useState(true);
+  const [chartError, setChartError] = useState(false);
   const [walletInput, setWalletInput] = useState("");
   const [wallets, setWallets] = useState<Wallet[]>([]);
   const [checking, setChecking] = useState(false);
@@ -327,12 +332,18 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }, []);
   useEffect(() => {
     let activeRequest = true;
+    queueMicrotask(() => {
+      if (!activeRequest) return;
+      setCandles([]);
+      setChartLoading(true);
+      setChartError(false);
+    });
     const refreshChart = () => {
       if (showTaoChart) {
         fetch(`/api/tao-chart?interval=${timeframe}`, { cache: "no-store" })
           .then(r => r.ok ? r.json() : Promise.reject())
-          .then(json => { if (activeRequest) setCandles(json.data || []); })
-          .catch(() => undefined);
+          .then(json => { if (activeRequest) { setCandles(json.data || []); setChartLoading(false); setChartError(false); } })
+          .catch(() => { if (activeRequest) { setChartLoading(false); setChartError(true); } });
         return;
       }
       const end = new Date();
@@ -340,8 +351,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       const start = new Date(end.getTime() - windowMs);
       fetch(`/api/backend/v1/subnets/${selected}/prices?interval=${timeframe}&start=${start.toISOString()}&end=${end.toISOString()}&limit=500`, { cache: "no-store" })
         .then(r => r.ok ? r.json() : Promise.reject())
-        .then(json => { if (activeRequest) setCandles(json.data || []); })
-        .catch(() => undefined);
+        .then(json => { if (activeRequest) { setCandles(json.data || []); setChartLoading(false); setChartError(false); } })
+        .catch(() => { if (activeRequest) { setChartLoading(false); setChartError(true); } });
     };
     refreshChart();
     const refreshTimer = window.setInterval(refreshChart, 12_000);
@@ -570,7 +581,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong><span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span></div>}
           {dataState === "live" && <>
           <div className="panel-head"><div><p className="eyebrow">{showTaoChart ? "TAO · USD" : `SN${active?.netuid} · ${active?.symbol || "ALPHA"}`}</p><h1>{showTaoChart ? "Bittensor" : active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{showTaoChart ? taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" }) : money(active?.price_tao, true)}</strong><span className={changeClass(showTaoChart ? String(taoChartChange) : active?.change_1h)}>{Number(showTaoChart ? taoChartChange : active?.change_1h || 0) > 0 ? "+" : ""}{fmt(showTaoChart ? taoChartChange : active?.change_1h)}% · {timeframe === "1d" ? "1 Day" : timeframe === "1h" ? "1 Hour" : timeframe === "10m" ? "10 Minutes" : "1 Minute"}</span></div></div>
-          <TradingChart candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} />
+          <TradingChart candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
           {showTaoChart ? <div className="chart-stats"><span>Pair <b>TAO / USD</b></span><span>Price source <b>Coinbase</b></span><span>History <b>{candles.length} candles</b></span></div> : <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>}
           </>}
         </div>

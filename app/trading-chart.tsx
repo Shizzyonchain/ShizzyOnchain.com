@@ -15,6 +15,7 @@ import {
 type Candle = { time: string; open: string; high: string; low: string; close: string; volume_tao?: string };
 type DisplayCandle = { time: UTCTimestamp; open: number; high: number; low: number; close: number };
 type Ohlc = { open: number; high: number; low: number; close: number; time: number };
+const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
 
 const average = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
 
@@ -54,6 +55,8 @@ export default function TradingChart({
   taoUsd,
   timeframe,
   valueCurrency = "tao",
+  loading = false,
+  error = false,
   onTimeframeChange,
 }: {
   candles: Candle[];
@@ -61,6 +64,8 @@ export default function TradingChart({
   taoUsd: number;
   timeframe: string;
   valueCurrency?: "tao" | "usd";
+  loading?: boolean;
+  error?: boolean;
   onTimeframeChange: (timeframe: string) => void;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -93,8 +98,24 @@ export default function TradingChart({
         close: values[3] * multiplier,
       });
     });
-    return [...unique.values()].sort((a, b) => Number(a.time) - Number(b.time));
-  }, [candles, currency, taoUsd, valueCurrency]);
+    const sorted = [...unique.values()].sort((a, b) => Number(a.time) - Number(b.time));
+    if (sorted.length < 2) return sorted;
+
+    // Preserve real OHLC candles while carrying the previous close through
+    // missing no-trade buckets. This keeps the time scale stable while archive
+    // history is backfilled instead of rendering large blank jumps on load.
+    const intervalSeconds = Math.max(60, Math.round((candleIntervalMs[timeframe] || 60_000) / 1000));
+    const filled: DisplayCandle[] = [sorted[0]];
+    for (let index = 1; index < sorted.length; index++) {
+      const current = sorted[index];
+      const previous = filled.at(-1)!;
+      for (let time = Number(previous.time) + intervalSeconds; time < Number(current.time) && filled.length < 500; time += intervalSeconds) {
+        filled.push({ time: time as UTCTimestamp, open: previous.close, high: previous.close, low: previous.close, close: previous.close });
+      }
+      filled.push(current);
+    }
+    return filled.slice(-500);
+  }, [candles, currency, taoUsd, valueCurrency, timeframe]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -246,7 +267,7 @@ export default function TradingChart({
       <strong className={change >= 0 ? "positive" : "negative"}>{change >= 0 ? "+" : ""}{change.toFixed(2)}%</strong>
     </div>}
     <div ref={hostRef} className="trading-chart-host" role="img" aria-label={`Interactive ${timeframe} candlestick chart with zoom, pan, crosshair, and technical indicators`} />
-    {!data.length && <div className="chart-empty">Building candle history from your node…</div>}
+    {!data.length && <div className="chart-empty">{error ? "Chart data is temporarily unavailable" : loading ? "Loading recent candles…" : "Building candle history from your node…"}</div>}
     <div className="chart-legend">
       {ma && <span><i className="ma-line" />MA 20</span>}
       {ema && <span><i className="ema-line" />EMA 20</span>}
