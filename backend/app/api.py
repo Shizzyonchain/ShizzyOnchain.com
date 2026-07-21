@@ -21,6 +21,7 @@ async def lifespan(app: FastAPI):
     app.state.db = await connect()
     app.state.screener_cache = None
     app.state.candle_cache = {}
+    app.state.candle_refreshing = set()
     app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
     yield
     if not app.state.screener_refresh_task.done():
@@ -224,6 +225,25 @@ async def compact_candles(
     if cached and (now - cached["cached_at"]).total_seconds() < 30:
         return cached["payload"]
 
+    if cached:
+        if cache_key not in app.state.candle_refreshing:
+            app.state.candle_refreshing.add(cache_key)
+            asyncio.create_task(_refresh_candle_cache_in_background(cache_key, netuid, interval, limit))
+        return cached["payload"]
+
+    return await _refresh_candle_cache(cache_key, netuid, interval, limit)
+
+
+async def _refresh_candle_cache_in_background(cache_key, netuid: int, interval: str, limit: int):
+    try:
+        await _refresh_candle_cache(cache_key, netuid, interval, limit)
+    finally:
+        app.state.candle_refreshing.discard(cache_key)
+
+
+async def _refresh_candle_cache(cache_key, netuid: int, interval: str, limit: int):
+    now = datetime.now(timezone.utc)
+
     buckets = {"1m": "1 minute", "10m": "10 minutes", "1h": "1 hour", "1d": "1 day"}
     windows = {"1m": "6 hours", "10m": "3 days", "1h": "14 days", "1d": "180 days"}
     rows = await app.state.db.fetch(
@@ -253,7 +273,7 @@ async def compact_candles(
     }
     app.state.candle_cache[cache_key] = {"cached_at": now, "payload": payload}
     if len(app.state.candle_cache) > 1024:
-        cutoff = now - timedelta(minutes=5)
+        cutoff = now - timedelta(minutes=10)
         app.state.candle_cache = {
             key: value for key, value in app.state.candle_cache.items()
             if value["cached_at"] >= cutoff

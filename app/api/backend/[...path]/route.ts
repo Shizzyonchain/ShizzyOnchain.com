@@ -14,7 +14,7 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
   const isCandleRequest = path.at(-1) === "candles";
   return new NextResponse(response.body, { status: response.status, headers: {
     "Content-Type": response.headers.get("content-type") || "application/json",
-    ...(isCandleRequest ? { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=90" } : {}),
+    ...(isCandleRequest ? { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=300" } : {}),
   } });
 }
 export const GET = proxy;
