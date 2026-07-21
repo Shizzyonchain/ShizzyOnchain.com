@@ -1,8 +1,6 @@
 import asyncio
 import hmac
 import json
-import subprocess
-import sys
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
@@ -444,13 +442,6 @@ async def create_wallet_job(body: MassWalletRequest):
         """INSERT INTO wallet_lookup_jobs(id,addresses,total)
            VALUES($1,$2::jsonb,$3)""",
         job_id, json.dumps(body.addresses), len(body.addresses),
-    )
-    subprocess.Popen(
-        [sys.executable, "-m", "app.wallet_job", job_id],
-        cwd="/app",
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        start_new_session=True,
     )
     return {"job_id": job_id, "status": "queued", "completed": 0, "total": len(body.addresses)}
 
