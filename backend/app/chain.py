@@ -321,8 +321,17 @@ class ChainClient:
             for k, v in root_prop_rows
         }
         symbols = {int(k): self._text(v) for k, v in symbol_rows}
-        names = {
-            int(k): self._text(field(v, "subnet_name"))
+        identities = {
+            int(k): {
+                "name": self._text(field(v, "subnet_name")),
+                "github_repo": self._text(field(v, "github_repo")),
+                "contact": self._text(field(v, "subnet_contact")),
+                "website": self._text(field(v, "subnet_url")),
+                "discord": self._text(field(v, "discord")),
+                "description": self._text(field(v, "description")),
+                "logo_url": self._text(field(v, "logo_url")),
+                "additional": self._text(field(v, "additional")),
+            }
             for k, v in identity_rows
         }
         if include_auxiliary:
@@ -346,6 +355,7 @@ class ChainClient:
         for info in infos:
             netuid = int(field(info, "netuid"))
             price = prices.get(netuid) if isinstance(prices, dict) else None
+            identity = identities.get(netuid, {})
             rows.append({
                 "netuid": netuid,
                 "price_tao": Decimal(str(price or 0)),
@@ -369,8 +379,15 @@ class ChainClient:
                     self._conviction_locked.get(netuid)
                     if include_auxiliary else None
                 ),
-                "name": names.get(netuid),
+                "name": identity.get("name"),
                 "symbol": symbols.get(netuid),
+                "description": identity.get("description"),
+                "website": identity.get("website"),
+                "github_repo": identity.get("github_repo"),
+                "discord": identity.get("discord"),
+                "contact": identity.get("contact"),
+                "logo_url": identity.get("logo_url"),
+                "additional": identity.get("additional"),
             })
         return rows
 

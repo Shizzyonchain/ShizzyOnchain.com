@@ -69,11 +69,17 @@ async def persist_block(
         if claimed is None:
             return
         await conn.executemany(
-            """INSERT INTO subnets(netuid,name,symbol,first_seen_block,last_seen_block)
-               VALUES($1,$2,$3,$4,$4) ON CONFLICT(netuid) DO UPDATE SET
-               name=COALESCE(EXCLUDED.name,subnets.name), symbol=COALESCE(EXCLUDED.symbol,subnets.symbol),
+            """INSERT INTO subnets
+               (netuid,name,symbol,description,website,github_repo,discord,contact,logo_url,additional,
+                first_seen_block,last_seen_block)
+               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$11) ON CONFLICT(netuid) DO UPDATE SET
+               name=EXCLUDED.name, symbol=EXCLUDED.symbol, description=EXCLUDED.description,
+               website=EXCLUDED.website, github_repo=EXCLUDED.github_repo, discord=EXCLUDED.discord,
+               contact=EXCLUDED.contact, logo_url=EXCLUDED.logo_url, additional=EXCLUDED.additional,
                last_seen_block=EXCLUDED.last_seen_block""",
-            [(r["netuid"], r["name"], r["symbol"], number) for r in rows],
+            [(r["netuid"], r["name"], r["symbol"], r["description"], r["website"],
+              r["github_repo"], r["discord"], r["contact"], r["logo_url"],
+              r["additional"], number) for r in rows],
         )
         await conn.executemany(
             """INSERT INTO subnet_price_samples

@@ -6,6 +6,8 @@ import TradingChart from "./trading-chart";
 
 type ScreenerRow = {
   netuid: number; name?: string; symbol?: string; price_tao: string; tao_reserve?: string;
+  description?: string; website?: string; github_repo?: string; discord?: string;
+  contact?: string; logo_url?: string; additional?: string;
   alpha_out?: string; market_cap_tao?: string; volume_24h_tao?: string;
   emission_pct?: string; apy?: string; conviction_locked_alpha?: string; conviction_locked_pct?: string;
   change_10m?: string; change_1h?: string; change_24h?: string; change_7d?: string;
@@ -76,6 +78,14 @@ const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000,
 const candleCache = new Map<string, { data: Candle[]; savedAt: number }>();
 const candleRequests = new Map<string, Promise<Candle[]>>();
 const portfolioColors = ["#16d9c4", "#ffb547", "#ff5d73", "#64748b", "#36d66b", "#ff8a4c", "#173766", "#c7e85b", "#40b8ff"];
+
+const safeProjectUrl = (value?: string) => {
+  if (!value) return undefined;
+  try {
+    const url = new URL(value.startsWith("http://") || value.startsWith("https://") ? value : `https://${value}`);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : undefined;
+  } catch { return undefined; }
+};
 
 function decodeCompactCandles(rows: unknown[]): Candle[] {
   return rows.flatMap(row => {
@@ -313,6 +323,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
   const [selected, setSelected] = useState(64);
   const [showTaoChart, setShowTaoChart] = useState(false);
+  const [subnetPanel, setSubnetPanel] = useState<"overview" | "chart">("overview");
   const [timeframe, setTimeframe] = useState("10m");
   const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_1h");
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
@@ -602,6 +613,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }
   function openSubnetChart(netuid: number) {
     setShowTaoChart(false);
+    setSubnetPanel("overview");
     setSelected(netuid);
     setView("screener");
     window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
@@ -611,6 +623,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }
   function openTaoChart() {
     setShowTaoChart(true);
+    setSubnetPanel("chart");
     setView("screener");
     window.setTimeout(() => chartCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
@@ -741,8 +754,20 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           {dataState !== "live" && <div className="market-loading" role="status"><i/><strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong><span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span></div>}
           {dataState === "live" && <>
           <div className="panel-head"><div><p className="eyebrow chart-subnet-id">{showTaoChart ? "TAO · USD" : `SN${active?.netuid} · ${active?.symbol || "ALPHA"}`}</p><h1>{showTaoChart ? "Bittensor" : active?.name || `Subnet ${active?.netuid}`}</h1></div><div className="quote"><strong>{showTaoChart ? taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" }) : money(active?.price_tao, true)}</strong><span className={changeClass(showTaoChart ? String(taoChartChange) : active?.change_1h)}>{Number(showTaoChart ? taoChartChange : active?.change_1h || 0) > 0 ? "+" : ""}{fmt(showTaoChart ? taoChartChange : active?.change_1h)}% · {timeframe === "1d" ? "1 Day" : timeframe === "1h" ? "1 Hour" : "10 Minutes"}</span></div></div>
-          <TradingChart key={requestedChartKey} candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
-          {showTaoChart ? <div className="chart-stats"><span>Pair <b>TAO / USD</b></span><span>Price source <b>Coinbase</b></span><span>History <b>{candles.length} candles</b></span></div> : <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>}
+          {!showTaoChart && <div className="subnet-view-tabs" role="tablist" aria-label="Subnet details"><button role="tab" aria-selected={subnetPanel === "overview"} className={subnetPanel === "overview" ? "active" : ""} onClick={() => setSubnetPanel("overview")}>Overview</button><button role="tab" aria-selected={subnetPanel === "chart"} className={subnetPanel === "chart" ? "active" : ""} onClick={() => setSubnetPanel("chart")}>Chart</button></div>}
+          {showTaoChart || subnetPanel === "chart" ? <>
+            <TradingChart key={requestedChartKey} candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
+            {showTaoChart ? <div className="chart-stats"><span>Pair <b>TAO / USD</b></span><span>Price source <b>Coinbase</b></span><span>History <b>{candles.length} candles</b></span></div> : <div className="chart-stats"><span>Liquidity <b>{money(active?.tao_reserve)}</b></span><span>Market cap <b>{money(active?.market_cap_tao)}</b></span><span>24h vol <b>{Number(active?.volume_24h_tao || 0) === 0 ? "Collecting" : money(active?.volume_24h_tao)}</b></span></div>}
+          </> : active && <div className="subnet-overview" role="tabpanel">
+            <div className="subnet-description"><p className="eyebrow">Owner-submitted on-chain metadata</p><h2>What this subnet does</h2>{active.description ? <p>{active.description}</p> : <p className="metadata-empty">The subnet owner has not published a description on-chain yet.</p>}{active.additional && <p className="project-additional">{active.additional}</p>}</div>
+            <div className="overview-stats"><span>Market cap <b>{money(active.market_cap_tao)}</b></span><span>Liquidity <b>{money(active.tao_reserve)}</b></span><span>24h volume <b>{Number(active.volume_24h_tao || 0) === 0 ? "Collecting" : money(active.volume_24h_tao)}</b></span><span>Emission <b>{active.emission_pct == null ? "—" : `${fmt(active.emission_pct, 4)}%`}</b></span></div>
+            <div className="project-links">
+              {safeProjectUrl(active.website) && <a href={safeProjectUrl(active.website)} target="_blank" rel="noopener noreferrer">Website ↗</a>}
+              {safeProjectUrl(active.github_repo) && <a href={safeProjectUrl(active.github_repo)} target="_blank" rel="noopener noreferrer">GitHub ↗</a>}
+              {safeProjectUrl(active.discord) && <a href={safeProjectUrl(active.discord)} target="_blank" rel="noopener noreferrer">Discord ↗</a>}
+              {active.contact && <span>Contact <b>{active.contact}</b></span>}
+            </div>
+          </div>}
           </>}
         </div>
         <aside className="movers panel"><div className="panel-title"><h2>Momentum</h2><span>1 Hour</span></div>{rankedMovers.slice(0,5).map((r,i)=><button key={r.netuid} onClick={()=>openSubnetChart(r.netuid)}><em>{String(i+1).padStart(2,"0")}</em><span><b>{r.name || `Subnet ${r.netuid}`}</b><small>SN{r.netuid}</small></span><strong className={changeClass(r.change_1h)}>{Number(r.change_1h)>0?"+":""}{fmt(r.change_1h)}%</strong></button>)}</aside>
