@@ -70,10 +70,13 @@ async def wallet_job_loop(db, settings):
         """UPDATE wallet_lookup_jobs SET status='queued',updated_at=now()
            WHERE status='processing' AND updated_at < now() - interval '10 minutes'"""
     )
+    wallet_settings = settings.model_copy(update={"subtensor_ws_url": settings.backfill_ws_url})
     retry_delay = 2
     while True:
         try:
-            async with ChainClient(settings) as chain:
+            # Wallet snapshots are pinned to the indexer's stored block. Use the
+            # archive node, which is designed to serve historical state reads.
+            async with ChainClient(wallet_settings) as chain:
                 retry_delay = 2
                 while True:
                     job = await claim_job(db)
