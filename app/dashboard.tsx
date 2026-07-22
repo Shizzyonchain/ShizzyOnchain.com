@@ -648,7 +648,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     try {
       const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
       const cachedRows = Array.isArray(cached?.data) ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0) : [];
-      if (cachedRows.length && Date.now() - Number(cached.savedAt || 0) < 10 * 60_000) {
+      if (cachedRows.length && Date.now() - Number(cached.savedAt || 0) < 24 * 60 * 60_000) {
         setRows(cachedRows);
         setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
         setDataState("live");
