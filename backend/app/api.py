@@ -1,6 +1,5 @@
 import asyncio
 import hmac
-import logging
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
 
@@ -15,42 +14,11 @@ from app.db import close, connect
 from app.models import MassWalletRequest
 
 settings = get_settings()
-logger = logging.getLogger(__name__)
-
-
-async def _wallet_chain(current_app: FastAPI) -> ChainClient:
-    async with current_app.state.wallet_chain_lock:
-        if current_app.state.wallet_chain is None:
-            chain = ChainClient(settings)
-            await chain.__aenter__()
-            current_app.state.wallet_chain = chain
-        return current_app.state.wallet_chain
-
-
-async def _discard_wallet_chain(current_app: FastAPI, chain: ChainClient):
-    async with current_app.state.wallet_chain_lock:
-        if current_app.state.wallet_chain is not chain:
-            return
-        current_app.state.wallet_chain = None
-        try:
-            await chain.__aexit__()
-        except Exception:
-            logger.exception("failed to close wallet chain connection")
-
-
-async def _warm_wallet_chain(current_app: FastAPI):
-    try:
-        await _wallet_chain(current_app)
-    except Exception:
-        logger.exception("wallet chain warmup failed; first request will retry")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.db = await connect()
-    app.state.wallet_chain = None
-    app.state.wallet_chain_lock = asyncio.Lock()
-    app.state.wallet_chain_warmup = asyncio.create_task(_warm_wallet_chain(app))
     app.state.screener_cache = None
     app.state.candle_cache = {}
     app.state.candle_refreshing = set()
@@ -58,10 +26,6 @@ async def lifespan(app: FastAPI):
     yield
     if not app.state.screener_refresh_task.done():
         app.state.screener_refresh_task.cancel()
-    if not app.state.wallet_chain_warmup.done():
-        app.state.wallet_chain_warmup.cancel()
-    if app.state.wallet_chain is not None:
-        await app.state.wallet_chain.__aexit__()
     await close()
 
 
@@ -430,20 +394,16 @@ async def mass_wallet_check(body: MassWalletRequest):
     if not latest:
         raise HTTPException(503, "indexer has not stored a block yet")
     semaphore = asyncio.Semaphore(settings.wallet_query_concurrency)
-    async def one(address):
-        async with semaphore:
-            for attempt in range(2):
+    async with ChainClient(settings) as chain:
+        async def one(address):
+            async with semaphore:
                 try:
-                    chain = await _wallet_chain(app)
                     return await chain.wallet(address, latest["block_number"])
                 except Exception as exc:
-                    if 'chain' in locals():
-                        await _discard_wallet_chain(app, chain)
-                    if attempt == 1:
-                        return {"address": address, "block_number": latest["block_number"], "free_tao": 0,
-                                "staked_tao_value": None, "total_tao_value": None, "stakes": [],
-                                "error": f"{type(exc).__name__}: wallet query failed"}
-    results = await asyncio.gather(*(one(address) for address in body.addresses))
+                    return {"address": address, "block_number": latest["block_number"], "free_tao": 0,
+                            "staked_tao_value": None, "total_tao_value": None, "stakes": [],
+                            "error": f"{type(exc).__name__}: wallet query failed"}
+        results = await asyncio.gather(*(one(address) for address in body.addresses))
     subnet_rows = await app.state.db.fetch("SELECT netuid,name,symbol FROM subnets")
     subnet_identities = {row["netuid"]: dict(row) for row in subnet_rows}
     for result in results:
