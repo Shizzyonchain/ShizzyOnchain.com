@@ -1170,6 +1170,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           <Link className={view === "videos" ? "active" : ""} href="/video" onClick={() => setMobileMenuOpen(false)}>
             Videos
           </Link>
+          <Link href="/deep-dives" onClick={() => setMobileMenuOpen(false)}>
+            Deep Dives
+          </Link>
           <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>
             Shop
           </a>
