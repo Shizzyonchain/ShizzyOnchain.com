@@ -1045,11 +1045,22 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     setChecking(true);
     setWalletProgress("Starting lookup…");
     try {
-      const res = await fetch("/api/backend/v1/wallets/jobs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ addresses, persist: false }),
-      });
+      let res: Response | undefined;
+      for (let attempt = 0; attempt < 7; attempt++) {
+        try {
+          res = await fetch("/api/backend/v1/wallets/jobs", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ addresses, persist: false }),
+          });
+          if (res.status < 500) break;
+        } catch {
+          res = undefined;
+        }
+        setWalletProgress("Node service reconnecting…");
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
+      if (!res) throw new Error("The live wallet lookup is temporarily unavailable. Please try again shortly.");
       if (!res.ok) {
         const contentType = res.headers.get("content-type") || "";
         const errorBody = contentType.includes("application/json") ? await res.json().catch(() => null) : null;
