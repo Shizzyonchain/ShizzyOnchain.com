@@ -100,6 +100,11 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "_2VA_b-HRnw",
+    title: "Getting Out of Everything besides Compute - Week 11 10 to 100 TAO Challenge",
+    meta: "20:28 · Latest episode",
+  },
+  {
     id: "RfiDazAg8r8",
     title: "Compute Wars: The Battle for AI Infrastructure Has Begun on Bittensor",
     meta: "35:17 · Latest episode",
@@ -146,6 +151,11 @@ const channelVideos = [
   },
 ];
 const liveStreams = [
+  {
+    id: "yZceSNu4ugc",
+    title: "The TAO Thesis Nobody Is Ready For | Mark Jeffrey Live",
+    meta: "1:28:36 · Streamed today",
+  },
   {
     id: "ealfKQI1q2g",
     title: "ChronoLLM SN38: The AI That Never Cheats Time",
