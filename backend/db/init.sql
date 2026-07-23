@@ -71,6 +71,20 @@ CREATE TABLE IF NOT EXISTS wallet_balance_snapshots (
 );
 CREATE INDEX IF NOT EXISTS wallet_history_idx ON wallet_balance_snapshots(address, time DESC);
 
+CREATE TABLE IF NOT EXISTS wallet_lookup_jobs (
+  id TEXT PRIMARY KEY,
+  status TEXT NOT NULL DEFAULT 'queued',
+  addresses JSONB NOT NULL,
+  results JSONB NOT NULL DEFAULT '[]'::jsonb,
+  completed INTEGER NOT NULL DEFAULT 0,
+  total INTEGER NOT NULL,
+  block_number BIGINT,
+  error TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS wallet_lookup_jobs_created_idx ON wallet_lookup_jobs(created_at DESC);
+
 CREATE TABLE IF NOT EXISTS chain_events (
   block_number BIGINT NOT NULL,
   event_index INTEGER NOT NULL,
