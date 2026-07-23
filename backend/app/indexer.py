@@ -8,6 +8,7 @@ from app.chain import ChainClient
 from app.config import get_settings
 from app.db import close, connect
 from app.rpc import finalized_heads
+from app.wallet_job import wallet_job_loop
 
 log = logging.getLogger("shizzy.indexer")
 MAX_CATCHUP_BLOCKS = 250
@@ -215,6 +216,7 @@ async def indexer():
     if last is None and settings.indexer_start_block.isdigit():
         last = int(settings.indexer_start_block) - 1
     asyncio.create_task(backfill_loop(db, settings))
+    asyncio.create_task(wallet_job_loop(db, settings))
     retry_delay = 5
     while True:
         try:

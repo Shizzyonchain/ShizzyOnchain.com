@@ -618,7 +618,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [hideBalances, setHideBalances] = useState(false);
   const [portfolioMetric, setPortfolioMetric] = useState<"allocation" | "value">("allocation");
   const [checking, setChecking] = useState(false);
+  const [walletProgress, setWalletProgress] = useState("");
   const [walletError, setWalletError] = useState("");
+  const walletPollingRef = useRef(false);
   const [activity, setActivity] = useState<ChainEvent[]>([]);
   const [activitySummary, setActivitySummary] = useState<ActivitySummary | null>(null);
   const [activityCollectingSince, setActivityCollectingSince] = useState<string | null>(null);
@@ -627,6 +629,26 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
     if (requested === "wallets" || requested === "videos" || requested === "university" || requested === "screener" || requested === "activity" || requested === "bubbles" || requested === "partners") queueMicrotask(() => setView(requested));
+  }, []);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("shizzy:wallet-job");
+    if (!saved) return;
+    try {
+      const job = JSON.parse(saved);
+      if (!job?.id || !job?.total) return;
+      setChecking(true);
+      setWalletError("");
+      setWalletProgress("Reconnecting to wallet lookup…");
+      void pollWalletJob(job.id, job.total)
+        .catch((error) => setWalletError(error instanceof Error ? error.message : "The wallet lookup could not reconnect."))
+        .finally(() => {
+          setChecking(false);
+          setWalletProgress("");
+        });
+    } catch {
+      window.localStorage.removeItem("shizzy:wallet-job");
+    }
   }, []);
 
   useEffect(() => {
@@ -971,6 +993,43 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   };
   const privateMoney = (value?: string | number, price = false) => (hideBalances ? "$••••" : money(value, price));
 
+  async function pollWalletJob(jobId: string, total: number) {
+    if (walletPollingRef.current) return;
+    walletPollingRef.current = true;
+    let missedPolls = 0;
+    try {
+      for (let attempt = 0; attempt < 240; attempt++) {
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        let job: { completed?: number; total?: number; status: string; error?: string; results?: Wallet[] };
+        try {
+          const response = await fetch(`/api/backend/v1/wallets/jobs/${jobId}`, { cache: "no-store" });
+          if (!response.ok) throw new Error(`status ${response.status}`);
+          job = await response.json();
+          missedPolls = 0;
+        } catch {
+          missedPolls += 1;
+          setWalletProgress(`Reconnecting… ${missedPolls}`);
+          if (missedPolls >= 48) throw new Error("The wallet lookup could not reconnect after two minutes. Refresh the page to resume the same job.");
+          continue;
+        }
+        setWalletProgress(`Checking ${job.completed || 0} of ${job.total || total}…`);
+        if (job.status === "failed") {
+          window.localStorage.removeItem("shizzy:wallet-job");
+          throw new Error(job.error || "The wallet lookup could not complete.");
+        }
+        if (job.status === "complete") {
+          window.localStorage.removeItem("shizzy:wallet-job");
+          setWallets(job.results || []);
+          setWalletDisplay("wallets");
+          return;
+        }
+      }
+      throw new Error("This lookup is still running after ten minutes. Refresh the page to resume the same job.");
+    } finally {
+      walletPollingRef.current = false;
+    }
+  }
+
   async function checkWallets(e: FormEvent) {
     e.preventDefault();
     setWalletError("");
@@ -984,20 +1043,29 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     ];
     if (!addresses.length) return setWalletError("Paste at least one coldkey address.");
     setChecking(true);
+    setWalletProgress("Starting lookup…");
     try {
-      const res = await fetch("/api/backend/v1/wallets/mass-check", {
+      const res = await fetch("/api/backend/v1/wallets/jobs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ addresses, persist: false }),
       });
-      if (!res.ok) throw new Error();
-      const json = await res.json();
-      setWallets(json.data || []);
-      setWalletDisplay("wallets");
-    } catch {
-      setWalletError("The wallet service is not connected yet. Start the data pipeline, then try again.");
+      if (!res.ok) {
+        const contentType = res.headers.get("content-type") || "";
+        const errorBody = contentType.includes("application/json") ? await res.json().catch(() => null) : null;
+        const validationMessage = errorBody?.detail?.[0]?.msg?.replace(/^Value error, /, "");
+        if (res.status === 422) throw new Error(validationMessage || "One or more entries are not valid Bittensor public coldkeys.");
+        if (res.status === 413) throw new Error("Too many coldkeys. Paste no more than 100 at once.");
+        throw new Error("The live wallet lookup is temporarily unavailable. Your addresses were not saved; please try again shortly.");
+      }
+      const started = await res.json();
+      window.localStorage.setItem("shizzy:wallet-job", JSON.stringify({ id: started.job_id, total: addresses.length }));
+      await pollWalletJob(started.job_id, addresses.length);
+    } catch (error) {
+      setWalletError(error instanceof Error ? error.message : "The live wallet lookup is temporarily unavailable. Please try again shortly.");
     } finally {
       setChecking(false);
+      setWalletProgress("");
     }
   }
 
@@ -1939,7 +2007,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
             <textarea id="wallets" value={walletInput} onChange={(e) => setWalletInput(e.target.value)} placeholder={"5F...\n5G...\n5H..."} />
             <div className="form-foot">
               <span>One public coldkey per line, space, or comma</span>
-              <button disabled={checking}>{checking ? "Checking chain…" : "Check wallets →"}</button>
+              <button disabled={checking}>{checking ? walletProgress || "Checking chain…" : "Check wallets →"}</button>
             </div>
             {walletError && <p className="form-error">{walletError}</p>}
           </form>
