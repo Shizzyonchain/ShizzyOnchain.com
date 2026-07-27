@@ -637,15 +637,17 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     try {
       const job = JSON.parse(saved);
       if (!job?.id || !job?.total) return;
-      setChecking(true);
-      setWalletError("");
-      setWalletProgress("Reconnecting to wallet lookup…");
-      void pollWalletJob(job.id, job.total)
-        .catch((error) => setWalletError(error instanceof Error ? error.message : "The wallet lookup could not reconnect."))
-        .finally(() => {
-          setChecking(false);
-          setWalletProgress("");
-        });
+      queueMicrotask(() => {
+        setChecking(true);
+        setWalletError("");
+        setWalletProgress("Reconnecting to wallet lookup…");
+        void pollWalletJob(job.id, job.total)
+          .catch((error) => setWalletError(error instanceof Error ? error.message : "The wallet lookup could not reconnect."))
+          .finally(() => {
+            setChecking(false);
+            setWalletProgress("");
+          });
+      });
     } catch {
       window.localStorage.removeItem("shizzy:wallet-job");
     }
@@ -671,10 +673,12 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
       const cachedRows = Array.isArray(cached?.data) ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0) : [];
       if (cachedRows.length && Date.now() - Number(cached.savedAt || 0) < 24 * 60 * 60_000) {
-        setRows(cachedRows);
-        setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
-        setDataState("live");
-        setLastUpdated(new Date(cached.savedAt));
+        queueMicrotask(() => {
+          setRows(cachedRows);
+          setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
+          setDataState("live");
+          setLastUpdated(new Date(cached.savedAt));
+        });
       }
     } catch {
       window.localStorage.removeItem("shizzy:screener");
@@ -1646,6 +1650,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                         <button onClick={() => changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button>
                       </th>
                       <th>
+                        <button onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
+                      </th>
+                      <th>
                         <button onClick={() => changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button>
                       </th>
                       <th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
@@ -1687,7 +1694,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                         </td>
                         <td>{money(r.price_tao, true)}</td>
                         <td>{money(r.market_cap_tao)}</td>
-                        {[r.change_10m, r.change_1h, r.change_24h].map((v, j) => (
+                        {[r.change_10m, r.change_1h, r.change_24h, r.change_7d].map((v, j) => (
                           <td key={j} className={changeClass(v)}>
                             {Number(v || 0) > 0 ? "+" : ""}
                             {fmt(v)}%
