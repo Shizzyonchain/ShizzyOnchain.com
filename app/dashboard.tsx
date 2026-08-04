@@ -100,6 +100,21 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "RqhuuOXTsbA",
+    title: "All In on TAO | Bittensor Subnet Market Update",
+    meta: "25:36 · Latest episode",
+  },
+  {
+    id: "CinoduAcgCs",
+    title: "Bittensor TAO Is Going Up Only | 10 to 100 TAO Challenge Week 12",
+    meta: "18:53",
+  },
+  {
+    id: "-PbwvYo6c4U",
+    title: "State of Bittensor: The Breakout Subnet Is Here",
+    meta: "23:07",
+  },
+  {
     id: "_2VA_b-HRnw",
     title: "Getting Out of Everything besides Compute - Week 11 10 to 100 TAO Challenge",
     meta: "20:28 · Latest episode",
@@ -151,6 +166,11 @@ const channelVideos = [
   },
 ];
 const liveStreams = [
+  {
+    id: "2XH-XnwwdPE",
+    title: "Bittensor Subnets Are Entering a New Era | Live with James Altucher",
+    meta: "1:00:02 · Streamed 5 days ago",
+  },
   {
     id: "yZceSNu4ugc",
     title: "The TAO Thesis Nobody Is Ready For | Mark Jeffrey Live",
