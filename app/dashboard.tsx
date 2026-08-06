@@ -1,8 +1,8 @@
 "use client";
 
 import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import TradingChart from "./trading-chart";
+import { SiteHeader } from "./site-header";
 
 type ScreenerRow = {
   netuid: number;
@@ -599,7 +599,6 @@ export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "v
 
 export function Dashboard({ initialView = "screener" }: { initialView?: DashboardView }) {
   const [view, setView] = useState<DashboardView>(initialView);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
@@ -1261,62 +1260,13 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           </div>
         </div>
       </section>
-      <header className="topbar">
-        <Link className="brand" href="/" aria-label="Shizzy Unchained home">
-          <img src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" />
-        </Link>
-        <button className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`} aria-label="Open navigation menu" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen((open) => !open)}>
-          <span />
-          <span />
-          <span />
-        </button>
-        <nav id="primary-navigation" className={mobileMenuOpen ? "mobile-open" : ""} aria-label="Primary navigation">
-          <Link className={view === "screener" ? "active" : ""} href="/" onClick={() => setMobileMenuOpen(false)}>
-            Market
-          </Link>
-          <Link href="/subnet-news" onClick={() => setMobileMenuOpen(false)}>
-            Subnet News
-          </Link>
-          <Link className={view === "bubbles" ? "active" : ""} href="/bubbles" onClick={() => setMobileMenuOpen(false)}>
-            Bubbles
-          </Link>
-          <Link className={view === "videos" ? "active" : ""} href="/video" onClick={() => setMobileMenuOpen(false)}>
-            Videos
-          </Link>
-          <Link href="/deep-dives" onClick={() => setMobileMenuOpen(false)}>
-            Deep Dives
-          </Link>
-          <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>
-            Shop
-          </a>
-          <Link className={view === "university" ? "active" : ""} href="/university" onClick={() => setMobileMenuOpen(false)}>
-            Shiz University
-          </Link>
-          <Link className={view === "wallets" ? "active" : ""} href="/wallet-tracker" onClick={() => setMobileMenuOpen(false)}>
-            Wallet tracker
-          </Link>
-          <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
-            About
-          </Link>
-          <Link className={view === "partners" ? "active" : ""} href="/partners" onClick={() => setMobileMenuOpen(false)}>
-            Partners
-          </Link>
-        </nav>
-        <div className="header-actions">
-          <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
-            <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>
-              USD
-            </button>
-            <button className={currency === "tao" ? "active" : ""} aria-pressed={currency === "tao"} onClick={() => setCurrency("tao")}>
-              TAO
-            </button>
-          </div>
-          <div className={`status ${dataState === "live" ? "live" : "demo"}`} title={lastUpdated ? `Last updated ${lastUpdated.toLocaleTimeString()}` : undefined}>
-            <i />
-            {dataState === "live" ? "Finney live" : dataState === "loading" ? "Connecting…" : "Reconnecting…"}
-          </div>
-        </div>
-      </header>
+      <SiteHeader
+        currency={currency}
+        onCurrencyChange={setCurrency}
+        currencyTitle={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}
+        dataState={dataState}
+        lastUpdated={lastUpdated}
+      />
 
       {view === "screener" ? (
         <>
