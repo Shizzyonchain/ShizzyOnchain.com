@@ -127,6 +127,29 @@ def test_parse_chain_events_converts_raw_scale_balance_from_rao():
     assert parse_chain_events(records)[0]["amount_alpha"] == Decimal("1.25")
 
 
+def test_parse_chain_events_tracks_economic_stake_additions():
+    records = [{
+        "event": {
+            "module_id": "SubtensorModule",
+            "event_id": "StakeAdded",
+            "attributes": [
+                "5Cold",
+                "5Hot",
+                FakeBalance(200_000_000_000),
+                FakeBalance(5_000_000_000),
+                64,
+                0,
+            ],
+        }
+    }]
+
+    event = parse_chain_events(records)[0]
+    assert event["event_type"] == "StakeAdded"
+    assert event["amount_tao"] == Decimal("200")
+    assert event["amount_alpha"] == Decimal("5")
+    assert event["netuid"] == 64
+
+
 def test_parse_chain_events_ignores_unrelated_runtime_events():
     records = [
         {"event": {"module_id": "Balances", "event_id": "Transfer", "attributes": []}},

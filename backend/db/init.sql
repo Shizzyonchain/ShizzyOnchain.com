@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS subnet_price_samples (
   alpha_issuance NUMERIC(38,9),
   volume_tao NUMERIC(38,9),
   tao_in_emission NUMERIC(38,12),
+  excess_tao_emission NUMERIC(38,12),
   alpha_out_emission NUMERIC(38,12),
   emission_share NUMERIC(38,18),
   root_prop NUMERIC(38,18),
@@ -50,6 +51,7 @@ CREATE TABLE IF NOT EXISTS subnet_price_samples (
   PRIMARY KEY (time, netuid, block_number)
 );
 ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS tao_in_emission NUMERIC(38,12);
+ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS excess_tao_emission NUMERIC(38,12);
 ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS alpha_out_emission NUMERIC(38,12);
 ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS emission_share NUMERIC(38,18);
 ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS root_prop NUMERIC(38,18);

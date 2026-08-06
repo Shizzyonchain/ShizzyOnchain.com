@@ -11,6 +11,12 @@ RAO_PER_TAO = Decimal(1_000_000_000)
 logger = logging.getLogger(__name__)
 
 TRACKED_EVENTS = {
+    "StakeAdded": (
+        "coldkey", "hotkey", "amount_tao", "amount_alpha", "netuid",
+    ),
+    "StakeRemoved": (
+        "coldkey", "hotkey", "amount_tao", "amount_alpha", "netuid",
+    ),
     "StakeLocked": ("coldkey", "hotkey", "netuid", "amount_alpha"),
     "StakeUnlocked": ("coldkey", "hotkey", "netuid", "amount_alpha"),
     "LockMoved": ("coldkey", "hotkey", "destination_hotkey", "netuid"),
@@ -26,6 +32,13 @@ TRACKED_EVENTS = {
         "coldkey", "destination_coldkey", "hotkey", "netuid",
         "destination_netuid", "amount_tao",
     ),
+    "StakeAndHotkeyTransferred": (
+        "coldkey", "destination_coldkey", "hotkey", "destination_hotkey",
+        "netuid", "destination_netuid", "amount_tao",
+    ),
+    "AlphaRecycled": ("coldkey", "hotkey", "amount_alpha", "netuid"),
+    "AlphaBurned": ("coldkey", "hotkey", "amount_alpha", "netuid"),
+    "AddStakeBurn": ("netuid", "hotkey", "amount_tao", "amount_alpha"),
     "HotkeySwapped": ("coldkey", "hotkey", "destination_hotkey"),
     "HotkeySwappedOnSubnet": (
         "coldkey", "hotkey", "destination_hotkey", "netuid",
@@ -364,6 +377,7 @@ class ChainClient:
                 "alpha_out": alpha_out.get(netuid),
                 "volume_tao": volume.get(netuid),
                 "tao_in_emission": tao_emission.get(netuid, Decimal(0)),
+                "excess_tao_emission": excess_tao.get(netuid, Decimal(0)),
                 "alpha_out_emission": alpha_emission.get(netuid, Decimal(0)),
                 "emission_share": emission_share.get(netuid, Decimal(0)),
                 "root_prop": root_prop.get(netuid),
