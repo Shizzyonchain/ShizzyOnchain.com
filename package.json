@@ -9,7 +9,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern .next",
+    "validate:subnet-news": "node scripts/publish-subnet-news.mjs --check",
+    "publish:subnet-news": "node scripts/publish-subnet-news.mjs"
   },
   "dependencies": {
     "lightweight-charts": "^5.0.9",

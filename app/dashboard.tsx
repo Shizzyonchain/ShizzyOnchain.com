@@ -1274,8 +1274,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           <Link className={view === "screener" ? "active" : ""} href="/" onClick={() => setMobileMenuOpen(false)}>
             Market
           </Link>
-          <Link className={view === "activity" ? "active" : ""} href="/activity" onClick={() => setMobileMenuOpen(false)}>
-            Chain
+          <Link href="/subnet-news" onClick={() => setMobileMenuOpen(false)}>
+            Subnet News
           </Link>
           <Link className={view === "bubbles" ? "active" : ""} href="/bubbles" onClick={() => setMobileMenuOpen(false)}>
             Bubbles
