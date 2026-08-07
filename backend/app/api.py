@@ -295,6 +295,7 @@ async def chain_activity(
     limit: int = Query(50, ge=1, le=200),
 ):
     where = "WHERE ($1::integer IS NULL OR e.netuid=$1 OR e.destination_netuid=$1)"
+    summary_where = "WHERE ($1::integer IS NULL OR e.netuid=$1 OR e.destination_netuid=$1)"
     rows = await app.state.db.fetch(
         f"""SELECT e.block_number,e.event_index,e.time,e.event_type,e.netuid,
                    e.destination_netuid,e.coldkey,e.destination_coldkey,e.hotkey,
@@ -318,46 +319,40 @@ async def chain_activity(
         netuid, limit,
     )
     summary = await app.state.db.fetchrow(
-        f"""SELECT
+        f"""WITH recent_events AS MATERIALIZED (
+              SELECT time,event_type,netuid,destination_netuid,amount_alpha,amount_tao
+              FROM chain_events
+              WHERE time >= now()-interval '24 hours'
+            )
+            SELECT
               COALESCE(SUM(amount_alpha) FILTER (
-                WHERE event_type='StakeLocked' AND time >= now()-interval '24 hours'
+                WHERE event_type='StakeLocked'
               ),0) AS locked_alpha_24h,
               COALESCE(SUM(amount_alpha) FILTER (
-                WHERE event_type='StakeUnlocked' AND time >= now()-interval '24 hours'
+                WHERE event_type='StakeUnlocked'
               ),0) AS unlocked_alpha_24h,
               COALESCE(SUM(e.amount_alpha * ep.price_tao) FILTER (
                 WHERE e.event_type='StakeLocked'
-                  AND e.time >= now()-interval '24 hours'
                   AND e.amount_alpha * ep.price_tao >= 10
               ),0) AS locked_tao_24h,
               COALESCE(SUM(e.amount_alpha * ep.price_tao) FILTER (
                 WHERE e.event_type='StakeUnlocked'
-                  AND e.time >= now()-interval '24 hours'
                   AND e.amount_alpha * ep.price_tao >= 10
               ),0) AS unlocked_tao_24h,
               COUNT(*) FILTER (
                 WHERE event_type IN ('StakeMoved','StakeSwapped','StakeTransferred')
-                  AND time >= now()-interval '24 hours'
               ) AS stake_moves_24h,
-              COUNT(*) FILTER (
-                WHERE time >= now()-interval '24 hours'
-              ) AS event_count_24h,
-              COALESCE(SUM(amount_tao) FILTER (
-                WHERE time >= now()-interval '24 hours'
-              ),0) AS tao_moved_24h,
-              COALESCE(MAX(amount_tao) FILTER (
-                WHERE time >= now()-interval '24 hours'
-              ),0) AS largest_move_tao_24h,
-              COUNT(DISTINCT netuid) FILTER (
-                WHERE time >= now()-interval '24 hours'
-              ) AS active_subnets_24h
-            FROM chain_events e
+              COUNT(*) AS event_count_24h,
+              COALESCE(SUM(amount_tao),0) AS tao_moved_24h,
+              COALESCE(MAX(amount_tao),0) AS largest_move_tao_24h,
+              COUNT(DISTINCT netuid) AS active_subnets_24h
+            FROM recent_events e
             LEFT JOIN LATERAL (
               SELECT price_tao FROM subnet_price_samples
               WHERE netuid=e.netuid AND time <= e.time
               ORDER BY time DESC LIMIT 1
             ) ep ON true
-            {where}""",
+            {summary_where}""",
         netuid,
     )
     collecting_since = await app.state.db.fetchval("SELECT min(time) FROM chain_events")
