@@ -15,6 +15,18 @@
       "sources": [{ "label": "Primary source", "url": "https://example.com/source" }]
     }
   ],
+  "upcomingUnlocks": [
+    {
+      "netuid": 1,
+      "name": "Subnet name",
+      "scheduledFor": "2099-01-15",
+      "amountAlpha": 250000,
+      "releaseType": "unknown",
+      "status": "unverified",
+      "summary": "Explain who announced or initiated the unlock, whether it is a cliff release or continuous conviction decay, and what remains unconfirmed.",
+      "sources": [{ "label": "Primary or on-chain source", "url": "https://example.com/unlock-source" }]
+    }
+  ],
   "subnets": [
     {
       "netuid": 1,

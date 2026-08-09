@@ -25,6 +25,20 @@ export type SubnetNews = {
   updates: NewsItem[];
 };
 
+export type UnlockStatus = "confirmed" | "developing" | "unverified";
+export type UnlockReleaseType = "cliff" | "conviction-decay" | "unknown";
+
+export type UpcomingUnlock = {
+  netuid: number;
+  name: string;
+  scheduledFor: string;
+  amountAlpha: number;
+  releaseType: UnlockReleaseType;
+  status: UnlockStatus;
+  summary: string;
+  sources: NewsSource[];
+};
+
 export type SubnetNewsBrief = {
   version: 1;
   date: string;
@@ -34,6 +48,7 @@ export type SubnetNewsBrief = {
   coverageStart: string;
   coverageEnd: string;
   highlights: NewsItem[];
+  upcomingUnlocks: UpcomingUnlock[];
   subnets: SubnetNews[];
   ecosystem: NewsItem[];
   coverage: {
@@ -81,6 +96,32 @@ function assertNewsItem(value: unknown, field: string) {
   value.sources.forEach((source, index) => assertSource(source, `${field}.sources[${index}]`));
 }
 
+function assertUpcomingUnlock(value: unknown, field: string) {
+  if (!isRecord(value)) throw new Error(`Subnet News: ${field} must be an object.`);
+  if (!Number.isInteger(value.netuid) || (value.netuid as number) < 0) {
+    throw new Error(`Subnet News: ${field}.netuid must be a non-negative integer.`);
+  }
+  assertString(value.name, `${field}.name`);
+  assertString(value.scheduledFor, `${field}.scheduledFor`);
+  if (!datePattern.test(value.scheduledFor as string)) {
+    throw new Error(`Subnet News: ${field}.scheduledFor must use YYYY-MM-DD.`);
+  }
+  if (typeof value.amountAlpha !== "number" || !Number.isFinite(value.amountAlpha) || value.amountAlpha <= 0) {
+    throw new Error(`Subnet News: ${field}.amountAlpha must be a positive number.`);
+  }
+  if (!["cliff", "conviction-decay", "unknown"].includes(value.releaseType as string)) {
+    throw new Error(`Subnet News: ${field}.releaseType is invalid.`);
+  }
+  if (!["confirmed", "developing", "unverified"].includes(value.status as string)) {
+    throw new Error(`Subnet News: ${field}.status is invalid.`);
+  }
+  assertString(value.summary, `${field}.summary`);
+  if (!Array.isArray(value.sources) || value.sources.length === 0) {
+    throw new Error(`Subnet News: ${field}.sources must include at least one source.`);
+  }
+  value.sources.forEach((source, index) => assertSource(source, `${field}.sources[${index}]`));
+}
+
 export function validateSubnetNewsBrief(value: unknown): asserts value is SubnetNewsBrief {
   if (!isRecord(value)) throw new Error("Subnet News: report must be an object.");
   if (value.version !== 1) throw new Error("Subnet News: version must be 1.");
@@ -98,6 +139,8 @@ export function validateSubnetNewsBrief(value: unknown): asserts value is Subnet
   }
   if (!Array.isArray(value.highlights)) throw new Error("Subnet News: highlights must be an array.");
   value.highlights.forEach((item, index) => assertNewsItem(item, `highlights[${index}]`));
+  if (!Array.isArray(value.upcomingUnlocks)) throw new Error("Subnet News: upcomingUnlocks must be an array.");
+  value.upcomingUnlocks.forEach((item, index) => assertUpcomingUnlock(item, `upcomingUnlocks[${index}]`));
   if (!Array.isArray(value.ecosystem)) throw new Error("Subnet News: ecosystem must be an array.");
   value.ecosystem.forEach((item, index) => assertNewsItem(item, `ecosystem[${index}]`));
   if (!Array.isArray(value.subnets)) throw new Error("Subnet News: subnets must be an array.");

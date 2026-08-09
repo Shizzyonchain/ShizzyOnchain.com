@@ -7,6 +7,8 @@ const reportsDirectory = join(root, "content", "subnet-news");
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 const importances = new Set(["high", "medium", "informational"]);
 const statuses = new Set(["verified", "developing", "rumor"]);
+const unlockStatuses = new Set(["confirmed", "developing", "unverified"]);
+const unlockReleaseTypes = new Set(["cliff", "conviction-decay", "unknown"]);
 
 function fail(message) {
   throw new Error(`Subnet News: ${message}`);
@@ -36,6 +38,28 @@ function item(value, field) {
   });
 }
 
+function unlock(value, field) {
+  object(value, field);
+  if (!Number.isInteger(value.netuid) || value.netuid < 0) fail(`${field}.netuid must be a non-negative integer.`);
+  string(value.name, `${field}.name`);
+  string(value.scheduledFor, `${field}.scheduledFor`);
+  if (!datePattern.test(value.scheduledFor)) fail(`${field}.scheduledFor must use YYYY-MM-DD.`);
+  if (typeof value.amountAlpha !== "number" || !Number.isFinite(value.amountAlpha) || value.amountAlpha <= 0) {
+    fail(`${field}.amountAlpha must be a positive number.`);
+  }
+  if (!unlockReleaseTypes.has(value.releaseType)) fail(`${field}.releaseType is invalid.`);
+  if (!unlockStatuses.has(value.status)) fail(`${field}.status is invalid.`);
+  string(value.summary, `${field}.summary`);
+  if (!Array.isArray(value.sources) || !value.sources.length) fail(`${field}.sources must not be empty.`);
+  value.sources.forEach((source, index) => {
+    object(source, `${field}.sources[${index}]`);
+    string(source.label, `${field}.sources[${index}].label`);
+    string(source.url, `${field}.sources[${index}].url`);
+    const url = new URL(source.url);
+    if (!["https:", "http:"].includes(url.protocol)) fail(`${field}.sources[${index}].url must use http or https.`);
+  });
+}
+
 function validate(value, filename) {
   object(value, "report");
   if (value.version !== 1) fail("version must be 1.");
@@ -46,10 +70,11 @@ function validate(value, filename) {
   for (const field of ["publishedAt", "coverageStart", "coverageEnd"]) {
     if (Number.isNaN(Date.parse(value[field]))) fail(`${field} must be an ISO timestamp.`);
   }
-  for (const field of ["highlights", "ecosystem", "subnets"]) {
+  for (const field of ["highlights", "upcomingUnlocks", "ecosystem", "subnets"]) {
     if (!Array.isArray(value[field])) fail(`${field} must be an array.`);
   }
   value.highlights.forEach((entry, index) => item(entry, `highlights[${index}]`));
+  value.upcomingUnlocks.forEach((entry, index) => unlock(entry, `upcomingUnlocks[${index}]`));
   value.ecosystem.forEach((entry, index) => item(entry, `ecosystem[${index}]`));
   const netuids = new Set();
   value.subnets.forEach((subnet, index) => {
