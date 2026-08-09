@@ -2,7 +2,7 @@
   "version": 1,
   "date": "2026-08-09",
   "title": "Subnet News — August 9, 2026",
-  "summary": "The strongest verified signals in the preceding 24 hours were Instant's move toward inference optimization, Ditto's token-efficiency incentive ahead of its v9 benchmark, and Yanez's reported production rollout of YID on Syklo. Minos faced disputed miner allegations, while automated chain monitoring flagged a concentrated engy outflow. No material public update was verified for the other active subnets in the window.",
+  "summary": "Instant changed direction toward inference optimization, Ditto activated a token-efficiency incentive ahead of v9, and Yanez reported its first production YID rollout. The market tape added concentrated engy outflows, a sharp NexisGen decline, large conviction locks on Quasar and MVTRX, and a Targon halving checkpoint. Minos allegations remained disputed. Nine active subnets produced reportable signals; the other 119 had no material public update verified in the window.",
   "publishedAt": "2026-08-09T10:00:00-04:00",
   "coverageStart": "2026-08-08T10:00:00-04:00",
   "coverageEnd": "2026-08-09T10:00:00-04:00",
@@ -41,13 +41,27 @@
       "importance": "medium",
       "status": "verified",
       "sources": [{"label": "SubnetRadar chain moment", "url": "https://subnetradar.com/alpha/moments/smart_cluster-nqbnaa"}]
+    },
+    {
+      "headline": "SN70 NexisGen leads the downside tape",
+      "summary": "NexisGen was the largest 24-hour decliner on SubnetRadar's August 8 front page at approximately -23.0% in alpha terms. This is a market observation, not a prediction or recommendation.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]
+    },
+    {
+      "headline": "Large conviction locks land on SN24 and SN79",
+      "summary": "Automated chain monitoring showed new Quasar conviction locks of roughly 101.7K and 33.2K alpha, with the latter hardened to perpetual, while MVTRX showed a 1.36M-alpha perpetual lock.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]
     }
   ],
   "subnets": [
     {"netuid": 1, "name": "Apex", "updates": []},
     {"netuid": 2, "name": "DSperse", "updates": []},
     {"netuid": 3, "name": "deprecated", "updates": []},
-    {"netuid": 4, "name": "Targon", "updates": []},
+    {"netuid": 4, "name": "Targon", "updates": [{"headline": "Halving watch reaches 56% of first issuance cycle", "summary": "SubnetRadar's halving monitor estimated roughly 560 days until Targon's first alpha halving, with about 56% of the initial 10.5M alpha issued.", "importance": "informational", "status": "verified", "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]}]},
     {"netuid": 5, "name": "Hone", "updates": []},
     {"netuid": 6, "name": "Numinous", "updates": []},
     {"netuid": 7, "name": "Allways", "updates": []},
@@ -67,7 +81,7 @@
     {"netuid": 21, "name": "AdTAO", "updates": []},
     {"netuid": 22, "name": "Desearch", "updates": []},
     {"netuid": 23, "name": "Trishool", "updates": []},
-    {"netuid": 24, "name": "Quasar", "updates": []},
+    {"netuid": 24, "name": "Quasar", "updates": [{"headline": "Fresh conviction locks include a perpetual position", "summary": "Automated chain monitoring recorded new Quasar locks of approximately 101.7K and 33.2K alpha; the 33.2K-alpha position was subsequently hardened to perpetual.", "importance": "medium", "status": "verified", "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]}]},
     {"netuid": 25, "name": "Mainframe", "updates": []},
     {"netuid": 26, "name": "Perturb", "updates": []},
     {"netuid": 27, "name": "Orion", "updates": []},
@@ -125,7 +139,7 @@
     {"netuid": 67, "name": "Harnyx", "updates": []},
     {"netuid": 68, "name": "NOVA", "updates": []},
     {"netuid": 69, "name": "Herald", "updates": []},
-    {"netuid": 70, "name": "NexisGen", "updates": []},
+    {"netuid": 70, "name": "NexisGen", "updates": [{"headline": "Largest 24-hour alpha decline on the daily tape", "summary": "NexisGen was the largest 24-hour decliner reported by SubnetRadar at approximately -23.0% in alpha terms. This describes public market data and is not financial advice.", "importance": "medium", "status": "verified", "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]}]},
     {"netuid": 71, "name": "Leadpoet", "updates": []},
     {"netuid": 72, "name": "StreetVision by NATIX", "updates": []},
     {"netuid": 73, "name": "Parked", "updates": []},
@@ -134,7 +148,7 @@
     {"netuid": 76, "name": "Phylax", "updates": []},
     {"netuid": 77, "name": "Liquidity", "updates": []},
     {"netuid": 78, "name": "Vocence", "updates": []},
-    {"netuid": 79, "name": "MVTRX", "updates": []},
+    {"netuid": 79, "name": "MVTRX", "updates": [{"headline": "1.36M alpha shown in perpetual conviction lock", "summary": "SubnetRadar's conviction monitor displayed approximately 1.36M MVTRX alpha locked in perpetual mode by the leading displayed wallet.", "importance": "medium", "status": "verified", "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]}]},
     {"netuid": 80, "name": "OpenRoboto", "updates": []},
     {"netuid": 81, "name": "deprecated", "updates": []},
     {"netuid": 82, "name": "Compelle", "updates": []},
@@ -180,7 +194,7 @@
     {
       "netuid": 118,
       "name": "Ditto",
-      "updates": [{"headline": "Token-efficiency bonus activated ahead of v9", "summary": "Ditto activated an efficiency bonus for its top 25 agents and previewed a more difficult v9 benchmark. Threshold and tie-break details remained under community discussion.", "importance": "high", "status": "verified", "sources": [{"label": "SubnetRadar brief", "url": "https://subnetradar.com/subnet-news/118/2026-08-08"}] }]
+      "updates": [{"headline": "Token-efficiency bonus activated ahead of v9", "summary": "Ditto activated an efficiency bonus for its top 25 agents and previewed a more difficult v9 benchmark. Threshold and tie-break details remained under community discussion; its alpha token also led the daily tape at approximately +21.2% over 24 hours.", "importance": "high", "status": "verified", "sources": [{"label": "SubnetRadar brief", "url": "https://subnetradar.com/subnet-news/118/2026-08-08"}, {"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}] }]
     },
     {"netuid": 119, "name": "Satori", "updates": []},
     {"netuid": 120, "name": "Affine", "updates": []},
@@ -194,6 +208,13 @@
     {"netuid": 128, "name": "ByteLeap", "updates": []}
   ],
   "ecosystem": [
+    {
+      "headline": "Daily tape shows narrow breadth and heavy miner burn",
+      "summary": "SubnetRadar reported 33% positive breadth and 39 new monitored moments for the issue, while 43 of 128 reporting subnets were at or above 90% miner burn. These figures are a network snapshot, not a recommendation.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]
+    },
     {
       "headline": "Exploit Summit publishes expanded speaker roster",
       "summary": "Organizers listed more than 20 speakers for the September 28–29 Bittensor event in Montreal. The announcement is an ecosystem calendar update, not a subnet performance signal.",
