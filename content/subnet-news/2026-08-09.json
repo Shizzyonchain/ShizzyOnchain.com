@@ -57,21 +57,7 @@
       "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]
     }
   ],
-  "upcomingUnlocks": [
-    {
-      "netuid": 107,
-      "name": "Minos",
-      "scheduledFor": "2026-08-15",
-      "amountAlpha": 250000,
-      "releaseType": "unknown",
-      "status": "unverified",
-      "summary": "A 250,000-alpha Minos unlock has been reported for August 15, but no public wallet announcement or on-chain mode-change source confirming the date and amount was found. Monitor this item; do not treat it as a confirmed cliff sale.",
-      "sources": [
-        {"label": "Minos chain dashboard", "url": "https://subnetradar.com/subnet/107"},
-        {"label": "Conviction mechanics", "url": "https://learnbittensor.org/concepts/tokenomics/conviction/tool"}
-      ]
-    }
-  ],
+  "upcomingUnlocks": [],
   "subnets": [
     {"netuid": 1, "name": "Apex", "updates": []},
     {"netuid": 2, "name": "DSperse", "updates": []},
