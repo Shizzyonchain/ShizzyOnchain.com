@@ -100,9 +100,14 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "tIszrpO_1nQ",
+    title: "The Great Rotation Into Bittensor Has Begun",
+    meta: "26:00 · Latest episode",
+  },
+  {
     id: "RqhuuOXTsbA",
     title: "All In on TAO | Bittensor Subnet Market Update",
-    meta: "25:36 · Latest episode",
+    meta: "25:36",
   },
   {
     id: "CinoduAcgCs",
@@ -166,6 +171,11 @@ const channelVideos = [
   },
 ];
 const liveStreams = [
+  {
+    id: "8hJYqoRrdV8",
+    title: "Bittensor Is Taking Over the AI Industry | Live with Michael Parker",
+    meta: "1:08:46 · Streamed 5 days ago",
+  },
   {
     id: "2XH-XnwwdPE",
     title: "Bittensor Subnets Are Entering a New Era | Live with James Altucher",
