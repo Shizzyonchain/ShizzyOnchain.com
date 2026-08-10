@@ -1366,10 +1366,11 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
               <b>Click here <i aria-hidden="true">↗</i></b>
             </a>
             <a className="university-home-cta" href="/university" aria-label="Explore Shiz University">
-              <span aria-hidden="true">SU</span>
+              <Image src="/shiz-university.webp" alt="Shiz University" width={512} height={512} sizes="58px" />
               <div>
-                <small>Private 1:1 learning</small>
-                <strong>Shiz University</strong>
+                <small>Struggling with TAO?</small>
+                <strong>Take a 1-on-1 class with Shizzy</strong>
+                <em>Pay by class, not course.</em>
               </div>
               <b aria-hidden="true">→</b>
             </a>
