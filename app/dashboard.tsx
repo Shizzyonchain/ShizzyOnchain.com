@@ -1297,10 +1297,15 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
               <strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong>
               <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small>
             </div>
-            <div>
+            <div className="finney-tile">
               <span>Network</span>
               <strong>FINNEY</strong>
               <small>Finalized blocks only</small>
+              <a className="shop-hat-cta" href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" aria-label="Shop Shizzy Unchained merchandise">
+                <Image src="/shop-hat.webp" alt="Black TAO hat" width={256} height={256} sizes="44px" />
+                <b>Shop</b>
+                <i aria-hidden="true">↗</i>
+              </a>
             </div>
           </section>
           <section className="network-pulse panel" aria-label="Network pulse">
