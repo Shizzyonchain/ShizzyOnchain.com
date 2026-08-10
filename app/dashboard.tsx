@@ -1360,7 +1360,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
             <Image src="/unchained-insiders.webp" alt="Unchained Insiders" width={512} height={512} sizes="82px" />
             <span>
               <small>Private Telegram community</small>
-              <strong>For Unchained Insiders</strong>
+              <strong>Join the Unchained Insiders Telegram Group</strong>
             </span>
             <b>Click here <i aria-hidden="true">↗</i></b>
           </a>
