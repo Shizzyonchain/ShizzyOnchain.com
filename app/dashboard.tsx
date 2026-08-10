@@ -1,6 +1,7 @@
 "use client";
 
 import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
 
@@ -1355,6 +1356,14 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
               <small>vs previous hour</small>
             </button>
           </section>
+          <a className="insiders-home-cta" href="https://t.me/+0fW1AeQAUERhZTgx" target="_blank" rel="noreferrer" aria-label="Join Unchained Insiders on Telegram">
+            <Image src="/unchained-insiders.webp" alt="Unchained Insiders" width={512} height={512} sizes="82px" />
+            <span>
+              <small>Private Telegram community</small>
+              <strong>For Unchained Insiders</strong>
+            </span>
+            <b>Click here <i aria-hidden="true">↗</i></b>
+          </a>
           <div className="market-content">
             {marketDetailOpen && (
               <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}>
