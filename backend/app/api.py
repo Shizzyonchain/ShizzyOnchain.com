@@ -12,6 +12,7 @@ from fastapi.encoders import jsonable_encoder
 
 from app.config import get_settings
 from app.db import close, connect
+from app.intelligence import build_chain_intelligence, rotation_kind
 from app.models import MassWalletRequest
 
 settings = get_settings()
@@ -368,6 +369,138 @@ async def chain_activity(
         "summary": summary_data,
         "collecting_since": collecting_since,
     }
+
+
+@app.get("/v1/chain-intelligence", dependencies=[Depends(authorize)])
+async def chain_intelligence(
+    min_tao: int = Query(100, ge=10, le=10000),
+    rotations_limit: int = Query(80, ge=1, le=200),
+):
+    rows = await app.state.db.fetch(
+        """WITH latest AS (
+             SELECT sample.*
+             FROM subnets known
+             JOIN LATERAL (
+               SELECT netuid,time,block_number,price_tao,tao_reserve,
+                      alpha_reserve,alpha_out,tao_in_emission,
+                      excess_tao_emission,alpha_out_emission,
+                      emission_share,root_prop
+               FROM subnet_price_samples
+               WHERE netuid=known.netuid
+               ORDER BY time DESC,block_number DESC LIMIT 1
+             ) sample ON true
+           )
+           SELECT l.netuid,s.name,s.symbol,l.time,l.block_number,l.price_tao,
+                  l.tao_reserve,l.alpha_reserve,l.alpha_out,l.tao_in_emission,
+                  l.excess_tao_emission,l.alpha_out_emission,l.emission_share,
+                  l.root_prop,
+                  p10.emission_share AS p10_emission_share,
+                  p1.block_number AS p1_block_number,
+                  p1.price_tao AS p1_price_tao,
+                  p1.tao_reserve AS p1_tao_reserve,
+                  p1.tao_in_emission AS p1_tao_in_emission,
+                  p1.excess_tao_emission AS p1_excess_tao_emission,
+                  p1.alpha_out_emission AS p1_alpha_out_emission,
+                  p1.emission_share AS p1_emission_share,
+                  p1.root_prop AS p1_root_prop,
+                  p6.emission_share AS p6_emission_share
+           FROM latest l
+           LEFT JOIN subnets s USING(netuid)
+           LEFT JOIN LATERAL (
+             SELECT emission_share FROM subnet_price_samples
+             WHERE netuid=l.netuid AND time <= l.time-interval '10 minutes'
+             ORDER BY time DESC,block_number DESC LIMIT 1
+           ) p10 ON true
+           LEFT JOIN LATERAL (
+             SELECT block_number,price_tao,tao_reserve,tao_in_emission,
+                    excess_tao_emission,alpha_out_emission,emission_share,root_prop
+             FROM subnet_price_samples
+             WHERE netuid=l.netuid AND time <= l.time-interval '1 hour'
+             ORDER BY time DESC,block_number DESC LIMIT 1
+           ) p1 ON true
+           LEFT JOIN LATERAL (
+             SELECT emission_share FROM subnet_price_samples
+             WHERE netuid=l.netuid AND time <= l.time-interval '6 hours'
+             ORDER BY time DESC,block_number DESC LIMIT 1
+           ) p6 ON true"""
+    )
+    payload = build_chain_intelligence(rows)
+
+    meaningful_event_types = [
+        "StakeAdded",
+        "StakeRemoved",
+        "StakeMoved",
+        "StakeSwapped",
+        "StakeTransferred",
+        "StakeAndHotkeyTransferred",
+        "AddStakeBurn",
+        "AlphaBurned",
+        "AlphaRecycled",
+    ]
+    rotation_rows = await app.state.db.fetch(
+        """WITH valued AS (
+             SELECT e.block_number,e.event_index,e.time,e.event_type,e.netuid,
+                    e.destination_netuid,e.coldkey,e.destination_coldkey,
+                    e.hotkey,e.destination_hotkey,e.amount_alpha,e.amount_tao,
+                    COALESCE(e.amount_tao,e.amount_alpha*ep.price_tao) AS tao_value,
+                    s.name,s.symbol,ds.name AS destination_name,
+                    ds.symbol AS destination_symbol
+             FROM chain_events e
+             LEFT JOIN subnets s ON s.netuid=e.netuid
+             LEFT JOIN subnets ds ON ds.netuid=e.destination_netuid
+             LEFT JOIN LATERAL (
+               SELECT price_tao FROM subnet_price_samples
+               WHERE netuid=e.netuid AND time <= e.time
+               ORDER BY time DESC,block_number DESC LIMIT 1
+             ) ep ON true
+             WHERE e.event_type=ANY($1::text[])
+               AND e.time >= now()-interval '24 hours'
+           ), filtered AS (
+             SELECT *,count(*) OVER() AS total_count,
+                    sum(tao_value) OVER() AS total_value_tao
+             FROM valued WHERE tao_value >= $2
+           )
+           SELECT * FROM filtered
+           ORDER BY block_number DESC,event_index DESC LIMIT $3""",
+        meaningful_event_types,
+        min_tao,
+        rotations_limit,
+    )
+    rotations = []
+    for record in rotation_rows:
+        rotation = dict(record)
+        rotation.pop("total_count", None)
+        rotation.pop("total_value_tao", None)
+        rotation["kind"] = rotation_kind(rotation["event_type"])
+        rotations.append(rotation)
+
+    payload["rotations"] = rotations
+    payload["summary"]["large_rotation_count_24h"] = (
+        int(rotation_rows[0]["total_count"]) if rotation_rows else 0
+    )
+    payload["summary"]["large_rotation_value_24h_tao"] = (
+        rotation_rows[0]["total_value_tao"] if rotation_rows else 0
+    )
+    payload["summary"]["capital_threshold_tao"] = min_tao
+    payload["collecting_since"] = await app.state.db.fetchval(
+        "SELECT min(time) FROM chain_events WHERE event_type=ANY($1::text[])",
+        meaningful_event_types,
+    )
+    payload["calculated_at"] = datetime.now(timezone.utc)
+    payload["methodology"] = {
+        "finality": "All inputs are sampled from finalized Finney blocks.",
+        "market_flow": (
+            "TAO reserve change minus direct pool injection and protocol chain-buy allocation."
+        ),
+        "emission_overhang": (
+            "One day of AlphaOutEmission valued at the current on-chain subnet price, "
+            "divided by current TAO reserves."
+        ),
+        "noise_filter": (
+            f"Only economic stake and burn events worth at least {min_tao} TAO are returned."
+        ),
+    }
+    return payload
 
 
 async def _persist_wallet(conn, result: dict, timestamp: datetime):

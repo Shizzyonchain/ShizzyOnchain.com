@@ -66,11 +66,47 @@ type PortfolioAsset = {
   taoValue: number;
   wallets: Set<string>;
 };
-type ChainEvent = {
+type ChainIntelligenceRow = {
+  netuid: number;
+  name?: string;
+  symbol?: string;
+  time: string;
+  block_number: number;
+  price_tao?: string;
+  tao_reserve?: string;
+  emission_pct?: string;
+  emission_change_10m_pp?: string;
+  emission_change_1h_pp?: string;
+  emission_change_6h_pp?: string;
+  emission_rank?: number;
+  emission_rank_change_1h?: number;
+  tao_in_emission?: string;
+  excess_tao_emission?: string;
+  alpha_out_emission?: string;
+  root_prop_pct?: string;
+  root_prop_change_1h_pp?: string;
+  direct_flow_1h_tao?: string;
+  chain_buy_flow_1h_tao?: string;
+  programmed_flow_1h_tao?: string;
+  market_flow_1h_tao?: string;
+  emitted_value_1h_tao?: string;
+  emitted_value_24h_tao?: string;
+  emission_absorption_pct?: string;
+  emission_overhang_pct?: string;
+  liquidity_cover_days?: string;
+  liquidity_share_pct?: string;
+  allocation_premium?: string;
+  excess_share_pct?: string;
+  dominant_input: string;
+  allocation_signal: "GAINING" | "LOSING" | "REVERSING" | "STEADY" | "COLLECTING";
+  market_regime: "ABSORBING" | "DISTRIBUTING" | "BALANCED" | "COLLECTING";
+};
+type CapitalRotation = {
   block_number: number;
   event_index: number;
   time: string;
   event_type: string;
+  kind: "inflow" | "outflow" | "rotation" | "burn";
   netuid?: number;
   destination_netuid?: number;
   name?: string;
@@ -82,20 +118,24 @@ type ChainEvent = {
   amount_alpha?: string;
   amount_tao?: string;
   tao_value?: string;
-  perpetual?: boolean;
 };
-type ActivitySummary = {
-  locked_alpha_24h: string;
-  unlocked_alpha_24h: string;
-  net_locked_alpha_24h: string;
-  stake_moves_24h: number;
-  locked_tao_24h: string;
-  unlocked_tao_24h: string;
-  net_locked_tao_24h: string;
-  event_count_24h: number;
-  tao_moved_24h: string;
-  largest_move_tao_24h: string;
-  active_subnets_24h: number;
+type ChainIntelligenceSummary = {
+  latest_block?: number;
+  network_programmed_tao_per_block?: string;
+  participant_emission_value_24h_tao?: string;
+  market_flow_1h_tao?: string;
+  market_flow_coverage_subnets: number;
+  subnet_count: number;
+  gaining_subnets_1h: number;
+  median_emission_overhang_pct?: string;
+  large_rotation_count_24h: number;
+  large_rotation_value_24h_tao?: string;
+  capital_threshold_tao: number;
+  stress_leader?: {
+    netuid: number;
+    name?: string;
+    emission_overhang_pct: string;
+  };
 };
 
 const channelVideos = [
@@ -660,10 +700,12 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [walletProgress, setWalletProgress] = useState("");
   const [walletError, setWalletError] = useState("");
   const walletPollingRef = useRef(false);
-  const [activity, setActivity] = useState<ChainEvent[]>([]);
-  const [activitySummary, setActivitySummary] = useState<ActivitySummary | null>(null);
-  const [activityCollectingSince, setActivityCollectingSince] = useState<string | null>(null);
-  const [activityFilter, setActivityFilter] = useState<"all" | "locks" | "keys">("all");
+  const [chainIntelligence, setChainIntelligence] = useState<ChainIntelligenceRow[]>([]);
+  const [chainSummary, setChainSummary] = useState<ChainIntelligenceSummary | null>(null);
+  const [capitalRotations, setCapitalRotations] = useState<CapitalRotation[]>([]);
+  const [chainCollectingSince, setChainCollectingSince] = useState<string | null>(null);
+  const [chainDataState, setChainDataState] = useState<"loading" | "live" | "error">("loading");
+  const [capitalThreshold, setCapitalThreshold] = useState<100 | 250 | 500>(100);
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
@@ -861,18 +903,20 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     };
   }, [rows, timeframe, showTaoChart]);
   useEffect(() => {
-    const refreshActivity = () => {
-      fetch("/api/backend/v1/activity?limit=200", { cache: "no-store" })
+    const refreshChainIntelligence = () => {
+      fetch("/api/backend/v1/chain-intelligence?min_tao=100&rotations_limit=200", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((json) => {
-          setActivity(json.data || []);
-          setActivitySummary(json.summary || null);
-          setActivityCollectingSince(json.collecting_since || null);
+          setChainIntelligence(json.data || []);
+          setChainSummary(json.summary || null);
+          setCapitalRotations(json.rotations || []);
+          setChainCollectingSince(json.collecting_since || null);
+          setChainDataState("live");
         })
-        .catch(() => undefined);
+        .catch(() => setChainDataState((current) => (current === "live" ? "live" : "error")));
     };
-    refreshActivity();
-    const refreshTimer = window.setInterval(refreshActivity, 60_000);
+    refreshChainIntelligence();
+    const refreshTimer = window.setInterval(refreshChainIntelligence, 30_000);
     return () => window.clearInterval(refreshTimer);
   }, []);
 
@@ -1183,66 +1227,62 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     : null;
   const sortArrow = (field: keyof ScreenerRow) => (sort === field ? (sortDirection === "desc" ? " ↓" : " ↑") : "");
   const shortKey = (value?: string) => (value ? `${value.slice(0, 6)}…${value.slice(-5)}` : "—");
-  const knownValidatorNames: Record<string, string> = {
-    "5E4z3h9yVhmQyCFWNbY9BPpwhx4xFiPwq3eeqmBgVF6KULde": "Tensorplex Labs",
-  };
-  const eventLabel = (event: ChainEvent) =>
-    ({
-      StakeLocked: "Conviction locked",
-      StakeUnlocked: "Conviction unlocked",
-      LockMoved: "Lock moved",
-      PerpetualLockUpdated: event.perpetual ? "Perpetual lock enabled" : "Perpetual lock disabled",
-      StakeMoved: "Stake moved",
-      StakeSwapped: "Stake swapped",
-      StakeTransferred: "Stake transferred",
-      HotkeySwapped: "Hotkey swapped",
-      HotkeySwappedOnSubnet: "Subnet hotkey swapped",
-      SubnetOwnerChanged: "Subnet owner changed",
-    })[event.event_type] || event.event_type;
   const subnetLabel = (netuid?: number, name?: string) => {
     if (netuid === 0) return "Root";
     if (name && name.toLowerCase() !== "deprecated") return name;
     if (netuid != null) return name ? `Retired SN${netuid}` : `SN${netuid}`;
     return "Network";
   };
-  const eventSubnet = (event: ChainEvent) => subnetLabel(event.netuid, event.name);
-  const eventDestination = (event: ChainEvent) => subnetLabel(event.destination_netuid, event.destination_name);
-  const eventCategory = (event: ChainEvent) => (event.event_type.includes("Lock") ? "locks" : event.event_type.includes("Hotkey") || event.event_type === "SubnetOwnerChanged" ? "keys" : "stake");
-  const meaningfulActivity = activity.filter((event) => !["StakeLocked", "StakeUnlocked"].includes(event.event_type) || Number(event.tao_value || 0) >= 10);
-  const visibleActivity = meaningfulActivity.filter((event) => activityFilter === "all" || eventCategory(event) === activityFilter);
-  const keyChangeCount = meaningfulActivity.filter((event) => eventCategory(event) === "keys").length;
-  const convictionEventCount = meaningfulActivity.filter((event) => eventCategory(event) === "locks").length;
-  const convictionLeaders = [...rows].sort((a, b) => Number(b.conviction_locked_pct || 0) - Number(a.conviction_locked_pct || 0));
-  const emissionMovers = [...rows].filter((row) => row.emission_change_1h != null).sort((a, b) => Math.abs(Number(b.emission_change_1h || 0)) - Math.abs(Number(a.emission_change_1h || 0)));
-  const liquidityMovers = [...rows].filter((row) => row.liquidity_change_1h != null).sort((a, b) => Math.abs(Number(b.liquidity_change_1h || 0)) - Math.abs(Number(a.liquidity_change_1h || 0)));
-  const activityHours = activityCollectingSince ? Math.max(0, (Date.now() - new Date(activityCollectingSince).getTime()) / 3_600_000) : 0;
-  const activityPeriod = activityHours < 24 ? `Since tracking began · ${activityHours < 1 ? "<1" : Math.floor(activityHours)}h` : "Last 24 hours";
-  const eventDescription = (event: ChainEvent) => {
-    const source = eventSubnet(event),
-      destination = eventDestination(event);
-    if (event.event_type === "StakeLocked") return `Conviction locked on ${source}`;
-    if (event.event_type === "StakeUnlocked") return `Conviction unlocked on ${source}`;
-    if (event.event_type === "StakeSwapped") return `Stake swapped from ${source} into ${destination}`;
-    if (event.event_type === "StakeTransferred") return `Stake transferred from ${source} to ${destination}`;
-    if (event.event_type === "StakeMoved") return source === destination ? `Stake moved between hotkeys on ${source}` : `Stake moved from ${source} to ${destination}`;
-    if (event.event_type === "LockMoved") return `Conviction lock moved on ${source}`;
-    if (event.event_type.includes("Hotkey")) return `Hotkey changed${event.netuid != null ? ` on ${source}` : ""}`;
-    if (event.event_type === "SubnetOwnerChanged") return `${source} ownership changed`;
-    return eventLabel(event);
+  const emissionRadar = [...chainIntelligence]
+    .filter((row) => row.emission_change_1h_pp != null)
+    .sort((a, b) => Math.abs(Number(b.emission_change_1h_pp || 0)) - Math.abs(Number(a.emission_change_1h_pp || 0)));
+  const causalMovers = emissionRadar.slice(0, 8);
+  const pressureLeaders = [...chainIntelligence]
+    .filter((row) => row.emission_overhang_pct != null)
+    .sort((a, b) => Number(b.emission_overhang_pct || 0) - Number(a.emission_overhang_pct || 0));
+  const visibleCapitalRotations = capitalRotations.filter((event) => Number(event.tao_value || 0) >= capitalThreshold);
+  const visibleCapitalValue = visibleCapitalRotations.reduce((total, event) => total + Number(event.tao_value || 0), 0);
+  const maxOverhang = Math.max(0.0001, Number(pressureLeaders[0]?.emission_overhang_pct || 0));
+  const collectionHours = chainCollectingSince ? Math.max(0, (Date.now() - new Date(chainCollectingSince).getTime()) / 3_600_000) : 0;
+  const capitalPeriod = collectionHours < 24 ? `Collected ${collectionHours < 1 ? "<1" : Math.floor(collectionHours)}h` : "Last 24 hours";
+  const signed = (value?: string, digits = 3) => `${Number(value || 0) > 0 ? "+" : ""}${fmt(value, digits)}`;
+  const rotationLabel = (event: CapitalRotation) =>
+    ({
+      StakeAdded: "Stake added",
+      StakeRemoved: "Stake removed",
+      StakeMoved: "Stake moved",
+      StakeSwapped: "Subnet rotation",
+      StakeTransferred: "Stake transferred",
+      StakeAndHotkeyTransferred: "Stake + hotkey transfer",
+      AddStakeBurn: "Buy and burn",
+      AlphaBurned: "Alpha burned",
+      AlphaRecycled: "Alpha recycled",
+    })[event.event_type] || event.event_type;
+  const rotationDescription = (event: CapitalRotation) => {
+    const source = subnetLabel(event.netuid, event.name);
+    const destination = subnetLabel(event.destination_netuid, event.destination_name);
+    if (event.event_type === "StakeAdded") return `Capital entered ${source}`;
+    if (event.event_type === "StakeRemoved") return `Capital exited ${source}`;
+    if (event.event_type === "StakeSwapped") return `Capital rotated from ${source} into ${destination}`;
+    if (["StakeMoved", "StakeTransferred", "StakeAndHotkeyTransferred"].includes(event.event_type)) return source === destination ? `Large position moved within ${source}` : `Large position moved from ${source} to ${destination}`;
+    if (event.event_type === "AddStakeBurn") return `TAO bought and burned Alpha on ${source}`;
+    if (event.event_type === "AlphaBurned") return `Alpha supply burned on ${source}`;
+    if (event.event_type === "AlphaRecycled") return `Alpha recycled on ${source}`;
+    return rotationLabel(event);
   };
-  const validatorIdentity = (hotkey?: string) => {
-    if (!hotkey) return null;
-    const knownName = knownValidatorNames[hotkey];
-    return knownName ? `${knownName} (${shortKey(hotkey)})` : shortKey(hotkey);
-  };
-  const eventIdentity = (event: ChainEvent) => {
+  const rotationIdentity = (event: CapitalRotation) => {
     const parts: string[] = [];
-    const category = eventCategory(event);
-    if (event.coldkey) parts.push(`${category === "stake" || category === "locks" ? "Delegator wallet" : "Wallet"} ${shortKey(event.coldkey)}`);
-    if (event.hotkey) parts.push(`${category === "stake" || category === "locks" ? "Validator" : "Hotkey"} ${validatorIdentity(event.hotkey)}`);
-    if (event.destination_hotkey) parts.push(`→ ${category === "stake" || category === "locks" ? "Validator" : "Hotkey"} ${validatorIdentity(event.destination_hotkey)}`);
+    if (event.coldkey) parts.push(`Wallet ${shortKey(event.coldkey)}`);
+    if (event.hotkey) parts.push(`Hotkey ${shortKey(event.hotkey)}`);
+    if (event.destination_hotkey) parts.push(`→ Hotkey ${shortKey(event.destination_hotkey)}`);
     else if (event.destination_coldkey) parts.push(`→ Wallet ${shortKey(event.destination_coldkey)}`);
     return parts.length ? parts.join(" · ") : "Finalized on Finney";
+  };
+  const causalNarrative = (row: ChainIntelligenceRow) => {
+    const change = Number(row.emission_change_1h_pp || 0);
+    const shift = Math.abs(change) < 0.0001 ? "Allocation held flat" : `Allocation ${change > 0 ? "gained" : "lost"} ${fmt(Math.abs(change), 4)} percentage points`;
+    const flow = row.market_flow_1h_tao == null ? "market-flow history is still collecting" : `${Math.abs(Number(row.market_flow_1h_tao || 0)).toFixed(2)} TAO of ${Number(row.market_flow_1h_tao || 0) >= 0 ? "external absorption" : "external outflow"} remained after programmed emissions were removed`;
+    return `${shift}. ${row.dominant_input} changed most; ${flow}.`;
   };
 
   return (
@@ -1710,174 +1750,217 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           </div>
         </>
       ) : view === "activity" ? (
-        <section className="activity-page">
-          <div className="activity-hero">
+        <section className="activity-page emission-edge">
+          <div className="activity-hero emission-hero">
             <div>
-              <p className="eyebrow">Live from your node</p>
+              <p className="eyebrow">Finalized emission intelligence</p>
               <h1>
-                Chain activity.
+                See where protocol capital
                 <br />
-                <span>Finalized and transparent.</span>
+                <span>is moving before price reacts.</span>
               </h1>
             </div>
-            <p>Follow stake flows, conviction locks, hotkey changes, and subnet ownership events across Finney as they finalize.</p>
+            <div className="emission-hero-copy">
+              <p>Separate programmed emissions from real market demand. Rank allocation shifts, absorption, and liquidity stress straight from Finney.</p>
+              <span className={`chain-live-pill ${chainDataState}`}>
+                <i /> {chainDataState === "live" ? `Finalized block ${chainSummary?.latest_block?.toLocaleString() || "—"}` : chainDataState === "loading" ? "Connecting to node" : "Using last good snapshot"}
+              </span>
+            </div>
           </div>
-          <section className="chain-intel-grid" aria-label="Subnet chain intelligence">
-            <article className="conviction-board panel">
-              <div className="intel-panel-head">
-                <div>
-                  <p className="eyebrow">Conviction leaderboard</p>
-                  <h2>Supply locked by subnet</h2>
-                </div>
-                <span>All {convictionLeaders.length} subnets · Live finalized state</span>
-              </div>
-              <div className="conviction-ranking">
-                {convictionLeaders.map((row, index) => (
-                  <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
-                    <em>{String(index + 1).padStart(2, "0")}</em>
-                    <span>
-                      <b>{row.name || `Subnet ${row.netuid}`}</b>
-                      <small>SN{row.netuid}</small>
-                    </span>
-                    <i>
-                      <u
-                        style={{
-                          width: `${Math.min(100, Number(row.conviction_locked_pct || 0))}%`,
-                        }}
-                      />
-                    </i>
-                    <strong>{fmt(row.conviction_locked_pct, 2)}%</strong>
-                  </button>
-                ))}
-                {!convictionLeaders.length && <div className="intel-empty">Waiting for finalized conviction data…</div>}
-              </div>
+
+          <section className="chain-command-bar" aria-label="Network emission summary">
+            <article>
+              <span>Programmed allocation / block</span>
+              <strong>{chainSummary?.network_programmed_tao_per_block == null ? "—" : `${fmt(chainSummary.network_programmed_tao_per_block, 4)} τ`}</strong>
+              <small>Direct pool injection + protocol chain buys</small>
             </article>
-            <div className="flow-panels">
-              <article className="flow-board panel">
-                <div className="intel-panel-head">
-                  <div>
-                    <p className="eyebrow">Emission movement</p>
-                    <h2>Largest 1-hour changes</h2>
-                  </div>
-                  <span>Percentage points</span>
-                </div>
-                <div className="flow-ranking">
-                  {emissionMovers.map((row) => (
-                    <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
-                      <span>
-                        <b>{row.name || `Subnet ${row.netuid}`}</b>
-                        <small>SN{row.netuid}</small>
-                      </span>
-                      <strong className={changeClass(row.emission_change_1h)}>
-                        {Number(row.emission_change_1h || 0) > 0 ? "+" : ""}
-                        {fmt(row.emission_change_1h, 4)}
-                      </strong>
-                    </button>
-                  ))}
-                </div>
-              </article>
-              <article className="flow-board panel">
-                <div className="intel-panel-head">
-                  <div>
-                    <p className="eyebrow">Liquidity movement</p>
-                    <h2>Largest 1-hour changes</h2>
-                  </div>
-                  <span>TAO reserves</span>
-                </div>
-                <div className="flow-ranking">
-                  {liquidityMovers.map((row) => (
-                    <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
-                      <span>
-                        <b>{row.name || `Subnet ${row.netuid}`}</b>
-                        <small>SN{row.netuid}</small>
-                      </span>
-                      <strong className={changeClass(row.liquidity_change_1h)}>
-                        {Number(row.liquidity_change_1h || 0) > 0 ? "+" : ""}
-                        {fmt(row.liquidity_change_1h, 2)}%
-                      </strong>
-                    </button>
-                  ))}
-                </div>
-              </article>
-            </div>
+            <article>
+              <span>External market flow · 1h</span>
+              <strong className={changeClass(chainSummary?.market_flow_1h_tao)}>
+                {chainSummary?.market_flow_1h_tao == null ? "Collecting" : `${signed(chainSummary.market_flow_1h_tao, 2)} τ`}
+              </strong>
+              <small>Programmed TAO removed · {chainSummary?.market_flow_coverage_subnets || 0} subnets covered</small>
+            </article>
+            <article>
+              <span>Participant Alpha / day</span>
+              <strong>{chainSummary?.participant_emission_value_24h_tao == null ? "—" : `${fmt(chainSummary.participant_emission_value_24h_tao, 1)} τ`}</strong>
+              <small>AlphaOutEmission valued at each live pool price</small>
+            </article>
+            <article>
+              <span>Large capital events</span>
+              <strong>{chainSummary?.large_rotation_count_24h || 0}</strong>
+              <small>Economic stake or burn events ≥100 τ · {capitalPeriod}</small>
+            </article>
           </section>
-          <section className="chain-activity panel" aria-labelledby="activity-title">
-            <div className="activity-head">
-              <div>
-                <p className="eyebrow">Finalized chain intelligence</p>
-                <h2 id="activity-title">Conviction, keys, and ownership</h2>
-              </div>
-              <span>{activityPeriod} · Refreshes every 60 seconds</span>
+
+          {chainDataState !== "live" && !chainIntelligence.length ? (
+            <div className="market-loading chain-loading" role="status">
+              <i />
+              <strong>{chainDataState === "loading" ? "Building emission intelligence" : "Chain intelligence unavailable"}</strong>
+              <span>{chainDataState === "loading" ? "Reading finalized allocation and reserve history…" : "The page will reconnect automatically."}</span>
             </div>
-            <div className="activity-summary">
-              <article>
-                <span>Conviction locked</span>
-                <strong>{fmt(activitySummary?.locked_tao_24h, 3)} τ</strong>
-                <small>Locks worth at least 10 TAO · {activityPeriod}</small>
-              </article>
-              <article>
-                <span>Conviction unlocked</span>
-                <strong>{fmt(activitySummary?.unlocked_tao_24h, 3)} τ</strong>
-                <small>Unlocks worth at least 10 TAO · {activityPeriod}</small>
-              </article>
-              <article>
-                <span>Net conviction flow</span>
-                <strong className={Number(activitySummary?.net_locked_tao_24h || 0) >= 0 ? "positive" : "negative"}>
-                  {Number(activitySummary?.net_locked_tao_24h || 0) > 0 ? "+" : ""}
-                  {fmt(activitySummary?.net_locked_tao_24h, 3)} τ
-                </strong>
-                <small>
-                  {fmt(activitySummary?.locked_tao_24h, 2)} locked · {fmt(activitySummary?.unlocked_tao_24h, 2)} unlocked
-                </small>
-              </article>
-              <article>
-                <span>Key & owner changes</span>
-                <strong>{keyChangeCount}</strong>
-                <small>{convictionEventCount} conviction events collected</small>
-              </article>
-            </div>
-            <div className="activity-toolbar">
-              <div role="group" aria-label="Filter chain events">
-                {[
-                  ["all", "All activity"],
-                  ["locks", "Conviction"],
-                  ["keys", "Keys & owners"],
-                ].map(([value, label]) => (
-                  <button key={value} className={activityFilter === value ? "active" : ""} onClick={() => setActivityFilter(value as typeof activityFilter)}>
-                    {label}
-                  </button>
-                ))}
-              </div>
-              <span>{visibleActivity.length} recent events</span>
-            </div>
-            {visibleActivity.length ? (
-              <div className="activity-list">
-                {visibleActivity.map((event) => (
-                  <article key={`${event.block_number}-${event.event_index}`}>
-                    <time>
-                      {new Date(event.time).toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
-                      <small>Block {event.block_number.toLocaleString()}</small>
-                    </time>
-                    <span className={`event-badge ${event.event_type.toLowerCase()}`}>{eventLabel(event)}</span>
+          ) : (
+            <>
+              <section className="emission-radar panel" aria-labelledby="emission-radar-title">
+                <div className="chain-section-head">
+                  <div>
+                    <p className="eyebrow">Allocation shift radar</p>
+                    <h2 id="emission-radar-title">Which subnets are gaining emission power</h2>
+                  </div>
+                  <span>{chainSummary?.gaining_subnets_1h || 0} gaining · Percentage-point change · Refreshes every 30s</span>
+                </div>
+                <div className="emission-table-wrap">
+                  <table className="emission-table">
+                    <thead>
+                      <tr>
+                        <th>Rank</th>
+                        <th>Subnet</th>
+                        <th>Emission now</th>
+                        <th>10m shift</th>
+                        <th>1h shift</th>
+                        <th>Market flow 1h</th>
+                        <th>Emission absorbed</th>
+                        <th>Allocation / liquidity</th>
+                        <th>State</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {emissionRadar.map((row) => (
+                        <tr key={row.netuid}>
+                          <td>
+                            <b>#{row.emission_rank || "—"}</b>
+                            <small className={Number(row.emission_rank_change_1h || 0) > 0 ? "positive" : Number(row.emission_rank_change_1h || 0) < 0 ? "negative" : ""}>
+                              {row.emission_rank_change_1h == null ? "collecting" : Number(row.emission_rank_change_1h) > 0 ? `↑${row.emission_rank_change_1h}` : Number(row.emission_rank_change_1h) < 0 ? `↓${Math.abs(row.emission_rank_change_1h)}` : "—"}
+                            </small>
+                          </td>
+                          <td>
+                            <button className="chain-subnet-button" onClick={() => openSubnetChart(row.netuid)}>
+                              <b>{row.name || `Subnet ${row.netuid}`}</b>
+                              <small>SN{row.netuid}</small>
+                            </button>
+                          </td>
+                          <td><strong>{fmt(row.emission_pct, 4)}%</strong></td>
+                          <td className={changeClass(row.emission_change_10m_pp)}>{row.emission_change_10m_pp == null ? "—" : signed(row.emission_change_10m_pp, 4)}</td>
+                          <td className={changeClass(row.emission_change_1h_pp)}>{row.emission_change_1h_pp == null ? "—" : signed(row.emission_change_1h_pp, 4)}</td>
+                          <td className={changeClass(row.market_flow_1h_tao)}>{row.market_flow_1h_tao == null ? "Collecting" : `${signed(row.market_flow_1h_tao, 2)} τ`}</td>
+                          <td className={changeClass(row.emission_absorption_pct)}>{row.emission_absorption_pct == null ? "Collecting" : `${signed(row.emission_absorption_pct, 1)}%`}</td>
+                          <td>{row.allocation_premium == null ? "—" : `${fmt(row.allocation_premium, 2)}×`}</td>
+                          <td><span className={`allocation-state ${row.allocation_signal.toLowerCase()}`}>{row.allocation_signal}</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {!emissionRadar.length && <div className="intel-empty">One hour of finalized history is required to rank allocation shifts.</div>}
+              </section>
+
+              <section className="chain-analysis-grid">
+                <article className="causal-board panel">
+                  <div className="chain-section-head">
                     <div>
-                      <b>{eventDescription(event)}</b>
-                      <small>{eventIdentity(event)}</small>
+                      <p className="eyebrow">Causal input reader</p>
+                      <h2>Why the allocation moved</h2>
                     </div>
-                    <strong>{event.tao_value != null ? `${fmt(event.tao_value, 3)} τ` : "—"}</strong>
-                  </article>
-                ))}
-              </div>
-            ) : (
-              <div className="activity-empty">
-                <b>No {activityFilter === "all" ? "" : activityFilter} events in the collected window.</b>
-                <span>Try another filter. New finalized events appear automatically.</span>
-              </div>
-            )}
-            <p className="activity-note">All tracked finalized stake movements are included. Conviction lock and unlock events worth less than 10 TAO are excluded. TAO values use the subnet price at the finalized event time. Collection began {activityCollectingSince ? new Date(activityCollectingSince).toLocaleString() : "with this deployment"}.</p>
-          </section>
+                    <span>Largest changed on-chain input · not a black-box score</span>
+                  </div>
+                  <div className="causal-list">
+                    {causalMovers.map((row, index) => (
+                      <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
+                        <em>{String(index + 1).padStart(2, "0")}</em>
+                        <span>
+                          <b>{row.name || `Subnet ${row.netuid}`} <small>SN{row.netuid}</small></b>
+                          <p>{causalNarrative(row)}</p>
+                        </span>
+                        <strong className={changeClass(row.emission_change_1h_pp)}>{signed(row.emission_change_1h_pp, 4)} pp</strong>
+                      </button>
+                    ))}
+                    {!causalMovers.length && <div className="intel-empty">Collecting one-hour input deltas…</div>}
+                  </div>
+                </article>
+
+                <article className="pressure-board panel">
+                  <div className="chain-section-head">
+                    <div>
+                      <p className="eyebrow">Liquidity stress</p>
+                      <h2>Emission overhang</h2>
+                    </div>
+                    <span>One day emitted value / TAO reserve</span>
+                  </div>
+                  <div className="pressure-list">
+                    {pressureLeaders.slice(0, 14).map((row) => (
+                      <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
+                        <span>
+                          <b>{row.name || `Subnet ${row.netuid}`}</b>
+                          <small>SN{row.netuid} · {fmt(row.emitted_value_24h_tao, 1)} τ/day</small>
+                        </span>
+                        <i><u style={{ width: `${Math.max(2, Number(row.emission_overhang_pct || 0) / maxOverhang * 100)}%` }} /></i>
+                        <strong>{fmt(row.emission_overhang_pct, 2)}%</strong>
+                        <em>{row.liquidity_cover_days == null ? "—" : `${fmt(row.liquidity_cover_days, 1)}d cover`}</em>
+                      </button>
+                    ))}
+                  </div>
+                </article>
+              </section>
+
+              <section className="capital-board panel" aria-labelledby="capital-title">
+                <div className="chain-section-head capital-head">
+                  <div>
+                    <p className="eyebrow">High-conviction capital only</p>
+                    <h2 id="capital-title">Large stake rotations and burns</h2>
+                  </div>
+                  <div className="capital-thresholds" role="group" aria-label="Minimum TAO event value">
+                    {([100, 250, 500] as const).map((value) => (
+                      <button key={value} className={capitalThreshold === value ? "active" : ""} onClick={() => setCapitalThreshold(value)}>{value}+ τ</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="capital-totals">
+                  <span><b>{visibleCapitalRotations.length}</b> qualifying finalized events</span>
+                  <span><b>{fmt(visibleCapitalValue, 1)} τ</b> total economic value</span>
+                  <span>{capitalPeriod} · Key changes, ownership changes, conviction locks, and smaller transactions excluded</span>
+                </div>
+                {visibleCapitalRotations.length ? (
+                  <div className="capital-list">
+                    {visibleCapitalRotations.map((event) => (
+                      <article key={`${event.block_number}-${event.event_index}`}>
+                        <time>
+                          {new Date(event.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}
+                          <small>Block {event.block_number.toLocaleString()}</small>
+                        </time>
+                        <span className={`capital-badge ${event.kind}`}>{rotationLabel(event)}</span>
+                        <div>
+                          <b>{rotationDescription(event)}</b>
+                          <small>{rotationIdentity(event)}</small>
+                        </div>
+                        <strong>{fmt(event.tao_value, 2)} τ</strong>
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="activity-empty">
+                    <b>No economic events above {capitalThreshold} TAO in the collected window.</b>
+                    <span>The threshold is doing its job. New qualifying finalized events appear automatically.</span>
+                  </div>
+                )}
+              </section>
+
+              <section className="chain-methodology" aria-label="Signal methodology">
+                <article>
+                  <b>External market flow</b>
+                  <span>TAO reserve change − direct pool injection − protocol chain-buy allocation.</span>
+                </article>
+                <article>
+                  <b>Emission absorption</b>
+                  <span>External market flow ÷ Alpha emitted during the same blocks, valued at on-chain price.</span>
+                </article>
+                <article>
+                  <b>Emission overhang</b>
+                  <span>7,200 blocks of AlphaOutEmission × live subnet price ÷ TAO reserve.</span>
+                </article>
+                <p>Every input is pinned to finalized Finney blocks. Values marked “collecting” remain blank until comparable history exists; the page never fills gaps with estimates.</p>
+              </section>
+            </>
+          )}
         </section>
       ) : view === "bubbles" ? (
         <section className="bubbles-page">

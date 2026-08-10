@@ -92,6 +92,10 @@ All `/v1` routes require `X-API-Key` unless `PUBLIC_READS=true`.
 - `GET /v1/subnets/prices` — current price and pool state for all indexed subnets.
 - `GET /v1/screener` — current markets plus 1h/24h/7d performance, 24h volume, liquidity,
   alpha supply, and market cap.
+- `GET /v1/chain-intelligence` — finalized emission-rank shifts, programmed versus external
+  TAO flow, Alpha emission absorption, one-day emission overhang, and economic stake/burn events
+  above a configurable TAO threshold. Key changes, ownership changes, conviction locks, and small
+  transfers are excluded from this endpoint.
 - `GET /v1/subnets/{netuid}/prices?interval=raw|1m&start=...&end=...&limit=...` — history.
 - `POST /v1/wallets/mass-check` — up to `MAX_MASS_WALLETS` coldkeys at one finalized block.
 - `GET /v1/wallets/{address}/history` — snapshots previously stored with `persist: true`.
@@ -174,6 +178,11 @@ If upgrading an existing database created by the earlier starter, apply the scre
 ```bash
 docker compose exec -T postgres psql -U shizzy -d shizzy < db/migrations/002_screener.sql
 ```
+
+The Render blueprint runs `app.migrate` before both backend services, so the chain-intelligence
+`excess_tao_emission` column is added automatically on deployment. For a manual deployment, apply
+`db/migrations/003_chain_intelligence.sql` before starting the updated indexer. External market-flow
+signals remain marked as collecting until one hour of comparable post-migration samples exists.
 
 The web app lives under `web/`. Its only runtime secrets are `BACKEND_API_URL` and
 `BACKEND_API_KEY`; Compose supplies both from the root environment.
