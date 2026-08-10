@@ -1356,14 +1356,24 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
               <small>vs previous hour</small>
             </button>
           </section>
-          <a className="insiders-home-cta" href="https://t.me/+0fW1AeQAUERhZTgx" target="_blank" rel="noreferrer" aria-label="Join Unchained Insiders on Telegram">
-            <Image src="/unchained-insiders.webp" alt="Unchained Insiders" width={512} height={512} sizes="82px" />
-            <span>
-              <small>Private Telegram community</small>
-              <strong>Join the Unchained Insiders Telegram Group</strong>
-            </span>
-            <b>Click here <i aria-hidden="true">↗</i></b>
-          </a>
+          <div className="home-promo-row">
+            <a className="insiders-home-cta" href="https://t.me/+0fW1AeQAUERhZTgx" target="_blank" rel="noreferrer" aria-label="Join Unchained Insiders on Telegram">
+              <Image src="/unchained-insiders.webp" alt="Unchained Insiders" width={512} height={512} sizes="82px" />
+              <span>
+                <small>Private Telegram community</small>
+                <strong>Join the Unchained Insiders Telegram Group</strong>
+              </span>
+              <b>Click here <i aria-hidden="true">↗</i></b>
+            </a>
+            <a className="university-home-cta" href="/university" aria-label="Explore Shiz University">
+              <span aria-hidden="true">SU</span>
+              <div>
+                <small>Private 1:1 learning</small>
+                <strong>Shiz University</strong>
+              </div>
+              <b aria-hidden="true">→</b>
+            </a>
+          </div>
           <div className="market-content">
             {marketDetailOpen && (
               <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}>
