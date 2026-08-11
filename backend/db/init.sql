@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS subnet_price_samples (
   alpha_reserve NUMERIC(38,9),
   alpha_out NUMERIC(38,9),
   alpha_issuance NUMERIC(38,9),
+  circulating_alpha NUMERIC(38,9),
   volume_tao NUMERIC(38,9),
   tao_in_emission NUMERIC(38,12),
   alpha_out_emission NUMERIC(38,12),
@@ -57,6 +58,7 @@ ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS conviction_locked_alph
 ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS tempo INTEGER;
 ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS staker_epoch_dividends_alpha NUMERIC(38,12);
 ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS alpha_issuance NUMERIC(38,9);
+ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS circulating_alpha NUMERIC(38,9);
 CREATE UNIQUE INDEX IF NOT EXISTS subnet_price_block_uidx ON subnet_price_samples(netuid, block_number, time);
 CREATE INDEX IF NOT EXISTS subnet_price_lookup_idx ON subnet_price_samples(netuid, time DESC);
 
