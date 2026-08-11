@@ -1304,7 +1304,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
               <a className="shop-hat-cta" href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" aria-label="Shop Shizzy Unchained merchandise">
                 <Image src="/shop-hat.webp" alt="Black TAO hat" width={256} height={256} sizes="44px" />
                 <b>Shop</b>
-                <i aria-hidden="true">↗</i>
+                <i aria-hidden="true">→</i>
               </a>
             </div>
           </section>
@@ -1368,7 +1368,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                 <small>Private Telegram community</small>
                 <strong>Join the Unchained Insiders Telegram Group</strong>
               </span>
-              <b>Click here <i aria-hidden="true">↗</i></b>
+              <b>Join <i aria-hidden="true">→</i></b>
             </a>
             <a className="university-home-cta" href="/university" aria-label="Explore Shiz University">
               <Image src="/shiz-university.webp" alt="Shiz University" width={512} height={512} sizes="58px" />
@@ -1377,7 +1377,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                 <strong>Take a 1-on-1 class with Shizzy</strong>
                 <em>Pay by class, not course.</em>
               </div>
-              <b aria-hidden="true">→</b>
+              <b>Explore <i aria-hidden="true">→</i></b>
             </a>
           </div>
           <div className="market-content">
