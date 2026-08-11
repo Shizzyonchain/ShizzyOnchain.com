@@ -86,13 +86,13 @@ async def persist_block(
             """INSERT INTO subnet_price_samples
                (time,block_number,block_hash,netuid,price_tao,tao_reserve,alpha_reserve,alpha_out,volume_tao,
                 tao_in_emission,alpha_out_emission,emission_share,root_prop,conviction_locked_alpha,
-                tempo,staker_epoch_dividends_alpha)
-               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) ON CONFLICT DO NOTHING""",
+                tempo,staker_epoch_dividends_alpha,circulating_alpha)
+               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) ON CONFLICT DO NOTHING""",
             [(timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
               r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
               r["alpha_out_emission"], r["emission_share"], r["root_prop"],
               r["conviction_locked_alpha"], r["tempo"],
-              r["staker_epoch_dividends_alpha"]) for r in rows],
+              r["staker_epoch_dividends_alpha"], r["circulating_alpha"]) for r in rows],
         )
         if events:
             await conn.executemany(

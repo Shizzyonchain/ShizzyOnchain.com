@@ -95,6 +95,13 @@ def emission_shares(
     }
 
 
+def circulating_alpha_supply(
+    alpha_reserve: Decimal, outstanding_alpha: Decimal, burned_alpha: Decimal
+) -> Decimal:
+    """Return pool plus live stake, excluding alpha burned from stake positions."""
+    return max(alpha_reserve + outstanding_alpha - burned_alpha, Decimal(0))
+
+
 def amount(value: Any) -> Decimal:
     """Convert v11 Balance/numeric values without crossing TAO/alpha units."""
     if value is None:
@@ -249,6 +256,8 @@ class ChainClient:
         self._conviction_refresh_block = -1
         self._yield_metrics: dict[int, tuple[int | None, Decimal | None]] = {}
         self._yield_refresh_block = -1
+        self._burned_alpha: dict[int, Decimal] = {}
+        self._burned_alpha_refresh_block = -1
 
     async def __aenter__(self):
         import bittensor as bt
@@ -336,6 +345,23 @@ class ChainClient:
         }
         if include_auxiliary:
             if (
+                not self._burned_alpha
+                or block_number - self._burned_alpha_refresh_block >= 25
+            ):
+                try:
+                    actual_stake = await self._actual_stake_by_subnet(view)
+                    self._burned_alpha = {
+                        netuid: max(
+                            alpha_out.get(netuid, Decimal(0))
+                            - actual_stake.get(netuid, Decimal(0)),
+                            Decimal(0),
+                        )
+                        for netuid in netuids
+                    }
+                    self._burned_alpha_refresh_block = block_number
+                except Exception as exc:
+                    logger.warning("actual subnet stake read failed: %s", exc)
+            if (
                 not self._conviction_locked
                 or block_number - self._conviction_refresh_block >= 25
             ):
@@ -356,12 +382,29 @@ class ChainClient:
             netuid = int(field(info, "netuid"))
             price = prices.get(netuid) if isinstance(prices, dict) else None
             identity = identities.get(netuid, {})
+            alpha_reserve = alpha.get(netuid)
+            outstanding_alpha = alpha_out.get(netuid)
+            burned_alpha = self._burned_alpha.get(netuid)
+            circulating_alpha = None
+            if (
+                include_auxiliary
+                and netuid != 0
+                and alpha_reserve is not None
+                and outstanding_alpha is not None
+                and burned_alpha is not None
+            ):
+                circulating_alpha = circulating_alpha_supply(
+                    alpha_reserve,
+                    outstanding_alpha,
+                    burned_alpha,
+                )
             rows.append({
                 "netuid": netuid,
                 "price_tao": Decimal(str(price or 0)),
                 "tao_reserve": tao.get(netuid),
-                "alpha_reserve": alpha.get(netuid),
-                "alpha_out": alpha_out.get(netuid),
+                "alpha_reserve": alpha_reserve,
+                "alpha_out": outstanding_alpha,
+                "circulating_alpha": circulating_alpha,
                 "volume_tao": volume.get(netuid),
                 "tao_in_emission": tao_emission.get(netuid, Decimal(0)),
                 "alpha_out_emission": alpha_emission.get(netuid, Decimal(0)),
@@ -390,6 +433,19 @@ class ChainClient:
                 "additional": identity.get("additional"),
             })
         return rows
+
+    async def _actual_stake_by_subnet(self, view) -> dict[int, Decimal]:
+        """Sum live hotkey stake, excluding alpha burned without reducing AlphaOut."""
+        stake_rows = await view.query_map(("SubtensorModule", "TotalHotkeyAlpha"))
+        totals: dict[int, Decimal] = {}
+        for key, value in stake_rows:
+            netuid = self._last_int(key)
+            if netuid is not None:
+                totals[netuid] = (
+                    totals.get(netuid, Decimal(0))
+                    + Decimal(scale_int(value)) / RAO_PER_TAO
+                )
+        return totals
 
     async def _subnet_yield_metrics(
         self, view, netuids: list[int]
@@ -430,6 +486,29 @@ class ChainClient:
         raw = getattr(value, "value", None)
         if raw is not None and raw is not value:
             return cls._first_int(raw)
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
+
+    @classmethod
+    def _last_int(cls, value: Any) -> int | None:
+        """Extract the trailing netuid from account-first composite storage keys."""
+        if isinstance(value, int):
+            return value
+        if isinstance(value, (tuple, list)):
+            for item in reversed(value):
+                result = cls._last_int(item)
+                if result is not None:
+                    return result
+        if isinstance(value, dict):
+            for item in reversed(list(value.values())):
+                result = cls._last_int(item)
+                if result is not None:
+                    return result
+        raw = getattr(value, "value", None)
+        if raw is not None and raw is not value:
+            return cls._last_int(raw)
         try:
             return int(value)
         except (TypeError, ValueError):

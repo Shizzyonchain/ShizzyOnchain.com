@@ -92,7 +92,7 @@ async def _refresh_screener(current_app: FastAPI):
                SELECT netuid,time,block_number,price_tao,tao_reserve,
                       alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
                       emission_share,root_prop,conviction_locked_alpha,tempo,
-                      staker_epoch_dividends_alpha
+                      staker_epoch_dividends_alpha,circulating_alpha
                FROM subnet_price_samples
                WHERE netuid=known.netuid
                ORDER BY time DESC,block_number DESC LIMIT 1
@@ -114,7 +114,8 @@ async def _refresh_screener(current_app: FastAPI):
                     100 * l.conviction_locked_alpha /
                       (COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0))
                   END AS conviction_locked_pct,
-                  (l.price_tao * COALESCE(l.alpha_out, 0)) AS market_cap_tao,
+                  (l.price_tao * COALESCE(l.circulating_alpha, l.alpha_out, 0))
+                    AS market_cap_tao,
                   l.volume_tao - COALESCE(v24.volume_tao,l.volume_tao) AS volume_24h_tao,
                   100 * (l.price_tao / NULLIF(p10.price_tao,0) - 1) AS change_10m,
                   100 * (l.price_tao / NULLIF(p1.price_tao,0) - 1) AS change_1h,
