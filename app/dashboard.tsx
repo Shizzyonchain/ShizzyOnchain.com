@@ -267,8 +267,7 @@ const universityCourses = [
   },
 ];
 const stripeCheckout = "https://buy.stripe.com/fZudRb3u5dkA7Y45RNfAc00";
-// Scheduling is never exposed publicly. TAO buyers submit a transaction hash first.
-const universityCalendly = "mailto:shizzyunchained@gmail.com?subject=Shiz%20University%20TAO%20payment&body=Transaction%20hash%3A%0A%0ABittensor%20wallet%20address%3A%0A%0AClass%20name%3A";
+const universityCalendly = "https://calendly.com/shizzyunchained/shiz-university";
 const universityWallet = "5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM";
 const partners = [
   {
@@ -2538,12 +2537,12 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                   </button>
                 </div>
                 <div className="schedule-step">
-                  <span>Paid with TAO? Schedule your class</span>
-                  <p>After sending your TAO, use the calendar below. You must include your transaction hash or transaction confirmation in the booking form so payment can be verified.</p>
+                  <span>After payment, schedule your class</span>
+                  <p>Paid by card? Choose your time below. Paid with TAO? Include your transaction hash or confirmation in the booking form so payment can be verified.</p>
                   <a className="card-checkout" href={universityCalendly} target="_blank" rel="noreferrer">
                     Open scheduling calendar →
                   </a>
-                  <b>Bookings without transaction confirmation will not be accepted.</b>
+                  <b>TAO bookings without transaction confirmation will not be accepted.</b>
                 </div>
               </section>
             </div>
