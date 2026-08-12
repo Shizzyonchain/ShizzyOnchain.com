@@ -24,7 +24,7 @@ export default function SubnetNewsPage() {
         <div className="news-hero-copy">
           <strong>Everything that moved. Nothing buried.</strong>
           <p>Every active SN, major X conversation, release, registration, tokenomics change, partnership, security event, and small signal worth watching.</p>
-          <span>Published daily at 10:00 AM ET</span>
+          <span>Published daily</span>
         </div>
       </section>
 
@@ -66,7 +66,7 @@ export default function SubnetNewsPage() {
           <span>01</span>
           <div>
             <p className="eyebrow">First edition incoming</p>
-            <h2 id="first-report">The next Subnet News report publishes at 10:00 AM ET.</h2>
+            <h2 id="first-report">The next Subnet News report publishes daily.</h2>
             <p>The daily scan is being connected to this page. Once the first report lands, this area becomes the latest briefing and the archive starts automatically.</p>
           </div>
         </section>
@@ -75,7 +75,7 @@ export default function SubnetNewsPage() {
       <footer className="news-footer">
         <span>SHIZZYUNCHAINED</span>
         <p>Primary sources linked · Verified news separated from developing information and rumors</p>
-        <b>Updated 10 AM ET</b>
+        <b>Published daily</b>
       </footer>
     </main>
   );

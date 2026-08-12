@@ -33,7 +33,7 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
       <article className="news-report">
         <header className="news-report-hero">
           <Link href="/subnet-news">← All Subnet News</Link>
-          <p className="eyebrow">{formatBriefDate(brief.date)} · Published 10:00 AM ET</p>
+          <p className="eyebrow">{formatBriefDate(brief.date)} · Published daily</p>
           <h1>{brief.title}</h1>
           <p>{brief.summary}</p>
           <dl>
