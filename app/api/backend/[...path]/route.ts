@@ -22,8 +22,8 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
   return new NextResponse(response.body, { status: response.status, headers: {
     "Content-Type": response.headers.get("content-type") || "application/json",
     ...(isMarketSnapshot ? {
-      "Cache-Control": "public, s-maxage=20, stale-while-revalidate=86400",
-      "CDN-Cache-Control": "public, s-maxage=20, stale-while-revalidate=86400",
+      "Cache-Control": "public, s-maxage=20, stale-while-revalidate=60",
+      "CDN-Cache-Control": "public, s-maxage=20, stale-while-revalidate=60",
     } : {}),
   } });
 }
