@@ -33,6 +33,7 @@ type ScreenerRow = {
   emission_change_1h?: string;
   volume_1h_tao?: string;
   volume_acceleration_1h?: string;
+  time?: string;
 };
 type Candle = {
   time: string;
@@ -386,6 +387,13 @@ function loadSubnetCandles(netuid: number, timeframe: string) {
   return request;
 }
 
+const MARKET_SNAPSHOT_MAX_AGE_MS = 2 * 60_000;
+
+function marketSnapshotIsFresh(rows: ScreenerRow[]) {
+  const newest = Math.max(...rows.map((row) => Date.parse(row.time || "")).filter(Number.isFinite));
+  return Number.isFinite(newest) && Date.now() - newest <= MARKET_SNAPSHOT_MAX_AGE_MS;
+}
+
 function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string, now = Date.now()) {
   if (!candles.length || !Number.isFinite(spotPrice) || spotPrice <= 0) return candles;
   const interval = candleIntervalMs[timeframe] || 60_000;
@@ -711,7 +719,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     try {
       const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
       const cachedRows = Array.isArray(cached?.data) ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0) : [];
-      if (cachedRows.length && Date.now() - Number(cached.savedAt || 0) < 24 * 60 * 60_000) {
+      if (cachedRows.length && marketSnapshotIsFresh(cachedRows)) {
         queueMicrotask(() => {
           setRows(cachedRows);
           setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
@@ -727,12 +735,14 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((json) => {
           const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
-          if (subnetMarkets.length) {
+          if (subnetMarkets.length && marketSnapshotIsFresh(subnetMarkets)) {
             window.localStorage.setItem("shizzy:screener", JSON.stringify({ data: json.data, savedAt: Date.now() }));
             setRows(subnetMarkets);
             setSelected((current) => (subnetMarkets.some((row: ScreenerRow) => row.netuid === current) ? current : subnetMarkets[0].netuid));
             setDataState("live");
             setLastUpdated(new Date());
+          } else {
+            throw new Error("Stale market snapshot");
           }
         })
         .catch(() => setDataState((current) => (current === "live" ? "live" : "error")));
@@ -2315,10 +2325,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                       <span>Mentat</span>
                     </>
                   ) : (
-                    <>
-                      <i />
-                      {partner.name}
-                    </>
+                    <Image src={`/partners/${partner.key}.svg`} alt="" width={720} height={158} unoptimized />
                   )}
                 </div>
                 <div className="partner-copy">

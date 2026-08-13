@@ -2,7 +2,6 @@ import asyncio
 import logging
 from datetime import datetime, timezone
 
-
 from app.backfill import sample_blocks
 from app.chain import ChainClient
 from app.config import get_settings
@@ -12,6 +11,8 @@ from app.wallet_job import wallet_job_loop
 
 log = logging.getLogger("shizzy.indexer")
 MAX_CATCHUP_BLOCKS = 250
+HEAD_TIMEOUT_SECONDS = 90
+BLOCK_TIMEOUT_SECONDS = 120
 
 
 def _block_hash(info) -> str:
@@ -221,7 +222,11 @@ async def indexer():
     while True:
         try:
             async with ChainClient(settings) as chain:
-                async for head in finalized_heads(settings.subtensor_ws_url):
+                heads = finalized_heads(settings.subtensor_ws_url)
+                while True:
+                    head = await asyncio.wait_for(
+                        anext(heads), timeout=HEAD_TIMEOUT_SECONDS
+                    )
                     retry_delay = 5
                     gap = head["number"] - last if last is not None else 0
                     if last is not None and gap > MAX_CATCHUP_BLOCKS:
@@ -234,12 +239,14 @@ async def indexer():
                     else:
                         start = head["number"] if last is None else last + 1
                     for number in range(start, head["number"] + 1):
-                        await persist_block(
-                            db, chain, number,
-                            head.get("hash") if number == head["number"] else None,
+                        await asyncio.wait_for(
+                            persist_block(
+                                db, chain, number,
+                                head.get("hash") if number == head["number"] else None,
+                            ),
+                            timeout=BLOCK_TIMEOUT_SECONDS,
                         )
                         last = number
-                raise ConnectionError("finalized-head stream ended")
         except asyncio.CancelledError:
             raise
         except Exception:
