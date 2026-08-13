@@ -32,7 +32,6 @@ services:
         - backend/**
     plan: starter
     dockerCommand: python -m app.indexer
-    preDeployCommand: python -m app.migrate
     envVars:
       - key: DATABASE_URL
         fromDatabase:
