@@ -243,6 +243,7 @@ async def indexer():
                             persist_block(
                                 db, chain, number,
                                 head.get("hash") if number == head["number"] else None,
+                                include_auxiliary=False,
                             ),
                             timeout=BLOCK_TIMEOUT_SECONDS,
                         )
