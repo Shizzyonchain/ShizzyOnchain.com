@@ -2,8 +2,8 @@
 
 import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import TradingChart from "./trading-chart";
+import { SiteHeader } from "./site-header";
 
 type ScreenerRow = {
   netuid: number;
@@ -102,6 +102,26 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "tIszrpO_1nQ",
+    title: "The Great Rotation Into Bittensor Has Begun",
+    meta: "26:00 · Latest episode",
+  },
+  {
+    id: "RqhuuOXTsbA",
+    title: "All In on TAO | Bittensor Subnet Market Update",
+    meta: "25:36",
+  },
+  {
+    id: "CinoduAcgCs",
+    title: "Bittensor TAO Is Going Up Only | 10 to 100 TAO Challenge Week 12",
+    meta: "18:53",
+  },
+  {
+    id: "-PbwvYo6c4U",
+    title: "State of Bittensor: The Breakout Subnet Is Here",
+    meta: "23:07",
+  },
+  {
     id: "_2VA_b-HRnw",
     title: "Getting Out of Everything besides Compute - Week 11 10 to 100 TAO Challenge",
     meta: "20:28 · Latest episode",
@@ -153,6 +173,16 @@ const channelVideos = [
   },
 ];
 const liveStreams = [
+  {
+    id: "8hJYqoRrdV8",
+    title: "Bittensor Is Taking Over the AI Industry | Live with Michael Parker",
+    meta: "1:08:46 · Streamed 5 days ago",
+  },
+  {
+    id: "2XH-XnwwdPE",
+    title: "Bittensor Subnets Are Entering a New Era | Live with James Altucher",
+    meta: "1:00:02 · Streamed 5 days ago",
+  },
   {
     id: "yZceSNu4ugc",
     title: "The TAO Thesis Nobody Is Ready For | Mark Jeffrey Live",
@@ -238,8 +268,7 @@ const universityCourses = [
   },
 ];
 const stripeCheckout = "https://buy.stripe.com/fZudRb3u5dkA7Y45RNfAc00";
-// Scheduling is never exposed publicly. TAO buyers submit a transaction hash first.
-const universityCalendly = "mailto:shizzyunchained@gmail.com?subject=Shiz%20University%20TAO%20payment&body=Transaction%20hash%3A%0A%0ABittensor%20wallet%20address%3A%0A%0AClass%20name%3A";
+const universityCalendly = "https://calendly.com/shizzyunchained/shiz-university";
 const universityWallet = "5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM";
 const partners = [
   {
@@ -588,7 +617,6 @@ export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "v
 
 export function Dashboard({ initialView = "screener" }: { initialView?: DashboardView }) {
   const [view, setView] = useState<DashboardView>(initialView);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
@@ -1252,62 +1280,13 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
           </div>
         </div>
       </section>
-      <header className="topbar">
-        <Link className="brand" href="/" aria-label="Shizzy Unchained home">
-          <img src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" />
-        </Link>
-        <button className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`} aria-label="Open navigation menu" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen((open) => !open)}>
-          <span />
-          <span />
-          <span />
-        </button>
-        <nav id="primary-navigation" className={mobileMenuOpen ? "mobile-open" : ""} aria-label="Primary navigation">
-          <Link className={view === "screener" ? "active" : ""} href="/" onClick={() => setMobileMenuOpen(false)}>
-            Market
-          </Link>
-          <Link className={view === "activity" ? "active" : ""} href="/activity" onClick={() => setMobileMenuOpen(false)}>
-            Chain
-          </Link>
-          <Link className={view === "bubbles" ? "active" : ""} href="/bubbles" onClick={() => setMobileMenuOpen(false)}>
-            Bubbles
-          </Link>
-          <Link className={view === "videos" ? "active" : ""} href="/video" onClick={() => setMobileMenuOpen(false)}>
-            Videos
-          </Link>
-          <Link href="/deep-dives" onClick={() => setMobileMenuOpen(false)}>
-            Deep Dives
-          </Link>
-          <a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)}>
-            Shop
-          </a>
-          <Link className={view === "university" ? "active" : ""} href="/university" onClick={() => setMobileMenuOpen(false)}>
-            Shiz University
-          </Link>
-          <Link className={view === "wallets" ? "active" : ""} href="/wallet-tracker" onClick={() => setMobileMenuOpen(false)}>
-            Wallet tracker
-          </Link>
-          <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
-            About
-          </Link>
-          <Link className={view === "partners" ? "active" : ""} href="/partners" onClick={() => setMobileMenuOpen(false)}>
-            Partners
-          </Link>
-        </nav>
-        <div className="header-actions">
-          <div className="currency-toggle" role="group" aria-label="Display currency" title={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}>
-            <button className={currency === "usd" ? "active" : ""} aria-pressed={currency === "usd"} onClick={() => setCurrency("usd")}>
-              USD
-            </button>
-            <button className={currency === "tao" ? "active" : ""} aria-pressed={currency === "tao"} onClick={() => setCurrency("tao")}>
-              TAO
-            </button>
-          </div>
-          <div className={`status ${dataState === "live" ? "live" : "demo"}`} title={lastUpdated ? `Last updated ${lastUpdated.toLocaleTimeString()}` : undefined}>
-            <i />
-            {dataState === "live" ? "Finney live" : dataState === "loading" ? "Connecting…" : "Reconnecting…"}
-          </div>
-        </div>
-      </header>
+      <SiteHeader
+        currency={currency}
+        onCurrencyChange={setCurrency}
+        currencyTitle={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}
+        dataState={dataState}
+        lastUpdated={lastUpdated}
+      />
 
       {view === "screener" ? (
         <>
@@ -1327,10 +1306,15 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
               <strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong>
               <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small>
             </div>
-            <div>
+            <div className="finney-tile">
               <span>Network</span>
               <strong>FINNEY</strong>
               <small>Finalized blocks only</small>
+              <a className="shop-hat-cta" href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" aria-label="Shop Shizzy Unchained merchandise">
+                <Image src="/shop-hat.webp" alt="Black TAO hat" width={256} height={256} sizes="44px" />
+                <b>Shop</b>
+                <i aria-hidden="true">→</i>
+              </a>
             </div>
           </section>
           <section className="network-pulse panel" aria-label="Network pulse">
@@ -1386,6 +1370,25 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
               <small>vs previous hour</small>
             </button>
           </section>
+          <div className="home-promo-row">
+            <a className="insiders-home-cta" href="https://t.me/+0fW1AeQAUERhZTgx" target="_blank" rel="noreferrer" aria-label="Join Unchained Insiders on Telegram">
+              <Image src="/unchained-insiders.webp" alt="Unchained Insiders" width={512} height={512} sizes="82px" />
+              <span>
+                <small>Private Telegram community</small>
+                <strong>Join the Unchained Insiders Telegram Group</strong>
+              </span>
+              <b>Join <i aria-hidden="true">→</i></b>
+            </a>
+            <a className="university-home-cta" href="/university" aria-label="Explore Shiz University">
+              <Image src="/shiz-university.webp" alt="Shiz University" width={512} height={512} sizes="58px" />
+              <div>
+                <small>Struggling with TAO?</small>
+                <strong>Take a 1-on-1 class with Shizzy</strong>
+                <em>Pay by class, not course.</em>
+              </div>
+              <b>Explore <i aria-hidden="true">→</i></b>
+            </a>
+          </div>
           <div className="market-content">
             {marketDetailOpen && (
               <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}>
@@ -2541,12 +2544,12 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                   </button>
                 </div>
                 <div className="schedule-step">
-                  <span>Paid with TAO? Schedule your class</span>
-                  <p>After sending your TAO, use the calendar below. You must include your transaction hash or transaction confirmation in the booking form so payment can be verified.</p>
+                  <span>After payment, schedule your class</span>
+                  <p>Paid by card? Choose your time below. Paid with TAO? Include your transaction hash or confirmation in the booking form so payment can be verified.</p>
                   <a className="card-checkout" href={universityCalendly} target="_blank" rel="noreferrer">
                     Open scheduling calendar →
                   </a>
-                  <b>Bookings without transaction confirmation will not be accepted.</b>
+                  <b>TAO bookings without transaction confirmation will not be accepted.</b>
                 </div>
               </section>
             </div>

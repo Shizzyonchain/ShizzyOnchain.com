@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { SiteHeader } from "../site-header";
 
 export const metadata: Metadata = {
   title: "About Shizzy Unchained | Bittensor Creator, Podcast Host & Community Builder",
@@ -28,12 +29,7 @@ function SocialButtons() {
 
 export default function AboutPage() {
   return <main className="about-page">
-    <header className="about-header">
-      <Link className="about-brand" href="/" aria-label="Shizzy Unchained home"><Image src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" width={285} height={80} /></Link>
-      <nav aria-label="Primary navigation"><Link href="/">Market</Link><Link href="/activity">Chain</Link><Link href="/video">Videos</Link><a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer">Shop</a><Link href="/university">Shiz University</Link><Link href="/wallet-tracker">Wallet tracker</Link><Link className="active" href="/about">About</Link></nav>
-      <details className="about-mobile-menu"><summary aria-label="Open navigation menu"><span /><span /><span /></summary><div><Link href="/">Market</Link><Link href="/activity">Chain</Link><Link href="/bubbles">Bubbles</Link><Link href="/video">Videos</Link><a href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer">Shop</a><Link href="/university">Shiz University</Link><Link href="/wallet-tracker">Wallet tracker</Link><Link href="/partners">Partners</Link><Link className="active" href="/about">About</Link></div></details>
-      <a className="about-contact-mini" href="mailto:shizzyunchained@gmail.com">Contact Shizzy</a>
-    </header>
+    <SiteHeader />
 
     <section className="about-hero about-wrap">
       <div className="about-hero-copy"><p className="eyebrow">About Shizzy Unchained</p><h1>The man behind <span>Shizzy Unchained</span></h1><p>Shizzy Unchained is an independent content creator, podcast host, interviewer, and community builder focused on Bittensor, decentralized artificial intelligence, cryptocurrency, content creation, and digital security.</p><p>He is known for breaking complicated topics down into clear, honest conversations that people at every experience level can understand.</p></div>

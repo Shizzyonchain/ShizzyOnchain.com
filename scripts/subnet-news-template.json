@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "date": "2099-01-01",
+  "title": "Subnet News — January 1, 2099",
+  "summary": "One concise paragraph explaining the most important developments in this coverage window.",
+  "publishedAt": "2099-01-01T10:00:00-05:00",
+  "coverageStart": "2098-12-31T10:00:00-05:00",
+  "coverageEnd": "2099-01-01T10:00:00-05:00",
+  "highlights": [
+    {
+      "headline": "Lead with the strongest verified signal",
+      "summary": "Explain what changed, why it matters, and what remains unknown without giving financial advice.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [{ "label": "Primary source", "url": "https://example.com/source" }]
+    }
+  ],
+  "upcomingUnlocks": [
+    {
+      "netuid": 1,
+      "name": "Subnet name",
+      "scheduledFor": "2099-01-15",
+      "amountAlpha": 250000,
+      "releaseType": "unknown",
+      "status": "unverified",
+      "summary": "Explain who announced or initiated the unlock, whether it is a cliff release or continuous conviction decay, and what remains unconfirmed.",
+      "sources": [{ "label": "Primary or on-chain source", "url": "https://example.com/unlock-source" }]
+    }
+  ],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Subnet name",
+      "updates": []
+    }
+  ],
+  "ecosystem": [],
+  "coverage": {
+    "searched": ["X public posts by SN# and subnet name", "Official Bittensor sources", "Subnet GitHub repositories"],
+    "gaps": ["List inaccessible, private, deleted, or rate-limited sources here."]
+  }
+}

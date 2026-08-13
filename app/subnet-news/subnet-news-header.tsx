@@ -1,5 +1,5 @@
 import { SiteHeader } from "../site-header";
 
-export function DeepDivesHeader() {
+export function SubnetNewsHeader() {
   return <SiteHeader />;
 }

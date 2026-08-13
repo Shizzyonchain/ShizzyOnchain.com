@@ -2,12 +2,23 @@ from decimal import Decimal
 
 from app.chain import (
     ChainClient,
+    circulating_alpha_supply,
     emission_shares,
     fixed_to_decimal,
     parse_chain_events,
     scale_int,
     total_locked_alpha,
 )
+
+
+def test_circulating_supply_matches_taomarketcap_burn_adjustment():
+    supply = circulating_alpha_supply(
+        Decimal("2551990.446453411"),
+        Decimal("3342138.125851868"),
+        Decimal("406985.734117648"),
+    )
+
+    assert supply == Decimal("5487142.838187631")
 
 
 def test_scale_int_unwraps_bittensor_v11_codec_shapes():
@@ -29,6 +40,25 @@ def test_fixed_to_decimal_preserves_binary_fraction_precision():
 
 def test_composite_storage_key_extracts_netuid_from_mapping():
     assert ChainClient._first_int({"netuid": 64}) == 64
+    assert ChainClient._last_int(({"value": [1, 2, 3]}, 51)) == 51
+
+
+class FakeStakeView:
+    async def query_map(self, storage):
+        assert storage == ("SubtensorModule", "TotalHotkeyAlpha")
+        return [
+            (("5HotA", 64), 2_000_000_000),
+            (("5HotB", 64), 750_000_000),
+            (("5HotC", 4), 1_250_000_000),
+        ]
+
+
+async def test_actual_stake_sums_hotkey_alpha_by_subnet():
+    chain = ChainClient.__new__(ChainClient)
+
+    totals = await chain._actual_stake_by_subnet(FakeStakeView())
+
+    assert totals == {64: Decimal("2.75"), 4: Decimal("1.25")}
 
 
 def test_emission_share_includes_pool_injection_and_chain_buys():
