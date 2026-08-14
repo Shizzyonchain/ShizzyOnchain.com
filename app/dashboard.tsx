@@ -362,24 +362,18 @@ function loadSubnetCandles(netuid: number, timeframe: string) {
   if (pending) return pending;
   const url = `/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`;
   const fetchWithRetry = async () => {
-    let lastError: unknown;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 8_000);
-      try {
-        const response = await fetch(url, {
-          cache: "no-store",
-          signal: controller.signal,
-        });
-        if (!response.ok) throw new Error(`Chart request failed: ${response.status}`);
-        return await response.json();
-      } catch (error) {
-        lastError = error;
-      } finally {
-        window.clearTimeout(timeout);
-      }
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 28_000);
+    try {
+      const response = await fetch(url, {
+        cache: "no-store",
+        signal: controller.signal,
+      });
+      if (!response.ok) throw new Error(`Chart request failed: ${response.status}`);
+      return await response.json();
+    } finally {
+      window.clearTimeout(timeout);
     }
-    throw lastError;
   };
   const request = fetchWithRetry()
     .then((json) => {
@@ -855,29 +849,6 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     };
   }, [selected, timeframe, showTaoChart, view]);
 
-  useEffect(() => {
-    if (view !== "screener" || showTaoChart || !selected || chartLoading) return;
-    let cancelled = false;
-    const idle = window.setTimeout(() => {
-      const prefetch = async () => {
-        for (const value of (["10m", "1h", "1d"] as const).filter((item) => item !== timeframe)) {
-          if (cancelled) return;
-          const key = `${selected}:${value}`;
-          if (candleCache.has(key)) continue;
-          try {
-            await loadSubnetCandles(selected, value);
-          } catch {
-            /* A direct selection will retry if prefetch fails. */
-          }
-        }
-      };
-      void prefetch();
-    }, 750);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(idle);
-    };
-  }, [selected, timeframe, showTaoChart, chartLoading, view]);
   useEffect(() => {
     if (view !== "activity") return;
     const refreshActivity = () => {
