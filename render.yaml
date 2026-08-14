@@ -8,7 +8,7 @@ services:
         - backend/**
     plan: starter
     dockerCommand: uvicorn app.api:app --host 0.0.0.0 --port $PORT --proxy-headers
-    healthCheckPath: /healthz
+    healthCheckPath: /livez
     envVars:
       - key: DATABASE_URL
         fromDatabase:

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from app.api import _refresh_screener, app, chain_activity, health
+from app.api import _refresh_screener, app, chain_activity, health, liveness
 
 
 class RecordingDatabase:
@@ -84,3 +84,10 @@ async def test_health_reports_actual_market_staleness():
     assert result["status"] == "degraded"
     assert result["reason"].startswith("market prices stale by")
     assert result["market_lag_seconds"] >= 120
+
+
+@pytest.mark.asyncio
+async def test_liveness_does_not_require_database():
+    app.state.db = None
+
+    assert await liveness() == {"status": "ok"}
