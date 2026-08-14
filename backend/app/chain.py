@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import math
 from dataclasses import asdict, is_dataclass
 from decimal import Decimal
 from typing import Any
@@ -160,6 +161,27 @@ def total_locked_alpha(result: Any) -> Decimal:
     )
 
 
+def rolled_locked_alpha(
+    value: Any,
+    block_number: int,
+    unlock_rate: int,
+    *,
+    decaying: bool,
+) -> Decimal:
+    """Return a stored lock's current alpha mass in whole-token units."""
+    if value is None:
+        return Decimal(0)
+    raw = getattr(value, "value", value)
+    locked_mass = scale_int(field(raw, "locked_mass", default=0))
+    if decaying and locked_mass > 0:
+        last_update = scale_int(field(raw, "last_update", default=block_number))
+        elapsed = max(0, block_number - last_update)
+        rate = max(1, unlock_rate)
+        decay = math.exp(-min(elapsed / rate, 40.0))
+        locked_mass = int(locked_mass * decay)
+    return Decimal(locked_mass) / RAO_PER_TAO
+
+
 def field(obj: Any, *names: str, default=None):
     data = asdict(obj) if is_dataclass(obj) else obj
     for name in names:
@@ -286,9 +308,12 @@ class ChainClient:
         *,
         include_auxiliary: bool = True,
         include_yield_metrics: bool | None = None,
+        include_lock_metrics: bool | None = None,
     ) -> list[dict]:
         if include_yield_metrics is None:
             include_yield_metrics = include_auxiliary
+        if include_lock_metrics is None:
+            include_lock_metrics = include_auxiliary
         view = await self.client.at(block_number)
         (
             infos,
@@ -368,14 +393,35 @@ class ChainClient:
                     self._burned_alpha_refresh_block = block_number
                 except Exception as exc:
                     logger.warning("actual subnet stake read failed: %s", exc)
-            if (
-                not self._conviction_locked
-                or block_number - self._conviction_refresh_block >= 25
-            ):
-                self._conviction_locked = await self._locked_alpha_by_subnet(
-                    view, netuids
+        if include_lock_metrics and (
+            not self._conviction_locked
+            or block_number - self._conviction_refresh_block >= 25
+        ):
+            refreshed_locks = await self._locked_alpha_by_subnet(
+                view, netuids, block_number
+            )
+            self._conviction_locked = {
+                netuid: (
+                    refreshed_locks.get(netuid)
+                    if refreshed_locks.get(netuid) is not None
+                    else self._conviction_locked.get(netuid)
                 )
-                self._conviction_refresh_block = block_number
+                for netuid in netuids
+            }
+            valid_locks = sum(
+                value is not None for value in self._conviction_locked.values()
+            )
+            self._conviction_refresh_block = (
+                block_number
+                if valid_locks >= len(netuids)
+                else block_number - 15
+            )
+            logger.info(
+                "subnet lock metrics refreshed block=%s valid_subnets=%s expected_subnets=%s",
+                block_number,
+                valid_locks,
+                len(netuids),
+            )
         if include_yield_metrics and (
             not self._yield_metrics
             or block_number - self._yield_refresh_block >= 100
@@ -460,7 +506,7 @@ class ChainClient:
                 ),
                 "conviction_locked_alpha": (
                     self._conviction_locked.get(netuid)
-                    if include_auxiliary else None
+                    if include_lock_metrics else None
                 ),
                 "name": identity.get("name"),
                 "symbol": symbols.get(netuid),
@@ -609,25 +655,54 @@ class ChainClient:
         except (TypeError, ValueError):
             return None
 
-    async def _locked_alpha_by_subnet(self, view, netuids: list[int]) -> dict[int, Decimal | None]:
-        """Sum rolled-forward conviction lock mass, refreshing in bounded batches."""
-        totals: dict[int, Decimal | None] = {}
-
-        async def one(netuid: int):
-            try:
-                result = await view.locks.subnet_convictions(netuid=netuid)
-                return netuid, total_locked_alpha(result)
-            except Exception as exc:
-                logger.warning(
-                    "conviction lock read failed for netuid %s: %s",
-                    netuid,
-                    exc,
+    async def _locked_alpha_by_subnet(
+        self,
+        view,
+        netuids: list[int],
+        block_number: int,
+    ) -> dict[int, Decimal | None]:
+        """Sum current lock mass with a small, fixed number of storage reads."""
+        try:
+            timeout = max(
+                1,
+                min(12, self.settings.rpc_block_timeout_seconds / 2),
+            )
+            async with asyncio.timeout(timeout):
+                (
+                    perpetual_hotkeys,
+                    decaying_hotkeys,
+                    perpetual_owners,
+                    decaying_owners,
+                    unlock_rate_value,
+                ) = await asyncio.gather(
+                    view.query_map(("SubtensorModule", "HotkeyLock")),
+                    view.query_map(("SubtensorModule", "DecayingHotkeyLock")),
+                    view.query_map(("SubtensorModule", "OwnerLock")),
+                    view.query_map(("SubtensorModule", "DecayingOwnerLock")),
+                    view.query(("SubtensorModule", "UnlockRate")),
                 )
-                return netuid, None
+        except Exception as exc:  # noqa: BLE001 -- isolate optional SDK/RPC reads
+            logger.warning("subnet lock metric read failed: %s", type(exc).__name__)
+            return {netuid: None for netuid in netuids}
 
-        for start in range(0, len(netuids), 16):
-            for netuid, total in await asyncio.gather(*(one(n) for n in netuids[start:start + 16])):
-                totals[netuid] = total
+        unlock_rate = scale_int(unlock_rate_value) if unlock_rate_value else 934_866
+        totals = {netuid: Decimal(0) for netuid in netuids}
+
+        def add_rows(rows, *, decaying: bool) -> None:
+            for key, value in rows:
+                netuid = self._first_int(key)
+                if netuid in totals:
+                    totals[netuid] += rolled_locked_alpha(
+                        value,
+                        block_number,
+                        unlock_rate,
+                        decaying=decaying,
+                    )
+
+        add_rows(perpetual_hotkeys, decaying=False)
+        add_rows(decaying_hotkeys, decaying=True)
+        add_rows(perpetual_owners, decaying=False)
+        add_rows(decaying_owners, decaying=True)
         return totals
 
     @staticmethod

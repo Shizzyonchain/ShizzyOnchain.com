@@ -6,6 +6,7 @@ from app.chain import (
     emission_shares,
     fixed_to_decimal,
     parse_chain_events,
+    rolled_locked_alpha,
     scale_int,
     total_locked_alpha,
 )
@@ -95,6 +96,40 @@ async def test_yield_metrics_scope_dividend_reads_to_each_subnet():
         4: (359, Decimal("1.25")),
         64: (99, Decimal("2.75")),
     }
+
+
+class FakeLockView:
+    async def query_map(self, storage):
+        return {
+            ("SubtensorModule", "HotkeyLock"): [
+                ((4, "5HotA"), {"locked_mass": 2_000_000_000, "last_update": 90}),
+            ],
+            ("SubtensorModule", "DecayingHotkeyLock"): [
+                ((4, "5HotB"), {"locked_mass": 1_000_000_000, "last_update": 90}),
+            ],
+            ("SubtensorModule", "OwnerLock"): [
+                (64, {"locked_mass": 3_000_000_000, "last_update": 90}),
+            ],
+            ("SubtensorModule", "DecayingOwnerLock"): [],
+        }[storage]
+
+    async def query(self, storage):
+        assert storage == ("SubtensorModule", "UnlockRate")
+        return 10
+
+
+async def test_locked_alpha_uses_bounded_storage_maps_and_rolls_decay():
+    chain = ChainClient(Settings())
+
+    totals = await chain._locked_alpha_by_subnet(FakeLockView(), [4, 64], 100)
+
+    assert totals[4] == Decimal(2) + rolled_locked_alpha(
+        {"locked_mass": 1_000_000_000, "last_update": 90},
+        100,
+        10,
+        decaying=True,
+    )
+    assert totals[64] == Decimal(3)
 
 
 def test_emission_share_includes_pool_injection_and_chain_buys():
