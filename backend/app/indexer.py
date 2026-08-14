@@ -14,6 +14,27 @@ from app.wallet_job import wallet_job_loop
 log = logging.getLogger("shizzy.indexer")
 MAX_CATCHUP_BLOCKS = 250
 
+LATEST_PRICE_UPSERT = """INSERT INTO subnet_latest_samples
+   (time,block_number,block_hash,netuid,price_tao,tao_reserve,
+    alpha_reserve,alpha_out,volume_tao,tao_in_emission,
+    alpha_out_emission,emission_share,root_prop,
+    conviction_locked_alpha,tempo,staker_epoch_dividends_alpha,
+    circulating_alpha)
+   VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+   ON CONFLICT(netuid) DO UPDATE SET
+   time=EXCLUDED.time,block_number=EXCLUDED.block_number,
+   block_hash=EXCLUDED.block_hash,price_tao=EXCLUDED.price_tao,
+   tao_reserve=EXCLUDED.tao_reserve,alpha_reserve=EXCLUDED.alpha_reserve,
+   alpha_out=EXCLUDED.alpha_out,volume_tao=EXCLUDED.volume_tao,
+   tao_in_emission=EXCLUDED.tao_in_emission,
+   alpha_out_emission=EXCLUDED.alpha_out_emission,
+   emission_share=EXCLUDED.emission_share,root_prop=EXCLUDED.root_prop,
+   conviction_locked_alpha=EXCLUDED.conviction_locked_alpha,
+   tempo=EXCLUDED.tempo,
+   staker_epoch_dividends_alpha=EXCLUDED.staker_epoch_dividends_alpha,
+   circulating_alpha=EXCLUDED.circulating_alpha
+   WHERE subnet_latest_samples.block_number <= EXCLUDED.block_number"""
+
 
 def _block_hash(info) -> str:
     value = getattr(info, "hash", None) or getattr(info, "block_hash", None)
@@ -93,6 +114,14 @@ async def persist_block(
                   r["github_repo"], r["discord"], r["contact"], r["logo_url"],
                   r["additional"], number) for r in rows],
             )
+            price_rows = [
+                (timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
+                 r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
+                 r["alpha_out_emission"], r["emission_share"], r["root_prop"],
+                 r["conviction_locked_alpha"], r["tempo"],
+                 r["staker_epoch_dividends_alpha"], r["circulating_alpha"])
+                for r in rows
+            ]
             await conn.executemany(
                 """INSERT INTO subnet_price_samples
                (time,block_number,block_hash,netuid,price_tao,tao_reserve,alpha_reserve,alpha_out,volume_tao,
@@ -110,12 +139,9 @@ async def persist_block(
                tempo=EXCLUDED.tempo,
                staker_epoch_dividends_alpha=EXCLUDED.staker_epoch_dividends_alpha,
                circulating_alpha=EXCLUDED.circulating_alpha""",
-                [(timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
-                  r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
-                  r["alpha_out_emission"], r["emission_share"], r["root_prop"],
-                  r["conviction_locked_alpha"], r["tempo"],
-                  r["staker_epoch_dividends_alpha"], r["circulating_alpha"]) for r in rows],
+                price_rows,
             )
+            await conn.executemany(LATEST_PRICE_UPSERT, price_rows)
         if events:
             await conn.executemany(
                 """INSERT INTO chain_events
@@ -161,8 +187,8 @@ async def persist_price_tick(
                   volume_tao,tao_in_emission,alpha_out_emission,emission_share,
                   root_prop,conviction_locked_alpha,tempo,
                   staker_epoch_dividends_alpha,circulating_alpha
-           FROM subnet_price_samples
-           ORDER BY netuid,time DESC,block_number DESC"""
+           FROM subnet_latest_samples
+           ORDER BY netuid"""
     )
     previous = {int(row["netuid"]): row for row in previous_rows}
     rows = []
@@ -200,6 +226,7 @@ async def persist_price_tick(
                block_hash=EXCLUDED.block_hash,price_tao=EXCLUDED.price_tao""",
             rows,
         )
+        await db.executemany(LATEST_PRICE_UPSERT, rows)
     log.info(
         "Finney live prices indexed block=%s subnets=%s tick_ms=%s",
         number,
@@ -213,7 +240,7 @@ async def live_price_loop(db, settings):
     endpoints = settings.subtensor_ws_urls
     endpoint_index = 0
     retry_delay = 1
-    last = await db.fetchval("SELECT max(block_number) FROM subnet_price_samples")
+    last = await db.fetchval("SELECT max(block_number) FROM subnet_latest_samples")
     while True:
         endpoint = endpoints[endpoint_index]
         endpoint_name = urlsplit(endpoint).hostname or "configured-rpc"

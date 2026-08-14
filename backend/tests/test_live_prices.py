@@ -6,7 +6,7 @@ from app.indexer import persist_price_tick
 
 class RecordingDatabase:
     def __init__(self):
-        self.insert = None
+        self.inserts = []
 
     async def fetch(self, _query):
         return [{
@@ -26,7 +26,7 @@ class RecordingDatabase:
         }]
 
     async def executemany(self, query, rows):
-        self.insert = (query, rows)
+        self.inserts.append((query, rows))
 
 
 class FastPriceChain:
@@ -46,7 +46,7 @@ async def test_price_tick_carries_enrichment_without_full_subnet_scan():
 
     await persist_price_tick(database, FastPriceChain(), 123)
 
-    query, rows = database.insert
+    query, rows = database.inserts[0]
     assert "ON CONFLICT(time,netuid,block_number)" in query
     assert len(rows) == 1
     assert rows[0][3:7] == (
@@ -57,3 +57,6 @@ async def test_price_tick_carries_enrichment_without_full_subnet_scan():
     )
     assert rows[0][13] == Decimal("50")
     assert rows[0][15] == Decimal("6")
+    latest_query, latest_rows = database.inserts[1]
+    assert "INSERT INTO subnet_latest_samples" in latest_query
+    assert latest_rows == rows

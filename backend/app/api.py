@@ -67,7 +67,7 @@ async def _health_details():
         }
     latest_market = await app.state.db.fetchrow(
         """SELECT block_number,time
-           FROM subnet_price_samples
+           FROM subnet_latest_samples
            WHERE netuid=0
            ORDER BY time DESC,block_number DESC LIMIT 1"""
     )
@@ -113,14 +113,14 @@ async def current_prices():
     rows = await app.state.db.fetch(
         """SELECT DISTINCT ON (p.netuid) p.netuid,s.name,s.symbol,p.time,p.block_number,
                   p.price_tao,p.tao_reserve,p.alpha_reserve,p.alpha_out,p.volume_tao
-           FROM subnet_price_samples p LEFT JOIN subnets s USING(netuid)
+           FROM subnet_latest_samples p LEFT JOIN subnets s USING(netuid)
            ORDER BY p.netuid,p.time DESC,p.block_number DESC"""
     )
     return {"data": [dict(row) for row in rows]}
 
 
 async def _refresh_live_screener(current_app: FastAPI):
-    """Fetch only the newest indexed values using the per-subnet time index."""
+    """Fetch the constant-size latest-price table without scanning history."""
     rows = await current_app.state.db.fetch(
         """SELECT p.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
                   s.discord,s.contact,s.logo_url,s.additional,p.time,p.block_number,p.price_tao,
@@ -139,12 +139,8 @@ async def _refresh_live_screener(current_app: FastAPI):
                   END AS conviction_locked_pct,
                   (p.price_tao * COALESCE(p.circulating_alpha, p.alpha_out, 0))
                     AS market_cap_tao
-           FROM subnets s
-           JOIN LATERAL (
-             SELECT sample.* FROM subnet_price_samples sample
-             WHERE sample.netuid=s.netuid
-             ORDER BY sample.time DESC,sample.block_number DESC LIMIT 1
-           ) p ON true
+           FROM subnet_latest_samples p
+           JOIN subnets s ON s.netuid=p.netuid
            ORDER BY p.netuid"""
     )
     live_by_netuid = {row["netuid"]: dict(row) for row in rows}
@@ -168,17 +164,11 @@ async def _refresh_live_screener(current_app: FastAPI):
 async def _refresh_screener(current_app: FastAPI):
     rows = await app.state.db.fetch(
         """WITH latest AS (
-             SELECT sample.*
-             FROM subnets known
-             JOIN LATERAL (
-               SELECT netuid,time,block_number,price_tao,tao_reserve,
-                      alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
-                      emission_share,root_prop,conviction_locked_alpha,tempo,
-                      staker_epoch_dividends_alpha,circulating_alpha
-               FROM subnet_price_samples
-               WHERE netuid=known.netuid
-               ORDER BY time DESC,block_number DESC LIMIT 1
-             ) sample ON true
+             SELECT netuid,time,block_number,price_tao,tao_reserve,
+                    alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
+                    emission_share,root_prop,conviction_locked_alpha,tempo,
+                    staker_epoch_dividends_alpha,circulating_alpha
+             FROM subnet_latest_samples
            )
            SELECT l.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
                   s.discord,s.contact,s.logo_url,s.additional,l.time,l.block_number,l.price_tao,
@@ -270,7 +260,9 @@ async def screener():
     last_started = app.state.screener_refresh_started_at
     if task is None and (last_started is None or now - last_started >= timedelta(seconds=60)):
         app.state.screener_refresh_started_at = now
-        app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
+        app.state.screener_refresh_task = asyncio.create_task(
+            asyncio.wait_for(_refresh_screener(app), timeout=10)
+        )
     return app.state.screener_cache
 
 
