@@ -312,6 +312,11 @@ const fmt = (value?: string | number, digits = 2) => {
     minimumFractionDigits: n < 1 ? Math.min(digits, 4) : 0,
   });
 };
+const compactAlpha = (value?: string | number) =>
+  new Intl.NumberFormat(undefined, {
+    notation: "compact",
+    maximumFractionDigits: 2,
+  }).format(Number(value ?? 0));
 const changeClass = (v?: string) => (Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral");
 const candleIntervalMs: Record<string, number> = {
   "1m": 60_000,
@@ -1690,8 +1695,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                       <th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
                         <button onClick={() => changeSort("apy")}>Staker APY{sortArrow("apy")}</button>
                       </th>
-                      <th title="Percentage of the subnet's full on-chain Alpha supply currently conviction locked.">
-                        <button onClick={() => changeSort("conviction_locked_pct")}>Supply Locked{sortArrow("conviction_locked_pct")}</button>
+                      <th title="Current locked alpha mass. The percentage is measured against SubnetAlphaOut (staked/outstanding alpha). Locked mass and matured conviction are separate on-chain values.">
+                        <button onClick={() => changeSort("conviction_locked_pct")}>Locked Alpha{sortArrow("conviction_locked_pct")}</button>
                       </th>
                       <th>
                         <button onClick={() => changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button>
@@ -1740,7 +1745,12 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                           {r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}
                           <small>latest realized tempo</small>
                         </td>
-                        <td>{r.conviction_locked_pct == null ? "—" : `${fmt(r.conviction_locked_pct, 2)}%`}</td>
+                        <td
+                          className="locked-alpha-cell"
+                          title="Locked alpha mass; percentage of staked/outstanding alpha (SubnetAlphaOut), not matured conviction."
+                        >
+                          {r.conviction_locked_alpha == null ? "—" : <>{compactAlpha(r.conviction_locked_alpha)} α<small>{fmt(r.conviction_locked_pct, 2)}% of α-out</small></>}
+                        </td>
                         <td>{money(r.volume_24h_tao)}</td>
                         <td>{money(r.tao_reserve)}</td>
                       </tr>
@@ -1768,8 +1778,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
             <article className="conviction-board panel">
               <div className="intel-panel-head">
                 <div>
-                  <p className="eyebrow">Conviction leaderboard</p>
-                  <h2>Supply locked by subnet</h2>
+                  <p className="eyebrow">Alpha lock leaderboard</p>
+                  <h2>Locked alpha by subnet</h2>
                 </div>
                 <span>All {convictionLeaders.length} subnets · Live finalized state</span>
               </div>
@@ -1788,7 +1798,10 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                         }}
                       />
                     </i>
-                    <strong>{fmt(row.conviction_locked_pct, 2)}%</strong>
+                    <strong title="Locked alpha mass; this is distinct from matured conviction.">
+                      {compactAlpha(row.conviction_locked_alpha)} α
+                      <small>{fmt(row.conviction_locked_pct, 2)}% of α-out</small>
+                    </strong>
                   </button>
                 ))}
                 {!convictionLeaders.length && <div className="intel-empty">Waiting for finalized conviction data…</div>}

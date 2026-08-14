@@ -109,10 +109,9 @@ async def _refresh_screener(current_app: FastAPI):
                   END AS apy,
                   l.conviction_locked_alpha,
                   CASE WHEN l.conviction_locked_alpha IS NULL
-                         OR COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0) <= 0
+                         OR COALESCE(l.alpha_out, 0) <= 0
                        THEN NULL ELSE
-                    100 * l.conviction_locked_alpha /
-                      (COALESCE(l.alpha_reserve, 0) + COALESCE(l.alpha_out, 0))
+                    100 * l.conviction_locked_alpha / l.alpha_out
                   END AS conviction_locked_pct,
                   (l.price_tao * COALESCE(l.circulating_alpha, l.alpha_out, 0))
                     AS market_cap_tao,
