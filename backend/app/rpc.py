@@ -28,7 +28,16 @@ async def finalized_heads(
             raise RuntimeError(response["error"])
         if "result" not in response:
             raise RuntimeError("Finney endpoint did not acknowledge finalized-head subscription")
-        async for message in ws:
+        while True:
+            # A full subnet snapshot can take longer than Finney's block interval.
+            # Drain already-buffered notifications so the indexer sees the newest
+            # finalized height instead of walking an ever-growing websocket queue.
+            message = await ws.recv()
+            while True:
+                try:
+                    message = await asyncio.wait_for(ws.recv(), timeout=0.001)
+                except TimeoutError:
+                    break
             payload = json.loads(message)
             result = payload.get("params", {}).get("result")
             if result:
