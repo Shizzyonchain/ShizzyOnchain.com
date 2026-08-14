@@ -49,17 +49,21 @@ async def persist_block(
     include_auxiliary: bool = True,
     include_yield_metrics: bool | None = None,
     include_lock_metrics: bool | None = None,
+    include_market_data: bool = True,
 ):
     info = await chain.block_info(number)
     block_hash = _block_hash(info) or announced_hash
     if not block_hash:
         raise RuntimeError(f"No hash returned for finalized block {number}")
     timestamp = _block_time(info)
-    rows = await chain.subnets_at(
-        number,
-        include_auxiliary=include_auxiliary,
-        include_yield_metrics=include_yield_metrics,
-        include_lock_metrics=include_lock_metrics,
+    rows = (
+        await chain.subnets_at(
+            number,
+            include_auxiliary=include_auxiliary,
+            include_yield_metrics=include_yield_metrics,
+            include_lock_metrics=include_lock_metrics,
+        )
+        if include_market_data else []
     )
     events = []
     if include_events:
@@ -75,8 +79,9 @@ async def persist_block(
         )
         if claimed is None:
             return
-        await conn.executemany(
-            """INSERT INTO subnets
+        if rows:
+            await conn.executemany(
+                """INSERT INTO subnets
                (netuid,name,symbol,description,website,github_repo,discord,contact,logo_url,additional,
                 first_seen_block,last_seen_block)
                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$11) ON CONFLICT(netuid) DO UPDATE SET
@@ -84,22 +89,22 @@ async def persist_block(
                website=EXCLUDED.website, github_repo=EXCLUDED.github_repo, discord=EXCLUDED.discord,
                contact=EXCLUDED.contact, logo_url=EXCLUDED.logo_url, additional=EXCLUDED.additional,
                last_seen_block=EXCLUDED.last_seen_block""",
-            [(r["netuid"], r["name"], r["symbol"], r["description"], r["website"],
-              r["github_repo"], r["discord"], r["contact"], r["logo_url"],
-              r["additional"], number) for r in rows],
-        )
-        await conn.executemany(
-            """INSERT INTO subnet_price_samples
+                [(r["netuid"], r["name"], r["symbol"], r["description"], r["website"],
+                  r["github_repo"], r["discord"], r["contact"], r["logo_url"],
+                  r["additional"], number) for r in rows],
+            )
+            await conn.executemany(
+                """INSERT INTO subnet_price_samples
                (time,block_number,block_hash,netuid,price_tao,tao_reserve,alpha_reserve,alpha_out,volume_tao,
                 tao_in_emission,alpha_out_emission,emission_share,root_prop,conviction_locked_alpha,
                 tempo,staker_epoch_dividends_alpha,circulating_alpha)
                VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) ON CONFLICT DO NOTHING""",
-            [(timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
-              r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
-              r["alpha_out_emission"], r["emission_share"], r["root_prop"],
-              r["conviction_locked_alpha"], r["tempo"],
-              r["staker_epoch_dividends_alpha"], r["circulating_alpha"]) for r in rows],
-        )
+                [(timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
+                  r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
+                  r["alpha_out_emission"], r["emission_share"], r["root_prop"],
+                  r["conviction_locked_alpha"], r["tempo"],
+                  r["staker_epoch_dividends_alpha"], r["circulating_alpha"]) for r in rows],
+            )
         if events:
             await conn.executemany(
                 """INSERT INTO chain_events
@@ -121,8 +126,8 @@ async def persist_block(
                 ],
             )
     log.info(
-        "indexed finalized block %s (%s subnets, %s tracked events)",
-        number, len(rows), len(events),
+        "indexed finalized block %s (%s subnets, %s tracked events, market_data=%s)",
+        number, len(rows), len(events), include_market_data,
     )
 
 
@@ -259,6 +264,23 @@ async def indexer():
                     start = head["number"]
                 else:
                     start = head["number"] if last is None else last + 1
+                # Preserve finalized events for skipped heights, but only perform
+                # the expensive 128-subnet market snapshot at the newest head.
+                for number in range(start, head["number"]):
+                    await asyncio.wait_for(
+                        persist_block(
+                            db,
+                            chain,
+                            number,
+                            include_auxiliary=False,
+                            include_yield_metrics=False,
+                            include_lock_metrics=False,
+                            include_market_data=False,
+                        ),
+                        timeout=settings.rpc_block_timeout_seconds,
+                    )
+                    last = number
+                start = head["number"]
                 for number in range(start, head["number"] + 1):
                     block_started = time.monotonic()
                     await asyncio.wait_for(
