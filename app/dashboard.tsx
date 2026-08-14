@@ -392,7 +392,9 @@ function loadSubnetCandles(netuid: number, timeframe: string) {
   return request;
 }
 
-const MARKET_SNAPSHOT_MAX_AGE_MS = 2 * 60_000;
+// A finalized 128-subnet scan plus the regional relay cache normally lands
+// within two minutes. Reserve the delayed state for a real missed cycle.
+const MARKET_SNAPSHOT_MAX_AGE_MS = 3 * 60_000;
 const MARKET_SNAPSHOT_CACHE_MAX_AGE_MS = 24 * 60 * 60_000;
 
 function marketSnapshotAge(rows: ScreenerRow[]) {
