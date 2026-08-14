@@ -1,6 +1,8 @@
 import asyncio
 import logging
+import time
 from datetime import datetime, timezone
+from urllib.parse import urlsplit
 
 from app.backfill import sample_blocks
 from app.chain import ChainClient
@@ -11,8 +13,6 @@ from app.wallet_job import wallet_job_loop
 
 log = logging.getLogger("shizzy.indexer")
 MAX_CATCHUP_BLOCKS = 250
-HEAD_TIMEOUT_SECONDS = 90
-BLOCK_TIMEOUT_SECONDS = 120
 
 
 def _block_hash(info) -> str:
@@ -218,42 +218,81 @@ async def indexer():
         last = int(settings.indexer_start_block) - 1
     asyncio.create_task(backfill_loop(db, settings))
     asyncio.create_task(wallet_job_loop(db, settings))
-    retry_delay = 5
+    endpoints = settings.subtensor_ws_urls
+    endpoint_index = 0
+    retry_delay = 1
     while True:
+        endpoint = endpoints[endpoint_index]
+        endpoint_name = urlsplit(endpoint).hostname or "configured-rpc"
+        chain_settings = settings.model_copy(update={"subtensor_ws_url": endpoint})
+        chain = ChainClient(chain_settings)
+        heads = None
+        connected_at = time.monotonic()
         try:
-            async with ChainClient(settings) as chain:
-                heads = finalized_heads(settings.subtensor_ws_url)
-                while True:
-                    head = await asyncio.wait_for(
-                        anext(heads), timeout=HEAD_TIMEOUT_SECONDS
+            await asyncio.wait_for(
+                chain.__aenter__(), timeout=settings.rpc_connect_timeout_seconds
+            )
+            log.info("Finney RPC connected endpoint=%s", endpoint_name)
+            heads = finalized_heads(
+                endpoint,
+                connect_timeout=settings.rpc_connect_timeout_seconds,
+                subscribe_timeout=settings.rpc_subscribe_timeout_seconds,
+            )
+            while True:
+                head_started = time.monotonic()
+                head = await asyncio.wait_for(
+                    anext(heads), timeout=settings.rpc_head_timeout_seconds
+                )
+                retry_delay = 1
+                gap = head["number"] - last if last is not None else 0
+                if last is not None and gap > MAX_CATCHUP_BLOCKS:
+                    log.warning(
+                        "indexer is %s blocks behind; jumping to finalized block %s",
+                        gap,
+                        head["number"],
                     )
-                    retry_delay = 5
-                    gap = head["number"] - last if last is not None else 0
-                    if last is not None and gap > MAX_CATCHUP_BLOCKS:
-                        log.warning(
-                            "indexer is %s blocks behind; jumping to finalized block %s",
-                            gap,
-                            head["number"],
-                        )
-                        start = head["number"]
-                    else:
-                        start = head["number"] if last is None else last + 1
-                    for number in range(start, head["number"] + 1):
-                        await asyncio.wait_for(
-                            persist_block(
-                                db, chain, number,
-                                head.get("hash") if number == head["number"] else None,
-                                include_auxiliary=False,
-                            ),
-                            timeout=BLOCK_TIMEOUT_SECONDS,
-                        )
-                        last = number
+                    start = head["number"]
+                else:
+                    start = head["number"] if last is None else last + 1
+                for number in range(start, head["number"] + 1):
+                    block_started = time.monotonic()
+                    await asyncio.wait_for(
+                        persist_block(
+                            db, chain, number,
+                            head.get("hash") if number == head["number"] else None,
+                            include_auxiliary=False,
+                        ),
+                        timeout=settings.rpc_block_timeout_seconds,
+                    )
+                    last = number
+                    log.info(
+                        "Finney block indexed endpoint=%s block=%s rpc_ms=%s head_wait_ms=%s",
+                        endpoint_name,
+                        number,
+                        round((time.monotonic() - block_started) * 1000),
+                        round((block_started - head_started) * 1000),
+                    )
         except asyncio.CancelledError:
             raise
-        except Exception:
-            log.exception("indexer connection failed; reconnecting in %s seconds", retry_delay)
-            await asyncio.sleep(retry_delay)
-            retry_delay = min(retry_delay * 2, 60)
+        except Exception as exc:
+            next_index = (endpoint_index + 1) % len(endpoints)
+            next_name = urlsplit(endpoints[next_index]).hostname or "configured-rpc"
+            log.exception(
+                "Finney RPC failed endpoint=%s connected_ms=%s error=%s; "
+                "failing over to endpoint=%s",
+                endpoint_name,
+                round((time.monotonic() - connected_at) * 1000),
+                type(exc).__name__,
+                next_name,
+            )
+            endpoint_index = next_index
+            if endpoint_index == 0:
+                await asyncio.sleep(retry_delay)
+                retry_delay = min(retry_delay * 2, 30)
+        finally:
+            if heads is not None:
+                await heads.aclose()
+            await chain.__aexit__(None, None, None)
 
 
 async def main():

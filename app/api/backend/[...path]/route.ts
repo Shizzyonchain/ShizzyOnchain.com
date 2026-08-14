@@ -6,26 +6,52 @@ import { NextRequest, NextResponse } from "next/server";
 export const preferredRegion = "sfo1";
 
 async function proxy(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
+  const requestId = crypto.randomUUID();
+  const startedAt = performance.now();
   const { path } = await context.params;
   const base = process.env.BACKEND_API_URL || "http://api:8000";
   const target = new URL(`/${path.join("/")}`, base);
   request.nextUrl.searchParams.forEach((value, key) => target.searchParams.set(key, value));
   const endpoint = path.at(-1);
   const isMarketSnapshot = request.method === "GET" && (endpoint === "candles" || endpoint === "screener");
-  const response = await fetch(target, {
-    method: request.method,
-    headers: { "Content-Type": request.headers.get("content-type") || "application/json", "X-API-Key": process.env.BACKEND_API_KEY || "" },
-    body: request.method === "GET" ? undefined : await request.text(),
-    cache: isMarketSnapshot ? "force-cache" : "no-store",
-    ...(isMarketSnapshot ? { next: { revalidate: 20 } } : {}),
-  });
-  return new NextResponse(response.body, { status: response.status, headers: {
-    "Content-Type": response.headers.get("content-type") || "application/json",
-    ...(isMarketSnapshot ? {
-      "Cache-Control": "public, s-maxage=20, stale-while-revalidate=60",
-      "CDN-Cache-Control": "public, s-maxage=20, stale-while-revalidate=60",
-    } : {}),
-  } });
+  try {
+    const response = await fetch(target, {
+      method: request.method,
+      headers: { "Content-Type": request.headers.get("content-type") || "application/json", "X-API-Key": process.env.BACKEND_API_KEY || "", "X-Request-Id": requestId },
+      body: request.method === "GET" ? undefined : await request.text(),
+      cache: isMarketSnapshot ? "force-cache" : "no-store",
+      signal: AbortSignal.timeout(6_000),
+      ...(isMarketSnapshot ? { next: { revalidate: 20 } } : {}),
+    });
+    const upstreamMs = Math.round(performance.now() - startedAt);
+    return new NextResponse(response.body, { status: response.status, headers: {
+      "Content-Type": response.headers.get("content-type") || "application/json",
+      "Server-Timing": `render;dur=${upstreamMs}`,
+      "X-Request-Id": requestId,
+      "X-Upstream-Duration-Ms": String(upstreamMs),
+      ...(isMarketSnapshot ? {
+        "Cache-Control": "public, s-maxage=20, stale-while-revalidate=300",
+        "CDN-Cache-Control": "public, s-maxage=20, stale-while-revalidate=300",
+      } : {}),
+    } });
+  } catch (error) {
+    const upstreamMs = Math.round(performance.now() - startedAt);
+    console.error("Render API request failed", {
+      requestId,
+      path: target.pathname,
+      upstreamMs,
+      error: error instanceof Error ? error.name : "UnknownError",
+    });
+    return NextResponse.json(
+      { error: "Market data service timed out", request_id: requestId },
+      { status: 504, headers: {
+        "Cache-Control": "no-store",
+        "Server-Timing": `render;dur=${upstreamMs}`,
+        "X-Request-Id": requestId,
+        "X-Upstream-Duration-Ms": String(upstreamMs),
+      } },
+    );
+  }
 }
 export const GET = proxy;
 export const POST = proxy;
