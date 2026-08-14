@@ -75,10 +75,10 @@ class FakeYieldView:
         netuid = params[0]
         self.dividend_netuids.append(netuid)
         return {
-            4: [("5HotA", FakeBalance(1_250_000_000))],
+            4: [("5HotA", 1_250_000_000)],
             64: [
-                ("5HotB", FakeBalance(2_000_000_000)),
-                ("5HotC", FakeBalance(750_000_000)),
+                ("5HotB", 2_000_000_000),
+                ("5HotC", 750_000_000),
             ],
         }[netuid]
 

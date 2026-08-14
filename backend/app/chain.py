@@ -517,7 +517,10 @@ class ChainClient:
                         [netuid],
                     )
                 return netuid, sum(
-                    (token_units(value) for _, value in rows),
+                    (
+                        Decimal(scale_int(value)) / RAO_PER_TAO
+                        for _, value in rows
+                    ),
                     Decimal(0),
                 )
             except Exception as exc:  # noqa: BLE001 -- isolate one subnet's RPC page
