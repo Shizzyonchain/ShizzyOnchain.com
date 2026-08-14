@@ -23,6 +23,7 @@ async def lifespan(app: FastAPI):
     app.state.screener_cache = None
     app.state.candle_cache = {}
     app.state.candle_refreshing = set()
+    app.state.candle_tasks = {}
     app.state.screener_refresh_task = None
     app.state.screener_refresh_started_at = None
     yield
@@ -322,7 +323,12 @@ async def compact_candles(
             asyncio.create_task(_refresh_candle_cache_in_background(cache_key, netuid, interval, limit))
         return cached["payload"]
 
-    return await _refresh_candle_cache(cache_key, netuid, interval, limit)
+    task = app.state.candle_tasks.get(cache_key)
+    if task is None or task.done():
+        task = asyncio.create_task(_refresh_candle_cache(cache_key, netuid, interval, limit))
+        app.state.candle_tasks[cache_key] = task
+        task.add_done_callback(lambda _task: app.state.candle_tasks.pop(cache_key, None))
+    return await asyncio.shield(task)
 
 
 async def _refresh_candle_cache_in_background(cache_key, netuid: int, interval: str, limit: int):
@@ -336,7 +342,7 @@ async def _refresh_candle_cache(cache_key, netuid: int, interval: str, limit: in
     now = datetime.now(timezone.utc)
 
     buckets = {"1m": "1 minute", "10m": "10 minutes", "1h": "1 hour", "1d": "1 day"}
-    windows = {"1m": "6 hours", "10m": "3 days", "1h": "14 days", "1d": "180 days"}
+    windows = {"1m": "3 hours", "10m": "30 hours", "1h": "8 days", "1d": "180 days"}
     rows = await app.state.db.fetch(
         f"""WITH candles AS (
                SELECT date_bin('{buckets[interval]}',time,TIMESTAMPTZ '2000-01-01') AS bucket,
