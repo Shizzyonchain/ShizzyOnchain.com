@@ -1,10 +1,11 @@
 import asyncio
 import json
 import logging
+import time
 from decimal import Decimal
+from urllib.parse import urlsplit
 
 from app.chain import ChainClient
-
 
 log = logging.getLogger("shizzy.wallet-worker")
 
@@ -46,16 +47,15 @@ async def process_job(db, chain, job, concurrency: int):
     )
     subnet_prices = {row["netuid"]: row["price_tao"] for row in price_rows}
     identities = {
-        row["netuid"]: dict(row)
-        for row in await db.fetch("SELECT netuid,name,symbol FROM subnets")
+        row["netuid"]: dict(row) for row in await db.fetch("SELECT netuid,name,symbol FROM subnets")
     }
     await db.execute(
         "UPDATE wallet_lookup_jobs SET block_number=$2,updated_at=now() WHERE id=$1",
-        job_id, latest["block_number"],
+        job_id,
+        latest["block_number"],
     )
 
-    async with asyncio.timeout(90):
-        results = await chain.wallets(addresses, latest["block_number"], subnet_prices)
+    results = await chain.wallets(addresses, latest["block_number"], subnet_prices)
     for result in results:
         for stake in result["stakes"]:
             identity = identities.get(stake["netuid"], {})
@@ -64,10 +64,52 @@ async def process_job(db, chain, job, concurrency: int):
     await db.execute(
         """UPDATE wallet_lookup_jobs SET results=$2::jsonb,completed=$3,updated_at=now()
            WHERE id=$1""",
-        job_id, json.dumps(results, default=json_value), len(results),
+        job_id,
+        json.dumps(results, default=json_value),
+        len(results),
     )
     await db.execute(
         "UPDATE wallet_lookup_jobs SET status='complete',updated_at=now() WHERE id=$1", job_id
+    )
+
+
+async def process_job_with_failover(db, settings, job):
+    """Run a wallet lookup against each configured Finney endpoint in order."""
+    errors = []
+    for endpoint in settings.subtensor_ws_urls:
+        endpoint_name = urlsplit(endpoint).hostname or "configured-rpc"
+        started = time.monotonic()
+        try:
+            async with asyncio.timeout(settings.wallet_rpc_timeout_seconds):
+                async with ChainClient(settings, endpoint_url=endpoint) as chain:
+                    await process_job(
+                        db,
+                        chain,
+                        job,
+                        settings.wallet_query_concurrency,
+                    )
+            log.info(
+                "wallet job completed job=%s endpoint=%s rpc_ms=%s wallets=%s",
+                job["id"],
+                endpoint_name,
+                round((time.monotonic() - started) * 1000),
+                job["total"],
+            )
+            return
+        except asyncio.CancelledError:
+            raise
+        except Exception as exc:
+            errors.append(type(exc).__name__)
+            log.warning(
+                "wallet RPC attempt failed job=%s endpoint=%s rpc_ms=%s error=%s",
+                job["id"],
+                endpoint_name,
+                round((time.monotonic() - started) * 1000),
+                type(exc).__name__,
+                exc_info=True,
+            )
+    raise RuntimeError(
+        f"all {len(settings.subtensor_ws_urls)} Finney endpoints failed ({', '.join(errors)})"
     )
 
 
@@ -79,24 +121,21 @@ async def wallet_job_loop(db, settings):
     retry_delay = 2
     while True:
         try:
-            # Keep node work outside the web process. A node disconnect or SDK
-            # failure can restart this worker without taking the site offline.
-            async with ChainClient(settings) as chain:
-                retry_delay = 2
-                while True:
-                    job = await claim_job(db)
-                    if not job:
-                        await asyncio.sleep(1)
-                        continue
-                    try:
-                        await process_job(db, chain, job, settings.wallet_query_concurrency)
-                    except Exception as exc:
-                        log.exception("wallet job %s failed", job["id"])
-                        await db.execute(
-                            """UPDATE wallet_lookup_jobs SET status='failed',error=$2,updated_at=now()
-                               WHERE id=$1""",
-                            job["id"], f"{type(exc).__name__}: wallet lookup failed",
-                        )
+            job = await claim_job(db)
+            retry_delay = 2
+            if not job:
+                await asyncio.sleep(1)
+                continue
+            try:
+                await process_job_with_failover(db, settings, job)
+            except Exception as exc:
+                log.exception("wallet job %s failed after endpoint failover", job["id"])
+                await db.execute(
+                    """UPDATE wallet_lookup_jobs SET status='failed',error=$2,updated_at=now()
+                       WHERE id=$1""",
+                    job["id"],
+                    f"{type(exc).__name__}: wallet lookup failed",
+                )
         except asyncio.CancelledError:
             raise
         except Exception:

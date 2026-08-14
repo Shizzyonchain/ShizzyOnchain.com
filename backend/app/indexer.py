@@ -47,6 +47,7 @@ async def persist_block(
     announced_hash: str | None = None,
     include_events: bool = True,
     include_auxiliary: bool = True,
+    include_yield_metrics: bool | None = None,
 ):
     info = await chain.block_info(number)
     block_hash = _block_hash(info) or announced_hash
@@ -54,7 +55,9 @@ async def persist_block(
         raise RuntimeError(f"No hash returned for finalized block {number}")
     timestamp = _block_time(info)
     rows = await chain.subnets_at(
-        number, include_auxiliary=include_auxiliary
+        number,
+        include_auxiliary=include_auxiliary,
+        include_yield_metrics=include_yield_metrics,
     )
     events = []
     if include_events:
@@ -261,6 +264,7 @@ async def indexer():
                             db, chain, number,
                             head.get("hash") if number == head["number"] else None,
                             include_auxiliary=False,
+                            include_yield_metrics=True,
                         ),
                         timeout=settings.rpc_block_timeout_seconds,
                     )

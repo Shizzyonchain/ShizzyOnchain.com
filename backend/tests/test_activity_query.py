@@ -1,6 +1,6 @@
 import pytest
 
-from app.api import app, chain_activity
+from app.api import _refresh_screener, app, chain_activity
 
 
 class RecordingDatabase:
@@ -41,3 +41,16 @@ async def test_activity_summary_filters_history_before_price_join():
     join_position = summary_query.index("LEFT JOIN LATERAL")
     assert window_position < join_position
     assert "FROM recent_events e" in summary_query
+
+
+@pytest.mark.asyncio
+async def test_screener_reuses_latest_non_null_yield_metrics():
+    database = RecordingDatabase()
+    app.state.db = database
+
+    await _refresh_screener(app)
+
+    query = database.queries[0]
+    assert "last_yield.tempo" in query
+    assert "tempo IS NOT NULL" in query
+    assert "staker_epoch_dividends_alpha IS NOT NULL" in query
