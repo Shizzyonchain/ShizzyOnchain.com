@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from app.api import _refresh_screener, app, chain_activity, health, liveness
+from app.api import _refresh_live_screener, _refresh_screener, app, chain_activity, health, liveness
 
 
 class RecordingDatabase:
@@ -60,30 +60,54 @@ async def test_screener_uses_yield_metrics_from_latest_sample():
     assert "l.alpha_reserve, 0) + COALESCE(l.alpha_out" not in query
 
 
+@pytest.mark.asyncio
+async def test_live_screener_updates_price_without_discarding_history_metrics():
+    class LiveDatabase:
+        async def fetch(self, query):
+            assert "JOIN LATERAL" in query
+            return [{"netuid": 64, "block_number": 123, "price_tao": 0.5}]
+
+    app.state.db = LiveDatabase()
+    app.state.screener_cache = {
+        "data": [{"netuid": 64, "block_number": 122, "price_tao": 0.4, "change_1h": 2.5}],
+        "cached_at": datetime.now(timezone.utc),
+    }
+
+    result = await _refresh_live_screener(app)
+
+    assert result["data"][0]["block_number"] == 123
+    assert result["data"][0]["price_tao"] == 0.5
+    assert result["data"][0]["change_1h"] == 2.5
+
+
 class HealthDatabase:
     async def fetchval(self, _query):
         return 1
 
     def __init__(self, market_age_seconds):
+        self.queries = []
         now = datetime.now(timezone.utc)
         self.rows = [
             {"block_number": 100, "block_time": now, "indexed_at": now},
             {"block_number": 99, "time": now - timedelta(seconds=market_age_seconds)},
         ]
 
-    async def fetchrow(self, _query):
+    async def fetchrow(self, query):
+        self.queries.append(query)
         return self.rows.pop(0)
 
 
 @pytest.mark.asyncio
 async def test_health_reports_actual_market_staleness():
-    app.state.db = HealthDatabase(market_age_seconds=120)
+    database = HealthDatabase(market_age_seconds=120)
+    app.state.db = database
 
     result = await health()
 
     assert result["status"] == "degraded"
     assert result["reason"].startswith("market prices stale by")
     assert result["market_lag_seconds"] >= 120
+    assert "WHERE netuid=0" in database.queries[1]
 
 
 @pytest.mark.asyncio
