@@ -44,14 +44,13 @@ async def test_activity_summary_filters_history_before_price_join():
 
 
 @pytest.mark.asyncio
-async def test_screener_reuses_latest_non_null_yield_metrics():
+async def test_screener_uses_yield_metrics_from_latest_sample():
     database = RecordingDatabase()
     app.state.db = database
 
     await _refresh_screener(app)
 
     query = database.queries[0]
-    assert "last_yield.tempo" in query
-    assert "yield_sample.block_number >= sample.block_number - 200" in query
-    assert "yield_sample.tempo IS NOT NULL" in query
-    assert "yield_sample.staker_epoch_dividends_alpha IS NOT NULL" in query
+    assert "conviction_locked_alpha,tempo" in query
+    assert "staker_epoch_dividends_alpha,circulating_alpha" in query
+    assert "last_yield" not in query
