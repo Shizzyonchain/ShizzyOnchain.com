@@ -1,6 +1,8 @@
+from datetime import datetime, timedelta, timezone
+
 import pytest
 
-from app.api import _refresh_screener, app, chain_activity
+from app.api import _refresh_screener, app, chain_activity, health
 
 
 class RecordingDatabase:
@@ -56,3 +58,29 @@ async def test_screener_uses_yield_metrics_from_latest_sample():
     assert "last_yield" not in query
     assert "100 * l.conviction_locked_alpha / l.alpha_out" in query
     assert "l.alpha_reserve, 0) + COALESCE(l.alpha_out" not in query
+
+
+class HealthDatabase:
+    async def fetchval(self, _query):
+        return 1
+
+    def __init__(self, market_age_seconds):
+        now = datetime.now(timezone.utc)
+        self.rows = [
+            {"block_number": 100, "block_time": now, "indexed_at": now},
+            {"block_number": 99, "time": now - timedelta(seconds=market_age_seconds)},
+        ]
+
+    async def fetchrow(self, _query):
+        return self.rows.pop(0)
+
+
+@pytest.mark.asyncio
+async def test_health_reports_actual_market_staleness():
+    app.state.db = HealthDatabase(market_age_seconds=120)
+
+    result = await health()
+
+    assert result["status"] == "degraded"
+    assert result["reason"].startswith("market prices stale by")
+    assert result["market_lag_seconds"] >= 120

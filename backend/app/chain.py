@@ -298,6 +298,15 @@ class ChainClient:
     async def block_info(self, block: int | None = None):
         return await self.client.block_info(block)
 
+    async def prices_at(self, block_number: int) -> dict[int, Decimal]:
+        """Read every subnet spot price with one runtime API call."""
+        view = await self.client.at(block_number)
+        prices = await view.prices.alpha_prices()
+        return {
+            int(netuid): Decimal(str(price))
+            for netuid, price in (prices or {}).items()
+        }
+
     async def events_at(self, block_number: int) -> list[dict]:
         view = await self.client.at(block_number)
         return parse_chain_events(await view.query(("System", "Events")))

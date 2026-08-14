@@ -20,8 +20,8 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
       headers: { "Content-Type": request.headers.get("content-type") || "application/json", "X-API-Key": process.env.BACKEND_API_KEY || "", "X-Request-Id": requestId },
       body: request.method === "GET" ? undefined : await request.text(),
       cache: isMarketSnapshot ? "force-cache" : "no-store",
-      signal: AbortSignal.timeout(6_000),
-      ...(isMarketSnapshot ? { next: { revalidate: 20 } } : {}),
+      signal: AbortSignal.timeout(isMarketSnapshot ? 15_000 : 8_000),
+      ...(isMarketSnapshot ? { next: { revalidate: 5 } } : {}),
     });
     const upstreamMs = Math.round(performance.now() - startedAt);
     return new NextResponse(response.body, { status: response.status, headers: {
@@ -30,8 +30,8 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
       "X-Request-Id": requestId,
       "X-Upstream-Duration-Ms": String(upstreamMs),
       ...(isMarketSnapshot ? {
-        "Cache-Control": "public, s-maxage=20, stale-while-revalidate=300",
-        "CDN-Cache-Control": "public, s-maxage=20, stale-while-revalidate=300",
+        "Cache-Control": "public, s-maxage=5, stale-while-revalidate=60",
+        "CDN-Cache-Control": "public, s-maxage=5, stale-while-revalidate=60",
       } : {}),
     } });
   } catch (error) {

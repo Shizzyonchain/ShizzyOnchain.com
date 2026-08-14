@@ -98,7 +98,18 @@ async def persist_block(
                (time,block_number,block_hash,netuid,price_tao,tao_reserve,alpha_reserve,alpha_out,volume_tao,
                 tao_in_emission,alpha_out_emission,emission_share,root_prop,conviction_locked_alpha,
                 tempo,staker_epoch_dividends_alpha,circulating_alpha)
-               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) ON CONFLICT DO NOTHING""",
+               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+               ON CONFLICT(time,netuid,block_number) DO UPDATE SET
+               block_hash=EXCLUDED.block_hash, price_tao=EXCLUDED.price_tao,
+               tao_reserve=EXCLUDED.tao_reserve, alpha_reserve=EXCLUDED.alpha_reserve,
+               alpha_out=EXCLUDED.alpha_out, volume_tao=EXCLUDED.volume_tao,
+               tao_in_emission=EXCLUDED.tao_in_emission,
+               alpha_out_emission=EXCLUDED.alpha_out_emission,
+               emission_share=EXCLUDED.emission_share, root_prop=EXCLUDED.root_prop,
+               conviction_locked_alpha=EXCLUDED.conviction_locked_alpha,
+               tempo=EXCLUDED.tempo,
+               staker_epoch_dividends_alpha=EXCLUDED.staker_epoch_dividends_alpha,
+               circulating_alpha=EXCLUDED.circulating_alpha""",
                 [(timestamp, number, block_hash, r["netuid"], r["price_tao"], r["tao_reserve"],
                   r["alpha_reserve"], r["alpha_out"], r["volume_tao"], r["tao_in_emission"],
                   r["alpha_out_emission"], r["emission_share"], r["root_prop"],
@@ -129,6 +140,132 @@ async def persist_block(
         "indexed finalized block %s (%s subnets, %s tracked events, market_data=%s)",
         number, len(rows), len(events), include_market_data,
     )
+
+
+async def persist_price_tick(
+    db,
+    chain,
+    number: int,
+    announced_hash: str | None = None,
+):
+    """Persist finalized spot prices without waiting for heavy subnet enrichment."""
+    started = time.monotonic()
+    info = await chain.block_info(number)
+    block_hash = _block_hash(info) or announced_hash
+    if not block_hash:
+        raise RuntimeError(f"No hash returned for finalized price tick {number}")
+    timestamp = _block_time(info)
+    prices = await chain.prices_at(number)
+    previous_rows = await db.fetch(
+        """SELECT DISTINCT ON(netuid) netuid,tao_reserve,alpha_reserve,alpha_out,
+                  volume_tao,tao_in_emission,alpha_out_emission,emission_share,
+                  root_prop,conviction_locked_alpha,tempo,
+                  staker_epoch_dividends_alpha,circulating_alpha
+           FROM subnet_price_samples
+           ORDER BY netuid,time DESC,block_number DESC"""
+    )
+    previous = {int(row["netuid"]): row for row in previous_rows}
+    rows = []
+    for netuid, price in prices.items():
+        metrics = previous.get(netuid)
+        rows.append((
+            timestamp,
+            number,
+            block_hash,
+            netuid,
+            price,
+            metrics["tao_reserve"] if metrics else None,
+            metrics["alpha_reserve"] if metrics else None,
+            metrics["alpha_out"] if metrics else None,
+            metrics["volume_tao"] if metrics else None,
+            metrics["tao_in_emission"] if metrics else None,
+            metrics["alpha_out_emission"] if metrics else None,
+            metrics["emission_share"] if metrics else None,
+            metrics["root_prop"] if metrics else None,
+            metrics["conviction_locked_alpha"] if metrics else None,
+            metrics["tempo"] if metrics else None,
+            metrics["staker_epoch_dividends_alpha"] if metrics else None,
+            metrics["circulating_alpha"] if metrics else None,
+        ))
+    if rows:
+        await db.executemany(
+            """INSERT INTO subnet_price_samples
+               (time,block_number,block_hash,netuid,price_tao,tao_reserve,
+                alpha_reserve,alpha_out,volume_tao,tao_in_emission,
+                alpha_out_emission,emission_share,root_prop,
+                conviction_locked_alpha,tempo,staker_epoch_dividends_alpha,
+                circulating_alpha)
+               VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+               ON CONFLICT(time,netuid,block_number) DO UPDATE SET
+               block_hash=EXCLUDED.block_hash,price_tao=EXCLUDED.price_tao""",
+            rows,
+        )
+    log.info(
+        "Finney live prices indexed block=%s subnets=%s tick_ms=%s",
+        number,
+        len(rows),
+        round((time.monotonic() - started) * 1000),
+    )
+
+
+async def live_price_loop(db, settings):
+    """Keep finalized prices current independently of enrichment and event scans."""
+    endpoints = settings.subtensor_ws_urls
+    endpoint_index = 0
+    retry_delay = 1
+    last = await db.fetchval("SELECT max(block_number) FROM subnet_price_samples")
+    while True:
+        endpoint = endpoints[endpoint_index]
+        endpoint_name = urlsplit(endpoint).hostname or "configured-rpc"
+        chain_settings = settings.model_copy(update={"subtensor_ws_url": endpoint})
+        chain = ChainClient(chain_settings)
+        heads = None
+        try:
+            await asyncio.wait_for(
+                chain.__aenter__(), timeout=settings.rpc_connect_timeout_seconds
+            )
+            log.info("Finney live-price RPC connected endpoint=%s", endpoint_name)
+            heads = finalized_heads(
+                endpoint,
+                connect_timeout=settings.rpc_connect_timeout_seconds,
+                subscribe_timeout=settings.rpc_subscribe_timeout_seconds,
+            )
+            while True:
+                head = await asyncio.wait_for(
+                    anext(heads), timeout=settings.rpc_head_timeout_seconds
+                )
+                if last is not None and head["number"] <= last:
+                    continue
+                await asyncio.wait_for(
+                    persist_price_tick(
+                        db,
+                        chain,
+                        head["number"],
+                        head.get("hash"),
+                    ),
+                    timeout=settings.rpc_block_timeout_seconds,
+                )
+                last = head["number"]
+                retry_delay = 1
+        except asyncio.CancelledError:
+            raise
+        except Exception as exc:
+            next_index = (endpoint_index + 1) % len(endpoints)
+            next_name = urlsplit(endpoints[next_index]).hostname or "configured-rpc"
+            log.exception(
+                "Finney live-price RPC failed endpoint=%s error=%s; failing over to endpoint=%s",
+                endpoint_name,
+                type(exc).__name__,
+                next_name,
+            )
+            endpoint_index = next_index
+            if endpoint_index == 0:
+                await asyncio.sleep(retry_delay)
+                retry_delay = min(retry_delay * 2, 30)
+        finally:
+            if heads is not None:
+                await heads.aclose()
+            await chain.__aexit__(None, None, None)
 
 
 async def _missing_price_ranges(db, minimum_gap_blocks: int):
@@ -226,6 +363,7 @@ async def indexer():
     last = await db.fetchval("SELECT max(block_number) FROM chain_blocks")
     if last is None and settings.indexer_start_block.isdigit():
         last = int(settings.indexer_start_block) - 1
+    asyncio.create_task(live_price_loop(db, settings))
     asyncio.create_task(backfill_loop(db, settings))
     asyncio.create_task(wallet_job_loop(db, settings))
     endpoints = settings.subtensor_ws_urls

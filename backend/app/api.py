@@ -60,14 +60,37 @@ async def health():
                 "reason": "indexer has not stored a block yet",
                 "latest_indexed_block": None,
             }
-        lag_seconds = (datetime.now(timezone.utc) - latest["indexed_at"]).total_seconds()
-        if lag_seconds > 300:
+        latest_market = await app.state.db.fetchrow(
+            """SELECT block_number,time
+               FROM subnet_price_samples ORDER BY time DESC,block_number DESC LIMIT 1"""
+        )
+        now = datetime.now(timezone.utc)
+        chain_lag_seconds = (now - latest["block_time"]).total_seconds()
+        market_lag_seconds = (
+            (now - latest_market["time"]).total_seconds()
+            if latest_market else float("inf")
+        )
+        details = {
+            "latest_indexed_block": dict(latest),
+            "latest_market_snapshot": dict(latest_market) if latest_market else None,
+            "chain_lag_seconds": round(chain_lag_seconds),
+            "market_lag_seconds": (
+                round(market_lag_seconds) if latest_market else None
+            ),
+        }
+        if chain_lag_seconds > 180:
             return {
                 "status": "degraded",
-                "reason": f"indexer stale by {int(lag_seconds)} seconds",
-                "latest_indexed_block": dict(latest),
+                "reason": f"finalized block stale by {int(chain_lag_seconds)} seconds",
+                **details,
             }
-        return {"status": "ok", "latest_indexed_block": dict(latest)}
+        if market_lag_seconds > 90:
+            return {
+                "status": "degraded",
+                "reason": f"market prices stale by {int(market_lag_seconds)} seconds",
+                **details,
+            }
+        return {"status": "ok", **details}
     except Exception as exc:
         raise HTTPException(503, f"database unavailable: {type(exc).__name__}") from exc
 
