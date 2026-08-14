@@ -86,25 +86,17 @@ async def current_prices():
 async def _refresh_screener(current_app: FastAPI):
     rows = await app.state.db.fetch(
         """WITH latest AS (
-             SELECT sample.*,last_yield.tempo,last_yield.staker_epoch_dividends_alpha
+             SELECT sample.*
              FROM subnets known
              JOIN LATERAL (
                SELECT netuid,time,block_number,price_tao,tao_reserve,
                       alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
-                      emission_share,root_prop,conviction_locked_alpha,circulating_alpha
+                      emission_share,root_prop,conviction_locked_alpha,tempo,
+                      staker_epoch_dividends_alpha,circulating_alpha
                FROM subnet_price_samples
                WHERE netuid=known.netuid
                ORDER BY time DESC,block_number DESC LIMIT 1
              ) sample ON true
-             LEFT JOIN LATERAL (
-               SELECT yield_sample.tempo,yield_sample.staker_epoch_dividends_alpha
-               FROM subnet_price_samples yield_sample
-               WHERE yield_sample.netuid=known.netuid
-                 AND yield_sample.block_number >= sample.block_number - 200
-                 AND yield_sample.tempo IS NOT NULL
-                 AND yield_sample.staker_epoch_dividends_alpha IS NOT NULL
-               ORDER BY yield_sample.time DESC,yield_sample.block_number DESC LIMIT 1
-             ) last_yield ON true
            )
            SELECT l.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
                   s.discord,s.contact,s.logo_url,s.additional,l.time,l.block_number,l.price_tao,
