@@ -90,7 +90,8 @@ for archive, with 4+ CPU cores and 16 GB RAM as the floor. Recheck the guide bef
 
 All `/v1` routes require `X-API-Key` unless `PUBLIC_READS=true`.
 
-- `GET /healthz` — DB and indexer watermark.
+- `GET /livez` — dependency-free service liveness probe used by Render.
+- `GET /healthz` — DB and indexer watermark (fails fast after 3 seconds).
 - `GET /v1/subnets/prices` — current price and pool state for all indexed subnets.
 - `GET /v1/screener` — current markets plus 1h/24h/7d performance, 24h volume, liquidity,
   alpha supply, and market cap.

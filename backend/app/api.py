@@ -47,50 +47,60 @@ async def authorize(x_api_key: str | None = Header(None)):
         raise HTTPException(401, "Missing or invalid API key")
 
 
+@app.get("/livez")
+async def liveness():
+    """Render liveness probe; deliberately never waits on Postgres or Finney."""
+    return {"status": "ok"}
+
+
+async def _health_details():
+    await app.state.db.fetchval("SELECT 1")
+    latest = await app.state.db.fetchrow(
+        "SELECT block_number, block_time, indexed_at FROM chain_blocks ORDER BY block_number DESC LIMIT 1"
+    )
+    if not latest:
+        return {
+            "status": "degraded",
+            "reason": "indexer has not stored a block yet",
+            "latest_indexed_block": None,
+        }
+    latest_market = await app.state.db.fetchrow(
+        """SELECT block_number,time
+           FROM subnet_price_samples ORDER BY time DESC,block_number DESC LIMIT 1"""
+    )
+    now = datetime.now(timezone.utc)
+    chain_lag_seconds = (now - latest["block_time"]).total_seconds()
+    market_lag_seconds = (
+        (now - latest_market["time"]).total_seconds()
+        if latest_market else float("inf")
+    )
+    details = {
+        "latest_indexed_block": dict(latest),
+        "latest_market_snapshot": dict(latest_market) if latest_market else None,
+        "chain_lag_seconds": round(chain_lag_seconds),
+        "market_lag_seconds": (
+            round(market_lag_seconds) if latest_market else None
+        ),
+    }
+    if chain_lag_seconds > 180:
+        return {
+            "status": "degraded",
+            "reason": f"finalized block stale by {int(chain_lag_seconds)} seconds",
+            **details,
+        }
+    if market_lag_seconds > 90:
+        return {
+            "status": "degraded",
+            "reason": f"market prices stale by {int(market_lag_seconds)} seconds",
+            **details,
+        }
+    return {"status": "ok", **details}
+
+
 @app.get("/healthz")
 async def health():
     try:
-        await app.state.db.fetchval("SELECT 1")
-        latest = await app.state.db.fetchrow(
-            "SELECT block_number, block_time, indexed_at FROM chain_blocks ORDER BY block_number DESC LIMIT 1"
-        )
-        if not latest:
-            return {
-                "status": "degraded",
-                "reason": "indexer has not stored a block yet",
-                "latest_indexed_block": None,
-            }
-        latest_market = await app.state.db.fetchrow(
-            """SELECT block_number,time
-               FROM subnet_price_samples ORDER BY time DESC,block_number DESC LIMIT 1"""
-        )
-        now = datetime.now(timezone.utc)
-        chain_lag_seconds = (now - latest["block_time"]).total_seconds()
-        market_lag_seconds = (
-            (now - latest_market["time"]).total_seconds()
-            if latest_market else float("inf")
-        )
-        details = {
-            "latest_indexed_block": dict(latest),
-            "latest_market_snapshot": dict(latest_market) if latest_market else None,
-            "chain_lag_seconds": round(chain_lag_seconds),
-            "market_lag_seconds": (
-                round(market_lag_seconds) if latest_market else None
-            ),
-        }
-        if chain_lag_seconds > 180:
-            return {
-                "status": "degraded",
-                "reason": f"finalized block stale by {int(chain_lag_seconds)} seconds",
-                **details,
-            }
-        if market_lag_seconds > 90:
-            return {
-                "status": "degraded",
-                "reason": f"market prices stale by {int(market_lag_seconds)} seconds",
-                **details,
-            }
-        return {"status": "ok", **details}
+        return await asyncio.wait_for(_health_details(), timeout=3)
     except Exception as exc:
         raise HTTPException(503, f"database unavailable: {type(exc).__name__}") from exc
 
