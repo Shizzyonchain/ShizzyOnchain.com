@@ -388,10 +388,28 @@ function loadSubnetCandles(netuid: number, timeframe: string) {
 }
 
 const MARKET_SNAPSHOT_MAX_AGE_MS = 2 * 60_000;
+const MARKET_SNAPSHOT_CACHE_MAX_AGE_MS = 24 * 60 * 60_000;
+
+function marketSnapshotAge(rows: ScreenerRow[]) {
+  const newest = Math.max(...rows.map((row) => Date.parse(row.time || "")).filter(Number.isFinite));
+  return Number.isFinite(newest) ? Date.now() - newest : Number.POSITIVE_INFINITY;
+}
 
 function marketSnapshotIsFresh(rows: ScreenerRow[]) {
-  const newest = Math.max(...rows.map((row) => Date.parse(row.time || "")).filter(Number.isFinite));
-  return Number.isFinite(newest) && Date.now() - newest <= MARKET_SNAPSHOT_MAX_AGE_MS;
+  return marketSnapshotAge(rows) <= MARKET_SNAPSHOT_MAX_AGE_MS;
+}
+
+function marketSnapshotIsUsable(rows: ScreenerRow[]) {
+  return marketSnapshotAge(rows) <= MARKET_SNAPSHOT_CACHE_MAX_AGE_MS;
+}
+
+async function fetchJsonWithTimeout(url: string, timeoutMs = 6_000) {
+  const response = await fetch(url, {
+    cache: "no-store",
+    signal: AbortSignal.timeout(timeoutMs),
+  });
+  if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+  return response.json();
 }
 
 function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string, now = Date.now()) {
@@ -623,7 +641,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
   const [taoUsd, setTaoUsd] = useState(0);
   const [rows, setRows] = useState<ScreenerRow[]>([]);
-  const [dataState, setDataState] = useState<"loading" | "live" | "error">("loading");
+  const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">("loading");
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<keyof ScreenerRow>("market_cap_tao");
@@ -719,33 +737,37 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     try {
       const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
       const cachedRows = Array.isArray(cached?.data) ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0) : [];
-      if (cachedRows.length && marketSnapshotIsFresh(cachedRows)) {
+      if (cachedRows.length && marketSnapshotIsUsable(cachedRows)) {
         queueMicrotask(() => {
           setRows(cachedRows);
           setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
-          setDataState("live");
-          setLastUpdated(new Date(cached.savedAt));
+          setDataState(marketSnapshotIsFresh(cachedRows) ? "live" : "stale");
+          setLastUpdated(new Date(Date.now() - marketSnapshotAge(cachedRows)));
         });
       }
     } catch {
       window.localStorage.removeItem("shizzy:screener");
     }
+    let refreshInFlight = false;
     const refreshMarkets = () => {
-      fetch("/api/backend/v1/screener", { cache: "no-store" })
-        .then((r) => (r.ok ? r.json() : Promise.reject()))
+      if (refreshInFlight) return;
+      refreshInFlight = true;
+      fetchJsonWithTimeout("/api/backend/v1/screener")
         .then((json) => {
           const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
-          if (subnetMarkets.length && marketSnapshotIsFresh(subnetMarkets)) {
+          if (subnetMarkets.length) {
             window.localStorage.setItem("shizzy:screener", JSON.stringify({ data: json.data, savedAt: Date.now() }));
             setRows(subnetMarkets);
             setSelected((current) => (subnetMarkets.some((row: ScreenerRow) => row.netuid === current) ? current : subnetMarkets[0].netuid));
-            setDataState("live");
-            setLastUpdated(new Date());
+            setDataState(marketSnapshotIsFresh(subnetMarkets) ? "live" : "stale");
+            const newest = Date.now() - marketSnapshotAge(subnetMarkets);
+            setLastUpdated(new Date(newest));
           } else {
-            throw new Error("Stale market snapshot");
+            throw new Error("Empty market snapshot");
           }
         })
-        .catch(() => setDataState((current) => (current === "live" ? "live" : "error")));
+        .catch(() => setDataState((current) => (current === "live" || current === "stale" ? current : "error")))
+        .finally(() => { refreshInFlight = false; });
     };
     refreshMarkets();
     const refreshTimer = window.setInterval(refreshMarkets, 12_000);
@@ -887,6 +909,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }, []);
 
   const filtered = useMemo(() => rows.filter((r) => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => (sortDirection === "desc" ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0) : Number(a[sort] ?? 0) - Number(b[sort] ?? 0))), [rows, query, sort, sortDirection]);
+  const hasMarketData = rows.length > 0;
   const active = rows.find((r) => r.netuid === selected) || rows[0];
   const hasActiveMetadata = Boolean(active && (active.description || active.website || active.github_repo || active.discord || active.contact || active.additional));
   const portfolioAssets = useMemo(() => {
@@ -1298,8 +1321,8 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
             </button>
             <div>
               <span>24h volume</span>
-              <strong>{dataState !== "live" || totalVolume === 0 ? "—" : money(totalVolume)}</strong>
-              <small>{dataState === "live" ? (totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Connecting to Finney"}</small>
+              <strong>{!hasMarketData || totalVolume === 0 ? "—" : money(totalVolume)}</strong>
+              <small>{hasMarketData ? (dataState === "stale" ? "Last finalized snapshot" : totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Loading market service"}</small>
             </div>
             <div>
               <span>Top mover</span>
@@ -1390,6 +1413,11 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
             </a>
           </div>
           <div className="market-content">
+            {dataState === "stale" && hasMarketData && (
+              <div className="market-stale-notice" role="status">
+                Finney updates are delayed. Showing the last finalized snapshot from {lastUpdated?.toLocaleTimeString() || "the local cache"}; live refresh will resume automatically.
+              </div>
+            )}
             {marketDetailOpen && (
               <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}>
                 <div className="market-modal" role="dialog" aria-modal="true" aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={(event) => event.stopPropagation()}>
@@ -1398,14 +1426,14 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
                   </button>
                   <section className="market-grid">
                     <div ref={chartCardRef} className="chart-card panel">
-                      {dataState !== "live" && (
+                      {!hasMarketData && (
                         <div className="market-loading" role="status">
                           <i />
-                          <strong>{dataState === "loading" ? "Connecting to Finney" : "Market feed unavailable"}</strong>
-                          <span>{dataState === "loading" ? "Loading finalized subnet data…" : "We’ll reconnect automatically."}</span>
+                          <strong>{dataState === "loading" ? "Loading market data" : "Market feed unavailable"}</strong>
+                          <span>{dataState === "loading" ? "Checking the latest finalized snapshot…" : "We’ll reconnect automatically."}</span>
                         </div>
                       )}
-                      {dataState === "live" && (
+                      {hasMarketData && (
                         <>
                           <div className="panel-head">
                             <div>
@@ -1952,7 +1980,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
             <button onClick={() => setBubbleOffsets({})}>Reset layout</button>
           </div>
           <section ref={bubbleCloudRef} className="bubble-cloud panel" aria-label="Draggable subnet market bubbles">
-            {dataState !== "live" && (
+            {!hasMarketData && (
               <div className="market-loading" role="status">
                 <i />
                 <strong>{dataState === "loading" ? "Building the live market map" : "Bubble data unavailable"}</strong>

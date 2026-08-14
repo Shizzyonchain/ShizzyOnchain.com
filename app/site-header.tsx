@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Currency = "usd" | "tao";
-type DataState = "loading" | "live" | "error";
+type DataState = "loading" | "live" | "stale" | "error";
 
 type SiteHeaderProps = {
   currency?: Currency;
@@ -50,8 +50,14 @@ export function SiteHeader({ currency, onCurrencyChange, currencyTitle, dataStat
 
     const checkFinney = async () => {
       try {
-        const response = await fetch("/api/backend/v1/screener", { cache: "no-store" });
-        if (!cancelled) setLocalDataState(response.ok ? "live" : "error");
+        const response = await fetch("/api/backend/v1/screener", {
+          cache: "no-store",
+          signal: AbortSignal.timeout(6_000),
+        });
+        if (!response.ok) throw new Error(`Market status failed: ${response.status}`);
+        const json = await response.json();
+        const newest = Math.max(...(json.data || []).map((row: { time?: string }) => Date.parse(row.time || "")).filter(Number.isFinite));
+        if (!cancelled) setLocalDataState(Number.isFinite(newest) && Date.now() - newest <= 120_000 ? "live" : "stale");
       } catch {
         if (!cancelled) setLocalDataState("error");
       }
@@ -116,7 +122,7 @@ export function SiteHeader({ currency, onCurrencyChange, currencyTitle, dataStat
           title={lastUpdated ? `Market data updated ${lastUpdated.toLocaleTimeString()}` : undefined}
         >
           <i aria-hidden="true" />
-          {activeDataState === "live" ? "Finney live" : activeDataState === "loading" ? "Connecting…" : "Reconnecting…"}
+          {activeDataState === "live" ? "Finney live" : activeDataState === "stale" ? "Finney delayed" : activeDataState === "loading" ? "Connecting…" : "Reconnecting…"}
         </div>
       </div>
     </header>

@@ -41,6 +41,16 @@ services:
         value: wss://entrypoint-finney.opentensor.ai:443
       - key: BACKFILL_WS_URL
         value: wss://archive.chain.opentensor.ai:443
+      - key: SUBTENSOR_WS_FALLBACK_URLS
+        value: wss://archive.chain.opentensor.ai:443
+      - key: RPC_CONNECT_TIMEOUT_SECONDS
+        value: "8"
+      - key: RPC_SUBSCRIBE_TIMEOUT_SECONDS
+        value: "8"
+      - key: RPC_HEAD_TIMEOUT_SECONDS
+        value: "30"
+      - key: RPC_BLOCK_TIMEOUT_SECONDS
+        value: "45"
       - key: BACKFILL_PRICE_GAPS
         value: "true"
       - key: BACKFILL_SAMPLE_BLOCKS

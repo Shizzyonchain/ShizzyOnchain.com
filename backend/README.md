@@ -61,8 +61,10 @@ Subtensor WebSocket endpoint.
    curl -H "X-API-Key: YOUR_KEY" http://127.0.0.1:8000/v1/subnets/prices
    ```
 
-The public Finney endpoint in the template is useful for a smoke test. Production should point at
-your own node so traffic limits or third-party outages cannot interrupt indexing.
+The public Finney endpoint in the template is useful for a smoke test. The indexer fails over through
+the comma-separated `SUBTENSOR_WS_FALLBACK_URLS` after bounded connect, subscription, finalized-head,
+or block-read timeouts. Production should still put your own node first so traffic limits or
+third-party outages cannot interrupt indexing; keep the official endpoints as fallbacks.
 
 ## Running your own Subtensor node
 
@@ -149,7 +151,7 @@ are decimal JSON strings where necessary; never convert token values through bin
   quotas and abuse controls first.
 - Validate/limit upstream request sizes at the proxy. The application caps wallet count, history
   duration, and returned rows.
-- Alert when the last indexed block is stale, WebSocket reconnects persist, DB connections saturate,
+- Alert when the last indexed block is stale, `Finney RPC failed` failovers persist, DB connections saturate,
   or disk use crosses 70/85/95 percent.
 - TAO/USD is not on the Bittensor chain. Add a separately attributed market-data feed and table if
   the website needs USD values; do not label TAO-denominated prices as dollars.
