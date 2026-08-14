@@ -410,7 +410,7 @@ function marketSnapshotIsUsable(rows: ScreenerRow[]) {
   return marketSnapshotAge(rows) <= MARKET_SNAPSHOT_CACHE_MAX_AGE_MS;
 }
 
-async function fetchJsonWithTimeout(url: string, timeoutMs = 6_000) {
+async function fetchJsonWithTimeout(url: string, timeoutMs = 18_000) {
   const response = await fetch(url, {
     cache: "no-store",
     signal: AbortSignal.timeout(timeoutMs),

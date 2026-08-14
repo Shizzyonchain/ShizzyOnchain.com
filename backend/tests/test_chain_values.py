@@ -45,6 +45,41 @@ def test_composite_storage_key_extracts_netuid_from_mapping():
     assert ChainClient._last_int(({"value": [1, 2, 3]}, 51)) == 51
 
 
+class FakePricesNamespace:
+    def __init__(self):
+        self.calls = 0
+
+    async def alpha_prices(self):
+        self.calls += 1
+        return {4: 0.123, 64: 1.5}
+
+
+class FakePriceView:
+    def __init__(self):
+        self.prices = FakePricesNamespace()
+
+
+class FakePriceClient:
+    def __init__(self):
+        self.view = FakePriceView()
+        self.blocks = []
+
+    async def at(self, block):
+        self.blocks.append(block)
+        return self.view
+
+
+async def test_prices_at_uses_single_all_subnet_runtime_read():
+    chain = ChainClient.__new__(ChainClient)
+    chain.client = FakePriceClient()
+
+    prices = await chain.prices_at(12345)
+
+    assert prices == {4: Decimal("0.123"), 64: Decimal("1.5")}
+    assert chain.client.blocks == [12345]
+    assert chain.client.view.prices.calls == 1
+
+
 class FakeStakeView:
     async def query_map(self, storage):
         assert storage == ("SubtensorModule", "TotalHotkeyAlpha")
