@@ -52,5 +52,6 @@ async def test_screener_reuses_latest_non_null_yield_metrics():
 
     query = database.queries[0]
     assert "last_yield.tempo" in query
-    assert "tempo IS NOT NULL" in query
-    assert "staker_epoch_dividends_alpha IS NOT NULL" in query
+    assert "yield_sample.block_number >= sample.block_number - 200" in query
+    assert "yield_sample.tempo IS NOT NULL" in query
+    assert "yield_sample.staker_epoch_dividends_alpha IS NOT NULL" in query

@@ -97,11 +97,13 @@ async def _refresh_screener(current_app: FastAPI):
                ORDER BY time DESC,block_number DESC LIMIT 1
              ) sample ON true
              LEFT JOIN LATERAL (
-               SELECT tempo,staker_epoch_dividends_alpha
-               FROM subnet_price_samples
-               WHERE netuid=known.netuid AND tempo IS NOT NULL
-                 AND staker_epoch_dividends_alpha IS NOT NULL
-               ORDER BY time DESC,block_number DESC LIMIT 1
+               SELECT yield_sample.tempo,yield_sample.staker_epoch_dividends_alpha
+               FROM subnet_price_samples yield_sample
+               WHERE yield_sample.netuid=known.netuid
+                 AND yield_sample.block_number >= sample.block_number - 200
+                 AND yield_sample.tempo IS NOT NULL
+                 AND yield_sample.staker_epoch_dividends_alpha IS NOT NULL
+               ORDER BY yield_sample.time DESC,yield_sample.block_number DESC LIMIT 1
              ) last_yield ON true
            )
            SELECT l.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
