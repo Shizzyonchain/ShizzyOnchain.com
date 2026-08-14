@@ -62,6 +62,27 @@ ALTER TABLE subnet_price_samples ADD COLUMN IF NOT EXISTS circulating_alpha NUME
 CREATE UNIQUE INDEX IF NOT EXISTS subnet_price_block_uidx ON subnet_price_samples(netuid, block_number, time);
 CREATE INDEX IF NOT EXISTS subnet_price_lookup_idx ON subnet_price_samples(netuid, time DESC);
 
+CREATE TABLE IF NOT EXISTS subnet_latest_samples (
+  time TIMESTAMPTZ NOT NULL,
+  block_number BIGINT NOT NULL,
+  block_hash TEXT NOT NULL,
+  netuid INTEGER PRIMARY KEY,
+  price_tao NUMERIC(38,18) NOT NULL,
+  tao_reserve NUMERIC(38,9),
+  alpha_reserve NUMERIC(38,9),
+  alpha_out NUMERIC(38,9),
+  alpha_issuance NUMERIC(38,9),
+  circulating_alpha NUMERIC(38,9),
+  volume_tao NUMERIC(38,9),
+  tao_in_emission NUMERIC(38,12),
+  alpha_out_emission NUMERIC(38,12),
+  emission_share NUMERIC(38,18),
+  root_prop NUMERIC(38,18),
+  conviction_locked_alpha NUMERIC(38,9),
+  tempo INTEGER,
+  staker_epoch_dividends_alpha NUMERIC(38,12)
+);
+
 CREATE TABLE IF NOT EXISTS wallet_balance_snapshots (
   time TIMESTAMPTZ NOT NULL,
   block_number BIGINT NOT NULL,

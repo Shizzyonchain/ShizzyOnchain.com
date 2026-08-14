@@ -64,7 +64,7 @@ async def test_screener_uses_yield_metrics_from_latest_sample():
 async def test_live_screener_updates_price_without_discarding_history_metrics():
     class LiveDatabase:
         async def fetch(self, query):
-            assert "JOIN LATERAL" in query
+            assert "FROM subnet_latest_samples p" in query
             return [{"netuid": 64, "block_number": 123, "price_tao": 0.5}]
 
     app.state.db = LiveDatabase()
