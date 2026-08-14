@@ -788,6 +788,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     return () => window.clearInterval(refreshTimer);
   }, []);
   useEffect(() => {
+    if (view !== "screener") return;
     let activeRequest = true;
     const controller = new AbortController();
     const cacheKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
@@ -845,10 +846,10 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       controller.abort();
       window.clearInterval(refreshTimer);
     };
-  }, [selected, timeframe, showTaoChart]);
+  }, [selected, timeframe, showTaoChart, view]);
 
   useEffect(() => {
-    if (showTaoChart || !selected || chartLoading) return;
+    if (view !== "screener" || showTaoChart || !selected || chartLoading) return;
     let cancelled = false;
     const idle = window.setTimeout(() => {
       const prefetch = async () => {
@@ -869,8 +870,9 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
       cancelled = true;
       window.clearTimeout(idle);
     };
-  }, [selected, timeframe, showTaoChart, chartLoading]);
+  }, [selected, timeframe, showTaoChart, chartLoading, view]);
   useEffect(() => {
+    if (view !== "activity") return;
     const refreshActivity = () => {
       fetch("/api/backend/v1/activity?limit=200", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
@@ -884,7 +886,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     refreshActivity();
     const refreshTimer = window.setInterval(refreshActivity, 60_000);
     return () => window.clearInterval(refreshTimer);
-  }, []);
+  }, [view]);
 
   const filtered = useMemo(() => rows.filter((r) => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => (sortDirection === "desc" ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0) : Number(a[sort] ?? 0) - Number(b[sort] ?? 0))), [rows, query, sort, sortDirection]);
   const hasMarketData = rows.length > 0;

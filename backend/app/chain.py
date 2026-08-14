@@ -249,8 +249,9 @@ def parse_chain_events(records: Any) -> list[dict]:
 class ChainClient:
     """Small adapter around the current Bittensor v11 SDK; easy to fake in tests."""
 
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings, endpoint_url: str | None = None):
         self.settings = settings
+        self.endpoint_url = endpoint_url or settings.subtensor_ws_url
         self.client = None
         self._conviction_locked: dict[int, Decimal | None] = {}
         self._conviction_refresh_block = -1
@@ -262,7 +263,7 @@ class ChainClient:
     async def __aenter__(self):
         import bittensor as bt
 
-        self.client = await bt.Subtensor(self.settings.subtensor_ws_url)
+        self.client = await bt.Subtensor(self.endpoint_url)
         return self
 
     async def __aexit__(self, *args):

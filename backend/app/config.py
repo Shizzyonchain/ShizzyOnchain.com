@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     allowed_origins: list[str] = Field(default_factory=list)
     max_mass_wallets: int = 100
     wallet_query_concurrency: int = 8
+    wallet_rpc_timeout_seconds: float = 30
     rpc_connect_timeout_seconds: float = 8
     rpc_subscribe_timeout_seconds: float = 8
     rpc_head_timeout_seconds: float = 30
