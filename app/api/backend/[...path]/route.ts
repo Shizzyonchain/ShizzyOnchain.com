@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 // requests through Vercel's default Virginia region caused intermittent 502s
 // even while the Render origin was healthy.
 export const preferredRegion = "sfo1";
+export const runtime = "edge";
 
 async function proxy(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
   const requestId = crypto.randomUUID();
