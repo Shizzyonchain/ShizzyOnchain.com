@@ -871,28 +871,6 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     };
   }, [selected, timeframe, showTaoChart, chartLoading]);
   useEffect(() => {
-    if (showTaoChart || !rows.length) return;
-    let cancelled = false;
-    const warmTimer = window.setTimeout(() => {
-      const leaders = [...rows].sort((a, b) => Number(b.market_cap_tao || 0) - Number(a.market_cap_tao || 0)).slice(0, 14);
-      const warm = async () => {
-        for (const row of leaders) {
-          if (cancelled) return;
-          try {
-            await loadSubnetCandles(row.netuid, timeframe);
-          } catch {
-            /* A direct selection retries stalled requests. */
-          }
-        }
-      };
-      void warm();
-    }, 500);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(warmTimer);
-    };
-  }, [rows, timeframe, showTaoChart]);
-  useEffect(() => {
     const refreshActivity = () => {
       fetch("/api/backend/v1/activity?limit=200", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
