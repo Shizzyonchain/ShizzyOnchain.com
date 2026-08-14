@@ -23,9 +23,10 @@ async def lifespan(app: FastAPI):
     app.state.screener_cache = None
     app.state.candle_cache = {}
     app.state.candle_refreshing = set()
-    app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
+    app.state.screener_refresh_task = None
+    app.state.screener_refresh_started_at = None
     yield
-    if not app.state.screener_refresh_task.done():
+    if app.state.screener_refresh_task and not app.state.screener_refresh_task.done():
         app.state.screener_refresh_task.cancel()
     await close()
 
@@ -66,7 +67,9 @@ async def _health_details():
         }
     latest_market = await app.state.db.fetchrow(
         """SELECT block_number,time
-           FROM subnet_price_samples ORDER BY time DESC,block_number DESC LIMIT 1"""
+           FROM subnet_price_samples
+           WHERE netuid=0
+           ORDER BY time DESC,block_number DESC LIMIT 1"""
     )
     now = datetime.now(timezone.utc)
     chain_lag_seconds = (now - latest["block_time"]).total_seconds()
@@ -114,6 +117,52 @@ async def current_prices():
            ORDER BY p.netuid,p.time DESC,p.block_number DESC"""
     )
     return {"data": [dict(row) for row in rows]}
+
+
+async def _refresh_live_screener(current_app: FastAPI):
+    """Fetch only the newest indexed values using the per-subnet time index."""
+    rows = await current_app.state.db.fetch(
+        """SELECT p.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
+                  s.discord,s.contact,s.logo_url,s.additional,p.time,p.block_number,p.price_tao,
+                  p.tao_reserve,p.alpha_reserve,p.alpha_out,
+                  100 * p.emission_share AS emission_pct,
+                  CASE WHEN p.tempo IS NULL OR p.tempo < 0 OR p.alpha_out <= 0
+                         OR p.staker_epoch_dividends_alpha IS NULL THEN NULL ELSE
+                    100 * p.staker_epoch_dividends_alpha / p.alpha_out
+                      * (7200.0 / (p.tempo + 1)) * 365
+                  END AS apy,
+                  p.conviction_locked_alpha,
+                  CASE WHEN p.conviction_locked_alpha IS NULL
+                         OR COALESCE(p.alpha_out, 0) <= 0
+                       THEN NULL ELSE
+                    100 * p.conviction_locked_alpha / p.alpha_out
+                  END AS conviction_locked_pct,
+                  (p.price_tao * COALESCE(p.circulating_alpha, p.alpha_out, 0))
+                    AS market_cap_tao
+           FROM subnets s
+           JOIN LATERAL (
+             SELECT sample.* FROM subnet_price_samples sample
+             WHERE sample.netuid=s.netuid
+             ORDER BY sample.time DESC,sample.block_number DESC LIMIT 1
+           ) p ON true
+           ORDER BY p.netuid"""
+    )
+    live_by_netuid = {row["netuid"]: dict(row) for row in rows}
+    cached = current_app.state.screener_cache
+    if cached:
+        merged = []
+        for old_row in cached["data"]:
+            row = dict(old_row)
+            row.update(live_by_netuid.pop(row["netuid"], {}))
+            merged.append(row)
+        merged.extend(live_by_netuid.values())
+    else:
+        merged = list(live_by_netuid.values())
+    current_app.state.screener_cache = {
+        "data": merged,
+        "cached_at": datetime.now(timezone.utc),
+    }
+    return current_app.state.screener_cache
 
 
 async def _refresh_screener(current_app: FastAPI):
@@ -203,14 +252,24 @@ async def _refresh_screener(current_app: FastAPI):
 
 @app.get("/v1/screener", dependencies=[Depends(authorize)])
 async def screener():
+    try:
+        await asyncio.wait_for(_refresh_live_screener(app), timeout=5)
+    except Exception:
+        if app.state.screener_cache is None:
+            raise HTTPException(503, "live market snapshot is temporarily unavailable")
+
+    now = datetime.now(timezone.utc)
     task = app.state.screener_refresh_task
-    if app.state.screener_cache is None:
+    if task and task.done():
         try:
-            return await task
+            task.result()
         except Exception:
-            app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
-            return await app.state.screener_refresh_task
-    if task.done():
+            pass
+        app.state.screener_refresh_task = None
+        task = None
+    last_started = app.state.screener_refresh_started_at
+    if task is None and (last_started is None or now - last_started >= timedelta(seconds=60)):
+        app.state.screener_refresh_started_at = now
         app.state.screener_refresh_task = asyncio.create_task(_refresh_screener(app))
     return app.state.screener_cache
 
