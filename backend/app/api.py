@@ -342,30 +342,56 @@ async def _refresh_candle_cache(cache_key, netuid: int, interval: str, limit: in
     now = datetime.now(timezone.utc)
 
     buckets = {"1m": "1 minute", "10m": "10 minutes", "1h": "1 hour", "1d": "1 day"}
-    windows = {"1m": "3 hours", "10m": "30 hours", "1h": "8 days", "1d": "180 days"}
-    rows = await app.state.db.fetch(
-        f"""WITH candles AS (
-               SELECT date_bin('{buckets[interval]}',time,TIMESTAMPTZ '2000-01-01') AS bucket,
-                      (array_agg(price_tao ORDER BY time))[1] AS open,
-                      max(price_tao) AS high,
-                      min(price_tao) AS low,
-                      (array_agg(price_tao ORDER BY time DESC))[1] AS close,
-                      max(volume_tao)-min(volume_tao) AS volume
-               FROM subnet_price_samples
-               WHERE netuid=$1 AND time >= now()-interval '{windows[interval]}'
-               GROUP BY 1
-               ORDER BY 1 DESC
-               LIMIT $2
-             )
-             SELECT bucket,open,high,low,close,volume FROM candles ORDER BY bucket""",
-        netuid, limit,
-    )
+    if interval == "1m":
+        query = f"""WITH candles AS (
+                   SELECT date_bin('1 minute',time,TIMESTAMPTZ '2000-01-01') AS bucket,
+                          (array_agg(price_tao ORDER BY time))[1] AS open,
+                          max(price_tao) AS high,
+                          min(price_tao) AS low,
+                          (array_agg(price_tao ORDER BY time DESC))[1] AS close,
+                          max(volume_tao)-min(volume_tao) AS volume
+                   FROM subnet_price_samples
+                   WHERE netuid=$1 AND time >= now()-interval '3 hours'
+                   GROUP BY 1
+                   ORDER BY 1 DESC
+                   LIMIT $2
+                 )
+                 SELECT bucket,open,high,low,close,volume FROM candles ORDER BY bucket"""
+    else:
+        step = buckets[interval]
+        query = f"""WITH params AS (
+                   SELECT interval '{step}' AS step,
+                          date_bin('{step}',now(),TIMESTAMPTZ '2000-01-01') AS latest
+                 ), buckets AS (
+                   SELECT generate_series(latest-(($2::integer-1)*step),latest,step) AS bucket,step
+                   FROM params
+                 )
+                 SELECT b.bucket,o.price_tao AS open,
+                        GREATEST(o.price_tao,c.price_tao) AS high,
+                        LEAST(o.price_tao,c.price_tao) AS low,
+                        c.price_tao AS close,
+                        GREATEST(c.volume_tao-o.volume_tao,0) AS volume
+                 FROM buckets b
+                 LEFT JOIN LATERAL (
+                   SELECT price_tao,volume_tao FROM subnet_price_samples
+                   WHERE netuid=$1 AND time < b.bucket
+                   ORDER BY time DESC LIMIT 1
+                 ) o ON true
+                 LEFT JOIN LATERAL (
+                   SELECT price_tao,volume_tao FROM subnet_price_samples
+                   WHERE netuid=$1 AND time < b.bucket+b.step
+                   ORDER BY time DESC LIMIT 1
+                 ) c ON true
+                 WHERE c.price_tao IS NOT NULL
+                 ORDER BY b.bucket"""
+    rows = await asyncio.wait_for(app.state.db.fetch(query, netuid, limit), timeout=20)
     payload = {
         "data": [
             [row["bucket"], row["open"], row["high"], row["low"], row["close"], row["volume"]]
             for row in rows
         ],
         "interval": interval,
+        "method": "exact" if interval == "1m" else "boundary",
         "cached_at": now,
     }
     app.state.candle_cache[cache_key] = {"cached_at": now, "payload": payload}
