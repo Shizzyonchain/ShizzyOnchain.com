@@ -9,6 +9,7 @@ from app.chain import (
     scale_int,
     total_locked_alpha,
 )
+from app.config import Settings
 
 
 def test_circulating_supply_matches_taomarketcap_burn_adjustment():
@@ -59,6 +60,41 @@ async def test_actual_stake_sums_hotkey_alpha_by_subnet():
     totals = await chain._actual_stake_by_subnet(FakeStakeView())
 
     assert totals == {64: Decimal("2.75"), 4: Decimal("1.25")}
+
+
+class FakeYieldView:
+    def __init__(self):
+        self.dividend_netuids = []
+
+    async def query_map(self, storage, params=None):
+        if storage == ("SubtensorModule", "Tempo"):
+            assert params is None
+            return [(4, 359), (64, 99)]
+        assert storage == ("SubtensorModule", "AlphaDividendsPerSubnet")
+        assert params is not None and len(params) == 1
+        netuid = params[0]
+        self.dividend_netuids.append(netuid)
+        return {
+            4: [("5HotA", FakeBalance(1_250_000_000))],
+            64: [
+                ("5HotB", FakeBalance(2_000_000_000)),
+                ("5HotC", FakeBalance(750_000_000)),
+            ],
+        }[netuid]
+
+
+async def test_yield_metrics_scope_dividend_reads_to_each_subnet():
+    chain = ChainClient(Settings())
+    view = FakeYieldView()
+
+    metrics = await chain._subnet_yield_metrics(view, [0, 4, 64])
+
+    assert sorted(view.dividend_netuids) == [4, 64]
+    assert metrics == {
+        0: (None, None),
+        4: (359, Decimal("1.25")),
+        64: (99, Decimal("2.75")),
+    }
 
 
 def test_emission_share_includes_pool_injection_and_chain_buys():
