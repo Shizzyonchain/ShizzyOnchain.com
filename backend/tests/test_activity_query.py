@@ -2,7 +2,15 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from app.api import _refresh_live_screener, _refresh_screener, app, chain_activity, health, liveness
+from app.api import (
+    _refresh_candle_cache,
+    _refresh_live_screener,
+    _refresh_screener,
+    app,
+    chain_activity,
+    health,
+    liveness,
+)
 
 
 class RecordingDatabase:
@@ -78,6 +86,20 @@ async def test_live_screener_updates_price_without_discarding_history_metrics():
     assert result["data"][0]["block_number"] == 123
     assert result["data"][0]["price_tao"] == 0.5
     assert result["data"][0]["change_1h"] == 2.5
+
+
+@pytest.mark.asyncio
+async def test_long_candles_use_bounded_index_lookups():
+    database = RecordingDatabase()
+    app.state.db = database
+    app.state.candle_cache = {}
+
+    result = await _refresh_candle_cache((64, "10m", 180), 64, "10m", 180)
+
+    query = database.queries[0]
+    assert "generate_series" in query
+    assert "time < b.bucket+b.step" in query
+    assert result["method"] == "boundary"
 
 
 class HealthDatabase:
