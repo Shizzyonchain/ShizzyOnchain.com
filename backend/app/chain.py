@@ -380,22 +380,42 @@ class ChainClient:
             not self._yield_metrics
             or block_number - self._yield_refresh_block >= 100
         ):
-            self._yield_metrics = await self._subnet_yield_metrics(
+            refreshed_yields = await self._subnet_yield_metrics(
                 view, netuids
             )
+            # Keep the last completed epoch for subnets whose individual RPC
+            # page failed. One slow subnet must not blank APY for every subnet.
+            self._yield_metrics = {
+                netuid: (
+                    refreshed_yields.get(netuid, (None, None))
+                    if all(
+                        value is not None
+                        for value in refreshed_yields.get(netuid, (None, None))
+                    )
+                    else self._yield_metrics.get(
+                        netuid, refreshed_yields.get(netuid, (None, None))
+                    )
+                )
+                for netuid in netuids
+            }
             valid_yields = sum(
                 tempo is not None and dividends is not None
                 for tempo, dividends in self._yield_metrics.values()
             )
+            expected_yields = sum(netuid != 0 for netuid in netuids)
             # Successful reads are stable for roughly 20 minutes. A transient
-            # failure retries after 10 blocks instead of leaving APY blank.
+            # or partial failure retries after 10 blocks without blanking the
+            # subnets that did complete.
             self._yield_refresh_block = (
-                block_number if valid_yields else block_number - 90
+                block_number
+                if valid_yields >= expected_yields
+                else block_number - 90
             )
             logger.info(
-                "subnet yield metrics refreshed block=%s valid_subnets=%s",
+                "subnet yield metrics refreshed block=%s valid_subnets=%s expected_subnets=%s",
                 block_number,
                 valid_yields,
+                expected_yields,
             )
         rows = []
         for info in infos:
@@ -470,29 +490,75 @@ class ChainClient:
     async def _subnet_yield_metrics(
         self, view, netuids: list[int]
     ) -> dict[int, tuple[int | None, Decimal | None]]:
-        """Read latest realized validator dividends; these change once per subnet tempo."""
+        """Read latest realized validator dividends; these change once per tempo.
+
+        AlphaDividendsPerSubnet is a double map keyed by (netuid, hotkey).
+        Reading it without a fixed netuid asks the RPC for every dividend row on
+        Finney and can take minutes. Prefix each map request with one active
+        netuid and limit concurrency so responses stay small and bounded.
+        """
         try:
-            timeout = max(
-                1,
-                min(12, self.settings.rpc_block_timeout_seconds / 2),
-            )
-            async with asyncio.timeout(timeout):
-                tempo_rows, dividend_rows = await asyncio.gather(
-                    view.query_map(("SubtensorModule", "Tempo")),
-                    view.query_map(("SubtensorModule", "AlphaDividendsPerSubnet")),
-                )
-        except Exception as exc:
-            logger.warning("subnet yield metric read failed: %s", type(exc).__name__)
+            async with asyncio.timeout(8):
+                tempo_rows = await view.query_map(("SubtensorModule", "Tempo"))
+        except Exception as exc:  # noqa: BLE001 -- isolate SDK/RPC failures
+            logger.warning("subnet tempo read failed: %s", type(exc).__name__)
             return {netuid: (None, None) for netuid in netuids}
+
         tempos = {int(k): scale_int(v) for k, v in tempo_rows}
-        totals: dict[int, Decimal] = {}
-        for key, value in dividend_rows:
-            netuid = self._first_int(key)
-            if netuid is not None:
-                totals[netuid] = (
-                    totals.get(netuid, Decimal(0)) + Decimal(scale_int(value)) / RAO_PER_TAO
+        semaphore = asyncio.Semaphore(12)
+
+        async def dividends_for(netuid: int) -> tuple[int, Decimal | None]:
+            if netuid == 0:
+                return netuid, None
+            try:
+                async with semaphore, asyncio.timeout(8):
+                    rows = await view.query_map(
+                        ("SubtensorModule", "AlphaDividendsPerSubnet"),
+                        [netuid],
+                    )
+                return netuid, sum(
+                    (token_units(value) for _, value in rows),
+                    Decimal(0),
                 )
-        return {netuid: (tempos.get(netuid), totals.get(netuid)) for netuid in netuids}
+            except Exception as exc:  # noqa: BLE001 -- isolate one subnet's RPC page
+                logger.warning(
+                    "subnet dividend read failed netuid=%s error=%s",
+                    netuid,
+                    type(exc).__name__,
+                )
+                return netuid, None
+
+        total_timeout = max(
+            10,
+            min(35, self.settings.rpc_block_timeout_seconds - 5),
+        )
+        tasks = [
+            asyncio.create_task(dividends_for(netuid))
+            for netuid in netuids
+            if netuid != 0
+        ]
+        totals: dict[int, Decimal | None] = {}
+        try:
+            async with asyncio.timeout(total_timeout):
+                totals.update(await asyncio.gather(*tasks))
+        except TimeoutError:
+            for task in tasks:
+                if task.done() and not task.cancelled():
+                    netuid, total = task.result()
+                    totals[netuid] = total
+                else:
+                    task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
+            logger.warning(
+                "subnet dividend refresh timed out completed=%s total=%s",
+                len(totals),
+                len(tasks),
+            )
+
+        return {
+            netuid: (tempos.get(netuid), totals.get(netuid))
+            for netuid in netuids
+        }
 
     @classmethod
     def _first_int(cls, value: Any) -> int | None:
