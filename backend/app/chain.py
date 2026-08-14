@@ -281,8 +281,14 @@ class ChainClient:
         return parse_chain_events(await view.query(("System", "Events")))
 
     async def subnets_at(
-        self, block_number: int, *, include_auxiliary: bool = True
+        self,
+        block_number: int,
+        *,
+        include_auxiliary: bool = True,
+        include_yield_metrics: bool | None = None,
     ) -> list[dict]:
+        if include_yield_metrics is None:
+            include_yield_metrics = include_auxiliary
         view = await self.client.at(block_number)
         (
             infos,
@@ -370,14 +376,27 @@ class ChainClient:
                     view, netuids
                 )
                 self._conviction_refresh_block = block_number
-            if (
-                not self._yield_metrics
-                or block_number - self._yield_refresh_block >= 100
-            ):
-                self._yield_metrics = await self._subnet_yield_metrics(
-                    view, netuids
-                )
-                self._yield_refresh_block = block_number
+        if include_yield_metrics and (
+            not self._yield_metrics
+            or block_number - self._yield_refresh_block >= 100
+        ):
+            self._yield_metrics = await self._subnet_yield_metrics(
+                view, netuids
+            )
+            valid_yields = sum(
+                tempo is not None and dividends is not None
+                for tempo, dividends in self._yield_metrics.values()
+            )
+            # Successful reads are stable for roughly 20 minutes. A transient
+            # failure retries after 10 blocks instead of leaving APY blank.
+            self._yield_refresh_block = (
+                block_number if valid_yields else block_number - 90
+            )
+            logger.info(
+                "subnet yield metrics refreshed block=%s valid_subnets=%s",
+                block_number,
+                valid_yields,
+            )
         rows = []
         for info in infos:
             netuid = int(field(info, "netuid"))
@@ -413,11 +432,11 @@ class ChainClient:
                 "root_prop": root_prop.get(netuid),
                 "tempo": (
                     self._yield_metrics.get(netuid, (None, None))[0]
-                    if include_auxiliary else None
+                    if include_yield_metrics else None
                 ),
                 "staker_epoch_dividends_alpha": (
                     self._yield_metrics.get(netuid, (None, None))[1]
-                    if include_auxiliary else None
+                    if include_yield_metrics else None
                 ),
                 "conviction_locked_alpha": (
                     self._conviction_locked.get(netuid)
@@ -453,11 +472,17 @@ class ChainClient:
     ) -> dict[int, tuple[int | None, Decimal | None]]:
         """Read latest realized validator dividends; these change once per subnet tempo."""
         try:
-            tempo_rows, dividend_rows = await asyncio.gather(
-                view.query_map(("SubtensorModule", "Tempo")),
-                view.query_map(("SubtensorModule", "AlphaDividendsPerSubnet")),
+            timeout = max(
+                1,
+                min(12, self.settings.rpc_block_timeout_seconds / 2),
             )
-        except Exception:
+            async with asyncio.timeout(timeout):
+                tempo_rows, dividend_rows = await asyncio.gather(
+                    view.query_map(("SubtensorModule", "Tempo")),
+                    view.query_map(("SubtensorModule", "AlphaDividendsPerSubnet")),
+                )
+        except Exception as exc:
+            logger.warning("subnet yield metric read failed: %s", type(exc).__name__)
             return {netuid: (None, None) for netuid in netuids}
         tempos = {int(k): scale_int(v) for k, v in tempo_rows}
         totals: dict[int, Decimal] = {}
