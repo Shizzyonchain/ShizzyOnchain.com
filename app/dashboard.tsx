@@ -5,7 +5,7 @@ import Image from "next/image";
 import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
 
-type ScreenerRow = {
+export type ScreenerRow = {
   netuid: number;
   name?: string;
   symbol?: string;
@@ -634,15 +634,25 @@ function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency =
 
 export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "videos" | "university" | "partners";
 
-export function Dashboard({ initialView = "screener" }: { initialView?: DashboardView }) {
+export function Dashboard({
+  initialView = "screener",
+  initialRows = [],
+}: {
+  initialView?: DashboardView;
+  initialRows?: ScreenerRow[];
+}) {
+  const serverRows = initialRows.filter((row) => row.netuid !== 0);
+  const hasInitialRows = serverRows.length > 0;
   const [view, setView] = useState<DashboardView>(initialView);
   const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
   const [taoUsd, setTaoUsd] = useState(0);
-  const [rows, setRows] = useState<ScreenerRow[]>([]);
-  const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">("loading");
+  const [rows, setRows] = useState<ScreenerRow[]>(serverRows);
+  const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">(
+    hasInitialRows ? (marketSnapshotIsFresh(serverRows) ? "live" : "stale") : "loading",
+  );
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<keyof ScreenerRow>("market_cap_tao");
@@ -735,19 +745,21 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
   }, [marketDetailOpen]);
 
   useEffect(() => {
-    try {
-      const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
-      const cachedRows = Array.isArray(cached?.data) ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0) : [];
-      if (cachedRows.length && marketSnapshotIsUsable(cachedRows)) {
-        queueMicrotask(() => {
-          setRows(cachedRows);
-          setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
-          setDataState(marketSnapshotIsFresh(cachedRows) ? "live" : "stale");
-          setLastUpdated(new Date(Date.now() - marketSnapshotAge(cachedRows)));
-        });
+    if (!hasInitialRows) {
+      try {
+        const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
+        const cachedRows = Array.isArray(cached?.data) ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0) : [];
+        if (cachedRows.length && marketSnapshotIsUsable(cachedRows)) {
+          queueMicrotask(() => {
+            setRows(cachedRows);
+            setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
+            setDataState(marketSnapshotIsFresh(cachedRows) ? "live" : "stale");
+            setLastUpdated(new Date(Date.now() - marketSnapshotAge(cachedRows)));
+          });
+        }
+      } catch {
+        window.localStorage.removeItem("shizzy:screener");
       }
-    } catch {
-      window.localStorage.removeItem("shizzy:screener");
     }
     let refreshInFlight = false;
     const refreshMarkets = () => {
@@ -773,7 +785,7 @@ export function Dashboard({ initialView = "screener" }: { initialView?: Dashboar
     refreshMarkets();
     const refreshTimer = window.setInterval(refreshMarkets, 12_000);
     return () => window.clearInterval(refreshTimer);
-  }, []);
+  }, [hasInitialRows]);
   useEffect(() => {
     const refreshTaoPrice = () => {
       fetch("/api/tao-price", { cache: "no-store" })
