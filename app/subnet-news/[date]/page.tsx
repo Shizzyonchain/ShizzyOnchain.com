@@ -15,7 +15,11 @@ export async function generateMetadata({ params }: PageProps<"/subnet-news/[date
   const { date } = await params;
   const brief = getSubnetNewsBrief(date);
   if (!brief) return {};
-  return { title: `${brief.title} | Subnet News`, description: brief.summary };
+  return {
+    title: `${brief.title} | Subnet News`,
+    description: brief.summary,
+    alternates: { canonical: `/subnet-news/${date}` },
+  };
 }
 
 export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet-news/[date]">) {

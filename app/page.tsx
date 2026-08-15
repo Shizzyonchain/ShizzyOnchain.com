@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Dashboard, type ScreenerRow } from "./dashboard";
+import { Dashboard } from "./dashboard";
+import { getInitialMarkets, getInitialTaoUsd } from "./lib/market-data";
 
 export const revalidate = 15;
 export const metadata: Metadata = {
@@ -7,38 +8,6 @@ export const metadata: Metadata = {
   description: "Track live finalized Bittensor subnet prices, market caps, APY, emissions, volume, and conviction-locked alpha across Finney.",
   alternates: { canonical: "/" },
 };
-
-async function getInitialMarkets(): Promise<ScreenerRow[]> {
-  const base = process.env.BACKEND_API_URL;
-  if (!base) return [];
-  try {
-    const response = await fetch(new URL("/v1/screener", base), {
-      headers: { "X-API-Key": process.env.BACKEND_API_KEY || "" },
-      next: { revalidate: 15 },
-      signal: AbortSignal.timeout(5_000),
-    });
-    if (!response.ok) return [];
-    const payload = await response.json();
-    return Array.isArray(payload.data) ? payload.data : [];
-  } catch {
-    return [];
-  }
-}
-
-async function getInitialTaoUsd(): Promise<number> {
-  try {
-    const response = await fetch("https://api.coinbase.com/v2/prices/TAO-USD/spot", {
-      next: { revalidate: 60 },
-      signal: AbortSignal.timeout(4_000),
-    });
-    if (!response.ok) return 0;
-    const payload = await response.json();
-    const price = Number(payload?.data?.amount);
-    return Number.isFinite(price) && price > 0 ? price : 0;
-  } catch {
-    return 0;
-  }
-}
 
 export default async function Home() {
   const [rows, taoUsd] = await Promise.all([getInitialMarkets(), getInitialTaoUsd()]);

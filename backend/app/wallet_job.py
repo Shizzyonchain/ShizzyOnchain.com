@@ -119,8 +119,19 @@ async def wallet_job_loop(db, settings):
            WHERE status='processing'"""
     )
     retry_delay = 2
+    last_cleanup = 0.0
     while True:
         try:
+            now = time.monotonic()
+            if now - last_cleanup >= 3600:
+                deleted = await db.execute(
+                    """DELETE FROM wallet_lookup_jobs
+                       WHERE status IN ('complete','failed')
+                         AND updated_at < now() - ($1 * interval '1 hour')""",
+                    settings.wallet_job_retention_hours,
+                )
+                log.info("wallet job retention cleanup result=%s", deleted)
+                last_cleanup = now
             job = await claim_job(db)
             retry_delay = 2
             if not job:

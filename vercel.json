@@ -3,6 +3,6 @@
   "regions": ["sfo1"],
   "framework": "nextjs",
   "buildCommand": "next build",
-  "installCommand": "npm install",
+  "installCommand": "npm ci",
   "outputDirectory": null
 }

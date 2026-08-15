@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     public_reads: bool = False
     allowed_origins: list[str] = Field(default_factory=list)
     max_mass_wallets: int = 100
+    max_pending_wallet_jobs: int = 25
+    wallet_job_retention_hours: int = 24
     wallet_query_concurrency: int = 8
     wallet_rpc_timeout_seconds: float = 30
     rpc_connect_timeout_seconds: float = 8

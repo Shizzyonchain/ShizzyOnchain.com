@@ -445,193 +445,6 @@ function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string,
   return updated;
 }
 
-function PriceChart({ candles, row, currency, taoUsd, timeframe, valueCurrency = "tao" }: { candles: Candle[]; row?: ScreenerRow; currency: "usd" | "tao"; taoUsd: number; timeframe: string; valueCurrency?: "tao" | "usd" }) {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [canvasWidth, setCanvasWidth] = useState(1000);
-  const visible = useMemo(
-    () =>
-      candles
-        .filter((candle) => ["open", "high", "low", "close"].every((field) => Number(candle[field as keyof Candle]) > 0))
-        .slice(-180)
-        .map((candle, index, validCandles) => {
-          if (!index) return candle;
-          const previousClose = Number(validCandles[index - 1].close);
-          const close = Number(candle.close);
-          return {
-            ...candle,
-            open: String(previousClose),
-            high: String(Math.max(Number(candle.high), previousClose, close)),
-            low: String(Math.min(Number(candle.low), previousClose, close)),
-          };
-        }),
-    [candles],
-  );
-  const layout = (width: number) => {
-    const pad = 10;
-    const priceAxis = width < 520 ? 58 : 72;
-    const chartRight = width - priceAxis;
-    const usable = Math.max(1, chartRight - pad);
-    const naturalStep = usable / Math.max(visible.length, 1);
-    const maxHourlyStep = width < 600 ? 34 : 52;
-    const step = timeframe === "1h" ? Math.min(naturalStep, maxHourlyStep) : naturalStep;
-    const start = timeframe === "1h" && step < naturalStep ? chartRight - step * visible.length : pad;
-    return { pad, priceAxis, chartRight, usable, step, start };
-  };
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const observer = new ResizeObserver((entries) => setCanvasWidth(entries[0].contentRect.width));
-    observer.observe(canvas);
-    return () => observer.disconnect();
-  }, []);
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const ratio = window.devicePixelRatio || 1;
-    const box = canvas.getBoundingClientRect();
-    canvas.width = box.width * ratio;
-    canvas.height = box.height * ratio;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    ctx.scale(ratio, ratio);
-    ctx.clearRect(0, 0, box.width, box.height);
-    if (!visible.length) return;
-    const highs = visible.map((c) => Number(c.high));
-    const lows = visible.map((c) => Number(c.low));
-    const min = Math.min(...lows),
-      max = Math.max(...highs),
-      range = Math.max(max - min, max * 0.001, 1e-9);
-    const { pad: padX, chartRight, step, start } = layout(box.width);
-    const padY = 16,
-      bottomY = box.height - 34,
-      usableH = bottomY - padY;
-    const bodyW = Math.max(2, Math.min(14, step * 0.62));
-    const y = (value: number) => padY + ((max - value) * usableH) / range;
-    const axisPrice = (value: number) => {
-      const displayed = valueCurrency === "usd" ? value : currency === "usd" ? value * taoUsd : value;
-      if (valueCurrency === "usd" || currency === "usd") {
-        if (displayed >= 1000) return `$${fmt(displayed, 0)}`;
-        return `$${fmt(displayed, displayed < 1 ? 4 : 2)}`;
-      }
-      return `τ${fmt(displayed, displayed < 1 ? 4 : 2)}`;
-    };
-    const axisTime = (value: string) => {
-      const date = new Date(value);
-      if (timeframe === "1d") return date.toLocaleDateString([], { month: "short", day: "numeric" });
-      return date.toLocaleTimeString([], {
-        hour: "numeric",
-        minute: timeframe === "1m" || timeframe === "10m" ? "2-digit" : undefined,
-      });
-    };
-
-    ctx.lineWidth = 1;
-    ctx.font = "10px monospace";
-    ctx.fillStyle = "rgba(141,164,199,.82)";
-    for (let line = 0; line < 5; line++) {
-      const ratioY = line / 4;
-      const gridY = padY + usableH * ratioY;
-      const gridPrice = max - range * ratioY;
-      ctx.strokeStyle = "rgba(38,85,132,.32)";
-      ctx.beginPath();
-      ctx.moveTo(padX, gridY);
-      ctx.lineTo(chartRight, gridY);
-      ctx.stroke();
-      ctx.textAlign = "left";
-      ctx.textBaseline = "middle";
-      ctx.fillText(axisPrice(gridPrice), chartRight + 7, gridY);
-    }
-    const timeTickCount = box.width < 600 ? 3 : 5;
-    for (let tick = 0; tick < timeTickCount; tick++) {
-      const ratioX = tick / (timeTickCount - 1);
-      const candleIndex = Math.round((visible.length - 1) * ratioX);
-      const gridX = start + step * (candleIndex + 0.5);
-      ctx.strokeStyle = "rgba(38,85,132,.24)";
-      ctx.beginPath();
-      ctx.moveTo(gridX, padY);
-      ctx.lineTo(gridX, bottomY);
-      ctx.stroke();
-      ctx.fillStyle = "rgba(141,164,199,.82)";
-      ctx.textBaseline = "alphabetic";
-      ctx.textAlign = tick === 0 ? "left" : tick === timeTickCount - 1 ? "right" : "center";
-      ctx.fillText(axisTime(visible[candleIndex].time), gridX, box.height - 7);
-    }
-
-    visible.forEach((c, i) => {
-      const open = Number(c.open),
-        high = Number(c.high),
-        low = Number(c.low),
-        close = Number(c.close);
-      const x = start + step * (i + 0.5);
-      const color = close > open ? "#22c55e" : close < open ? "#ef4444" : "#ffffff";
-      ctx.strokeStyle = color;
-      ctx.fillStyle = color;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(x, y(high));
-      ctx.lineTo(x, y(low));
-      ctx.stroke();
-      const top = Math.min(y(open), y(close));
-      const height = Math.max(2, Math.abs(y(open) - y(close)));
-      ctx.fillRect(x - bodyW / 2, top, bodyW, height);
-    });
-
-    if (hovered !== null && visible[hovered]) {
-      const candle = visible[hovered];
-      const x = start + step * (hovered + 0.5),
-        crossY = y(Number(candle.close));
-      ctx.save();
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = "rgba(141,164,199,.65)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(x, padY);
-      ctx.lineTo(x, bottomY);
-      ctx.moveTo(padX, crossY);
-      ctx.lineTo(chartRight, crossY);
-      ctx.stroke();
-      ctx.restore();
-      const priceLabel = axisPrice(Number(candle.close));
-      ctx.font = "10px monospace";
-      const priceWidth = Math.min(box.width - chartRight, ctx.measureText(priceLabel).width + 12);
-      ctx.fillStyle = "#1676ad";
-      ctx.fillRect(chartRight, crossY - 10, priceWidth, 20);
-      ctx.fillStyle = "#fff";
-      ctx.textAlign = "left";
-      ctx.textBaseline = "middle";
-      ctx.fillText(priceLabel, chartRight + 6, crossY);
-      const timeLabel = axisTime(candle.time);
-      const timeWidth = ctx.measureText(timeLabel).width + 14;
-      const timeLeft = Math.max(padX, Math.min(chartRight - timeWidth, x - timeWidth / 2));
-      ctx.fillStyle = "#1676ad";
-      ctx.fillRect(timeLeft, bottomY, timeWidth, 20);
-      ctx.fillStyle = "#fff";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(timeLabel, timeLeft + timeWidth / 2, bottomY + 10);
-    }
-  }, [visible, hovered, currency, taoUsd, valueCurrency, timeframe, canvasWidth]);
-
-  const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
-    if (!visible.length) return;
-    const box = event.currentTarget.getBoundingClientRect();
-    setCanvasWidth(box.width);
-    const { step, start } = layout(box.width);
-    const x = event.clientX - box.left;
-    if (x < start || x > start + step * visible.length) {
-      setHovered(null);
-      return;
-    }
-    setHovered(Math.max(0, Math.min(visible.length - 1, Math.floor((x - start) / step))));
-  };
-  return (
-    <div className="chart-stage">
-      <canvas ref={ref} className="price-canvas" aria-label={`Interactive candlestick price chart for ${row?.name || "selected subnet"}`} onPointerMove={move} onPointerLeave={() => setHovered(null)} />
-      {!visible.length && <div className="chart-empty">Building candle history from your node…</div>}
-    </div>
-  );
-}
-
 export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "videos" | "university" | "partners";
 
 export function Dashboard({
@@ -765,7 +578,7 @@ export function Dashboard({
     }
     let refreshInFlight = false;
     const refreshMarkets = () => {
-      if (refreshInFlight) return;
+      if (document.hidden || refreshInFlight) return;
       refreshInFlight = true;
       fetchJsonWithTimeout("/api/backend/v1/screener")
         .then((json) => {
@@ -790,6 +603,7 @@ export function Dashboard({
   }, [hasInitialRows]);
   useEffect(() => {
     const refreshTaoPrice = () => {
+      if (document.hidden) return;
       fetch("/api/tao-price", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((json) => {
@@ -815,6 +629,7 @@ export function Dashboard({
       setChartError(false);
     });
     const refreshChart = (background = false) => {
+      if (document.hidden) return;
       if (showTaoChart) {
         fetch(`/api/tao-chart?interval=${timeframe}`, {
           cache: "no-store",
@@ -866,6 +681,7 @@ export function Dashboard({
   useEffect(() => {
     if (view !== "activity") return;
     const refreshActivity = () => {
+      if (document.hidden) return;
       fetch("/api/backend/v1/activity?limit=200", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((json) => {
@@ -943,8 +759,18 @@ export function Dashboard({
       .join(",")})`;
   }, [portfolioChartAssets, portfolioTotal]);
   const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
-  const candles = chartData.key === requestedChartKey ? chartData.candles : [];
-  const chartCandles = useMemo(() => withLiveCandle(candles, showTaoChart ? taoUsd : Number(active?.price_tao || 0), timeframe), [candles, showTaoChart, taoUsd, active?.price_tao, timeframe]);
+  const candles = useMemo(
+    () => (chartData.key === requestedChartKey ? chartData.candles : []),
+    [chartData, requestedChartKey],
+  );
+  const chartCandles = useMemo(
+    () => withLiveCandle(
+      candles,
+      showTaoChart ? taoUsd : Number(active?.price_tao || 0),
+      timeframe,
+    ),
+    [candles, showTaoChart, taoUsd, active?.price_tao, timeframe],
+  );
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = [...rows].sort((a, b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const advancingMarkets = rows.filter((row) => Number(row.change_1h || 0) > 0).length;
@@ -1115,6 +941,7 @@ export function Dashboard({
         const validationMessage = errorBody?.detail?.[0]?.msg?.replace(/^Value error, /, "");
         if (res.status === 422) throw new Error(validationMessage || "One or more entries are not valid Bittensor public coldkeys.");
         if (res.status === 413) throw new Error("Too many coldkeys. Paste no more than 100 at once.");
+        if (res.status === 429) throw new Error("The wallet checker is busy right now. Please wait a minute and try again.");
         throw new Error("The live wallet lookup is temporarily unavailable. Your addresses were not saved; please try again shortly.");
       }
       const started = await res.json();
@@ -2259,7 +2086,7 @@ export function Dashboard({
                   }}
                 >
                   <span className="video-thumb">
-                    <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" />
+                    <Image src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" width={480} height={360} sizes="(max-width: 700px) 100vw, 25vw" />
                     <i>▶</i>
                     <em className="stream-badge">Live replay</em>
                   </span>
@@ -2293,7 +2120,7 @@ export function Dashboard({
                   }}
                 >
                   <span className="video-thumb">
-                    <img src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" />
+                    <Image src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" width={480} height={360} sizes="(max-width: 700px) 100vw, 25vw" />
                     <i>▶</i>
                     <em>{video.meta.split(" · ")[0]}</em>
                   </span>
@@ -2384,7 +2211,7 @@ export function Dashboard({
                 </span>
               </div>
             </div>
-            <img src="/Copy%20of%20new%20shizzy%20logo.png" alt="Shiz University" />
+            <Image src="/Copy%20of%20new%20shizzy%20logo.png" alt="Shiz University" width={2000} height={2000} sizes="(max-width: 700px) 100vw, 50vw" />
           </div>
           <section className="university-trust" aria-label="Why learn with Shizzy">
             <div>
@@ -2467,7 +2294,7 @@ export function Dashboard({
             </div>
           </section>
           <section className="university-about">
-            <img src="/about-shizzy.png" alt="Shizzy Unchained" />
+            <Image src="/about-shizzy.png" alt="Shizzy Unchained" width={2000} height={2000} sizes="(max-width: 700px) 100vw, 50vw" />
             <div>
               <p className="eyebrow">Your instructor</p>
               <h2>Learn directly from Shizzy</h2>

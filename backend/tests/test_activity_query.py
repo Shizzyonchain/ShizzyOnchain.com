@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta, timezone
 
 import pytest
@@ -125,10 +126,12 @@ async def test_health_reports_actual_market_staleness():
     app.state.db = database
 
     result = await health()
+    payload = json.loads(result.body)
 
-    assert result["status"] == "degraded"
-    assert result["reason"].startswith("market prices stale by")
-    assert result["market_lag_seconds"] >= 120
+    assert result.status_code == 503
+    assert payload["status"] == "degraded"
+    assert payload["reason"].startswith("market prices stale by")
+    assert payload["market_lag_seconds"] >= 120
     assert "WHERE netuid=0" in database.queries[1]
 
 

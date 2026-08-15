@@ -26,6 +26,10 @@ services:
         value: wss://archive.chain.opentensor.ai:443
       - key: WALLET_RPC_TIMEOUT_SECONDS
         value: "30"
+      - key: MAX_PENDING_WALLET_JOBS
+        value: "25"
+      - key: WALLET_JOB_RETENTION_HOURS
+        value: "24"
 
   - type: worker
     name: shizzy-subtensor-indexer
@@ -51,6 +55,8 @@ services:
         value: "30"
       - key: RPC_CONNECT_TIMEOUT_SECONDS
         value: "8"
+      - key: WALLET_JOB_RETENTION_HOURS
+        value: "24"
       - key: RPC_SUBSCRIBE_TIMEOUT_SECONDS
         value: "8"
       - key: RPC_HEAD_TIMEOUT_SECONDS
