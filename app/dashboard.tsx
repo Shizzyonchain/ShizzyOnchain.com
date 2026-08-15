@@ -637,9 +637,11 @@ export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "v
 export function Dashboard({
   initialView = "screener",
   initialRows = [],
+  initialTaoUsd = 0,
 }: {
   initialView?: DashboardView;
   initialRows?: ScreenerRow[];
+  initialTaoUsd?: number;
 }) {
   const serverRows = initialRows.filter((row) => row.netuid !== 0);
   const hasInitialRows = serverRows.length > 0;
@@ -648,7 +650,7 @@ export function Dashboard({
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
-  const [taoUsd, setTaoUsd] = useState(0);
+  const [taoUsd, setTaoUsd] = useState(initialTaoUsd);
   const [rows, setRows] = useState<ScreenerRow[]>(serverRows);
   const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">(
     hasInitialRows ? (marketSnapshotIsFresh(serverRows) ? "live" : "stale") : "loading",

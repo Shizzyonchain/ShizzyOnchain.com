@@ -25,8 +25,23 @@ async function getInitialMarkets(): Promise<ScreenerRow[]> {
   }
 }
 
+async function getInitialTaoUsd(): Promise<number> {
+  try {
+    const response = await fetch("https://api.coinbase.com/v2/prices/TAO-USD/spot", {
+      next: { revalidate: 60 },
+      signal: AbortSignal.timeout(4_000),
+    });
+    if (!response.ok) return 0;
+    const payload = await response.json();
+    const price = Number(payload?.data?.amount);
+    return Number.isFinite(price) && price > 0 ? price : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export default async function Home() {
-  const rows = await getInitialMarkets();
+  const [rows, taoUsd] = await Promise.all([getInitialMarkets(), getInitialTaoUsd()]);
   const subnetRows = rows.filter((row) => row.netuid !== 0);
   const structuredData = {
     "@context": "https://schema.org",
@@ -45,7 +60,7 @@ export default async function Home() {
       "@type": "Dataset",
       position: index + 1,
       name: `${row.name || `Subnet ${row.netuid}`} (SN${row.netuid})`,
-      description: `${row.symbol || `SN${row.netuid}`} price ${row.price_tao} TAO`,
+      description: `${row.symbol || `SN${row.netuid}`} price ${row.price_tao} TAO${taoUsd > 0 ? ` (${(Number(row.price_tao) * taoUsd).toFixed(4)} USD)` : ""}`,
     })),
   };
 
@@ -55,7 +70,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
-      <Dashboard initialRows={rows} />
+      <Dashboard initialRows={rows} initialTaoUsd={taoUsd} />
     </>
   );
 }
