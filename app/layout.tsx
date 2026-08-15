@@ -13,6 +13,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase, title, description,
     robots: { index: true, follow: true },
+    verification: {
+      google: "LOBmr7tij4lUklupg4cSvTaPoKhpCMgmC87eYESDjes",
+    },
     icons: {
       icon: [{ url: "/favicon.svg?v=2", type: "image/svg+xml", sizes: "any" }],
       shortcut: "/favicon.svg?v=2",
