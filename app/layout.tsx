@@ -12,12 +12,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = "Live Bittensor subnet price action, market analytics, and mass wallet portfolio checks.";
   return {
     metadataBase, title, description,
+    robots: { index: true, follow: true },
     icons: {
       icon: [{ url: "/favicon.svg?v=2", type: "image/svg+xml", sizes: "any" }],
       shortcut: "/favicon.svg?v=2",
       apple: "/shizzy-unchained-logo.png",
     },
-    openGraph: { title, description, type: "website" },
+    openGraph: { title, description, type: "website", siteName: "ShizzyUnchained" },
     twitter: { card: "summary", title, description },
   };
 }
