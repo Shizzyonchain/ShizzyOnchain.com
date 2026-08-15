@@ -1,0 +1,340 @@
+{
+  "version": 1,
+  "date": "2026-08-15",
+  "title": "Subnet News — August 15, 2026",
+  "summary": "Bittensor market breadth recovered to 48% as Green Compute led the tape, while the strongest new fundamental signals came from Subtensor's proposed spec-447 ownership gate, ChronoSeek's conviction-mode flip, NIOME's first v3 weight commit, and fresh validator releases from Ditto, Ridges, Harnyx, Verathos and Poker44.",
+  "publishedAt": "2026-08-15T11:50:00-04:00",
+  "coverageStart": "2026-08-14T10:00:00-04:00",
+  "coverageEnd": "2026-08-15T10:00:00-04:00",
+  "highlights": [
+    {
+      "headline": "Breadth recovers to 48% as Green Compute leads the cutoff tape",
+      "summary": "SubnetRadar's 10:00 AM ET tape showed 48% of subnet markets advancing. Green Compute gained 26.1% and OxMarkets fell 15.3%, reversing yesterday's broad weakness without producing a majority-positive market. The move is a market observation, not a claim about project fundamentals.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar August 15 tape",
+          "url": "https://subnetradar.com/today"
+        }
+      ]
+    },
+    {
+      "headline": "Wallet rotation concentrates around Green Compute, Teutonic and Mainframe",
+      "summary": "Within the reporting window, SubnetRadar flagged five historically profitable wallets accumulating Green Compute and estimated that group held more than 30% of current supply. A separate wallet rotated about 602 TAO from gm into Teutonic, while three top wallets removed roughly 550 TAO from Mainframe. Provider labels describe wallet history and observed transactions; they do not establish coordination or intent.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar live moments",
+          "url": "https://subnetradar.com/alpha/moments"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    { "netuid": 1, "name": "Apex", "updates": [] },
+    { "netuid": 2, "name": "DSperse", "updates": [] },
+    { "netuid": 3, "name": "Teutonic", "updates": [] },
+    { "netuid": 4, "name": "Targon", "updates": [] },
+    { "netuid": 5, "name": "Hone", "updates": [] },
+    { "netuid": 6, "name": "Numinous", "updates": [] },
+    { "netuid": 7, "name": "Allways", "updates": [] },
+    { "netuid": 8, "name": "Vanta", "updates": [] },
+    { "netuid": 9, "name": "iota", "updates": [] },
+    { "netuid": 10, "name": "Pareton", "updates": [] },
+    { "netuid": 11, "name": "TrajectoryRL", "updates": [] },
+    { "netuid": 12, "name": "Compute Horde", "updates": [] },
+    { "netuid": 13, "name": "Data Universe", "updates": [] },
+    { "netuid": 14, "name": "Cacheon", "updates": [] },
+    { "netuid": 15, "name": "ORO", "updates": [] },
+    { "netuid": 16, "name": "unknown", "updates": [] },
+    { "netuid": 17, "name": "404—GEN", "updates": [] },
+    { "netuid": 18, "name": "Zeus", "updates": [] },
+    { "netuid": 19, "name": "blockmachine", "updates": [] },
+    { "netuid": 20, "name": "ChronoSeek", "updates": [] },
+    { "netuid": 21, "name": "AdTAO", "updates": [] },
+    { "netuid": 22, "name": "Desearch", "updates": [] },
+    { "netuid": 23, "name": "Trishool", "updates": [] },
+    { "netuid": 24, "name": "Quasar", "updates": [] },
+    { "netuid": 25, "name": "Mainframe", "updates": [] },
+    { "netuid": 26, "name": "Perturb", "updates": [] },
+    { "netuid": 27, "name": "Orion", "updates": [] },
+    { "netuid": 28, "name": "gm", "updates": [] },
+    { "netuid": 29, "name": "hoτfloaτ", "updates": [] },
+    { "netuid": 30, "name": "Endure Network", "updates": [] },
+    { "netuid": 31, "name": "rec4ll", "updates": [] },
+    { "netuid": 32, "name": "ItsAI", "updates": [] },
+    { "netuid": 33, "name": "ReadyAI", "updates": [] },
+    { "netuid": 34, "name": "BitMind", "updates": [] },
+    { "netuid": 35, "name": "OxMarkets", "updates": [] },
+    { "netuid": 36, "name": "Leoma", "updates": [] },
+    { "netuid": 37, "name": "Aurelius", "updates": [] },
+    { "netuid": 38, "name": "ChronoLLM", "updates": [] },
+    { "netuid": 39, "name": "deprecated", "updates": [] },
+    { "netuid": 40, "name": "Ralph", "updates": [] },
+    { "netuid": 41, "name": "Almanac", "updates": [] },
+    { "netuid": 42, "name": "Unknown", "updates": [] },
+    { "netuid": 43, "name": "Graphite", "updates": [] },
+    { "netuid": 44, "name": "Score", "updates": [] },
+    { "netuid": 45, "name": "AlphaRidge.ai", "updates": [] },
+    { "netuid": 46, "name": "Instant", "updates": [] },
+    { "netuid": 47, "name": "wait (reproduce paper)", "updates": [] },
+    { "netuid": 48, "name": "Quantum Compute", "updates": [] },
+    { "netuid": 49, "name": "Nepher Robotics", "updates": [] },
+    { "netuid": 50, "name": "Synth", "updates": [] },
+    { "netuid": 51, "name": "lium.io", "updates": [] },
+    { "netuid": 52, "name": "Dojo", "updates": [] },
+    { "netuid": 53, "name": "engy", "updates": [] },
+    { "netuid": 54, "name": "Yanez", "updates": [] },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": [
+        {
+          "headline": "NIOME commits its first validated v3 weights after launch instability",
+          "summary": "NIOME moved beyond yesterday's scheduled-release notice: the validator produced valid scores and committed weights after query failures and operational instability. The team also added coldkey and IP filtering around the revised genomic-profile scoring system. The successful weight commit is verified in the public repository; broader stability remains developing.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Validated weight commit",
+              "url": "https://github.com/NIOME-BITTENSOR/NIOME/commit/c1aa1a1004eb966845442c456611cc66409abd14"
+            },
+            {
+              "label": "August 15 NIOME brief",
+              "url": "https://subnetradar.com/subnet-news/55/2026-08-15"
+            }
+          ]
+        }
+      ]
+    },
+    { "netuid": 56, "name": "Gradients", "updates": [] },
+    { "netuid": 57, "name": "Unknown", "updates": [] },
+    { "netuid": 58, "name": "greevils", "updates": [] },
+    { "netuid": 59, "name": "Babelbit", "updates": [] },
+    { "netuid": 60, "name": "Bitsec.ai", "updates": [] },
+    { "netuid": 61, "name": "RedTeam", "updates": [] },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": [
+        {
+          "headline": "Ridges adds one-shot upload credits as an alternative to alpha burn",
+          "summary": "Ridges merged an upload-credit path that lets an eligible uploader consume a one-time credit instead of burning alpha. The client stops before an upload if neither a usable credit nor a permitted burn path is available, and it can retry with the returned credit identifier. This changes submission mechanics; it does not guarantee that any miner receives a credit.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Upload-credit merge",
+              "url": "https://github.com/ridgesai/ridges/commit/0e4575b07b67bc105fd77bc2ed039795554e0878"
+            }
+          ]
+        }
+      ]
+    },
+    { "netuid": 63, "name": "Enigma", "updates": [] },
+    { "netuid": 64, "name": "Chutes", "updates": [] },
+    { "netuid": 65, "name": "TAO Private Network", "updates": [] },
+    { "netuid": 66, "name": "conjectures", "updates": [] },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": [
+        {
+          "headline": "Harnyx replaces relative champion margins with explicit absolute gates",
+          "summary": "Harnyx changed the current data-v8 challenger rule to require a ten-percentage-point score improvement, or a qualifying cost or latency improvement without regression, while retaining historical thresholds for older versions. It also routed similarity checks through DeepSeek on OpenRouter. The merge makes champion replacement harder to trigger through small relative differences.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Champion margin change",
+              "url": "https://github.com/harnyx/harnyx/commit/d6fb01149e8ef4738f007f2ff0a6198d0e3c7fa7"
+            },
+            {
+              "label": "Similarity provider change",
+              "url": "https://github.com/harnyx/harnyx/commit/9efd098157f53cfd71d97f0071fc3f148f586fc5"
+            }
+          ]
+        }
+      ]
+    },
+    { "netuid": 68, "name": "NOVA", "updates": [] },
+    { "netuid": 69, "name": "Herald", "updates": [] },
+    { "netuid": 70, "name": "Unknown", "updates": [] },
+    { "netuid": 71, "name": "Leadpoet", "updates": [] },
+    { "netuid": 72, "name": "StreetVision by NATIX", "updates": [] },
+    { "netuid": 73, "name": "Parked", "updates": [] },
+    { "netuid": 74, "name": "Gittensor", "updates": [] },
+    { "netuid": 75, "name": "Hippius", "updates": [] },
+    { "netuid": 76, "name": "Phylax", "updates": [] },
+    { "netuid": 77, "name": "Liquidity", "updates": [] },
+    { "netuid": 78, "name": "Vocence", "updates": [] },
+    { "netuid": 79, "name": "MVTRX", "updates": [] },
+    { "netuid": 80, "name": "OpenRoboto", "updates": [] },
+    { "netuid": 81, "name": "Reliquary", "updates": [] },
+    { "netuid": 82, "name": "Compelle", "updates": [] },
+    { "netuid": 83, "name": "CliqueAI", "updates": [] },
+    { "netuid": 84, "name": "Unknown", "updates": [] },
+    { "netuid": 85, "name": "Vidaio", "updates": [] },
+    { "netuid": 86, "name": "Unknown", "updates": [] },
+    { "netuid": 87, "name": "Provenonce", "updates": [] },
+    { "netuid": 88, "name": "Investing", "updates": [] },
+    { "netuid": 89, "name": "InfiniteQuant", "updates": [] },
+    { "netuid": 90, "name": "KubeTEE", "updates": [] },
+    { "netuid": 91, "name": "cascade", "updates": [] },
+    { "netuid": 92, "name": "Enclave", "updates": [] },
+    { "netuid": 93, "name": "Bitcast", "updates": [] },
+    { "netuid": 94, "name": "pending...", "updates": [] },
+    { "netuid": 95, "name": "Actual", "updates": [] },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": [
+        {
+          "headline": "Verathos aligns validator selection with a complete capacity audit",
+          "summary": "Verathos merged deterministic capacity-audit selection parity, including full active-hold timing and selection behavior. The change is designed to make validator decisions reproducible across the capacity-check path; no independent performance result was available by the cutoff.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Capacity-audit selection merge",
+              "url": "https://github.com/verathos-ai/verathos/commit/f275a2f2f364c3b17fb3e9a4018725eddce9a202"
+            }
+          ]
+        }
+      ]
+    },
+    { "netuid": 97, "name": "Albedo", "updates": [] },
+    { "netuid": 98, "name": "NeverPlayAlone", "updates": [] },
+    { "netuid": 99, "name": "Thirty Spokes", "updates": [] },
+    { "netuid": 100, "name": "BASE", "updates": [] },
+    { "netuid": 101, "name": "Tag101", "updates": [] },
+    { "netuid": 102, "name": "ConnitoAI", "updates": [] },
+    { "netuid": 103, "name": "Capcomp", "updates": [] },
+    { "netuid": 104, "name": "Masx.ai", "updates": [] },
+    { "netuid": 105, "name": "Beam", "updates": [] },
+    { "netuid": 106, "name": "Nodexo", "updates": [] },
+    { "netuid": 107, "name": "Minos", "updates": [] },
+    { "netuid": 108, "name": "Prometheon", "updates": [] },
+    { "netuid": 109, "name": "Finsight", "updates": [] },
+    { "netuid": 110, "name": "Green Compute", "updates": [] },
+    { "netuid": 111, "name": "Claims", "updates": [] },
+    { "netuid": 112, "name": "minotaur", "updates": [] },
+    { "netuid": 113, "name": "TensorUSD", "updates": [] },
+    { "netuid": 114, "name": "SOMA", "updates": [] },
+    { "netuid": 115, "name": "HashiChain", "updates": [] },
+    { "netuid": 116, "name": "Memo", "updates": [] },
+    { "netuid": 117, "name": "glyph", "updates": [] },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto tightens crown anchoring and moves a failing query path out of Python",
+          "summary": "After yesterday's burn rollout, Ditto merged a defended-score crown anchor and tightened the margin described in its official brief. The team also disabled a Python query that was saturating CPU and moved upload and LLM relay work to Go. A newest-agent tie-break remained under review, so the scoring result is still developing.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Defended-score crown anchor",
+              "url": "https://github.com/Oh-My-Ditto/ditto/commit/224b3cc08fd57e9a4ab75bb60f27282858317559"
+            },
+            {
+              "label": "August 15 Ditto brief",
+              "url": "https://subnetradar.com/subnet-news/118/2026-08-15"
+            }
+          ]
+        }
+      ]
+    },
+    { "netuid": 119, "name": "Satori", "updates": [] },
+    { "netuid": 120, "name": "Affine", "updates": [] },
+    { "netuid": 121, "name": "sundae_bar", "updates": [] },
+    { "netuid": 122, "name": "CookingTAO", "updates": [] },
+    { "netuid": 123, "name": "MANTIS", "updates": [] },
+    { "netuid": 124, "name": "Swarm", "updates": [] },
+    { "netuid": 125, "name": "8 Ball", "updates": [] },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": [
+        {
+          "headline": "Poker44 resets the validator's legacy burn allocation to zero",
+          "summary": "Poker44 released validator v0.2.10 with a migration that converts the exact legacy 30% burn default to zero while preserving custom allocations. It recomputes the durable target and submits the new weights when chain cadence and commit-reveal rules allow. This is a validator-allocation change, not an alpha-token unlock.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Poker44 v0.2.10 burn reset",
+              "url": "https://github.com/Poker44/Poker44-subnet/commit/c2a7777e83d8c59fba1613e5d707c2aa79f7bdf5"
+            }
+          ]
+        }
+      ]
+    },
+    { "netuid": 127, "name": "Astrid", "updates": [] },
+    { "netuid": 128, "name": "ByteLeap", "updates": [] }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Spec 447 proposes a single-hotkey 18% ownership takeover gate",
+      "summary": "A merged Subtensor main-branch change replaces spec 446's aggregate 10% conviction gate with a rule requiring one hotkey's own conviction to strictly exceed 18% of eligible alpha. Exactly 18% does not pass, and unrelated locks can no longer tip a takeover. The code and documentation are strong release evidence, but the merge alone does not prove that Finney enacted spec 447 before cutoff.",
+      "importance": "high",
+      "status": "developing",
+      "sources": [
+        {
+          "label": "Subtensor spec-447 merge",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/1f090af85d1771c5d8ece1f0910576fbd129906e"
+        }
+      ]
+    },
+    {
+      "headline": "ChronoSeek moves 65,000 conviction alpha from perpetual to decaying",
+      "summary": "SubnetRadar recorded a 65,000-alpha SN20 position changing from perpetual to decaying at 02:31 UTC. Network-wide, 29.26 million alpha was locked, 88% perpetual and 12% decaying, with conviction up 4.6% over 24 hours. A decaying position releases continuously on its curve; this is not a guaranteed one-day cliff and does not imply that released alpha will be sold.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar conviction dashboard",
+          "url": "https://subnetradar.com/alpha/conviction"
+        },
+        {
+          "label": "SubnetRadar live moments",
+          "url": "https://subnetradar.com/alpha/moments"
+        }
+      ]
+    },
+    {
+      "headline": "Full-burn count rises to 44 while Chutes remains on a distant halving watch",
+      "summary": "SubnetRadar counted 44 of 128 reporting subnets at or above 90% miner burn, up from 43 in yesterday's report. Chutes' first-halving watch stood at 57% of the 10.5 million-alpha threshold with an estimated 428 days remaining. No completed halving, verified registration, deregistration, or slot replacement surfaced before cutoff, and no reliable cutoff emission-share change could be independently reconstructed.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar August 15 tape",
+          "url": "https://subnetradar.com/today"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "Public X indexing queries for every active SN1 through SN128 in grouped SN# sweeps and focused subnet-name searches",
+      "SubnetRadar August 15 front page, conviction dashboard, live moments and all fresh briefs",
+      "TAO Daily, TaoStats, tao.com, official Bittensor sources and the Subtensor repository",
+      "Official public repositories surfaced by active subnet metadata, including commits inside the exact reporting window",
+      "Future alpha unlocks, conviction mode changes, halvings, registrations, deregistrations, miner burn, exchange announcements and security incidents",
+      "Every available dated report from August 9 through August 14 for exact and semantic duplicate exclusion"
+    ],
+    "gaps": [
+      "Public X indexing returned no reliable posts for the grouped SN1–SN128 and subnet-name queries; private, deleted, login-gated and rate-limited posts could not be exhaustively reviewed.",
+      "Original Discord links preserved by SubnetRadar can require server membership or login; participant claims without public primary confirmation remain marked developing.",
+      "The live Shizzy screener was retrieved after the 10:00 AM cutoff and its current historical endpoint did not provide reliable one-hour emission and reserve deltas, so those figures were not backfilled or presented as cutoff data.",
+      "No direct project announcement or identifiable on-chain evidence supported a future dated alpha unlock. The ChronoSeek mode flip is continuous conviction decay, not a scheduled cliff, and NIOME's release is software rather than a token unlock.",
+      "No verified registration, deregistration, slot replacement, completed alpha halving, exchange announcement or security incident surfaced inside the reporting window.",
+      "No material public update was verified for subnets with empty update arrays. Repeated roadmap language and prior-day releases were excluded. This report is informational and not financial advice."
+    ]
+  }
+}
