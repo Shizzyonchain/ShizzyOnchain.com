@@ -1,6 +1,7 @@
 import asyncio
 import hmac
 import json
+import logging
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timedelta, timezone
@@ -9,12 +10,14 @@ import uvicorn
 from fastapi import Depends, FastAPI, Header, HTTPException, Query, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 from app.config import get_settings
 from app.db import close, connect
 from app.models import MassWalletRequest
 
 settings = get_settings()
+log = logging.getLogger("shizzy.api")
 
 
 @asynccontextmanager
@@ -104,7 +107,10 @@ async def _health_details():
 @app.get("/healthz")
 async def health():
     try:
-        return await asyncio.wait_for(_health_details(), timeout=3)
+        details = await asyncio.wait_for(_health_details(), timeout=3)
+        if details["status"] != "ok":
+            return JSONResponse(status_code=503, content=jsonable_encoder(details))
+        return details
     except Exception as exc:
         raise HTTPException(503, f"database unavailable: {type(exc).__name__}") from exc
 
@@ -163,7 +169,7 @@ async def _refresh_live_screener(current_app: FastAPI):
 
 
 async def _refresh_screener(current_app: FastAPI):
-    rows = await app.state.db.fetch(
+    rows = await current_app.state.db.fetch(
         """WITH latest AS (
              SELECT netuid,time,block_number,price_tao,tao_reserve,
                     alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
@@ -254,8 +260,8 @@ async def screener():
     if task and task.done():
         try:
             task.result()
-        except Exception:
-            pass
+        except Exception as exc:
+            log.warning("screener history refresh failed: %s", type(exc).__name__)
         app.state.screener_refresh_task = None
         task = None
     last_started = app.state.screener_refresh_started_at
@@ -334,6 +340,13 @@ async def compact_candles(
 async def _refresh_candle_cache_in_background(cache_key, netuid: int, interval: str, limit: int):
     try:
         await _refresh_candle_cache(cache_key, netuid, interval, limit)
+    except Exception as exc:
+        log.warning(
+            "background candle refresh failed netuid=%s interval=%s error=%s",
+            netuid,
+            interval,
+            type(exc).__name__,
+        )
     finally:
         app.state.candle_refreshing.discard(cache_key)
 
@@ -343,7 +356,7 @@ async def _refresh_candle_cache(cache_key, netuid: int, interval: str, limit: in
 
     buckets = {"1m": "1 minute", "10m": "10 minutes", "1h": "1 hour", "1d": "1 day"}
     if interval == "1m":
-        query = f"""WITH candles AS (
+        query = """WITH candles AS (
                    SELECT date_bin('1 minute',time,TIMESTAMPTZ '2000-01-01') AS bucket,
                           (array_agg(price_tao ORDER BY time))[1] AS open,
                           max(price_tao) AS high,
@@ -510,6 +523,11 @@ async def mass_wallet_check(body: MassWalletRequest):
 async def create_wallet_job(body: MassWalletRequest):
     if len(body.addresses) > settings.max_mass_wallets:
         raise HTTPException(413, f"maximum {settings.max_mass_wallets} addresses per request")
+    pending = await app.state.db.fetchval(
+        "SELECT count(*) FROM wallet_lookup_jobs WHERE status IN ('queued','processing')"
+    )
+    if pending >= settings.max_pending_wallet_jobs:
+        raise HTTPException(429, "wallet checker is busy; please retry shortly")
     job_id = uuid.uuid4().hex
     await app.state.db.execute(
         """INSERT INTO wallet_lookup_jobs(id,addresses,total)

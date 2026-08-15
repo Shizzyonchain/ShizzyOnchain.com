@@ -1,9 +1,10 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import Image from "next/image";
 import Link from "next/link";
 import { DeepDivesHeader } from "../deep-dives-header";
 
-export const metadata = { title: "Compute Wars | Shizzy Deep Dives", description: "The battle to control the decentralized AI compute stack has already begun." };
+export const metadata = { title: "Compute Wars | Shizzy Deep Dives", description: "The battle to control the decentralized AI compute stack has already begun.", alternates: { canonical: "/deep-dives/compute-wars" } };
 
 function clean(line: string) {
   return line.replaceAll("â€œ", "“").replaceAll("â€", "”").replaceAll("â€™", "’").replaceAll("Ï„", "τ")
@@ -18,7 +19,7 @@ export default function ComputeWarsPage() {
   return <main className="deep-shell"><DeepDivesHeader />
     <article className="deep-article">
       <header className="article-hero"><Link href="/deep-dives">← All Deep Dives</Link><p>AI infrastructure · Bittensor</p><h1>Compute Wars:<br/><span>The Battle for AI Infrastructure Has Begun</span></h1><div><b>Shizzy</b><span>@ShizzyUnchained</span><span>18 min read</span></div></header>
-      <img className="article-cover" src="/deep-dives/compute-wars.png" alt="Compute Wars: The battle for Bittensor AI infrastructure"/>
+      <Image className="article-cover" src="/deep-dives/compute-wars.png" alt="Compute Wars: The battle for Bittensor AI infrastructure" width={900} height={360} sizes="100vw"/>
       <div className="article-layout"><aside><span>Inside the battle</span><ol><li>Inference</li><li>Distributed compute</li><li>GPU marketplace</li><li>Private compute</li><li>Developer access</li><li>Optimization</li><li>Retrieval</li><li>Verification</li><li>Proof</li><li>Sustainability</li></ol></aside>
         <div className="article-body">{lines.map((line, index) => {
           if (/^SN\d+\s/.test(line)) { const [sn, ...name] = line.split(" "); return <h2 key={index}><span>{sn}</span>{name.join(" ")}</h2>; }

@@ -7,6 +7,7 @@ import { SubnetNewsHeader } from "./subnet-news-header";
 export const metadata: Metadata = {
   title: "Subnet News | Shizzy Unchained",
   description: "The daily Bittensor subnet intelligence brief, sourced across X, GitHub, official channels, and ecosystem data.",
+  alternates: { canonical: "/subnet-news" },
 };
 
 export default function SubnetNewsPage() {

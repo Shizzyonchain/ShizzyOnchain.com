@@ -13,9 +13,11 @@ export async function GET(request: NextRequest) {
     const response = await fetch(`https://api.exchange.coinbase.com/products/TAO-USD/candles?granularity=${granularity}`, {
       headers: { "User-Agent": "ShizzyUnchained/1.0" },
       next: { revalidate: 60 },
+      signal: AbortSignal.timeout(6_000),
     });
     if (!response.ok) throw new Error();
     const raw = await response.json() as CoinbaseCandle[];
+    if (!Array.isArray(raw)) throw new Error("Invalid Coinbase candle response");
     const normalized = raw.filter(c => Array.isArray(c) && c.length >= 6).sort((a, b) => a[0] - b[0]).map(c => ({
       time: new Date(c[0] * 1000).toISOString(), low: String(c[1]), high: String(c[2]),
       open: String(c[3]), close: String(c[4]), volume_tao: String(c[5]),

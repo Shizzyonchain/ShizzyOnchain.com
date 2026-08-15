@@ -49,6 +49,7 @@ export function SiteHeader({ currency, onCurrencyChange, currencyTitle, dataStat
     let cancelled = false;
 
     const checkFinney = async () => {
+      if (document.hidden) return;
       try {
         const response = await fetch("/api/backend/v1/screener", {
           cache: "no-store",

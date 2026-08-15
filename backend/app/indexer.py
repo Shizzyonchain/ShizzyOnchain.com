@@ -36,6 +36,19 @@ LATEST_PRICE_UPSERT = """INSERT INTO subnet_latest_samples
    WHERE subnet_latest_samples.block_number <= EXCLUDED.block_number"""
 
 
+async def close_chain_resources(heads, chain, endpoint_name: str):
+    """Best-effort cleanup must never terminate an otherwise recoverable failover loop."""
+    if heads is not None:
+        try:
+            await heads.aclose()
+        except Exception as exc:
+            log.warning("Finney subscription cleanup failed endpoint=%s error=%s", endpoint_name, type(exc).__name__)
+    try:
+        await chain.__aexit__(None, None, None)
+    except Exception as exc:
+        log.warning("Finney client cleanup failed endpoint=%s error=%s", endpoint_name, type(exc).__name__)
+
+
 def _block_hash(info) -> str:
     value = getattr(info, "hash", None) or getattr(info, "block_hash", None)
     if value is None and isinstance(info, dict):
@@ -290,9 +303,7 @@ async def live_price_loop(db, settings):
                 await asyncio.sleep(retry_delay)
                 retry_delay = min(retry_delay * 2, 30)
         finally:
-            if heads is not None:
-                await heads.aclose()
-            await chain.__aexit__(None, None, None)
+            await close_chain_resources(heads, chain, endpoint_name)
 
 
 async def _missing_price_ranges(db, minimum_gap_blocks: int):
@@ -452,7 +463,7 @@ async def indexer():
                         persist_block(
                             db, chain, number,
                             head.get("hash") if number == head["number"] else None,
-                            include_auxiliary=False,
+                            include_auxiliary=True,
                             include_yield_metrics=True,
                             include_lock_metrics=True,
                         ),
@@ -484,9 +495,7 @@ async def indexer():
                 await asyncio.sleep(retry_delay)
                 retry_delay = min(retry_delay * 2, 30)
         finally:
-            if heads is not None:
-                await heads.aclose()
-            await chain.__aexit__(None, None, None)
+            await close_chain_resources(heads, chain, endpoint_name)
 
 
 async def main():

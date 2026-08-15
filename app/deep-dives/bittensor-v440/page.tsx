@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { DeepDivesHeader } from "../deep-dives-header";
 
 export const metadata: Metadata = {
   title: "Bittensor v440: The Emission Gate | Shizzy Deep Dives",
   description: "A plain-English deep dive into how Bittensor v440 redistributes subnet emission, who benefits, and what the new gate means for TAO and alpha holders.",
+  alternates: { canonical: "/deep-dives/bittensor-v440" },
   openGraph: { title: "Bittensor v440: The Emission Gate", description: "The subnet economy just became much more competitive.", type: "article", images: [{ url: "/deep-dives/bittensor-v440.png", width: 1672, height: 941, alt: "Bittensor v440: The Emission Gate" }] },
   twitter: { card: "summary_large_image", images: ["/deep-dives/bittensor-v440.png"] },
 };
@@ -27,7 +29,7 @@ export default function BittensorV440Page() {
   return <main className="deep-shell"><DeepDivesHeader />
     <article className="deep-article v440-article">
       <header className="article-hero v440-hero"><Link href="/deep-dives">&larr; All Deep Dives</Link><p>Protocol economics &middot; Bittensor</p><h1>Bittensor v440:<br/><span>The Emission Gate</span></h1><div><b>ShizzyUnchained</b><span>July 28, 2026</span><span>12 min read</span><span className="v440-live">Live on mainnet</span></div></header>
-      <img className="article-cover" src="/deep-dives/bittensor-v440.png" alt="Bittensor subnet signals flowing through the v440 emission gate"/>
+      <Image className="article-cover" src="/deep-dives/bittensor-v440.png" alt="Bittensor subnet signals flowing through the v440 emission gate" width={1672} height={941} sizes="100vw"/>
       <div className="article-layout"><aside><span>Inside the gate</span><ol><li>The short version</li><li>Why it changed</li><li>How the bar works</li><li>Official numbers</li><li>Who is affected</li><li>Risks and tradeoffs</li><li>What to do</li><li>Sources</li></ol></aside>
         <div className="article-body v440-body">
           <p>Bittensor used to give every eligible subnet a meaningful slice of new TAO based mainly on its smoothed alpha price. V440 adds a competitive gate: subnets above a moving demand threshold keep most of their weight; those below it lose most of theirs. The removed emission is redistributed, not destroyed.</p>

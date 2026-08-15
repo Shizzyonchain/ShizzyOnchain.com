@@ -6,6 +6,7 @@ import { SiteHeader } from "../site-header";
 export const metadata: Metadata = {
   title: "About Shizzy Unchained | Bittensor Creator, Podcast Host & Community Builder",
   description: "Meet Shizzy Unchained, an independent creator, podcast host, interviewer, educator, and community builder covering Bittensor, TAO, decentralized AI, crypto security, portfolio strategy, and content creation.",
+  alternates: { canonical: "/about" },
 };
 
 const socials = [
