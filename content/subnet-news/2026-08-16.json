@@ -1,0 +1,858 @@
+{
+  "version": 1,
+  "date": "2026-08-16",
+  "title": "Subnet News — August 16, 2026",
+  "summary": "Subnet breadth fell back to 38% by the late publication snapshot while Cathedral led a sharply divided tape. New operating signals included Affine resetting evaluation after exploit concerns, Phylax opening round eight, SOMA starting stage three, Hippius merging a broad security hardening set, and Minotaur warning of discretionary owner-alpha sales without a fixed amount or execution time.",
+  "publishedAt": "2026-08-16T18:51:00-04:00",
+  "coverageStart": "2026-08-15T10:00:00-04:00",
+  "coverageEnd": "2026-08-16T10:00:00-04:00",
+  "highlights": [
+    {
+      "headline": "Breadth retreats to 38% while Cathedral leads the divided tape",
+      "summary": "At the 6:45 PM ET publication snapshot, 48 of 128 subnet markets were positive, 79 were negative and one was flat. Cathedral/SN39 gained 27.1% while conjectures/SN66 lost 15.0%. Because publication was delayed, these figures are labeled as a publication snapshot rather than the 10:00 AM cutoff.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Shizzy live screener snapshot",
+          "url": "https://shizzyunchained.com/"
+        },
+        {
+          "label": "SubnetRadar August 16 tape",
+          "url": "https://subnetradar.com/today"
+        }
+      ]
+    },
+    {
+      "headline": "Emission remains concentrated as Green Compute records a fresh surge",
+      "summary": "The late screener snapshot placed Chutes at 11.84% of displayed emission, lium.io at 10.33%, Minos at 8.29%, Affine at 7.88% and Targon at 7.49%. SubnetRadar separately flagged Green Compute rising to 1.03%. These are point-in-time shares, not evidence of revenue or future performance.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Shizzy live screener snapshot",
+          "url": "https://shizzyunchained.com/"
+        },
+        {
+          "label": "SubnetRadar August 16 tape",
+          "url": "https://subnetradar.com/today"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "unknown",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "Mainframe",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "gm",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Leoma",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": [
+        {
+          "headline": "Cathedral opens paid CPU execution while SN39 transitions",
+          "summary": "Cathedral announced a live compute service priced per verified CPU run, with free tests and an hourly option for persistent workers. The team also said it is moving under a new owner and ultimately into its own slot; live chain metadata still labeled SN39 deprecated at publication, so the slot transition remains developing.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "August 16 Cathedral brief",
+              "url": "https://subnetradar.com/subnet-news/39/2026-08-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "wait (reproduce paper)",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": []
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": [
+        {
+          "headline": "engy adds safeguards after a GLM-5.2 fleet outage",
+          "summary": "A traffic surge exhausted GPU memory across GLM-5.2 capacity and produced 404 failures in multiple datacenters. The team said it added rate limits and safeguards; planned Kimi K3 vision support had not been independently verified as live by the cutoff.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "August 16 engy brief",
+              "url": "https://subnetradar.com/subnet-news/53/2026-08-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Babelbit",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "TAO Private Network",
+      "updates": []
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": [
+        {
+          "headline": "Hippius hardens attestation, deposits and oracle accounting",
+          "summary": "A concentrated public-code review produced fixes that bind signed attestation bodies to their views, separate registration deposits from slashing reserves, repair live-surface registration and deposit handling, and add oracle guardrails and stake-layer wiring. These are merged code changes; production activation was not independently confirmed.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Attestation anti-rollback fix",
+              "url": "https://github.com/thenervelab/thebrain/commit/8ff68e7216b52ac86c28350ac7fd358ba4943d98"
+            },
+            {
+              "label": "Named-reserve fix",
+              "url": "https://github.com/thenervelab/thebrain/commit/8026532e36fa4ada960c4314df032f8facf447c0"
+            },
+            {
+              "label": "Oracle and stake guardrails",
+              "url": "https://github.com/thenervelab/thebrain/commit/2bb7cea73d72efa6ad75604a67df4d1cdef2985b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 76,
+      "name": "Phylax",
+      "updates": [
+        {
+          "headline": "Phylax starts round eight with one active agent per hotkey",
+          "summary": "Round-eight submissions closed and evaluation began, with one active agent per hotkey enforced for new entries while existing multi-track agents were grandfathered. Phylax also published all 80 slot states and a local evaluation harness using a 47-artifact corpus.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "August 16 Phylax brief",
+              "url": "https://subnetradar.com/subnet-news/76/2026-08-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Vocence",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": []
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "Enclave",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "BASE",
+      "updates": [
+        {
+          "headline": "BASE stages a 100% PRISM emission allocation",
+          "summary": "The public BASE repository changed its configured emission share to 100% for PRISM and pinned the change in staging. This is strong code and staging evidence, but it does not by itself prove that live validator weights or network emissions had already changed.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "PRISM emission configuration",
+              "url": "https://github.com/BaseIntelligence/base/commit/8315a365aeaa0ce127d34a790526970336e2722a"
+            },
+            {
+              "label": "Staging deployment pin",
+              "url": "https://github.com/BaseIntelligence/base/commit/4f8b36fa862b9604cda0a1f933cdc35201b52caf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "Masx.ai",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "minotaur",
+      "updates": [
+        {
+          "headline": "Minotaur gives notice of discretionary owner-alpha sales",
+          "summary": "The team said owner alpha may be sold through the liquidity pool after a public 24-hour notice because proposed over-the-counter transactions did not proceed. It supplied neither a fixed sale time nor an alpha amount, so this is a developing treasury-policy signal and does not qualify as a scheduled unlock.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "August 16 Minotaur brief and original messages",
+              "url": "https://subnetradar.com/subnet-news/112/2026-08-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SOMA starts stage-three evaluation as API costs pressure miners",
+          "summary": "SOMA began baseline and miner runs across its stage-three evaluation. The team hot-fixed the qualification list and said dashboard scores still included SC2 results that will not count in final scoring; several miners reported withdrawing because DeepSeek/OpenRouter evaluation cost was about $180 per hotkey.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "August 16 SOMA brief",
+              "url": "https://subnetradar.com/subnet-news/114/2026-08-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 115,
+      "name": "HashiChain",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": []
+    },
+    {
+      "netuid": 119,
+      "name": "Satori",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": [
+        {
+          "headline": "Affine removes suspected exploit models and restarts evaluation",
+          "summary": "Affine reset evaluation after removing models it considered exploit-based, added 30 GPU replicas and reported cutting evaluation time in half. Miners disputed the exclusions and the lack of advance notice, so the reset and capacity increase are verified through the official channel while the exploit characterization remains contested.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "August 16 Affine brief and original messages",
+              "url": "https://subnetradar.com/subnet-news/120/2026-08-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "8 Ball",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Spec 447 is now reported live with the single-hotkey 18% takeover test",
+      "summary": "SubnetRadar now labels conviction mechanics live on spec 447: for an eligible subnet older than one year, one hotkey must strictly exceed 18% of eligible alpha for ownership to transfer. This is a material status change from yesterday, when only the main-branch merge was verified.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar conviction dashboard",
+          "url": "https://subnetradar.com/alpha/conviction"
+        }
+      ]
+    },
+    {
+      "headline": "Minotaur adds 90,800 conviction alpha while Bitcast switches 12,200 to perpetual",
+      "summary": "Fresh conviction events inside the window included an approximately 90,800-alpha lock on SN112 and a 12,200-alpha SN93 position switching to perpetual. Neither event is a scheduled unlock. A later 334-alpha Teutonic switch to decaying occurred after the 10:00 AM cutoff and was excluded from the reporting window.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar conviction dashboard",
+          "url": "https://subnetradar.com/alpha/conviction"
+        }
+      ]
+    },
+    {
+      "headline": "Full-burn count holds at 44 and no halving completes",
+      "summary": "SubnetRadar counted 44 of 128 reporting subnets at or above 90% miner burn, unchanged from yesterday. Chutes remained 57% of the way to its first 10.5 million-alpha halving threshold, with an estimated 427 days remaining. No verified registration, deregistration or completed halving surfaced inside the window.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar August 16 tape",
+          "url": "https://subnetradar.com/today"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "Public X indexing queries across every active SN1 through SN128, grouped by SN# and focused by subnet name",
+      "SubnetRadar August 16 front page, conviction dashboard, moments feed and all 32 fresh subnet briefs",
+      "TAO Daily, TaoStats, tao.com, official Bittensor sources and the Subtensor repository",
+      "Public GitHub repositories for 55 highest-emission active subnets plus focused repositories tied to fresh briefs",
+      "Future alpha unlocks, conviction changes, miner burn, halvings, registrations, deregistrations, exchange announcements and security incidents",
+      "Every dated report from August 9 through August 15 for exact and semantic duplicate exclusion"
+    ],
+    "gaps": [
+      "Public X indexing returned no reliable current posts for the grouped SN1–SN128 queries; private, deleted, login-gated and rate-limited material could not be exhaustively reviewed.",
+      "Many original Discord messages require Bittensor server membership or login. Disputed claims drawn from those channels are marked developing and linked through the corresponding SubnetRadar brief.",
+      "The report was published after the normal cutoff. Market breadth and emission shares are explicitly labeled as a 6:45 PM ET publication snapshot; no late snapshot is presented as 10:00 AM data.",
+      "No direct project announcement or identifiable on-chain evidence supplied both a future date and alpha amount for an unlock. Minotaur announced a policy and notice period without a fixed amount or execution time, so upcomingUnlocks remains empty.",
+      "No verified registration, deregistration, completed halving, exchange announcement or confirmed security exploit surfaced inside the reporting window.",
+      "No material new public update was verified for subnets with empty update arrays. Previously covered releases and unchanged roadmap language were excluded. This report is informational and not financial advice."
+    ]
+  }
+}
