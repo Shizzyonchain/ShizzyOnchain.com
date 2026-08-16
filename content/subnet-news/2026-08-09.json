@@ -210,8 +210,8 @@
   ],
   "ecosystem": [
     {
-      "headline": "Daily tape shows narrow breadth and heavy miner burn",
-      "summary": "SubnetRadar reported 33% positive breadth and 39 new monitored moments for the issue, while 43 of 128 reporting subnets were at or above 90% miner burn. These figures are a network snapshot, not a recommendation.",
+      "headline": "Only one-third of subnet markets rise as miner burn stays heavy",
+      "summary": "SubnetRadar reported that 33% of subnet markets were rising and recorded 39 new monitored moments for the issue, while 43 of 128 reporting subnets were at or above 90% miner burn. These figures are a network snapshot, not a recommendation.",
       "importance": "medium",
       "status": "verified",
       "sources": [{"label": "SubnetRadar daily front page", "url": "https://subnetradar.com/today"}]

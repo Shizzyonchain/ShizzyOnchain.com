@@ -431,7 +431,7 @@
     "gaps": [
       "Public X search returned incomplete indexing for the historical window; no claim was upgraded solely from an inaccessible or login-gated post.",
       "Many original Discord messages require Bittensor server membership or login; source-linked SubnetRadar briefs were used where direct public reading was unavailable.",
-      "The site's historical price endpoint rate-limited the backfill after returning a verified subset. ORO, Quasar, Allways, iota, Targon and TrajectoryRL examples are reported, but no full-network breadth percentage, total volume, or universal gainer/decliner ranking is claimed.",
+      "The site's historical price endpoint rate-limited the backfill after returning a verified subset. ORO, Quasar, Allways, iota, Targon and TrajectoryRL examples are reported, but no full-network rising-versus-falling percentage, total volume, or universal gainer/decliner ranking is claimed.",
       "Historical conviction lock totals, miner-burn concentration and emission deltas were not recoverable for all 128 subnets at the August 11 cutoff; no present-day snapshot was mislabeled as historical data.",
       "No direct project announcement or identifiable on-chain evidence supported a future dated alpha unlock, so upcomingUnlocks remains empty.",
       "No material public update was verified for subnets whose update arrays are empty. This report is informational and not financial advice."

@@ -776,7 +776,7 @@ export function Dashboard({
   const advancingMarkets = rows.filter((row) => Number(row.change_1h || 0) > 0).length;
   const decliningMarkets = rows.filter((row) => Number(row.change_1h || 0) < 0).length;
   const directionalMarkets = advancingMarkets + decliningMarkets;
-  const marketBreadth = directionalMarkets ? (advancingMarkets / directionalMarkets) * 100 : 0;
+  const marketsRisingPercent = directionalMarkets ? (advancingMarkets / directionalMarkets) * 100 : 0;
   const liquidityFlowTao = rows.reduce((total, row) => {
     if (row.liquidity_change_1h == null) return total;
     const reserve = Number(row.tao_reserve || 0);
@@ -1150,8 +1150,8 @@ export function Dashboard({
                 setSortDirection("desc");
               }}
             >
-              <span>Breadth</span>
-              <strong className={marketBreadth >= 50 ? "positive" : "negative"}>{directionalMarkets ? `${Math.round(marketBreadth)}%` : "—"}</strong>
+              <span>Markets rising</span>
+              <strong className={marketsRisingPercent >= 50 ? "positive" : "negative"}>{directionalMarkets ? `${Math.round(marketsRisingPercent)}%` : "—"}</strong>
               <small>
                 {advancingMarkets} rising · {decliningMarkets} falling
               </small>

@@ -1049,8 +1049,8 @@
   ],
   "ecosystem": [
     {
-      "headline": "Daily tape shows 31% positive breadth and 45 high-burn subnets",
-      "summary": "SubnetRadar's August 10 issue recorded 31% positive breadth, 56 new monitored moments, and 45 of 128 reporting subnets at or above 90% miner burn. These are point-in-time network statistics, not financial advice.",
+      "headline": "Only 31% of subnet markets rise as 45 subnets remain high-burn",
+      "summary": "SubnetRadar's August 10 issue recorded 31% of subnet markets rising, 56 new monitored moments, and 45 of 128 reporting subnets at or above 90% miner burn. These are point-in-time network statistics, not financial advice.",
       "importance": "medium",
       "status": "verified",
       "sources": [
@@ -1079,7 +1079,7 @@
       "Official team and OpenTensor posts, source-linked Bittensor Discord messages, and public subnet announcements",
       "SubnetRadar daily issue, per-subnet briefs and chain moments; TAO Daily; TAO Protocol; TaoStats; and official Bittensor surfaces",
       "Public GitHub repository, release and commit indexing for release, scoring, validator, security, ownership, emission and product-launch claims",
-      "Market-flow, conviction, burn, breadth and emission signals, treated as descriptive public data rather than investment recommendations"
+      "Market-flow, conviction, burn, rising-versus-falling market counts and emission signals, treated as descriptive public data rather than investment recommendations"
     ],
     "gaps": [
       "X indexing was incomplete and some official posts exposed no readable body without login; directly resolved post URLs were retained where corroborating coverage captured the announcement.",

@@ -2,13 +2,13 @@
   "version": 1,
   "date": "2026-08-16",
   "title": "Subnet News — August 16, 2026",
-  "summary": "Subnet breadth fell back to 38% by the late publication snapshot while Cathedral led a sharply divided tape. New operating signals included Affine resetting evaluation after exploit concerns, Phylax opening round eight, SOMA starting stage three, Hippius merging a broad security hardening set, and Minotaur warning of discretionary owner-alpha sales without a fixed amount or execution time.",
+  "summary": "Only 48 of 128 subnet markets were rising at the late publication snapshot while Cathedral led a sharply divided tape. New operating signals included Affine resetting evaluation after exploit concerns, Phylax opening round eight, SOMA starting stage three, Hippius merging a broad security hardening set, and Minotaur warning of discretionary owner-alpha sales without a fixed amount or execution time.",
   "publishedAt": "2026-08-16T18:51:00-04:00",
   "coverageStart": "2026-08-15T10:00:00-04:00",
   "coverageEnd": "2026-08-16T10:00:00-04:00",
   "highlights": [
     {
-      "headline": "Breadth retreats to 38% while Cathedral leads the divided tape",
+      "headline": "Only 48 of 128 subnet markets rise while Cathedral leads the divided tape",
       "summary": "At the 6:45 PM ET publication snapshot, 48 of 128 subnet markets were positive, 79 were negative and one was flat. Cathedral/SN39 gained 27.1% while conjectures/SN66 lost 15.0%. Because publication was delayed, these figures are labeled as a publication snapshot rather than the 10:00 AM cutoff.",
       "importance": "high",
       "status": "verified",
@@ -849,7 +849,7 @@
     "gaps": [
       "Public X indexing returned no reliable current posts for the grouped SN1–SN128 queries; private, deleted, login-gated and rate-limited material could not be exhaustively reviewed.",
       "Many original Discord messages require Bittensor server membership or login. Disputed claims drawn from those channels are marked developing and linked through the corresponding SubnetRadar brief.",
-      "The report was published after the normal cutoff. Market breadth and emission shares are explicitly labeled as a 6:45 PM ET publication snapshot; no late snapshot is presented as 10:00 AM data.",
+      "The report was published after the normal cutoff. Rising-versus-falling market counts and emission shares are explicitly labeled as a 6:45 PM ET publication snapshot; no late snapshot is presented as 10:00 AM data.",
       "No direct project announcement or identifiable on-chain evidence supplied both a future date and alpha amount for an unlock. Minotaur announced a policy and notice period without a fixed amount or execution time, so upcomingUnlocks remains empty.",
       "No verified registration, deregistration, completed halving, exchange announcement or confirmed security exploit surfaced inside the reporting window.",
       "No material new public update was verified for subnets with empty update arrays. Previously covered releases and unchanged roadmap language were excluded. This report is informational and not financial advice."

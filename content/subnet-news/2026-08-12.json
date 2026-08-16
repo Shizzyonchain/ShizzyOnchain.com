@@ -2,14 +2,14 @@
   "version": 1,
   "date": "2026-08-12",
   "title": "Subnet News — August 12, 2026",
-  "summary": "Engy replaced its disputed blanket whitelist with dual permissionless and enterprise onboarding, while Iota rotated security after a drained-wallet attack and Score launched daily private-track audits. Beam broadened its proposed emission distribution, and Hone, Ditto, BASE, Trishool, Bitsec and NIOME advanced scoring or protocol releases. Market breadth was slightly negative at 48.4%, with OpenRoboto leading credible gains and Prometheon, Enclave, Engy and RedTeam leading declines. No supported future alpha unlock was found.",
+  "summary": "Engy replaced its disputed blanket whitelist with dual permissionless and enterprise onboarding, while Iota rotated security after a drained-wallet attack and Score launched daily private-track audits. Beam broadened its proposed emission distribution, and Hone, Ditto, BASE, Trishool, Bitsec and NIOME advanced scoring or protocol releases. Slightly fewer than half of subnet markets rose, with OpenRoboto leading credible gains and Prometheon, Enclave, Engy and RedTeam leading declines. No supported future alpha unlock was found.",
   "publishedAt": "2026-08-12T11:09:25-04:00",
   "coverageStart": "2026-08-11T10:00:00-04:00",
   "coverageEnd": "2026-08-12T10:00:00-04:00",
   "highlights": [
     {
-      "headline": "Market breadth slips below half as rotation stays sharp",
-      "summary": "At the 11:09 AM ET snapshot, 61 directional subnet markets rose and 65 fell, for 48.4% breadth and about 89,966 TAO of reported 24-hour volume. OpenRoboto led credible gainers at +10.5%; Prometheon, Enclave, Engy and RedTeam led declines. An invalid SN70 print was excluded.",
+      "headline": "Fewer than half of subnet markets rise as rotation stays sharp",
+      "summary": "At the 11:09 AM ET snapshot, 61 directional subnet markets rose and 65 fell, with about 89,966 TAO of reported 24-hour volume. OpenRoboto led credible gainers at +10.5%; Prometheon, Enclave, Engy and RedTeam led declines. An invalid SN70 print was excluded.",
       "importance": "medium",
       "status": "verified",
       "sources": [
@@ -925,7 +925,7 @@
       "SubnetRadar August 12 briefs and their linked original Bittensor Discord messages",
       "TAO Daily, TAO Protocol, tao.media, TaoStats, tao.com and official Bittensor documentation",
       "Official subnet sites, public GitHub histories and release activity for protocol, security, scoring and product claims",
-      "Live Finney screener data for breadth, volume, pool-reserve flow, emission changes and conviction concentration",
+      "Live Finney screener data for rising-versus-falling market counts, volume, pool-reserve flow, emission changes and conviction concentration",
       "Future alpha unlock announcements, conviction mode changes, halvings, registrations/deregistrations, miner burn, exchange news and security incidents"
     ],
     "gaps": [

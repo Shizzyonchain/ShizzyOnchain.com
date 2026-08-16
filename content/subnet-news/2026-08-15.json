@@ -2,13 +2,13 @@
   "version": 1,
   "date": "2026-08-15",
   "title": "Subnet News — August 15, 2026",
-  "summary": "Bittensor market breadth recovered to 48% as Green Compute led the tape, while the strongest new fundamental signals came from Subtensor's proposed spec-447 ownership gate, ChronoSeek's conviction-mode flip, NIOME's first v3 weight commit, and fresh validator releases from Ditto, Ridges, Harnyx, Verathos and Poker44.",
+  "summary": "Nearly half of Bittensor subnet markets were rising as Green Compute led the tape, while the strongest new fundamental signals came from Subtensor's proposed spec-447 ownership gate, ChronoSeek's conviction-mode flip, NIOME's first v3 weight commit, and fresh validator releases from Ditto, Ridges, Harnyx, Verathos and Poker44.",
   "publishedAt": "2026-08-15T11:50:00-04:00",
   "coverageStart": "2026-08-14T10:00:00-04:00",
   "coverageEnd": "2026-08-15T10:00:00-04:00",
   "highlights": [
     {
-      "headline": "Breadth recovers to 48% as Green Compute leads the cutoff tape",
+      "headline": "Nearly half of subnet markets rise as Green Compute leads the cutoff tape",
       "summary": "SubnetRadar's 10:00 AM ET tape showed 48% of subnet markets advancing. Green Compute gained 26.1% and OxMarkets fell 15.3%, reversing yesterday's broad weakness without producing a majority-positive market. The move is a market observation, not a claim about project fundamentals.",
       "importance": "high",
       "status": "verified",

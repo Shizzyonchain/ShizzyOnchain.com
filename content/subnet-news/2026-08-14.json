@@ -8,8 +8,8 @@
   "coverageEnd": "2026-08-14T10:00:00-04:00",
   "highlights": [
     {
-      "headline": "Breadth contracts to 32% while Leadpoet extends its separation",
-      "summary": "At the 10:00 AM ET cutoff, 41 of 128 subnet markets were positive and 87 were negative, with roughly 177,642 TAO of displayed 24-hour volume. Leadpoet gained 42.7%, TAO Private Network rose 23.6%, and MVTRX added 13.2%; SN70 fell 12.2%, cascade lost 11.3%, and ConnitoAI declined 8.9%. SubnetRadar's independently calculated breadth was 31%, with the small difference attributable to snapshot timing and methodology.",
+      "headline": "Only 41 of 128 subnet markets rise while Leadpoet extends its separation",
+      "summary": "At the 10:00 AM ET cutoff, 41 of 128 subnet markets were positive and 87 were negative, with roughly 177,642 TAO of displayed 24-hour volume. Leadpoet gained 42.7%, TAO Private Network rose 23.6%, and MVTRX added 13.2%; SN70 fell 12.2%, cascade lost 11.3%, and ConnitoAI declined 8.9%. SubnetRadar independently calculated that 31% were rising, with the small difference attributable to snapshot timing and methodology.",
       "importance": "high",
       "status": "verified",
       "sources": [
@@ -280,7 +280,7 @@
       "SubnetRadar August 14 front page, conviction dashboard, live moments and all fresh briefs",
       "TAO Daily, TaoStats, tao.com, official Bittensor documentation and the Subtensor release repository",
       "Official public repositories surfaced by all active subnet metadata, prioritized by emission and market activity",
-      "Live 10:00 AM ET Finney screener data for breadth, volume, reserve flow, emissions and registry metadata",
+      "Live 10:00 AM ET Finney screener data for rising-versus-falling market counts, volume, reserve flow, emissions and registry metadata",
       "Future alpha unlocks, conviction mode changes, halvings, registrations, deregistrations, miner burn, exchange announcements and security incidents",
       "Every available dated report from August 9 through August 13 for exact and semantic duplicate exclusion"
     ],

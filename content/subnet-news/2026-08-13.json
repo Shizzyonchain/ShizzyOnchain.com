@@ -2,13 +2,13 @@
   "version": 1,
   "date": "2026-08-13",
   "title": "Subnet News — August 13, 2026",
-  "summary": "Subtensor development restored miner-burn scaling to the proposed v445 emission formula, making withheld miner incentive relevant to cross-subnet allocation again if the runtime ships. Ditto published a dense series of v9 reliability and anti-copy fixes and moved from zero to roughly 0.82% displayed emission, while Beam simplified PRISM recovery allocation and removed automatic weekly score resets. Blockmachine changed validator payout normalization. At the delayed 12:51 PM ET market snapshot, breadth weakened to 35.9%; Leadpoet led gains and DSperse led declines. No supported future alpha unlock was found.",
+  "summary": "Subtensor development restored miner-burn scaling to the proposed v445 emission formula, making withheld miner incentive relevant to cross-subnet allocation again if the runtime ships. Ditto published a dense series of v9 reliability and anti-copy fixes and moved from zero to roughly 0.82% displayed emission, while Beam simplified PRISM recovery allocation and removed automatic weekly score resets. Blockmachine changed validator payout normalization. At the delayed 12:51 PM ET snapshot, only 46 of 128 subnet markets were positive; Leadpoet led gains and DSperse led declines. No supported future alpha unlock was found.",
   "publishedAt": "2026-08-13T12:56:08-04:00",
   "coverageStart": "2026-08-12T10:00:00-04:00",
   "coverageEnd": "2026-08-13T10:00:00-04:00",
   "highlights": [
     {
-      "headline": "Breadth falls to 35.9% as Leadpoet separates from the field",
+      "headline": "Only 46 of 128 subnet markets rise as Leadpoet separates",
       "summary": "At the delayed 12:51 PM ET snapshot, 46 of 128 directional subnet markets were positive and 82 were negative, with about 138,751 TAO of displayed 24-hour volume. Leadpoet gained 49.1% while DSperse fell 18.6%. SubnetRadar separately detected six historically profitable wallets buying about 254 TAO of Leadpoet over four hours; that wallet classification is provider-generated, not proof of coordinated intent.",
       "importance": "high",
       "status": "verified",
@@ -237,7 +237,7 @@
       "SubnetRadar August 13 front page, fresh briefs and wallet moments",
       "TAO Daily, TaoStats, tao.com, Bittensor.ai and official Bittensor documentation and release sources",
       "Official public repositories for Subtensor, Beam, Ditto, Affine, Blockmachine and other surfaced subnet candidates",
-      "Live Finney screener data for breadth, volume, reserve flow, emissions, registry metadata and conviction availability",
+      "Live Finney screener data for rising-versus-falling market counts, volume, reserve flow, emissions, registry metadata and conviction availability",
       "Future alpha unlock announcements, conviction mode changes, halvings, registrations/deregistrations, miner burn, exchange announcements and security incidents",
       "Previous dated Subnet News reports for exact and semantic duplicate exclusion"
     ],
