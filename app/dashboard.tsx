@@ -1212,11 +1212,6 @@ export function Dashboard({
             </a>
           </div>
           <div className="market-content">
-            {dataState === "stale" && hasMarketData && (
-              <div className="market-stale-notice" role="status">
-                Finney updates are delayed. Showing the last finalized snapshot from {lastUpdated?.toLocaleTimeString() || "the local cache"}; live refresh will resume automatically.
-              </div>
-            )}
             {marketDetailOpen && (
               <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}>
                 <div className="market-modal" role="dialog" aria-modal="true" aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={(event) => event.stopPropagation()}>

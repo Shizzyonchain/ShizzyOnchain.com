@@ -253,7 +253,6 @@ html,body{overflow-x:clip}
 .market-loading i{width:30px;height:30px;border:2px solid #174275;border-top-color:var(--mint);border-radius:50%;animation:market-spin .9s linear infinite}
 .market-loading strong{color:#fff;font:900 15px var(--font-display);text-transform:uppercase;letter-spacing:.05em}
 .market-loading span{font:10px var(--font-mono);text-transform:uppercase;letter-spacing:.08em}
-.market-stale-notice{margin-top:14px;padding:10px 14px;border:1px solid rgba(255,191,21,.35);background:rgba(255,191,21,.08);color:#ffd86b;font:700 10px var(--font-mono);letter-spacing:.04em;text-transform:uppercase}
 .wallet-safety{margin:0 0 12px;padding:10px 12px;border:1px solid #174275;background:#06142c;color:#92acd0;font:10px/1.5 var(--font-mono);text-transform:uppercase;letter-spacing:.04em}
 @keyframes market-spin{to{transform:rotate(360deg)}}
 
