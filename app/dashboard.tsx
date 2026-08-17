@@ -102,9 +102,24 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "VdR1zT4BIxM",
+    title: "I AIN’T GOT NO WORRIES | TAO",
+    meta: "25:01 · Latest episode",
+  },
+  {
+    id: "wVVI3NAr-bE",
+    title: "Borrow Against Your Bittensor Subnet Tokens | SCORE SN44 on Mentat Lend",
+    meta: "12:21",
+  },
+  {
+    id: "HoIJXaD_zOY",
+    title: "Bitcoin Dreams It Was Bittensor",
+    meta: "27:34",
+  },
+  {
     id: "tIszrpO_1nQ",
     title: "The Great Rotation Into Bittensor Has Begun",
-    meta: "26:00 · Latest episode",
+    meta: "26:00",
   },
   {
     id: "RqhuuOXTsbA",
@@ -173,6 +188,11 @@ const channelVideos = [
   },
 ];
 const liveStreams = [
+  {
+    id: "EViJzvUKPOE",
+    title: "This AI Knows What You’re Going to Say Before You Say It | Babelbit w/ Tom Tensor",
+    meta: "1:06:38 · Streamed 2 days ago",
+  },
   {
     id: "8hJYqoRrdV8",
     title: "Bittensor Is Taking Over the AI Industry | Live with Michael Parker",
