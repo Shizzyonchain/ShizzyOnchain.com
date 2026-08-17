@@ -337,6 +337,7 @@ class ChainClient:
             root_prop_rows,
             symbol_rows,
             identity_rows,
+            total_issuance_raw,
         ) = await asyncio.gather(
             view.subnets.all(),
             view.prices.alpha_prices(),
@@ -350,10 +351,12 @@ class ChainClient:
             view.query_map(("SubtensorModule", "RootProp")),
             view.query_map(("SubtensorModule", "TokenSymbol")),
             view.query_map(("SubtensorModule", "SubnetIdentitiesV3")),
+            view.query(("SubtensorModule", "TotalIssuance")),
         )
         tao = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_rows}
         alpha = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_rows}
         alpha_out = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in out_rows}
+        total_issuance = Decimal(scale_int(total_issuance_raw)) / RAO_PER_TAO
         netuids = [int(field(info, "netuid")) for info in infos]
         volume = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in volume_rows}
         tao_emission = {
@@ -481,9 +484,10 @@ class ChainClient:
             outstanding_alpha = alpha_out.get(netuid)
             burned_alpha = self._burned_alpha.get(netuid)
             circulating_alpha = None
-            if (
+            if include_auxiliary and netuid == 0:
+                circulating_alpha = total_issuance
+            elif (
                 include_auxiliary
-                and netuid != 0
                 and alpha_reserve is not None
                 and outstanding_alpha is not None
                 and burned_alpha is not None
@@ -530,16 +534,26 @@ class ChainClient:
         return rows
 
     async def _actual_stake_by_subnet(self, view) -> dict[int, Decimal]:
-        """Sum live hotkey stake, excluding alpha burned without reducing AlphaOut."""
-        stake_rows = await view.query_map(("SubtensorModule", "TotalHotkeyAlpha"))
+        """Sum live alpha stake from the chain's bounded metagraph runtime call.
+
+        Iterating ``TotalHotkeyAlpha`` directly walks the global hotkey/subnet
+        double map and is rejected by some public RPC providers. The runtime
+        API returns the same live stake grouped by subnet in one supported
+        call, including stake that is no longer represented by AlphaOut.
+        """
+        graphs = await view.runtime(
+            ("SubnetInfoRuntimeApi", "get_all_metagraphs"), []
+        )
         totals: dict[int, Decimal] = {}
-        for key, value in stake_rows:
-            netuid = self._last_int(key)
-            if netuid is not None:
-                totals[netuid] = (
-                    totals.get(netuid, Decimal(0))
-                    + Decimal(scale_int(value)) / RAO_PER_TAO
-                )
+        for graph in graphs or []:
+            if graph is None:
+                continue
+            netuid = scale_int(field(graph, "netuid"))
+            alpha_stake = field(graph, "alpha_stake", default=[]) or []
+            totals[netuid] = sum(
+                (Decimal(scale_int(value)) / RAO_PER_TAO for value in alpha_stake),
+                Decimal(0),
+            )
         return totals
 
     async def _subnet_yield_metrics(

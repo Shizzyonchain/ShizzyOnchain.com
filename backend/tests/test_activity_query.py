@@ -67,6 +67,8 @@ async def test_screener_uses_yield_metrics_from_latest_sample():
     assert "last_yield" not in query
     assert "100 * l.conviction_locked_alpha / l.alpha_out" in query
     assert "l.alpha_reserve, 0) + COALESCE(l.alpha_out" not in query
+    assert "l.price_tao * l.circulating_alpha" in query
+    assert "COALESCE(l.circulating_alpha" not in query
 
 
 @pytest.mark.asyncio

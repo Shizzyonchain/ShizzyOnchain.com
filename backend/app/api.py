@@ -144,7 +144,7 @@ async def _refresh_live_screener(current_app: FastAPI):
                        THEN NULL ELSE
                     100 * p.conviction_locked_alpha / p.alpha_out
                   END AS conviction_locked_pct,
-                  (p.price_tao * COALESCE(p.circulating_alpha, p.alpha_out, 0))
+                  (p.price_tao * p.circulating_alpha)
                     AS market_cap_tao
            FROM subnet_latest_samples p
            JOIN subnets s ON s.netuid=p.netuid
@@ -192,7 +192,7 @@ async def _refresh_screener(current_app: FastAPI):
                        THEN NULL ELSE
                     100 * l.conviction_locked_alpha / l.alpha_out
                   END AS conviction_locked_pct,
-                  (l.price_tao * COALESCE(l.circulating_alpha, l.alpha_out, 0))
+                  (l.price_tao * l.circulating_alpha)
                     AS market_cap_tao,
                   l.volume_tao - COALESCE(v24.volume_tao,l.volume_tao) AS volume_24h_tao,
                   100 * (l.price_tao / NULLIF(p10.price_tao,0) - 1) AS change_10m,

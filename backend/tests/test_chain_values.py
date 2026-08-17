@@ -81,12 +81,13 @@ async def test_prices_at_uses_single_all_subnet_runtime_read():
 
 
 class FakeStakeView:
-    async def query_map(self, storage):
-        assert storage == ("SubtensorModule", "TotalHotkeyAlpha")
+    async def runtime(self, method, params):
+        assert method == ("SubnetInfoRuntimeApi", "get_all_metagraphs")
+        assert params == []
         return [
-            (("5HotA", 64), 2_000_000_000),
-            (("5HotB", 64), 750_000_000),
-            (("5HotC", 4), 1_250_000_000),
+            {"netuid": 64, "alpha_stake": [2_000_000_000, 750_000_000]},
+            {"netuid": 4, "alpha_stake": [1_250_000_000]},
+            None,
         ]
 
 
@@ -96,6 +97,14 @@ async def test_actual_stake_sums_hotkey_alpha_by_subnet():
     totals = await chain._actual_stake_by_subnet(FakeStakeView())
 
     assert totals == {64: Decimal("2.75"), 4: Decimal("1.25")}
+
+
+def test_circulating_alpha_matches_pool_plus_live_stake():
+    assert circulating_alpha_supply(
+        Decimal("2.58233983"),
+        Decimal("3.36206071"),
+        Decimal("0.43440054"),
+    ) == Decimal("5.51000000")
 
 
 class FakeYieldView:
