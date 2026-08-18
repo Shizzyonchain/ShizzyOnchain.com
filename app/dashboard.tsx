@@ -497,7 +497,7 @@ export function Dashboard({
   const [subnetPanel, setSubnetPanel] = useState<"overview" | "chart">("overview");
   const [marketDetailOpen, setMarketDetailOpen] = useState(false);
   const [timeframe, setTimeframe] = useState("10m");
-  const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_1h");
+  const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_24h");
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
   const chartCardRef = useRef<HTMLDivElement>(null);
@@ -618,9 +618,9 @@ export function Dashboard({
         .finally(() => { refreshInFlight = false; });
     };
     refreshMarkets();
-    const refreshTimer = window.setInterval(refreshMarkets, 12_000);
+    const refreshTimer = window.setInterval(refreshMarkets, view === "bubbles" ? 6_000 : 12_000);
     return () => window.clearInterval(refreshTimer);
-  }, [hasInitialRows]);
+  }, [hasInitialRows, view]);
   useEffect(() => {
     const refreshTaoPrice = () => {
       if (document.hidden) return;
