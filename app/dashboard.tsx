@@ -102,9 +102,19 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "3pxxCOBit2Q",
+    title: "Subnets Are Better Than Altcoins | Bittensor TAO",
+    meta: "24:46 · Latest episode",
+  },
+  {
+    id: "uEB3rUEQlnk",
+    title: "TAO Is Better Than Bitcoin?! Bittensor Price Target w/ @Shizzyunchained",
+    meta: "25:30 · Featured interview",
+  },
+  {
     id: "VdR1zT4BIxM",
     title: "I AIN’T GOT NO WORRIES | TAO",
-    meta: "25:01 · Latest episode",
+    meta: "25:01",
   },
   {
     id: "wVVI3NAr-bE",
