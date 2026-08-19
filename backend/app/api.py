@@ -470,6 +470,15 @@ async def chain_activity(
               COUNT(*) FILTER (
                 WHERE event_type IN ('StakeMoved','StakeSwapped','StakeTransferred')
               ) AS stake_moves_24h,
+              COUNT(*) FILTER (
+                WHERE event_type='ColdkeySwapped'
+              ) AS coldkey_swaps_24h,
+              COUNT(*) FILTER (
+                WHERE event_type IN ('HotkeySwapped','HotkeySwappedOnSubnet')
+              ) AS hotkey_swaps_24h,
+              COUNT(*) FILTER (
+                WHERE event_type='SubnetOwnerChanged'
+              ) AS subnet_owner_changes_24h,
               COUNT(*) AS event_count_24h,
               COALESCE(SUM(amount_tao),0) AS tao_moved_24h,
               COALESCE(MAX(amount_tao),0) AS largest_move_tao_24h,
