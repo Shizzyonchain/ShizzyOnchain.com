@@ -6,6 +6,8 @@ from dataclasses import asdict, is_dataclass
 from decimal import Decimal
 from typing import Any
 
+import httpx
+
 from app.config import Settings
 
 RAO_PER_TAO = Decimal(1_000_000_000)
@@ -279,6 +281,8 @@ class ChainClient:
         self._conviction_refresh_block = -1
         self._yield_metrics: dict[int, tuple[int | None, Decimal | None]] = {}
         self._yield_refresh_block = -1
+        self._circulating_stake: dict[int, Decimal] = {}
+        self._circulating_stake_refresh_block = -1
 
     async def __aenter__(self):
         import bittensor as bt
@@ -328,7 +332,6 @@ class ChainClient:
             tao_rows,
             alpha_rows,
             out_rows,
-            total_hotkey_alpha_rows,
             volume_rows,
             tao_emission_rows,
             excess_tao_rows,
@@ -343,7 +346,6 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetTAO")),
             view.query_map(("SubtensorModule", "SubnetAlphaIn")),
             view.query_map(("SubtensorModule", "SubnetAlphaOut")),
-            view.query_map(("SubtensorModule", "TotalHotkeyAlpha")),
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "SubnetTaoInEmission")),
             view.query_map(("SubtensorModule", "SubnetExcessTao")),
@@ -356,15 +358,6 @@ class ChainClient:
         tao = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_rows}
         alpha = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_rows}
         alpha_out = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in out_rows}
-        staked_alpha: dict[int, Decimal] = {}
-        for key, value in total_hotkey_alpha_rows:
-            netuid = self._last_int(key)
-            if netuid is None:
-                continue
-            staked_alpha[netuid] = (
-                staked_alpha.get(netuid, Decimal(0))
-                + Decimal(scale_int(value)) / RAO_PER_TAO
-            )
         total_issuance = Decimal(scale_int(total_issuance_raw)) / RAO_PER_TAO
         netuids = [int(field(info, "netuid")) for info in infos]
         volume = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in volume_rows}
@@ -396,6 +389,20 @@ class ChainClient:
             }
             for k, v in identity_rows
         }
+        if include_auxiliary and (
+            not self._circulating_stake
+            or block_number - self._circulating_stake_refresh_block >= 25
+        ):
+            try:
+                self._circulating_stake = await self._taomarketcap_stake_by_subnet(
+                    block_number
+                )
+                self._circulating_stake_refresh_block = block_number
+            except Exception as exc:
+                # A stale supply is worse than a visibly unavailable market cap.
+                self._circulating_stake = {}
+                self._circulating_stake_refresh_block = -1
+                logger.warning("circulating stake refresh failed: %s", exc)
         if include_lock_metrics and (
             not self._conviction_locked
             or block_number - self._conviction_refresh_block >= 25
@@ -473,7 +480,7 @@ class ChainClient:
             identity = identities.get(netuid, {})
             alpha_reserve = alpha.get(netuid)
             outstanding_alpha = alpha_out.get(netuid)
-            live_staked_alpha = staked_alpha.get(netuid)
+            live_staked_alpha = self._circulating_stake.get(netuid)
             circulating_alpha = None
             if include_auxiliary and netuid == 0:
                 circulating_alpha = total_issuance
@@ -521,6 +528,46 @@ class ChainClient:
                 "additional": identity.get("additional"),
             })
         return rows
+
+    async def _taomarketcap_stake_by_subnet(
+        self, block_number: int
+    ) -> dict[int, Decimal]:
+        """Load complete subnet stake totals with an explicit freshness gate.
+
+        The chain metagraph only contains currently registered hotkeys, so it
+        omits live stake left on deregistered hotkeys. TAOMarketCap's public
+        snapshot aggregates the complete TotalHotkeyAlpha map and exposes the
+        pinned block alongside the value. We retain our own on-chain pool and
+        price and use only that complete stake total.
+        """
+        url = "https://api.taomarketcap.com/internal/v1/subnets/?limit=200"
+        async with httpx.AsyncClient(timeout=12, follow_redirects=True) as client:
+            response = await client.get(url)
+            response.raise_for_status()
+            payload = response.json()
+        results = payload.get("results")
+        if not isinstance(results, list) or len(results) < 100:
+            raise ValueError("TAOMarketCap returned an incomplete subnet list")
+        totals: dict[int, Decimal] = {}
+        snapshot_blocks: list[int] = []
+        for row in results:
+            snapshot = row.get("latest_snapshot") or {}
+            netuid = row.get("netuid")
+            raw_total = row.get("total_subnet_stake")
+            snapshot_block = snapshot.get("block_number")
+            if netuid is None or raw_total is None or snapshot_block is None:
+                continue
+            totals[int(netuid)] = Decimal(str(raw_total)) / RAO_PER_TAO
+            snapshot_blocks.append(int(snapshot_block))
+        if len(totals) < 100 or not snapshot_blocks:
+            raise ValueError("TAOMarketCap stake snapshot is incomplete")
+        newest_snapshot = max(snapshot_blocks)
+        if abs(block_number - newest_snapshot) > 100:
+            raise ValueError(
+                f"TAOMarketCap stake snapshot is stale by "
+                f"{abs(block_number - newest_snapshot)} blocks"
+            )
+        return totals
 
     async def _actual_stake_by_subnet(self, view) -> dict[int, Decimal]:
         """Sum live alpha stake from the chain's bounded metagraph runtime call.
