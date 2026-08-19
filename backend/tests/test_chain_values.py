@@ -13,14 +13,13 @@ from app.chain import (
 from app.config import Settings
 
 
-def test_circulating_supply_excludes_protocol_owned_alpha():
+def test_circulating_supply_uses_pool_plus_live_stake():
     supply = circulating_alpha_supply(
         Decimal("2551990.446453411"),
         Decimal("3342138.125851868"),
-        Decimal("406985.734117648"),
     )
 
-    assert supply == Decimal("5487142.838187631")
+    assert supply == Decimal("5894128.572305279")
 
 
 def test_scale_int_unwraps_bittensor_v11_codec_shapes():
@@ -102,8 +101,7 @@ async def test_actual_stake_sums_hotkey_alpha_by_subnet():
 def test_circulating_alpha_matches_pool_plus_live_stake():
     assert circulating_alpha_supply(
         Decimal("2.58233983"),
-        Decimal("3.36206071"),
-        Decimal("0.43440054"),
+        Decimal("2.92766017"),
     ) == Decimal("5.51000000")
 
 

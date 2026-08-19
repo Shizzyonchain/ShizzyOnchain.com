@@ -97,10 +97,10 @@ def emission_shares(
 
 
 def circulating_alpha_supply(
-    alpha_reserve: Decimal, outstanding_alpha: Decimal, protocol_alpha: Decimal
+    alpha_reserve: Decimal, staked_alpha: Decimal
 ) -> Decimal:
-    """Return circulating alpha, excluding chain-buy alpha held by the protocol."""
-    return max(alpha_reserve + outstanding_alpha - protocol_alpha, Decimal(0))
+    """Return pool alpha plus alpha actually held in live stake positions."""
+    return max(alpha_reserve + staked_alpha, Decimal(0))
 
 
 def amount(value: Any) -> Decimal:
@@ -328,7 +328,7 @@ class ChainClient:
             tao_rows,
             alpha_rows,
             out_rows,
-            protocol_alpha_rows,
+            total_hotkey_alpha_rows,
             volume_rows,
             tao_emission_rows,
             excess_tao_rows,
@@ -343,7 +343,7 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetTAO")),
             view.query_map(("SubtensorModule", "SubnetAlphaIn")),
             view.query_map(("SubtensorModule", "SubnetAlphaOut")),
-            view.query_map(("SubtensorModule", "SubnetProtocolAlpha")),
+            view.query_map(("SubtensorModule", "TotalHotkeyAlpha")),
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "SubnetTaoInEmission")),
             view.query_map(("SubtensorModule", "SubnetExcessTao")),
@@ -356,10 +356,15 @@ class ChainClient:
         tao = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_rows}
         alpha = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_rows}
         alpha_out = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in out_rows}
-        protocol_alpha = {
-            int(k): Decimal(scale_int(v)) / RAO_PER_TAO
-            for k, v in protocol_alpha_rows
-        }
+        staked_alpha: dict[int, Decimal] = {}
+        for key, value in total_hotkey_alpha_rows:
+            netuid = self._last_int(key)
+            if netuid is None:
+                continue
+            staked_alpha[netuid] = (
+                staked_alpha.get(netuid, Decimal(0))
+                + Decimal(scale_int(value)) / RAO_PER_TAO
+            )
         total_issuance = Decimal(scale_int(total_issuance_raw)) / RAO_PER_TAO
         netuids = [int(field(info, "netuid")) for info in infos]
         volume = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in volume_rows}
@@ -468,20 +473,18 @@ class ChainClient:
             identity = identities.get(netuid, {})
             alpha_reserve = alpha.get(netuid)
             outstanding_alpha = alpha_out.get(netuid)
-            protocol_owned_alpha = protocol_alpha.get(netuid)
+            live_staked_alpha = staked_alpha.get(netuid)
             circulating_alpha = None
             if include_auxiliary and netuid == 0:
                 circulating_alpha = total_issuance
             elif (
                 include_auxiliary
                 and alpha_reserve is not None
-                and outstanding_alpha is not None
-                and protocol_owned_alpha is not None
+                and live_staked_alpha is not None
             ):
                 circulating_alpha = circulating_alpha_supply(
                     alpha_reserve,
-                    outstanding_alpha,
-                    protocol_owned_alpha,
+                    live_staked_alpha,
                 )
             rows.append({
                 "netuid": netuid,
