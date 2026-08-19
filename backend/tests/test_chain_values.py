@@ -13,7 +13,7 @@ from app.chain import (
 from app.config import Settings
 
 
-def test_circulating_supply_matches_taomarketcap_burn_adjustment():
+def test_circulating_supply_excludes_protocol_owned_alpha():
     supply = circulating_alpha_supply(
         Decimal("2551990.446453411"),
         Decimal("3342138.125851868"),

@@ -97,10 +97,10 @@ def emission_shares(
 
 
 def circulating_alpha_supply(
-    alpha_reserve: Decimal, outstanding_alpha: Decimal, burned_alpha: Decimal
+    alpha_reserve: Decimal, outstanding_alpha: Decimal, protocol_alpha: Decimal
 ) -> Decimal:
-    """Return pool plus live stake, excluding alpha burned from stake positions."""
-    return max(alpha_reserve + outstanding_alpha - burned_alpha, Decimal(0))
+    """Return circulating alpha, excluding chain-buy alpha held by the protocol."""
+    return max(alpha_reserve + outstanding_alpha - protocol_alpha, Decimal(0))
 
 
 def amount(value: Any) -> Decimal:
@@ -279,8 +279,6 @@ class ChainClient:
         self._conviction_refresh_block = -1
         self._yield_metrics: dict[int, tuple[int | None, Decimal | None]] = {}
         self._yield_refresh_block = -1
-        self._burned_alpha: dict[int, Decimal] = {}
-        self._burned_alpha_refresh_block = -1
 
     async def __aenter__(self):
         import bittensor as bt
@@ -330,6 +328,7 @@ class ChainClient:
             tao_rows,
             alpha_rows,
             out_rows,
+            protocol_alpha_rows,
             volume_rows,
             tao_emission_rows,
             excess_tao_rows,
@@ -344,6 +343,7 @@ class ChainClient:
             view.query_map(("SubtensorModule", "SubnetTAO")),
             view.query_map(("SubtensorModule", "SubnetAlphaIn")),
             view.query_map(("SubtensorModule", "SubnetAlphaOut")),
+            view.query_map(("SubtensorModule", "SubnetProtocolAlpha")),
             view.query_map(("SubtensorModule", "SubnetVolume")),
             view.query_map(("SubtensorModule", "SubnetTaoInEmission")),
             view.query_map(("SubtensorModule", "SubnetExcessTao")),
@@ -356,6 +356,10 @@ class ChainClient:
         tao = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in tao_rows}
         alpha = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in alpha_rows}
         alpha_out = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in out_rows}
+        protocol_alpha = {
+            int(k): Decimal(scale_int(v)) / RAO_PER_TAO
+            for k, v in protocol_alpha_rows
+        }
         total_issuance = Decimal(scale_int(total_issuance_raw)) / RAO_PER_TAO
         netuids = [int(field(info, "netuid")) for info in infos]
         volume = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO for k, v in volume_rows}
@@ -387,24 +391,6 @@ class ChainClient:
             }
             for k, v in identity_rows
         }
-        if include_auxiliary:
-            if (
-                not self._burned_alpha
-                or block_number - self._burned_alpha_refresh_block >= 25
-            ):
-                try:
-                    actual_stake = await self._actual_stake_by_subnet(view)
-                    self._burned_alpha = {
-                        netuid: max(
-                            alpha_out.get(netuid, Decimal(0))
-                            - actual_stake.get(netuid, Decimal(0)),
-                            Decimal(0),
-                        )
-                        for netuid in netuids
-                    }
-                    self._burned_alpha_refresh_block = block_number
-                except Exception as exc:
-                    logger.warning("actual subnet stake read failed: %s", exc)
         if include_lock_metrics and (
             not self._conviction_locked
             or block_number - self._conviction_refresh_block >= 25
@@ -482,7 +468,7 @@ class ChainClient:
             identity = identities.get(netuid, {})
             alpha_reserve = alpha.get(netuid)
             outstanding_alpha = alpha_out.get(netuid)
-            burned_alpha = self._burned_alpha.get(netuid)
+            protocol_owned_alpha = protocol_alpha.get(netuid)
             circulating_alpha = None
             if include_auxiliary and netuid == 0:
                 circulating_alpha = total_issuance
@@ -490,12 +476,12 @@ class ChainClient:
                 include_auxiliary
                 and alpha_reserve is not None
                 and outstanding_alpha is not None
-                and burned_alpha is not None
+                and protocol_owned_alpha is not None
             ):
                 circulating_alpha = circulating_alpha_supply(
                     alpha_reserve,
                     outstanding_alpha,
-                    burned_alpha,
+                    protocol_owned_alpha,
                 )
             rows.append({
                 "netuid": netuid,
