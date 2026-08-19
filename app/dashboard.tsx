@@ -322,7 +322,7 @@ const partners = [
     name: "Ledger",
     kicker: "Hardware security",
     description: "Protect and manage crypto with a secure hardware wallet and the Ledger ecosystem built for self-custody.",
-    href: "https://shop.ledger.com/?r=49c0bef9b376",
+    href: "https://shop.ledger.com/?r=50075a40888b&tracker=MY_TRACKER",
     cta: "Shop Ledger",
   },
   {
