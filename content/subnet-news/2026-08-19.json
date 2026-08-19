@@ -725,7 +725,7 @@
     },
     {
       "headline": "Eight hotkey swaps, with no coldkey swap or owner change in the daily window",
-      "summary": "The on-chain activity index counted eight finalized hotkey-swap events during the rolling 24-hour window, including the subnet-scoped SN120 rotation detailed above. It counted zero coldkey swaps and zero subnet-owner changes. Key rotations are operational events and do not, by themselves, prove a sale or change of project control.",
+      "summary": "The on-chain activity index counted eight finalized hotkey-swap events during the rolling 24-hour window, including a subnet-scoped SN120 rotation at block 8,879,116. It counted zero coldkey swaps and zero subnet-owner changes. Key rotations are operational events and do not, by themselves, prove a sale or change of project control.",
       "importance": "informational",
       "status": "verified",
       "sources": [
