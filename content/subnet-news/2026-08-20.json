@@ -1,0 +1,783 @@
+{
+  "version": 1,
+  "date": "2026-08-20",
+  "title": "Subnet News — August 20, 2026",
+  "summary": "Most active subnet markets fell during the daily window. Instant opened production miner and validator onboarding, Beam set a two-week product target, Ditto confirmed leaderboard defects, and SN36 completed another slot-lifecycle change.",
+  "publishedAt": "2026-08-20T10:00:00-04:00",
+  "coverageStart": "2026-08-19T10:00:00-04:00",
+  "coverageEnd": "2026-08-20T10:00:00-04:00",
+  "highlights": [
+    {
+      "headline": "Eighty-four active subnet markets fall while 38 rise",
+      "summary": "At the cutoff, 38 of 126 active alpha markets were higher over 24 hours, 84 were lower and four were effectively flat. Ditto led active markets at roughly 14.9%, while Instant fell about 24.6%. The figures describe one comparable snapshot and are not a forecast.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "TAOMarketCap live subnet data",
+          "url": "https://taomarketcap.com/"
+        },
+        {
+          "label": "SubnetRadar August 20 tape",
+          "url": "https://subnetradar.com/today"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": [
+        {
+          "headline": "Six tracked wallets direct 729 TAO into Teutonic",
+          "summary": "SubnetRadar's chain-derived cluster identified six high-performing wallets buying a combined 729 TAO of SN3 during the window, led by a 300-TAO transaction. This is observable wallet flow, not proof of coordinated intent or a forecast.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            { "label": "SubnetRadar on-chain cluster", "url": "https://subnetradar.com/alpha/moments/smart_cluster-67109r" }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "unknown",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "gm",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Subnet 36",
+      "updates": [
+        {
+          "headline": "SN36 records a new registration block and is inactive at cutoff",
+          "summary": "TAOMarketCap's block-pinned chain snapshot shows SN36 registered at block 8,884,359, with emission disabled and the slot marked inactive by the cutoff. The slot has no verified public identity yet, so this is reported as a lifecycle event rather than a project launch.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            { "label": "TAOMarketCap SN36 chain snapshot", "url": "https://api.taomarketcap.com/internal/v1/subnets/36/" }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": [
+        {
+          "headline": "Instant opens production miner and validator onboarding",
+          "summary": "Instant shipped a one-line production installer for miners and validators and published deterministic scoring weights: 40% request success, 40% TOPLOC verification, 10% latency and 10% throughput. The team says emissions remain fully burned until it verifies a complete operating cycle.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            { "label": "SubnetRadar SN46 brief", "url": "https://subnetradar.com/subnet-news/46/2026-08-20" },
+            { "label": "Original team Discord message", "url": "https://discord.com/channels/799672011265015819//1539657721635274752" }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 47,
+      "name": "wait (reproduce paper)",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": []
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Babelbit",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": []
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Phylax",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Vocence",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "Two wallets lock more than 393,000 alpha on OpenRoboto",
+          "summary": "The public conviction ledger recorded two new perpetual locks on SN80 totaling about 393,600 alpha: approximately 298,200 alpha from 5DCk6K…XuPE and 95,400 alpha from 5CG1eF…kT2T. These are locks, not scheduled unlocks, and they do not imply a future sale.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            { "label": "SubnetRadar conviction ledger", "url": "https://subnetradar.com/alpha/conviction" }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "Enclave",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "BASE",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "Masx.ai",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": [
+        {
+          "headline": "Beam targets rooms, tunnels and client API-key sales within two weeks",
+          "summary": "Beam's team set a two-week target for rooms, tunnels and client API-key purchases while debating restrictions on miner grouping. The date and features are team-announced forward guidance, not completed releases or verified revenue.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            { "label": "SubnetRadar SN105 brief", "url": "https://subnetradar.com/subnet-news/105/2026-08-20" },
+            { "label": "Original team Discord message", "url": "https://discord.com/channels/799672011265015819//1539693059393192066" }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "minotaur",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "HashiChain",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto confirms screener defects behind leaderboard discrepancies",
+          "summary": "After yesterday's v12 review, the Ditto team confirmed separate screener defects were producing inaccurate leaderboard results and said fixes are underway. The validator queue is moving again, but scoring remains slow. This entry covers the newly confirmed software problem, not yesterday's repeated benchmark-review story.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            { "label": "SubnetRadar SN118 brief", "url": "https://subnetradar.com/subnet-news/118/2026-08-20" },
+            { "label": "Original team Discord message", "url": "https://discord.com/channels/799672011265015819//1539653930697490482" }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "Satori",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "8 Ball",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Network conviction increases 1.0% over 24 hours",
+      "summary": "SubnetRadar showed 29.79 million alpha locked across 122 subnets, with 25.42 million perpetual and 4.37 million decaying. Network conviction reached 29.11 million alpha. Decaying positions release continuously rather than as guaranteed one-day cliffs.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar conviction dashboard",
+          "url": "https://subnetradar.com/alpha/conviction"
+        }
+      ]
+    },
+    {
+      "headline": "Seventeen hotkey swaps, with no coldkey swap or owner change in the daily window",
+      "summary": "The on-chain activity index counted 17 finalized hotkey-swap events during the rolling 24-hour window, zero coldkey swaps and zero subnet-owner changes. Key rotations are operational events and do not, by themselves, prove a sale or change of project control.",
+      "importance": "informational",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Shizzy finalized chain activity",
+          "url": "https://shizzyunchained.com/activity"
+        },
+        {
+          "label": "SubnetRadar coldkey-swap archive",
+          "url": "https://subnetradar.com/alpha/moments?type=coldkey_swap"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "Public X indexing queries by active SN# and subnet name across SN1 through SN128",
+      "SubnetRadar August 20 tape, fresh briefs, live moments and conviction event ledger",
+      "TAO Daily, TaoStats, tao.com, official Bittensor sources and public subnet accounts",
+      "Public GitHub repositories attached to active subnets and current release activity",
+      "TAOMarketCap exact per-subnet API compared by SN# against the live Shizzy screener before publication",
+      "Every dated report from August 9 through August 19 for exact and semantic duplicate exclusion",
+      "Coldkey swaps, hotkey swaps, owner changes, alpha unlocks of at least 50,000 alpha, miner burn, halvings, registrations and deregistrations",
+      "Owner and treasury movements, validator changes, verifiable usage, lifecycle changes, service health, emission shifts, staking flows and confirmed forward dates"
+    ],
+    "gaps": [
+      "Public X search does not expose a complete index of all posts; private, deleted, login-gated and rate-limited material could not be exhaustively reviewed.",
+      "Many original Discord messages require Bittensor server membership or login. Discord-derived items are linked to the corresponding public SubnetRadar brief and marked to reflect the available evidence.",
+      "No verified scheduled alpha unlock of at least 50,000 alpha was found for August 20 or a future date. New SN80 conviction locks are not unlocks and were excluded from Unlock Watch.",
+      "The public activity endpoint verified the aggregate hotkey-swap count but timed out during the per-subnet enumeration pass, so individual key pairs without independently accessible evidence were not published.",
+      "No material new alpha halving, exchange announcement or confirmed security exploit surfaced inside the window.",
+      "No material new public update was verified for subnets with empty update arrays. Unchanged stories and repeated descriptions from the prior eleven reports were excluded. This report is informational and not financial advice."
+    ]
+  }
+}
