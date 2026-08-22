@@ -1,0 +1,936 @@
+{
+  "version": 1,
+  "date": "2026-08-21",
+  "title": "Subnet News — August 21, 2026",
+  "summary": "Only 32% of tracked alpha markets rose as KubeTEE led the tape and Hippius fell hardest. BASE promoted Verda BYOK support, Cascade pinned its coordinated v0.6.0 worker rollout, UR published a 1.0 testnet release, and scoring or validator-integrity changes landed across Capcomp, AdTAO, Lium, BitMind, OpenRoboto, and Ditto.",
+  "publishedAt": "2026-08-21T10:00:00-04:00",
+  "coverageStart": "2026-08-20T10:00:00-04:00",
+  "coverageEnd": "2026-08-21T10:00:00-04:00",
+  "highlights": [
+    {
+      "headline": "Market breadth stays weak at 32% while KubeTEE gains 14.0%",
+      "summary": "A block-8,893,644 snapshot taken five minutes before cutoff showed 32% of comparable subnet markets higher over the fixed window. SN90 KubeTEE led at about +14.0%, followed by Bitsec.ai and Minos; Hippius was the largest decliner at about -12.3%. These are alpha/TAO moves from fixed chain snapshots, not USD returns.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "August 20 cutoff snapshot",
+          "url": "https://github.com/buckZz7/dtao-trader/commit/b04e7158aca6847f4a2f066d2fb45fe50688ee87"
+        },
+        {
+          "label": "August 21 cutoff snapshot",
+          "url": "https://github.com/buckZz7/dtao-trader/commit/766af428f55f0acb45ef4a75b97024a9ac416fe1"
+        }
+      ]
+    },
+    {
+      "headline": "BASE puts Verda bring-your-own-key capacity into production",
+      "summary": "BASE added Verda BYOK as a mineable provider alongside Lium and then promoted the resulting image set to production before cutoff. The repository proves the code and production pin promotion; it does not independently prove how much Verda capacity was used during the window.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Verda BYOK provider change",
+          "url": "https://github.com/BaseIntelligence/base/commit/82ac541d"
+        },
+        {
+          "label": "Production image promotion",
+          "url": "https://github.com/BaseIntelligence/base/commit/286f5e5f"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "trav",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404â€”GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": [
+        {
+          "headline": "AdTAO makes daily scoring receipts easier to audit",
+          "summary": "AdTAO added accuracy aggregation by change type, carried each entry’s change type into daily receipts, and mirrored verification feeds to the operator API with receipt backfill. This is a verified transparency change in the public reporting path.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Verification-feed mirror",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/04c14e1fe06c4c458a89094a15946469ec961ef6"
+            },
+            {
+              "label": "Receipt change-type commit",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/699ab488a38baf6a5da3291b9258ec40c94f49bb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": [
+        {
+          "headline": "UR publishes release 1.0 and an adversarial testnet campaign",
+          "summary": "UR implemented subnet release 1.0, finalized its 1.0 testnet whitepaper package, and added a concurrent adversarial campaign with evidence-lifecycle hardening. The release and test tooling are verified in code; mainnet activation was not observed.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Subnet release 1.0",
+              "url": "https://github.com/urfoundation/sn/commit/a6e958898544f1fe68367da0037eb6c5bdaf3577"
+            },
+            {
+              "label": "Adversarial campaign",
+              "url": "https://github.com/urfoundation/sn/commit/f95ff6683d42c0ce051274280ea018f0686d09d8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "gm",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoÏ„floaÏ„",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": [
+        {
+          "headline": "BitMind doubles generator challenges and adds a stale-block watchdog",
+          "summary": "BitMind version 4.9.7 doubled generator challenge frequency, added a watchdog for stale substrate subscriptions, and restored validator configuration parsing. These changes reduce silent validator drift and increase challenge pressure.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Challenge-frequency change",
+              "url": "https://github.com/BitMind-AI/bitmind-subnet/commit/684279c7f51427352a128c1853ca5fae55823f9e"
+            },
+            {
+              "label": "Block-staleness watchdog",
+              "url": "https://github.com/BitMind-AI/bitmind-subnet/commit/00c5915faddffa24ab598c064c7d39c9f8d2e4ef"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Subnet 36",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "wait (reproduce paper)",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": [
+        {
+          "headline": "Nepher proposes a nine-month exit from its synthetic floor",
+          "summary": "The team outlined a gradual liquidity-pool transition intended to remove the synthetic price floor without an abrupt shock. The schedule remained a proposal in the observed discussion. Separate self-mining allegations were disputed and are not treated as fact.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Nepher daily brief",
+              "url": "https://subnetradar.com/subnet-news/49/2026-08-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": [
+        {
+          "headline": "Lium tightens GPU-workload integrity checks",
+          "summary": "Lium changed idle-executor handling so an executor holding a foreign GPU workload fails validation, while separately distinguishing a filler that exited on its own from a host kill. The paired fixes reduce both false host penalties and hidden workload reuse.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Foreign-workload integrity check",
+              "url": "https://github.com/Datura-ai/lium-io/commit/f4bc18b5e540259cca18dd65b73abc5d7ae253ba"
+            },
+            {
+              "label": "Filler-exit classification fix",
+              "url": "https://github.com/Datura-ai/lium-io/commit/e49503e5427ca24ef2bb5844f6597d5fe278f86f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Babelbit",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": []
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": [
+        {
+          "headline": "Conjectures opens coldkey web submissions and caps dynamic bounties",
+          "summary": "Conjectures merged a web-submission path that can nominate a known payout hotkey, added non-TAO invoice deposit addresses, and merged dynamic-bounty caps. The public code is verified; production use and final user-facing policy were not separately confirmed.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Web coldkey submissions",
+              "url": "https://github.com/conjectures-io/conjectures-validator/commit/a8d559db1d4d6ccdd2f7cc07e7d7dd5d45a8afb2"
+            },
+            {
+              "label": "Dynamic-bounty caps",
+              "url": "https://github.com/conjectures-io/conjectures-validator/commit/2a35a57dd946728872b230995c5c8ea1a2ea7e35"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": [
+        {
+          "headline": "Gittensor lowers Qwen3.8 perplexity with native NVFP4 decode",
+          "summary": "SparkInfer added checkpoint-native NVFP4 decoding behind a flag and recorded a perplexity improvement from 3.204 to 3.010. This is a verified benchmark/code result, not yet evidence that every production evaluator used the path.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Qwen3.8 NVFP4 implementation",
+              "url": "https://github.com/gittensor-ai-lab/sparkinfer/commit/4a3074dcc1ec577ac966246b08ea750f3f7e85fd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Phylax",
+      "updates": [
+        {
+          "headline": "Phylax incentive-concentration dispute remains unresolved",
+          "summary": "Community members challenged the owner allocation and claimed a small UID set received 51.4% of miner incentives; the team denied selling owner alpha and said its allocation was locked. The competing claims were not independently resolved in the window.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Phylax daily brief",
+              "url": "https://subnetradar.com/subnet-news/76/2026-08-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Vocence",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "OpenRoboto fixes a validator weight interval that could sit 4.7 hours off cutoff",
+          "summary": "OpenRoboto corrected a weight interval with no guardrail, bounded the burn interval from the protocol package, and added coverage for the TAO burn path. The code fix is verified; the number of affected live weight cycles was not independently measured.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Weight-interval fix",
+              "url": "https://github.com/openroboto-ai/openroboto-cli/commit/9fd5355c6ad51180b4d45658ae7ead14b5536259"
+            },
+            {
+              "label": "Burn-window guard",
+              "url": "https://github.com/openroboto-ai/openroboto-cli/commit/5fde1e9f2fed76123df66206d33406bdbfae51ed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": [
+        {
+          "headline": "Cascade pins worker v0.6.0 for a block-gated go-live",
+          "summary": "Cascade merged a coordinated deployment stack, pinned worker v0.6.0, and used block-gated contract compatibility so pre-transition rounds could still accept the prior contract digest. The code and deploy boundary are verified.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Block-gated contract transition",
+              "url": "https://github.com/TensorLink-AI/cascade/commit/f6e1217050703be76800d9f656de1d1347d7b15e"
+            },
+            {
+              "label": "Worker v0.6.0 pin",
+              "url": "https://github.com/TensorLink-AI/cascade/commit/6ee51744787f816ac400cc7787d2876420086e4c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 92,
+      "name": "MicroTensor",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "BASE",
+      "updates": [
+        {
+          "headline": "BASE adds Verda BYOK to its production provider set",
+          "summary": "BASE made Verda bring-your-own-key capacity mineable alongside Lium and promoted the image set to production. That broadens the available provisioning path without proving any particular amount of new capacity.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Verda BYOK provider change",
+              "url": "https://github.com/BaseIntelligence/base/commit/82ac541d"
+            },
+            {
+              "label": "Production promotion",
+              "url": "https://github.com/BaseIntelligence/base/commit/286f5e5f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": [
+        {
+          "headline": "Capcomp removes latency scoring and adds a one-hour commitment settle period",
+          "summary": "Capcomp stopped scoring latency, batched the full draw, aligned measured terms with the score, and required commitments to settle for one hour before the run that measures them. The changes reduce timing incentives and last-minute recipe replacement routes.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Latency-scoring removal",
+              "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/e1c5593b4a31a852792ecec99724c69e2acc27bc"
+            },
+            {
+              "label": "One-hour settle rule",
+              "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/12a89544e79412e878913d42759283b56fe3fab2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 104,
+      "name": "Masx.ai",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "minotaur",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "HashiChain",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto benchmark v11 goes live while trusted-inference fixes continue",
+          "summary": "Ditto reported benchmark v11 live, 409 submissions from 54 miners during the week, and a nine-language product expansion. Trusted-inference serialization caused stuck-agent and compatibility problems that were patched; the submission totals are team-reported.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Ditto daily brief",
+              "url": "https://subnetradar.com/subnet-news/118/2026-08-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "Satori",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "8 Ball",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Subtensor stages v448 safety and metadata work but has not merged the release yet",
+      "summary": "The core repository merged SDK intent preflights, bounded finalization and receipt waits, rejected trailing timelock-envelope data, and synced v448 metadata bindings. At cutoff, the release branch itself had not yet merged to the observed main line, so this is verified code preparation rather than a claim of Finney activation.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SDK safety-preflight merge",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/0d3988214a6f7eee8793fe17208365742a82d07b"
+        },
+        {
+          "label": "v448 metadata sync",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/62a806519cdb408e00cced23030267e0c61a4df9"
+        }
+      ]
+    },
+    {
+      "headline": "No new subnet registration or completed deregistration survives the fixed-window check",
+      "summary": "The slot and moments review found no material new registration, completed deregistration, coldkey takeover, exchange listing, alpha halving, or chain-level security exploit between the two cutoffs.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar moments archive",
+          "url": "https://subnetradar.com/alpha/moments"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "All 128 active subnet slots and every August 21 public daily brief",
+      "Exact public GitHub commits across 91 Bittensor-linked repositories from August 20 14:00 UTC through August 21 14:00 UTC",
+      "Fixed pre-cutoff chain snapshots, SubnetRadar moments, conviction, registration and burn views, plus TaoStats",
+      "Official project repositories, release records, public web and X indexing",
+      "Earlier August reports for duplicate exclusion"
+    ],
+    "gaps": [
+      "Public X and Discord indexing is incomplete; deleted, private, login-gated and rate-limited posts cannot be exhaustively reviewed.",
+      "Team-reported usage counts and dispute claims are labeled and are not converted into independently verified facts.",
+      "No verified scheduled alpha unlock of at least 50,000 alpha was found.",
+      "Empty update arrays mean no new material public signal survived fixed-window and duplicate checks; this is informational, not financial advice."
+    ]
+  }
+}
