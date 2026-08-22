@@ -102,9 +102,14 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "QmDlpkGxZ8U",
+    title: "You Know I Need More TAO | Bittensor Subnet Update",
+    meta: "31:29 · Latest episode",
+  },
+  {
     id: "3pxxCOBit2Q",
     title: "Subnets Are Better Than Altcoins | Bittensor TAO",
-    meta: "24:46 · Latest episode",
+    meta: "24:46",
   },
   {
     id: "uEB3rUEQlnk",
@@ -113,22 +118,22 @@ const channelVideos = [
   },
   {
     id: "VdR1zT4BIxM",
-    title: "I AIN’T GOT NO WORRIES | TAO",
+    title: "I AIN’T GOT NO WORRIES | TAO | Week 14",
     meta: "25:01",
   },
   {
     id: "wVVI3NAr-bE",
     title: "Borrow Against Your Bittensor Subnet Tokens | SCORE SN44 on Mentat Lend",
-    meta: "12:21",
+    meta: "12:22",
   },
   {
     id: "HoIJXaD_zOY",
     title: "Bitcoin Dreams It Was Bittensor",
-    meta: "27:34",
+    meta: "27:35",
   },
   {
     id: "tIszrpO_1nQ",
-    title: "The Great Rotation Into Bittensor Has Begun",
+    title: "The Great Rotation Into Bittensor Has Begun | Week 13",
     meta: "26:00",
   },
   {
@@ -149,17 +154,17 @@ const channelVideos = [
   {
     id: "_2VA_b-HRnw",
     title: "Getting Out of Everything besides Compute - Week 11 10 to 100 TAO Challenge",
-    meta: "20:28 · Latest episode",
+    meta: "20:28",
   },
   {
     id: "RfiDazAg8r8",
     title: "Compute Wars: The Battle for AI Infrastructure Has Begun on Bittensor",
-    meta: "35:17 · Latest episode",
+    meta: "35:17",
   },
   {
     id: "AuUwiV1r_cs",
-    title: "Bittensor TAO: Patience Pays Off",
-    meta: "20:39 · Latest episode",
+    title: "Bittensor TAO: Patience Pays Off - Week 10",
+    meta: "20:39",
   },
   {
     id: "tdZGVfadd00",
@@ -199,64 +204,69 @@ const channelVideos = [
 ];
 const liveStreams = [
   {
+    id: "ItwKUo5Niz0",
+    title: "You Stake It. You Earn Compute. | Nodexo SN106",
+    meta: "57:52 · Streamed 3 days ago",
+  },
+  {
     id: "EViJzvUKPOE",
     title: "This AI Knows What You’re Going to Say Before You Say It | Babelbit w/ Tom Tensor",
-    meta: "1:06:38 · Streamed 2 days ago",
+    meta: "1:06:39 · Streamed 8 days ago",
   },
   {
     id: "8hJYqoRrdV8",
     title: "Bittensor Is Taking Over the AI Industry | Live with Michael Parker",
-    meta: "1:08:46 · Streamed 5 days ago",
+    meta: "1:08:46 · Streamed 2 weeks ago",
   },
   {
     id: "2XH-XnwwdPE",
     title: "Bittensor Subnets Are Entering a New Era | Live with James Altucher",
-    meta: "1:00:02 · Streamed 5 days ago",
+    meta: "1:00:02 · Streamed 3 weeks ago",
   },
   {
     id: "yZceSNu4ugc",
     title: "The TAO Thesis Nobody Is Ready For | Mark Jeffrey Live",
-    meta: "1:28:36 · Streamed today",
+    meta: "1:28:37 · Streamed 4 weeks ago",
   },
   {
     id: "ealfKQI1q2g",
-    title: "ChronoLLM SN38: The AI That Never Cheats Time",
-    meta: "51:47 · Streamed 3 days ago",
+    title: "ChronoLLM SN38: The AI That Never Cheats Time | Live With Jean Hérelle, Founder of CrunchDAO",
+    meta: "51:47 · Streamed 1 month ago",
   },
   {
     id: "T0BbzWFS7EE",
-    title: "Bittensor Subnet Update with Crypto Millie",
-    meta: "1:35:16 · Streamed 5 days ago",
+    title: "Bittensor Subnet update with Crypto Millie",
+    meta: "1:35:16 · Streamed 1 month ago",
   },
   {
     id: "EJMXtvxC6Qo",
-    title: "AI That Finds DNA Mutations: Minos SN107",
-    meta: "1:03:36 · Streamed 11 days ago",
+    title: "AI That Finds DNA Mutations: Minos SN107 Built on Bittensor",
+    meta: "1:03:36 · Streamed 1 month ago",
   },
   {
     id: "F3ogKcX3xpE",
-    title: "Leadpoet SN71 Deep Dive with Gavin Zaentz",
-    meta: "58:46 · Streamed 2 weeks ago",
+    title: "Leadpoet SN71 Deep Dive with Gavin Zaentz | AI Sales Intelligence on Bittensor",
+    meta: "58:46 · Streamed 1 month ago",
   },
   {
     id: "wyif_M_zbwg",
-    title: "Bittensor Subnet 85 VIDAIO: AI Video Enhancement",
-    meta: "42:43 · Streamed 3 weeks ago",
+    title: "Bittensor Subnet 85 VIDAIO: AI Video Enhancement With Gareth Howells",
+    meta: "42:43 · Streamed 1 month ago",
   },
   {
     id: "rvfP0aSEGkQ",
-    title: "Live With Tom From Bitcast and Stitch3",
-    meta: "44:15 · Streamed 1 month ago",
+    title: "Live With Tom From Bitcast and Stitch3. Attention pays on Bittensor!",
+    meta: "44:15 · Streamed 2 months ago",
   },
   {
     id: "_DAintx1Zfs",
     title: "Live with Mark Jeffrey",
-    meta: "1:21:33 · Streamed 1 month ago",
+    meta: "1:21:33 · Streamed 2 months ago",
   },
   {
     id: "qxr-Q9d9Elw",
-    title: "Bittensor’s Special K Live",
-    meta: "48:22 · Streamed 1 month ago",
+    title: "BITTENSOR’S SPECIAL K LIVE SN26 PERTURB, SN78 VOCENCE, AND THE FUTURE OF AI SUBNETS",
+    meta: "48:22 · Streamed 2 months ago",
   },
 ];
 const universityCourses = [
