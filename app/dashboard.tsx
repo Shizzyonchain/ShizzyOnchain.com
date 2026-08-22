@@ -352,6 +352,15 @@ const fmt = (value?: string | number, digits = 2) => {
     minimumFractionDigits: n < 1 ? Math.min(digits, 4) : 0,
   });
 };
+const preciseAlpha = (value?: string | number) => {
+  const alpha = Number(value ?? 0);
+  if (!Number.isFinite(alpha) || alpha === 0) return "0";
+  return new Intl.NumberFormat(undefined, {
+    maximumSignificantDigits: 8,
+    maximumFractionDigits: 12,
+  }).format(alpha);
+};
+const allocationLabel = (allocation: number) => (allocation > 0 && allocation < 0.1 ? "<0.1%" : `${allocation.toFixed(1)}%`);
 const compactAlpha = (value?: string | number) =>
   new Intl.NumberFormat(undefined, {
     notation: "compact",
@@ -762,31 +771,10 @@ export function Dashboard({
       if (free > 0) add("tao", null, "Bittensor", "TAO", free, free, wallet.address);
       wallet.stakes.forEach((stake) => add(`sn-${stake.netuid}`, stake.netuid, stake.name || `Subnet ${stake.netuid}`, stake.symbol || `SN${stake.netuid}`, Number(stake.alpha || 0), Number(stake.tao_value || 0), wallet.address));
     });
-    return [...assets.values()].filter((asset) => asset.taoValue > 0).sort((a, b) => b.taoValue - a.taoValue);
+    return [...assets.values()].filter((asset) => asset.alpha > 0 || asset.taoValue > 0).sort((a, b) => b.taoValue - a.taoValue);
   }, [wallets]);
   const portfolioTotal = portfolioAssets.reduce((sum, asset) => sum + asset.taoValue, 0);
-  const portfolioChartAssets = useMemo(() => {
-    if (portfolioAssets.length <= 9) return portfolioAssets;
-    const primary = portfolioAssets.slice(0, 8);
-    const other = portfolioAssets.slice(8).reduce<PortfolioAsset>(
-      (combined, asset) => {
-        combined.alpha += asset.alpha;
-        combined.taoValue += asset.taoValue;
-        asset.wallets.forEach((wallet) => combined.wallets.add(wallet));
-        return combined;
-      },
-      {
-        key: "other",
-        netuid: null,
-        name: "Other assets",
-        symbol: "OTHER",
-        alpha: 0,
-        taoValue: 0,
-        wallets: new Set<string>(),
-      },
-    );
-    return [...primary, other];
-  }, [portfolioAssets]);
+  const portfolioChartAssets = portfolioAssets;
   const portfolioGradient = useMemo(() => {
     if (!portfolioTotal) return "#0a1731";
     let cursor = 0;
@@ -1981,14 +1969,14 @@ export function Dashboard({
                     </span>
                   </div>
                   <div className="positions">
-                    {w.stakes.slice(0, 8).map((s, i) => (
+                    {w.stakes.map((s, i) => (
                       <div key={`${s.hotkey}-${s.netuid}-${i}`}>
                         <span>
                           <b>SN{s.netuid}</b>
                           <small>{s.name || s.hotkey.slice(0, 7) + "…"}</small>
                         </span>
                         <span>
-                          {hideBalances ? "•••• α" : `${fmt(s.alpha, 4)} α`}
+                          {hideBalances ? "•••• α" : `${preciseAlpha(s.alpha)} α`}
                           <small>{privateMoney(s.tao_value)}</small>
                         </span>
                       </div>
@@ -2058,8 +2046,8 @@ export function Dashboard({
                           </span>
                         </span>
                         <span className="portfolio-amount">
-                          <strong>{portfolioMetric === "allocation" ? `${allocation.toFixed(1)}%` : privateMoney(asset.taoValue)}</strong>
-                          {portfolioMetric === "value" && <small>{hideBalances ? `•••• ${asset.netuid == null ? "TAO" : "α"}` : `${fmt(asset.alpha, 4)} ${asset.netuid == null ? "TAO" : "α"}`}</small>}
+                          <strong>{portfolioMetric === "allocation" ? allocationLabel(allocation) : privateMoney(asset.taoValue)}</strong>
+                          {portfolioMetric === "value" && <small>{hideBalances ? `•••• ${asset.netuid == null ? "TAO" : "α"}` : `${preciseAlpha(asset.alpha)} ${asset.netuid == null ? "TAO" : "α"}`}</small>}
                         </span>
                       </div>
                     );
