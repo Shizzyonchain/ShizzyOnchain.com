@@ -5,10 +5,10 @@ import Image from "next/image";
 import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
 import {
-  bestAvailableBubbleTimeframe,
   bubbleTimeframeHasCoverage,
   bubbleTimeframeLabel,
   bubbleTimeframes,
+  resolveBubbleTimeframe,
   type BubbleTimeframe,
 } from "./lib/bubble-timeframe";
 
@@ -354,7 +354,7 @@ const partners = [
 
 const fmt = (value?: string | number, digits = 2) => {
   const n = Number(value ?? 0);
-  return n.toLocaleString(undefined, {
+  return n.toLocaleString("en-US", {
     maximumFractionDigits: digits,
     minimumFractionDigits: n < 1 ? Math.min(digits, 4) : 0,
   });
@@ -362,14 +362,14 @@ const fmt = (value?: string | number, digits = 2) => {
 const preciseAlpha = (value?: string | number) => {
   const alpha = Number(value ?? 0);
   if (!Number.isFinite(alpha) || alpha === 0) return "0";
-  return new Intl.NumberFormat(undefined, {
+  return new Intl.NumberFormat("en-US", {
     maximumSignificantDigits: 8,
     maximumFractionDigits: 12,
   }).format(alpha);
 };
 const allocationLabel = (allocation: number) => (allocation > 0 && allocation < 0.1 ? "<0.1%" : `${allocation.toFixed(1)}%`);
 const compactAlpha = (value?: string | number) =>
-  new Intl.NumberFormat(undefined, {
+  new Intl.NumberFormat("en-US", {
     notation: "compact",
     maximumFractionDigits: 2,
   }).format(Number(value ?? 0));
@@ -533,9 +533,7 @@ export function Dashboard({
   const [subnetPanel, setSubnetPanel] = useState<"overview" | "chart">("overview");
   const [marketDetailOpen, setMarketDetailOpen] = useState(false);
   const [timeframe, setTimeframe] = useState("10m");
-  const [bubbleTimeframePreference, setBubbleTimeframePreference] = useState<BubbleTimeframe>(() =>
-    serverRows.length ? bestAvailableBubbleTimeframe(serverRows) : "change_24h",
-  );
+  const [bubbleTimeframePreference, setBubbleTimeframePreference] = useState<BubbleTimeframe>("change_24h");
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
   const chartCardRef = useRef<HTMLDivElement>(null);
@@ -847,9 +845,7 @@ export function Dashboard({
     () => new Set(bubbleTimeframes.filter((timeframe) => bubbleTimeframeHasCoverage(bubbleRows, timeframe))),
     [bubbleRows],
   );
-  const bubbleTimeframe = availableBubbleTimeframes.has(bubbleTimeframePreference)
-    ? bubbleTimeframePreference
-    : bestAvailableBubbleTimeframe(bubbleRows);
+  const bubbleTimeframe = resolveBubbleTimeframe(bubbleRows, bubbleTimeframePreference);
   const bubbleHistoryFallback = bubbleTimeframe !== bubbleTimeframePreference;
   const bubbleDailyHistoryRebuilding = bubbleRows.length > 0 && !availableBubbleTimeframes.has("change_24h");
   const bubbleSize = (row: ScreenerRow) => {

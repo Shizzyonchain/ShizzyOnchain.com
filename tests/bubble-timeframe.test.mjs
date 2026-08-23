@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { bestAvailableBubbleTimeframe, bubbleTimeframeHasCoverage } from "../app/lib/bubble-timeframe.ts";
+import {
+  bestAvailableBubbleTimeframe,
+  bubbleTimeframeHasCoverage,
+  resolveBubbleTimeframe,
+} from "../app/lib/bubble-timeframe.ts";
 
 test("falls back to one hour when daily history is unavailable", () => {
   const rows = Array.from({ length: 10 }, (_, index) => ({
@@ -29,4 +33,16 @@ test("keeps the daily view when at least 80 percent of rows have real baselines"
 test("does not mistake missing values for zero movement", () => {
   const rows = [{ change_1h: null }, { change_1h: undefined }, { change_1h: "" }];
   assert.equal(bubbleTimeframeHasCoverage(rows, "change_1h"), false);
+});
+
+test("uses a fallback without discarding the preferred daily timeframe", () => {
+  const rebuilding = Array.from({ length: 10 }, () => ({
+    change_10m: "0.1",
+    change_1h: "0.2",
+    change_24h: null,
+  }));
+  const rebuilt = rebuilding.map((row) => ({ ...row, change_24h: "1.5" }));
+
+  assert.equal(resolveBubbleTimeframe(rebuilding, "change_24h"), "change_1h");
+  assert.equal(resolveBubbleTimeframe(rebuilt, "change_24h"), "change_24h");
 });
