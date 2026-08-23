@@ -4,6 +4,13 @@ import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect,
 import Image from "next/image";
 import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
+import {
+  bestAvailableBubbleTimeframe,
+  bubbleTimeframeHasCoverage,
+  bubbleTimeframeLabel,
+  bubbleTimeframes,
+  type BubbleTimeframe,
+} from "./lib/bubble-timeframe";
 
 export type ScreenerRow = {
   netuid: number;
@@ -526,7 +533,9 @@ export function Dashboard({
   const [subnetPanel, setSubnetPanel] = useState<"overview" | "chart">("overview");
   const [marketDetailOpen, setMarketDetailOpen] = useState(false);
   const [timeframe, setTimeframe] = useState("10m");
-  const [bubbleTimeframe, setBubbleTimeframe] = useState<"change_10m" | "change_1h" | "change_24h">("change_24h");
+  const [bubbleTimeframePreference, setBubbleTimeframePreference] = useState<BubbleTimeframe>(() =>
+    serverRows.length ? bestAvailableBubbleTimeframe(serverRows) : "change_24h",
+  );
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
   const chartCardRef = useRef<HTMLDivElement>(null);
@@ -834,6 +843,15 @@ export function Dashboard({
         .slice(0, 128),
     [rows],
   );
+  const availableBubbleTimeframes = useMemo(
+    () => new Set(bubbleTimeframes.filter((timeframe) => bubbleTimeframeHasCoverage(bubbleRows, timeframe))),
+    [bubbleRows],
+  );
+  const bubbleTimeframe = availableBubbleTimeframes.has(bubbleTimeframePreference)
+    ? bubbleTimeframePreference
+    : bestAvailableBubbleTimeframe(bubbleRows);
+  const bubbleHistoryFallback = bubbleTimeframe !== bubbleTimeframePreference;
+  const bubbleDailyHistoryRebuilding = bubbleRows.length > 0 && !availableBubbleTimeframes.has("change_24h");
   const bubbleSize = (row: ScreenerRow) => {
     const movement = Number(row[bubbleTimeframe] || 0);
     if (Math.abs(movement) <= 0.005) return 48;
@@ -1787,7 +1805,13 @@ export function Dashboard({
                 { value: "change_1h", label: "1 Hour" },
                 { value: "change_24h", label: "1 Day" },
               ].map((period) => (
-                <button key={period.value} className={bubbleTimeframe === period.value ? "active" : ""} onClick={() => setBubbleTimeframe(period.value as typeof bubbleTimeframe)}>
+                <button
+                  key={period.value}
+                  className={bubbleTimeframe === period.value ? "active" : ""}
+                  disabled={!availableBubbleTimeframes.has(period.value as BubbleTimeframe)}
+                  title={!availableBubbleTimeframes.has(period.value as BubbleTimeframe) ? `${period.label} history is rebuilding` : undefined}
+                  onClick={() => setBubbleTimeframePreference(period.value as BubbleTimeframe)}
+                >
                   {period.label}
                 </button>
               ))}
@@ -1806,7 +1830,13 @@ export function Dashboard({
               <i className="loss" />
               Falling
             </span>
-            <b>Drag any bubble · big bubbles = exceptional gains</b>
+            <b>
+              {bubbleDailyHistoryRebuilding
+                ? `1-day history rebuilding · showing ${bubbleTimeframeLabel(bubbleTimeframe)}`
+                : bubbleHistoryFallback
+                  ? `${bubbleTimeframeLabel(bubbleTimeframePreference)} history rebuilding · showing ${bubbleTimeframeLabel(bubbleTimeframe)}`
+                : "Drag any bubble · big bubbles = exceptional gains"}
+            </b>
             <button onClick={() => setBubbleOffsets({})}>Reset layout</button>
           </div>
           <section ref={bubbleCloudRef} className="bubble-cloud panel" aria-label="Draggable subnet market bubbles">
