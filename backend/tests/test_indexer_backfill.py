@@ -1,4 +1,5 @@
 from app.backfill import sample_blocks
+from app.indexer import _missing_price_ranges
 from app.retention import prune_raw_price_samples
 
 
@@ -20,6 +21,11 @@ class RecordingDatabase:
         self.args = args
         return "DELETE 42"
 
+    async def fetch(self, query, *args):
+        self.query = query
+        self.args = args
+        return []
+
 
 async def test_raw_price_retention_is_bounded_and_reports_deleted_rows():
     db = RecordingDatabase()
@@ -37,3 +43,14 @@ async def test_raw_price_retention_never_drops_below_one_day():
     await prune_raw_price_samples(db, 0)
 
     assert db.args == (1,)
+
+
+async def test_price_backfill_detects_price_gaps_and_missing_daily_horizon():
+    db = RecordingDatabase()
+
+    await _missing_price_ranges(db, 5)
+
+    assert "FROM subnet_price_samples" in db.query
+    assert "desired_horizon" in db.query
+    assert "interval '25 hours'" in db.query
+    assert db.args == (5,)

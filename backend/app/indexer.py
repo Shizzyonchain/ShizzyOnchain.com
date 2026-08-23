@@ -309,18 +309,44 @@ async def live_price_loop(db, settings):
 
 async def _missing_price_ranges(db, minimum_gap_blocks: int):
     return await db.fetch(
-        """WITH ordered AS (
+        """WITH price_blocks AS (
+             SELECT block_number,min(time) AS block_time
+             FROM subnet_price_samples
+             WHERE time >= now() - interval '8 days'
+             GROUP BY block_number
+           ), ordered AS (
              SELECT block_number,block_time,
                     lead(block_number) OVER (ORDER BY block_number) AS next_block,
                     lead(block_time) OVER (ORDER BY block_number) AS next_time
-             FROM chain_blocks
+             FROM price_blocks
+           ), desired_horizon AS (
+             SELECT
+               (SELECT block_number FROM chain_blocks
+                WHERE block_time <= now() - interval '25 hours'
+                ORDER BY block_time DESC LIMIT 1) AS start_block,
+               (SELECT block_time FROM chain_blocks
+                WHERE block_time <= now() - interval '25 hours'
+                ORDER BY block_time DESC LIMIT 1) AS start_time,
+               COALESCE(
+                 (SELECT min(block_number) FROM price_blocks),
+                 (SELECT max(block_number) FROM subnet_latest_samples)
+               ) AS end_block,
+               COALESCE(
+                 (SELECT min(block_time) FROM price_blocks),
+                 (SELECT max(time) FROM subnet_latest_samples)
+               ) AS end_time
            )
            SELECT block_number AS start_block,next_block AS end_block,
                   block_time AS start_time,next_time AS end_time
            FROM ordered
            WHERE next_block-block_number > $1
              AND next_time-block_time > interval '90 seconds'
-           ORDER BY block_number""",
+           UNION ALL
+           SELECT start_block,end_block,start_time,end_time
+           FROM desired_horizon
+           WHERE start_block IS NOT NULL AND end_block IS NOT NULL
+             AND end_block-start_block > $1
+           ORDER BY start_block""",
         minimum_gap_blocks,
     )
 
@@ -349,13 +375,10 @@ async def backfill_missing_prices(db, settings):
             nonlocal completed
             async with semaphore:
                 try:
-                    await persist_block(
-                        db,
-                        archive,
-                        number,
-                        include_events=False,
-                        include_auxiliary=False,
-                    )
+                    # Price history may have been pruned while chain_blocks was
+                    # retained. This writer deliberately does not claim the block,
+                    # so it can restore price samples for already-known blocks.
+                    await persist_price_tick(db, archive, number)
                 except Exception:
                     log.exception(
                         "archive backfill failed at block %s; continuing", number
