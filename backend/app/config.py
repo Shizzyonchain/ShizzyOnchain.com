@@ -34,6 +34,8 @@ class Settings(BaseSettings):
     max_mass_wallets: int = 100
     max_pending_wallet_jobs: int = 25
     wallet_job_retention_hours: int = 24
+    raw_price_retention_days: int = 8
+    raw_price_cleanup_interval_seconds: int = 3600
     wallet_query_concurrency: int = 8
     wallet_rpc_timeout_seconds: float = 30
     rpc_connect_timeout_seconds: float = 8

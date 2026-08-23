@@ -9,6 +9,7 @@ from app.chain import ChainClient
 from app.config import get_settings
 from app.db import close, connect
 from app.rpc import finalized_heads
+from app.retention import retention_loop
 from app.wallet_job import wallet_job_loop
 
 log = logging.getLogger("shizzy.indexer")
@@ -404,6 +405,7 @@ async def indexer():
     asyncio.create_task(live_price_loop(db, settings))
     asyncio.create_task(backfill_loop(db, settings))
     asyncio.create_task(wallet_job_loop(db, settings))
+    asyncio.create_task(retention_loop(db, settings))
     endpoints = settings.subtensor_ws_urls
     endpoint_index = 0
     retry_delay = 1

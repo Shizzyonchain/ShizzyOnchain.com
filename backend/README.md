@@ -119,6 +119,8 @@ are decimal JSON strings where necessary; never convert token values through bin
 - Set `INDEXER_START_BLOCK=1234567` before the first start to backfill from that block. This requires
   an archive endpoint capable of serving every requested block.
 - After any restart, the indexer resumes at `max(chain_blocks.block_number) + 1` and fills gaps.
+- High-frequency raw price samples are retained for eight days by default. The independent latest-price
+  table and one-minute candle history remain available while old raw rows are reclaimed hourly.
 - The worker also detects historical chart gaps and repairs them in the background from
   `BACKFILL_WS_URL` (the official Finney archive endpoint by default). It stores a real
   block-pinned market snapshot every `BACKFILL_SAMPLE_BLOCKS` blocks; the default of five

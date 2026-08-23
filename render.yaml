@@ -57,6 +57,10 @@ services:
         value: "8"
       - key: WALLET_JOB_RETENTION_HOURS
         value: "24"
+      - key: RAW_PRICE_RETENTION_DAYS
+        value: "8"
+      - key: RAW_PRICE_CLEANUP_INTERVAL_SECONDS
+        value: "3600"
       - key: RPC_SUBSCRIBE_TIMEOUT_SECONDS
         value: "8"
       - key: RPC_HEAD_TIMEOUT_SECONDS
