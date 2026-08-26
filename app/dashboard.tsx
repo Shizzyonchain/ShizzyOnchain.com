@@ -109,9 +109,19 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "vif3oxM-IMo",
+    title: "TAO BLASTING OFF | Bittensor Subnet Update",
+    meta: "40:31 · Latest episode",
+  },
+  {
+    id: "QEJqBPAwo4w",
+    title: "Universal Motion to Meaning | Bittensor SN78 with Michael Parker & Special K",
+    meta: "30:08",
+  },
+  {
     id: "QmDlpkGxZ8U",
     title: "You Know I Need More TAO | Bittensor Subnet Update",
-    meta: "31:29 · Latest episode",
+    meta: "31:29",
   },
   {
     id: "3pxxCOBit2Q",
@@ -211,9 +221,14 @@ const channelVideos = [
 ];
 const liveStreams = [
   {
+    id: "eETePHcENvs",
+    title: "Building the Robot Brain on Bittensor | Cameron, OpenRoboto",
+    meta: "Premiere · August 26, 2026",
+  },
+  {
     id: "ItwKUo5Niz0",
     title: "You Stake It. You Earn Compute. | Nodexo SN106",
-    meta: "57:52 · Streamed 3 days ago",
+    meta: "57:52 · Streamed August 19, 2026",
   },
   {
     id: "EViJzvUKPOE",

@@ -1,0 +1,889 @@
+{
+  "version": 1,
+  "date": "2026-08-24",
+  "title": "Subnet News - August 24, 2026",
+  "summary": "The daily tape was led by a 110B permissionless training launch on Teutonic, fresh scoring and fairness disputes across several mining competitions, a sharp ORO market move, and TAO Galaxy reaching $500,000 in reported TVL.",
+  "publishedAt": "2026-08-24T14:10:00.000Z",
+  "coverageStart": "2026-08-23T14:00:00Z",
+  "coverageEnd": "2026-08-24T14:00:00Z",
+  "highlights": [
+    {
+      "headline": "Teutonic-II opens a 110B permissionless training run",
+      "summary": "Const launched a 110-billion-parameter sparse Mixture-of-Experts competition on Subnet 3 with a public genesis checkpoint and an open-source checkpoint plan.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "TAO Media report",
+          "url": "https://www.tao.media/const-launches-teutonic-ii-110b-permissionless-training-run-on-bittensor-subnet-3/"
+        }
+      ]
+    },
+    {
+      "headline": "Mining fairness disputes spread across Affine, engy and NIOME",
+      "summary": "Three active competitions faced fresh miner challenges involving champion selection, emission fairness or scoring consistency. The disputes remained unresolved at cutoff.",
+      "importance": "high",
+      "status": "developing",
+      "sources": [
+        {
+          "label": "SubnetRadar Bittensor news index",
+          "url": "https://subnetradar.com/news"
+        }
+      ]
+    },
+    {
+      "headline": "TAO Galaxy reports $500,000 in strategy TVL",
+      "summary": "TAO Galaxy said its systematic Bittensor subnet strategies reached $500,000 in total value locked four weeks after launch.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "TAO Media report",
+          "url": "https://www.tao.media/tao-galaxy-reaches-500-000-tvl-four-weeks-after-subnet-strategies-launch/"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": [
+        {
+          "headline": "Teutonic-II opens a 110B permissionless training run",
+          "summary": "Const launched a new Subnet 3 competition that scales Teutonic from a 10B model to a 110B sparse Mixture-of-Experts model. The genesis checkpoint is public and the team says every checkpoint and the final dataset will be open source.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "TAO Media report",
+              "url": "https://www.tao.media/const-launches-teutonic-ii-110b-permissionless-training-run-on-bittensor-subnet-3/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": [
+        {
+          "headline": "Hone registration fees surge amid mining concerns",
+          "summary": "Public miner discussion focused on sharply higher registration costs and whether the current mining opportunity justifies them. No protocol fault was independently confirmed during the window.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN5 brief",
+              "url": "https://subnetradar.com/subnet-news/5/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": [
+        {
+          "headline": "Pareton clarifies launch timing and token-sale questions",
+          "summary": "The team addressed community questions about the launch sequence and token-sale plans. The brief records the clarification, while final timing remains dependent on the team's published rollout.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN10 brief",
+              "url": "https://subnetradar.com/subnet-news/10/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": [
+        {
+          "headline": "ORO gains 61% as network metrics stabilize",
+          "summary": "SubnetRadar recorded a 61% alpha-price rise alongside improving network metrics. The move is market data, not evidence that the underlying operating risks have been resolved.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN15 brief",
+              "url": "https://subnetradar.com/subnet-news/15/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 16,
+      "name": "trav",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404â€”GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "gm",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoÏ„floaÏ„",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Subnet 36",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "wait (reproduce paper)",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": []
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": [
+        {
+          "headline": "engy miners challenge emission fairness",
+          "summary": "Miner discussion questioned whether emissions and routing were being distributed fairly. The dispute remained unresolved at cutoff and is presented as a developing governance and operations issue.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN53 brief",
+              "url": "https://subnetradar.com/subnet-news/53/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": [
+        {
+          "headline": "NIOME reviews consistency-score and TWS behavior",
+          "summary": "Miners and the team discussed consistency scoring and time-weighted score behavior after uneven results. No final scoring change was confirmed during the window.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN55 brief",
+              "url": "https://subnetradar.com/subnet-news/55/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Babelbit",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": [
+        {
+          "headline": "RedTeam updates dashboard and fixes scoring bug",
+          "summary": "RedTeam published a dashboard update and reported a fix for a scoring defect. The change is recorded as shipped based on the project brief.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN61 brief",
+              "url": "https://subnetradar.com/subnet-news/61/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": []
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": [
+        {
+          "headline": "Conjectures reports progress on lean auto-formalization",
+          "summary": "The team highlighted continuing work on Lean-based auto-formalization. The update describes development progress rather than a completed product milestone.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN66 brief",
+              "url": "https://subnetradar.com/subnet-news/66/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Phylax",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Vocence",
+      "updates": [
+        {
+          "headline": "Vocence updates scripts and schedules miner Q&A",
+          "summary": "Vocence published script updates and said it planned a miner Q&A. The software update is confirmed by the project brief; the Q&A remained upcoming at cutoff.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN78 brief",
+              "url": "https://subnetradar.com/subnet-news/78/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": []
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "MicroTensor",
+      "updates": [
+        {
+          "headline": "MicroTensor extends Round 1236 submission window",
+          "summary": "MicroTensor extended the Round 1236 submission window, giving miners additional time to complete entries. The brief did not indicate a broader change to competition rules.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN92 brief",
+              "url": "https://subnetradar.com/subnet-news/92/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "BASE",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "Masx.ai",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "minotaur",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SOMA reviews miner token-usage metrics",
+          "summary": "The SOMA team reviewed how miner token usage is measured and discussed the implications for scoring. A final scoring-policy change was not confirmed during the window.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN114 brief",
+              "url": "https://subnetradar.com/subnet-news/114/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 115,
+      "name": "HashiChain",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto rises 26% while validator queue issues emerge",
+          "summary": "SubnetRadar recorded a 26% alpha-price gain while participants reported validator queue problems. The price move is verified market data; the operational issue remained under review.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN118 brief",
+              "url": "https://subnetradar.com/subnet-news/118/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "Satori",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": [
+        {
+          "headline": "Affine miners challenge recent champion selections",
+          "summary": "Miners asked the team to reverse champion selections they considered questionable. The challenge remained a live dispute at cutoff, with no independently verified misconduct finding.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SubnetRadar SN120 brief",
+              "url": "https://subnetradar.com/subnet-news/120/2026-08-24"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "8 Ball",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "TAO Galaxy reports $500,000 across subnet strategies",
+      "summary": "The no-code platform said its Momentum and Growth subnet strategies reached $500,000 in TVL four weeks after launch. The figure is a company-reported operating metric.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "TAO Media report",
+          "url": "https://www.tao.media/tao-galaxy-reaches-500-000-tvl-four-weeks-after-subnet-strategies-launch/"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "All 128 active subnet records carried forward from the last validated roster for complete netuid coverage",
+      "Every public SubnetRadar brief indexed for 2026-08-24, plus the Bittensor news and live-moment feeds",
+      "Official Bittensor releases, project announcements, TAO Media reporting and public analytics sources",
+      "Prior dated reports for exact and semantic duplicate exclusion",
+      "Market, conviction, wallet-flow, security, scoring, validator, miner and product-usage signals"
+    ],
+    "gaps": [
+      "Public X and Discord indexing is incomplete; deleted, private, login-gated and rate-limited posts cannot be exhaustively reviewed.",
+      "Company and team operating metrics are identified as reported figures unless an independent primary dataset was available.",
+      "Individual wallet movements do not establish identity, coordination, motive or a durable market trend.",
+      "No verified alpha-token unlock of at least 50,000 alpha was found for this report window.",
+      "Empty update arrays mean no new material public signal survived the fixed-window and duplicate checks; this is informational, not financial advice."
+    ]
+  }
+}
