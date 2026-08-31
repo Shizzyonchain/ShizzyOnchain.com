@@ -1,0 +1,787 @@
+{
+  "version": 1,
+  "date": "2026-08-29",
+  "title": "Subnet News - August 29, 2026",
+  "summary": "Claims opened its first mainnet mining round, OpenRoboto started a real-robot tournament, Albedo enabled private model uploads, and Beam entered a prolonged Azure migration while Sundae Bar acted on submission spam.",
+  "publishedAt": "2026-08-30T23:10:00.000Z",
+  "coverageStart": "2026-08-28T14:00:00.000Z",
+  "coverageEnd": "2026-08-29T14:00:00.000Z",
+  "highlights": [
+    {
+      "headline": "Fifty-seven percent of subnet markets rise as Feval leads",
+      "summary": "SubnetRadar’s August 29 issue recorded 57% of subnet markets higher, with Feval up 23.1% and Compelle down 12.1%. It also counted 39 subnets burning at least 90% of miner emissions; those figures are a dated market snapshot, not a forecast.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SubnetRadar August 29 market tape",
+          "url": "https://subnetradar.com/today"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": [
+        {
+          "headline": "ORO validators recover after an OpenRouter outage",
+          "summary": "An OpenRouter API incident temporarily stopped validator evaluations. ORO said service recovered and failed evaluations did not charge miners or change their scores.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN15 brief",
+              "url": "https://subnetradar.com/subnet-news/15/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 16,
+      "name": "trav",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "gm",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Subnet 36",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "Feval",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": []
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": [
+        {
+          "headline": "NIOME resolves a miner authentication failure",
+          "summary": "A 401 failure affecting UID 234 was traced to signed requests missing a receiver field. The miner changed verification handling, while separate proposals to restore uniqueness filters and widen the seed range remained under debate.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN55 brief",
+              "url": "https://subnetradar.com/subnet-news/55/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Subnet 57",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Subnet 59",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": []
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Phylax",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Vocence",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "OpenRoboto opens a month-long real-robot tournament",
+          "summary": "OpenRoboto activated an xArm6 evaluation track capped at 30 models, with a 1.5 TAO submission fee and 20% of subnet emissions assigned to its prize pool.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN80 brief",
+              "url": "https://subnetradar.com/subnet-news/80/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "MicroTensor",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": [
+        {
+          "headline": "Albedo activates private model submissions",
+          "summary": "Albedo added restricted-bucket uploads backed by on-chain commitments so models can remain private unless they win. Public submissions remain available, and validator and frontend fixes shipped alongside the feature.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN97 brief",
+              "url": "https://subnetradar.com/subnet-news/97/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "Masx.ai",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": [
+        {
+          "headline": "Beam services remain offline during Azure migration",
+          "summary": "Beam moved Beamcore services toward a multi-zone Azure setup. The public brief recorded more than seven hours of service disruption without a restoration estimate at that point.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN105 brief",
+              "url": "https://subnetradar.com/subnet-news/105/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": [
+        {
+          "headline": "Claims opens its first mainnet mining round",
+          "summary": "Claims went live with 256 UIDs and said it planned to prune to 64 after one to two weeks of weight stabilization. The team prioritized newer miners while emissions awaited manual activation.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN111 brief",
+              "url": "https://subnetradar.com/subnet-news/111/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 112,
+      "name": "parked",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "HashiChain",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto schedules Screener v11 and daily policy reviews",
+          "summary": "Ditto prepared Screener v11 with stronger top-five re-evaluation and moved policy updates to a daily review cycle. The team said confirmed cheating would remove emission eligibility.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN118 brief",
+              "url": "https://subnetradar.com/subnet-news/118/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "Satori",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": [
+        {
+          "headline": "Sundae Bar launches SBC21 and removes submission spam",
+          "summary": "The SBC21 challenge opened through August 30. The team disqualified mass submissions and began tightening similarity checks and validator-variance handling after accounts tried to exploit simultaneous submissions.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SubnetRadar SN121 brief",
+              "url": "https://subnetradar.com/subnet-news/121/2026-08-29"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "8 Ball",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [],
+  "coverage": {
+    "searched": [
+      "Every active subnet number and name across public project channels and August 29 public briefs",
+      "SubnetRadar market tape, moments, conviction, burn, registration, lifecycle, coldkey and hotkey swap views",
+      "Official repositories, project sites, validator and miner channels, exchange and protocol announcements",
+      "The previous 14 dated reports for exact and semantic duplicate exclusion",
+      "Owner and treasury movements, validator changes, product usage, service health, security, emissions and staking flows"
+    ],
+    "gaps": [
+      "Public X and Discord indexing is incomplete; deleted, private, login-gated and rate-limited posts cannot be exhaustively reviewed.",
+      "No verified alpha-token unlock of at least 50,000 alpha was found for the report date or forward calendar.",
+      "No coldkey or hotkey swap could be tied to this exact reporting window with sufficient public event identity for publication.",
+      "The archived market tape supplied the dated market snapshot; live market caps were separately checked by netuid against TAOMarketCap before publication with no difference at or above 5%.",
+      "Empty update arrays mean no new material public signal survived the fixed-window and duplicate checks; this is informational, not financial advice."
+    ]
+  }
+}
