@@ -1,0 +1,78 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { DeepDivesHeader } from "../deep-dives-header";
+
+export const metadata: Metadata = {
+  title: "The Arbos Screen: IN, OUT and the 10/10 Opportunity | Shizzy Deep Dives",
+  description: "What Arbos is checking, what IN and OUT mean under Root Reborn, and why a 10/10 can put a small Bittensor subnet in front of real capital allocators.",
+  alternates: { canonical: "/deep-dives/arbos-root-basket" },
+  openGraph: { title: "The Arbos Screen", description: "45 IN. 83 OUT. One autonomous validator is turning subnet research into a potential capital-allocation system.", type: "article", images: [{ url: "/deep-dives/arbos-root-basket.svg", width: 1600, height: 900, alt: "The Arbos subnet screen: 45 IN and 83 OUT" }] },
+  twitter: { card: "summary_large_image", images: ["/deep-dives/arbos-root-basket.svg"] },
+};
+
+const tens = ["SN3 Teutonic","SN5 Hone","SN15 ORO","SN17 404-GEN","SN18 Zeus","SN26 Perturb","SN28 gm","SN32 ItsAI","SN33 ReadyAI","SN44 Score","SN55 NIOME","SN56 Gradients","SN62 Ridges","SN64 Chutes","SN67 Harnyx","SN68 NOVA","SN81 Reliquary","SN82 Compelle","SN91 Cascade","SN97 Albedo","SN103 Capcomp","SN114 SOMA","SN118 Ditto"];
+
+export default function ArbosRootBasketPage() {
+  return <main className="deep-shell"><DeepDivesHeader />
+    <article className="deep-article v440-article">
+      <header className="article-hero v440-hero"><Link href="/deep-dives">&larr; All Deep Dives</Link><p>Root Reborn &middot; Capital allocation</p><h1>The Arbos Screen:<br/><span>IN, OUT &amp; 10/10</span></h1><div><b>ShizzyUnchained</b><span>August 31, 2026</span><span>14 min read</span><span className="v440-live">First public pass</span></div></header>
+      <Image className="article-cover" src="/deep-dives/arbos-root-basket.svg" alt="Arbos screening 128 Bittensor subnets into IN and OUT groups" width={1600} height={900} priority sizes="100vw"/>
+      <div className="article-layout"><aside><span>Inside the screen</span><ol><li>The short version</li><li>Who Arbos is</li><li>Why it is scoring</li><li>What IN and OUT mean</li><li>How the screen works</li><li>The 10/10 opportunity</li><li>What the score cannot prove</li><li>What happens next</li><li>Sources</li></ol></aside>
+        <div className="article-body v440-body">
+          <p>Arbos has done something Bittensor has never seen at this scale: an autonomous agent associated with a root validator publicly screened all 128 subnets, assigned each a score out of 10, and separated them into 45 marked <strong>IN</strong> and 83 marked <strong>OUT</strong>. The list is research for a Root Reborn basket—not a protocol vote, a listing decision, or a guarantee of capital.</p>
+          <div className="v440-thesis"><span>THE CORE IDEA</span><h2>Root validators are becoming competing capital allocators. Arbos is building a repeatable way to decide where its basket may point.</h2></div>
+          <p>That is why the screen matters. A small subnet can be ignored by the market, score a 10 on product and mechanism quality, and suddenly appear beside the largest networks in a validator&apos;s research universe. Visibility does not guarantee demand—but for a thin, small-market-cap subnet, being taken seriously by capital allocators can be a major opportunity.</p>
+
+          <h2><span>01 / WHO IS ARBOS?</span>An agent that builds, operates and now evaluates</h2>
+          <p>Arbos is an autonomous coding and operations agent created by Bittensor co-founder Jacob Steeves, known as Const. It has operated subnet infrastructure, answered community questions, shipped code, adjusted incentive mechanisms and run its own persistent work loop. Arbos is also associated with the SN97 Distil/Albedo lineage and a registered root validator.</p>
+          <p>That combination matters. Arbos is not merely posting opinions about subnets. A root validator can publish a weight vector that determines how its own Root Reborn fund redeploys root yield. The research can therefore become an input to an on-chain allocation process.</p>
+          <div className="v440-warning"><span>DO NOT CONFUSE THE TWO</span><h3>The screen is research. The on-chain basket is the allocation.</h3><p>A score or IN label does not prove that a weight has already been set. The live validator basket and root-weight vector are the evidence of actual holdings and allocation.</p></div>
+
+          <h2><span>02 / WHY ARBOS IS DOING THIS</span>Root Reborn created a new job: subnet fund manager</h2>
+          <p>Before Root Reborn, root&apos;s alpha dividends were mechanically sold into TAO as they arrived. Every subnet absorbed that price-insensitive sell stream. Runtime v441 replaced that passive pipe with validator-curated funds. Each root validator receives its fund&apos;s dividend, sells once to TAO, then redeploys that TAO across the subnet alpha positions selected by its root weights.</p>
+          <div className="v440-flow" aria-label="Root Reborn capital flow"><div><b>1</b><span>Earn<small>Root receives subnet alpha</small></span></div><i>&rarr;</i><div><b>2</b><span>Realize<small>Dividend sells once to TAO</small></span></div><i>&rarr;</i><div><b>3</b><span>Allocate<small>Validator weight vector decides</small></span></div><i>&rarr;</i><div><b>4</b><span>Buy<small>TAO enters selected alpha</small></span></div></div>
+          <p>Validators now compete on curation and performance. Arbos needs a process that can evaluate every subnet consistently, revisit the evidence, reject weak mechanisms and turn the surviving set into weights. An automated research system is the logical response: it is faster, auditable, repeatable and less dependent on who shouts loudest on X.</p>
+          <p>The motivation is not charity for small subnets. It is portfolio construction. Arbos is trying to identify subnets whose products, teams, demand and incentive systems justify exposure—then keep checking whether that case remains true.</p>
+
+          <h2><span>03 / IN AND OUT</span>Candidate buy list—not life or death</h2>
+          <div className="v440-before-after"><div><span>IN</span><h3>Eligible for the proposed basket</h3><p>The subnet survived Arbos&apos;s first screen and is a candidate to receive weight and recycled root buy-flow from this validator.</p></div><div><span>OUT</span><h3>Not selected in this pass</h3><p>The subnet is not a candidate for this proposed allocation. It is not deregistered, banned, dead or rejected by Bittensor.</p></div></div>
+          <p>IN does not mean “buy this token.” OUT does not mean “sell it.” Other root validators can build completely different baskets. Even Arbos can change its view when a subnet ships, breaks, loses demand, fixes validation or changes incentives.</p>
+          <p>Runtime rules also separate a research list from final weights. Root weights are capped so no destination can receive more than one-sixteenth of a vector, which forces a curated basket to spread across at least 16 destinations. Forty-five IN names are therefore an investable universe, not proof that all 45 receive equal weight.</p>
+          <div className="v440-myth"><div><span>MYTH</span><p>IN means Arbos already bought it.</p></div><div><span>REALITY</span><p>Check the on-chain root weights and basket holdings. The label alone is not a transaction.</p></div><div><span>MYTH</span><p>OUT means the subnet failed.</p></div><div><span>REALITY</span><p>It means one validator&apos;s first screen did not select it. A score, mechanism gate or missing evidence may change later.</p></div></div>
+
+          <h2><span>04 / HOW THE SCREEN WORKS</span>A number is only the beginning</h2>
+          <p>The circulated Arbos research cards emphasize product or commodity readiness, demonstrated value, team quality, evidence of real demand, owner-versus-miner concentration and validator independence. The public recap describes product readiness, value and team as major components, with evidence and mechanism checks layered on top.</p>
+          <div className="v440-roles"><div><span>Product</span><h3>Does it work now?</h3><p>A live commodity, service or benchmarkable output matters more than a roadmap alone.</p></div><div><span>Utility</span><h3>Who needs it?</h3><p>Paid demand, usage, credible benchmarks and an identifiable customer problem strengthen the case.</p></div><div><span>Team</span><h3>Can they execute?</h3><p>Shipping pace, technical competence, transparency and response to failures all matter.</p></div><div><span>Mechanism</span><h3>Is the market honest?</h3><p>Independent validation, owner-miner concentration and resistance to copied weights or gaming can override a high narrative score.</p></div></div>
+          <p>This explains the apparent contradiction in the table: some 8/10 subnets were marked OUT, while some 7/10 names were marked IN. The score is not a simple cutoff. Additional verification and mechanism gates appear to determine whether a subnet reaches the candidate basket.</p>
+          <blockquote className="v440-quote"><p>A 10 says the research case looked complete. It does not say the market is cheap, the token is safe or the future is guaranteed.</p><cite>ShizzyUnchained analysis</cite></blockquote>
+
+          <h2><span>05 / THE FIRST PASS</span>45 IN, 83 OUT, 23 perfect scores</h2>
+          <p>The publicly circulated August 29 table marked 45 subnets IN and 83 OUT. Twenty-three received a 10/10 and were marked IN:</p>
+          <div className="v440-table" role="list" aria-label="Arbos 10 out of 10 subnets">{tens.map((name)=><div className="v440-tr" role="listitem" key={name}><b>{name}</b><span>10 / 10</span><strong>IN</strong></div>)}</div>
+          <p>Another 15 subnets received 9/10 and were marked IN. The remaining IN group included iota, lium, Hippius, MVTRX, Thirty Spokes, Beam and Poker44. High-scoring OUT examples included Targon, Ralph, AlphaRidge, RedTeam, Gittensor and Vocence at 8/10—strong evidence that the rating alone did not decide inclusion.</p>
+
+          <h2><span>06 / WHY A SMALL SUBNET SHOULD CARE</span>A 10 can change who is looking</h2>
+          <p>Small-market-cap subnets fight an attention problem before they fight a capital problem. Research is expensive. Most delegators and validators cannot inspect 128 codebases, products, teams and incentive systems every day. A credible automated screen compresses that work into a shortlist.</p>
+          <div className="v440-stats"><div><strong>128</strong><span>subnets screened in the first pass</span></div><div><strong>23</strong><span>received 10/10 and an IN label</span></div><div><strong>1/16</strong><span>maximum weight to one destination</span></div></div>
+          <p>For a small subnet, a 10 can create four kinds of opportunity: discovery by root validators, inclusion in comparative research, community attention and a chance to receive future basket flow. Because smaller alpha pools can be thin, even modest allocations may be large relative to existing liquidity.</p>
+          <p>That asymmetry is exactly why this must be discussed responsibly. Thin liquidity can magnify price moves in both directions. A public score can attract speculative buyers before on-chain weights exist. Entry and exit slippage can erase apparent gains. A validator can remove weight later. The opportunity is real, but it is the opportunity to be evaluated and potentially allocated—not a promise that a small market cap must rise.</p>
+          <div className="v440-warning"><span>THE BIG OPPORTUNITY</span><h3>A tiny subnet no longer has to be the loudest. It has to produce evidence strong enough to survive the same screen as Chutes.</h3><p>That is the breakthrough: automated curation can surface quality that market size and follower count hide. But only repeatable evidence keeps a subnet there.</p></div>
+
+          <h2><span>07 / WHAT A 10 CANNOT PROVE</span>Score the business, mechanism and token separately</h2>
+          <ol className="v440-risks"><li><div><h3>It cannot prove future revenue</h3><p>A working product and good team do not guarantee customers, margins or durable demand.</p></div></li><li><div><h3>It cannot prove a fair token price</h3><p>Quality and valuation are different questions. A strong subnet can still be expensive or illiquid.</p></div></li><li><div><h3>It cannot guarantee basket flow</h3><p>Only live root weights and holdings show whether capital was actually allocated.</p></div></li><li><div><h3>It cannot eliminate model risk</h3><p>An automated agent can misunderstand evidence, overweight narratives, miss private data or score inconsistent disclosures.</p></div></li><li><div><h3>It cannot bind other validators</h3><p>Root Reborn is competitive. Every validator may curate differently, and disagreement is part of the design.</p></div></li></ol>
+
+          <h2><span>08 / WHAT HAPPENS NEXT</span>The screen becomes important only if it stays alive</h2>
+          <p>The first pass is a baseline. The real test is whether Arbos publishes its rubric clearly, refreshes scores when evidence changes, records why a subnet moved IN or OUT, and connects research decisions to observable on-chain weights.</p>
+          <ul className="v440-checklist"><li><strong>Watch the weights:</strong> compare the research labels with Arbos&apos;s live root-weight vector and basket holdings.</li><li><strong>Watch revisions:</strong> a serious system should show what evidence changed—not silently rewrite a score.</li><li><strong>Watch independence:</strong> if other validators copy the same screen, correlated allocation could amplify both inflows and exits.</li><li><strong>Watch proof:</strong> teams should publish usage, revenue, benchmark, validator-independence and incentive-concentration evidence that can be checked.</li><li><strong>Watch liquidity:</strong> small pools can move dramatically; displayed market cap is not the same as executable exit value.</li></ul>
+          <div className="v440-verdict"><span>THE VERDICT</span><h2>Arbos is trying to turn 128 noisy subnet stories into a disciplined allocation system.</h2><p>IN and OUT are not universal grades. They are one validator&apos;s proposed investable universe. The 10/10 list matters because it gives small subnets a new path to discovery: prove the product, prove the demand, prove the team and prove the mechanism. If the on-chain basket follows, research becomes flow. If it does not, the list remains an interesting opinion.</p></div>
+
+          <h2><span>09 / SOURCES</span>Check the mechanism and the allocation</h2>
+          <div className="v440-sources"><a href="https://www.bittensor.com/docs/guides/root-reborn" target="_blank" rel="noreferrer">Bittensor Root Reborn documentation &nearr;</a><a href="https://taomarketcap.com/validators/5GTWwu3NCbYmVFzwfrXa1sx8y4UNLR3padWfVZwjNnDmySXP/root-basket" target="_blank" rel="noreferrer">Arbos live root basket on TaoMarketCap &nearr;</a><a href="https://x.com/LamidaGlobal/status/2093583095588864083" target="_blank" rel="noreferrer">Publicly circulated Arbos screen &nearr;</a><a href="https://distil.arbos.life" target="_blank" rel="noreferrer">Arbos Distil dashboard &nearr;</a><a href="https://github.com/unarbos/distil" target="_blank" rel="noreferrer">Distil source code &nearr;</a></div>
+          <p className="v440-disclaimer">Educational analysis only. Not financial advice. Scores, root weights, basket holdings, subnet identities and market conditions can change. Verify live on-chain allocations before drawing conclusions about capital flow.</p>
+          <p className="article-signoff">&mdash; ShizzyUnchained</p>
+        </div>
+      </div>
+    </article>
+  </main>;
+}
