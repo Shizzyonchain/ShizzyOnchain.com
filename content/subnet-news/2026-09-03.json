@@ -1,0 +1,1072 @@
+{
+  "version": 1,
+  "date": "2026-09-03",
+  "title": "Subnet News - September 3, 2026",
+  "summary": "Capcomp opened more of its audit trail, Ditto staged a private coding canary on Hippius, MicroTensor changed its emission ladder, Cascade scheduled new duel-only rules, and several teams shipped scoring and infrastructure fixes.",
+  "publishedAt": "2026-09-03T16:48:06.646Z",
+  "coverageStart": "2026-09-02T14:00:00.000Z",
+  "coverageEnd": "2026-09-03T14:00:00.000Z",
+  "highlights": [
+    {
+      "headline": "Capcomp removes privileged early access and publishes replay evidence",
+      "summary": "Capcomp bound run archives to on-chain commitments, published per-instance traces and removed the validator early-access path. Validators now read the same published run after the fact, giving outside reviewers a clearer audit trail.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Archive commitment commit",
+          "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/b08f9dffa2434bc231c6f05c0821c198168159d0"
+        },
+        {
+          "label": "Published trace commit",
+          "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/280c2f6a16427974d6be67e6849a858083680509"
+        },
+        {
+          "label": "Early-access removal commit",
+          "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/07b515a8066ed48866495f83266494563d69dde0"
+        }
+      ]
+    },
+    {
+      "headline": "Ditto stages a private coding canary on Hippius",
+      "summary": "Ditto added a default-off, single-validator coding canary that encrypts inputs stored on Hippius and includes custody-recovery controls. The code is staged behind hard gates, so this is not a network-wide coding rollout.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Ditto Hippius canary commit",
+          "url": "https://github.com/ditto-assistant/ditto-subnet/commit/dea5a6aa2a29c379df1ff62e1f83be1cee61893e"
+        },
+        {
+          "label": "Ditto on-prem lead announcement",
+          "url": "https://x.com/heydittoai/status/2095496284027379937"
+        }
+      ]
+    },
+    {
+      "headline": "MicroTensor moves to a fixed top-eight emission ladder",
+      "summary": "MicroTensor committed a fixed reward ladder for the top eight positions and now carries each system source through settlement into the control plane. These are verified code changes; this review did not independently replay an on-chain payout.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Top-eight ladder commit",
+          "url": "https://github.com/microtensor-io/microtensor-subnet/commit/5843225e7863dc2c8037b0add0a3a73c93b309ef"
+        },
+        {
+          "label": "Settlement source commit",
+          "url": "https://github.com/microtensor-io/microtensor-subnet/commit/450b3bedea257666cde9fe6fdb4bdd2e526efd89"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": [
+        {
+          "headline": "Apex publishes v4.4.1 after the v4.4.0 feature release",
+          "summary": "Apex tagged v4.4.0 and a follow-up v4.4.1 during the reporting window. The repository changes add richer artifact and evaluation metadata; the commits verify the software release, not adoption by every validator.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Apex v4.4.0 commit",
+              "url": "https://github.com/macrocosm-os/apex/commit/2f4951e9aa41894ddb1a00576379dafd138645e4"
+            },
+            {
+              "label": "Apex v4.4.1 commit",
+              "url": "https://github.com/macrocosm-os/apex/commit/f47792597c644030a0e1bf80b463017d366db96b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": [
+        {
+          "headline": "DSperse begins a validator IP-rotation rollout",
+          "summary": "A dated ecosystem brief reports that v14.14.0 adds security patches and tolerance for validator IP rotation, with rotation beginning during this window. The linked Discord post could not be independently retrieved, so rollout status remains developing.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated DSperse brief",
+              "url": "https://subnetradar.com/subnet-news/2/2026-09-03"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": [
+        {
+          "headline": "Numinous adds a baseline hurdle to forecasting rewards",
+          "summary": "Numinous announced that a baseline forecaster now serves as a difficulty proxy alongside market price, so miners must outperform the baseline to earn rewards. The post describes an active scoring change; independent reward-output verification was not available.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Numinous announcement",
+              "url": "https://x.com/numinous_ai/status/2095476282070909243"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": [
+        {
+          "headline": "Pareton hardens Docker cleanup without discarding useful build cache",
+          "summary": "Pareton merged storage-pruning changes and a guard that preserves the native build cache. The code targets accumulated container storage while reducing the chance that cleanup forces unnecessary rebuilds.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Pareton storage cleanup merge",
+              "url": "https://github.com/Pareton-ai/pareton/commit/cc5d1eadfcd8971ca9e9edf8de5a2a2f1ab75111"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "trav",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": [
+        {
+          "headline": "AdTAO stops charging miners for operator-side execution failures",
+          "summary": "AdTAO changed scoring so missing images, disk pressure, sandbox problems and exhausted operator budgets no longer count as miner absence. It also added a public admission-verdict feed for image digests and queue decisions.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "AdTAO scoring fix",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/27021ab22e2935e1b2ddce2297752f8533d6867a"
+            },
+            {
+              "label": "AdTAO verdict feed",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/799f4b3d037202073f90b54485409b48d8739582"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": [
+        {
+          "headline": "UR completes its release 1.0 adversarial testnet campaign",
+          "summary": "UR committed the release record for an adversarial testnet campaign, including pinned artifacts, evidence and supervised logs. This is testnet release evidence and should not be read as a mainnet launch.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "UR release commit",
+              "url": "https://github.com/urfoundation/sn/commit/65b88ceb884b6e4d94e4aeaa14de12dea47ecf7c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": [
+        {
+          "headline": "SayGM announces Gemini 3.8 Flash support",
+          "summary": "SayGM said Gemini 3.8 Flash is live and added image-generation API support, while advertising pricing below the model vendor list price. Availability and pricing are project claims from the official account.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SayGM announcement",
+              "url": "https://x.com/say_gm_/status/2095322017050595333"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "Feval",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": [
+        {
+          "headline": "Nepher reports a completed Leatherback LiDAR maze run",
+          "summary": "Nepher says its Phase 2 Leatherback robot completed a real maze without wall contacts and reported 97 miners with 337 submissions. Those performance figures are project-reported and were not independently reproduced.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Nepher Robotics report",
+              "url": "https://x.com/nepher_robotics/status/2095183038145532380"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": [
+        {
+          "headline": "Lium tightens GPU capacity and overlay checks",
+          "summary": "Lium raised matrix-multiplication VRAM headroom for confidential-computing GPUs and corrected its cluster-overlay guard to evaluate UDP rather than treating unrelated TCP use as a conflict. Both changes are present in the public repository.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Lium VRAM headroom commit",
+              "url": "https://github.com/Datura-ai/lium-io/commit/55be0e9e0443c877383c071e2a0fc8265af0430f"
+            },
+            {
+              "label": "Lium overlay guard commit",
+              "url": "https://github.com/Datura-ai/lium-io/commit/2c8ce2877e3cebca037aea58041a0955b2defe0d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": [
+        {
+          "headline": "TPN opens its third model competition",
+          "summary": "True Performance Network announced TPN-003, a competition for a Gemma 4 12B uncensored model constrained to run under 8 GB and evaluated across five benchmarks. The official post establishes the competition terms; results are not yet available.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "TPN-003 announcement",
+              "url": "https://x.com/TPN_Labs/status/2095488478784200761"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": [
+        {
+          "headline": "Gittensor reduces long-prompt prefill memory pressure",
+          "summary": "SparkInfer now processes long prompts in position windows instead of allocating scratch space for the entire prompt. A separate commit adds an OpenRouter service-level profile; it is configuration support, not evidence of a commercial listing.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Windowed prefill commit",
+              "url": "https://github.com/gittensor-ai-lab/sparkinfer/commit/95ffde4d891a700b1fefd0468fb6777942d93886"
+            },
+            {
+              "label": "Provider profile commit",
+              "url": "https://github.com/gittensor-ai-lab/sparkinfer/commit/0a2d9e1f7c44b7444bed75c295b7d92f214a6548"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Phylax",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Vocence",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "OpenRoboto publishes real-robot track rules and prize-pool verification",
+          "summary": "OpenRoboto documented its real-robot track, including challenge and claim mechanics, then published the SN80 UID 2 prize-pool hotkey and verification steps. The commits establish the rules and address, not the value of future awards.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Real-track rules commit",
+              "url": "https://github.com/openroboto-ai/openroboto-cli/commit/315b863b2c266910bcd96dd44c60522cbfa0d19f"
+            },
+            {
+              "label": "Prize-pool verification commit",
+              "url": "https://github.com/openroboto-ai/openroboto-cli/commit/0e34a048e1f258460988ae28ce136febe3c959a2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": [
+        {
+          "headline": "InfiniteQuant fixes a mismatch between displayed and paid weights",
+          "summary": "InfiniteQuant changed its validator and audit query to carry exit timing into the causal scoring rule. The project says the old path could show dashboard share while paying zero; the repository verifies the fix, while the stated affected-miner count remains project-reported.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "InfiniteQuant weight fix",
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/5a1c7c4f66bd726f8f911998ad52478f293fc1a3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": [
+        {
+          "headline": "Cascade schedules duel-only scoring changes for block 8,992,800",
+          "summary": "Cascade committed a block-gated switch to duel-only rounds, a scored-horizon ladder and a fresh-king margin reduction from 2% to 1%. The publication snapshot was still below the activation block, so these rules were scheduled rather than active.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Cascade duel-only schedule",
+              "url": "https://github.com/TensorLink-AI/cascade/commit/9d4f5d0ecdf5fd010471a1434f76ae8923d20689"
+            },
+            {
+              "label": "Cascade margin schedule",
+              "url": "https://github.com/TensorLink-AI/cascade/commit/48daf17ac0fd64e97e515e696914dddc0048545e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 92,
+      "name": "MicroTensor",
+      "updates": [
+        {
+          "headline": "MicroTensor moves to a fixed top-eight emission ladder",
+          "summary": "MicroTensor committed a fixed reward ladder for the top eight positions and now carries each system source through settlement into the control plane. These are verified code changes; this review did not independently replay an on-chain payout.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Top-eight ladder commit",
+              "url": "https://github.com/microtensor-io/microtensor-subnet/commit/5843225e7863dc2c8037b0add0a3a73c93b309ef"
+            },
+            {
+              "label": "Settlement source commit",
+              "url": "https://github.com/microtensor-io/microtensor-subnet/commit/450b3bedea257666cde9fe6fdb4bdd2e526efd89"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": [
+        {
+          "headline": "Bitcast reports that emissions and payouts have resumed",
+          "summary": "A dated brief says Bitcast restored emissions after a temporary interruption and that miner payouts continued. The live screener showed positive emission at publication, but the cause and exact recovery path were not independently verified.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Bitcast brief",
+              "url": "https://subnetradar.com/subnet-news/93/2026-09-03"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": [
+        {
+          "headline": "Cortex makes bounty scoring fail closed on public evidence",
+          "summary": "Cortex changed bounty scoring to accept only its public backend feed, added checks against mismatched leaderboard and report revisions, and pinned a proven CUDA image. The commits strengthen reproducibility and consistency without establishing downstream validator adoption.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Cortex public-feed scoring commit",
+              "url": "https://github.com/CortexLM/cortex/commit/d96933500f76d98cdba5bb118d2551d7f1b2dc9c"
+            },
+            {
+              "label": "Cortex revision consistency commit",
+              "url": "https://github.com/CortexLM/cortex/commit/0670991228097c66b03f8276fe5692ae4be5c3b3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": [
+        {
+          "headline": "Capcomp removes privileged early access and publishes replay evidence",
+          "summary": "Capcomp bound run archives to on-chain commitments, published per-instance traces and removed the validator early-access path. Validators now read the same published run after the fact, giving outside reviewers a clearer audit trail.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Archive commitment commit",
+              "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/b08f9dffa2434bc231c6f05c0821c198168159d0"
+            },
+            {
+              "label": "Published trace commit",
+              "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/280c2f6a16427974d6be67e6849a858083680509"
+            },
+            {
+              "label": "Early-access removal commit",
+              "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/07b515a8066ed48866495f83266494563d69dde0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": [
+        {
+          "headline": "Beam completes its first R2-to-Hugging Face transfer",
+          "summary": "Beam announced a successful transfer from R2 storage to Hugging Face. The official post verifies the project report, but no independent throughput or durability test accompanied it.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Beam transfer announcement",
+              "url": "https://x.com/b1m_ai/status/2095234587718807637"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": [
+        {
+          "headline": "Minos remains at zero emission while auditability is reviewed",
+          "summary": "Minos showed zero emission in the publication snapshot. A dated brief attributes the pause to a broader review of auditability and validation, but no primary explanation was accessible, so the cause remains developing.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Minos brief",
+              "url": "https://subnetradar.com/subnet-news/107/2026-09-03"
+            },
+            {
+              "label": "ShizzyUnchained screener snapshot",
+              "url": "https://shizzyunchained.com/api/backend/v1/screener"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": [
+        {
+          "headline": "Claims updates reward buckets and tightens validator requirements",
+          "summary": "Claims added revised reward-bucket logic and a newcomer guarantee, then enforced Silver-tier mainnet validator requirements. A follow-up registration-burn fix landed in the same window.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Claims reward update",
+              "url": "https://github.com/DeSciClaims/Claims/commit/b7e4c8fd33645d578bcbd6d31bb277e974b92524"
+            },
+            {
+              "label": "Claims validator requirements",
+              "url": "https://github.com/DeSciClaims/Claims/commit/de7ef7b2901c154d9a2128c8a1f2e2e408cd2b05"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 112,
+      "name": "parked",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto stages a private coding canary on Hippius",
+          "summary": "Ditto added a default-off, single-validator coding canary that encrypts inputs stored on Hippius and includes custody-recovery controls. The code is staged behind hard gates, so this is not a network-wide coding rollout.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Ditto Hippius canary commit",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/dea5a6aa2a29c379df1ff62e1f83be1cee61893e"
+            },
+            {
+              "label": "Ditto on-prem lead announcement",
+              "url": "https://x.com/heydittoai/status/2095496284027379937"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "Satori",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": [
+        {
+          "headline": "CookingTAO opens notification beta v2",
+          "summary": "CookingTAO announced a second notification beta with eight event types, mandatory billing and security notices, one active subnet and five more planned. Those deployment counts are the project’s current report.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "CookingTAO beta announcement",
+              "url": "https://x.com/CookingTao_/status/2095195991133634740"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "8 Ball",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [],
+  "coverage": {
+    "searched": [
+      "All 128 active subnet slots and names from the ShizzyUnchained finalized-chain screener snapshot",
+      "Dated September 3 subnet briefs and their available source links",
+      "Public GitHub repositories for changes committed from September 2 at 10:00 AM ET through September 3 at 10:00 AM ET",
+      "Official public X posts surfaced during the same fixed reporting window"
+    ],
+    "gaps": [
+      "Discord posts that required membership or were unavailable outside the app were not treated as independently verified.",
+      "Repositories that were private, missing, organization-only listings, or had no public repository link could not be fully code-reviewed.",
+      "No independently verified forward alpha-unlock calendar was available, so upcoming unlocks are left empty rather than inferred.",
+      "On-chain values cited from the screener are a publication snapshot and may differ from the 10:00 AM ET coverage cutoff."
+    ]
+  }
+}
