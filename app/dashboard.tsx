@@ -109,9 +109,14 @@ type ActivitySummary = {
 
 const channelVideos = [
   {
+    id: "T_KsttRZ9pk",
+    title: "TAO to $300? | Bittensor Market & Subnet Update",
+    meta: "26:42 · Latest episode",
+  },
+  {
     id: "fYObv1EvoZw",
     title: "TAO VS BEARS",
-    meta: "28:21 · Latest episode",
+    meta: "28:21",
   },
   {
     id: "4AbH1FSdjtI",

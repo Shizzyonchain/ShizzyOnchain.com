@@ -42,7 +42,7 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
           <p>{brief.summary}</p>
           <dl>
             <div><dt>Coverage window</dt><dd>{new Date(brief.coverageStart).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" })} – {new Date(brief.coverageEnd).toLocaleString("en-US", { timeZone: "America/New_York", timeStyle: "short" })} ET</dd></div>
-            <div><dt>Subnets checked</dt><dd>{brief.subnets.length}</dd></div>
+            <div><dt>Subnets in coverage roster</dt><dd>{brief.subnets.length}</dd></div>
             <div><dt>Subnets with updates</dt><dd>{updatedSubnets.length}</dd></div>
           </dl>
         </header>
@@ -87,7 +87,7 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
               ))}
             </div>
           ) : <p className="news-empty-copy">No subnet-specific updates met the publication threshold in this coverage window.</p>}
-          {quietSubnets.length > 0 && <p className="quiet-subnets"><strong>No material update found:</strong> {quietSubnets.map((subnet) => `SN${subnet.netuid}`).join(", ")}.</p>}
+          {quietSubnets.length > 0 && <p className="quiet-subnets"><strong>No published update:</strong> {quietSubnets.map((subnet) => `SN${subnet.netuid}`).join(", ")}. See coverage notes for source-access gaps.</p>}
         </section>
 
         {brief.ecosystem.length > 0 && (

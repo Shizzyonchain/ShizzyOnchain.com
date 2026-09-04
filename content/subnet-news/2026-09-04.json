@@ -1,0 +1,1303 @@
+{
+  "version": 1,
+  "date": "2026-09-04",
+  "title": "Subnet News - September 4, 2026",
+  "summary": "Subtensor release 454 landed, Feval opened miner submissions, Trishool announced cyber-program acceptance, SayGM launched GPT-6 Astra, and repositories across the network shipped scoring, auditability and infrastructure fixes.",
+  "publishedAt": "2026-09-04T17:52:42.408Z",
+  "coverageStart": "2026-09-03T14:00:00.000Z",
+  "coverageEnd": "2026-09-04T17:52:42.409Z",
+  "highlights": [
+    {
+      "headline": "Subtensor release 454 lands with root-claim and proxy-transfer fixes",
+      "summary": "The core repository merged release 454 alongside fixes for coldkey-wide root claims, stale staking relationships and contract-proxied stake transfers. Runtime activation was not independently confirmed at publication.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Release 454 merge",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/14cde6410fe8ec81a940e290c56f94a632a0988d"
+        },
+        {
+          "label": "Root claim fix",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/1e2aec0dc333b32df8bd5db91db8634b0c7f2df5"
+        },
+        {
+          "label": "Proxy transfer fix",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/14fe0ade52e969d7ee765c11f62b7e4090f6b00b"
+        }
+      ]
+    }
+  ],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": [
+        {
+          "headline": "DSperse releases 14.14.2 with a reconnecting chain transport",
+          "summary": "DSperse merged release 14.14.2, including a WebSocket transport that reconnects and sends keepalive pings. The repository confirms the release and implementation; individual validator uptake was not measured.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "14.14.2 release",
+              "url": "https://github.com/inference-labs-inc/subnet-2/commit/2a01e0596f1fc0369da62ec3c609fb07e56dbbd5"
+            },
+            {
+              "label": "RPC transport change",
+              "url": "https://github.com/inference-labs-inc/subnet-2/commit/308f96c5e2ea646703ee11a6a185072f6f298b3d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": [
+        {
+          "headline": "Teutonic adds batched evaluation and model-digest visibility",
+          "summary": "Teutonic added batched evaluation and now displays model digests for queued and active evaluations. These are verified repository changes, with no independent measurement of production throughput yet.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Batched evaluation commit",
+              "url": "https://github.com/unarbos/teutonic/commit/a8d60489a729964898e5b5e30fecdbd0c901aefd"
+            },
+            {
+              "label": "Digest visibility commit",
+              "url": "https://github.com/unarbos/teutonic/commit/ded19355bfa63ff47f728b37ffaa2a77713f7fa8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": [
+        {
+          "headline": "Allways exposes timeout-refund facts in swap status",
+          "summary": "Allways now persists timeout refund details and returns them from its by-key status endpoint, giving swap users a clearer record when an operation times out.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Allways refund-status commit",
+              "url": "https://github.com/entrius/allways/commit/cd285fe2f00963018269372f091e3096bfb59318"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": [
+        {
+          "headline": "Vanta isolates position files by miner hotkey",
+          "summary": "Vanta fixed a multi-wallet collision where position writers could overwrite one another or race on the same temporary file. Position and temporary filenames are now scoped per hotkey.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Vanta position-file fix",
+              "url": "https://github.com/taoshidev/vanta-network/commit/c6a70e4fd823561f6ffb5b9d74697700794cc9f2"
+            }
+          ]
+        },
+        {
+          "headline": "Vanta reports more than $603,000 in trader rewards",
+          "summary": "Vanta says its public ledger records $603,594 paid since April and previewed $1 million Pro accounts for traders who pass its evaluation. The totals and future program are project claims from the official account.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Vanta announcement",
+              "url": "https://x.com/vantatrading/status/2095910079119937742"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": [
+        {
+          "headline": "Pareton serializes round writes and fixes streamed verdict handling",
+          "summary": "Pareton added row locking so void, live-status and settlement writes share one order, rejected forged candidate beacons, and stopped pollers from rewriting voided entries. These changes target reported infrastructure failures and inconsistent round state.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Round-lock fix",
+              "url": "https://github.com/Pareton-ai/pareton/commit/40b79be17f3c559ba7229c4fa20caa052dfd1e8e"
+            },
+            {
+              "label": "Streaming-gap fix",
+              "url": "https://github.com/Pareton-ai/pareton/commit/9cbec8f85649d0210235f786a83ff3d921bcf60e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": [
+        {
+          "headline": "Cacheon replaces its champion floor with decaying accepted-crown credit",
+          "summary": "Cacheon merged a large runtime update that seeds more cache families, preserves completed passes and changes rewards from a single champion floor to decaying credit across accepted crowns. The merge also corrects dashboard emission units from TAO to subnet alpha.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Cacheon runtime and reward merge",
+              "url": "https://github.com/latent-to/cacheon/commit/03419c56831b3358e538d05c460025c3d0d45308"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "trav",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": [
+        {
+          "headline": "Blockmachine reports more than one billion Avalanche requests",
+          "summary": "Blockmachine says Avalanche has been live on its network for two weeks and has already produced more than one billion requests. This is an official project metric that was not independently reproduced.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Blockmachine announcement",
+              "url": "https://x.com/blockmachine_io/status/2095799038222454975"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": [
+        {
+          "headline": "AdTAO publishes registration and validator-burn status",
+          "summary": "AdTAO added per-hotkey registration status and burn metadata feeds, fixed direct daily-vector commits when its weekly stream is disabled, and prevented an empty document from replacing a performance report.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Registration status feed",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/49a25793505705bba60914a355f1622e7f026a3b"
+            },
+            {
+              "label": "Burn metadata feed",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/48783b09f0c3922b53ae567d2b92d6047951802e"
+            },
+            {
+              "label": "Empty-report guard",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/577390bd4fc3ff31aaeb12ff41ef4dd7a01c980d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": [
+        {
+          "headline": "Trishool says it joined OpenAI Trusted Access for Cyber",
+          "summary": "Trishool announced acceptance into OpenAI’s vetted Trusted Access for Cyber program and described it as a step in commercial growth. The acceptance is reported by Trishool; no separate program listing was located during this scan.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Trishool announcement",
+              "url": "https://x.com/trishoolai/status/2095913560215814379"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": [
+        {
+          "headline": "UR freezes a corrected testnet release candidate",
+          "summary": "UR refreshed its testnet release lock, authenticated historical runtime evidence and froze a corrected release candidate. This is a testnet release milestone rather than proof of mainnet deployment.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "UR testnet release candidate",
+              "url": "https://github.com/urfoundation/sn/commit/04b9438d628ee624ca11773c988835b4ca803eb0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": [
+        {
+          "headline": "Perturb reports a validator scoring fix is coming",
+          "summary": "A dated team brief acknowledges intermittent zero scores from a validator bug and says the next release will address it. A larger adversarial-training upgrade is also planned, without a firm launch date.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Perturb brief",
+              "url": "https://subnetradar.com/subnet-news/26/2026-09-04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": [
+        {
+          "headline": "SayGM launches GPT-6 Astra through its gateway",
+          "summary": "SayGM announced GPT-6 Astra availability with browser, coding and terminal capabilities, routed through a verifiable TEE and advertised below list pricing. Availability and pricing are the project’s official claims.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SayGM launch announcement",
+              "url": "https://x.com/say_gm_/status/2095786804146569348"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": [
+        {
+          "headline": "Endure defines the context axis for Alpha Risk V1",
+          "summary": "Endure says each assessment will be identified by target, context and schema, with risk.v1 serving as the first vertical’s context. The announcement defines the planned assessment contract rather than a completed public launch.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Endure announcement",
+              "url": "https://x.com/endurenet/status/2095856440766345359"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Unknown",
+      "updates": [
+        {
+          "headline": "Epago reports its research-ranking testnet is live",
+          "summary": "Epago says its testnet is running with Tongyi-DeepResearch-30B-A3B as the genesis model and a challenge process for ranking researchers. Mainnet specifications remain under development; the launch report could not be independently exercised.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Epago brief",
+              "url": "https://subnetradar.com/subnet-news/36/2026-09-04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": [
+        {
+          "headline": "Score investigates download delays and missing incentives",
+          "summary": "Score’s team attributes Cricket Challenge download delays and resulting zero scores to server overload, and is investigating weight-setting discrepancies. Capacity expansion and a configuration-reading fix are reported as in progress.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Score incident brief",
+              "url": "https://subnetradar.com/subnet-news/44/2026-09-04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "Feval",
+      "updates": [
+        {
+          "headline": "Feval opens miner model submissions and starts validator emissions",
+          "summary": "Feval reports that model submissions are open, validator emissions started at 10%, and the first 10,000-row evaluation window will run for two days before a planned reduction. The public repository corroborates active dataset and winner-take-all work, while operational figures remain project-reported.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Feval brief",
+              "url": "https://subnetradar.com/subnet-news/47/2026-09-04"
+            },
+            {
+              "label": "Feval winner-take-all commit",
+              "url": "https://github.com/center196/feval/commit/d0805c4b8b6d634cf13f8e524b40582c769c4152"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": []
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": [
+        {
+          "headline": "Engy adds reasoning-token usage accounting",
+          "summary": "Engy merged support for reasoning-token usage, extending its accounting beyond ordinary token totals. The repository verifies the change; downstream billing behavior was not independently exercised.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Engy usage-accounting merge",
+              "url": "https://github.com/hanlinai/engy/commit/27ef2b7eec837b1447e997a46e408f0cbb966861"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": [
+        {
+          "headline": "Enigma raises its challenge to RSA-1024 with a $250,000 prize",
+          "summary": "The official Qbittensor Labs account announced a $250,000 prize for the first successful RSA-1024 break. This verifies the announced terms, not the solvability or funding custody of the prize.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "RSA-1024 challenge announcement",
+              "url": "https://x.com/qbittensorlabs/status/2095608712803287252"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": [
+        {
+          "headline": "TPN fixes false precheck bans and scores its second competition",
+          "summary": "TPN corrected a precheck that hashed leftover test files, updated its container and unbanned affected hotkeys. The team also announced 21 completed attempts in TPN-002; that attempt count is project-reported.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "TPN precheck fix",
+              "url": "https://github.com/taofu-labs/true-performance-network/commit/03100b8be0b8ae03c7a5db5645ec434c14fb8ac4"
+            },
+            {
+              "label": "TPN-002 results announcement",
+              "url": "https://x.com/tpn_labs/status/2095879555869540392"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": [
+        {
+          "headline": "Conjectures publishes its contribution corpus endpoint",
+          "summary": "Conjectures added a public /v1/contributions endpoint for its contribution corpus. The endpoint implementation is visible in the validator repository.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Contribution endpoint commit",
+              "url": "https://github.com/conjectures-io/conjectures-validator/commit/f8f519113fd6e8159a98018d94b585071fcc5534"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": [
+        {
+          "headline": "Harnyx binds verified miner endpoints to finalized membership",
+          "summary": "Harnyx changed endpoint registration to check finalized subnet membership before accepting a miner endpoint, then bumped its validator release.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Harnyx membership commit",
+              "url": "https://github.com/harnyx/harnyx/commit/6daa1c4c5e8687e3459369723f36e7e74262cc4d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": [
+        {
+          "headline": "Leadpoet hardens allocation retry and registration recovery",
+          "summary": "Leadpoet added recovery for allocation retries and registration checks, along with a durable settlement retry cooldown. The changes address operational recovery paths without establishing that every missing emission report is resolved.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Leadpoet recovery commit",
+              "url": "https://github.com/leadpoet/leadpoet/commit/3a24d0fede0a90cd0fcbc3a091e08526cd429fc7"
+            },
+            {
+              "label": "Settlement cooldown check",
+              "url": "https://github.com/leadpoet/leadpoet/commit/f90b5eb3739eb3871a0d7bde0a3a1c41c62016ea"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": [
+        {
+          "headline": "Gittensor adds image input and neutralizes reference-side 429s",
+          "summary": "SparkInfer merged vision image input and fixed model reporting. Its validator also now treats a reference-provider HTTP 429 as retryable backpressure and then neutral, rather than a miner miss.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Vision input merge",
+              "url": "https://github.com/gittensor-ai-lab/sparkinfer/commit/af1054204daff7cf04760b3c39ab4656b66ea112"
+            },
+            {
+              "label": "Reference 429 fix",
+              "url": "https://github.com/entrius/gittensor/commit/148cfbca5d4e534108f5e9f2e0492cbea2b74395"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Phylax",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Umi",
+      "updates": [
+        {
+          "headline": "Vocence confirms its pivot to UMI as pilot evidence lands",
+          "summary": "The former Vocence account said the project has pivoted to UMI and will no longer use that account for subnet updates. UMI’s repository published replayable component-pilot evidence and an immutable media location in the same window.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Vocence pivot announcement",
+              "url": "https://x.com/vocence_bt/status/2095674084122321080"
+            },
+            {
+              "label": "UMI pilot evidence commit",
+              "url": "https://github.com/Umi-BitSign/umi/commit/855e312d01afcbc1b9f593feba7ef1decdead3cc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "OpenRoboto reports its real-robot validation workstation is running",
+          "summary": "OpenRoboto says its xArm 6 workstation is operational and will be used to validate the simulation-track champion on physical hardware. The promised demonstration has not yet been published.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "OpenRoboto workstation announcement",
+              "url": "https://x.com/openroboto/status/2095893562915491862"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": [
+        {
+          "headline": "Vidaio demonstrates a new one-pass restoration model",
+          "summary": "Vidaio posted an Elvis interview restored and upscaled from SD to FHD in one pass using a new generative model. The demonstration is project-published and was not independently compared with the source footage.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Vidaio demonstration",
+              "url": "https://x.com/vidaio_/status/2095585828542066867"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 86,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": [
+        {
+          "headline": "Investing delays its second quant-fund round",
+          "summary": "Investing says it is postponing Round 2 because current bearish and sideways conditions are unsuitable for new capital. The team has not supplied a replacement launch date in the accessible brief.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Investing brief",
+              "url": "https://subnetradar.com/subnet-news/88/2026-09-04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": [
+        {
+          "headline": "InfiniteQuant slows closer submissions to one per minute",
+          "summary": "InfiniteQuant raised the minimum interval between closer submissions from 10 to 60 seconds and documented a limit of 30 per day.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Closer interval commit",
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/5336a6a8d780e97491b5e73caa6522f310821cb2"
+            },
+            {
+              "label": "Rate-rule documentation",
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/87d644462f4c11f38d3d28d74de3168cd24ec383"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "MicroTensor",
+      "updates": [
+        {
+          "headline": "MicroTensor isolates its scorer and adds parallel artifact evaluation",
+          "summary": "MicroTensor moved module scoring behind an in-process defense boundary, added optional parallel evaluation for leased artifacts, and anchored reference-cost and observation requirements.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Scorer isolation commit",
+              "url": "https://github.com/microtensor-io/microtensor-subnet/commit/6511c1c0181f703015cfe51953133e8ae0f3e456"
+            },
+            {
+              "label": "Parallel evaluation commit",
+              "url": "https://github.com/microtensor-io/microtensor-subnet/commit/302982696e3ef808592d26c2e03d0c38648792ac"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": [
+        {
+          "headline": "Verathos repairs protocol-v3 mesh scoring and GPU capacity classes",
+          "summary": "Verathos qualified mesh scoring on protocol v3 and normalized VRAM classes used in capacity audits, including a separate Blackwell calibration fix.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Protocol-v3 scoring fix",
+              "url": "https://github.com/verathos-ai/verathos/commit/365d2481a6b5daf24350a08de8606fd47962dc5f"
+            },
+            {
+              "label": "VRAM class fix",
+              "url": "https://github.com/verathos-ai/verathos/commit/79e50a732b63252c6cc9318925cdec1c6cf2d083"
+            }
+          ]
+        },
+        {
+          "headline": "Verathos reports Sleipnir is live on mainnet",
+          "summary": "A dated team brief reports that Sleipnir is live for distributed inference across global participants. The public repository confirms continuing mesh work, but this review did not independently run a mainnet inference request.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated Sleipnir launch brief",
+              "url": "https://subnetradar.com/subnet-news/96/2026-09-04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": [
+        {
+          "headline": "Albedo fixes registration re-keying after miner reactivation",
+          "summary": "Albedo now changes a registration key only when a newer activation carries a new submission key, preventing stale activation data from re-keying the current registration.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Albedo re-key guard",
+              "url": "https://github.com/unarbos/albedo/commit/67d814f8c40a96da6514d5d7f9e1d06f18d6f648"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": [
+        {
+          "headline": "Cortex commits a 20/80 Bounty and Proof allocation",
+          "summary": "Cortex committed a trust-root allocation of 20% to Bounty and 80% to Proof, with winner-take-all or discovery payout modes. A follow-up pins a real proof-evaluation image; runtime adoption and payouts were not independently replayed.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Cortex allocation commit",
+              "url": "https://github.com/CortexLM/cortex/commit/7bb56c3b880c9191b595a70827f53535f8b3fd86"
+            },
+            {
+              "label": "Proof-evaluation image commit",
+              "url": "https://github.com/CortexLM/cortex/commit/28922279e21e6d332276ed287d4caeb83bc325f6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": [
+        {
+          "headline": "Connito begins archiving round podiums to Hugging Face",
+          "summary": "Connito added validator publication of each round podium to a Hugging Face archive repository and names archived folders by cycle.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Connito podium archive commit",
+              "url": "https://github.com/Connito-AI/Connito/commit/72813e2807422bf614fe528d383e553eb72df39d"
+            },
+            {
+              "label": "Cycle naming commit",
+              "url": "https://github.com/Connito-AI/Connito/commit/e3ddc4f4a64103e172446ac732c120504d39f70c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": [
+        {
+          "headline": "Capcomp fixes attribution for revealed on-chain recipes",
+          "summary": "Capcomp now attributes an opened commitment by its reveal block, treats a commitment for another run separately from a refusal, and records the admitted run explicitly. The project reports these fixes restored admission of Run 423’s commitments; that live count remains project-reported.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Reveal attribution fix",
+              "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/fede60c6423520233b90aece03cdfd16cc6c9124"
+            },
+            {
+              "label": "Cross-run refusal fix",
+              "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/f245647d94df651f9af349594c68ef3c820927b5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": [
+        {
+          "headline": "Beam adds explicit room-transfer capability checks",
+          "summary": "Beam’s public core now exposes a room-transfer capability helper and refines ordinary transfer eligibility with explicit blocked reasons and fallback behavior. The team separately previewed a tinygrad tensor transport, which remains upcoming.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Room transfer helper",
+              "url": "https://github.com/Beam-Network/beam-core-public/commit/838950ae373ff5fa39667f109800270032dee1c8"
+            },
+            {
+              "label": "Beam tinygrad preview",
+              "url": "https://x.com/b1m_ai/status/2095582731350516114"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": [
+        {
+          "headline": "Minos publishes a round-verification script",
+          "summary": "Minos added documentation and a script that retrieves revealed round files, checks all six expected files and verifies published SHA-256 digests. The team’s reported reduction of miner burn to 80% remains an operational claim.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Minos verification commit",
+              "url": "https://github.com/minos-protocol/minos_subnet/commit/dc0d279ebc952b1d0edae1555932f858af09b932"
+            },
+            {
+              "label": "Dated Minos brief",
+              "url": "https://subnetradar.com/subnet-news/107/2026-09-04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "parked",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SOMA documents its GitHub Copilot compressor",
+          "summary": "SOMA refreshed its public README for the context-compression layer. Public announcements say it is available for GitHub Copilot, while reported token savings remain project measurements.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SOMA README merge",
+              "url": "https://github.com/DendriteHQ/SOMA/commit/2f889ba359dcc70250506b1a7c76b8080c76ddf8"
+            },
+            {
+              "label": "Dated SOMA brief",
+              "url": "https://subnetradar.com/subnet-news/114/2026-09-04"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto requires private calibration evidence for coding data generation",
+          "summary": "Ditto added a private calibration-evidence requirement and bound private memory bundles in its coding data-generation path. The repository confirms the new gates; a public broad rollout was not established.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Private calibration gate",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/1939900240da13992fdb4a7e612151cb78ed0004"
+            },
+            {
+              "label": "Private memory binding",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/c538d62424be0f78345e79db2e002056846fd1c6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "Satori",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": [
+        {
+          "headline": "Swarm publishes five replayable real-world drone captures",
+          "summary": "Swarm says an indoor interceptor completed five of five target-drone missions without GPS or compass, and displayed the evaluation seed for replay. The result is project-reported and has not been independently reproduced.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Swarm evaluation announcement",
+              "url": "https://x.com/swarmsubnet/status/2095860430451130753"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 125,
+      "name": "8 Ball",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [],
+  "coverage": {
+    "searched": [
+      "All 128 active subnet slots and current names from the finalized-chain screener",
+      "50 dated September 4 subnet briefs and their available source links",
+      "120 public subnet and ecosystem GitHub repositories from September 3 at 10:00 AM ET through publication",
+      "Official subnet X posts surfaced in the public all-project feed, with original post URLs and timestamps; direct sampled retrieval was blocked",
+      "Shizzy Unchained YouTube Videos and Live tabs"
+    ],
+    "gaps": [
+      "X required phone or password verification in the connected browser. A Grok guest query returned a sign-up requirement and no research results, so no Grok findings are claimed.",
+      "Public X search indexing is incomplete; unavailable, deleted, private and unindexed posts may not appear in the all-project feed.",
+      "Five mapped repositories were missing or inaccessible, and organization-only links could not be treated as complete repository inventories.",
+      "Discord-only reports were marked developing unless corroborated by public code or an official public post.",
+      "No independently verified forward alpha-unlock calendar was available, so upcoming unlocks are left empty.",
+      "Direct X post retrieval returned HTTP 403 for sampled posts. X-only stories rely on the public project feed and are marked developing; original post links are supplied for review."
+    ]
+  }
+}

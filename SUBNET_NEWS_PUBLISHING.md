@@ -16,6 +16,13 @@ This workflow uses the repository's existing authenticated Git access. It does n
 
 ## Editorial requirements
 
+- Maintain a per-subnet source audit in `content/subnet-news/audits/YYYY-MM-DD.json`: current identity, X access/search status, dated briefs reviewed, repositories scanned, errors, and published item count. A roster entry alone is not evidence that its X account was searched.
+- Begin each window at the previous report's `coverageEnd`. If publishing after the usual 10 AM run, extend to the actual research cutoff and state that timestamp so later posts are not silently omitted or counted twice.
+- Search X by current project account, name, aliases and SN number. Grok may discover leads when accessible, but follow its links to original posts and verify author/date. Never publish an unsupported Grok claim as verified.
+- Use the public project feed, dated Discord briefs and GitHub as additional discovery sources. If signed-in X or Grok is blocked, record the exact gap; do not claim exhaustive X coverage. X-only stories available solely through a secondary feed stay developing.
+- Check both YouTube Videos and Live tabs on every combined news/video update. Match the actual video ID, title and duration before editing the site, and verify the selected embed afterward.
+- Review the previous edition for missed material announcements and corrections; label any late-found story with its actual event date.
+
 - Use direct source links, with primary sources preferred.
 - Never present a rumor as verified.
 - Do not invent coverage. Record rate limits, inaccessible X content, deleted posts, private communities, and other gaps in `coverage.gaps`.
