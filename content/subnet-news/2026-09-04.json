@@ -5,7 +5,7 @@
   "summary": "Subtensor release 454 landed, Feval opened miner submissions, Trishool announced cyber-program acceptance, SayGM launched GPT-6 Astra, and repositories across the network shipped scoring, auditability and infrastructure fixes.",
   "publishedAt": "2026-09-04T17:52:42.408Z",
   "coverageStart": "2026-09-03T14:00:00.000Z",
-  "coverageEnd": "2026-09-04T17:52:42.409Z",
+  "coverageEnd": "2026-09-04T17:46:22.586Z",
   "highlights": [
     {
       "headline": "Subtensor release 454 lands with root-claim and proxy-transfer fixes",
@@ -408,7 +408,7 @@
     },
     {
       "netuid": 36,
-      "name": "Unknown",
+      "name": "Epago",
       "updates": [
         {
           "headline": "Epago reports its research-ranking testnet is live",
@@ -1248,8 +1248,8 @@
       "name": "Swarm",
       "updates": [
         {
-          "headline": "Swarm publishes five replayable real-world drone captures",
-          "summary": "Swarm says an indoor interceptor completed five of five target-drone missions without GPS or compass, and displayed the evaluation seed for replay. The result is project-reported and has not been independently reproduced.",
+          "headline": "Swarm publishes five replayable drone-interceptor evaluation episodes",
+          "summary": "Swarm reports five successful indoor target-drone captures in evaluation episodes without GPS or compass, with the seed displayed for replay. The accessible post does not establish physical-world testing, and the result was not independently reproduced.",
           "importance": "high",
           "status": "developing",
           "sources": [
