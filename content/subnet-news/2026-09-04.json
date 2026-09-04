@@ -334,7 +334,8 @@
           "ratingReason": "Major third-party validation for the subnet, paired with an approximately 20% daily market reaction.",
           "priceAction": {
             "change24hPct": 17.277408675773327,
-            "observedAt": "2026-09-04T18:27:12.000Z"
+            "observedAt": "2026-09-04T18:27:12.000Z",
+            "basis": "α/TAO"
           }
         }
       ]

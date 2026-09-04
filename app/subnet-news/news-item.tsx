@@ -12,7 +12,7 @@ export function NewsItem({ item, rank, context }: { item: NewsItemType; rank?: n
       <h3>{item.headline}</h3>
       <p>{item.summary}</p>
       {item.ratingReason && <p className="rating-reason"><b>Why {rating} stars:</b> {item.ratingReason}</p>}
-      {item.priceAction && <p className={`price-action ${item.priceAction.change24hPct >= 0 ? "positive" : "negative"}`}><b>{item.priceAction.change24hPct >= 0 ? "+" : ""}{item.priceAction.change24hPct.toFixed(1)}%</b> 24H price action <small>as of {new Date(item.priceAction.observedAt).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" })} ET</small></p>}
+      {item.priceAction && <p className={`price-action ${item.priceAction.change24hPct >= 0 ? "positive" : "negative"}`}><b>{item.priceAction.change24hPct >= 0 ? "+" : ""}{item.priceAction.change24hPct.toFixed(1)}%</b> {item.priceAction.basis ? `${item.priceAction.basis} ` : ""}24H price action <small>as of {new Date(item.priceAction.observedAt).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" })} ET</small></p>}
       <div className="news-sources" aria-label="Sources">
         {item.sources.map((source) => (
           <a key={source.url} href={source.url} target="_blank" rel="noreferrer">

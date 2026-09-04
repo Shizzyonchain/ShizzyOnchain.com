@@ -21,6 +21,7 @@ export type NewsItem = {
   priceAction?: {
     change24hPct: number;
     observedAt: string;
+    basis?: string;
   };
   sources: NewsSource[];
 };
@@ -109,6 +110,7 @@ function assertNewsItem(value: unknown, field: string) {
     if (Number.isNaN(Date.parse(value.priceAction.observedAt as string))) {
       throw new Error(`Subnet News: ${field}.priceAction.observedAt must be an ISO timestamp.`);
     }
+    if (value.priceAction.basis !== undefined) assertString(value.priceAction.basis, `${field}.priceAction.basis`);
   }
   if (!Array.isArray(value.sources) || value.sources.length === 0) {
     throw new Error(`Subnet News: ${field}.sources must include at least one source.`);
