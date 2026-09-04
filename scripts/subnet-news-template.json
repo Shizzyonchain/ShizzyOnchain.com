@@ -12,7 +12,14 @@
       "summary": "Explain what changed, why it matters, and what remains unknown without giving financial advice.",
       "importance": "high",
       "status": "verified",
-      "sources": [{ "label": "Primary source", "url": "https://example.com/source" }]
+      "sources": [
+        {
+          "label": "Primary source",
+          "url": "https://example.com/source"
+        }
+      ],
+      "rating": 5,
+      "ratingReason": "Explain why this is one of the day’s most consequential stories."
     }
   ],
   "upcomingUnlocks": [
@@ -24,7 +31,12 @@
       "releaseType": "unknown",
       "status": "unverified",
       "summary": "Explain who announced or initiated the unlock, whether it is a cliff release or continuous conviction decay, and what remains unconfirmed.",
-      "sources": [{ "label": "Primary or on-chain source", "url": "https://example.com/unlock-source" }]
+      "sources": [
+        {
+          "label": "Primary or on-chain source",
+          "url": "https://example.com/unlock-source"
+        }
+      ]
     }
   ],
   "subnets": [
@@ -36,7 +48,16 @@
   ],
   "ecosystem": [],
   "coverage": {
-    "searched": ["X public posts by SN# and subnet name", "Official Bittensor sources", "Subnet GitHub repositories"],
-    "gaps": ["List inaccessible, private, deleted, or rate-limited sources here."]
+    "searched": [
+      "X public posts by SN# and subnet name",
+      "Official Bittensor sources",
+      "Subnet GitHub repositories",
+      "AlphaGap intelligence feed and market signals",
+      "SubnetRadar and TAO Daily coverage",
+      "Partner and infrastructure-provider X accounts mentioning Bittensor or TAO"
+    ],
+    "gaps": [
+      "List inaccessible, private, deleted, or rate-limited sources here."
+    ]
   }
 }

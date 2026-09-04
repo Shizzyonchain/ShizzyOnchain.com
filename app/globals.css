@@ -325,3 +325,18 @@ html,body{overflow-x:clip}
 .conviction-ranking strong{display:grid;gap:3px;min-width:76px}
 .conviction-ranking strong small{color:#5f7da6;font:8px var(--font-mono);white-space:nowrap}
 .screener tbody tr.selected .negative{color:#ff6670!important}.screener tbody tr.selected .emission-cell small,.screener tbody tr.selected .apy-cell small,.screener tbody tr.selected .locked-alpha-cell small{color:#8da9d0}.route-error{min-height:100vh;display:grid;place-content:center;justify-items:start;gap:14px;padding:32px;background:#020817;color:#f8fafc}.route-error p{margin:0;color:#16d9c4;font:700 11px var(--font-mono);letter-spacing:.14em;text-transform:uppercase}.route-error h1{max-width:680px;margin:0;font-size:clamp(30px,6vw,64px);letter-spacing:-.04em}.route-error span{max-width:600px;color:#a9bddd;line-height:1.6}.route-error button{border:1px solid #16d9c4;background:#0a1d3e;color:#fff;padding:12px 18px;font-weight:800;cursor:pointer}
+
+/* Star-ranked Subnet News, used by reports that include rating data. */
+.rating-explainer{max-width:820px;margin:4px 0 26px;color:#9cafce;line-height:1.7}
+.ranked-news-list{display:grid;gap:16px;margin-top:26px}
+.ranked-news-list .news-item{position:relative;padding:28px 30px;background:linear-gradient(110deg,#041126,#030d1e);border-left:4px solid #13c8ff}
+.ranked-news-list .news-item.five-star{border:1px solid #6d5210;border-left:4px solid #ffbf15;background:linear-gradient(110deg,rgba(255,191,21,.10),#041126 38%,#030d1e)}
+.ranked-news-list .news-item h3{max-width:900px;font-size:clamp(22px,2.4vw,32px)}
+.news-rating{display:flex;gap:0;margin-top:17px;font:900 21px/1 var(--font-display);letter-spacing:3px}
+.news-rating strong{color:#ffbf15;text-shadow:0 0 15px rgba(255,191,21,.28)}
+.news-rating i{color:#26405f;font-style:normal}
+.rating-reason{max-width:900px;margin-top:15px;padding-top:14px;border-top:1px solid #18365d;font-size:14px}
+.rating-reason b{color:#fff}
+.price-action{display:flex;align-items:baseline;gap:9px;margin-top:12px!important;font:700 11px var(--font-mono);text-transform:uppercase}
+.price-action b{font-size:18px}.price-action.positive b{color:#63ef9d}.price-action.negative b{color:#ff7b72}.price-action small{color:#7188ac}
+@media(max-width:720px){.ranked-news-list .news-item{padding:22px 18px}.price-action{align-items:flex-start;flex-direction:column}.news-rating{font-size:18px}}

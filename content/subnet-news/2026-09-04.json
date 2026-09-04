@@ -2,10 +2,10 @@
   "version": 1,
   "date": "2026-09-04",
   "title": "Subnet News - September 4, 2026",
-  "summary": "Subtensor release 454 landed, Feval opened miner submissions, Trishool announced cyber-program acceptance, SayGM launched GPT-6 Astra, and repositories across the network shipped scoring, auditability and infrastructure fixes.",
-  "publishedAt": "2026-09-04T17:52:42.408Z",
+  "summary": "Trishool’s OpenAI cyber-program acceptance leads the day with a roughly 20% α/TAO move. Forever Money and Chainlink brought native TAO to Robinhood Chain, Gittensor opened live compute serving, and fresh AlphaGap signals expanded today’s ranked subnet coverage.",
+  "publishedAt": "2026-09-04T18:37:43.153Z",
   "coverageStart": "2026-09-03T14:00:00.000Z",
-  "coverageEnd": "2026-09-04T17:46:22.586Z",
+  "coverageEnd": "2026-09-04T18:37:43.153Z",
   "highlights": [
     {
       "headline": "Subtensor release 454 lands with root-claim and proxy-transfer fixes",
@@ -25,7 +25,9 @@
           "label": "Proxy transfer fix",
           "url": "https://github.com/RaoFoundation/subtensor/commit/14fe0ade52e969d7ee765c11f62b7e4090f6b00b"
         }
-      ]
+      ],
+      "rating": 4,
+      "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
     }
   ],
   "upcomingUnlocks": [],
@@ -53,7 +55,9 @@
               "label": "RPC transport change",
               "url": "https://github.com/inference-labs-inc/subnet-2/commit/308f96c5e2ea646703ee11a6a185072f6f298b3d"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -75,7 +79,9 @@
               "label": "Digest visibility commit",
               "url": "https://github.com/unarbos/teutonic/commit/ded19355bfa63ff47f728b37ffaa2a77713f7fa8"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -100,15 +106,21 @@
       "updates": [
         {
           "headline": "Allways exposes timeout-refund facts in swap status",
-          "summary": "Allways now persists timeout refund details and returns them from its by-key status endpoint, giving swap users a clearer record when an operation times out.",
+          "summary": "Allways now persists timeout refund details and returns them from its by-key status endpoint. AlphaGap also flagged a wallet-control security fix and direct miner exchange-rate quotes, expanding the update beyond refund visibility.",
           "importance": "medium",
           "status": "verified",
           "sources": [
             {
               "label": "Allways refund-status commit",
               "url": "https://github.com/entrius/allways/commit/cd285fe2f00963018269372f091e3096bfb59318"
+            },
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "Settlement visibility plus a wallet-control security fix materially reduce operator and fund-safety risk."
         }
       ]
     },
@@ -126,7 +138,9 @@
               "label": "Vanta position-file fix",
               "url": "https://github.com/taoshidev/vanta-network/commit/c6a70e4fd823561f6ffb5b9d74697700794cc9f2"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         },
         {
           "headline": "Vanta reports more than $603,000 in trader rewards",
@@ -138,7 +152,9 @@
               "label": "Vanta announcement",
               "url": "https://x.com/vantatrading/status/2095910079119937742"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -165,7 +181,9 @@
               "label": "Streaming-gap fix",
               "url": "https://github.com/Pareton-ai/pareton/commit/9cbec8f85649d0210235f786a83ff3d921bcf60e"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -198,7 +216,9 @@
               "label": "Cacheon runtime and reward merge",
               "url": "https://github.com/latent-to/cacheon/commit/03419c56831b3358e538d05c460025c3d0d45308"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -220,7 +240,22 @@
     {
       "netuid": 18,
       "name": "Zeus",
-      "updates": []
+      "updates": [
+        {
+          "headline": "Zeus ships a forecast-quality penalty system and follow-up hotfix",
+          "summary": "AlphaGap reports that Zeus released an SSRD penalty mechanism for low-quality forecasts and deployed a hotfix after rollout. Emissions and TAO flow weakened during the transition; the implementation was not independently exercised.",
+          "importance": "high",
+          "status": "developing",
+          "rating": 4,
+          "ratingReason": "A scoring-mechanism change can directly alter miner behavior and rewards, with a visible network reaction.",
+          "sources": [
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 19,
@@ -236,7 +271,9 @@
               "label": "Blockmachine announcement",
               "url": "https://x.com/blockmachine_io/status/2095799038222454975"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -267,7 +304,9 @@
               "label": "Empty-report guard",
               "url": "https://github.com/ippcteam/SN21-adtao/commit/577390bd4fc3ff31aaeb12ff41ef4dd7a01c980d"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -290,7 +329,13 @@
               "label": "Trishool announcement",
               "url": "https://x.com/trishoolai/status/2095913560215814379"
             }
-          ]
+          ],
+          "rating": 5,
+          "ratingReason": "Major third-party validation for the subnet, paired with an approximately 20% daily market reaction.",
+          "priceAction": {
+            "change24hPct": 17.277408675773327,
+            "observedAt": "2026-09-04T18:27:12.000Z"
+          }
         }
       ]
     },
@@ -313,7 +358,9 @@
               "label": "UR testnet release candidate",
               "url": "https://github.com/urfoundation/sn/commit/04b9438d628ee624ca11773c988835b4ca803eb0"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -331,7 +378,9 @@
               "label": "Dated Perturb brief",
               "url": "https://subnetradar.com/subnet-news/26/2026-09-04"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -354,7 +403,9 @@
               "label": "SayGM launch announcement",
               "url": "https://x.com/say_gm_/status/2095786804146569348"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -377,7 +428,9 @@
               "label": "Endure announcement",
               "url": "https://x.com/endurenet/status/2095856440766345359"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -420,7 +473,9 @@
               "label": "Dated Epago brief",
               "url": "https://subnetradar.com/subnet-news/36/2026-09-04"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -473,7 +528,9 @@
               "label": "Dated Score incident brief",
               "url": "https://subnetradar.com/subnet-news/44/2026-09-04"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -505,7 +562,9 @@
               "label": "Feval winner-take-all commit",
               "url": "https://github.com/center196/feval/commit/d0805c4b8b6d634cf13f8e524b40582c769c4152"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -522,12 +581,46 @@
     {
       "netuid": 50,
       "name": "Synth",
-      "updates": []
+      "updates": [
+        {
+          "headline": "Synth adds a fourth forecasting competition and removes a broken price feed",
+          "summary": "Synth added an Ultra forecasting track as a fourth reward input and removed a Pyth path that was causing scoring problems. Project documentation confirms the competition structure and migration away from Pyth; activation details remain conditional on the score provider.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A new competition expands the subnet’s product and reward surface while the data-feed fix improves scoring reliability.",
+          "sources": [
+            {
+              "label": "Synth competition documentation",
+              "url": "https://github.com/synthdataco/synth-lib/blob/main/README.md"
+            },
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 51,
       "name": "lium.io",
-      "updates": []
+      "updates": [
+        {
+          "headline": "lium.io fixes GPU validation and clears a reported 2 TB storage leak",
+          "summary": "AlphaGap reports that lium.io fixed GPU validation and version-enforcement problems and cleared a recurring 2 TB storage leak. The feed also showed strong 24-hour TAO inflow; primary implementation links were not exposed in the accessible card.",
+          "importance": "high",
+          "status": "developing",
+          "rating": 4,
+          "ratingReason": "The fixes address contributor onboarding and a large recurring infrastructure waste problem.",
+          "sources": [
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 52,
@@ -548,7 +641,9 @@
               "label": "Engy usage-accounting merge",
               "url": "https://github.com/hanlinai/engy/commit/27ef2b7eec837b1447e997a46e408f0cbb966861"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -590,12 +685,42 @@
     {
       "netuid": 61,
       "name": "RedTeam",
-      "updates": []
+      "updates": [
+        {
+          "headline": "RedTeam tightens detection logic as demand and volume rise",
+          "summary": "AlphaGap reports new detection-logic changes for live security challenges alongside elevated subnet volume and TAO inflow. The code change is material to scoring, but the exact deployment commit was not independently located.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "A relevant scoring update with notable market attention, though primary deployment evidence is still needed.",
+          "sources": [
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 62,
       "name": "Ridges",
-      "updates": []
+      "updates": [
+        {
+          "headline": "Ridges launches a PostgreSQL and ClickHouse engineering competition",
+          "summary": "AlphaGap reports that Ridges is expanding beyond general coding benchmarks with production-style PostgreSQL and ClickHouse tasks, including fixed query budgets and time limits. The launch is currently supported by the signed-in intelligence feed.",
+          "importance": "high",
+          "status": "developing",
+          "rating": 4,
+          "ratingReason": "A new specialized competition materially broadens the subnet’s product direction and miner workload.",
+          "sources": [
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 63,
@@ -611,7 +736,9 @@
               "label": "RSA-1024 challenge announcement",
               "url": "https://x.com/qbittensorlabs/status/2095608712803287252"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -638,7 +765,9 @@
               "label": "TPN-002 results announcement",
               "url": "https://x.com/tpn_labs/status/2095879555869540392"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -647,16 +776,22 @@
       "name": "conjectures",
       "updates": [
         {
-          "headline": "Conjectures publishes its contribution corpus endpoint",
-          "summary": "Conjectures added a public /v1/contributions endpoint for its contribution corpus. The endpoint implementation is visible in the validator repository.",
+          "headline": "Conjectures opens paid public proof submissions",
+          "summary": "Conjectures published a public contribution endpoint where users can submit Lean 4 proofs and receive bounties for accepted work. AlphaGap reported 13 live verified submissions and weaker emissions during the rollout.",
           "importance": "medium",
           "status": "verified",
           "sources": [
             {
               "label": "Contribution endpoint commit",
               "url": "https://github.com/conjectures-io/conjectures-validator/commit/f8f519113fd6e8159a98018d94b585071fcc5534"
+            },
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A public paid-submission API turns the subnet’s proof market into a directly usable product."
         }
       ]
     },
@@ -674,7 +809,9 @@
               "label": "Harnyx membership commit",
               "url": "https://github.com/harnyx/harnyx/commit/6daa1c4c5e8687e3459369723f36e7e74262cc4d"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -698,8 +835,8 @@
       "name": "Leadpoet",
       "updates": [
         {
-          "headline": "Leadpoet hardens allocation retry and registration recovery",
-          "summary": "Leadpoet added recovery for allocation retries and registration checks, along with a durable settlement retry cooldown. The changes address operational recovery paths without establishing that every missing emission report is resolved.",
+          "headline": "Leadpoet fixes validator recovery and opens daily source competitions",
+          "summary": "Leadpoet hardened validator retry and registration recovery, fixed timeout paths affecting scoring, and activated daily competition tooling for miners to submit new research sources. Repository changes verify the reliability work; the competition rollout is also reported by AlphaGap.",
           "importance": "high",
           "status": "verified",
           "sources": [
@@ -710,8 +847,14 @@
             {
               "label": "Settlement cooldown check",
               "url": "https://github.com/leadpoet/leadpoet/commit/f90b5eb3739eb3871a0d7bde0a3a1c41c62016ea"
+            },
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "Validator reliability fixes and a new daily contribution path materially improve both payouts and product coverage."
         }
       ]
     },
@@ -743,6 +886,30 @@
               "label": "Reference 429 fix",
               "url": "https://github.com/entrius/gittensor/commit/148cfbca5d4e534108f5e9f2e0492cbea2b74395"
             }
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
+        },
+        {
+          "headline": "Gittensor compute serving goes live as a second miner earning track",
+          "summary": "Gittensor now documents compute serving as a live companion to open-source contributions: miners can serve the blessed model on GPUs, while validators audit outputs and expose an OpenAI-compatible gateway. The official miner and compute-serving documentation confirms the operating path.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 5,
+          "ratingReason": "A new production compute market and miner earning path is a major expansion of what the subnet delivers.",
+          "sources": [
+            {
+              "label": "Gittensor miner guide",
+              "url": "https://docs.gittensor.io/miner.html"
+            },
+            {
+              "label": "Compute serving documentation",
+              "url": "https://docs.gittensor.io/compute-serving.html"
+            },
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            }
           ]
         }
       ]
@@ -750,7 +917,26 @@
     {
       "netuid": 75,
       "name": "Hippius",
-      "updates": []
+      "updates": [
+        {
+          "headline": "Hippius fixes storage billing while a bridge issue delays transfers",
+          "summary": "AlphaGap reports that Hippius corrected storage-emission calculations and added customer-plan controls, while the team works through a post-upgrade bridge issue awaiting core approval. Hippius’s official materials confirm the bridge is part of its live on-chain payment architecture, but the current incident is feed-reported.",
+          "importance": "high",
+          "status": "developing",
+          "rating": 4,
+          "ratingReason": "The billing fix affects contributor payouts, and the bridge issue can delay fund movement across the subnet’s payment system.",
+          "sources": [
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            },
+            {
+              "label": "Hippius bridge architecture",
+              "url": "https://hippius.com/blog/the-hippius-bridge-is-live-what-alphanomics-phase-one-means"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 76,
@@ -780,7 +966,9 @@
               "label": "UMI pilot evidence commit",
               "url": "https://github.com/Umi-BitSign/umi/commit/855e312d01afcbc1b9f593feba7ef1decdead3cc"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -803,7 +991,9 @@
               "label": "OpenRoboto workstation announcement",
               "url": "https://x.com/openroboto/status/2095893562915491862"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -841,7 +1031,9 @@
               "label": "Vidaio demonstration",
               "url": "https://x.com/vidaio_/status/2095585828542066867"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -869,7 +1061,9 @@
               "label": "Dated Investing brief",
               "url": "https://subnetradar.com/subnet-news/88/2026-09-04"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -891,7 +1085,9 @@
               "label": "Rate-rule documentation",
               "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/87d644462f4c11f38d3d28d74de3168cd24ec383"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -903,7 +1099,22 @@
     {
       "netuid": 91,
       "name": "cascade",
-      "updates": []
+      "updates": [
+        {
+          "headline": "Cascade activates head-to-head miner scoring as emissions rise",
+          "summary": "AlphaGap reports that Cascade deployed block-height-activated head-to-head scoring rounds intended to reduce gaming. The feed also recorded a strong emissions increase alongside net TAO outflow, so market and validator signals were mixed.",
+          "importance": "high",
+          "status": "developing",
+          "rating": 4,
+          "ratingReason": "A live scoring-system change directly affects miner rankings and arrived with a large shift in emissions.",
+          "sources": [
+            {
+              "label": "AlphaGap 48-hour feed",
+              "url": "https://www.alphagap.io/feed"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 92,
@@ -923,7 +1134,9 @@
               "label": "Parallel evaluation commit",
               "url": "https://github.com/microtensor-io/microtensor-subnet/commit/302982696e3ef808592d26c2e03d0c38648792ac"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -960,7 +1173,9 @@
               "label": "VRAM class fix",
               "url": "https://github.com/verathos-ai/verathos/commit/79e50a732b63252c6cc9318925cdec1c6cf2d083"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         },
         {
           "headline": "Verathos reports Sleipnir is live on mainnet",
@@ -972,7 +1187,9 @@
               "label": "Dated Sleipnir launch brief",
               "url": "https://subnetradar.com/subnet-news/96/2026-09-04"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -990,7 +1207,9 @@
               "label": "Albedo re-key guard",
               "url": "https://github.com/unarbos/albedo/commit/67d814f8c40a96da6514d5d7f9e1d06f18d6f648"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -1022,7 +1241,9 @@
               "label": "Proof-evaluation image commit",
               "url": "https://github.com/CortexLM/cortex/commit/28922279e21e6d332276ed287d4caeb83bc325f6"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -1049,7 +1270,9 @@
               "label": "Cycle naming commit",
               "url": "https://github.com/Connito-AI/Connito/commit/e3ddc4f4a64103e172446ac732c120504d39f70c"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -1071,7 +1294,9 @@
               "label": "Cross-run refusal fix",
               "url": "https://github.com/Capcomp-AI/capability-composition-subnet/commit/f245647d94df651f9af349594c68ef3c820927b5"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -1098,7 +1323,9 @@
               "label": "Beam tinygrad preview",
               "url": "https://x.com/b1m_ai/status/2095582731350516114"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -1125,7 +1352,9 @@
               "label": "Dated Minos brief",
               "url": "https://subnetradar.com/subnet-news/107/2026-09-04"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -1177,7 +1406,9 @@
               "label": "Dated SOMA brief",
               "url": "https://subnetradar.com/subnet-news/114/2026-09-04"
             }
-          ]
+          ],
+          "rating": 3,
+          "ratingReason": "A meaningful update worth tracking, with narrower impact or evidence still developing."
         }
       ]
     },
@@ -1214,7 +1445,9 @@
               "label": "Private memory binding",
               "url": "https://github.com/ditto-assistant/ditto-subnet/commit/c538d62424be0f78345e79db2e002056846fd1c6"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -1257,7 +1490,9 @@
               "label": "Swarm evaluation announcement",
               "url": "https://x.com/swarmsubnet/status/2095860430451130753"
             }
-          ]
+          ],
+          "rating": 4,
+          "ratingReason": "A material product, protocol or operating change with direct relevance to the network."
         }
       ]
     },
@@ -1282,16 +1517,42 @@
       "updates": []
     }
   ],
-  "ecosystem": [],
+  "ecosystem": [
+    {
+      "headline": "Forever Money takes native TAO to Robinhood Chain with Chainlink CCIP",
+      "summary": "Forever Money announced that the Bittensor ecosystem has arrived on Robinhood Chain. Chainlink confirmed that its CCIP security powers the expansion of 1:1 native TAO, opening cross-chain access to Robinhood’s retail-focused L2.",
+      "importance": "high",
+      "status": "verified",
+      "rating": 5,
+      "ratingReason": "A major distribution and interoperability expansion connecting native TAO with Robinhood Chain through Chainlink infrastructure.",
+      "sources": [
+        {
+          "label": "Forever Money announcement",
+          "url": "https://x.com/forevermoney_ai/status/2095896531563847755"
+        },
+        {
+          "label": "Chainlink confirmation",
+          "url": "https://x.com/chainlink/status/2095917499652981164"
+        },
+        {
+          "label": "Forever Money app",
+          "url": "https://forevermoney.ai/"
+        }
+      ]
+    }
+  ],
   "coverage": {
     "searched": [
       "All 128 active subnet slots and current names from the finalized-chain screener",
       "50 dated September 4 subnet briefs and their available source links",
       "120 public subnet and ecosystem GitHub repositories from September 3 at 10:00 AM ET through publication",
       "Official subnet X posts surfaced in the public all-project feed, with original post URLs and timestamps; direct sampled retrieval was blocked",
-      "Shizzy Unchained YouTube Videos and Live tabs"
+      "Shizzy Unchained YouTube Videos and Live tabs",
+      "Original Forever Money, Chainlink and Trishool X posts supplied after the first publication, verified through X’s official embed endpoint",
+      "Signed-in AlphaGap 48-hour feed, notifications, leaderboard, price, flow, emissions and development signals"
     ],
     "gaps": [
+      "Correction: the first September 4 edition missed the Forever Money and Chainlink announcements. Both original posts were added after publication and the report was reranked.",
       "X required phone or password verification in the connected browser. A Grok guest query returned a sign-up requirement and no research results, so no Grok findings are claimed.",
       "Public X search indexing is incomplete; unavailable, deleted, private and unindexed posts may not appear in the all-project feed.",
       "Five mapped repositories were missing or inaccessible, and organization-only links could not be treated as complete repository inventories.",

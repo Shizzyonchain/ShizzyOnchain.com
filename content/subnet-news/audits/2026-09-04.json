@@ -249,7 +249,7 @@
     {
       "netuid": 18,
       "name": "Zeus",
-      "publishedItems": 0,
+      "publishedItems": 1,
       "datedBrief": null,
       "repositories": [
         {
@@ -683,7 +683,7 @@
     {
       "netuid": 50,
       "name": "Synth",
-      "publishedItems": 0,
+      "publishedItems": 1,
       "datedBrief": "https://subnetradar.com/subnet-news/50/2026-09-04",
       "repositories": [
         {
@@ -697,7 +697,7 @@
     {
       "netuid": 51,
       "name": "lium.io",
-      "publishedItems": 0,
+      "publishedItems": 1,
       "datedBrief": null,
       "repositories": [
         {
@@ -830,7 +830,7 @@
     {
       "netuid": 61,
       "name": "RedTeam",
-      "publishedItems": 0,
+      "publishedItems": 1,
       "datedBrief": null,
       "repositories": [
         {
@@ -844,7 +844,7 @@
     {
       "netuid": 62,
       "name": "Ridges",
-      "publishedItems": 0,
+      "publishedItems": 1,
       "datedBrief": null,
       "repositories": [
         {
@@ -1000,7 +1000,7 @@
     {
       "netuid": 74,
       "name": "Gittensor",
-      "publishedItems": 1,
+      "publishedItems": 2,
       "datedBrief": null,
       "repositories": [
         {
@@ -1019,7 +1019,7 @@
     {
       "netuid": 75,
       "name": "Hippius",
-      "publishedItems": 0,
+      "publishedItems": 1,
       "datedBrief": "https://subnetradar.com/subnet-news/75/2026-09-04",
       "repositories": [
         {
@@ -1235,7 +1235,7 @@
     {
       "netuid": 91,
       "name": "cascade",
-      "publishedItems": 0,
+      "publishedItems": 1,
       "datedBrief": "https://subnetradar.com/subnet-news/91/2026-09-04",
       "repositories": [
         {
@@ -1738,5 +1738,19 @@
       ],
       "xReview": "public feed only; individual account search incomplete"
     }
+  ],
+  "corrections": [
+    {
+      "addedAt": "2026-09-04T18:33:55.513Z",
+      "subject": "Forever Money and Chainlink bring native TAO to Robinhood Chain",
+      "reason": "The original edition missed partner-account announcements outside the subnet roster.",
+      "sources": [
+        "https://x.com/forevermoney_ai/status/2095896531563847755",
+        "https://x.com/chainlink/status/2095917499652981164"
+      ]
+    }
+  ],
+  "additionalSourcesReviewed": [
+    "Signed-in AlphaGap 48-hour feed, alerts, leaderboard and market panels"
   ]
 }

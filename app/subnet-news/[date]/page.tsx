@@ -29,6 +29,13 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
 
   const updatedSubnets = brief.subnets.filter((subnet) => subnet.updates.length > 0);
   const quietSubnets = brief.subnets.filter((subnet) => subnet.updates.length === 0);
+  const scoredFormat = [...brief.highlights, ...brief.ecosystem, ...updatedSubnets.flatMap((subnet) => subnet.updates)].some((item) => item.rating !== undefined);
+  const rankedNews = [
+    ...brief.highlights.map((item) => ({ item, context: "Network" })),
+    ...brief.ecosystem.map((item) => ({ item, context: "Ecosystem" })),
+    ...updatedSubnets.flatMap((subnet) => subnet.updates.map((item) => ({ item, context: `SN${subnet.netuid} · ${subnet.name}` }))),
+  ].filter((entry, index, all) => all.findIndex((candidate) => candidate.item.headline === entry.item.headline) === index)
+    .toSorted((a, b) => (b.item.rating ?? 0) - (a.item.rating ?? 0) || Number(Boolean(b.item.priceAction)) - Number(Boolean(a.item.priceAction)));
   const sectionNumber = (base: number) => String(base + (brief.upcomingUnlocks.length ? 1 : 0)).padStart(2, "0");
 
   return (
@@ -47,7 +54,13 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
           </dl>
         </header>
 
-        {brief.highlights.length > 0 && (
+        {scoredFormat ? (
+          <section className="news-report-section ranked-news-section" aria-labelledby="ranked-news">
+            <div className="news-section-head"><span>01</span><div><p className="eyebrow">Biggest stories first</p><h2 id="ranked-news">Today&apos;s ranked news</h2></div></div>
+            <p className="rating-explainer">★★★★★ marks the day&apos;s most consequential news. Scores weigh the size of the announcement, evidence quality, ecosystem reach and relevant market reaction.</p>
+            <div className="ranked-news-list">{rankedNews.map(({ item, context }, index) => <NewsItem key={item.headline} item={item} rank={index + 1} context={context} />)}</div>
+          </section>
+        ) : brief.highlights.length > 0 && (
           <section className="news-report-section" aria-labelledby="top-signals">
             <div className="news-section-head"><span>01</span><div><p className="eyebrow">What matters first</p><h2 id="top-signals">Top signals</h2></div></div>
             <div className="news-report-grid">{brief.highlights.map((item) => <NewsItem key={item.headline} item={item} />)}</div>
@@ -75,7 +88,7 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
           </section>
         )}
 
-        <section className="news-report-section" aria-labelledby="subnet-desk">
+        {!scoredFormat && <section className="news-report-section" aria-labelledby="subnet-desk">
           <div className="news-section-head"><span>{sectionNumber(2)}</span><div><p className="eyebrow">Organized by SN#</p><h2 id="subnet-desk">Subnet desk</h2></div></div>
           {updatedSubnets.length ? (
             <div className="subnet-news-list">
@@ -88,9 +101,9 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
             </div>
           ) : <p className="news-empty-copy">No subnet-specific updates met the publication threshold in this coverage window.</p>}
           {quietSubnets.length > 0 && <p className="quiet-subnets"><strong>No published update:</strong> {quietSubnets.map((subnet) => `SN${subnet.netuid}`).join(", ")}. See coverage notes for source-access gaps.</p>}
-        </section>
+        </section>}
 
-        {brief.ecosystem.length > 0 && (
+        {!scoredFormat && brief.ecosystem.length > 0 && (
           <section className="news-report-section" aria-labelledby="ecosystem-desk">
             <div className="news-section-head"><span>{sectionNumber(3)}</span><div><p className="eyebrow">Beyond one subnet</p><h2 id="ecosystem-desk">Ecosystem desk</h2></div></div>
             <div className="news-report-grid">{brief.ecosystem.map((item) => <NewsItem key={item.headline} item={item} />)}</div>

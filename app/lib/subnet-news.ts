@@ -16,6 +16,12 @@ export type NewsItem = {
   summary: string;
   importance: NewsImportance;
   status: NewsStatus;
+  rating?: number;
+  ratingReason?: string;
+  priceAction?: {
+    change24hPct: number;
+    observedAt: string;
+  };
   sources: NewsSource[];
 };
 
@@ -89,6 +95,20 @@ function assertNewsItem(value: unknown, field: string) {
   }
   if (!["verified", "developing", "rumor"].includes(value.status as string)) {
     throw new Error(`Subnet News: ${field}.status is invalid.`);
+  }
+  if (value.rating !== undefined && (!Number.isInteger(value.rating) || (value.rating as number) < 1 || (value.rating as number) > 5)) {
+    throw new Error(`Subnet News: ${field}.rating must be an integer from 1 to 5.`);
+  }
+  if (value.rating !== undefined) assertString(value.ratingReason, `${field}.ratingReason`);
+  if (value.priceAction !== undefined) {
+    if (!isRecord(value.priceAction)) throw new Error(`Subnet News: ${field}.priceAction must be an object.`);
+    if (typeof value.priceAction.change24hPct !== "number" || !Number.isFinite(value.priceAction.change24hPct)) {
+      throw new Error(`Subnet News: ${field}.priceAction.change24hPct must be a number.`);
+    }
+    assertString(value.priceAction.observedAt, `${field}.priceAction.observedAt`);
+    if (Number.isNaN(Date.parse(value.priceAction.observedAt as string))) {
+      throw new Error(`Subnet News: ${field}.priceAction.observedAt must be an ISO timestamp.`);
+    }
   }
   if (!Array.isArray(value.sources) || value.sources.length === 0) {
     throw new Error(`Subnet News: ${field}.sources must include at least one source.`);
