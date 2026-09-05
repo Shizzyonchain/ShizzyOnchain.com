@@ -233,7 +233,7 @@ const liveStreams = [
   {
     id: "gRND9G1t-Bg",
     title: "AI Agents Are Downloading Malware… This Subnet Catches It | Phylax SN76",
-    meta: "31:16 · Streamed September 2, 2026",
+    meta: "31:21 · Streamed September 2, 2026",
   },
   {
     id: "g-1j1yD79qY",
