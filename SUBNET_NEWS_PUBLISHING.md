@@ -26,6 +26,8 @@ This workflow uses the repository's existing authenticated Git access. It does n
 - Review the previous edition for missed material announcements and corrections; label any late-found story with its actual event date.
 
 - Use direct source links, with primary sources preferred.
+- Treat Discord briefs and AlphaGap summaries as discovery. A message in a subnet channel is not automatically from its team: verify the speaker before attributing a claim, especially allegations. Resolve conflicting launch claims against dated primary releases and documented activation gates.
+- Label members-only YouTube uploads and route playback through YouTube membership access. Label scheduled streams as upcoming, verify their scheduled timestamp and time zone, and keep a public episode as the default player.
 - Never present a rumor as verified.
 - Do not invent coverage. Record rate limits, inaccessible X content, deleted posts, private communities, and other gaps in `coverage.gaps`.
 - Avoid duplicate stories across highlights, subnet updates, and ecosystem updates unless the summary adds distinct context.

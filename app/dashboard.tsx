@@ -107,7 +107,21 @@ type ActivitySummary = {
   active_subnets_24h: number;
 };
 
-const channelVideos = [
+type ChannelVideo = {
+  id: string;
+  title: string;
+  meta: string;
+  membersOnly?: boolean;
+  upcoming?: boolean;
+};
+
+const channelVideos: ChannelVideo[] = [
+  {
+    id: "mu-qKyEkKpU",
+    title: "9/6/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "10:11 · Members only · September 6, 2026",
+    membersOnly: true,
+  },
   {
     id: "T_KsttRZ9pk",
     title: "TAO to $300? | Bittensor Market & Subnet Update",
@@ -229,7 +243,13 @@ const channelVideos = [
     meta: "25:35",
   },
 ];
-const liveStreams = [
+const liveStreams: ChannelVideo[] = [
+  {
+    id: "x_cABVBK2Qc",
+    title: "2009 Bitcoin OG’s Next Big Bet: TAO | Ride of a Lifetime with RL Bryer",
+    meta: "Upcoming · September 9, 2026 at 12 PM ET / 9 AM PT",
+    upcoming: true,
+  },
   {
     id: "gRND9G1t-Bg",
     title: "AI Agents Are Downloading Malware… This Subnet Catches It | Phylax SN76",
@@ -565,7 +585,7 @@ export function Dashboard({
   const serverRows = initialRows.filter((row) => row.netuid !== 0);
   const hasInitialRows = serverRows.length > 0;
   const [view, setView] = useState<DashboardView>(initialView);
-  const [activeVideo, setActiveVideo] = useState(channelVideos[0]);
+  const [activeVideo, setActiveVideo] = useState<ChannelVideo>(channelVideos.find((video) => !video.membersOnly) ?? channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
@@ -2154,14 +2174,21 @@ export function Dashboard({
                 <span>Stay ahead of TAO.</span>
               </h1>
             </div>
-            <p>Deep dives, subnet updates, interviews, and the 10 to 100 TAO challenge—watch every episode right here.</p>
+            <p>Deep dives, subnet updates, interviews, and the 10 to 100 TAO challenge. Watch public episodes here, catch upcoming streams, and open members videos on YouTube.</p>
           </div>
           <div className="featured-video panel">
             <div className="video-frame">
-              <iframe key={activeVideo.id} src={`https://www.youtube-nocookie.com/embed/${activeVideo.id}?rel=0`} title={activeVideo.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+              {activeVideo.membersOnly ? (
+                <a className="member-video-link" href={`https://www.youtube.com/watch?v=${activeVideo.id}`} target="_blank" rel="noreferrer">
+                  <Image src={`https://i.ytimg.com/vi/${activeVideo.id}/hqdefault.jpg`} alt="" width={480} height={360} sizes="(max-width: 900px) 100vw, 70vw" />
+                  <span><strong>Watch members video on YouTube ↗</strong><small>Sign in with your channel membership to watch.</small></span>
+                </a>
+              ) : (
+                <iframe key={activeVideo.id} src={`https://www.youtube-nocookie.com/embed/${activeVideo.id}?rel=0`} title={activeVideo.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+              )}
             </div>
             <div className="video-caption">
-              <span>Now playing</span>
+              <span>{activeVideo.membersOnly ? "Members video" : activeVideo.upcoming ? "Upcoming live stream" : "Now playing"}</span>
               <h2>{activeVideo.title}</h2>
               <small>{activeVideo.meta}</small>
             </div>
@@ -2187,7 +2214,7 @@ export function Dashboard({
                   <span className="video-thumb">
                     <Image src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" width={480} height={360} sizes="(max-width: 700px) 100vw, 25vw" />
                     <i>▶</i>
-                    <em className="stream-badge">Live replay</em>
+                    <em className={`stream-badge${video.upcoming ? " upcoming-badge" : ""}`}>{video.upcoming ? "Upcoming" : "Live replay"}</em>
                   </span>
                   <span className="video-info">
                     <small>{String(index + 1).padStart(2, "0")}</small>
@@ -2222,6 +2249,7 @@ export function Dashboard({
                     <Image src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" width={480} height={360} sizes="(max-width: 700px) 100vw, 25vw" />
                     <i>▶</i>
                     <em>{video.meta.split(" · ")[0]}</em>
+                    {video.membersOnly && <em className="stream-badge members-badge">Members only</em>}
                   </span>
                   <span className="video-info">
                     <small>{String(index + 1).padStart(2, "0")}</small>
