@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { formatBriefDate, getSubnetNewsBrief, getSubnetNewsBriefs } from "../../lib/subnet-news";
 import { NewsItem } from "../news-item";
 import { SubnetNewsHeader } from "../subnet-news-header";
+import { LivestreamBanner } from "../../livestream-banner";
+import { MembershipPromo } from "../../membership-promo";
 
 export const dynamicParams = false;
 
@@ -26,6 +28,8 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
   const { date } = await params;
   const brief = getSubnetNewsBrief(date);
   if (!brief) notFound();
+  const showPromotions = date >= "2026-09-07";
+  const isLatestBrief = date === getSubnetNewsBriefs()[0]?.date;
 
   const updatedSubnets = brief.subnets.filter((subnet) => subnet.updates.length > 0);
   const quietSubnets = brief.subnets.filter((subnet) => subnet.updates.length === 0);
@@ -41,6 +45,7 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
   return (
     <main className="news-shell news-report-shell">
       <SubnetNewsHeader />
+      {showPromotions && isLatestBrief && <LivestreamBanner />}
       <article className="news-report">
         <header className="news-report-hero">
           <Link href="/subnet-news">← All Subnet News</Link>
@@ -109,6 +114,8 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
             <div className="news-report-grid">{brief.ecosystem.map((item) => <NewsItem key={item.headline} item={item} />)}</div>
           </section>
         )}
+
+        {showPromotions && <MembershipPromo />}
 
         <section className="news-report-section coverage-section" aria-labelledby="coverage-notes">
           <div className="news-section-head"><span>{sectionNumber(4)}</span><div><p className="eyebrow">Audit trail</p><h2 id="coverage-notes">Coverage notes</h2></div></div>

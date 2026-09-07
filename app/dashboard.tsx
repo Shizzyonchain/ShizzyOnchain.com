@@ -4,6 +4,9 @@ import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect,
 import Image from "next/image";
 import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
+import { LivestreamBanner } from "./livestream-banner";
+import { MembershipPromo } from "./membership-promo";
+import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import {
   bubbleTimeframeHasCoverage,
   bubbleTimeframeLabel,
@@ -116,12 +119,7 @@ type ChannelVideo = {
 };
 
 const channelVideos: ChannelVideo[] = [
-  {
-    id: "mu-qKyEkKpU",
-    title: "9/6/26 Bittensor News Updates & TAO Price Action | Members Video",
-    meta: "10:11 · Members only · September 6, 2026",
-    membersOnly: true,
-  },
+  latestMemberVideo,
   {
     id: "T_KsttRZ9pk",
     title: "TAO to $300? | Bittensor Market & Subnet Update",
@@ -244,12 +242,7 @@ const channelVideos: ChannelVideo[] = [
   },
 ];
 const liveStreams: ChannelVideo[] = [
-  {
-    id: "x_cABVBK2Qc",
-    title: "2009 Bitcoin OG’s Next Big Bet: TAO | Ride of a Lifetime with RL Bryer",
-    meta: "Upcoming · September 9, 2026 at 12 PM ET / 9 AM PT",
-    upcoming: true,
-  },
+  promotedLivestream,
   {
     id: "gRND9G1t-Bg",
     title: "AI Agents Are Downloading Malware… This Subnet Catches It | Phylax SN76",
@@ -1222,6 +1215,8 @@ export function Dashboard({
         lastUpdated={lastUpdated}
       />
 
+      {(view === "screener" || view === "videos") && <LivestreamBanner />}
+
       {view === "screener" ? (
         <>
           <section className="hero-strip">
@@ -2191,8 +2186,10 @@ export function Dashboard({
               <span>{activeVideo.membersOnly ? "Members video" : activeVideo.upcoming ? "Upcoming live stream" : "Now playing"}</span>
               <h2>{activeVideo.title}</h2>
               <small>{activeVideo.meta}</small>
+              {activeVideo.membersOnly && <a className="channel-promo-button membership-join video-membership-join" href={youtubeMembershipUrl} target="_blank" rel="noreferrer">Join on YouTube <span aria-hidden="true">↗</span></a>}
             </div>
           </div>
+          <MembershipPromo />
           <div className="live-library">
             <div className="library-head">
               <div>
@@ -2518,6 +2515,7 @@ export function Dashboard({
           )}
         </section>
       )}
+      {view === "screener" && <MembershipPromo />}
       <footer>
         <span>SHIZZYUNCHAINED</span>
         <p>Finalized on-chain data · {currency === "usd" ? "USD values use the live TAO spot rate" : "TAO-denominated values"} · Not financial advice</p>

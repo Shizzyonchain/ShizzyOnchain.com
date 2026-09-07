@@ -28,6 +28,7 @@ This workflow uses the repository's existing authenticated Git access. It does n
 - Use direct source links, with primary sources preferred.
 - Treat Discord briefs and AlphaGap summaries as discovery. A message in a subnet channel is not automatically from its team: verify the speaker before attributing a claim, especially allegations. Resolve conflicting launch claims against dated primary releases and documented activation gates.
 - Label members-only YouTube uploads and route playback through YouTube membership access. Label scheduled streams as upcoming, verify their scheduled timestamp and time zone, and keep a public episode as the default player.
+- Refresh `app/lib/channel-promotions.ts` with the next verified livestream and latest members video. The shared entries feed the video library and promotions. Set the stream's `enabled` flag to false when canceled; update `startsAt`, `expiresAt`, `schedule` and `meta` together when rescheduled. The banner changes from “Set reminder” to “Watch on YouTube” at the scheduled start, without claiming the broadcast is live, and disappears at `expiresAt`. Its dismissal lasts for the browser session and is scoped to that video. Keep dated reports before September 7, 2026 free of these promotions.
 - Never present a rumor as verified.
 - Do not invent coverage. Record rate limits, inaccessible X content, deleted posts, private communities, and other gaps in `coverage.gaps`.
 - Avoid duplicate stories across highlights, subnet updates, and ecosystem updates unless the summary adds distinct context.

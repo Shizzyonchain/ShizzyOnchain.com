@@ -3,6 +3,7 @@ import Link from "next/link";
 import { formatBriefDate, getSubnetNewsBriefs } from "../lib/subnet-news";
 import { NewsItem } from "./news-item";
 import { SubnetNewsHeader } from "./subnet-news-header";
+import { LivestreamBanner } from "../livestream-banner";
 
 export const metadata: Metadata = {
   title: "Subnet News | Shizzy Unchained",
@@ -17,6 +18,7 @@ export default function SubnetNewsPage() {
   return (
     <main className="news-shell">
       <SubnetNewsHeader />
+      <LivestreamBanner />
       <section className="news-hero">
         <div>
           <p className="eyebrow">Daily Bittensor intelligence</p>
