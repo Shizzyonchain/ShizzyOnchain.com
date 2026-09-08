@@ -1224,33 +1224,38 @@ export function Dashboard({
 
       {view === "screener" ? (
         <>
-          <section className="hero-strip">
-            <button className={`tao-price-tile ${showTaoChart ? "active" : ""}`} onClick={openTaoChart} aria-label="Open TAO price chart">
-              <span>TAO price</span>
-              <strong>{currency === "usd" ? money(1, true) : "τ 1"}</strong>
-              <small>Open TAO / USD chart →</small>
-            </button>
-            <div>
-              <span>24h volume</span>
-              <strong>{!hasMarketData || totalVolume === 0 ? "—" : money(totalVolume)}</strong>
-              <small>{hasMarketData ? (dataState === "stale" ? "Last finalized snapshot" : totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Loading market service"}</small>
-            </div>
-            <div>
-              <span>Top mover</span>
-              <strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong>
-              <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small>
-            </div>
-            <div className="finney-tile">
-              <span>Network</span>
-              <strong>FINNEY</strong>
-              <small>Finalized blocks only</small>
-              <a className="shop-hat-cta" href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" aria-label="Shop Shizzy Unchained merchandise">
-                <Image src="/shop-hat.webp" alt="Black TAO hat" width={256} height={256} sizes="44px" />
-                <b>Shop</b>
-                <i aria-hidden="true">→</i>
-              </a>
-            </div>
-          </section>
+          <div className="market-overview">
+            <section className="hero-strip" aria-label="Market overview">
+              <button className={`tao-price-tile ${showTaoChart ? "active" : ""}`} onClick={openTaoChart} aria-label="Open TAO price chart">
+                <span>TAO price</span>
+                <strong>{currency === "usd" ? money(1, true) : "τ 1"}</strong>
+                <small>Open TAO / USD chart →</small>
+              </button>
+              <div>
+                <span>24h volume</span>
+                <strong>{!hasMarketData || totalVolume === 0 ? "—" : money(totalVolume)}</strong>
+                <small>{hasMarketData ? (dataState === "stale" ? "Last finalized snapshot" : totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Loading market service"}</small>
+              </div>
+              <div>
+                <span>Top mover</span>
+                <strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong>
+                <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small>
+              </div>
+              <div>
+                <span>Network</span>
+                <strong>FINNEY</strong>
+                <small>Finalized blocks only</small>
+              </div>
+            </section>
+            <a className="shop-card" href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" aria-label="Shop Shizzy Unchained merchandise">
+              <Image src="/shop-hat.webp" alt="Black TAO hat" width={256} height={256} sizes="(max-width: 1100px) 64px, 80px" />
+              <span className="shop-card-copy">
+                <small>ShizzyUnchained</small>
+                <strong>Shop merch</strong>
+              </span>
+              <span className="shop-card-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
           <section className="network-pulse panel" aria-label="Network pulse">
             <div className="network-pulse-label">
               <span>Network pulse</span>
