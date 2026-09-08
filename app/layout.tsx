@@ -5,6 +5,12 @@ import "./globals.css";
 
 const title = "ShizzyUnchained — Bittensor Market Intelligence";
 const description = "Live Bittensor subnet price action, market analytics, and mass wallet portfolio checks.";
+const shareImage = {
+  url: "/shizzy-unchained-logo.png",
+  width: 560,
+  height: 280,
+  alt: "ShizzyUnchained",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shizzyunchained.com"),
@@ -19,8 +25,8 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg?v=2",
     apple: "/shizzy-unchained-logo.png",
   },
-  openGraph: { title, description, type: "website", siteName: "ShizzyUnchained" },
-  twitter: { card: "summary", title, description },
+  openGraph: { title, description, type: "website", siteName: "ShizzyUnchained", images: [shareImage] },
+  twitter: { card: "summary_large_image", title, description, images: [shareImage] },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
