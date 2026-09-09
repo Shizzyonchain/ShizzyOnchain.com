@@ -958,7 +958,22 @@
     {
       "netuid": 76,
       "name": "Subnet 76",
-      "updates": []
+      "updates": [
+        {
+          "headline": "Catch-up: Phylax deregistration wipes a 56,076-alpha conviction lock",
+          "summary": "A finalized-chain event at block 9,008,717 shows that the former SN76 Phylax slot was deregistered on September 6 at 1:37 PM ET, wiping 56,076.232 locked alpha. SubnetRadar says the locked stake was converted to TAO pro rata through the AMM and returned to free balance. This was a deregistration exit, not a scheduled cliff, and it is not evidence that the returned TAO was sold. The event fell inside the September 7 edition's coverage window but was missed there, so it is labeled as a catch-up.",
+          "rating": 4,
+          "ratingReason": "The forced release exceeded the report's 50,000-alpha threshold and materially affected holders in a deregistered subnet slot.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Finalized-chain conviction unlock · block 9,008,717",
+              "url": "https://subnetradar.com/alpha/moments/conviction_unlock-n162u5"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 77,
@@ -1341,6 +1356,20 @@
     }
   ],
   "ecosystem": [
+    {
+      "headline": "Coldkey swap moves control from 5F6aR…iZ4D to 5HTeZ…cc8a",
+      "summary": "A finalized-chain coldkey swap executed at block 9,015,081 on September 7 at 10:52 AM ET, moving from 5F6aR…iZ4D to 5HTeZ…cc8a. The public event does not identify a subnet-specific role or explain the reason for the swap, so this report does not infer identity, motive, a security incident, ownership transfer or a sale.",
+      "rating": 3,
+      "ratingReason": "Coldkey changes can alter operational control and deserve a permanent audit trail even when the affected role and reason are not public.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Finalized-chain coldkey swap · block 9,015,081",
+          "url": "https://subnetradar.com/alpha/moments/coldkey_swap-wym2a4"
+        }
+      ]
+    },
     {
       "headline": "Subtensor release 455 merges tighter proxy permissions and a crowdloan fix",
       "summary": "The core repository merged release 455 and a fix that prevents NonTransfer and NonFungible proxies from using EVM, Contracts or Crowdloan calls to move value indirectly. The fix also removes a temporary block on crowdloan contributions in the code. Mainnet runtime activation was not independently confirmed, and the change itself does not establish that an exploit occurred.",
