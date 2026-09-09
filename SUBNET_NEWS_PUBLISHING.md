@@ -24,6 +24,7 @@ This workflow uses the repository's existing authenticated Git access. It does n
 - Use the public project feed, dated Discord briefs and GitHub as additional discovery sources. If signed-in X or Grok is blocked, record the exact gap; do not claim exhaustive X coverage. X-only stories available solely through a secondary feed stay developing.
 - Check both YouTube Videos and Live tabs on every combined news/video update. Match the actual video ID, title and duration before editing the site, and verify the selected embed afterward.
 - Review the previous edition for missed material announcements and corrections; label any late-found story with its actual event date.
+- Review the dated SubnetRadar Moments chain-event feed for material lock reductions, conviction changes, coldkey swaps, subnet registrations or removals, and ownership-related changes. Retain event links, block references and UTC timestamps in the audit; distinguish ranking changes from completed ownership transfers and lock reductions from token sales. Deduplicate events already covered in prior editions.
 
 - Use direct source links, with primary sources preferred.
 - Treat Discord briefs and AlphaGap summaries as discovery. A message in a subnet channel is not automatically from its team: verify the speaker before attributing a claim, especially allegations. Resolve conflicting launch claims against dated primary releases and documented activation gates.

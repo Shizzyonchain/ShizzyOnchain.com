@@ -1,0 +1,1713 @@
+{
+  "version": 1,
+  "date": "2026-09-09",
+  "title": "Subnet News — September 9, 2026",
+  "summary": "ORO’s Y Combinator acceptance and a broad return of subnet emissions lead today’s five-star news. BitMind removes its baseline burn, Leadpoet reports new customers and integrations, Vidaio unveils a redesign, and SOMA improves compression. Plus UMI, StonkFun, BUTT, CONST and today’s RL Bryer stream. Researched through 11:13 AM ET.",
+  "publishedAt": "2026-09-09T15:18:39.856Z",
+  "coverageStart": "2026-09-08T14:49:48.618Z",
+  "coverageEnd": "2026-09-09T15:13:54.689Z",
+  "highlights": [],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": [
+        {
+          "headline": "ORO joins Y Combinator’s Fall 2026 batch — SN15 takes the spotlight",
+          "summary": "ORO has been accepted into Y Combinator’s Fall 2026 batch. This is confirmed on YC’s own company directory, as well as ORO’s September 8 announcement and the OpenTensor Foundation’s follow-up. The team is building open models and daily evaluations for AI shopping agents. YC lists Christopher Golda as its primary partner. SN15 was up 17.34% against TAO over 24 hours at 11:13 AM ET. The accelerator acceptance is confirmed; no separate funding amount was disclosed in the announcement.",
+          "rating": 5,
+          "ratingReason": "A major outside accelerator has accepted a live Bittensor project, with confirmation from both sides and a strong market response. This deserves the lead position.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/oroagents/status/2097396633764032707"
+            },
+            {
+              "label": "Y Combinator: ORO AI · Fall 2026",
+              "url": "https://www.ycombinator.com/companies/oro-ai"
+            },
+            {
+              "label": "OpenTensor Foundation",
+              "url": "https://x.com/opentensor/status/2097575251597054345"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 17.336107594942735,
+            "observedAt": "2026-09-09T15:13:24+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": [
+        {
+          "headline": "BitMind removes its 80% burn; SN34 emissions are positive again",
+          "summary": "BitMind’s September 9 v5.0.3 change sets the baseline validator burn to zero, restoring the full published 40% image / 40% video / 4% audio / 16% generator allocation. This replaces yesterday’s 80% baseline burn. Separately, the 11:13 AM ET network snapshot shows SN34 receiving 1.208% of subnet emissions, compared with zero yesterday. The code and subnet-level restoration are confirmed; this snapshot does not establish that every validator has upgraded or every individual miner has received a payout.",
+          "rating": 4,
+          "ratingReason": "Both the incentive code and observed network allocation changed materially. This is a direct follow-up to yesterday’s burn story, with the new settings clearly separated from individual payouts.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Zero burn and v5.0.3 change",
+              "url": "https://github.com/BitMind-AI/bitmind-subnet/commit/b52763d5752088160f2618dfec5bcf07f533eda8"
+            },
+            {
+              "label": "Merged burn removal",
+              "url": "https://github.com/BitMind-AI/bitmind-subnet/commit/38413105a08e10c6fe0a25465863746cfc553afd"
+            },
+            {
+              "label": "Subnet market and emissions",
+              "url": "https://subnetradar.com/subnet/34"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": [
+        {
+          "headline": "Leadpoet adds LinkedIn and email integrations, new customers and an OpenTensor engagement",
+          "summary": "Leadpoet says LinkedIn and email integrations are built into its platform and will soon let users engage leads directly. Its September 8 update also reports new customers across logistics, proptech, AI and textiles, plus onboarding OpenTensor to help drive Exploit conference attendance. An improved incentive mechanism and stronger sales agent are targeted for this week. Customer and integration claims are attributed to Leadpoet; the post does not announce that the new mechanism is already live. SN71 was up 7.03% against TAO at 11:13 AM ET.",
+          "rating": 4,
+          "ratingReason": "Specific product integrations and reported customer acquisition are commercially meaningful. The launch target remains a plan and is not confused with an already shipped release.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/LeadpoetAI/status/2097383992228282380"
+            },
+            {
+              "label": "Exploit: Leadpoet enterprise-sales session",
+              "url": "https://x.com/ExploitSummit/status/2097671415944389030"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 7.03108504821291,
+            "observedAt": "2026-09-09T15:13:24+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": [
+        {
+          "headline": "Pareton reports 252.4 tokens per second on H200, beating its stock-B200 comparison",
+          "summary": "Pareton published a Qwen3.8-27B-FP8 comparison: its engine on an H200 produced 252.4 tokens per second versus 106.2 for stock vLLM on a B200, using the same prompt, output length and batch size of one. The team attributes the gain to multi-token prediction and links both runs. This is a specific workload result reported by Pareton, not a claim that H200s outperform B200s generally. The linked benchmark page could not be independently retrieved during this scan.",
+          "rating": 4,
+          "ratingReason": "A substantial, reproducible-looking inference result on cheaper hardware is material product evidence. Hardware, model, workload and the independent-verification limit are explicit.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/Pareton_ai/status/2097414673729827207"
+            },
+            {
+              "label": "Method and both run links",
+              "url": "https://x.com/Pareton_ai/status/2097414674132373866"
+            }
+          ]
+        },
+        {
+          "headline": "Pareton gets a new top-conviction hotkey in the subnet-king ranking",
+          "summary": "SubnetRadar’s September 9 record identifies 5HK5tp…EpeN as Pareton’s new highest-conviction hotkey, displacing 5GKbzK…4LWm at block 9,029,027. The reported conviction is 15,068.585. This confirms a ranking change in the provider’s chain-event feed; it does not by itself establish a completed subnet ownership transfer. SubnetRadar describes additional age and eligible-alpha threshold conditions for a takeover.",
+          "rating": 3,
+          "ratingReason": "A specific governance-ranking change deserves coverage, with the distinction between leading the ranking and actually taking ownership kept explicit.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Ranking change · block 9,029,027",
+              "url": "https://subnetradar.com/alpha/moments/subnet_king_change-1b7243"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": [
+        {
+          "headline": "Vidaio publishes a full redesign centered on independently checkable scoring",
+          "summary": "Vidaio announced a rebuilt subnet architecture and a new whitepaper on September 8. Its stated design lets others recompute scores from public evidence, with results anchored on-chain, reducing reliance on a private scoring process. The published whitepaper is available in the project’s miner repository. This confirms the redesign announcement and its documentation; the announcement alone does not demonstrate that all parts of the new mechanism are active in production.",
+          "rating": 4,
+          "ratingReason": "A redesign of the core scoring and verification process changes what miners produce and how holders can assess the subnet. It is more consequential than routine maintenance.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/vidaio_/status/2097381022585307182"
+            },
+            {
+              "label": "New whitepaper",
+              "url": "https://github.com/vidAio-subnet/miner-vidaio/blob/main/docs/vidaio-whitepaper.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": [
+        {
+          "headline": "Bitsec reports finding and patching a critical vulnerability beyond smart contracts",
+          "summary": "Bitsec says its tooling found a critical remote-code-execution vulnerability in an open-source project, and that the issue was reported and patched. The September 8 post presents this as evidence that its smart-contract audit tooling can extend into general software security. The announcement is first-party, but its text does not identify a public advisory, affected version or independently checkable patch. The finding and remediation therefore remain Bitsec-reported.",
+          "rating": 4,
+          "ratingReason": "A reported critical vulnerability discovery is a meaningful security and product-expansion story. The absence of a linked advisory limits independent confirmation.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/bitsecai/status/2097392374448050521"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "updates": [
+        {
+          "headline": "SN119 changes from Satori to CapabilityForge Next",
+          "summary": "The current subnet identity names SN119 CapabilityForge Next and points to a new repository published September 9. Its initial design rewards training-data improvements for learning-oriented AI, starting with mathematics and natural sciences. Miners would submit traceable data patches; validators would test whether they improve a frozen baseline, including accuracy and age-appropriate explanations. The initial repository contains the project description and images, not an implemented mining network. The identity and proposal are confirmed; live operation is not.",
+          "rating": 4,
+          "ratingReason": "A new name and research mission replace the prior Satori identity. The early documentation stage is essential context for a rebrand this substantial.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Initial CapabilityForge Next repository",
+              "url": "https://github.com/capabilityforge-next/capabilityforge/commit/33e2ade40c368bf291d221dfe9bcd71a957d4aba"
+            },
+            {
+              "label": "Subnet market and emissions",
+              "url": "https://subnetradar.com/subnet/119"
+            },
+            {
+              "label": "Identity-change alert",
+              "url": "https://x.com/subnetradarcom/status/2097688599386869883"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 78,
+      "name": "Umi",
+      "updates": [
+        {
+          "headline": "UMI takes Deaf-accessibility discussions to a congressional office",
+          "summary": "UMI says it met with a congressional office on September 8 to discuss Deaf accessibility, healthcare and emerging AI. The team says the conversation opened introductions to disability-rights, healthcare and national accessibility groups. This is a reported outreach meeting, not congressional endorsement, a government contract or a policy change. Separately, its published sign-language demonstration shows an imperfect early translation with a 71% semantic-similarity score for one example, rather than a general accuracy benchmark.",
+          "rating": 4,
+          "ratingReason": "Policy and distribution outreach can matter for assistive technology. The story is prominent while the meeting’s actual scope and the limited demonstration remain clear.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "UMI congressional-office meeting",
+              "url": "https://x.com/umi_sn78/status/2097413344559030454"
+            },
+            {
+              "label": "Raw translation demonstration",
+              "url": "https://x.com/umi_sn78/status/2097390275564073360"
+            }
+          ]
+        },
+        {
+          "headline": "UMI prepares seven-day bootstrap rewards, with chain cutover still gated",
+          "summary": "New UMI source implements a temporary seven-day service-weight mechanism that gives eligible public-endpoint miners equal weight. It explicitly does not rank translation quality or activate translation rewards. September 9 transition documentation says the first submission remains blocked until legacy weight rows are inactive and pending commits have cleared on finalized chain state. UMI also scheduled a development AMA for September 9 at 17:00 UTC / 1 PM ET.",
+          "rating": 3,
+          "ratingReason": "The bootstrap and transition conditions directly affect miner participation. Reporting a fully activated translation economy would overstate what the source establishes.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Bootstrap mechanism and activation limits",
+              "url": "https://github.com/Umi-BitSign/umi/commit/058599703b5a8d87831e1975ff2d2e60072319a8"
+            },
+            {
+              "label": "Legacy-validator transition gate",
+              "url": "https://github.com/Umi-BitSign/umi/commit/b1decfb62258737bb5f7f90632a723030f8b5757"
+            },
+            {
+              "label": "September 9 AMA",
+              "url": "https://x.com/umi_sn78/status/2097633215586480202"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SOMA says its new compression algorithm cuts token costs by up to 15%",
+          "summary": "SOMA announced an algorithm improvement of five percentage points, taking its advertised savings to as much as 15%. The September 8 post links directly to the application. The result is the project’s published claim and will depend on the workload; it is not a promise that every request or complete AI bill falls by 15%. This is a new improvement to the context-compression product, rather than a repeat of its earlier launch.",
+          "rating": 4,
+          "ratingReason": "A concrete improvement to a usable cost-saving product is commercially relevant and easy for users to evaluate.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/SomaSubnet/status/2097363100869812645"
+            },
+            {
+              "label": "SOMA application",
+              "url": "https://app.thesoma.ai/register"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": [
+        {
+          "headline": "Cortex opens a new research site — Proof intake ready, automatic payouts still pending",
+          "summary": "Cortex’s new network.cortex.foundation site describes two Proof research topics and says submissions are being accepted. The same page states that judging is partial, submissions are held in memory, weights are not yet sealed and automatic payouts are not wired. Bounty scoring is paused, with reports refused until its scoring feed connects. New repository work adds isolated research execution and rejects empty research artifacts. The site is available, but its own status does not support a fully operating paid research marketplace.",
+          "rating": 4,
+          "ratingReason": "The new research direction and public intake are significant. Clear status distinctions prevent the prominent “live challenges” wording from being mistaken for active payouts.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Cortex network and explicit current status",
+              "url": "https://network.cortex.foundation"
+            },
+            {
+              "label": "Dynamic research execution",
+              "url": "https://github.com/CortexLM/cortex/commit/04d6ebbf7a61a6b6a92b655d32a481b256e83be3"
+            },
+            {
+              "label": "Reject empty research artifacts",
+              "url": "https://github.com/CortexLM/cortex/commit/e30d51de889b572cdf1698fc8fef2d85ab1b9f94"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": [
+        {
+          "headline": "Minos’ emission share expands to roughly 7.5% after restoration",
+          "summary": "Yesterday’s report confirmed that Minos was receiving emissions again. The new 11:13 AM ET snapshot shows its share at 7.522%, up from 1.181% in yesterday’s saved snapshot. That is a further allocation change, distinct from the initial restoration. The latest channel brief still describes a miner-burn reduction as coming soon; this scan did not establish that the burn has already been removed.",
+          "rating": 4,
+          "ratingReason": "A large increase in network allocation after the pause is a material follow-up. The still-unconfirmed miner-burn step is kept separate.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Subnet market and emissions",
+              "url": "https://subnetradar.com/subnet/107"
+            },
+            {
+              "label": "Dated channel brief",
+              "url": "https://subnetradar.com/subnet-news/107/2026-09-09"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 1.0547321788283732,
+            "observedAt": "2026-09-09T15:13:24+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "OpenRoboto fixes stale fee documentation that could cost miners a submission",
+          "summary": "OpenRoboto’s September 9 documentation change removes hard-coded entry fees and directs miners to the current competition API value. The commit explains that the simulation fee moved from 0.1 to 0.2 TAO on September 3 while some guides stayed stale; it also corrects real-hardware guides that quoted 2 TAO instead of 1.5. Sending the wrong amount could burn funds without an evaluation. These are the values described in the fix, not a permanent fee schedule: check the live competition before submitting.",
+          "rating": 4,
+          "ratingReason": "A documented fee mismatch can directly cost miners money and prevent evaluation, making this more important than a cosmetic documentation edit.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Fee-documentation correction and safeguards",
+              "url": "https://github.com/openroboto-ai/openroboto-cli/commit/5e477a4f1a70187a03bcbac605cb1febaa2bf616"
+            }
+          ]
+        },
+        {
+          "headline": "OpenRoboto discusses European robotics deployment with István Joó",
+          "summary": "OpenRoboto reports a meeting with István Joó covering realistic early robot jobs, specialized manipulation policies and work with European universities and factories. The team says more European updates will follow. This is a first-party account of a business-development conversation; no signed customer, factory deployment or university partnership is announced in the post.",
+          "rating": 3,
+          "ratingReason": "New commercial outreach is worth tracking, while the meeting is kept distinct from a completed deal.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/openroboto/status/2097625355679117705"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": [
+        {
+          "headline": "ReadyAI brief points to an August buyback 2.25 times the prior month",
+          "summary": "The latest ReadyAI channel brief reports that the August buyback is planned for this week, at 2.25 times the prior month’s amount, using 75% of dashboard revenue. It also describes a monthly cadence and an AMA next Tuesday, September 15. A direct team announcement and completed buyback transaction were not located during this scan, so this is a developing scheduled event, not a completed purchase.",
+          "rating": 4,
+          "ratingReason": "A larger revenue-funded buyback could be material, but the amount and execution still need primary confirmation.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated channel brief",
+              "url": "https://subnetradar.com/subnet-news/33/2026-09-08"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": [
+        {
+          "headline": "MVTRX brief reports v0.6.0 mainnet and a noncustodial swap tool",
+          "summary": "The September 9 MVTRX channel brief reports a v0.6.0 release covering agent framework and scoring changes, plus a noncustodial swap tool. It describes v0.6.1 scoring work as the next testnet step and an AMA for today. The product and release claims were not independently matched to a dated primary release during this scan; they remain developing rather than a verified launch.",
+          "rating": 4,
+          "ratingReason": "A mainnet release and user-facing swap product would materially expand the project, warranting a prominent developing item.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated channel brief",
+              "url": "https://subnetradar.com/subnet-news/79/2026-09-09"
+            },
+            {
+              "label": "MVTRX project",
+              "url": "https://taos.im"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": [
+        {
+          "headline": "Capcomp remains sharply lower even as its emission share turns positive",
+          "summary": "Capcomp’s rolling 24-hour α/TAO change is -39.16% at 11:13 AM ET, following the sharp decline covered yesterday. Its observed emission share is now 0.138%, compared with zero yesterday. The positive allocation does not by itself establish normal miner payouts. Uncorroborated community allegations are not being used to explain the price movement.",
+          "rating": 4,
+          "ratingReason": "Continued severe price weakness alongside an emission return is a material market follow-up. No unsupported cause is assigned.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Subnet market and emissions",
+              "url": "https://subnetradar.com/subnet/103"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -39.15696829547406,
+            "observedAt": "2026-09-09T15:13:24+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": [
+        {
+          "headline": "Apex updates Humanoid Box Scramble timing, physics and partial-progress scoring",
+          "summary": "Apex’s Humanoid Box Scramble competition configuration now specifies one-day rounds and a one-day model-reveal period. Other merged changes make room and crate friction authoritative in robot contacts and score timed-out runs on partial progress. The pinned competition image advances to v0.1.5. These are published competition-rule and implementation changes; the source alone does not confirm every validator is running the new image.",
+          "rating": 3,
+          "ratingReason": "Round timing and scoring affect miner strategy, while the physics correction changes what the robot is actually evaluated against.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "One-day rounds and reveal",
+              "url": "https://github.com/macrocosm-os/apex-competition-humanoid-scramble/commit/b749add2f55373b1a409af83a05b223f9074de40"
+            },
+            {
+              "label": "Contact-friction fix",
+              "url": "https://github.com/macrocosm-os/apex-competition-humanoid-scramble/commit/2314f6af6df105264fa7dd81f385dce3c1d39e1c"
+            },
+            {
+              "label": "Partial-progress scoring",
+              "url": "https://github.com/macrocosm-os/apex-competition-humanoid-scramble/commit/cad385691cd874f1e3e66d089e40bbc1a0b60b64"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": [
+        {
+          "headline": "DSperse v14.14.3 guards against accidental full-burn weight commits",
+          "summary": "DSperse’s new guard holds the previous weights when all non-owner miner scores are zero. The old check missed this situation when the owner still had a nonzero weight, allowing that entry to normalize to the full allocation. The fix is merged into the v14.14.3 release. SN2’s observed subnet emission share is zero at 11:13 AM ET; the code change is not evidence that network emissions or miner payments have recovered.",
+          "rating": 3,
+          "ratingReason": "A reward-setting safeguard addresses a specific failure mode, while current emission status prevents a premature recovery claim.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Zero-miner-score guard",
+              "url": "https://github.com/inference-labs-inc/subnet-2/commit/92c75cee84551e73e7629b7a7306a0ca90f91e6d"
+            },
+            {
+              "label": "v14.14.3 release",
+              "url": "https://github.com/inference-labs-inc/subnet-2/commit/96d03c44729a350df79160e2ea8e3e175d492ce5"
+            },
+            {
+              "label": "Subnet market and emissions",
+              "url": "https://subnetradar.com/subnet/2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": [
+        {
+          "headline": "Teutonic expands evaluation from 4,000 to 20,000 samples across five datasets",
+          "summary": "Teutonic’s merged configuration replaces its prior three-dataset mixture with five sources spanning general text, pretraining behavior, math, code and supervised reasoning. The evaluation sample count rises from 4,000 to 20,000. Today’s team-channel brief says the new mix still needs pretokenization before live evaluation, so the merged configuration should not be read as completed activation.",
+          "rating": 3,
+          "ratingReason": "A broader and larger evaluation set changes the standard miners must optimize against.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "New dataset mix and evaluation size",
+              "url": "https://github.com/unarbos/teutonic/commit/1fb38097b0ff8fe716c61bce5bb0539e55547d53"
+            },
+            {
+              "label": "Dated channel brief",
+              "url": "https://subnetradar.com/subnet-news/3/2026-09-09"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": [
+        {
+          "headline": "Allways publishes a SOL-to-native-TAO walkthrough for BUTT and CONST users",
+          "summary": "Ventura Labs has published a walkthrough showing how Solana users can reach native TAO through Allways. Its September 8 post says a swap uses one credit and new accounts receive two free credits. The new guide specifically addresses the BUTT and CONST audience, creating a clearer route from Solana-based meme activity to Bittensor. No swap was performed as part of this report.",
+          "rating": 3,
+          "ratingReason": "A concrete onboarding guide connects a newly active audience with native Bittensor access.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/VenturaLabs/status/2097458624536645680"
+            },
+            {
+              "label": "Allways",
+              "url": "https://allways.venturalabs.ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": [
+        {
+          "headline": "Vanta describes bank-transfer and USDC settlement on one public ledger",
+          "summary": "Vanta says eligible rewards can settle by bank transfer with a Stripe reference or by an on-chain USDC transfer with a public transaction hash. Both routes are recorded on its public ledger. This clarifies settlement options; it is not evidence of a new Stripe partnership or a guarantee that every participant is eligible.",
+          "rating": 2,
+          "ratingReason": "Useful product-operation detail, with partnership and eligibility claims kept within the announcement.",
+          "importance": "informational",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/VantaTrading/status/2097340005886861731"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "trav",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": [
+        {
+          "headline": "Blockmachine reports stronger September signup momentum after capacity upgrades",
+          "summary": "Blockmachine says September signups are on pace to double August’s total, nine days into the month, following capacity and performance upgrades. This is a company-reported run rate, not a completed monthly result; no absolute signup count or revenue figure is disclosed. The announcement is a useful demand signal for the inference business, with the measurement limit explicit.",
+          "rating": 3,
+          "ratingReason": "Reported customer acquisition and capacity improvements are commercially relevant, even before a complete monthly result is available.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/blockmachine_io/status/2097610969182851381"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 20,
+      "name": "ChronoSeek",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": [
+        {
+          "headline": "AdTAO makes its reward-curve tail a dated, published parameter",
+          "summary": "AdTAO’s new source makes the tail of its reward curve an explicit switchable parameter with an effective date. A companion tool previews how a day’s weight vector would change under another tail using a copy of the ledger. This is an operational transparency and reward-design update, separate from the daily-payment and training-data changes already reported yesterday.",
+          "rating": 3,
+          "ratingReason": "The update makes proposed reward changes easier to inspect before they affect contributors.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Dated reward-curve parameter",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/19b4c9c2393691d8b262b179e06b7633e42b3489"
+            },
+            {
+              "label": "Weight preview on a ledger copy",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/63faef0a62056246ab235a097aeddf9ccbbd9443"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": [
+        {
+          "headline": "UR records a 544,553 α conviction lock and a separate 50,000 α lock reduction",
+          "summary": "SubnetRadar’s September 9 chain-event records show 544,553.077 α added to a lock targeting UR’s owner hotkey at block 9,027,997. A separate hotkey’s locked amount then fell by 50,000 α at block 9,028,349. These are two distinct events, published at 06:03 and 07:13 UTC. The reduction record identifies a change to the lock, but does not establish that those tokens were sold or specify whether a transfer, forced reduction or closure caused it.",
+          "rating": 4,
+          "ratingReason": "The scale of the commitment and the separate reduction make this a material token-lock update. The records are reported without inferring a sale, wallet identity or motive.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "544,553 α lock · block 9,027,997",
+              "url": "https://subnetradar.com/alpha/moments/conviction_lock-5xilr5"
+            },
+            {
+              "label": "50,000 α reduction · block 9,028,349",
+              "url": "https://subnetradar.com/alpha/moments/conviction_unlock-65gdwf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": [
+        {
+          "headline": "SayGM patches a configuration-injection flaw in its miner data path",
+          "summary": "SayGM’s merged miner changes validate a node secret before inserting it into the request-processing configuration, and render that secret after other substitutions. The documented flaw could allow a specially constructed configuration value to inject code into the buyer-facing data path. The fix is concrete source evidence; no confirmed exploitation or customer-data breach was found. Subsequent development also adds measured cloud-model routing and deployment verification.",
+          "rating": 3,
+          "ratingReason": "A security fix affecting request handling deserves coverage, without inflating a patched configuration weakness into an observed breach.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Validate secrets before configuration rendering",
+              "url": "https://github.com/taostat/gm-miner/commit/318c0ae6728ff821fb067284d9764d6ab801ea4d"
+            },
+            {
+              "label": "Render secret last",
+              "url": "https://github.com/taostat/gm-miner/commit/f6113dac7a1359b1a2b1fe0279b1ffa79add28f2"
+            },
+            {
+              "label": "Cloud-deployment verification",
+              "url": "https://github.com/taostat/gm-miner/commit/31d538a9d4ef410ed669ca8fbf64b492978d63e9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "OxMarkets",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Subnet 36",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": [
+        {
+          "headline": "Ralph lowers the challenger margin from 2% to 1%",
+          "summary": "Ralph’s merged Round 6 change lowers the margin needed to dethrone the current leader from 0.02 to 0.01. This is a targeted competition-setting change that makes smaller improvements sufficient under the published configuration. Deployment on every validator was not independently checked.",
+          "rating": 2,
+          "ratingReason": "A narrow but useful rule change for participating miners.",
+          "importance": "informational",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "New challenger margin",
+              "url": "https://github.com/RalphLabsAI/ralph-v2/commit/491f60bc9eb692447af056a255d1239f8e16bc43"
+            },
+            {
+              "label": "Merged Round 6 change",
+              "url": "https://github.com/RalphLabsAI/ralph-v2/commit/8a5010163f6d8d89b051f1db2910fa892208bf68"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": [
+        {
+          "headline": "Score highlights a large football-analysis cost gap and adds player attribution",
+          "summary": "Max Sebti reports that full-match processing with the named frontier models would cost roughly 1,000 times more than Score’s private-track models in his latest tests; Score says its models would also be more accurate. Those are attributed test claims, not independently audited results in this scan. A separate Score update says player attribution is being added in post-processing. This is new cost and product context, rather than a fresh announcement of earlier private-track benchmarks.",
+          "rating": 3,
+          "ratingReason": "The cost comparison and player-attribution work are relevant to commercial sports analysis, but the claimed ratio needs broader benchmark evidence.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Reported cost comparison",
+              "url": "https://x.com/MaxSebti/status/2097368645009653966"
+            },
+            {
+              "label": "Score response",
+              "url": "https://x.com/webuildscore/status/2097369752763052122"
+            },
+            {
+              "label": "Player-attribution update",
+              "url": "https://x.com/webuildscore/status/2097468564730941487"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "Feval",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": []
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": [
+        {
+          "headline": "Lium makes GPU rental and remote Python jobs easier through its SDK",
+          "summary": "Lium’s SDK updates add automatic selection of the cheapest matching node, a remote Python execution decorator, shared CLI/API-key handling and better machine-readable output. Its v0.0.38 and v0.0.39 releases also improve GPU matching and rental diagnostics. These are practical tooling changes for developers renting compute; they are separate from the throughput benchmark covered in yesterday’s edition.",
+          "rating": 3,
+          "ratingReason": "Lower setup friction and clearer rental selection improve the usability of an existing commercial compute service.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Remote Python execution",
+              "url": "https://github.com/Datura-ai/lium/commit/de5cecb8c67b6f6314b56c4c76cb41cf5ab8b3db"
+            },
+            {
+              "label": "Cheapest matching node selection",
+              "url": "https://github.com/Datura-ai/lium/commit/0c5fdf43038fd340bf2ea5372d2de8c05c28989f"
+            },
+            {
+              "label": "SDK v0.0.39",
+              "url": "https://github.com/Datura-ai/lium/commit/cd050da18189b5f8646e2bbccdf1f2c7de327b31"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Subnet 57",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "greevils",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Subnet 59",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": [
+        {
+          "headline": "TPN moves toward wider adoption of its benchmark and compressed-model products",
+          "summary": "True Performance Network says its benchmark product is already being used and stress-tested by miners, and it is starting outreach to grow the user base. Its September 9 update also describes an upcoming consumer product focused on AI sovereignty and further refinement of the subnet’s model-compression service. The consumer product remains in development; the post does not disclose a completed launch or new revenue figure.",
+          "rating": 3,
+          "ratingReason": "A specific go-to-market update connects subnet output to users, while current products and future releases stay distinct.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/TPN_Labs/status/2097678916429205840"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": [
+        {
+          "headline": "Conjectures replaces miner-hotkey signing with coldkey-linked submissions",
+          "summary": "Conjectures’ new schema removes the miner hotkey from submission identity and CLI-session signing. The documented model separates the proved submission coldkey from the payout destination and continues to allow scoped sessions for submissions. This is a source-level account and submission change, not a request to share or upload a private key. Production migration and payout activation were not independently established in this scan.",
+          "rating": 3,
+          "ratingReason": "The identity and signing model materially changes how contributors interact with the proof market.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Coldkey-based submission and account schema",
+              "url": "https://github.com/conjectures-io/conjectures-validator/commit/5315e5430a9a2e8af1a80406976a43bbeeae791d"
+            },
+            {
+              "label": "Merged migration",
+              "url": "https://github.com/conjectures-io/conjectures-validator/commit/9178a045878ffc4d95f794f010a6804ef9349ca6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": [
+        {
+          "headline": "Harnyx rejects responses with broken citation references",
+          "summary": "Harnyx says its default research path now validates every citation index and rejects a response containing an invalid reference. A matching September 9 repository update rejects unresolved inline citations. The separate fast mode already existed; today’s change tightens the traceable path rather than introducing fast mode for the first time. Valid citation syntax alone does not prove that a cited source supports every claim.",
+          "rating": 3,
+          "ratingReason": "A checkable reliability improvement matters for research users who need answers they can trace back to sources.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/harnyx_ai/status/2097549981226037569"
+            },
+            {
+              "label": "Unresolved-citation rejection",
+              "url": "https://github.com/harnyx/harnyx/commit/97bac2c2c7d7995d45bc0550857c6626c5689f36"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": [
+        {
+          "headline": "NOVA brief caps Blueprint bounties ahead of the Boltz-2 transition",
+          "summary": "The September 8 NOVA brief reports a 23,000-alpha bounty cap until the planned Boltz-2 transition, with one initial Blueprint target and server-side evaluation. It says the existing PSICHIC path continues in the meantime and delayed payouts help limit abuse. This adds operating detail to yesterday’s transition plan; a primary activation notice was not located, so the cap and timing remain developing.",
+          "rating": 3,
+          "ratingReason": "Bounty size and evaluation timing affect contributor participation while the model transition is pending.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated channel brief",
+              "url": "https://subnetradar.com/subnet-news/68/2026-09-08"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": [
+        {
+          "headline": "Gittensor’s SparkInfer improves long-context Muse inference",
+          "summary": "SparkInfer’s published measurements show a shared key/value decode tile raising Muse throughput from 71.91 to 86.49 tokens per second at a 64k context, about a 20% improvement in that test. A separate fix corrects the cache datatype used during prompt processing, and the newest change reduces repeated storage of a layer operand. These are narrowly specified implementation results, not a general 20% speedup for every model or workload.",
+          "rating": 3,
+          "ratingReason": "Measured open-source inference improvements are relevant to builders, with the exact workload keeping the performance claim meaningful.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "64k decode benchmark and method",
+              "url": "https://github.com/gittensor-ai-lab/sparkinfer/commit/21d1ffc6b3ffc2034bba622c9eb24fb2ed90cdb0"
+            },
+            {
+              "label": "Cache datatype correction",
+              "url": "https://github.com/gittensor-ai-lab/sparkinfer/commit/08abb299361909119cfbc7b7bf618c810d14c69e"
+            },
+            {
+              "label": "Per-layer operand memory handling",
+              "url": "https://github.com/gittensor-ai-lab/sparkinfer/commit/f3696664f838a0f24870f08ac7b076f01f17731b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Subnet 76",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": [
+        {
+          "headline": "Investing88 says its root validator excludes its own subnet",
+          "summary": "Investing88 confirms that 88 Root does not allocate to SN88 itself, describing the exclusion as a conflict-of-interest precaution. The team says its weight vector is generated from miner outputs. The announcement confirms the stated policy; current full validator allocations were not independently reconstructed here.",
+          "rating": 2,
+          "ratingReason": "A clearly stated allocation policy adds useful transparency, with a narrower impact than a launch.",
+          "importance": "informational",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/Investing88ai/status/2097429778156392914"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": [
+        {
+          "headline": "InfiniteQuant expands custom market sizing while keeping new scoring gates on testnet",
+          "summary": "InfiniteQuant’s source expands custom sizing to the recorded Hyperliquid market universe, with the commit naming 329 pairs. It also adds a per-wash 24-hour emission cut on the points path, explicitly armed for testnet only. The wider market coverage and experimental scoring rule are development changes, not evidence of a new live mainnet penalty.",
+          "rating": 3,
+          "ratingReason": "A larger supported market universe changes what can be modeled; the testnet restriction prevents misreporting an active emission rule.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Expanded market universe",
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/01c7c32192488859581dd9c84fd78200056b1dca"
+            },
+            {
+              "label": "Testnet-only scoring gate",
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/04ba550b7219094778bc07b927770befe308105e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "MicroTensor",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": [
+        {
+          "headline": "Verathos confirms its MicroTensor partnership and testnet model deployment",
+          "summary": "Following yesterday’s MicroTensor announcement and our model-listing check, Verathos has now published its own confirmation. It describes a partnership to serve certified subnet-native models and identifies mt-code-3g-r1238-5ED3LzEW as the first deployment. The coding model is routed through Verathos’ testnet, with its arena certificate linked to the MicroTensor result. This adds receiving-team confirmation; it does not announce a new mainnet launch.",
+          "rating": 3,
+          "ratingReason": "The other side of a cross-subnet integration has confirmed the deployment. The lower rating reflects a follow-up to yesterday’s lead rather than a second launch.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/verathos_ai/status/2097341828282372329"
+            },
+            {
+              "label": "Model listing · select Testnet",
+              "url": "https://verathos.ai/models"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": [
+        {
+          "headline": "NeverPlayAlone’s next benchmark adds a wave-based combat mission",
+          "summary": "The September 9 channel brief describes a new CombatMission round with ten minutes of preparation followed by eight minutes of combat across eight waves. Agents start with an empty inventory and must prepare equipment before fighting; scoring balances three objectives with a death penalty. This is a dated competition lead from the channel digest, with a matching primary release not retrieved during the scan.",
+          "rating": 3,
+          "ratingReason": "A new benchmark tests planning, crafting and combat together, rather than another routine infrastructure change.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated channel brief",
+              "url": "https://subnetradar.com/subnet-news/98/2026-09-09"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": [
+        {
+          "headline": "Beam publishes transfer-audit access and plans an OpenClaw integration",
+          "summary": "Beam highlights public routes for inspecting transfer assignments, tasks, attempts, results and overseer interventions. Separately, it says an OpenClaw skill is being built to give agents access to Beam’s data movement and streaming, with deeper Rooms and Tunnels integration planned alongside Beam Studio. The audit documentation is public; the OpenClaw integration is described as upcoming, not a completed partnership or live release.",
+          "rating": 3,
+          "ratingReason": "Public verification tools and a named agent integration are useful product developments, with current access separated from the roadmap.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Public audit records",
+              "url": "https://x.com/b1m_ai/status/2097384640772538679"
+            },
+            {
+              "label": "Beam audit API reference",
+              "url": "https://data.b1m.ai/guide/api-reference#dashboard-audit-routes"
+            },
+            {
+              "label": "Upcoming OpenClaw skill",
+              "url": "https://x.com/b1m_ai/status/2097512421908701616"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": [
+        {
+          "headline": "Claims tightens scientific-claim eligibility and adds adjudication fallbacks",
+          "summary": "Claims’ September 8–9 changes unify eligibility adjudication, strengthen the checks for its Silver workflow, enable rigor validation in mainnet profiles and add fallback handling when a model-based adjudication fails. These are changes to how submitted research claims are assessed. They are not independent validation of the medical conclusions in the project’s promotional examples.",
+          "rating": 3,
+          "ratingReason": "Better eligibility checks and recovery from failed judging affect the quality and reliability of the scientific-claim pipeline.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Unified eligibility adjudication",
+              "url": "https://github.com/DeSciClaims/Claims/commit/709617770c5d1f8494038f76faaa4350ac1e259c"
+            },
+            {
+              "label": "Rigor validation in mainnet profiles",
+              "url": "https://github.com/DeSciClaims/Claims/commit/7015d02e635d843dd174b22149f47236bbeb3942"
+            },
+            {
+              "label": "Canonicalization fallback",
+              "url": "https://github.com/DeSciClaims/Claims/commit/f4915e4d6472d887eda5ed5e3181c047343c03fa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 112,
+      "name": "parked",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": [
+        {
+          "headline": "TensorUSD closes a route exposing scoring ground truth to the evaluation environment",
+          "summary": "TensorUSD’s merged change restricts the evaluation environment to the supplied data file and removes access to ground truth. That protects the distinction between the information contestants receive and the answers used to judge them. The project also reiterates that TUSDT is native to Bittensor; its September 9 post does not announce an EVM deployment.",
+          "rating": 3,
+          "ratingReason": "Keeping answers out of the contestant environment is material to the integrity of a forecasting competition.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Restrict ground-truth access",
+              "url": "https://github.com/TensorUSD/subnet/commit/6f2b6307a7a40f25f9a57a0b5de9f962995c0b5c"
+            },
+            {
+              "label": "Merged fix",
+              "url": "https://github.com/TensorUSD/subnet/commit/42d6980f8577b174dab27e82da605f0c21129249"
+            },
+            {
+              "label": "Native-chain clarification",
+              "url": "https://x.com/TensorUSD/status/2097690237598097769"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "Ditto confirms V2 is still in preparation, with a redesigned app and onboarding",
+          "summary": "Ditto’s September 9 product update says the team is preparing V2 with new features, a redesigned application and improved onboarding. This is a roadmap-status update, not confirmation that V2 has launched. Repository work also adds native coding-runtime qualification controls and excludes runs affected by platform inference errors from scoring. Those implementation changes do not establish general availability of every planned feature.",
+          "rating": 3,
+          "ratingReason": "The first-party launch status resolves ambiguity in circulating summaries, while the code changes improve evaluation reliability.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/heydittoai/status/2097671873404482024"
+            },
+            {
+              "label": "Exclude platform inference errors",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/421ca8e11b7f7190fecff458ed395341fb11347f"
+            },
+            {
+              "label": "Native coding qualification controls",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/162ec423cd28c8865c2da4d37afdfc86d8dc7f87"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": [
+        {
+          "headline": "Affine activates its stricter chat-model rules for September 9",
+          "summary": "Affine’s published fork record moves weight version 12 to 13, requiring a proper closing reasoning tag, enforcing a chat-protocol admission test with at least a 90% pass rate, and scoring the visible final reply. IDE-agent prompts also enter the dataset. The project’s updated fork history explicitly dates the rules as effective September 9, advancing the previously announced change from a future plan to the current rule set.",
+          "rating": 3,
+          "ratingReason": "An effective scoring and admission change can determine whether a miner is accepted or forfeits a turn.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Weight-version 13 rule change",
+              "url": "https://github.com/AffineFoundation/affine/commit/1f099950315beec3f21fc10a15fbdff82200235c"
+            },
+            {
+              "label": "Post-change status update",
+              "url": "https://github.com/AffineFoundation/affine/commit/09f8cf14db34bf4a5f697ebda0e329e5fa890b08"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": [
+        {
+          "headline": "Sundae’s SBC26 challenge window runs September 8–10",
+          "summary": "The dated Sundae channel brief describes SBC26 as open from September 8 through September 10, with prescreening intended to filter poor-quality submissions before private judging. Separately, Sundae’s public account explains how its agents review completed challenges and open follow-up tickets when gaps remain. The specific competition window is still sourced to the brief.",
+          "rating": 3,
+          "ratingReason": "A short competition deadline is actionable for miners and belongs in the day’s schedule.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "Dated channel brief",
+              "url": "https://subnetradar.com/subnet-news/121/2026-09-09"
+            },
+            {
+              "label": "Challenge-review workflow",
+              "url": "https://x.com/sundaebar_ai/status/2097343101241364503"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": [
+        {
+          "headline": "Swarm randomizes its simulated lab as it develops a drone interceptor",
+          "summary": "Swarm says its simulated lab now rearranges the same 41 objects on every run, making a memorized map less useful. The team is building an open-source drone interceptor and testing it in a real lab, but describes the interceptor as still coming. The new environment detail adds substance to the project’s development without implying a finished deployment.",
+          "rating": 3,
+          "ratingReason": "Changing the environment tests whether a model generalizes beyond a fixed room layout.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/SwarmSubnet/status/2097385730347872341"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "updates": [
+        {
+          "headline": "Refinery adds protections for interrupted rounds and unavailable GPU capacity",
+          "summary": "Refinery’s new source provides urgent-update handling that preserves round audit state and returns credits for abandoned rounds. It also distinguishes GPU-capacity failures from evaluations that actually began, so unstarted work can be carried forward. This is a concrete follow-up to yesterday’s SN125 rebrand and mechanism reveal. Source availability and community “live” posts still do not prove that the complete deployed reward loop is operating.",
+          "rating": 3,
+          "ratingReason": "Early operating rules that protect submission credits matter to prospective miners, especially during a new subnet’s rollout.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "Round recovery and capacity handling",
+              "url": "https://github.com/Barbariandev/Refinery/commit/926840bcc107eed9e8c1922aaf854eca2dcff4eb"
+            },
+            {
+              "label": "Subnet market and emissions",
+              "url": "https://subnetradar.com/subnet/125"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 126,
+      "name": "Poker44",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Emissions return across Bittensor: 19 subnet slots move back above zero",
+      "summary": "A comparison of yesterday’s saved network snapshot with 11:13 AM ET today finds 19 subnet slots moving from zero to a positive emission share: SN8, SN9, SN16, SN29, SN34, SN35, SN40, SN43, SN47, SN48, SN58, SN63, SN83, SN84, SN90, SN92, SN103, SN110, SN121. These include Vanta, iota, BitMind, Quantum Compute, Enigma, Green Compute and Capcomp. qBitTensor Labs independently confirms that SN48 and SN63 were re-enabled this morning, while asking for more clarity on the decision process. This is a subnet-allocation comparison, not proof that every miner payout is active or that one policy change caused all 19 transitions.",
+      "rating": 5,
+      "ratingReason": "The breadth of the observed emission return makes this an ecosystem-level lead, affecting many projects and holders at once.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "qBitTensor confirms SN48 and SN63",
+          "url": "https://x.com/qBitTensorLabs/status/2097698697702506688"
+        },
+        {
+          "label": "Current network emission data",
+          "url": "https://shizzyunchained.com/api/backend/v1/screener"
+        },
+        {
+          "label": "Subnet market and emissions",
+          "url": "https://subnetradar.com/subnet/63"
+        },
+        {
+          "label": "Subnet market and emissions",
+          "url": "https://subnetradar.com/subnet/48"
+        }
+      ]
+    },
+    {
+      "headline": "Buttensor reports 1,817 TAO distributed, with 206,373 cumulative payouts",
+      "summary": "Buttensor’s September 8 update reports 1,817.02 TAO distributed as of 18:08 UTC, an increase of 455.26 TAO since its September 7 update. The 206,373 figure counts payouts, not unique holders. The project describes a 3% transfer tax used for proportional TAO distributions after costs. These are project-reported dashboard totals, not an independent reconciliation, and the tax rate is not a yield. The new distribution milestone gives the StonkFun/TAO story a measurable follow-up.",
+      "rating": 3,
+      "ratingReason": "A dated distribution total provides more useful context than price speculation, with the accounting limitations stated.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Original announcement",
+          "url": "https://x.com/BuTTensorTao/status/2097389701241971118"
+        }
+      ]
+    },
+    {
+      "headline": "StonkFun reports $21 million in ecosystem rewards and adds more pairing options",
+      "summary": "StonkFun says cumulative rewards across its entire ecosystem have exceeded $21 million. That is platform-wide, not TAO-only revenue or rewards. Its September 8 announcements also add JTO and tokenized Sphere stock as pairing options and say StonkFun is available on Fomo. TAO pairing was introduced earlier and is not being presented as a new September 9 launch.",
+      "rating": 3,
+      "ratingReason": "The broader platform’s reported scale and distribution channels matter to the new TAO use case, but unrelated rewards are not counted as TAO demand.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Platform-wide reward milestone",
+          "url": "https://x.com/LaunchOnSF/status/2097433092613140879"
+        },
+        {
+          "label": "JTO pairing",
+          "url": "https://x.com/LaunchOnSF/status/2097471892999512352"
+        },
+        {
+          "label": "Sphere pairing",
+          "url": "https://x.com/LaunchOnSF/status/2097414751940903216"
+        },
+        {
+          "label": "Fomo announcement",
+          "url": "https://x.com/LaunchOnSF/status/2097456768356126934"
+        }
+      ]
+    },
+    {
+      "headline": "CONST’s community promoter reiterates the Bittensor focus",
+      "summary": "Cats says CONST was launched to bring the Bittensor community together and promote TAO and its subnets. A separate September 9 post warns about its volatility. These are community-positioning statements, not a new product integration, exchange listing or announcement by Bittensor co-founder Const. No new verified listing or utility launch was located in this scan.",
+      "rating": 2,
+      "ratingReason": "The user-requested meme beat remains covered, while a community statement receives proportionate weight.",
+      "importance": "informational",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Original announcement",
+          "url": "https://x.com/Cats_CR/status/2097661668910100683"
+        },
+        {
+          "label": "Original announcement",
+          "url": "https://x.com/Cats_CR/status/2097495830575919190"
+        }
+      ]
+    },
+    {
+      "headline": "Forever Money’s Hash Rate appearance discusses TAO bridges and future subnet-token access",
+      "summary": "Hash Rate episode 185 features Forever Money’s philism discussing TAO on Base and Robinhood Chain, Chainlink bridge security, meme integrations and future subnet-token access. The September 9 episode is new; the underlying bridge announcements were covered earlier. Future subnet-token plans discussed in the interview are not a confirmed live bridge or launch date.",
+      "rating": 3,
+      "ratingReason": "A new primary interview adds roadmap context to an important interoperability story without recycling the original launch.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Hash Rate episode 185",
+          "url": "https://x.com/markjeffrey/status/2097545326848790916"
+        }
+      ]
+    },
+    {
+      "headline": "Today with Shizzy: RL Bryer at noon Eastern, plus a new members briefing",
+      "summary": "The RL Bryer livestream is scheduled for September 9 at 12 PM ET / 9 AM PT, titled “2009 Bitcoin OG’s Next Big Bet: TAO | Ride of a Lifetime with RL Bryer.” The latest members-only briefing is the September 8 news and TAO price-action video, running 18:35. The public library’s latest regular upload remains “TAO Breakout Is NOW!” The stream was still upcoming when checked.",
+      "rating": 2,
+      "ratingReason": "A practical viewing schedule and access update for readers following the channel.",
+      "importance": "informational",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "RL Bryer livestream",
+          "url": "https://www.youtube.com/watch?v=x_cABVBK2Qc"
+        },
+        {
+          "label": "September 8 members video",
+          "url": "https://www.youtube.com/watch?v=bUPt2C9_irc"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "All 128 active subnet identities reviewed against yesterday. 100 dated September 8–9 SubnetRadar briefs checked, with material developments separated from chat and older events.",
+      "Signed-in X Latest searches covered all 128 SN numbers and current names or aliases in 16 grouped queries. Additional searches covered Bittensor/TAO and partner accounts including OpenTensor, Forever Money, Chainlink, Sunrise, StonkFun, Buttensor and Cats. Grok was used for discovery and its links were checked against original sources.",
+      "92 public X account candidates checked; 90 returned post samples. 150 unique in-window post records were retrieved, with full original text checked for material stories.",
+      "Authenticated AlphaGap feed reviewed: 37 visible cards. TAO Daily, TAO Media and the public subnet feed were checked for additional leads.",
+      "153 mapped repository paths scanned with pagination, then refreshed through 11:13 AM ET. Selected commits and public documentation checked for actual changes and launch limitations.",
+      "Primary verification included Y Combinator’s ORO directory entry, BitMind’s zero-burn commit, qBitTensor’s restoration announcement, UMI’s bootstrap gates, Cortex’s current product status and dated project announcements.",
+      "Network prices and emission shares sampled at 11:13 AM ET and compared with yesterday’s saved snapshot. Price badges use rolling 24-hour α/TAO, not USD.",
+      "YouTube Videos and Live tabs checked. New members upload bUPt2C9_irc verified at 18:35, September 8; membership access confirmed. RL Bryer remains scheduled for September 9 at 16:00 UTC. Latest public regular upload remains L3wLKIoYz1c, 22:44.",
+      "SubnetRadar Moments chain-event feed reviewed through the saved cutoff for lock reductions, new conviction, leadership rankings, coldkey swaps and subnet identity changes. Three detailed in-window events were retained with their block numbers and UTC publication timestamps; events already covered yesterday were not repeated."
+    ],
+    "gaps": [
+      "X was sampled rather than exhaustively paginated. Grouped discovery queries excluded replies and ambiguous names produced unrelated matches; selected full threads and account samples supplemented them. Private, deleted, unindexed and unsampled posts may still be missing. X also returned intermittent 429 responses while loading profile metadata; visible search results remained readable.",
+      "Private Discord history was not accessed directly. AlphaGap and SubnetRadar summaries are discovery, not automatic proof of team authorship. ReadyAI’s buyback, MVTRX’s release, NOVA’s bounty details, NeverPlayAlone’s new mission and Sundae’s deadline remain developing where dated primary confirmation was not retrieved.",
+      "Five historical repository paths returned 404: deprecated/deprecated, actual-computer/actual-subnet-95, Satori119/Satori, NIOME-BITTENSOR/NIOME and Oh-My-Ditto/ditto. New SN119 documentation was checked separately. Cross-linked Lium and Refinery repositories were attributed to SN51 and SN125, not stale profile mappings.",
+      "The 19-slot emission comparison uses timestamped provider data, not an independent reconstruction of every chain event. A positive subnet share or a merged burn change does not demonstrate every miner was paid. DSperse still showed zero subnet emissions at the market cutoff.",
+      "Pareton’s linked external run page could not be retrieved independently. Bitsec’s post did not expose a public advisory or affected-version details. Performance, customer, reward-distribution and signup figures are attributed to their publishers where not independently reconciled.",
+      "UMI translation rewards remain inactive in its source; the bootstrap has separate cutover gates. CapabilityForge Next initially published a description and images, not a mining implementation. Cortex’s site explicitly says automatic payouts are not wired and Bounty scoring is paused. Refinery deployment was not independently established.",
+      "AlphaGap’s BitMind misconduct allegation and Cacheon takeover description were not corroborated and were excluded. Ditto’s first-party post still calls V2 preparation; broader launch claims were not treated as confirmation. Previously covered Chutes leadership, Hippius Drive pricing and original TAO-pair/bridge launches were not recycled as new events.",
+      "Dated briefs can span events before the exact cutoff; retained September 8 follow-ups add material context and retain their date. No verified forward alpha-unlock calendar was found. Research cutoff is 11:13 AM ET on September 9; later posts belong to the next edition.",
+      "Chain-event figures are attributed to SubnetRadar’s automatic records and were not independently reconstructed from archival chain state. Lock reductions do not prove token sales; a subnet-king ranking change does not alone confirm an ownership transfer. One Almanac perpetual-lock lead had no retrievable detail body and was excluded."
+    ]
+  }
+}

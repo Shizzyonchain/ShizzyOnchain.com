@@ -126,6 +126,12 @@ const channelVideos: ChannelVideo[] = [
     meta: "22:44 · Latest episode · September 7, 2026",
   },
   {
+    id: "mu-qKyEkKpU",
+    title: "9/6/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "10:11 · Members only · September 6, 2026",
+    membersOnly: true,
+  },
+  {
     id: "T_KsttRZ9pk",
     title: "TAO to $300? | Bittensor Market & Subnet Update",
     meta: "26:42",
