@@ -2,7 +2,7 @@
   "version": 1,
   "date": "2026-09-10",
   "title": "Subnet News — September 10, 2026",
-  "summary": "Lium’s $964K billing update and new TAO borrowing lead today’s five-star news, alongside Epago’s surge and confirmed emissions shutoff, and Conjectures’ published mathematical result. Plus Bitcast, Bitsec, Ditto, Score/SayGM, NIOME’s migration plan, StonkFun and the RL Bryer replay. Researched through 11:07 AM ET.",
+  "summary": "Five-star update: TAO becomes a Bankr launch pair, opening new token markets and launches directly from X. Also leading today: Lium’s $964K billing and TAO borrowing, Epago’s surge and emissions shutoff, and Conjectures’ mathematical result. Full research scan through 11:07 AM ET; Bankr announcement added at 11:37 AM ET.",
   "publishedAt": "2026-09-10T15:14:20.690Z",
   "coverageStart": "2026-09-09T15:13:54.689Z",
   "coverageEnd": "2026-09-10T15:07:21.716Z",
@@ -1326,6 +1326,24 @@
   ],
   "ecosystem": [
     {
+      "headline": "TAO becomes a Bankr launch pair — new token markets can launch directly from X",
+      "summary": "ForeverMoney announced at 11:25 AM ET that TAO is live as a Bankr launch pair for Base and Robinhood Chain. Bankr’s own documentation explicitly lists TAO as a supported quote token on Base and describes launching through X. New projects can create trading pools where their token trades against TAO, giving TAO another use as liquidity for new markets. This also gives builders and AI agents a simpler route to launch around TAO. If those projects attract users, they could bring more TAO-denominated liquidity, trading activity and new communities into the ecosystem. The Robinhood Chain availability is attributed to ForeverMoney’s announcement. Added after today’s full research cutoff.",
+      "rating": 5,
+      "ratingReason": "A live launch-pair integration expands TAO’s utility and distribution through Bankr and X. Its ecosystem-wide reach earns five stars; future liquidity and adoption depend on actual use.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "ForeverMoney launch announcement",
+          "url": "https://x.com/forevermoney_ai/status/2098070414790382006"
+        },
+        {
+          "label": "Bankr launch and TAO pairing documentation",
+          "url": "https://docs.bankr.bot/token-launching/overview/"
+        }
+      ]
+    },
+    {
       "headline": "Emission follow-up: some allocations return, while others fall to zero",
       "summary": "At 11:07 AM ET, UMI’s observed subnet allocation is 0.107% and DSperse’s is approximately 0.00002%, versus zero in yesterday’s saved snapshot. Leadpoet, Hotfloat and Feval now show zero after previously positive readings. These are allocation observations, which alone do not prove an administrative switch. Epago is different: the successful disable transaction is documented in its five-star story above. Pool-side TAO emissions, participant alpha emission and validator burn settings are separate mechanisms; one number does not show whether every miner is getting paid.",
       "rating": 4,
@@ -1448,6 +1466,7 @@
   ],
   "coverage": {
     "searched": [
+      "11:37 AM ET addition: ForeverMoney’s 11:25 AM ET TAO–Bankr announcement checked in signed-in X and against Bankr’s launch documentation. The full-network research cutoff and market snapshot remain 11:07 AM ET.",
       "All 128 current subnet profiles checked. 100 dated September 9–10 channel briefs reviewed against the previous edition.",
       "Signed-in X Latest searched all 128 subnet numbers and current names or aliases in 16 grouped queries. Public account samples and primary follow-ups covered projects, partners, emissions, StonkFun and community leads. Grok supplied additional leads that were checked against originals.",
       "79 public X account candidates checked; 78 returned samples. 157 unique in-window post records retrieved; selected stories were followed to full original text.",
@@ -1465,7 +1484,7 @@
       "The Epago disable transaction is confirmed. The signer’s real-world identity, decision rationale and any later reversal are not established. Zero or positive allocations elsewhere do not by themselves identify an administrative switch or verify miner payouts.",
       "Grok and aggregator launch descriptions were corrected against primary sources: UMI’s “live” post linked an AMA; NIOME’s portal is still being finalized; Witness is a research preview; Cascade has future activation gates; Cortex and Reliquary retain explicit readiness limits.",
       "Previously covered ORO YC acceptance, Chutes CEO news, Hippius pricing, original TAO pairs and the September 9 morning restoration were not republished as new launches. No new verified CONST/BUTT utility launch was established; community treasury proposals were not treated as shipped features.",
-      "Crucible’s September 9 iOS announcement is a labeled late-found item. Research cutoff: 11:07 AM ET on September 10. No independently verified forward unlock calendar was located."
+      "Crucible’s September 9 iOS announcement is a labeled late-found item. Full research cutoff: 11:07 AM ET on September 10, with a targeted TAO–Bankr addition at 11:37 AM ET. Other sources were not rescanned for this addition. No independently verified forward unlock calendar was located."
     ]
   }
 }

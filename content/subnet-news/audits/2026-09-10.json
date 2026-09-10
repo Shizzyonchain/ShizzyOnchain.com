@@ -6,7 +6,7 @@
   "assembledAt": "2026-09-10T15:14:20.690Z",
   "counts": {
     "activeSubnets": 128,
-    "publishedItems": 41,
+    "publishedItems": 42,
     "subnetsWithUpdates": 34,
     "datedBriefsReviewed": 100,
     "repositoryPaths": 156,
@@ -21,6 +21,7 @@
     "uniqueInWindowLinkedMoments": 45
   },
   "sourceMethods": [
+    "Post-publication addition at 11:37 AM ET: read ForeverMoney’s 11:25 AM ET TAO–Bankr post in signed-in X and checked Bankr’s official launch documentation. Original broad scan counts and coverageEnd remain unchanged; this was a targeted follow-up.",
     "All 128 current subnet profiles checked. 100 dated September 9–10 channel briefs reviewed against the previous edition.",
     "Signed-in X Latest searched all 128 subnet numbers and current names or aliases in 16 grouped queries. Public account samples and primary follow-ups covered projects, partners, emissions, StonkFun and community leads. Grok supplied additional leads that were checked against originals.",
     "79 public X account candidates checked; 78 returned samples. 157 unique in-window post records retrieved; selected stories were followed to full original text.",
@@ -299,6 +300,10 @@
     }
   ],
   "editorialDecisions": [
+    {
+      "netuid": 0,
+      "decision": "TAO–Bankr earns five stars for ecosystem reach, new launch-pair utility and distribution through X. Bankr documentation explicitly verifies TAO quote support on Base; Robinhood Chain availability is attributed to ForeverMoney. No measured price reaction, automatic net buying, TAO-holder fee entitlement or subnet funding is claimed. Existing StonkFun coverage concerns a separate platform."
+    },
     {
       "netuid": 51,
       "decision": "Lium is market-cap #1 in captured snapshot, above Chutes. Billing is company-reported. Mentat borrow screen independently displays live SN51 market. No unsupported $1M cumulative buyback assertion."
@@ -670,6 +675,18 @@
     }
   ],
   "primaryChecks": [
+    {
+      "url": "https://x.com/forevermoney_ai/status/2098070414790382006",
+      "method": "Read exact original announcement in signed-in browser while preparing the user-authorized quote post",
+      "announcedAt": "2026-09-10T15:25:00Z",
+      "scope": "ForeverMoney announces TAO launch pairs on Bankr for Base and Robinhood Chain, with launches through X."
+    },
+    {
+      "url": "https://docs.bankr.bot/token-launching/overview/",
+      "method": "Read official launch documentation and Additional Base quote tokens section",
+      "checkedAt": "2026-09-10T15:37:38Z",
+      "scope": "TAO explicitly listed as a quote token for Base pools; launching through X documented. No launch or trade executed."
+    },
     {
       "url": "https://taomarketcap.com/extrinsics/9032187-0016",
       "method": "Live browser explorer: expanded calls; read successful events",
@@ -8753,7 +8770,29 @@
       "disposition": "No distinct material update sufficiently supported in reviewed samples. May be covered in shared ecosystem stories; unsampled sources may contain more."
     }
   ],
+  "postPublicationUpdates": [
+    {
+      "addedAt": "2026-09-10T15:37:38Z",
+      "topic": "TAO–Bankr launch pair",
+      "rating": 5,
+      "fullResearchCoverageEnd": "2026-09-10T15:07:21.716Z",
+      "scope": "One new ecosystem item, edition summary and coverage notes. Earlier daily reports and original market observations are unchanged.",
+      "validation": {
+        "reports": "33 reports valid",
+        "productionBuild": "passed",
+        "generatedNewsPage": {
+          "rankedItems": 42,
+          "fiveStarLeads": 4,
+          "bankrRank": 3,
+          "sourceLinkPresent": true,
+          "updatedSummaryPresent": true
+        },
+        "priorDatedReportsModified": false
+      }
+    }
+  ],
   "validation": {
+    "scope": "Original publication before the Bankr addition; follow-up validation is recorded in postPublicationUpdates.",
     "reports": "33 reports valid",
     "lint": "passed",
     "productionBuild": "passed",
