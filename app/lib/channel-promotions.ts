@@ -10,13 +10,13 @@ export const latestMemberVideo = {
 
 // Update this alongside the channel's Live tab during each news/video refresh.
 export const promotedLivestream = {
-  enabled: true,
+  enabled: false,
   id: "x_cABVBK2Qc",
   title: "2009 Bitcoin OG’s Next Big Bet: TAO | Ride of a Lifetime with RL Bryer",
-  meta: "Upcoming · September 9, 2026 at 12 PM ET / 9 AM PT",
-  upcoming: true,
+  meta: "1:02:17 · Livestream replay · September 9, 2026",
+  upcoming: false,
   headline: "Bitcoin OG RL Bryer joins Shizzy",
-  schedule: "Wed, Sep 9 · 12 PM ET / 9 AM PT",
+  schedule: "Replay · Streamed September 9, 2026",
   startsAt: "2026-09-09T16:00:00Z",
   expiresAt: "2026-09-09T22:00:00Z",
 };
