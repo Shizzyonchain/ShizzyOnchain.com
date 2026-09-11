@@ -258,6 +258,11 @@ const channelVideos: ChannelVideo[] = [
   },
 ];
 const liveStreams: ChannelVideo[] = [
+  {
+    id: "Upop6uigIa0",
+    title: "XRP Flips ETH & TAO 20X by 2029?! @Shizzyunchained + 4 Experts Debate",
+    meta: "1:24:43 · Guest appearance on Crypto Verdict · September 10, 2026",
+  },
   promotedLivestream,
   {
     id: "gRND9G1t-Bg",
