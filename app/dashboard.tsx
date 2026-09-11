@@ -121,9 +121,14 @@ type ChannelVideo = {
 const channelVideos: ChannelVideo[] = [
   latestMemberVideo,
   {
+    id: "9unkZUzL-Ps",
+    title: "TAO Broke Down… What Happens Next? | Bittensor Subnet Market",
+    meta: "19:48 · Latest episode · September 10, 2026",
+  },
+  {
     id: "L3wLKIoYz1c",
     title: "TAO Breakout Is NOW! | Bittensor Subnet Update",
-    meta: "22:44 · Latest episode · September 7, 2026",
+    meta: "22:44 · September 7, 2026",
   },
   {
     id: "mu-qKyEkKpU",
