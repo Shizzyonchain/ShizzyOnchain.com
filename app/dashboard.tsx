@@ -258,12 +258,17 @@ const channelVideos: ChannelVideo[] = [
   },
 ];
 const liveStreams: ChannelVideo[] = [
+  promotedLivestream,
   {
     id: "Upop6uigIa0",
     title: "XRP Flips ETH & TAO 20X by 2029?! @Shizzyunchained + 4 Experts Debate",
     meta: "1:24:43 · Guest appearance on Crypto Verdict · September 10, 2026",
   },
-  promotedLivestream,
+  {
+    id: "x_cABVBK2Qc",
+    title: "2009 Bitcoin OG’s Next Big Bet: TAO | Ride of a Lifetime with RL Bryer",
+    meta: "1:02:17 · Livestream replay · September 9, 2026",
+  },
   {
     id: "gRND9G1t-Bg",
     title: "AI Agents Are Downloading Malware… This Subnet Catches It | Phylax SN76",
