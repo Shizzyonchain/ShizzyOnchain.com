@@ -190,3 +190,25 @@ The web app lives under `web/`. Its only runtime secrets are `BACKEND_API_URL` a
 - Staking and weighted pool price semantics: https://www.bittensor.com/docs/concepts/staking-pools
 - Running a node: https://www.bittensor.com/docs/guides/running-a-node
 - Subtensor source: https://github.com/RaoFoundation/subtensor
+
+## Liquidation difference
+
+The screener exposes `liquidation_price_tao`, `liquidation_diff_pct` and `liquidation_time`.
+The percentage is `(estimated payout price / current alpha price - 1) * 100`.
+
+Payout estimates use pinned Finney reserves, protocol alpha and registration state,
+plus TAOMarketCap's complete stake totals (including departed hotkeys). The denominator
+is staked alpha plus protocol alpha; pool alpha is added only when `NetworkRegisteredAt`
+is greater than the live `TaoInRefundDeploymentBlock`. AlphaOut is never used as stake.
+See https://docs.taostats.io/docs/subnet-deregistration for the payout rules.
+
+Both services create the additive `subnet_liquidation_samples` table at startup under
+an advisory transaction lock. Enrichment updates it independently of fast spot-price
+ticks. The screener returns null when inputs are unavailable, registration identities
+mismatch, the estimate is over 20 minutes old, or either input is over 100 blocks away
+from the current price. Root has no liquidation estimate. Values estimate payouts on
+deregistration, not ordinary sale proceeds.
+
+Calculation and ingestion checks: `python -m pytest tests/test_liquidation.py`.
+Frontend formatting and sorting: `node --test --experimental-strip-types tests/liquidation.test.mjs`
+from the repository root.
