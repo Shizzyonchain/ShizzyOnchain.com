@@ -16,6 +16,7 @@ This workflow uses the repository's existing authenticated Git access. It does n
 
 ## Editorial requirements
 
+- For editions after September 13, 2026, put the subnet number before its name whenever a subnet is mentioned in reader-facing news copy: for example, `SN80 OpenRoboto`, `SN92 MicroTensor`, and `SN23 Trishool`. Apply this to headlines, report summaries, story text, rating explanations, and source labels where applicable, including references to other subnets within a story. Use the verified current subnet number; do not guess one for a non-subnet organization or an uncertain identity. Keep official titles quoted verbatim and source URLs unchanged. This is a forward-only convention: do not revise September 13 or older editions for naming alone.
 - Maintain a per-subnet source audit in `content/subnet-news/audits/YYYY-MM-DD.json`: current identity, X access/search status, dated briefs reviewed, repositories scanned, errors, and published item count. A roster entry alone is not evidence that its X account was searched.
 - Begin each window at the previous report's `coverageEnd`. If publishing after the usual 10 AM run, extend to the actual research cutoff and state that timestamp so later posts are not silently omitted or counted twice.
 - Search X by current project account, name, aliases and SN number. Grok may discover leads when accessible, but follow its links to original posts and verify author/date. Never publish an unsupported Grok claim as verified.
