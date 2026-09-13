@@ -15,6 +15,7 @@ from fastapi.responses import JSONResponse
 from app.config import get_settings
 from app.db import close, connect
 from app.models import MassWalletRequest
+from app.liquidation import liquidation_join
 
 settings = get_settings()
 log = logging.getLogger("shizzy.api")
@@ -129,9 +130,12 @@ async def current_prices():
 async def _refresh_live_screener(current_app: FastAPI):
     """Fetch the constant-size latest-price table without scanning history."""
     rows = await current_app.state.db.fetch(
-        """SELECT p.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
+        f"""SELECT p.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
                   s.discord,s.contact,s.logo_url,s.additional,p.time,p.block_number,p.price_tao,
                   p.tao_reserve,p.alpha_reserve,p.alpha_out,
+                  liq.liquidation_price_tao,liq.time AS liquidation_time,
+                  100 * (liq.liquidation_price_tao / NULLIF(p.price_tao,0) - 1)
+                    AS liquidation_diff_pct,
                   100 * p.emission_share AS emission_pct,
                   CASE WHEN p.tempo IS NULL OR p.tempo < 0 OR p.alpha_out <= 0
                          OR p.staker_epoch_dividends_alpha IS NULL THEN NULL ELSE
@@ -148,6 +152,7 @@ async def _refresh_live_screener(current_app: FastAPI):
                     AS market_cap_tao
            FROM subnet_latest_samples p
            JOIN subnets s ON s.netuid=p.netuid
+           {liquidation_join("p")}
            ORDER BY p.netuid"""
     )
     live_by_netuid = {row["netuid"]: dict(row) for row in rows}
@@ -170,7 +175,7 @@ async def _refresh_live_screener(current_app: FastAPI):
 
 async def _refresh_screener(current_app: FastAPI):
     rows = await current_app.state.db.fetch(
-        """WITH latest AS (
+        f"""WITH latest AS (
              SELECT netuid,time,block_number,price_tao,tao_reserve,
                     alpha_reserve,alpha_out,volume_tao,tao_in_emission,alpha_out_emission,
                     emission_share,root_prop,conviction_locked_alpha,tempo,
@@ -180,6 +185,9 @@ async def _refresh_screener(current_app: FastAPI):
            SELECT l.netuid,s.name,s.symbol,s.description,s.website,s.github_repo,
                   s.discord,s.contact,s.logo_url,s.additional,l.time,l.block_number,l.price_tao,
                   l.tao_reserve,l.alpha_reserve,l.alpha_out,
+                  liq.liquidation_price_tao,liq.time AS liquidation_time,
+                  100 * (liq.liquidation_price_tao / NULLIF(l.price_tao,0) - 1)
+                    AS liquidation_diff_pct,
                   100 * l.emission_share AS emission_pct,
                   CASE WHEN l.tempo IS NULL OR l.tempo < 0 OR l.alpha_out <= 0
                          OR l.staker_epoch_dividends_alpha IS NULL THEN NULL ELSE
@@ -207,6 +215,7 @@ async def _refresh_screener(current_app: FastAPI):
                   (l.volume_tao - p1.volume_tao) /
                     NULLIF(p1.volume_tao - p2.volume_tao,0) AS volume_acceleration_1h
            FROM latest l LEFT JOIN subnets s USING(netuid)
+           {liquidation_join("l")}
            LEFT JOIN LATERAL (
              SELECT price_tao FROM subnet_price_samples
              WHERE netuid=l.netuid AND time <= l.time - interval '10 minutes'

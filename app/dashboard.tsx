@@ -6,6 +6,7 @@ import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
+import { compareLiquidation, liquidationExplanation, liquidationPercent } from "./lib/liquidation";
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import {
   bubbleTimeframeHasCoverage,
@@ -21,6 +22,9 @@ export type ScreenerRow = {
   symbol?: string;
   price_tao: string;
   tao_reserve?: string;
+  liquidation_price_tao?: string;
+  liquidation_diff_pct?: string;
+  liquidation_time?: string;
   description?: string;
   website?: string;
   github_repo?: string;
@@ -841,7 +845,9 @@ export function Dashboard({
     return () => window.clearInterval(refreshTimer);
   }, [view]);
 
-  const filtered = useMemo(() => rows.filter((r) => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => (sortDirection === "desc" ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0) : Number(a[sort] ?? 0) - Number(b[sort] ?? 0))), [rows, query, sort, sortDirection]);
+  const filtered = useMemo(() => rows.filter((r) => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => sort === "liquidation_diff_pct"
+    ? compareLiquidation(a.liquidation_diff_pct, b.liquidation_diff_pct, sortDirection)
+    : (sortDirection === "desc" ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0) : Number(a[sort] ?? 0) - Number(b[sort] ?? 0))), [rows, query, sort, sortDirection]);
   const hasMarketData = rows.length > 0;
   const active = rows.find((r) => r.netuid === selected) || rows[0];
   const hasActiveMetadata = Boolean(active && (active.description || active.website || active.github_repo || active.discord || active.contact || active.additional));
@@ -1442,6 +1448,12 @@ export function Dashboard({
                                   <span>
                                     Liquidity <b>{money(active.tao_reserve)}</b>
                                   </span>
+                                  <span title={liquidationExplanation}>
+                                    Liq Diff <b className={changeClass(active.liquidation_diff_pct)}>{liquidationPercent(active.liquidation_diff_pct)}</b>
+                                  </span>
+                                  <span title="Estimated TAO paid per alpha if this subnet is deregistered.">
+                                    Est. liquidation price <b>{active.liquidation_price_tao == null ? "—" : `${fmt(active.liquidation_price_tao, 6)} τ / α`}</b>
+                                  </span>
                                   <span>
                                     24h volume <b>{Number(active.volume_24h_tao || 0) === 0 ? "Collecting" : money(active.volume_24h_tao)}</b>
                                   </span>
@@ -1651,6 +1663,9 @@ export function Dashboard({
                       <th>
                         <button onClick={() => changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button>
                       </th>
+                      <th className="liquidation-column" title={liquidationExplanation} aria-sort={sort === "liquidation_diff_pct" ? (sortDirection === "desc" ? "descending" : "ascending") : "none"}>
+                        <button onClick={() => changeSort("liquidation_diff_pct")}>Liq Diff{sortArrow("liquidation_diff_pct")}</button>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1700,11 +1715,20 @@ export function Dashboard({
                         </td>
                         <td>{money(r.volume_24h_tao)}</td>
                         <td>{money(r.tao_reserve)}</td>
+                        <td className={`liquidation-column ${changeClass(r.liquidation_diff_pct)}`} title={r.liquidation_price_tao == null ? "A fresh payout estimate is unavailable." : `Estimated liquidation price: ${fmt(r.liquidation_price_tao, 6)} τ per α. ${liquidationExplanation}`}>
+                          {liquidationPercent(r.liquidation_diff_pct)}
+                          <small>on deregistration</small>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+              <details className="liquidation-help">
+                <summary>What is Liq Diff?</summary>
+                <p>{liquidationExplanation}</p>
+                <p>The estimate accounts for protocol-owned alpha and the subnet’s registration rules, using chain reserves and complete stake totals. A dash means fresh inputs are unavailable. <a href="https://docs.taostats.io/docs/subnet-deregistration" target="_blank" rel="noopener noreferrer">How the payout works ↗</a></p>
+              </details>
             </section>
           </div>
         </>

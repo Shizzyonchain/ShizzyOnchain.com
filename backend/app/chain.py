@@ -9,6 +9,7 @@ from typing import Any
 import httpx
 
 from app.config import Settings
+from app.liquidation import liquidation_price
 
 RAO_PER_TAO = Decimal(1_000_000_000)
 logger = logging.getLogger(__name__)
@@ -283,6 +284,7 @@ class ChainClient:
         self._yield_refresh_block = -1
         self._circulating_stake: dict[int, Decimal] = {}
         self._circulating_stake_refresh_block = -1
+        self._stake_identity: dict[int, tuple[int, int]] = {}
 
     async def __aenter__(self):
         import bittensor as bt
@@ -474,6 +476,22 @@ class ChainClient:
                 expected_yields,
             )
         rows = []
+        protocol, registrations, refund_deployment = {}, {}, None
+        if include_auxiliary:
+            try:
+                protocol_rows, registration_rows, refund_raw = await asyncio.wait_for(
+                    asyncio.gather(
+                        view.query_map(("SubtensorModule", "SubnetProtocolAlpha")),
+                        view.query_map(("SubtensorModule", "NetworkRegisteredAt")),
+                        view.query(("SubtensorModule", "TaoInRefundDeploymentBlock")),
+                    ), timeout=12,
+                )
+                protocol = {int(k): Decimal(scale_int(v)) / RAO_PER_TAO
+                            for k, v in protocol_rows}
+                registrations = {int(k): scale_int(v) for k, v in registration_rows}
+                refund_deployment = scale_int(refund_raw)
+            except Exception as exc:
+                logger.warning("liquidation inputs unavailable: %s", type(exc).__name__)
         for info in infos:
             netuid = int(field(info, "netuid"))
             price = prices.get(netuid) if isinstance(prices, dict) else None
@@ -481,6 +499,17 @@ class ChainClient:
             alpha_reserve = alpha.get(netuid)
             outstanding_alpha = alpha_out.get(netuid)
             live_staked_alpha = self._circulating_stake.get(netuid)
+            registered_at = registrations.get(netuid)
+            stake_registration, stake_block = self._stake_identity.get(netuid, (None, None))
+            payout_price = None
+            if (include_auxiliary and netuid != 0 and registered_at is not None
+                    and stake_registration == registered_at and stake_block is not None
+                    and abs(block_number - stake_block) <= 100):
+                payout_price = liquidation_price(
+                    tao.get(netuid), live_staked_alpha,
+                    protocol.get(netuid, Decimal(0)), alpha_reserve,
+                    registered_at, refund_deployment,
+                )
             circulating_alpha = None
             if include_auxiliary and netuid == 0:
                 circulating_alpha = total_issuance
@@ -500,6 +529,8 @@ class ChainClient:
                 "alpha_reserve": alpha_reserve,
                 "alpha_out": outstanding_alpha,
                 "circulating_alpha": circulating_alpha,
+                "liquidation_price_tao": payout_price,
+                "liquidation_stake_block": stake_block,
                 "volume_tao": volume.get(netuid),
                 "tao_in_emission": tao_emission.get(netuid, Decimal(0)),
                 "alpha_out_emission": alpha_emission.get(netuid, Decimal(0)),
@@ -549,6 +580,7 @@ class ChainClient:
         if not isinstance(results, list) or len(results) < 100:
             raise ValueError("TAOMarketCap returned an incomplete subnet list")
         totals: dict[int, Decimal] = {}
+        identities: dict[int, tuple[int, int]] = {}
         snapshot_blocks: list[int] = []
         for row in results:
             snapshot = row.get("latest_snapshot") or {}
@@ -559,6 +591,9 @@ class ChainClient:
                 continue
             totals[int(netuid)] = Decimal(str(raw_total)) / RAO_PER_TAO
             snapshot_blocks.append(int(snapshot_block))
+            registered_at = snapshot.get("network_registered_at")
+            if registered_at is not None:
+                identities[int(netuid)] = (int(registered_at), int(snapshot_block))
         if len(totals) < 100 or not snapshot_blocks:
             raise ValueError("TAOMarketCap stake snapshot is incomplete")
         newest_snapshot = max(snapshot_blocks)
@@ -567,6 +602,7 @@ class ChainClient:
                 f"TAOMarketCap stake snapshot is stale by "
                 f"{abs(block_number - newest_snapshot)} blocks"
             )
+        self._stake_identity = identities
         return totals
 
     async def _actual_stake_by_subnet(self, view) -> dict[int, Decimal]:

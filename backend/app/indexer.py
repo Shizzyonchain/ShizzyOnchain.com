@@ -156,6 +156,19 @@ async def persist_block(
                 price_rows,
             )
             await conn.executemany(LATEST_PRICE_UPSERT, price_rows)
+            if include_auxiliary:
+                await conn.executemany(
+                    """INSERT INTO subnet_liquidation_samples
+                       (netuid,time,block_number,stake_block,liquidation_price_tao)
+                       VALUES($1,$2,$3,$4,$5)
+                       ON CONFLICT(netuid) DO UPDATE SET
+                       time=EXCLUDED.time,block_number=EXCLUDED.block_number,
+                       stake_block=EXCLUDED.stake_block,
+                       liquidation_price_tao=EXCLUDED.liquidation_price_tao
+                       WHERE subnet_liquidation_samples.block_number <= EXCLUDED.block_number""",
+                    [(r["netuid"], timestamp, number, r.get("liquidation_stake_block"),
+                      r.get("liquidation_price_tao")) for r in rows],
+                )
         if events:
             await conn.executemany(
                 """INSERT INTO chain_events
