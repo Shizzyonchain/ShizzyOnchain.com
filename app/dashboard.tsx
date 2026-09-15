@@ -123,11 +123,16 @@ type ChannelVideo = {
 };
 
 const channelVideos: ChannelVideo[] = [
+  {
+    id: "OEoYrwtw1aM",
+    title: "TAO CLARITY NOW! | Bittensor Market Update",
+    meta: "20:56 · Latest episode · September 14, 2026",
+  },
   latestMemberVideo,
   {
     id: "9unkZUzL-Ps",
     title: "TAO Broke Down… What Happens Next? | Bittensor Subnet Market",
-    meta: "19:48 · Latest episode · September 10, 2026",
+    meta: "19:48 · September 10, 2026",
   },
   {
     id: "bUPt2C9_irc",
