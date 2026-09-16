@@ -9,9 +9,10 @@ export const latestMemberVideo = {
 };
 
 // Update this alongside the channel's Live tab during each news/video refresh.
+// VUNE postponed this appearance. Keep both surfaces disabled until a new date is confirmed.
 export const promotedLivestream = {
-  enabled: true,
-  listed: true,
+  enabled: false,
+  listed: false,
   id: "lTRFZFVt7yI",
   title: "VUNE Reveals the Vision Behind TAO.app | Bittensor’s Super App?",
   meta: "Upcoming · September 16, 2026 · 1 PM ET / 10 AM PT",

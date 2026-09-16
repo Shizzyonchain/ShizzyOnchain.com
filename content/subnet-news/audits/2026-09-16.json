@@ -25,7 +25,7 @@
     "60 linked in-window SubnetRadar Moments reviewed, including key swaps, conviction changes and SN126’s identity change; raw event timestamps and text retained in the audit.",
     "Rolling alpha/TAO price moves and network emission allocation observed at 10:55 AM ET and compared with the September 15 saved snapshot.",
     "Direct browser checks covered TAO.com’s swap interface and token picker, SN126 Attelier’s beta status, SN36 Epago’s champion and burn phase, and the September 15 StonkFun revenue row.",
-    "YouTube Videos and Live tabs checked. The upcoming VUNE stream was opened and its scheduled timestamp confirmed as 17:00 UTC; the new members episode’s title, access and 8:12 duration were verified."
+    "YouTube Videos and Live tabs checked. The new members episode’s title, access and 8:12 duration were verified. The VUNE appearance was subsequently postponed by the owner; its banner, video listing and news promotion were removed pending a new confirmed date."
   ],
   "accessGaps": [
     "All 128 active profiles were reviewed with public X account candidates, selected signed-in searches and Grok discovery. This does not guarantee every post: deleted, private, unindexed and unsampled material can be missing.",
@@ -1878,10 +1878,11 @@
       "publishedAt": "2026-09-15T11:54:55-04:00",
       "membersOnly": true
     },
-    "upcoming": {
+    "postponed": {
       "id": "lTRFZFVt7yI",
       "title": "VUNE Reveals the Vision Behind TAO.app | Bittensor’s Super App?",
-      "startsAt": "2026-09-16T17:00:00Z"
+      "previousStartsAt": "2026-09-16T17:00:00Z",
+      "status": "Postponed at the owner's request; removed from all site promotions and video listings. New date not confirmed."
     },
     "publicDefault": {
       "id": "OEoYrwtw1aM",

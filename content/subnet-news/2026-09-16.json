@@ -1438,17 +1438,13 @@
       ]
     },
     {
-      "headline": "Today at 1 PM ET: VUNE joins Shizzy to discuss TAO.app",
-      "summary": "The public livestream “VUNE Reveals the Vision Behind TAO.app | Bittensor’s Super App?” is scheduled for September 16 at 1 PM Eastern / 10 AM Pacific. It is now listed in the video library and promoted on the site as upcoming. The September 15 members-only news and price-action video has also been added with its verified 8:12 duration. The latest public recorded episode remains the default player, while members content opens through YouTube’s access controls.",
+      "headline": "September 15 members news and price-action episode added",
+      "summary": "The September 15 members-only news and price-action video has been added to the video library with its verified 8:12 duration. Members can open the episode through YouTube’s membership access.",
       "rating": 2,
-      "ratingReason": "A verified same-day livestream and fresh members episode give readers the correct schedule and access links.",
+      "ratingReason": "A fresh members episode gives readers the verified title, duration and access link.",
       "importance": "informational",
       "status": "verified",
       "sources": [
-        {
-          "label": "Upcoming VUNE livestream",
-          "url": "https://www.youtube.com/watch?v=lTRFZFVt7yI"
-        },
         {
           "label": "September 15 members episode",
           "url": "https://www.youtube.com/watch?v=UgjayLzGqks"
@@ -1466,7 +1462,7 @@
       "60 linked in-window SubnetRadar Moments reviewed, including key swaps, conviction changes and SN126’s identity change; raw event timestamps and text retained in the audit.",
       "Rolling alpha/TAO price moves and network emission allocation observed at 10:55 AM ET and compared with the September 15 saved snapshot.",
       "Direct browser checks covered TAO.com’s swap interface and token picker, SN126 Attelier’s beta status, SN36 Epago’s champion and burn phase, and the September 15 StonkFun revenue row.",
-      "YouTube Videos and Live tabs checked. The upcoming VUNE stream was opened and its scheduled timestamp confirmed as 17:00 UTC; the new members episode’s title, access and 8:12 duration were verified."
+      "YouTube Videos and Live tabs checked. The new members episode’s title, access and 8:12 duration were verified."
     ],
     "gaps": [
       "All 128 active profiles were reviewed with public X account candidates, selected signed-in searches and Grok discovery. This does not guarantee every post: deleted, private, unindexed and unsampled material can be missing.",
