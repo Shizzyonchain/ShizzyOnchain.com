@@ -1438,13 +1438,17 @@
       ]
     },
     {
-      "headline": "September 15 members news and price-action episode added",
-      "summary": "The September 15 members-only news and price-action video has been added to the video library with its verified 8:12 duration. Members can open the episode through YouTube’s membership access.",
+      "headline": "SN91 Cascade joins Shizzy September 17 at 11 AM ET",
+      "summary": "Channel update: SN91 Cascade’s Chris Hames and Chris Zacharia are scheduled to join Shizzy for “Can AI Predict What Happens Next? | Cascade Subnet 91 on Bittensor” on September 17 at 11 AM Eastern / 8 AM Pacific. The interview will cover decentralized forecasting, miner predictions and how prediction quality is evaluated. The upcoming stream is listed in the video library. The September 15 members-only news and price-action episode is also available with its verified 8:12 duration.",
       "rating": 2,
-      "ratingReason": "A fresh members episode gives readers the verified title, duration and access link.",
+      "ratingReason": "A verified SN91 Cascade interview gives readers a scheduled opportunity to hear directly from the team, alongside the latest members episode.",
       "importance": "informational",
       "status": "verified",
       "sources": [
+        {
+          "label": "SN91 Cascade upcoming livestream",
+          "url": "https://www.youtube.com/watch?v=BAMp6OssHks"
+        },
         {
           "label": "September 15 members episode",
           "url": "https://www.youtube.com/watch?v=UgjayLzGqks"
@@ -1462,7 +1466,7 @@
       "60 linked in-window SubnetRadar Moments reviewed, including key swaps, conviction changes and SN126’s identity change; raw event timestamps and text retained in the audit.",
       "Rolling alpha/TAO price moves and network emission allocation observed at 10:55 AM ET and compared with the September 15 saved snapshot.",
       "Direct browser checks covered TAO.com’s swap interface and token picker, SN126 Attelier’s beta status, SN36 Epago’s champion and burn phase, and the September 15 StonkFun revenue row.",
-      "YouTube Videos and Live tabs checked. The new members episode’s title, access and 8:12 duration were verified."
+      "YouTube Videos and Live tabs checked. The new members episode’s title, access and 8:12 duration were verified. A channel-only follow-up at 12:57 PM ET confirmed the new SN91 Cascade livestream on September 17 at 15:00 UTC / 11 AM ET / 8 AM PT from the Live tab and public watch-page metadata."
     ],
     "gaps": [
       "All 128 active profiles were reviewed with public X account candidates, selected signed-in searches and Grok discovery. This does not guarantee every post: deleted, private, unindexed and unsampled material can be missing.",

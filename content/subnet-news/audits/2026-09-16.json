@@ -1884,6 +1884,17 @@
       "previousStartsAt": "2026-09-16T17:00:00Z",
       "status": "Postponed at the owner's request; removed from all site promotions and video listings. New date not confirmed."
     },
+    "upcoming": {
+      "id": "BAMp6OssHks",
+      "title": "Can AI Predict What Happens Next? | Cascade Subnet 91 on Bittensor",
+      "startsAt": "2026-09-17T15:00:00Z",
+      "checkedAt": "2026-09-16T16:57:24Z",
+      "source": "https://www.youtube.com/watch?v=BAMp6OssHks",
+      "methods": ["Browser channel Live tab", "Public watch-page title, channel ID, description and liveBroadcastDetails"],
+      "isUpcoming": true,
+      "isLiveNow": false,
+      "status": "New SN91 Cascade stream confirmed after the daily news cutoff; enabled in the banner, video library and channel update."
+    },
     "publicDefault": {
       "id": "OEoYrwtw1aM",
       "unchanged": true

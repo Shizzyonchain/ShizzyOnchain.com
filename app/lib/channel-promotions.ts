@@ -9,16 +9,15 @@ export const latestMemberVideo = {
 };
 
 // Update this alongside the channel's Live tab during each news/video refresh.
-// VUNE postponed this appearance. Keep both surfaces disabled until a new date is confirmed.
 export const promotedLivestream = {
-  enabled: false,
-  listed: false,
-  id: "lTRFZFVt7yI",
-  title: "VUNE Reveals the Vision Behind TAO.app | Bittensor’s Super App?",
-  meta: "Upcoming · September 16, 2026 · 1 PM ET / 10 AM PT",
+  enabled: true,
+  listed: true,
+  id: "BAMp6OssHks",
+  title: "Can AI Predict What Happens Next? | Cascade Subnet 91 on Bittensor",
+  meta: "Upcoming · September 17, 2026 · 11 AM ET / 8 AM PT",
   upcoming: true,
-  headline: "VUNE on the vision behind TAO.app",
-  schedule: "September 16 · 1 PM ET / 10 AM PT",
-  startsAt: "2026-09-16T17:00:00Z",
-  expiresAt: "2026-09-16T19:00:00Z",
+  headline: "SN91 Cascade: can AI predict what happens next?",
+  schedule: "September 17 · 11 AM ET / 8 AM PT",
+  startsAt: "2026-09-17T15:00:00Z",
+  expiresAt: "2026-09-17T17:00:00Z",
 };
