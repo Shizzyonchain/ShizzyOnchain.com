@@ -273,7 +273,7 @@ const channelVideos: ChannelVideo[] = [
   },
 ];
 const liveStreams: ChannelVideo[] = [
-  promotedLivestream,
+  ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
     id: "Upop6uigIa0",
     title: "XRP Flips ETH & TAO 20X by 2029?! @Shizzyunchained + 4 Experts Debate",

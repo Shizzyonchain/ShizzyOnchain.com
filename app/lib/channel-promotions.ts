@@ -11,6 +11,8 @@ export const latestMemberVideo = {
 // Update this alongside the channel's Live tab during each news/video refresh.
 export const promotedLivestream = {
   enabled: false,
+  // Removed from the site at the owner's request on September 16, 2026.
+  listed: false,
   id: "X1N2TGCSKhk",
   title: "Shiz Cat TAO JUST GOT REAL 😼🚨 | LIVE AT 7PM",
   meta: "27:22 · Livestream replay · September 11, 2026",
