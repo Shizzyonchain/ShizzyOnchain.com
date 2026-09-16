@@ -335,6 +335,24 @@ html,body{overflow-x:clip}
 @media(max-width:720px){.ranked-news-list .news-item{padding:22px 18px}.price-action{align-items:flex-start;flex-direction:column}.news-rating{font-size:18px}}
 .member-video-link{display:block;position:relative;width:100%;height:100%;color:#fff}.member-video-link>img{width:100%;height:100%;object-fit:cover}.member-video-link>span{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;background:rgba(1,4,12,.7)}.member-video-link strong{padding:13px 18px;border:1px solid var(--mint);background:#06172b;font-size:16px}.member-video-link small{font-size:13px;color:#d5e4fa}.member-video-link:focus-visible{outline:3px solid var(--mint);outline-offset:-3px}.video-thumb .upcoming-badge{background:#13c8ff;color:#04101e}.video-thumb .members-badge{background:#ffbf15;color:#04101e}
 
+/* Featured partner and community offer. */
+.partner-banner.alphachaser{grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(270px,.72fr);grid-template-rows:auto 1fr auto;gap:24px 48px;color:#c4b5fd;border-color:#51416f;background:radial-gradient(circle at 90% 15%,rgba(152,115,250,.16),transparent 40%),linear-gradient(125deg,#151a36,#090f22)}
+.partner-banner.alphachaser .partner-logo{font-size:24px;color:#f1ecff;letter-spacing:-.8px}
+.partner-banner.alphachaser .partner-logo img{width:44px;height:44px;padding:5px;border-radius:50%;background:#f6f3ff;filter:none}
+.partner-banner.alphachaser .partner-copy{grid-column:1;align-self:center}
+.partner-banner.alphachaser>strong{grid-column:1}
+.partner-offer{grid-column:2;grid-row:2/4;align-self:center;padding:25px;border:1px solid #5c4b7a;background:rgba(166,133,244,.07);color:#f8f5ff}
+.partner-offer-label{color:#cbb6ff;font:800 10px var(--font-mono);text-transform:uppercase;letter-spacing:.1em}
+.partner-offer h3{margin:12px 0 18px;font:800 clamp(22px,2.4vw,30px)/1.15 var(--font);letter-spacing:-.6px}
+.partner-offer-code{display:flex;align-items:center;flex-wrap:wrap;gap:8px 15px;margin-bottom:14px}
+.partner-offer-code>span{font:11px var(--font-mono);color:#bdc5dc}
+.partner-offer-code code{padding:8px 13px;border:1px dashed #a888e8;background:#151b32;color:#e3d4ff;font:800 20px var(--font-mono);letter-spacing:.08em}
+.partner-offer p{margin:0 0 8px;font-size:14px;line-height:1.6;color:#ede7ff}
+.partner-offer small{display:block;font-size:12px;line-height:1.6;color:#aab5ce}
+.partner-banner:focus-visible{outline:3px solid #e3d4ff;outline-offset:4px}
+@media(max-width:900px){.partner-banner.alphachaser{grid-template-columns:1fr auto;gap:24px}.partner-banner.alphachaser .partner-copy,.partner-banner.alphachaser>strong,.partner-offer{grid-column:1/-1}.partner-offer{grid-row:auto}}
+@media(max-width:600px){.partner-banner.alphachaser .partner-logo{font-size:20px}.partner-banner.alphachaser .partner-logo img{width:35px;height:35px}.partner-offer{padding:20px}.partner-offer h3{font-size:24px}}
+
 /* Channel promotions */
 .livestream-banner{position:relative;display:flex;align-items:center;gap:22px;margin:12px 0 0;padding:17px 58px 17px 22px;border:1px solid #185380;border-left:3px solid #13c8ff;background:linear-gradient(110deg,#08213d,#061429 75%);color:#f7f9ff}
 .livestream-banner-copy{display:flex;align-items:center;flex-wrap:wrap;gap:8px 22px;flex:1;min-width:0}

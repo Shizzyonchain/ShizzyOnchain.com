@@ -429,6 +429,20 @@ const universityCalendly = "https://calendly.com/shizzyunchained/shiz-university
 const universityWallet = "5Gsp2ZkPSCpdscVem8NsE6qEUyjEGSf6YtKx6j1hy1ToG9VM";
 const partners = [
   {
+    key: "alphachaser",
+    name: "AlphaChaser",
+    kicker: "Automated subnet trading · By Gordon Frayne",
+    description: "Gordon Frayne’s Bittensor trading app scans subnet signals and automates trades through a staking-only wallet proxy, with positions, trade history, and strategy views in one dashboard.",
+    href: "https://alphachaser.co/",
+    cta: "Explore AlphaChaser",
+    offer: {
+      headline: "25% off your first 2 months",
+      code: "SHIZZY25",
+      price: "$51.75/month for 2 months, then $69/month.",
+      terms: "New customers only. Prices in USD. Enter the code at checkout.",
+    },
+  },
+  {
     key: "mentat",
     name: "Mentat",
     kicker: "TAO delegation",
@@ -2355,6 +2369,11 @@ export function Dashboard({
                       </span>
                       <span>Mentat</span>
                     </>
+                  ) : partner.key === "alphachaser" ? (
+                    <>
+                      <Image src="/partners/alphachaser.svg" alt="" width={44} height={44} unoptimized />
+                      <span>AlphaChaser.</span>
+                    </>
                   ) : (
                     <Image src={`/partners/${partner.key}.svg`} alt="" width={720} height={158} unoptimized />
                   )}
@@ -2364,6 +2383,15 @@ export function Dashboard({
                   <h2>{partner.name}</h2>
                   <p>{partner.description}</p>
                 </div>
+                {partner.offer && (
+                  <div className="partner-offer">
+                    <span className="partner-offer-label">Shizzy community offer</span>
+                    <h3>{partner.offer.headline}</h3>
+                    <div className="partner-offer-code"><span>Use code</span><code>{partner.offer.code}</code></div>
+                    <p>{partner.offer.price}</p>
+                    <small>{partner.offer.terms}</small>
+                  </div>
+                )}
                 <strong>
                   {partner.cta}
                   <b>↗</b>
@@ -2373,7 +2401,7 @@ export function Dashboard({
           </div>
           <div className="partner-note">
             <span>Shizzy-approved resources</span>
-            <p>Some links are affiliate links. If you use them, Shizzy Unchained may earn a commission at no additional cost to you.</p>
+            <p>Some links and discount codes are affiliate referrals. If you use them, Shizzy Unchained may earn a commission at no additional cost to you.</p>
           </div>
         </section>
       ) : (
