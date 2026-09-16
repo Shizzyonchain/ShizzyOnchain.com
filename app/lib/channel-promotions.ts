@@ -1,24 +1,23 @@
 export const youtubeMembershipUrl = "https://www.youtube.com/channel/UCzp_1hHByX_XBnRRJPucEIw/join";
 
 export const latestMemberVideo = {
-  id: "gnAxV7cTUhU",
-  title: "9/12/26 Bittensor News Updates & TAO Price Action | Members Video",
-  meta: "9:17 · Members only · September 12, 2026",
-  publishedLabel: "September 12",
+  id: "UgjayLzGqks",
+  title: "9/15/26 Bittensor News Updates & TAO Price Action | Members Video",
+  meta: "8:12 · Members only · September 15, 2026",
+  publishedLabel: "September 15",
   membersOnly: true,
 };
 
 // Update this alongside the channel's Live tab during each news/video refresh.
 export const promotedLivestream = {
-  enabled: false,
-  // Removed from the site at the owner's request on September 16, 2026.
-  listed: false,
-  id: "X1N2TGCSKhk",
-  title: "Shiz Cat TAO JUST GOT REAL 😼🚨 | LIVE AT 7PM",
-  meta: "27:22 · Livestream replay · September 11, 2026",
-  upcoming: false,
-  headline: "Shiz Cat TAO and the StonkFun launch",
-  schedule: "Replay · Streamed September 11, 2026",
-  startsAt: "2026-09-11T23:04:18Z",
-  expiresAt: "2026-09-11T23:31:41Z",
+  enabled: true,
+  listed: true,
+  id: "lTRFZFVt7yI",
+  title: "VUNE Reveals the Vision Behind TAO.app | Bittensor’s Super App?",
+  meta: "Upcoming · September 16, 2026 · 1 PM ET / 10 AM PT",
+  upcoming: true,
+  headline: "VUNE on the vision behind TAO.app",
+  schedule: "September 16 · 1 PM ET / 10 AM PT",
+  startsAt: "2026-09-16T17:00:00Z",
+  expiresAt: "2026-09-16T19:00:00Z",
 };
