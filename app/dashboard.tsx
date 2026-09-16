@@ -1654,7 +1654,7 @@ export function Dashboard({
                         <button onClick={() => changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button>
                       </th>
                       <th>
-                        <button onClick={() => changeSort("change_24h")}>1 Day{sortArrow("change_24h")}</button>
+                        <button onClick={() => changeSort("change_24h")}>24 Hours{sortArrow("change_24h")}</button>
                       </th>
                       <th>
                         <button onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
