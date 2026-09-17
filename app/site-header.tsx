@@ -32,6 +32,7 @@ const navigation: readonly NavItem[] = [
   { href: "https://shizzyunchained.printful.me/", label: "Shop", external: true },
   { href: "/university", label: "Shiz University" },
   { href: "/wallet-tracker", label: "Wallet Tracker" },
+  { href: "/tao-heads", label: "TAO Heads" },
   { href: "/about", label: "About" },
   { href: "/partners", label: "Partners" },
 ];
@@ -105,6 +106,7 @@ export function SiteHeader({ currency, onCurrencyChange, currencyTitle, dataStat
         ) : (
           <Link
             className={isActive(item.href, item.exact) ? "active" : ""}
+            aria-current={isActive(item.href, item.exact) ? "page" : undefined}
             href={item.href}
             key={item.label}
             onClick={() => setMobileMenuOpen(false)}

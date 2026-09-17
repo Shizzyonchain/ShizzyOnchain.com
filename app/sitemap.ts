@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/university",
     "/partners",
     "/about",
+    "/tao-heads",
   ];
   const staticPages: MetadataRoute.Sitemap = pages.map((path, index) => ({
     url: `${base}${path}`,

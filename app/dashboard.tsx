@@ -2,6 +2,7 @@
 
 import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
@@ -1375,14 +1376,14 @@ export function Dashboard({
             </button>
           </section>
           <div className="home-promo-row">
-            <a className="insiders-home-cta tao-heads-home-cta" href={taoHeadsCommunity.url} target="_blank" rel="noopener noreferrer" aria-label={`Join ${taoHeadsCommunity.name} on Telegram`}>
+            <Link className="insiders-home-cta tao-heads-home-cta" href={taoHeadsCommunity.path} aria-label={`Explore ${taoHeadsCommunity.name}`}>
               <Image src={taoHeadsCommunity.icon} alt="" width={1254} height={1254} sizes="(max-width: 600px) 64px, 76px" />
               <span>
-                <small>Join the Telegram community</small>
+                <small>Your Bittensor community</small>
                 <strong>{taoHeadsCommunity.name}</strong>
               </span>
-              <b>Join <i aria-hidden="true">→</i></b>
-            </a>
+              <b>Explore <i aria-hidden="true">→</i></b>
+            </Link>
             <a className="university-home-cta" href="/university" aria-label="Explore Shiz University">
               <Image src="/shiz-university.webp" alt="Shiz University" width={512} height={512} sizes="58px" />
               <div>
