@@ -130,6 +130,12 @@ const channelVideos: ChannelVideo[] = [
   },
   latestMemberVideo,
   {
+    id: "UgjayLzGqks",
+    title: "9/15/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "8:12 · Members only · September 15, 2026",
+    membersOnly: true,
+  },
+  {
     id: "gnAxV7cTUhU",
     title: "9/12/26 Bittensor News Updates & TAO Price Action | Members Video",
     meta: "9:17 · Members only · September 12, 2026",
