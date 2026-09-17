@@ -9,7 +9,8 @@ export const latestMemberVideo = {
 };
 
 // Update this alongside the channel's Live tab during each news/video refresh.
-// Owner removed the Cascade promotion before going live on September 17.
+// Cascade video BAMp6OssHks was removed by its uploader on September 17.
+// Keep it hidden until the owner supplies or approves a replacement episode.
 export const promotedLivestream = {
   enabled: false,
   listed: false,
