@@ -8,6 +8,7 @@ import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
 import { compareLiquidation, liquidationExplanation, liquidationPercent } from "./lib/liquidation";
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
+import { taoHeadsCommunity } from "./lib/community";
 import {
   bubbleTimeframeHasCoverage,
   bubbleTimeframeLabel,
@@ -1374,11 +1375,11 @@ export function Dashboard({
             </button>
           </section>
           <div className="home-promo-row">
-            <a className="insiders-home-cta" href="https://t.me/+0fW1AeQAUERhZTgx" target="_blank" rel="noreferrer" aria-label="Join Unchained Insiders on Telegram">
-              <Image src="/unchained-insiders.webp" alt="Unchained Insiders" width={512} height={512} sizes="82px" />
+            <a className="insiders-home-cta tao-heads-home-cta" href={taoHeadsCommunity.url} target="_blank" rel="noopener noreferrer" aria-label={`Join ${taoHeadsCommunity.name} on Telegram`}>
+              <Image src={taoHeadsCommunity.icon} alt="" width={1254} height={1254} sizes="(max-width: 600px) 64px, 76px" />
               <span>
-                <small>Private Telegram community</small>
-                <strong>Join the Unchained Insiders Telegram Group</strong>
+                <small>Join the Telegram community</small>
+                <strong>{taoHeadsCommunity.name}</strong>
               </span>
               <b>Join <i aria-hidden="true">→</i></b>
             </a>

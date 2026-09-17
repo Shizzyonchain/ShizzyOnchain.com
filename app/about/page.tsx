@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteHeader } from "../site-header";
+import { taoHeadsCommunity } from "../lib/community";
 
 export const metadata: Metadata = {
   title: "About Shizzy Unchained | Bittensor Creator, Podcast Host & Community Builder",
@@ -11,8 +12,8 @@ export const metadata: Metadata = {
 
 const socials = [
   ["YouTube", "▶", "https://youtube.com/@shizzyunchained"], ["X", "𝕏", "https://x.com/ShizzyUnchained"],
-  ["Telegram Community", "↗", "https://t.me/ShizzyUnchained"], ["Message Shizzy", "✉", "https://t.me/ShizzyUnchained"],
-  ["Unchained Insiders", "◆", "https://t.me/+0fW1AeQAUERhZTgx"], ["Email", "@", "mailto:shizzyunchained@gmail.com"],
+  [taoHeadsCommunity.name, "◆", taoHeadsCommunity.url], ["Message Shizzy", "✉", "https://t.me/ShizzyUnchained"],
+  ["Email", "@", "mailto:shizzyunchained@gmail.com"],
 ] as const;
 const coverage = [
   ["Bittensor & TAO", "Market updates, ecosystem developments, network economics, TAO analysis, and decentralized intelligence."],
@@ -46,7 +47,7 @@ export default function AboutPage() {
 
     <section className="about-community about-wrap about-split"><div><p className="eyebrow">The community</p><h2>Welcome to Shizzy Unchained</h2></div><div className="about-prose"><p className="about-lead">Shizzy Unchained is more than a YouTube channel.</p><p>It is a growing community of investors, builders, miners, validators, creators, and people who believe decentralized artificial intelligence will become one of the most important technological movements of the next decade.</p><p>Whether someone owns their first TAO, actively researches Bittensor subnets, builds inside the ecosystem, or simply wants to understand what comes next, everyone is welcome.</p></div></section>
 
-    <section className="about-insiders about-wrap"><p className="eyebrow">Unchained Insiders</p><h2>Go deeper than the public feed</h2><p>Unchained Insiders is the private Telegram community for members who want deeper Bittensor discussions, research, portfolio conversations, early observations, exclusive updates, and direct access to a community following the ecosystem every day.</p><a className="about-cta" href="https://t.me/+0fW1AeQAUERhZTgx" target="_blank" rel="noreferrer">Join Unchained Insiders <span>↗</span></a></section>
+    <section className="about-insiders about-wrap"><p className="eyebrow">{taoHeadsCommunity.name}</p><h2>Find your TAO Heads</h2><p>{taoHeadsCommunity.name} brings together subnet researchers, builders, and Bittensor enthusiasts to discuss TAO flows, subnet news, portfolio ideas, and what comes next. Join the conversation and share what you’re finding across the ecosystem.</p><a className="about-cta" href={taoHeadsCommunity.url} target="_blank" rel="noopener noreferrer">Join {taoHeadsCommunity.name} <span aria-hidden="true">↗</span></a></section>
 
     <section className="about-university about-wrap"><div><p className="eyebrow">Shiz University</p><h2>Learn directly with Shizzy</h2><p>Shiz University is a private one-on-one learning experience built around what you actually want to master.</p><Link className="about-cta" href="/?view=university">Explore Shiz University <span>→</span></Link></div><ul>{subjects.map(subject => <li key={subject}>{subject}</li>)}</ul></section>
 
