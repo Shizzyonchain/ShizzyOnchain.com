@@ -9,9 +9,10 @@ export const latestMemberVideo = {
 };
 
 // Update this alongside the channel's Live tab during each news/video refresh.
+// Owner removed the Cascade promotion before going live on September 17.
 export const promotedLivestream = {
-  enabled: true,
-  listed: true,
+  enabled: false,
+  listed: false,
   id: "BAMp6OssHks",
   title: "Can AI Predict What Happens Next? | Cascade Subnet 91 on Bittensor",
   meta: "Upcoming · September 17, 2026 · 11 AM ET / 8 AM PT",
