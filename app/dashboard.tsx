@@ -126,9 +126,14 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "le63VDOvQoA",
+    title: "Bittensor vs Big AI | Can TAO Take On OpenAI & Anthropic?",
+    meta: "25:20 · Latest episode · September 17, 2026",
+  },
+  {
     id: "OEoYrwtw1aM",
     title: "TAO CLARITY NOW! | Bittensor Market Update",
-    meta: "20:56 · Latest episode · September 14, 2026",
+    meta: "20:56 · September 14, 2026",
   },
   latestMemberVideo,
   {
