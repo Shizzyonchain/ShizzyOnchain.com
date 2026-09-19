@@ -1,0 +1,1367 @@
+{
+  "version": 1,
+  "date": "2026-09-19",
+  "title": "Subnet News — September 19, 2026",
+  "summary": "SN28 SayGM’s NEAR AI integration and SN66 Conjectures’ new Erdős proof claim lead the five-star news. Plus live runtime 467, SN114 SOMA, SN11 TrajectoryRL, SN105 Beam, SN88 RootReborn changes, SN90 KubeTEE, SN18 Zeus, emissions, StonkFun and the latest Shizzy members video. Researched through 8:40 AM ET.",
+  "publishedAt": "2026-09-19T12:45:43.517Z",
+  "coverageStart": "2026-09-18T14:43:01.557Z",
+  "coverageEnd": "2026-09-19T12:40:50.289Z",
+  "highlights": [],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": [
+        {
+          "headline": "SN28 SayGM and NEAR AI confirm live confidential inference integration",
+          "summary": "NEAR AI Cloud confirms that its confidential inference is available through SN28 SayGM’s confidential tier. The announced design protects both steps: SN28 SayGM routes inside an Intel TDX enclave, while NEAR AI runs models in protected CPU and GPU environments. For developers handling private code or customer data, this adds a named external provider and a public verification path to the subnet’s product. NEAR publishes instructions for obtaining attestation without an account. Its documentation also states the limit: an environment report alone does not prove that a particular gateway request reached that environment. The confidential tier matters; the same protection does not automatically apply to every frontier or open model in the catalog.",
+          "rating": 5,
+          "ratingReason": "A partner-confirmed live integration expands the subnet’s commercial product and provides inspectable security evidence, without implying a completed independent security audit.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "NEAR AI confirms live integration",
+              "url": "https://x.com/near_ai/status/2101053165730988390"
+            },
+            {
+              "label": "NEAR AI architecture and verification limits",
+              "url": "https://near.ai/blog/nearai-cloud-on-saygm-verifiable-confidential-inference"
+            },
+            {
+              "label": "NEAR Protocol confirmation",
+              "url": "https://x.com/NEARProtocol/status/2101095809995686103"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -5.424129022349683,
+            "observedAt": "2026-09-19T12:39:48+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 66,
+      "name": "Conjectures",
+      "updates": [
+        {
+          "headline": "SN66 Conjectures publishes a new proof claim for Erdős Problem 416(i)",
+          "summary": "SN66 Conjectures reports a solution to the first part of Erdős Problem 416, a 52-year-old question about the number of distinct values taken by Euler’s totient function. The claimed result establishes the doubling limit V(2x)/V(x) → 2. The team links a public Lean proof and says it passed verification. This is a new result after the Problems 108 and 653 claims covered yesterday. It is specifically part (i), not a claim to settle every question on the Problem 416 page. The independent Erdős Problems directory still marks the problem open at this scan; the proof was not independently rerun for this report.",
+          "rating": 5,
+          "ratingReason": "A new longstanding mathematics result with public formal-proof material deserves lead coverage; importance is separate from both market direction and independent mathematical acceptance.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN66 new Problem 416(i) announcement",
+              "url": "https://x.com/conjectures_io/status/2101007804102279301"
+            },
+            {
+              "label": "SN66 proof links",
+              "url": "https://x.com/conjectures_io/status/2101008424234271096"
+            },
+            {
+              "label": "SN66 published Lean proof",
+              "url": "https://conjectures.io/results/51923647-3c0d-418e-b330-aa595f5cad42/solution"
+            },
+            {
+              "label": "Independent Problem 416 status",
+              "url": "https://www.erdosproblems.com/416"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -14.365378846856395,
+            "observedAt": "2026-09-19T12:39:48+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SN114 SOMA confirms live inference routing through SN28 SayGM",
+          "summary": "SN114 SOMA says it now compresses context and routes agent requests through SN28 SayGM, with real traffic already flowing. SN28 SayGM independently confirms that it is providing inference for the integration. This is another concrete example of one subnet using another’s output in a product. Neither announcement quantifies traffic, customer revenue or realized cost savings, so those are not implied by the launch. Separately, today’s channel brief schedules SN114 SOMA’s next competition for September 22, with DeepSeek V4.1 Flash and IssueScout tasks; those competition changes are still upcoming.",
+          "rating": 4,
+          "ratingReason": "A live integration confirmed by both participating teams is materially stronger than a proposed partnership or roadmap teaser.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN114 live integration announcement",
+              "url": "https://x.com/SomaSubnet/status/2100963141907796222"
+            },
+            {
+              "label": "SN28 confirms inference provision",
+              "url": "https://x.com/say_gm_/status/2100963053047287958"
+            },
+            {
+              "label": "SN114 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/114/2026-09-19"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -4.583255253629021,
+            "observedAt": "2026-09-19T12:39:48+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": [
+        {
+          "headline": "SN11 TrajectoryRL shifts competition to routing policies for SN53 Engy",
+          "summary": "SN11 TrajectoryRL’s Season 2 release changes what miners build: routing policies that choose which SN53 Engy models answer each request. The release retains the existing scenario harness and verification process while metering model calls and enforcing a spending cap. Updated project documentation says the policy holding the winning seat is served to SN53 Engy customers as engy/auto, connecting competition output to an inference product. The code and documentation are public; customer requests were not independently exercised. The broader recursive self-improvement platform remains a roadmap, not an achievement established by this release.",
+          "rating": 4,
+          "ratingReason": "A new competition mechanism with a documented customer-facing use for the winning artifact is a significant product and incentive change.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN11 Season 2 release",
+              "url": "https://github.com/trajectoryRL/trajectoryRL/commit/6ad72dd62f06daa024c6ad0bed77ed996a039dc9"
+            },
+            {
+              "label": "SN11 winning policy becomes Engy auto mode",
+              "url": "https://github.com/trajectoryRL/trajectoryRL/commit/115a689d15e052a2537ca19e122d2b0a0283cef4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": [
+        {
+          "headline": "SN105 Beam introduces private Rooms; new coverage details a 100 GB transfer in 70 seconds",
+          "summary": "SN105 Beam introduces Beam Rooms for private transfers across peers, cloud buckets and connected services. Fresh TAO Daily coverage of its demonstration reports 100 GB moved in roughly 70 seconds using parallel routing, while the Opentensor account points viewers to the full demonstration and a Beam Studio preview. The key distinction is the measured example versus the projection: the cited demonstration is 100 GB in 70 seconds; a 1 TB transfer in under two minutes is the team’s extrapolation, not the demonstrated result. These performance claims were not independently rerun.",
+          "rating": 4,
+          "ratingReason": "A new product surface and a concrete large-file demonstration make the infrastructure easier to assess beyond a general speed claim.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN105 Beam Rooms announcement",
+              "url": "https://x.com/b1m_ai/status/2100969515118887215"
+            },
+            {
+              "label": "Opentensor demonstration and Studio preview",
+              "url": "https://x.com/opentensor/status/2100992475477540903"
+            },
+            {
+              "label": "TAO Daily: 100 GB demonstration details",
+              "url": "https://taodaily.io/beam-sn105-moves-100gb-in-70-seconds-via-parallel-routing/"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -2.725672242848829,
+            "observedAt": "2026-09-19T12:39:48+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": [
+        {
+          "headline": "SN88 Investing says RootReborn weight setting is disabled ahead of a redesign",
+          "summary": "SN88 Investing’s account says RootReborn weight setting has been disabled on-chain and is to be replaced with active rebalancing. Its description says root validators fall back to passive flat baskets for now. The immediate news is the reported disabled mechanism and interim behavior; active rebalancing is the proposed replacement, not confirmed as already operational. This concerns the named root-basket mechanism, not a claim that Bittensor staking or all subnet emissions have stopped. The operational claim is attributed to the project and was not independently checked against the relevant on-chain setting.",
+          "rating": 4,
+          "ratingReason": "A reported interruption and redesign of an allocation mechanism is important for participants; current behavior must be distinguished from the replacement plan.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN88 RootReborn status and replacement plan",
+              "url": "https://x.com/Investing88ai/status/2100978154940862916"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": [
+        {
+          "headline": "SN90 KubeTEE adds customer-facing attestation and publishes its key-broker endpoint",
+          "summary": "SN90 KubeTEE has merged an attestation endpoint and a verification guide for API clients. Requests can carry a fresh nonce, with evidence exposed separately or alongside a chat response. A companion change publishes the key-broker endpoint and reports testing the attestation exchange with a real TDX guest. These are concrete steps toward allowing users to inspect the infrastructure serving them. They are verified repository changes and project-reported testing, not an independent security audit or proof that every generated answer is correct.",
+          "rating": 4,
+          "ratingReason": "Customer-accessible attestation moves confidential infrastructure toward a verifiable product, with a public implementation and guide.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN90 client-facing attestation",
+              "url": "https://github.com/KubeTEE-AI/kubetee-subnet/commit/4bffdb96b48a461855456e20942300d4f70fe641"
+            },
+            {
+              "label": "SN90 public key-broker endpoint",
+              "url": "https://github.com/KubeTEE-AI/kubetee-subnet/commit/b02b027f06a893d68f9cc125287ab81ed07ed3f8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": [
+        {
+          "headline": "SN18 Zeus opens a public benchmark dashboard against ECMWF forecasts",
+          "summary": "SN18 Zeus’ new benchmark dashboard compares ZEUS PRO with ECMWF’s IFS and AIFS forecasts across temperature and wind measures, regions and lead times. The public page describes a common grid, ERA5 reference data and comparisons restricted to matched available runs. This gives readers a way to inspect specific forecast comparisons rather than rely on one promotional score. Results depend on the selected region, variable, period and forecast horizon; the dashboard does not establish that one model wins every weather task.",
+          "rating": 4,
+          "ratingReason": "A public, configurable comparison against major forecasting systems makes the subnet’s output more inspectable.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN18 benchmark announcement",
+              "url": "https://x.com/zeussubnet/status/2100977402302054430"
+            },
+            {
+              "label": "SN18 live benchmark dashboard",
+              "url": "https://zeussubnet.com/benchmarks"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -1.0641423694592065,
+            "observedAt": "2026-09-19T12:39:48+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": [
+        {
+          "headline": "SN1 Apex removes jump-scoring caps and commits to round-boundary changes",
+          "summary": "Today’s SN1 Apex channel brief says caps on long jump, triple jump and high jump scores have been removed. Following complaints about a mid-round change, the team commits to applying future scoring updates at round boundaries and says it will not retroactively re-evaluate the current round. These details are attributed to the channel digest.",
+          "rating": 3,
+          "ratingReason": "Scoring rules and when they change materially affect competition fairness.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN1 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/1/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": [
+        {
+          "headline": "SN4 Targon reports acquiring RTX Pro 6000 GPUs",
+          "summary": "The SN4 Targon channel brief says the team now has RTX Pro 6000 GPUs and is discussing next steps. No independently checked capacity, public rental availability, customer count or utilization figure accompanies the update.",
+          "rating": 2,
+          "ratingReason": "New hardware is useful infrastructure news without an established capacity or public-availability claim.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN4 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/4/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": [
+        {
+          "headline": "SN6 Numinous says its reasoning pool will remain alongside the harness pool",
+          "summary": "SN6 Numinous’ channel brief says the reasoning pool will coexist with the harness pool, with inference and model pools planned later. This is competition-structure clarification following yesterday’s Numinous-1 announcement. It does not establish that the new model or every planned pool is publicly available.",
+          "rating": 2,
+          "ratingReason": "Pool continuity matters to miners, while future pools and model availability require separate confirmation.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN6 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/6/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": [
+        {
+          "headline": "SN7 Allways reports production-ready TAO swaps; subnet alpha support is next",
+          "summary": "Today’s SN7 Allways brief attributes a production-readiness claim and hundreds of completed mainnet swaps to the team. It says support for subnet alpha tokens is coming soon. The swap count was not independently reconciled, and the planned alpha-token support should not be presented as already available.",
+          "rating": 3,
+          "ratingReason": "A reported working TAO swap product is material, with support for subnet tokens still pending.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN7 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/7/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": [
+        {
+          "headline": "SN15 ORO adds a fallback for failing simulator-model requests",
+          "summary": "SN15 ORO’s simulator now falls back from its Mistral Small route to an allowlisted Qwen route when OpenRouter returns rate-limit or server errors. Another change keeps tool calls aligned with the advertised arguments. These are operational fixes for evaluating agent submissions. The maintainer notes that fallback-model differences can introduce scoring variance, so the change should not be presented as proof that all evaluation consistency issues are resolved.",
+          "rating": 3,
+          "ratingReason": "Evaluation reliability affects miner results; the remaining model-variance qualification is material.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN15 simulator fallback",
+              "url": "https://github.com/ORO-AI/oro/commit/404b9587cf5811c77b9e64bf7b4548d0682b3264"
+            },
+            {
+              "label": "SN15 advertised tool arguments",
+              "url": "https://github.com/ORO-AI/oro/commit/fd0476f7aaf570d38dc405ab8b975683dfdbd285"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 16,
+      "name": "kenju",
+      "updates": [
+        {
+          "headline": "SN16 Kenju rises sharply in the rolling 24-hour market snapshot",
+          "summary": "SN16 Kenju alpha is up 29.1% against TAO over 24 hours in the 8:39 AM ET snapshot. This is a material market move, but the scan did not establish an official new announcement that explains it. A price change alone does not confirm a launch, partnership or sustained demand. The observation is timestamped and can move quickly.",
+          "rating": 3,
+          "ratingReason": "The size of the move warrants a market-watch entry, while no verified catalyst supports upgrading it to a five-star product story.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN16 market and emissions",
+              "url": "https://subnetradar.com/subnet/16"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 29.14524091543436,
+            "observedAt": "2026-09-19T12:39:48+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "Blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": [
+        {
+          "headline": "SN34 BitMind prepares a new holdout dataset for the next round",
+          "summary": "The SN34 BitMind brief schedules a new round and holdout dataset for Monday, September 21. It says rendered data is being removed after the existing task became saturated. This is an upcoming evaluation change, not a new detection-accuracy record.",
+          "rating": 3,
+          "ratingReason": "Changing the holdout and task mix affects how miner quality will be measured.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN34 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/34/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 35,
+      "name": "Subnet 35",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": [
+        {
+          "headline": "SN46 Instant says exploit fixes are still underway during its rollout",
+          "summary": "Today’s SN46 Instant brief says the team is working on fixes for miner exploits as its accelerated-inference rollout progresses. This follows yesterday’s validator-first release. The digest does not establish that all fixes are complete or that the full miner competition is ready, so the deployment remains developing.",
+          "rating": 3,
+          "ratingReason": "Current rollout integrity and readiness are material to operators and miners.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN46 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/46/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 47,
+      "name": "Feval",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": [
+        {
+          "headline": "SN49 Nepher opens its Humanoid Run and Jump challenge",
+          "summary": "SN49 Nepher’s channel brief reports that Phase 3, the Humanoid Run and Jump Challenge, is live. It describes a Unitree G1 robot navigating hurdles and gives September 30 as the submission deadline. The launch and deadline are digest-attributed; participants should confirm the current rules with the team before submitting.",
+          "rating": 3,
+          "ratingReason": "A new task and submission window are actionable competition news.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN49 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/49/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "Lium",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": [
+        {
+          "headline": "SN54 Yanez documents production deployment of its user-key registry",
+          "summary": "SN54 Yanez’s authorization project documents promotion of its user-key registry route from development into test and production. The route supports looking up the public-key and tier information associated with an existing user approval. The deployment statement and implementation are public; authenticated production requests were not independently exercised.",
+          "rating": 2,
+          "ratingReason": "A concrete authorization-infrastructure update is useful developer news, with limited evidence of broader adoption.",
+          "importance": "informational",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN54 user-key registry deployment",
+              "url": "https://github.com/yanez-compliance/yanez-agent-authorization/commit/b032e8b9ba42946c36c3cbac3b82a498bdec4748"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": [
+        {
+          "headline": "SN55 NIOME reports a task-generator repair ahead of its next testnet phase",
+          "summary": "SN55 NIOME’s brief says a task-generator crash has been fixed and describes the next testnet phase as planned for the coming week. Ten million experiments is presented as a target, not an achieved total. Unverified exploit accusations in surrounding discussion are not treated as established events.",
+          "rating": 3,
+          "ratingReason": "A reported repair and next-phase timing help miners distinguish recovery from longer-term targets.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN55 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/55/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Subnet 57",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "Subnet 58 (previously Greevils)",
+      "updates": [
+        {
+          "headline": "SN58’s channel brief reports a subnet-slot sale and channel archive",
+          "summary": "Today’s SN58 channel brief reports that the owner sold the subnet slot and archived the channel. This is a potential ownership transition for the slot previously associated with Greevils. The brief does not establish the buyer, sale price, replacement project or a launch date, and this scan did not independently reconcile an ownership transaction. The report remains developing until those details are supported by a direct announcement or chain evidence.",
+          "rating": 3,
+          "ratingReason": "A reported slot sale can change a subnet’s purpose and ownership, but the buyer and transaction details remain unverified.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN58 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/58/2026-09-19"
+            },
+            {
+              "label": "SN58 market and emissions",
+              "url": "https://subnetradar.com/subnet/58"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 59,
+      "name": "Subnet 59",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": [
+        {
+          "headline": "SN60 Bitsec reports a new round after a multi-project pipeline fix",
+          "summary": "SN60 Bitsec’s channel brief says a pipeline that could not handle multiple repositories was repaired by splitting the work into two projects, each with its own evaluation. It reports that the new round is live. This is a team-attributed operational update; the repair was not independently reproduced.",
+          "rating": 3,
+          "ratingReason": "A pipeline repair and resumed round affect the ability to evaluate submissions.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN60 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/60/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": [
+        {
+          "headline": "SN61 RedTeam reports five accepted bot-virus submissions",
+          "summary": "SN61 RedTeam’s channel brief reports five accepted submissions for the bot-virus challenge, now used as the comparison set for new entries. It also says participants will receive two days’ notice before challenges are deprecated. The counts and timing policy are attributed to the digest.",
+          "rating": 2,
+          "ratingReason": "The comparison set and notice periods are useful participation updates.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN61 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/61/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": [
+        {
+          "headline": "SN74 Gittensor repairs compute-pool draining and lease recycling",
+          "summary": "SN74 Gittensor has merged changes that wait for active gateway requests before planned drains, reuse a lease when every card is busy, and distinguish missing proof images from GPU failures. These follow yesterday’s signed 5.1.0 release-channel news and target disruption and false failure reports in the compute pool. The changes are verified in code; fleet-wide adoption and uptime improvements were not measured.",
+          "rating": 3,
+          "ratingReason": "Repairs that protect active requests and prevent misleading GPU failures matter to compute customers and operators.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN74 wait for active requests",
+              "url": "https://github.com/entrius/gittensor/commit/f140ad111399061518d88fcbb04c53087e9ec766"
+            },
+            {
+              "label": "SN74 recycle busy-pool leases",
+              "url": "https://github.com/entrius/gittensor/commit/58360fbe09502a4f386b90abb15623edd0b06c7b"
+            },
+            {
+              "label": "SN74 distinguish missing proof images",
+              "url": "https://github.com/entrius/gittensor/commit/1383264381ea349515c9b5bb853f1aeedbbaa581"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "UMI",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": [
+        {
+          "headline": "SN79 MVTRX targets the next scoring step for September 21",
+          "summary": "SN79 MVTRX’s brief schedules the next de-beta scoring step for September 21 and describes multi-asset work as under final review. Yesterday’s move to a 50% de-beta component is already covered; today’s update concerns the next planned step, not another completed activation.",
+          "rating": 2,
+          "ratingReason": "Upcoming scoring timing is useful while the next activation remains ahead.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN79 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/79/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": []
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": [
+        {
+          "headline": "SN81 Reliquary fixes the timing used by its price controller",
+          "summary": "SN81 Reliquary’s controller now bases throughput calculations on the actual training interval rather than the entire surrounding window. The related change makes the published target match the enforced target. This addresses price reductions continuing after the relevant throughput target had been reached. It is a verified controller change, not a claim about realized training costs for every user.",
+          "rating": 3,
+          "ratingReason": "Pricing logic directly affects the incentives and economics of the training market.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN81 training-span price calculation",
+              "url": "https://github.com/reliquadotai/reliquary/commit/b33bee35bf2f5f8216c617d61dfd65a22f5633ad"
+            },
+            {
+              "label": "SN81 align published and enforced targets",
+              "url": "https://github.com/reliquadotai/reliquary/commit/a73fb7fafe43801b387a9e171c1df78b6135dc22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "Cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "MicroTensor",
+      "updates": [
+        {
+          "headline": "SN92 MicroTensor is still working through stalled evaluations",
+          "summary": "SN92 MicroTensor’s latest channel brief says evaluation recovery work is continuing and describes a full burn posture. It does not establish that the stalled evaluations are resolved. The saved market snapshot separately shows zero network allocation; a reported burn policy and allocation from the network are different measurements.",
+          "rating": 3,
+          "ratingReason": "An unresolved evaluation interruption and reward posture matter directly to participants.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN92 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/92/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": [
+        {
+          "headline": "SN97 Albedo publishes self-service API access for coding tools",
+          "summary": "SN97 Albedo’s public key-management page now offers named API keys tied to a GitHub account and explains how to use its reigning model in coding tools. The page documents OpenAI, Anthropic and Responses-compatible interfaces, with setup options for Claude Code, Codex, Cursor and other clients. The public page and integration instructions were checked; an account was not created and paid or authenticated model calls were not tested. No usage, revenue or benchmark improvement is inferred from the availability of the page.",
+          "rating": 3,
+          "ratingReason": "A self-service access path makes the subnet’s output easier for developers to use, while actual service performance remains a separate question.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN97 public API key and client setup page",
+              "url": "https://albedo.tech/keys.html"
+            },
+            {
+              "label": "SN97 September 19 channel brief",
+              "url": "https://subnetradar.com/subnet-news/97/2026-09-19"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": [
+        {
+          "headline": "SN104 TAOStatus targets a gradual emissions rollout next week",
+          "summary": "SN104 TAOStatus’ weekly update describes combining chain, X, Discord and GitHub research agents in its analysis workflow. The team says a controlled, progressive emissions rollout is planned for next week. That is a future target rather than confirmation that emissions have already started. The product’s “Agentic Quantum Analysis” branding is not evidence that the service uses a quantum computer.",
+          "rating": 2,
+          "ratingReason": "A dated rollout target is worth tracking while activation remains ahead.",
+          "importance": "informational",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN104 weekly update and rollout target",
+              "url": "https://x.com/taostatus_ai/status/2101033768148697337"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "Prometheon",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": [
+        {
+          "headline": "SN111 Claims adds funding-lineage checks to newcomer selection",
+          "summary": "SN111 Claims has merged newcomer-selection logic that can group registrations by funding lineage when the policy is enforced, rather than treating every fresh key as an unrelated entrant. It also adds a preview path for inspecting selection without claiming the batch. These changes address how new participants enter evaluation and make exclusion reasons more visible. The code verifies the mechanism; it does not establish wrongdoing by any named miner or show that every live validator has adopted it.",
+          "rating": 3,
+          "ratingReason": "Eligibility and selection changes affect access to rewards and deserve clear miner-facing coverage.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN111 funding-lineage eligibility",
+              "url": "https://github.com/DeSciClaims/Claims/commit/e9fd62dda86a99d5a65502109a61f5899826e4c6"
+            },
+            {
+              "label": "SN111 selection preview",
+              "url": "https://github.com/DeSciClaims/Claims/commit/b064a75a460b1ebb647958cf86e1a9ff3f80b5d5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 112,
+      "name": "for sale",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "TensorUSD",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "Glyph",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "SN118 Ditto adds searchable administrative activity history",
+          "summary": "SN118 Ditto has merged a public administrative-activity feed with searchable history, improving visibility into changes around the service. A separate change adds bounded conversation-memory assessments in shadow mode. Shadow mode means observation rather than a confirmed change to live reward decisions. This report covers the inspectable code and does not repeat uncorroborated allegations circulating in channel summaries.",
+          "rating": 3,
+          "ratingReason": "Public administrative history is a concrete transparency improvement; shadow evaluation remains distinct from activated scoring.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN118 public administrative history",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/709ff9dc2ff705337aba0032a36e9b67c8566b0f"
+            },
+            {
+              "label": "SN118 memory assessments in shadow mode",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/8bee0c59e7c28f2732efd18975bcd673c61f8f8a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "updates": [
+        {
+          "headline": "SN126 Attelier outlines a move from video optimization to commercial tools",
+          "summary": "SN126 Attelier’s official thread describes a sequence from video optimization to a commercial inference API, followed by Studio and an editing agent called Atte. The proposed products would package the subnet’s work into usable media workflows. The announcement is a direction and product plan: it does not establish that the API, Studio or editing agent has launched or generated customer revenue.",
+          "rating": 3,
+          "ratingReason": "The official product direction is substantive, but planned commercial tools should not receive the same weight as a completed launch.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN126 product direction",
+              "url": "https://x.com/attelier_ai/status/2101009072052936710"
+            },
+            {
+              "label": "SN126 commercial API plan",
+              "url": "https://x.com/attelier_ai/status/2101009078529007644"
+            },
+            {
+              "label": "SN126 Studio and Atte plan",
+              "url": "https://x.com/attelier_ai/status/2101009080831627439"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Bittensor runtime 467 is live with lower transaction-fee parameters",
+      "summary": "Finney is running runtime 467: this report independently queried two public network endpoints and both returned version 467. The merged change halves the native weight and byte fee parameters, reduces the EVM default and floor gas-price settings, and caps root-claim charging to a four-unit scan allowance while retaining full execution accounting. It also addresses calls whose fees had risen relative to the earlier reference. This is not a blanket halving of every total wallet charge: swap and protocol fees, registration burns and other separate costs are unchanged. No live transaction was submitted to measure an individual final bill.",
+      "rating": 4,
+      "ratingReason": "A verified network-wide fee release affects ordinary users and follows the fee issue covered yesterday.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Merged runtime 467 fee changes",
+          "url": "https://github.com/opentensor/subtensor/pull/3183"
+        },
+        {
+          "label": "Runtime 467 live report",
+          "url": "https://x.com/subnetradarcom/status/2101008360858362275"
+        },
+        {
+          "label": "Finney runtime RPC: OnFinality",
+          "url": "https://bittensor-finney.api.onfinality.io/public"
+        },
+        {
+          "label": "Finney runtime RPC: Metagraph",
+          "url": "https://api.metagraph.sh/rpc/v1/finney"
+        }
+      ]
+    },
+    {
+      "headline": "ForeverMoney announces subnet cashtags",
+      "summary": "ForeverMoney’s official account announces that subnet cashtags are now available. This adds another way to identify subnet assets in the platform’s social-facing experience. The announcement is not evidence that every subnet has a new exchange listing, that all 128 assets are supported everywhere, or that a new TAO trading pair launched today.",
+      "rating": 3,
+      "ratingReason": "A new subnet-facing discovery feature deserves coverage without conflating identification with trading availability.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "ForeverMoney subnet-cashtag announcement",
+          "url": "https://x.com/forevermoney_ai/status/2100991754266611909"
+        }
+      ]
+    },
+    {
+      "headline": "StonkFun reports $1.12M daily revenue and $672K in buybacks",
+      "summary": "StonkFun’s September 18 report lists $1,119,087 in revenue, $672,012 in buybacks and 2.69 million STONK burned. A separate post reports cumulative holder rewards reaching $55 million. These are project-reported platform totals, not independently audited accounts or TAO-specific revenue and burns. The earlier TAO pairing remains context; today’s figures should not be presented as a new TAO-pair launch.",
+      "rating": 3,
+      "ratingReason": "A fresh dated operating report is relevant to the ecosystem watch, with platform-wide and TAO-specific activity kept distinct.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "September 18 revenue and buybacks",
+          "url": "https://x.com/LaunchOnSF/status/2101106794563338672"
+        },
+        {
+          "label": "Cumulative holder-reward report",
+          "url": "https://x.com/LaunchOnSF/status/2101013953883291755"
+        }
+      ]
+    },
+    {
+      "headline": "Emission watch: small allocations return to SN10 Pareton and SN112",
+      "summary": "At 8:39 AM ET, SN10 Pareton has 0.001122% observed network allocation and SN112 has 0.000019%, both above zero after zero in yesterday’s saved snapshot. SN84 moves from a small positive allocation to zero. SN58 and SN92 MicroTensor remain at zero. These snapshots measure allocation to subnets, not actual miner payouts or voluntary burns, and do not establish that Const, Arbos or another named person manually switched a subnet on or off.",
+      "rating": 3,
+      "ratingReason": "New zero/nonzero allocation changes are relevant to the ongoing emissions watch; tiny allocations and unknown causes must be described precisely.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SN10 market and emissions",
+          "url": "https://subnetradar.com/subnet/10"
+        },
+        {
+          "label": "SN112 market and emissions",
+          "url": "https://subnetradar.com/subnet/112"
+        },
+        {
+          "label": "SN84 market and emissions",
+          "url": "https://subnetradar.com/subnet/84"
+        },
+        {
+          "label": "SN58 market and emissions",
+          "url": "https://subnetradar.com/subnet/58"
+        },
+        {
+          "label": "SN92 market and emissions",
+          "url": "https://subnetradar.com/subnet/92"
+        }
+      ]
+    },
+    {
+      "headline": "New Shizzy members video: September 18 news and TAO price action",
+      "summary": "The video library and membership preview now feature “9/18/26 Bittensor News Updates & TAO Price Action | Members Video,” running 10:13. YouTube identifies it as members-only. The latest public episode remains “Bittensor vs Big AI”; the new members upload is linked through the membership flow.",
+      "rating": 2,
+      "ratingReason": "A new members upload keeps the site’s video and membership surfaces current.",
+      "importance": "informational",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Watch the new members video on YouTube",
+          "url": "https://www.youtube.com/watch?v=NnYp42IMcAo"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "All 128 active subnet profiles and 96 dated September 18–19 channel briefs reviewed; new events checked against previous editions.",
+      "180 public X account candidates sampled; 171 returned post links, with 168 deduplicated current post records reviewed. Candidates include projects, partners, aliases and commentators.",
+      "Signed-in X and the SN66 proof thread reviewed; Grok used only as supplemental discovery and corrected with original announcements it missed.",
+      "Authenticated AlphaGap Feed reviewed alongside SubnetRadar, TAO Daily and TAO Media. Stale AlphaGap prices were excluded.",
+      "164 repository paths scanned and refreshed, with selected patches and runtime 467 pull-request details inspected.",
+      "27 current linked SubnetRadar Moments screened; unsupported motive and wallet-identity interpretations excluded.",
+      "Market and emission snapshot at 8:39 AM ET compared with September 18.",
+      "NEAR AI original integration article, SN18 Zeus benchmark dashboard, SN97 Albedo API setup page, SN66 proof file and independent Erdős Problem 416 status inspected.",
+      "Finney active runtime independently queried through OnFinality and Metagraph RPC; both returned 467.",
+      "YouTube Videos and Live listings checked; the new members video’s channel, title, publication date, 10:13 duration and membership restriction verified."
+    ],
+    "gaps": [
+      "A broad public scan cannot guarantee every announcement is found. Private, deleted, unindexed and unsampled posts may be absent. Discord claims based on channel digests remain attributed and developing.",
+      "SN66’s Lean proof was not independently rerun; the independent directory still marks Problem 416 open. The announcement concerns part (i), not every question in that entry.",
+      "NEAR AI’s integration and architecture are partner-confirmed, not independently security-audited. Environment attestation alone does not link a specific gateway request to the attested enclave.",
+      "SN105 Beam’s 100 GB demonstration is distinct from the projected 1 TB timing; transfer performance was not independently reproduced.",
+      "SN88 RootReborn status is project-reported, without an independent query of its on-chain setting. The replacement rebalancing mechanism is still planned.",
+      "Repository changes establish implementation, not adoption by every live operator. SN97 authenticated API calls and SN54 production credentials were not tested.",
+      "SN58 sale details remain digest-attributed; no buyer, consideration or ownership transaction was independently established.",
+      "SN78 UMI’s intake announcement conflicts with a later brief reporting a temporary pause. Current availability was not resolved, so no unqualified launch claim is published.",
+      "Network allocations differ from miner payouts, burns and administrative actions. No named-person on/off cause is inferred. StonkFun totals are project-reported, not independently audited.",
+      "Previously covered SN63 RSA-512, SN80 Coinbase-app access, SN6 model announcement and older proof claims were not repackaged as new launches. Artificial Cat had no verified new milestone selected. Unsupported miner/personnel allegations were excluded.",
+      "8 repository paths had access or refresh errors. Sources were observed at different times; the final repository and market scan ended at 8:40 AM ET."
+    ]
+  }
+}
