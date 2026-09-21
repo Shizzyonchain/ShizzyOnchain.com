@@ -1,0 +1,1218 @@
+{
+  "version": 1,
+  "date": "2026-09-21",
+  "title": "Subnet News — September 21, 2026",
+  "summary": "SN75 Hippius goes live on Android, SN14 Cacheon opens Qwen3.6 mining, and SN108 is re-registered. Plus SN118 Ditto with SN64 Chutes, SN90 video generation, SN78’s 30.5% move and reward-status check, SN88 incentives, SN61 buyback plans, emissions and StonkFun. Researched through 10:28 AM ET.",
+  "publishedAt": "2026-09-21T14:31:08.201Z",
+  "coverageStart": "2026-09-20T15:27:00.988Z",
+  "coverageEnd": "2026-09-21T14:28:31.936Z",
+  "highlights": [],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": [
+        {
+          "headline": "SN75 Hippius launches its Android app on Google Play",
+          "summary": "SN75 Hippius has brought its storage product to Android. The official announcement and the Google Play listing from T34 Corporation confirm the app is available, with camera-roll backup, file management and access to the same account used on desktop and web. Hippius says files are encrypted on the phone before upload; this scan verified the listing, not the cryptographic implementation. The practical development is mobile distribution for a working Bittensor storage product. iOS remains upcoming.",
+          "rating": 4,
+          "ratingReason": "A confirmed consumer-app release expands where people can use subnet-backed storage.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN75 Android launch",
+              "url": "https://x.com/Hippius_cloud/status/2101978478904222062"
+            },
+            {
+              "label": "Hippius on Google Play",
+              "url": "https://play.google.com/store/apps/details?id=com.hippius.mobile"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 2.971981365171747,
+            "observedAt": "2026-09-21T14:28:12+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": [
+        {
+          "headline": "SN14 Cacheon opens Qwen3.6 competition and broadens kernel submissions",
+          "summary": "SN14 Cacheon says its Qwen3.6 arena is open for submissions. The accompanying release replaces fixed optimization slots with a module-based interface, letting miners submit changes to addressed parts of the served model. Separate Qwen and GLM arenas run side by side; maintainers report both judged mainnet submissions on September 21. A follow-up fix assigns reward ownership only to a passing result, so an unevaluated copy of the same submission in another arena does not block the weight offer. This broadens the work miners can compete on; it is not a new independently measured speed record.",
+          "rating": 4,
+          "ratingReason": "An opened arena and a more general optimization interface materially expand the mining competition.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN14 Qwen3.6 opening",
+              "url": "https://x.com/cacheon_ai/status/2102041025820643403"
+            },
+            {
+              "label": "SN14 module-based arena release",
+              "url": "https://github.com/latent-to/cacheon/commit/eae4e8aa917819a5e402a62ffcf8ef2cf7a56229"
+            },
+            {
+              "label": "Passing-result reward ownership",
+              "url": "https://github.com/latent-to/cacheon/commit/8c186244fad6bacfc04800d15021b1989efa5622"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -0.4354217192534747,
+            "observedAt": "2026-09-21T14:28:12+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 108,
+      "name": "Subnet 108 (re-registered)",
+      "updates": [
+        {
+          "headline": "SN108 is re-registered; its 225% price reading is not a clean performance comparison",
+          "summary": "SubnetRadar records a re-registration of SN108, previously labelled Prometheon, at block 9,111,253 on September 20, with an approximately 508.7 TAO registration cost and a changed owner. Tao Portal independently carries the takeover alert. The current market snapshot has no project name, website or repository, zero alpha outstanding and zero network emission allocation. Its displayed 24-hour price change is +225.3%, but a recycled slot and reset pool make that an unsuitable measure of returns for the former project. A new operator's product and plans were not established.",
+          "rating": 4,
+          "ratingReason": "A subnet-slot reset changes what the market data represents and is important for holders to distinguish from an ordinary rally.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN108 re-registration event",
+              "url": "https://subnetradar.com/moments/new_subnet-ij341b"
+            },
+            {
+              "label": "SN108 takeover alert",
+              "url": "https://x.com/TaoPortal/status/2101976176608612540"
+            },
+            {
+              "label": "SN108 market and emissions",
+              "url": "https://subnetradar.com/subnet/108"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "SN118 Ditto puts SN64 Chutes models into its memory-enabled catalogue",
+          "summary": "SN118 Ditto now highlights a dedicated SN64 Chutes tab in its model catalogue: select a model, retain Ditto memory, and pay with a Chutes key or Ditto credits. The team says displayed prices come directly from the Chutes catalogue. Its latest Router demonstrations also show a single-command Claude Code or Codex setup and an endpoint configured to send Opus-labelled requests to GLM Flash with memory attached. The significance is a customer route connecting subnet inference with subnet memory. The Router example changes the underlying model; it does not make GLM Flash an Opus model or establish identical output quality.",
+          "rating": 4,
+          "ratingReason": "A concrete cross-subnet customer workflow connects inference spending to a usable memory product.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN118 Chutes catalogue",
+              "url": "https://x.com/heydittoai/status/2101701927767888028"
+            },
+            {
+              "label": "Router command-line setup",
+              "url": "https://x.com/heydittoai/status/2101752782848205101"
+            },
+            {
+              "label": "Configured model-routing demonstration",
+              "url": "https://x.com/heydittoai/status/2102015551090700400"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -1.1200033850299416,
+            "observedAt": "2026-09-21T14:28:12+00:00",
+            "basis": "α/TAO"
+          }
+        },
+        {
+          "headline": "SN118 Ditto discusses stronger anti-abuse checks and a 5% development treasury",
+          "summary": "SN118 Ditto’s team-attributed brief outlines possible audit, quality-scoring and reviewer changes, plus a proposal to direct 5% of emissions to developer bounties with deposits for issue claims. These are design discussions, not a confirmed activated treasury or an implemented package of eight fixes. The beta activity log is already public and was covered previously.",
+          "rating": 3,
+          "ratingReason": "A proposed change to evaluation controls and development funding deserves coverage before activation is assumed.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN118 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/118/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": [
+        {
+          "headline": "SN90 KubeTEE reports video-plus-audio generation live on its gateway",
+          "summary": "SN90 KubeTEE’s updated deployment documentation reports MiniMax-H3 serving joint video and audio through its Factory gateway, following the image backends covered yesterday. It describes remote miner clusters behind an attested gateway and says MiniMax supplied written US authorization for this deployment. These are maintainer-reported operating and licensing claims; generation was not independently exercised and the authorization was not separately reviewed. The same documentation explicitly keeps these video/image products separate from SN28 SayGM’s idle chat-capacity offers. A related SN28 FLUX miner release remains labelled 0.4.20-dev.",
+          "rating": 4,
+          "ratingReason": "A reported new video-and-audio service is a substantive expansion beyond image generation, with deployment and distribution scope made explicit.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN90 video gateway deployment report",
+              "url": "https://github.com/KubeTEE-AI/kubetee-subnet/commit/e0e1f5ce3717d1aa19f3f137abf75c60996d6a76"
+            },
+            {
+              "label": "SN90 model licensing and SN28 scope",
+              "url": "https://github.com/KubeTEE-AI/kubetee-subnet/commit/fd1780a05c61e35859e79d81a93b48d08391839c"
+            },
+            {
+              "label": "SN28 development release",
+              "url": "https://github.com/taostat/gm-miner/commit/77b1ed75723cb682a1657e4ad3da5a31ba0db9a6"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 1.1095897012251033,
+            "observedAt": "2026-09-21T14:28:12+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 78,
+      "name": "UMI",
+      "updates": [
+        {
+          "headline": "SN78 UMI rises 30.5%, but live status still says competition rewards are inactive",
+          "summary": "SN78 UMI’s channel brief reports that a stale coordinator configuration left the first cohort without scores and that submissions were retained. The public status endpoint now shows continuous intake, assignment delivery and evaluation marked ready, but explicitly reports rewards_active=false and chain_submission_authorized=false. This is the important distinction behind the brief's “emission is live” wording: network allocation does not prove scored competition payouts. At block 9,116,534 the endpoint listed the next roster-close window as 9,116,910–9,116,915; miners should consult the live status because schedules roll. At 10:28 AM ET, alpha was up 30.5% against TAO over 24 hours. The price move does not establish that rewards have activated.",
+          "rating": 4,
+          "ratingReason": "The large market move and conflicting shorthand about emissions make verified reward-readiness details a priority.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN78 live competition status",
+              "url": "https://api.umi.vision/v1/competition/status"
+            },
+            {
+              "label": "SN78 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/78/2026-09-21"
+            },
+            {
+              "label": "SN78 project documentation",
+              "url": "https://github.com/Umi-BitSign/umi"
+            },
+            {
+              "label": "SN78 market and emissions",
+              "url": "https://subnetradar.com/subnet/78"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 30.512390276839973,
+            "observedAt": "2026-09-21T14:28:12+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": [
+        {
+          "headline": "SN88 Investing’s locked-alpha experiment gains a reported 9% allocation",
+          "summary": "Today’s SN88 Investing channel brief attributes a more specific design to the team: 9% of miner emissions for locked-alpha holders, with owner wallets excluded. This adds detail to the official “next week” experiment reported yesterday. It is a subnet-level incentive proposal, not a 9% share of all Bittensor emissions. The percentage is channel-digest-attributed; an activated payout implementation and actual recipient distributions were not independently confirmed.",
+          "rating": 3,
+          "ratingReason": "A specific reward allocation is useful new information, while payout activation remains unverified.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN88 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/88/2026-09-21"
+            },
+            {
+              "label": "Earlier official experiment announcement",
+              "url": "https://x.com/Investing88ai/status/2101348989148815600"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -0.042258967656112235,
+            "observedAt": "2026-09-21T14:28:12+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": [
+        {
+          "headline": "SN61 RedTeam ties its buyback restart to pending Kraken approval",
+          "summary": "SN61 RedTeam’s channel brief says the team expects approval of its Kraken buyback account next week and plans to resume buybacks afterward. It also describes a transparency website for buyback and conviction figures. On the previously discussed integration, the brief says contracting is expected by year-end and installations with three unnamed major banks are targeted for Q1 2027. Those remain future milestones attributed to the digest: this is not confirmation that buybacks have restarted or that three new bank contracts have been signed.",
+          "rating": 3,
+          "ratingReason": "The dependency for restarting buybacks and the distinction between a commercial target and a signed deployment matter to holders.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN61 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/61/2026-09-21"
+            },
+            {
+              "label": "SN61 market and emissions",
+              "url": "https://subnetradar.com/subnet/61"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -3.978334578585198,
+            "observedAt": "2026-09-21T14:28:12+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": [
+        {
+          "headline": "SN3 Teutonic changes its sample count and improvement threshold again",
+          "summary": "SN3 Teutonic’s latest chain configuration raises the evaluation sample count from 20,000 to 30,000 and lowers delta_threshold from 0.0095 to 0.003. This supersedes the smaller threshold change covered yesterday. The configuration change is verified; live adoption across operators and any resulting winner were not independently established.",
+          "rating": 2,
+          "ratingReason": "A specific follow-up evaluation change is useful to active miners.",
+          "importance": "informational",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN3 sample and threshold update",
+              "url": "https://github.com/unarbos/teutonic/commit/544b99bea10254f44072399263adc3469e064354"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": [
+        {
+          "headline": "SN8 Vanta changes the pro-account transition to the weekly payout boundary",
+          "summary": "SN8 Vanta’s updated rules replace a fixed seven-day wind-down with a transition ending at the first Monday 00:00 UTC after entry, processed on the next refresh. During wind-down, traders can close or reduce positions but cannot expand them; promotion can still be requested earlier. Remaining positions close when the transition completes. This is a verified repository and documentation change; adoption by every live validator was not independently checked.",
+          "rating": 3,
+          "ratingReason": "The timing change can materially shorten a trader’s transition and affect open-position handling.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN8 payout-week transition rules",
+              "url": "https://github.com/taoshidev/vanta-network/commit/1b758503cd77cffa859be29e2bc3843ef16256de"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": [
+        {
+          "headline": "SN11 TrajectoryRL releases a smaller evaluation suite and clearer validator health",
+          "summary": "SN11 TrajectoryRL’s 0.7.3 code prepares SPEC 26, reducing the suite from 26 scenarios to 20 after an analysis of 614 challenger packs identified tasks with little ranking signal relative to their cost. The release explicitly requires a paired server change and ordered rollout before activation, so the new maximum score should not be assumed live everywhere. A separate fix reports validator infrastructure failures in heartbeats and prevents a session that never ran properly from being posted as a miner’s zero score.",
+          "rating": 3,
+          "ratingReason": "Evaluation cost, score comparability and distinguishing infrastructure failure from miner performance directly affect the competition.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN11 scenario changes and activation order",
+              "url": "https://github.com/trajectoryRL/trajectoryRL/commit/989c7cc766ef11c3bb904bcbdb3341a13fc10c92"
+            },
+            {
+              "label": "SN11 version 0.7.3",
+              "url": "https://github.com/trajectoryRL/trajectoryRL/commit/f20a623aabd7c150ac8f07bd50c00b3d9d9ed130"
+            },
+            {
+              "label": "SN11 validator-health and scoring fix",
+              "url": "https://github.com/trajectoryRL/trajectoryRL/commit/772601dae7825ca62e39562d4712ccf891360bfd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": [
+        {
+          "headline": "SN15 ORO prepares six task families and re-queues qualifying agents",
+          "summary": "SN15 ORO’s team-attributed brief specifies six task families for a new qualifying suite after the current race, with greater separation between qualifying and race material. It says surviving agents will be re-queued and submission cooldowns cleared. This develops yesterday’s general suite plan with concrete scope and transition handling; completion of the rollout was not independently confirmed.",
+          "rating": 3,
+          "ratingReason": "New task coverage and re-queue rules affect which agents qualify for the next race.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN15 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/15/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 16,
+      "name": "kenju",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "Blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": [
+        {
+          "headline": "SN21 AdTAO makes admission verdicts identify their evaluation dataset",
+          "summary": "SN21 AdTAO’s admission pipeline now checks a served held-out dataset against its published hash and records the dataset identity in each verdict. If neither a served nor cached dataset is available, the public training bundle remains an explicitly labelled fallback. This lets observers tell whether two verdicts used the same evaluation material. The held-out examples themselves are not made public, and the change does not establish a new model-performance result.",
+          "rating": 3,
+          "ratingReason": "Identifying evaluation data and fallback use makes admission decisions more comparable and auditable.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN21 held-out corpus and verdict identity",
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/b70874ac8a3b4dc90e2a4af57dbbb5163fd0ca0f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": [
+        {
+          "headline": "SN34 BitMind refreshes audio holdouts and re-evaluates the incumbent",
+          "summary": "SN34 BitMind’s channel brief reports refreshed audio holdouts and re-evaluation of the current king. The team is considering smaller iterative benchmark changes that avoid full resets and an audio augmentation metric. The fresh holdout work is distinct from yesterday’s reported benchmark reset; the proposed metric and future reset policy should not be read as already deployed.",
+          "rating": 3,
+          "ratingReason": "Updated hidden tests can change whether an incumbent’s performance generalizes.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN34 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/34/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 35,
+      "name": "Subnet 35",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "updates": [
+        {
+          "headline": "SN36 Epago replaces one-shot entry with three attempts per hotkey",
+          "summary": "SN36 Epago’s new competition rules allow each hotkey up to three attempts counted from round four, with one model per hotkey per round. A newer accepted reveal replaces a waiting model without consuming an attempt; an attempt is charged when the round takes the model into its field. Cooldowns are removed, and a narrowly defined near-miss can re-enter once within the same three-attempt allowance. This is a code-and-rules update, not proof of a new winning model.",
+          "rating": 3,
+          "ratingReason": "The new entry rules reduce the cost of stale queued submissions and give miners a clearer retry path.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN36 attempts, replacements and cooldown removal",
+              "url": "https://github.com/EpagoFoundation/epago/commit/e5c4ccbfcc929634e75500236cfd16ed463f234a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": [
+        {
+          "headline": "SN44 Score adds a petrol-station detection task amid server migration",
+          "summary": "SN44 Score’s channel brief reports a new petrol-station detection element covering canopies, price boards and hoses. It also reports server migration affecting challenge delivery and a registry-filter problem around block 9,112,200. The useful fresh development is the specific vision task and operational disruption. Recirculating Score Studio launch stories and customer speculation do not establish a new signed petrol-station contract or a disclosed revenue figure.",
+          "rating": 3,
+          "ratingReason": "A new applied vision task and interruption to challenge delivery are relevant to both product watchers and miners.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN44 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/44/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "Feval",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": [
+        {
+          "headline": "SN49 Nepher Robotics introduces its simulation-first platform and team",
+          "summary": "SN49 Nepher Robotics publishes a new introductory video describing a simulation-first robot training and deployment platform built on NVIDIA Omniverse and powered by Bittensor. The team says it has been shipping since January. This is a new public overview of ongoing work, not evidence that NVIDIA has announced a partnership or that the project launched for the first time today.",
+          "rating": 2,
+          "ratingReason": "A useful fresh project overview, with no unsupported partnership or first-launch claim.",
+          "importance": "informational",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN49 platform introduction",
+              "url": "https://x.com/nepher_robotics/status/2102035964247839018"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "Lium",
+      "updates": [
+        {
+          "headline": "SN51 Lium lowers the idle-payment cap for single-card B300 capacity",
+          "summary": "SN51 Lium’s merged incentive configuration reduces the B300 single-card idle bucket from ten cards to four, while keeping the eight-card bucket at 32 GPUs. The change cites observed renter demand and excess idle supply. Free cards in partially rented split machines also share the single-card bucket when their split minimum is one. This affects idle-capacity incentives; it is not a cut to all rented B300 payments or evidence of lower customer demand across every GPU type.",
+          "rating": 3,
+          "ratingReason": "A concrete payment-cap change matters to compute suppliers and how emissions subsidize unused capacity.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN51 B300 idle-payment cap",
+              "url": "https://github.com/Datura-ai/lium-io/commit/6bf6e86adf5e7abc8c3475a847ce499b82f842b6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": [
+        {
+          "headline": "SN56 Gradients plans a check for exposure to Intercode test material",
+          "summary": "SN56 Gradients’ team-attributed brief says it is addressing training setups that expose Intercode evaluation material and plans an automated check, with manual submission review in the meantime. The team says tournament rules will not change before further discussion with miners. The operational issue is evaluation integrity; no individual miner allegation or completed automated fix is asserted here.",
+          "rating": 3,
+          "ratingReason": "Protecting hidden evaluation data is material to the fairness of model rankings.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN56 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/56/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 57,
+      "name": "Subnet 57",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "Subnet 58",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Subnet 59",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": []
+    },
+    {
+      "netuid": 66,
+      "name": "Conjectures",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": [
+        {
+          "headline": "SN71 Leadpoet prepares longer Arena runs and previews integrated outreach",
+          "summary": "SN71 Leadpoet’s repository adds a 60-minute execution profile for new Arena rounds and a guarded migration for the unstarted September 22 round, preserving historical 45-minute results. Separately, founder Gavin Zaentz says LinkedIn and email outreach will soon connect to the same system that finds buying signals and contacts. The longer profile is implemented in code; the outreach workflow is an upcoming product feature, not a confirmed launch.",
+          "rating": 3,
+          "ratingReason": "More execution time changes miner preparation, while the announced outreach direction explains the intended customer workflow.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN71 60-minute Arena profile",
+              "url": "https://github.com/leadpoet/leadpoet/commit/a6f95b6f04c59d3b12282c423ebbf15205b0c954"
+            },
+            {
+              "label": "SN71 upcoming outreach integration",
+              "url": "https://x.com/gavinzaentz/status/2101735943887561130"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "SN80 OpenRoboto prioritizes new benchmark and data tracks",
+          "summary": "SN80 OpenRoboto’s latest channel brief says new benchmark and data tracks are expected next week, with emission shares to be adjusted. It also says a physical-robot track is not the immediate priority and no common robot standard has been finalized. This is a roadmap update following yesterday’s simulation comparison; it does not announce live new tracks, a confirmed allocation split or a physical deployment.",
+          "rating": 3,
+          "ratingReason": "The next evaluation priorities matter to miners choosing where to build, with timing and allocation still pending.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN80 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/80/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "Cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "Available (MicroTensor slot transition)",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": [
+        {
+          "headline": "SN104 MASXAI moves reward calculation to the previous completed epoch",
+          "summary": "SN104 MASXAI’s merged reward code pays each epoch using verified usage reports from the preceding completed epoch, replacing the carried-forward moving average. A miner with no qualifying report in that window gets no weight from this calculation, and an accumulator that spans a multi-epoch validator outage is discarded. The documented burn fallback still applies when the usage pipeline is unconfigured. This confirms new reward logic in the repository, not universal live adoption or a new network emission allocation.",
+          "rating": 3,
+          "ratingReason": "Reward freshness and removal of stale carried-forward scores materially change miner incentives.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN104 per-epoch reward calculation",
+              "url": "https://github.com/taostatus/taostatus-subnet/commit/171e1af91933a742589db60d3dbbbc0bcc752934"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": [
+        {
+          "headline": "SN106 Nodexo reports all 94 executors scoring normally",
+          "summary": "SN106 Nodexo’s team-attributed channel brief says all 94 executors were scoring and rejects an externally observed “seasonal reset” message as coming from its validator or documentation. The count is an operator report at that time, not an independently measured uptime guarantee.",
+          "rating": 2,
+          "ratingReason": "A direct operational clarification helps miners distinguish an actual reset from an unrelated message.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN106 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/106/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "for sale",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "LongShort",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "Glyph",
+      "updates": []
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": [
+        {
+          "headline": "SN120 Affine’s team reports Arbos leading with an automated training script",
+          "summary": "SN120 Affine’s channel brief attributes to Const an account of team-controlled Arbos leading the competition using an automated GRPO training script costing about $500 per day in compute. It says logs and scripts were shared and calls for more competing miner teams. The figure and ranking are team-reported, not independently reproduced here. This describes competition participation; it is not evidence that Const or Arbos manually switched network emissions on or off.",
+          "rating": 3,
+          "ratingReason": "Team participation and the claimed training cost are relevant competitive context, while the emissions interpretation must remain evidence-based.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN120 September 21 channel brief",
+              "url": "https://subnetradar.com/subnet-news/120/2026-09-21"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Emission watch: SN10 Pareton and SN71 Leadpoet return to zero allocation",
+      "summary": "At 10:28 AM ET, SN10 Pareton and SN71 Leadpoet show zero network allocation, versus approximately 0.000812% and 0.000239% respectively in yesterday’s saved snapshot. SN70 moves from zero to 0.008036%; its current metadata has no project name. These compare two observed snapshots, not an uninterrupted history or confirmed miner payouts. Network allocation and a subnet’s voluntary burn policy are separate. The data does not establish manual intervention by Const, Arbos or any other named person.",
+      "rating": 3,
+      "ratingReason": "The zero/nonzero changes continue the requested emissions watch without overstating tiny allocations or inventing causes.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "SN10 market and emissions",
+          "url": "https://subnetradar.com/subnet/10"
+        },
+        {
+          "label": "SN71 market and emissions",
+          "url": "https://subnetradar.com/subnet/71"
+        },
+        {
+          "label": "SN70 market and emissions",
+          "url": "https://subnetradar.com/subnet/70"
+        }
+      ]
+    },
+    {
+      "headline": "StonkFun adds AVAX pairs and reports $1.10M daily revenue",
+      "summary": "StonkFun says AVAX-paired launches are now available through Sunrise. Its September 20 report lists $1,100,719 revenue, $660,554 buybacks and 2.35 million STONK burned, while another announcement puts cumulative rewards to holders of reward coins at $65 million. These are platform-reported figures, not audited accounts or TAO-only revenue and burns. The new pairing is AVAX; previously covered TAO launch pairs are not being announced again.",
+      "rating": 3,
+      "ratingReason": "A new supported pairing and fresh operating totals update the broader StonkFun ecosystem watch.",
+      "importance": "medium",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "AVAX pairing launch",
+          "url": "https://x.com/LaunchOnSF/status/2101841639996342548"
+        },
+        {
+          "label": "September 20 operating totals",
+          "url": "https://x.com/LaunchOnSF/status/2101874259278922151"
+        },
+        {
+          "label": "Cumulative holder rewards",
+          "url": "https://x.com/LaunchOnSF/status/2101808526314320009"
+        }
+      ]
+    },
+    {
+      "headline": "Exploit Summit confirms livestream coverage and a Bittensor 101 opener",
+      "summary": "Subnet Summer announces livestream coverage from Exploit Summit at New City Gas in Montréal. The summit’s official account also confirms a September 28 Bittensor 101 opening session with TAO Templar and MCJ of Learn Bittensor, ahead of two days of talks and demonstrations. This adds a way to follow the event remotely. Future product reveals remain future announcements; this is Subnet Summer coverage, not a newly scheduled Shizzy livestream.",
+      "rating": 2,
+      "ratingReason": "A confirmed public viewing route and introductory session are useful upcoming ecosystem information.",
+      "importance": "informational",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Summit livestream coverage",
+          "url": "https://x.com/SubnetSummerTAO/status/2102025622771859790"
+        },
+        {
+          "label": "Official Bittensor 101 session",
+          "url": "https://x.com/ExploitSummit/status/2102029192284283120"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "All 128 active subnet profiles and 88 dated September 20–21 channel briefs screened; fresh items compared with previous editions.",
+      "185 public X account candidates sampled; 176 returned links; 164 deduplicated current records reviewed. Candidates include project accounts, partners, aliases and commentators.",
+      "Signed-in X and Grok cross-check used for discovery; original posts independently retrieved. Authenticated AlphaGap Feed checked alongside SubnetRadar, TAO Daily and TAO Media.",
+      "164 repository paths scanned and refreshed; 19 selected commit details inspected.",
+      "31 current linked SubnetRadar Moments screened; SN108 event details checked against current pool metadata.",
+      "SN75 Google Play listing checked. SN78 live status read and compared with GitHub documentation and the channel digest; live status takes precedence where they conflict.",
+      "Market and network-emission snapshot at 10:28 AM ET compared with September 20. SN108 reset-pool percentage excluded from ordinary performance interpretation.",
+      "YouTube Videos and Live checked; new members upload b3yTGrM1RYM verified on its watch page, including channel, September 20 publication, 621-second duration and membership restriction. Latest public video remains le63VDOvQoA."
+    ],
+    "gaps": [
+      "A broad scan cannot guarantee every announcement is found. Private, deleted, unindexed and unsampled material may be absent. AI-generated channel briefs are secondary and remain attributed/developing.",
+      "SN75 availability is verified; encryption and backup were not independently exercised. SN90 deployments and MiniMax authorization are maintainer-reported, not independently tested or separately confirmed by MiniMax.",
+      "SN78 source documentation and channel shorthand differ from the live service: intake/evaluation readiness is not reward activation. The endpoint reports rewards inactive; schedules are block-based and rolling.",
+      "SN88 9% allocation is digest-attributed; no independently reconciled live distributions. SN61 buyback restart depends on pending approval; unnamed bank targets are not signed-contract confirmations.",
+      "SN108 registration alert is derived from public indexers rather than an independent raw-chain replay. Null identity, zero alpha outstanding and reset reserves make its reported 24-hour price change unsuitable as a former-project return.",
+      "Repository merges do not prove every operator upgraded. SN11 SPEC 26 requires ordered server activation; SN28 0.4.20-dev is a development release.",
+      "SN85 compression-competition details appeared in member-only discussion and a commentator post; no fresh official announcement or matching live manifest was established. The UMI quote of Vidaio/PIP distribution links to August 12, not a new September 21 deal.",
+      "NEAR/SayGM integration, Score Studio launch, Swarm field-trial plan, prior Erdős claims and Yuma $200M report were treated as recaps. Unverified miner accusations, wallet motives and company-contract speculation were excluded.",
+      "StonkFun numbers are self-reported and platform-wide. SN120 rankings and compute costs are team-attributed, not independently reproduced.",
+      "8 repository paths had access or refresh errors. Sources were checked at different times; the final repository and market pass ended at 10:28 AM ET."
+    ]
+  }
+}
