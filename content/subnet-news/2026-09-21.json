@@ -971,8 +971,8 @@
       "name": "TAOstatus",
       "updates": [
         {
-          "headline": "SN104 MASXAI moves reward calculation to the previous completed epoch",
-          "summary": "SN104 MASXAI’s merged reward code pays each epoch using verified usage reports from the preceding completed epoch, replacing the carried-forward moving average. A miner with no qualifying report in that window gets no weight from this calculation, and an accumulator that spans a multi-epoch validator outage is discarded. The documented burn fallback still applies when the usage pipeline is unconfigured. This confirms new reward logic in the repository, not universal live adoption or a new network emission allocation.",
+          "headline": "SN104 TaoStatus moves reward calculation to the previous completed epoch",
+          "summary": "SN104 TaoStatus’s merged reward code pays each epoch using verified usage reports from the preceding completed epoch, replacing the carried-forward moving average. A miner with no qualifying report in that window gets no weight from this calculation, and an accumulator that spans a multi-epoch validator outage is discarded. The documented burn fallback still applies when the usage pipeline is unconfigured. This confirms new reward logic in the repository, not universal live adoption or a new network emission allocation.",
           "rating": 3,
           "ratingReason": "Reward freshness and removal of stale carried-forward scores materially change miner incentives.",
           "importance": "medium",
