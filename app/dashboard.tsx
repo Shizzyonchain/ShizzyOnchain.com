@@ -126,9 +126,14 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "300LNwdErug",
+    title: "Zcash Tags Out, Bittensor TAO Enters the Ring",
+    meta: "24:37 · Latest episode · September 21, 2026",
+  },
+  {
     id: "le63VDOvQoA",
     title: "Bittensor vs Big AI | Can TAO Take On OpenAI & Anthropic?",
-    meta: "25:20 · Latest episode · September 17, 2026",
+    meta: "25:20 · September 17, 2026",
   },
   {
     id: "OEoYrwtw1aM",

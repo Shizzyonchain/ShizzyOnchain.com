@@ -9,17 +9,17 @@ export const latestMemberVideo = {
 };
 
 // Update this alongside the channel's Live tab during each news/video refresh.
-// Cascade video BAMp6OssHks was removed by its uploader on September 17.
-// Keep it hidden until the owner supplies or approves a replacement episode.
+// The removed Cascade and postponed VUNE URLs must not be restored.
 export const promotedLivestream = {
-  enabled: false,
-  listed: false,
-  id: "BAMp6OssHks",
-  title: "Can AI Predict What Happens Next? | Cascade Subnet 91 on Bittensor",
-  meta: "Upcoming · September 17, 2026 · 11 AM ET / 8 AM PT",
+  enabled: true,
+  listed: true,
+  id: "oKl61Awh36Y",
+  title: "MEMBERS ONLY LIVE STREAM: TAO AUTOPILOT? Inside AlphaChaser",
+  meta: "Upcoming · Members only · September 22, 2026 · 1 PM ET / 10 AM PT",
+  membersOnly: true,
   upcoming: true,
-  headline: "SN91 Cascade: can AI predict what happens next?",
-  schedule: "September 17 · 11 AM ET / 8 AM PT",
-  startsAt: "2026-09-17T15:00:00Z",
-  expiresAt: "2026-09-17T17:00:00Z",
+  headline: "Members only: TAO Autopilot? Inside AlphaChaser",
+  schedule: "September 22 · 1 PM ET / 10 AM PT",
+  startsAt: "2026-09-22T17:00:00Z",
+  expiresAt: "2026-09-22T20:00:00Z",
 };
