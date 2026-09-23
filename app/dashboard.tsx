@@ -142,6 +142,12 @@ const channelVideos: ChannelVideo[] = [
   },
   latestMemberVideo,
   {
+    id: "b3yTGrM1RYM",
+    title: "9/20/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "10:21 · Members only · September 20, 2026",
+    membersOnly: true,
+  },
+  {
     id: "NnYp42IMcAo",
     title: "9/18/26 Bittensor News Updates & TAO Price Action | Members Video",
     meta: "10:13 · Members only · September 18, 2026",
@@ -310,6 +316,17 @@ const channelVideos: ChannelVideo[] = [
 ];
 const liveStreams: ChannelVideo[] = [
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
+  {
+    id: "a1Gz_cQl5Ak",
+    title: "UMI Goes Multichain: Bittensor’s SN78 Expands to Base & Robinhood Chain!",
+    meta: "38:05 · Livestream replay · September 22, 2026",
+  },
+  {
+    id: "oKl61Awh36Y",
+    title: "MEMBERS ONLY LIVE STREAM: TAO AUTOPILOT? Inside AlphaChaser",
+    meta: "1:07:31 · Members-only replay · September 22, 2026",
+    membersOnly: true,
+  },
   {
     id: "Upop6uigIa0",
     title: "XRP Flips ETH & TAO 20X by 2029?! @Shizzyunchained + 4 Experts Debate",
