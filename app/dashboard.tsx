@@ -317,6 +317,11 @@ const channelVideos: ChannelVideo[] = [
 const liveStreams: ChannelVideo[] = [
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
+    id: "bCYDUY0c7kQ",
+    title: "TAO Is Going Everywhere? Phil from ForeverMoney Explains Base & Robinhood Chain",
+    meta: "45:11 · Livestream replay · September 23, 2026",
+  },
+  {
     id: "a1Gz_cQl5Ak",
     title: "UMI Goes Multichain: Bittensor’s SN78 Expands to Base & Robinhood Chain!",
     meta: "38:05 · Livestream replay · September 22, 2026",
