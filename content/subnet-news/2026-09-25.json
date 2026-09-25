@@ -1,0 +1,1227 @@
+{
+  "version": 1,
+  "date": "2026-09-25",
+  "title": "Subnet News — September 25, 2026",
+  "summary": "SN80 OpenRoboto’s live robotics benchmark, SN9 IOTA’s 100B training test and SN46 Instant’s announced departure lead. Plus Burnweight, SN10 Pareton on Base, SN91 Cascade’s forecasting API, SN114 SOMA × SN64 Chutes and reward-status updates. Researched through 11:15 AM ET.",
+  "publishedAt": "2026-09-25T15:18:08.126Z",
+  "coverageStart": "2026-09-24T14:52:33.656Z",
+  "coverageEnd": "2026-09-25T15:15:52.256Z",
+  "highlights": [],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "SN80 OpenRoboto and Axis launch the Open Axis Benchmark",
+          "summary": "SN80 OpenRoboto and Axis Robotics announce a live manipulation benchmark built around fresh tasks drawn from the growing Axis Library each round. Rotating tasks are designed to test whether robot policies generalize rather than memorize a fixed test set. Both partners confirm the launch. This creates a concrete evaluation target for robotics work; it does not establish that a deployed robot has solved every task.",
+          "rating": 5,
+          "ratingReason": "A live, jointly confirmed robotics benchmark is a substantial product and evaluation milestone.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN80 benchmark launch",
+              "url": "https://x.com/openroboto/status/2103486512918892893"
+            },
+            {
+              "label": "Axis Robotics confirmation",
+              "url": "https://x.com/axisrobotics/status/2103483150873821667"
+            },
+            {
+              "label": "SN80 documentation",
+              "url": "https://openroboto.ai/#/docs"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -8.068589728688634,
+            "observedAt": "2026-09-25T15:15:36+00:00",
+            "basis": "α/TAO"
+          }
+        },
+        {
+          "headline": "SN80 OpenRoboto and SN71 Leadpoet begin a customer-outreach pilot",
+          "summary": "SN80 OpenRoboto and SN71 Leadpoet both announce a pilot to source high-intent leads and support outreach for the Shift robotics-data business. Target customers include factories, warehouses, kitchens and hotels. This is an agreed commercial-development pilot; neither announcement establishes signed customers, completed data sales or revenue from the collaboration.",
+          "rating": 4,
+          "ratingReason": "Two subnet teams confirm a pilot aimed at converting robotics infrastructure into customer demand.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN80 pilot announcement",
+              "url": "https://x.com/openroboto/status/2103137779630915991"
+            },
+            {
+              "label": "SN71 pilot confirmation",
+              "url": "https://x.com/LeadpoetAI/status/2103137552735649919"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": [
+        {
+          "headline": "SN9 IOTA tests a 100B model across five data centres",
+          "summary": "SN9 IOTA reports a distributed training test of a 100-billion-parameter model using individual A100 GPUs across five data centres over ordinary internet connections. The team says the run processed 1.1 billion tokens over two days before stopping for cost reasons, averaging 30.8% model FLOPs utilization with a sustained peak of 38%. It reports roughly 65% of a co-located comparison’s speed. This is evidence from a team-run training experiment—not a completed 100B-model pretraining run or an independently verified performance record.",
+          "rating": 5,
+          "ratingReason": "A large-model experiment across geographically separated GPUs directly tests the subnet’s core technical proposition.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN9 training results",
+              "url": "https://x.com/IOTA_SN9/status/2103175140699934764"
+            },
+            {
+              "label": "SN9 project",
+              "url": "https://iota.macrocosmos.ai"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -0.7095213631629177,
+            "observedAt": "2026-09-25T15:15:36+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": [
+        {
+          "headline": "SN46 Instant faces an announced project departure and disputed launch plans",
+          "summary": "A September 24 statement signed by Instant’s CEO says the company is leaving SN46, has requested removal of its branding, and intends to take its code and intellectual property with it. These are the company’s stated intentions, not a legal finding or confirmation that every change has occurred. Separately, the September 25 channel brief attributes plans to continue a launch under the Instant name to the subnet operator. The conflicting positions leave the subnet’s future branding and software arrangements unresolved; the operator account is secondary reporting.",
+          "rating": 5,
+          "ratingReason": "A stated departure affecting the subnet’s identity and software is material enough to lead, while the conflicting accounts remain unresolved.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN46 Instant CEO statement",
+              "url": "https://x.com/instantsubnet/status/2103211354568171886"
+            },
+            {
+              "label": "SN46 September 25 channel brief",
+              "url": "https://subnetradar.com/subnet-news/46/2026-09-25"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -0.5995810454209681,
+            "observedAt": "2026-09-25T15:15:36+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": [
+        {
+          "headline": "SN10 Pareton launches on Base through ForeverMoney",
+          "summary": "SN10 Pareton and ForeverMoney confirm SN10 alpha is live on Base with Aerodrome liquidity and Chainlink CCIP infrastructure. This adds an EVM route for accessing the subnet asset outside its native Bittensor market. It is a distribution and trading-access milestone, separate from the inference-performance benchmark covered yesterday. Liquidity depth and execution quality were not independently tested.",
+          "rating": 4,
+          "ratingReason": "A launch confirmed by both project and bridge provider expands access to a Bittensor subnet asset.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN10 Base launch",
+              "url": "https://x.com/Pareton_ai/status/2103204936196538780"
+            },
+            {
+              "label": "SN10 bridge confirmation",
+              "url": "https://x.com/forevermoney_ai/status/2103281067503628552"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -0.024140534760874067,
+            "observedAt": "2026-09-25T15:15:36+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 91,
+      "name": "Cascade",
+      "updates": [
+        {
+          "headline": "SN91 Cascade launches Ephemeris with six forecasting models",
+          "summary": "SN91 Cascade’s Ephemeris forecasting API is live with six models and three modes: a selected model, automatic selection, or an ensemble. The product lists Chronos2, FlowState, PatchTST, TimesFM, TiRex2 and Toto2, and says users are charged only for models that return results. The launch announcement says SN91 Cascade’s own model is coming soon, so the current six-model catalogue should not be described as six subnet-trained models. The live product page was checked; a paid forecast was not run.",
+          "rating": 4,
+          "ratingReason": "A working forecasting product provides a concrete commercial interface, with the subnet model’s pending status made explicit.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN91 Ephemeris launch",
+              "url": "https://x.com/cascade_sn91/status/2103257508177457275"
+            },
+            {
+              "label": "SN91 live forecasting product",
+              "url": "https://ephemeris.cascade.industries/"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -0.9656492020269875,
+            "observedAt": "2026-09-25T15:15:36+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SN114 SOMA and SN64 Chutes launch context-compressed inference",
+          "summary": "SN114 SOMA announces its SN64 Chutes integration is live, and SN64 Chutes confirms the collaboration. Agent context is compressed before being sent to inference so fewer tokens need processing. This connects two subnet products in a customer-facing workflow. Actual savings depend on workload and compression; no independently reproduced cost or quality figure is asserted here.",
+          "rating": 4,
+          "ratingReason": "Both subnet projects confirm a live integration that connects compression to inference.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN114 integration launch",
+              "url": "https://x.com/SomaSubnet/status/2103199347139871063"
+            },
+            {
+              "label": "SN64 collaboration confirmation",
+              "url": "https://x.com/chutes_ai/status/2103215353027506672"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": [
+        {
+          "headline": "SN100 Cortex adds OpenType’s Neon decision challenge",
+          "summary": "SN100 Cortex and OpenType announce a Neon 1.1 decision-model challenge. OpenType describes a model aimed at returning hundreds of yes/no decisions in one call; its speed claims remain project-reported. The public challenge repository is available, and SN100 Cortex code adds the OpenType challenge integration. This is a new workload for subnet optimization, not proof that every validator has adopted the latest code or that a particular emissions share is already active.",
+          "rating": 4,
+          "ratingReason": "A named model partner and public challenge create a concrete new competition workload.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN100 challenge announcement",
+              "url": "https://x.com/cortex_100/status/2103255922546299130"
+            },
+            {
+              "label": "OpenType announcement",
+              "url": "https://x.com/OpentypeAI/status/2103252005477298232"
+            },
+            {
+              "label": "OpenType public challenge",
+              "url": "https://github.com/OpentypeAI/challenge"
+            },
+            {
+              "label": "SN100 challenge integration",
+              "url": "https://github.com/CortexLM/cortex/commit/6c6d72b15c45b35c29428abb7ef87a509212ec85"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": [
+        {
+          "headline": "SN33 ReadyAI reports a skills-assisted model passing 14 of 14 game checks",
+          "summary": "SN33 ReadyAI compares a one-page game task using the same smaller model and prompt with and without its skills. The project reports a move from 3/14 checks at $0.27 to 14/14 at $0.66; the flagship comparison also passed 14/14 at $4.12. That is a specific demonstration of the potential value of reusable skills, not evidence of general parity between the models across all tasks. The test and costs are project-reported.",
+          "rating": 4,
+          "ratingReason": "A controlled before-and-after example supplies measurable evidence for the subnet’s skills approach.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN33 experiment and cost comparison",
+              "url": "https://x.com/ReadyAI_/status/2103164144103088165"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": [
+        {
+          "headline": "SN62 Ridges opens database-query and linting competitions in parallel",
+          "summary": "SN62 Ridges says Database Query Engineering #28 and Linting #27 are running together, with Test Generation #29 planned next. A separate update reports the leading score in the query challenge rising from 14% to 30%. The team’s Dynamic Niches plan would eventually adapt allocations across workloads; the announcement does not mean automatic allocation is already operating.",
+          "rating": 4,
+          "ratingReason": "Multiple live coding workloads broaden the subnet beyond a single competition.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN62 parallel competitions",
+              "url": "https://x.com/ridges_ai/status/2103482290311774473"
+            },
+            {
+              "label": "SN62 score update",
+              "url": "https://x.com/ridges_ai/status/2103205673672785984"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": [
+        {
+          "headline": "SN88 Investing launches conviction rewards with a first payout planned for October 1",
+          "summary": "SN88 Investing announces incentivized conviction: 9% of miner emissions is assigned to weekly dividends for eligible alpha locks, with the first payment planned for next Thursday, October 1. Its follow-up specifies that qualifying perpetual locks must target the SN88 owner hotkey. These are the announced program terms, not ordinary staking APY or proof that the first distribution has already happened.",
+          "rating": 4,
+          "ratingReason": "A new token-lock incentive changes reward eligibility and allocation for participants.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN88 reward program",
+              "url": "https://x.com/Investing88ai/status/2103227977580646667"
+            },
+            {
+              "label": "SN88 lock eligibility",
+              "url": "https://x.com/Investing88ai/status/2103295925544190193"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -1.7784175976786294,
+            "observedAt": "2026-09-25T15:15:36+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": [
+        {
+          "headline": "SN28 SayGM adds SN90 KubeTEE’s MiMo route and powers Doug",
+          "summary": "SN28 SayGM announces MiMo V2.6 Pro UltraSpeed through SN90 KubeTEE at a stated 10% below list price, describing the route as running in a trusted execution environment without prompt logging. Separately, it says TaoStats’ Doug assistant is powered by its routing. Both are SN28 announcements; pricing, privacy implementation and the assistant integration were not independently audited in this scan.",
+          "rating": 4,
+          "ratingReason": "A new model route and a named user-facing assistant expand the subnet’s announced distribution.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN28 and SN90 model route",
+              "url": "https://x.com/say_gm_/status/2103255850370662595"
+            },
+            {
+              "label": "SN28 Doug announcement",
+              "url": "https://x.com/say_gm_/status/2103409190131667072"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": [
+        {
+          "headline": "SN1 Apex reports stronger battery-trading results in simulated grids",
+          "summary": "SN1 Apex reports 121 rounds and 8,330 submissions in its battery-trading challenge. It says leading policies achieved about nine times the reference profit without overloading the grid, reaching the scoring cap on 84–99% of problems across the three largest grids. These results come from a simulation competition; they are not realized electricity-market revenue or evidence of a live grid deployment.",
+          "rating": 4,
+          "ratingReason": "A substantial simulation campaign produces quantified results for the subnet’s energy optimization task.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN1 battery challenge results",
+              "url": "https://x.com/Apex_SN1/status/2103178911119298871"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": [
+        {
+          "headline": "SN96 Verathos details TAO, USDC and accountless x402 access",
+          "summary": "SN96 Verathos outlines a single inference API with request-level settlement and per-million-token pricing. Its announcement describes TAO deposits, USDC on Base, accountless x402 payments and daily credits for conviction participants. That offers several ways to pay for the product. The announcement does not independently establish customer demand, revenue or a guaranteed effect on the alpha price.",
+          "rating": 4,
+          "ratingReason": "Multiple payment routes can make the subnet’s inference product accessible to external users.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN96 API and payment announcement",
+              "url": "https://x.com/verathos_ai/status/2103495255601348613"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": [
+        {
+          "headline": "SN44 Score reports a signed customer and a planned motorway-camera rollout",
+          "summary": "An SN44 Score update reports a newly signed client, with four motorway stations and more than 40 cameras per station planned for the next deployment batch. The important distinction is signed business versus installed capacity: these camera numbers describe the intended rollout, not a separately verified live installation. The customer identity, contract value and realized revenue were not established.",
+          "rating": 4,
+          "ratingReason": "A reported signed customer is a meaningful commercial development, with deployment status kept separate.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN44 customer and rollout update",
+              "url": "https://x.com/arnod3f/status/2103174097522098609"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 78,
+      "name": "UMI",
+      "updates": [
+        {
+          "headline": "SN78 UMI clarifies bridge rewards while translation payouts remain inactive",
+          "summary": "SN78 UMI’s current documentation separates a temporary registration bridge from its translation competition. The bridge checks endpoint health and shared coldkey/IP/funding groups; it does not score translations. The channel brief reports C4 miner payouts, but the public competition endpoint still reports rewards inactive and chain submission unauthorized. Those statements concern different mechanisms. Separately, the team reports $40,500 in added Base liquidity and $7,900 of first-day volume following yesterday’s launch; these are team-reported figures. Robinhood availability remains an expected next step in that post.",
+          "rating": 4,
+          "ratingReason": "Separating two reward mechanisms prevents a misleading emissions-on claim; the Base launch now has initial activity data.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN78 current network phase",
+              "url": "https://github.com/Umi-BitSign/umi"
+            },
+            {
+              "label": "SN78 competition status",
+              "url": "https://api.umi.vision/v1/competition/status"
+            },
+            {
+              "label": "SN78 September 25 channel brief",
+              "url": "https://subnetradar.com/subnet-news/78/2026-09-25"
+            },
+            {
+              "label": "SN78 first-day Base activity",
+              "url": "https://x.com/umi_sn78/status/2103302133651034514"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": -2.79223320559514,
+            "observedAt": "2026-09-25T15:15:36+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "kenju",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "Blockmachine",
+      "updates": [
+        {
+          "headline": "SN19 Blockmachine reports 65 billion requests over seven months",
+          "summary": "SN19 Blockmachine reports serving 65 billion requests in seven months and advertises pricing up to 60% below its comparison. The request total is a project-reported usage measure, not audited revenue, unique customers or profit. The comparison’s applicability depends on the service and workload.",
+          "rating": 3,
+          "ratingReason": "A quantified service-usage milestone merits coverage with attribution.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN19 usage milestone",
+              "url": "https://x.com/blockmachine_io/status/2103409175959154980"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "Subnet 35",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "GPUForge",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": [
+        {
+          "headline": "SN49 Nepher publishes its robotics whitepaper",
+          "summary": "SN49 Nepher announces a public whitepaper describing its robotics competition design, with training access separated from private evaluation. Its announcement reports 23 tournaments and describes policies running through Isaac Lab projects. The release gives builders a fuller technical reference; use of Isaac Lab is not a claim of an NVIDIA partnership.",
+          "rating": 3,
+          "ratingReason": "A public technical paper makes the competition architecture easier for miners and researchers to inspect.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN49 whitepaper announcement",
+              "url": "https://x.com/nepher_robotics/status/2103474285767516507"
+            },
+            {
+              "label": "SN49 whitepaper",
+              "url": "https://github.com/nepher-ai/.github/blob/main/profile/Nepher_Robotics_White_Paper.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "Lium",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Subnet 57",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "Subnet 58",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Subnet 59",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": [
+        {
+          "headline": "SN65 TPN details private FluidBench evaluations ahead of competition five",
+          "summary": "SN65 TPN describes FluidBench as a private, versioned evaluation spanning hundreds of topics, returning scores while withholding test questions. The new detail explains how it intends to reduce benchmark gaming. Production question generation is described as starting shortly with competition five and v0.2, so this is preparation rather than confirmed activation.",
+          "rating": 3,
+          "ratingReason": "New evaluation details clarify an upcoming competition change without presenting the plan as live.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN65 FluidBench details",
+              "url": "https://x.com/TPN_Labs/status/2103465795720233030"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 66,
+      "name": "Conjectures",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": [
+        {
+          "headline": "SN68 NOVA combines delayed evaluations and sets the next epoch for tonight",
+          "summary": "SN68 NOVA’s channel brief reports delayed evaluation during sandbox changes, with submissions from epochs 21 and 22 combined for the next run. The announced next epoch starts September 26 at 00:00 UTC—8 PM ET tonight, September 25. It also reports skipped rewards for epochs 25314 and 25315 sent; those payments were not independently traced on-chain. A repository change adds resource limits and writable IndexedDB support to the sandbox.",
+          "rating": 3,
+          "ratingReason": "A concrete schedule and sandbox change affect active miner submissions.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN68 September 25 channel brief",
+              "url": "https://subnetradar.com/subnet-news/68/2026-09-25"
+            },
+            {
+              "label": "SN68 sandbox changes",
+              "url": "https://github.com/metanova-labs/nova-blueprint/commit/a322134f2cd70ca332d3245593f5c4f0756b9b0c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": [
+        {
+          "headline": "SN79 MVTRX reportedly moves 0.6.2 to mainnet",
+          "summary": "The September 25 channel brief reports SN79 MVTRX 0.6.2 deployed to mainnet after yesterday’s testnet and rollout plan. The update adjusts simulation scoring and broad-book participation, with a rebuild described as sufficient for miners. This is secondary channel reporting; full validator adoption was not independently checked.",
+          "rating": 3,
+          "ratingReason": "A reported mainnet transition advances yesterday’s rollout plan.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN79 September 25 channel brief",
+              "url": "https://subnetradar.com/subnet-news/79/2026-09-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": [
+        {
+          "headline": "SN81 Reliquary prepares supervised training-data generation",
+          "summary": "SN81 Reliquary announces plans to add supervised fine-tuning data generation alongside reinforcement learning, initially targeting math and code for Qwen3.8-27B. Its public implementation proposal describes checkpoint-based verification and payment for verified tokens. At the research cutoff, PR277 is still an open draft. This is a disclosed development direction, not a merged release or a live production rollout.",
+          "rating": 3,
+          "ratingReason": "A meaningful new workload is documented, but implementation and activation are still pending.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN81 training-data plan",
+              "url": "https://x.com/reliquary_ai/status/2103241925687984216"
+            },
+            {
+              "label": "SN81 draft implementation",
+              "url": "https://github.com/reliquadotai/reliquary/pull/277"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 82,
+      "name": "Compelle",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "Available",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "pending...",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": [
+        {
+          "headline": "SN102 Connito prepares Training as a Service and expands miner training",
+          "summary": "SN102 Connito says it is preparing a Training as a Service launch and requests feedback from specialists. Meanwhile, a merged miner change makes full-model training the default topology. The software change is concrete; the product announcement is still preparation rather than confirmation that a public service has launched.",
+          "rating": 3,
+          "ratingReason": "A documented miner change supports a new product direction, with launch timing still open.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN102 service preparation",
+              "url": "https://x.com/ConnitoAI/status/2103199820433260996"
+            },
+            {
+              "label": "SN102 full-model training default",
+              "url": "https://github.com/Connito-AI/Connito/commit/2b69b446ab3833eef8897ee15e934f2fdc35b448"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 103,
+      "name": "Capcomp",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "TaoStatus",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "ChipForge",
+      "updates": [
+        {
+          "headline": "SN108 ChipForge describes a shift from RTL blocks to complete AI chips",
+          "summary": "SN108 ChipForge outlines a competition focused on complete neural processing units and optimized kernels, evaluated on speed, power and area. The project contrasts this with its earlier individual-RTL-block work on SN84. The current SN108 identity is supported by the Tatsu project announcement. This describes the competition direction, not fabricated chips or a confirmed manufacturing contract.",
+          "rating": 3,
+          "ratingReason": "A broader hardware-design objective changes what miners are being asked to optimize.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN108 design direction",
+              "url": "https://x.com/ChipForge/status/2103207116446306653"
+            },
+            {
+              "label": "SN108 project identity",
+              "url": "https://x.com/TatsuEcosystem/status/2103208570024305107"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "THOR (announced acquisition)",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "LongShort",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Memo",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "everyframe.studio",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "SN118 Ditto plans to reopen rewards after verifying screening recovery",
+          "summary": "Following yesterday’s interruption, the September 25 channel brief attributes plans to re-enable emissions to an SN118 Ditto team member once the screener is verified. It says the temporary burn setting was intentional during the outage and miners do not need to resubmit. This is an attributed recovery plan; actual reward resumption was not independently confirmed. Stopping future burning would not reverse tokens already burned.",
+          "rating": 3,
+          "ratingReason": "A recovery update matters to miners, but planned reactivation must remain distinct from completed payouts.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN118 September 25 channel brief",
+              "url": "https://subnetradar.com/subnet-news/118/2026-09-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Burnweight proposes allocating emissions through TAO burns",
+      "summary": "Nick Hotz publishes Burnweight, a proposal in which anyone could burn TAO for a subnet, producing a decaying weight that determines its share of future emissions. It aims to make subnet competition create direct TAO demand and irreversible burns. The amount paid would not guarantee a return because other participants could change relative weights. This is a proposal for debate—not an adopted protocol rule, a scheduled upgrade, or a change to today’s emissions.",
+      "rating": 4,
+      "ratingReason": "A concrete emissions-allocation proposal addresses a central question for the entire TAO ecosystem.",
+      "importance": "high",
+      "status": "developing",
+      "sources": [
+        {
+          "label": "Original Burnweight proposal",
+          "url": "https://x.com/Nick_Hotz/status/2103160850819539218"
+        }
+      ]
+    },
+    {
+      "headline": "ForeverMoney launches a Safe-based interface for TAO and alpha custody",
+      "summary": "ForeverMoney announces a Safe-based interface for multisignature custody and scoped agent permissions involving TAO and subnet alpha. The linked application is accessible and explicitly identifies itself as an unofficial distribution of the Safe app. That distinction matters: this is ForeverMoney’s product announcement, not evidence of an official Safe endorsement. Chain and asset compatibility, agent permissions and transactions were not tested; native Substrate custody should not be assumed from the headline.",
+      "rating": 4,
+      "ratingReason": "An accessible custody interface could expand treasury tooling, with compatibility and deployment scope still requiring care.",
+      "importance": "high",
+      "status": "developing",
+      "sources": [
+        {
+          "label": "ForeverMoney custody announcement",
+          "url": "https://x.com/forevermoney_ai/status/2103479859880263838"
+        },
+        {
+          "label": "ForeverMoney Safe interface",
+          "url": "https://safe.forevermoney.ai"
+        }
+      ]
+    },
+    {
+      "headline": "Subtensor merges basket-swap fee protections and spec 471",
+      "summary": "Subtensor merges a change intended to prevent uneconomic basket swaps from draining fees, alongside the spec-version increment to 471. The code checks minimum intermediate TAO value, including wrapped calls, and reduces the maximum basket legs from 128 to 64. A separate change cleans stale staking-hotkey relationships. These are verified repository changes; activation of this exact runtime on the live chain was not independently confirmed, and this report does not claim an exploit occurred.",
+      "rating": 4,
+      "ratingReason": "Core transaction protections are material network work, with merge and chain activation kept separate.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "label": "Basket-swap protection merge",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/c004cebf360f4088187ee49d851dfb1a1eaaf710"
+        },
+        {
+          "label": "Spec 471 change",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/215402051c8db06089f788ea518fe3e4dedbc82f"
+        },
+        {
+          "label": "Staking relationship cleanup",
+          "url": "https://github.com/RaoFoundation/subtensor/commit/1943c881560d39ecd1be8b477523a28b4fbf7ee0"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "All 128 active profiles and 93 September 24–25 channel briefs screened.",
+      "191 public X account candidates sampled; 182 returned links; 230 current post records collected. Selected original posts retrieved in full.",
+      "Authenticated AlphaGap and X/Grok reviewed for discovery; SubnetRadar, TAO Daily and TAO Media checked. Primary statements take precedence over generated summaries.",
+      "173 repository paths scanned, with selected patches read. Repository cutoff 2026-09-25T15:15:52.256Z.",
+      "76 linked Moments screened. Paired SN88 lock changes are not treated as token sales; generated wallet-motive commentary excluded.",
+      "SN80/Axis, SN80/SN71, SN10/ForeverMoney and SN114/SN64 announcements checked on both sides. SN91 product, SN78 live endpoint and documentation, original Burnweight article, and SN81 draft PR inspected.",
+      "Market snapshot at 11:15 AM ET, alpha against TAO. Network allocation, bridge rewards and translation-competition rewards kept separate.",
+      "YouTube Videos and Live tabs plus watch metadata verified; new public episode and portfolio livestream replay added. October 1 SN49 Nepher schedule unchanged."
+    ],
+    "gaps": [
+      "A broad scan cannot guarantee every announcement is found; private, deleted, unindexed and unsampled posts may be absent.",
+      "SN46 contains conflicting accounts: Instant CEO statement is primary; the subnet operator position is available here through a secondary channel brief. No legal rights or wrongdoing determined.",
+      "SN118, SN79 and SN68 operator-status claims remain attributed secondary reports. Actual reward activation, payouts and complete validator adoption were not independently verified.",
+      "SN78 registration-bridge rewards and translation-competition rewards are distinct; the latter endpoint remains inactive. First-day Base statistics are project-reported.",
+      "Model benchmarks, customer counts, usage, commercial claims and advertised pricing were not independently audited. New plans and draft code are not live deployments.",
+      "ForeverMoney Safe UI labels itself unofficial; transaction execution, chain compatibility and native Substrate support were not verified.",
+      "11 repository paths had access or refresh errors. Sources were observed at different times; late posts after the initial X scan may be absent."
+    ]
+  }
+}

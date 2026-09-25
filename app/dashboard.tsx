@@ -126,6 +126,11 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "LR3wKS9n0B8",
+    title: "Was I WRONG About Bittensor TAO? | Subnet Update",
+    meta: "25:37 · September 24, 2026",
+  },
+  {
     id: "300LNwdErug",
     title: "Zcash Tags Out, Bittensor TAO Enters the Ring",
     meta: "24:37 · Latest episode · September 21, 2026",
@@ -316,6 +321,11 @@ const channelVideos: ChannelVideo[] = [
 ];
 const liveStreams: ChannelVideo[] = [
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
+  {
+    id: "MHGlnZgsUQI",
+    title: "Should TAO Be In YOUR Portfolio??",
+    meta: "46:58 · Livestream replay · September 24, 2026",
+  },
   {
     id: "bCYDUY0c7kQ",
     title: "TAO Is Going Everywhere? Phil from ForeverMoney Explains Base & Robinhood Chain",
