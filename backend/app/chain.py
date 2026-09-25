@@ -285,6 +285,7 @@ class ChainClient:
         self._circulating_stake: dict[int, Decimal] = {}
         self._circulating_stake_refresh_block = -1
         self._stake_identity: dict[int, tuple[int, int]] = {}
+        self._stake_fallback_task: asyncio.Task | None = None
 
     async def __aenter__(self):
         import bittensor as bt
@@ -293,6 +294,9 @@ class ChainClient:
         return self
 
     async def __aexit__(self, *args):
+        if self._stake_fallback_task is not None:
+            self._stake_fallback_task.cancel()
+            await asyncio.gather(self._stake_fallback_task, return_exceptions=True)
         close = getattr(self.client, "close", None)
         if close:
             result = close()
@@ -401,10 +405,15 @@ class ChainClient:
                 )
                 self._circulating_stake_refresh_block = block_number
             except Exception as exc:
-                # A stale supply is worse than a visibly unavailable market cap.
-                self._circulating_stake = {}
-                self._circulating_stake_refresh_block = -1
+                # Keep only bounded-age snapshots while the complete chain scan
+                # runs separately from the fast price/indexing connection.
+                if block_number - self._circulating_stake_refresh_block > 100:
+                    self._circulating_stake = {}
                 logger.warning("circulating stake refresh failed: %s", exc)
+                if self._stake_fallback_task is None or self._stake_fallback_task.done():
+                    self._stake_fallback_task = asyncio.create_task(
+                        self._refresh_chain_stake(block_number)
+                    )
         if include_lock_metrics and (
             not self._conviction_locked
             or block_number - self._conviction_refresh_block >= 25
@@ -517,6 +526,9 @@ class ChainClient:
                 include_auxiliary
                 and alpha_reserve is not None
                 and live_staked_alpha is not None
+                and stake_registration == registered_at
+                and stake_block is not None
+                and abs(block_number - stake_block) <= 100
             ):
                 circulating_alpha = circulating_alpha_supply(
                     alpha_reserve,
@@ -559,6 +571,28 @@ class ChainClient:
                 "additional": identity.get("additional"),
             })
         return rows
+
+    async def _refresh_chain_stake(self, block_number):
+        try:
+            from app.stake_supply import complete_stake_totals
+
+            async with asyncio.timeout(120):
+                raw_totals = await complete_stake_totals(self.endpoint_url, block_number)
+                view = await self.client.at(block_number)
+                registration_rows = await view.query_map(("SubtensorModule", "NetworkRegisteredAt"))
+                registrations = {scale_int(k): scale_int(v) for k, v in registration_rows}
+                if not registrations:
+                    raise ValueError("Missing subnet registrations")
+                totals = {n: raw_totals.get(n, Decimal(0)) for n in registrations}
+                identities = {n: (registered, block_number) for n, registered in registrations.items()}
+            # An older background result must never overwrite a newer refresh.
+            if block_number >= self._circulating_stake_refresh_block:
+                self._circulating_stake = totals
+                self._stake_identity = identities
+                self._circulating_stake_refresh_block = block_number
+            logger.info("on-chain supply refreshed block=%s subnets=%s", block_number, len(totals))
+        except Exception:
+            logger.exception("on-chain supply fallback failed block=%s", block_number)
 
     async def _taomarketcap_stake_by_subnet(
         self, block_number: int
