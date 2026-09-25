@@ -7,6 +7,7 @@ import TradingChart from "./trading-chart";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
+import { currencyReturns, type FxPoint, type ReturnHistory } from "./lib/currency-returns";
 import { compareLiquidation, liquidationExplanation, liquidationPercent } from "./lib/liquidation";
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import { taoHeadsCommunity } from "./lib/community";
@@ -18,7 +19,7 @@ import {
   type BubbleTimeframe,
 } from "./lib/bubble-timeframe";
 
-export type ScreenerRow = {
+export type ScreenerRow = ReturnHistory & {
   netuid: number;
   name?: string;
   symbol?: string;
@@ -706,7 +707,9 @@ export function Dashboard({
   const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
   const [taoUsd, setTaoUsd] = useState(initialTaoUsd);
-  const [rows, setRows] = useState<ScreenerRow[]>(serverRows);
+  const [rawRows, setRows] = useState<ScreenerRow[]>(serverRows);
+  const [dollarHistory, setDollarHistory] = useState<FxPoint[]>([]);
+  const rows = useMemo(() => rawRows.map(row => currencyReturns(row, currency, dollarHistory)), [rawRows, currency, dollarHistory]);
   const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">(
     hasInitialRows ? (marketSnapshotIsFresh(serverRows) ? "live" : "stale") : "loading",
   );
@@ -843,6 +846,21 @@ export function Dashboard({
     const refreshTimer = window.setInterval(refreshMarkets, view === "bubbles" ? 6_000 : 12_000);
     return () => window.clearInterval(refreshTimer);
   }, [hasInitialRows, view]);
+  useEffect(() => {
+    let cancelled = false;
+    const refreshHistory = async () => {
+      if (document.hidden) return;
+      try {
+        const response = await fetch("/api/tao-history", { signal: AbortSignal.timeout(10_000) });
+        if (!response.ok) return;
+        const payload = await response.json();
+        if (!cancelled && Array.isArray(payload.data)) setDollarHistory(payload.data);
+      } catch { /* Missing or stale rates render as unavailable, never as TAO returns. */ }
+    };
+    void refreshHistory();
+    const timer = window.setInterval(refreshHistory, 30_000);
+    return () => { cancelled = true; window.clearInterval(timer); };
+  }, []);
   useEffect(() => {
     const refreshTaoPrice = () => {
       if (document.hidden) return;
@@ -995,7 +1013,7 @@ export function Dashboard({
     [candles, showTaoChart, taoUsd, active?.price_tao, timeframe],
   );
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
-  const rankedMovers = [...rows].sort((a, b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
+  const rankedMovers = rows.filter(row => row.change_1h != null).sort((a, b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const advancingMarkets = rows.filter((row) => Number(row.change_1h || 0) > 0).length;
   const decliningMarkets = rows.filter((row) => Number(row.change_1h || 0) < 0).length;
   const directionalMarkets = advancingMarkets + decliningMarkets;
@@ -1325,7 +1343,7 @@ export function Dashboard({
                 <strong>{money(r.price_tao, true)}</strong>
                 <em className={changeClass(r.change_1h)}>
                   {Number(r.change_1h || 0) > 0 ? "+" : ""}
-                  {fmt(r.change_1h)}%
+                  {r.change_1h == null ? "—" : `${fmt(r.change_1h)}%`}
                 </em>
               </button>
             ))}
@@ -1596,7 +1614,7 @@ export function Dashboard({
                           </span>
                           <strong className={changeClass(r.change_1h)}>
                             {Number(r.change_1h) > 0 ? "+" : ""}
-                            {fmt(r.change_1h)}%
+                            {r.change_1h == null ? "—" : `${fmt(r.change_1h)}%`}
                           </strong>
                         </button>
                       ))}
@@ -1706,6 +1724,7 @@ export function Dashboard({
                 <div>
                   <p className="eyebrow">Bittensor markets</p>
                   <h2>Subnet screener</h2>
+                  <small>Price changes in {currency.toUpperCase()} · Rolling periods</small>
                 </div>
                 <label className="search">
                   <span>⌕</span>
@@ -1730,16 +1749,16 @@ export function Dashboard({
                         <button onClick={() => changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button>
                       </th>
                       <th>
-                        <button onClick={() => changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button>
+                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button>
                       </th>
                       <th>
-                        <button onClick={() => changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button>
+                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button>
                       </th>
                       <th>
-                        <button onClick={() => changeSort("change_24h")}>24 Hours{sortArrow("change_24h")}</button>
+                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_24h")}>24 Hours{sortArrow("change_24h")}</button>
                       </th>
                       <th>
-                        <button onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
+                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
                       </th>
                       <th>
                         <button onClick={() => changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button>
@@ -1789,7 +1808,7 @@ export function Dashboard({
                         {[r.change_10m, r.change_1h, r.change_24h, r.change_7d].map((v, j) => (
                           <td key={j} className={changeClass(v)}>
                             {Number(v || 0) > 0 ? "+" : ""}
-                            {fmt(v)}%
+                            {v == null ? "—" : `${fmt(v)}%`}
                           </td>
                         ))}
                         <td className="emission-cell">
@@ -2680,7 +2699,7 @@ export function Dashboard({
       {view === "screener" && <MembershipPromo />}
       <footer>
         <span>SHIZZYUNCHAINED</span>
-        <p>Finalized on-chain data · {currency === "usd" ? "USD values use the live TAO spot rate" : "TAO-denominated values"} · Not financial advice</p>
+        <p>Finalized on-chain data · {currency === "usd" ? "USD returns use historical TAO/USD rates (1-minute resolution)" : "TAO-denominated values"} · Not financial advice</p>
         <b>Built on Bittensor</b>
       </footer>
     </main>

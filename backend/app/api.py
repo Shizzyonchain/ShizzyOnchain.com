@@ -203,6 +203,10 @@ async def _refresh_screener(current_app: FastAPI):
                   (l.price_tao * l.circulating_alpha)
                     AS market_cap_tao,
                   l.volume_tao - COALESCE(v24.volume_tao,l.volume_tao) AS volume_24h_tao,
+                  p10.price_tao AS price_10m_tao,p10.time AS time_10m,
+                  p1.price_tao AS price_1h_tao,p1.time AS time_1h,
+                  p24.price_tao AS price_24h_tao,p24.time AS time_24h,
+                  p7.price_tao AS price_7d_tao,p7.time AS time_7d,
                   100 * (l.price_tao / NULLIF(p10.price_tao,0) - 1) AS change_10m,
                   100 * (l.price_tao / NULLIF(p1.price_tao,0) - 1) AS change_1h,
                   100 * (l.price_tao / NULLIF(p24.price_tao,0) - 1) AS change_24h,
@@ -217,12 +221,12 @@ async def _refresh_screener(current_app: FastAPI):
            FROM latest l LEFT JOIN subnets s USING(netuid)
            {liquidation_join("l")}
            LEFT JOIN LATERAL (
-             SELECT price_tao FROM subnet_price_samples
+             SELECT price_tao,time FROM subnet_price_samples
              WHERE netuid=l.netuid AND time <= l.time - interval '10 minutes'
              ORDER BY time DESC LIMIT 1
            ) p10 ON true
            LEFT JOIN LATERAL (
-             SELECT hist1.price_tao,hist1.tao_reserve,hist1.emission_share,hist1.volume_tao
+             SELECT hist1.price_tao,hist1.time,hist1.tao_reserve,hist1.emission_share,hist1.volume_tao
              FROM subnet_price_samples hist1
              WHERE hist1.netuid=l.netuid AND hist1.time <= l.time - interval '1 hour'
              ORDER BY hist1.time DESC LIMIT 1
@@ -233,12 +237,12 @@ async def _refresh_screener(current_app: FastAPI):
              ORDER BY hist2.time DESC LIMIT 1
            ) p2 ON true
            LEFT JOIN LATERAL (
-             SELECT price_tao FROM subnet_price_samples
+             SELECT price_tao,time FROM subnet_price_samples
              WHERE netuid=l.netuid AND time <= l.time - interval '24 hours'
              ORDER BY time DESC LIMIT 1
            ) p24 ON true
            LEFT JOIN LATERAL (
-             SELECT price_tao FROM subnet_price_samples
+             SELECT price_tao,time FROM subnet_price_samples
              WHERE netuid=l.netuid AND time <= l.time - interval '7 days'
              ORDER BY time DESC LIMIT 1
            ) p7 ON true
