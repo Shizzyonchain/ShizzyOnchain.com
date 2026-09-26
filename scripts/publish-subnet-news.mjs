@@ -1,6 +1,7 @@
 import { copyFileSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateMarketReview } from "./news-market-review.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const reportsDirectory = join(root, "content", "subnet-news");
@@ -97,6 +98,10 @@ function validate(value, filename) {
 
 function readAndValidate(path) {
   const value = JSON.parse(readFileSync(path, "utf8"));
+  if (value.date >= "2026-09-26") {
+    const audit = JSON.parse(readFileSync(join(reportsDirectory, "audits", `${value.date}.json`), "utf8"));
+    validateMarketReview(value, audit);
+  }
   return validate(value, basename(path));
 }
 

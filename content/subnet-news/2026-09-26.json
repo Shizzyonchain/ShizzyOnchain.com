@@ -2,13 +2,46 @@
   "version": 1,
   "date": "2026-09-26",
   "title": "Subnet News — September 26, 2026",
-  "summary": "SN8 Vanta buybacks, SN104 TAOstatus security agents and SN114 SOMA’s compression demonstration lead. Plus SN88 Investing88 execution problems, SN17 404’s game jam, SN120 Affine’s scheduled fork and miner reward-status updates. Researched through 11:52 AM ET.",
+  "summary": "SN38 ChronoLLM’s 164% weekly move and upcoming keynote, SN8 Vanta buybacks, SN104 TAOstatus security agents and SN114 SOMA’s compression demonstration. Plus execution problems, planned upgrades and reward-status updates. Market snapshot: 11:52 AM ET; SN38 added after an omission review.",
   "publishedAt": "2026-09-26T15:59:10.817Z",
   "coverageStart": "2026-09-25T15:15:52.256Z",
   "coverageEnd": "2026-09-26T15:52:43.079Z",
   "highlights": [],
   "upcomingUnlocks": [],
   "subnets": [
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": [
+        {
+          "headline": "SN38 ChronoLLM rises 164% over seven days ahead of its Exploit keynote",
+          "summary": "At the September 26, 11:52 AM ET snapshot, SN38 ChronoLLM was up 16.65% over 24 hours and 164.12% over seven days against TAO, with 3.24% of network emissions. Its product trains language models restricted to historical cutoff dates, aiming to prevent future knowledge from contaminating financial backtests. A September 24 announcement schedules Jean Herelle to speak about look-ahead bias at Exploit in Montreal on Monday, September 28. This is a late-added story that the initial edition missed. The price move does not establish that the keynote caused it, and no new commercial contract is asserted.",
+          "rating": 4,
+          "ratingReason": "An exceptional sustained market move and substantial emission share warrant prominent coverage alongside a concrete upcoming event; price alone does not prove a new product milestone.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN38 official keynote announcement (September 24)",
+              "url": "https://x.com/chronollm/status/2103163659367440549"
+            },
+            {
+              "label": "SN38 product and evaluation documentation",
+              "url": "https://github.com/chronollm/sn38"
+            },
+            {
+              "label": "SN38 market data",
+              "url": "https://shizzyunchained.com/api/backend/v1/screener"
+            }
+          ],
+          "priceAction": {
+            "change24hPct": 16.64616616877419,
+            "observedAt": "2026-09-26T15:52:00+00:00",
+            "basis": "α/TAO"
+          }
+        }
+      ]
+    },
     {
       "netuid": 8,
       "name": "Vanta",
@@ -635,11 +668,6 @@
     {
       "netuid": 37,
       "name": "Aurelius",
-      "updates": []
-    },
-    {
-      "netuid": 38,
-      "name": "ChronoLLM",
       "updates": []
     },
     {

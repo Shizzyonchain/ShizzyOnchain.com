@@ -6,8 +6,8 @@
   "assembledAt": "2026-09-26T15:59:10.817Z",
   "counts": {
     "activeSubnets": 128,
-    "publishedItems": 23,
-    "subnetsWithUpdates": 22,
+    "publishedItems": 24,
+    "subnetsWithUpdates": 23,
     "datedBriefsScreened": 98,
     "repositoryPaths": 175,
     "publicXAccountCandidates": 191,
@@ -34,7 +34,8 @@
     "Exclude recycled SN64 dataset and SN49 tournament figures already covered September 5 and September 3.",
     "SN81 PR277 now merged; SN120 September30 controls staged, not active.",
     "Do not equate buyback announcements or software commits with executed burns.",
-    "Exclude unrelated StonkFun activity and generated wallet intent."
+    "Exclude unrelated StonkFun activity and generated wallet intent.",
+    "SN38 correction: research contained the story; generic no-update disposition was wrong. Added explicit outlier review gate and seven-day announcement lookback."
   ],
   "primaryChecks": [
     {
@@ -4453,8 +4454,8 @@
           "error": null
         }
       ],
-      "publishedItemCount": 0,
-      "disposition": "No sufficiently supported fresh material story selected."
+      "publishedItemCount": 1,
+      "disposition": "Corrected selection-stage omission: exceptional weekly move and upcoming primary-source keynote."
     },
     {
       "netuid": 39,
@@ -8271,5 +8272,686 @@
       "publishedItemCount": 0,
       "disposition": "No sufficiently supported fresh material story selected."
     }
-  ]
+  ],
+  "marketReview": {
+    "source": "https://shizzyunchained.com/api/backend/v1/screener",
+    "observedAt": "2026-09-26T15:52:00+00:00",
+    "basis": "alpha/TAO",
+    "rows": [
+      {
+        "netuid": 51,
+        "change24hPct": 1.4645747571904268,
+        "change7dPct": 3.3655697458285836
+      },
+      {
+        "netuid": 64,
+        "change24hPct": 0.9703024079115137,
+        "change7dPct": -1.6831466784668492
+      },
+      {
+        "netuid": 4,
+        "change24hPct": -0.5316468816965438,
+        "change7dPct": -4.472215880537137
+      },
+      {
+        "netuid": 53,
+        "change24hPct": -2.093346645352722,
+        "change7dPct": 22.543532810735257
+      },
+      {
+        "netuid": 44,
+        "change24hPct": -2.8522032739008676,
+        "change7dPct": -2.189734302915923
+      },
+      {
+        "netuid": 120,
+        "change24hPct": -1.981198757704994,
+        "change7dPct": -7.053272789519696
+      },
+      {
+        "netuid": 3,
+        "change24hPct": -0.5959733186027869,
+        "change7dPct": -10.039240461708262
+      },
+      {
+        "netuid": 8,
+        "change24hPct": 3.173561127850707,
+        "change7dPct": 5.633400127062233
+      },
+      {
+        "netuid": 9,
+        "change24hPct": -0.7930835621629256,
+        "change7dPct": -8.453931890488754
+      },
+      {
+        "netuid": 95,
+        "change24hPct": -1.0119628810953314,
+        "change7dPct": 9.672874740147787
+      },
+      {
+        "netuid": 68,
+        "change24hPct": 1.0008797265991276,
+        "change7dPct": -4.396431827630991
+      },
+      {
+        "netuid": 28,
+        "change24hPct": -1.5800290311676317,
+        "change7dPct": 10.921667305356001
+      },
+      {
+        "netuid": 56,
+        "change24hPct": 3.1188912405758313,
+        "change7dPct": 1.531512746574808
+      },
+      {
+        "netuid": 75,
+        "change24hPct": 0.5398634628067513,
+        "change7dPct": 6.411312025916362
+      },
+      {
+        "netuid": 93,
+        "change24hPct": 2.640669776065111,
+        "change7dPct": 2.808386524189071
+      },
+      {
+        "netuid": 34,
+        "change24hPct": 0.32490876913052735,
+        "change7dPct": -1.0560078995722761
+      },
+      {
+        "netuid": 107,
+        "change24hPct": -3.4103483024385737,
+        "change7dPct": -11.002505010117446
+      },
+      {
+        "netuid": 62,
+        "change24hPct": 0.198090392148036,
+        "change7dPct": -0.5795740002947458
+      },
+      {
+        "netuid": 61,
+        "change24hPct": 1.1196920614638715,
+        "change7dPct": -21.433434306959338
+      },
+      {
+        "netuid": 5,
+        "change24hPct": -0.3297973414714484,
+        "change7dPct": -1.0187025823983076
+      },
+      {
+        "netuid": 80,
+        "change24hPct": -4.935421634442159,
+        "change7dPct": 20.704919685309125
+      },
+      {
+        "netuid": 17,
+        "change24hPct": 0.5925810887741332,
+        "change7dPct": -3.913081881287467
+      },
+      {
+        "netuid": 19,
+        "change24hPct": -1.5882959929274265,
+        "change7dPct": -4.388642980615788
+      },
+      {
+        "netuid": 38,
+        "change24hPct": 16.64616616877419,
+        "change7dPct": 164.11572244447876
+      },
+      {
+        "netuid": 110,
+        "change24hPct": -0.39493021058957584,
+        "change7dPct": 17.989566547461393
+      },
+      {
+        "netuid": 14,
+        "change24hPct": -0.3293923516373571,
+        "change7dPct": -3.448481734577771
+      },
+      {
+        "netuid": 11,
+        "change24hPct": -0.8985960552994186,
+        "change7dPct": -6.512120822335367
+      },
+      {
+        "netuid": 15,
+        "change24hPct": 0.05611209506307377,
+        "change7dPct": -12.573335175143354
+      },
+      {
+        "netuid": 124,
+        "change24hPct": -0.7229829659215335,
+        "change7dPct": -4.11285841550072
+      },
+      {
+        "netuid": 10,
+        "change24hPct": 1.7046211606610768,
+        "change7dPct": -9.46856737002877
+      },
+      {
+        "netuid": 25,
+        "change24hPct": -2.911499079834282,
+        "change7dPct": -29.15600779690663
+      },
+      {
+        "netuid": 1,
+        "change24hPct": -1.3350735340930795,
+        "change7dPct": -5.545414703067523
+      },
+      {
+        "netuid": 54,
+        "change24hPct": -3.871503827080925,
+        "change7dPct": 27.55790150085795
+      },
+      {
+        "netuid": 114,
+        "change24hPct": 14.8627117728681,
+        "change7dPct": 21.96509678669912
+      },
+      {
+        "netuid": 41,
+        "change24hPct": 9.219358267246097,
+        "change7dPct": 28.762284411691162
+      },
+      {
+        "netuid": 39,
+        "change24hPct": -0.6245458672444612,
+        "change7dPct": -8.734925980508473
+      },
+      {
+        "netuid": 52,
+        "change24hPct": -0.0896558716461827,
+        "change7dPct": -0.9283998350336996
+      },
+      {
+        "netuid": 83,
+        "change24hPct": 0.27537222412403894,
+        "change7dPct": -5.432014176363447
+      },
+      {
+        "netuid": 81,
+        "change24hPct": -0.3899236974479148,
+        "change7dPct": -0.721267117494653
+      },
+      {
+        "netuid": 13,
+        "change24hPct": -6.167536955231883,
+        "change7dPct": -13.86821308192324
+      },
+      {
+        "netuid": 77,
+        "change24hPct": -0.22681098233827357,
+        "change7dPct": -2.828948479271343
+      },
+      {
+        "netuid": 85,
+        "change24hPct": 11.838030000426016,
+        "change7dPct": 7.600364522551112
+      },
+      {
+        "netuid": 23,
+        "change24hPct": -4.217678515484493,
+        "change7dPct": 20.94707297697621
+      },
+      {
+        "netuid": 24,
+        "change24hPct": 3.9635760208134476,
+        "change7dPct": -6.636739212263833
+      },
+      {
+        "netuid": 97,
+        "change24hPct": -5.8159080419938505,
+        "change7dPct": -17.20041246172455
+      },
+      {
+        "netuid": 12,
+        "change24hPct": -0.06616675423094681,
+        "change7dPct": -1.097303978055181
+      },
+      {
+        "netuid": 118,
+        "change24hPct": 7.19517739708255,
+        "change7dPct": 6.013425060493487
+      },
+      {
+        "netuid": 63,
+        "change24hPct": -0.33918535977728725,
+        "change7dPct": -13.180434930191314
+      },
+      {
+        "netuid": 50,
+        "change24hPct": 0.45482104180148325,
+        "change7dPct": -7.904932233980211
+      },
+      {
+        "netuid": 48,
+        "change24hPct": 0.12459201693388298,
+        "change7dPct": -0.08507260947218451
+      },
+      {
+        "netuid": 43,
+        "change24hPct": -1.885853288428306,
+        "change7dPct": -10.16869918699187
+      },
+      {
+        "netuid": 33,
+        "change24hPct": -4.163628199943317,
+        "change7dPct": -6.005816751145716
+      },
+      {
+        "netuid": 60,
+        "change24hPct": -2.1188447976324887,
+        "change7dPct": -7.7549209728543
+      },
+      {
+        "netuid": 18,
+        "change24hPct": 0.2112962078190992,
+        "change7dPct": -3.7970084318059816
+      },
+      {
+        "netuid": 71,
+        "change24hPct": 0.3356135250073289,
+        "change7dPct": -7.5592578962966215
+      },
+      {
+        "netuid": 104,
+        "change24hPct": -0.008989242393842441,
+        "change7dPct": -1.9365938085232133
+      },
+      {
+        "netuid": 21,
+        "change24hPct": -0.7067513216806213,
+        "change7dPct": -0.8377752251656515
+      },
+      {
+        "netuid": 49,
+        "change24hPct": 24.009989821115987,
+        "change7dPct": 23.184944210144504
+      },
+      {
+        "netuid": 111,
+        "change24hPct": -1.1216853879029567,
+        "change7dPct": -5.541310024815611
+      },
+      {
+        "netuid": 30,
+        "change24hPct": 0.8047579495094039,
+        "change7dPct": -0.1995345611728718
+      },
+      {
+        "netuid": 32,
+        "change24hPct": -0.22816550146327869,
+        "change7dPct": -3.4157931644086066
+      },
+      {
+        "netuid": 46,
+        "change24hPct": -4.594492623432264,
+        "change7dPct": -4.209676519652178
+      },
+      {
+        "netuid": 66,
+        "change24hPct": 0.6087759412959746,
+        "change7dPct": -11.53252565142038
+      },
+      {
+        "netuid": 2,
+        "change24hPct": -0.9568157566730483,
+        "change7dPct": -1.6691511562150896
+      },
+      {
+        "netuid": 112,
+        "change24hPct": -0.7906166188622418,
+        "change7dPct": 45.28953628958247
+      },
+      {
+        "netuid": 29,
+        "change24hPct": -0.20041223584454856,
+        "change7dPct": 1.7750816517194592
+      },
+      {
+        "netuid": 74,
+        "change24hPct": 0.28689403854228074,
+        "change7dPct": -1.9201738190471094
+      },
+      {
+        "netuid": 88,
+        "change24hPct": -1.8122577022590323,
+        "change7dPct": -5.67633340540037
+      },
+      {
+        "netuid": 22,
+        "change24hPct": 1.0240822021529772,
+        "change7dPct": -2.260580383345769
+      },
+      {
+        "netuid": 79,
+        "change24hPct": -1.0345230984401828,
+        "change7dPct": -6.640262476179819
+      },
+      {
+        "netuid": 37,
+        "change24hPct": -0.05745507604399757,
+        "change7dPct": -8.167952184522987
+      },
+      {
+        "netuid": 73,
+        "change24hPct": -0.03798818049565942,
+        "change7dPct": -1.8453563019119053
+      },
+      {
+        "netuid": 6,
+        "change24hPct": -0.6246222815451075,
+        "change7dPct": -7.778345165474757
+      },
+      {
+        "netuid": 7,
+        "change24hPct": -0.8344190325961968,
+        "change7dPct": -4.925836737479404
+      },
+      {
+        "netuid": 55,
+        "change24hPct": -0.9967721110393802,
+        "change7dPct": -2.9895876823420755
+      },
+      {
+        "netuid": 89,
+        "change24hPct": -0.17936448379695966,
+        "change7dPct": -3.576322023724399
+      },
+      {
+        "netuid": 121,
+        "change24hPct": -0.3559314397523284,
+        "change7dPct": -3.7966081304151458
+      },
+      {
+        "netuid": 128,
+        "change24hPct": -0.016178166974397067,
+        "change7dPct": -0.5434269039835675
+      },
+      {
+        "netuid": 105,
+        "change24hPct": -0.21891849594366458,
+        "change7dPct": -3.912759452043227
+      },
+      {
+        "netuid": 45,
+        "change24hPct": -0.12624140834087333,
+        "change7dPct": -1.5570426755757876
+      },
+      {
+        "netuid": 27,
+        "change24hPct": 0.19182442079059742,
+        "change7dPct": 0.7342561656386993
+      },
+      {
+        "netuid": 65,
+        "change24hPct": -1.0962181014271128,
+        "change7dPct": -4.984759194409016
+      },
+      {
+        "netuid": 20,
+        "change24hPct": -0.32934191981536903,
+        "change7dPct": -10.22313159646006
+      },
+      {
+        "netuid": 90,
+        "change24hPct": -2.9487340600186935,
+        "change7dPct": -24.122832007250143
+      },
+      {
+        "netuid": 42,
+        "change24hPct": -8.673757218534277,
+        "change7dPct": -17.489515532513224
+      },
+      {
+        "netuid": 72,
+        "change24hPct": 0.6131277631575041,
+        "change7dPct": -6.8565596075578465
+      },
+      {
+        "netuid": 123,
+        "change24hPct": -1.908476481347784,
+        "change7dPct": -2.291789494518139
+      },
+      {
+        "netuid": 69,
+        "change24hPct": -2.026656783607527,
+        "change7dPct": -12.351332923470899
+      },
+      {
+        "netuid": 101,
+        "change24hPct": -2.0607154687833025,
+        "change7dPct": -5.528165577700375
+      },
+      {
+        "netuid": 125,
+        "change24hPct": -1.7824969387507328,
+        "change7dPct": -4.361522136603718
+      },
+      {
+        "netuid": 106,
+        "change24hPct": -8.09819720921987,
+        "change7dPct": -13.317609095940758
+      },
+      {
+        "netuid": 102,
+        "change24hPct": -3.185775735285647,
+        "change7dPct": 0.6582953405267481
+      },
+      {
+        "netuid": 94,
+        "change24hPct": 11.383843655431743,
+        "change7dPct": 20.152662861608942
+      },
+      {
+        "netuid": 98,
+        "change24hPct": -0.15399024291609778,
+        "change7dPct": -15.332722105797929
+      },
+      {
+        "netuid": 117,
+        "change24hPct": -2.9043340745549218,
+        "change7dPct": 6.510615619977736
+      },
+      {
+        "netuid": 127,
+        "change24hPct": -0.19854928587474005,
+        "change7dPct": -8.449148973524707
+      },
+      {
+        "netuid": 100,
+        "change24hPct": -4.323760318451764,
+        "change7dPct": -5.932772296089774
+      },
+      {
+        "netuid": 91,
+        "change24hPct": -7.812402234895798,
+        "change7dPct": -22.1378632719529
+      },
+      {
+        "netuid": 87,
+        "change24hPct": 0.09384919958471905,
+        "change7dPct": 0.4436097096888335
+      },
+      {
+        "netuid": 31,
+        "change24hPct": -0.35758227567252737,
+        "change7dPct": -2.281387670577203
+      },
+      {
+        "netuid": 126,
+        "change24hPct": -1.3215876761831802,
+        "change7dPct": -7.10773438098598
+      },
+      {
+        "netuid": 115,
+        "change24hPct": -2.632518448565685,
+        "change7dPct": -1.7298224699814506
+      },
+      {
+        "netuid": 96,
+        "change24hPct": -0.9524353337520699,
+        "change7dPct": -18.40722919272621
+      },
+      {
+        "netuid": 78,
+        "change24hPct": -7.3898049773778105,
+        "change7dPct": 32.82552367024404
+      },
+      {
+        "netuid": 67,
+        "change24hPct": -0.24886111621251877,
+        "change7dPct": -9.681056003608317
+      },
+      {
+        "netuid": 119,
+        "change24hPct": -5.085602873988243,
+        "change7dPct": -10.352333686596522
+      },
+      {
+        "netuid": 26,
+        "change24hPct": -22.367870880209217,
+        "change7dPct": -21.505858605232106
+      },
+      {
+        "netuid": 58,
+        "change24hPct": -1.6534488085255186,
+        "change7dPct": -5.430037899055772
+      },
+      {
+        "netuid": 84,
+        "change24hPct": 1.5206468139942115,
+        "change7dPct": 14.302160858827511
+      },
+      {
+        "netuid": 109,
+        "change24hPct": -0.12605138027092322,
+        "change7dPct": 0.397929663175594
+      },
+      {
+        "netuid": 113,
+        "change24hPct": 2.020190173938583,
+        "change7dPct": -14.763493810167096
+      },
+      {
+        "netuid": 122,
+        "change24hPct": -0.9535286192724141,
+        "change7dPct": -1.2988897316890062
+      },
+      {
+        "netuid": 47,
+        "change24hPct": 4.549878780474966,
+        "change7dPct": -3.72862863380102
+      },
+      {
+        "netuid": 57,
+        "change24hPct": -0.5523908231834632,
+        "change7dPct": -4.993699734678968
+      },
+      {
+        "netuid": 40,
+        "change24hPct": -2.560793436661641,
+        "change7dPct": -7.508365093377172
+      },
+      {
+        "netuid": 82,
+        "change24hPct": -1.3752376577473235,
+        "change7dPct": -9.471162653196135
+      },
+      {
+        "netuid": 116,
+        "change24hPct": -1.6613323227013215,
+        "change7dPct": -5.44421122320777
+      },
+      {
+        "netuid": 36,
+        "change24hPct": -2.3893482604847387,
+        "change7dPct": -71.1350184166326
+      },
+      {
+        "netuid": 35,
+        "change24hPct": -3.357303061364375,
+        "change7dPct": 41.450537890193864
+      },
+      {
+        "netuid": 92,
+        "change24hPct": -1.78315299384852,
+        "change7dPct": -25.874031206187677
+      },
+      {
+        "netuid": 99,
+        "change24hPct": 4.865446103575162,
+        "change7dPct": -0.4139365561535548
+      },
+      {
+        "netuid": 76,
+        "change24hPct": 5.42170866045927,
+        "change7dPct": 35.05680838934627
+      },
+      {
+        "netuid": 16,
+        "change24hPct": 5.991556693392801,
+        "change7dPct": -26.610892528013522
+      },
+      {
+        "netuid": 86,
+        "change24hPct": 0,
+        "change7dPct": 0
+      },
+      {
+        "netuid": 103,
+        "change24hPct": -4.882716954400491,
+        "change7dPct": -33.2076660283916
+      },
+      {
+        "netuid": 70,
+        "change24hPct": 1.8659899404837983,
+        "change7dPct": -21.88866020710853
+      },
+      {
+        "netuid": 59,
+        "change24hPct": 0,
+        "change7dPct": 0
+      },
+      {
+        "netuid": 108,
+        "change24hPct": 0,
+        "change7dPct": 107.76589773811529
+      }
+    ],
+    "decisions": [
+      {
+        "netuid": 38,
+        "outcome": "covered",
+        "reason": "Added market and upcoming-keynote coverage after identifying selection-stage omission.",
+        "sources": [
+          "https://x.com/chronollm/status/2103163659367440549"
+        ]
+      },
+      {
+        "netuid": 49,
+        "outcome": "covered",
+        "reason": "Commercialization roadmap covered; price movement does not prove signed customers.",
+        "sources": [
+          "https://x.com/nepher_robotics/status/2103598863680442550"
+        ]
+      },
+      {
+        "netuid": 26,
+        "outcome": "excluded",
+        "reason": "Large decline reviewed; collected project sources did not establish a fresh attributable operational catalyst. Retain as market watch rather than invent a cause.",
+        "sources": [
+          "https://subnetradar.com/subnet/26"
+        ]
+      },
+      {
+        "netuid": 108,
+        "outcome": "excluded",
+        "reason": "Large weekly return reviewed but snapshot shows zero trading volume and zero emissions. No supported fresh project event selected; do not describe this as active adoption.",
+        "sources": [
+          "https://subnetradar.com/subnet/108"
+        ]
+      }
+    ]
+  }
 }
