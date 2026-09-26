@@ -1,10 +1,10 @@
 export const youtubeMembershipUrl = "https://www.youtube.com/channel/UCzp_1hHByX_XBnRRJPucEIw/join";
 
 export const latestMemberVideo = {
-  id: "oKl61Awh36Y",
-  title: "MEMBERS ONLY LIVE STREAM: TAO AUTOPILOT? Inside AlphaChaser",
-  meta: "1:07:31 · Members-only replay · September 22, 2026",
-  publishedLabel: "September 22",
+  id: "4JHTcfpT28M",
+  title: "9/25/26 Bittensor News Updates & TAO Price Action | Members Video",
+  meta: "9:06 · Members-only video · September 25, 2026",
+  publishedLabel: "September 25",
   membersOnly: true,
 };
 
