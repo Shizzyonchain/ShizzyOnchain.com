@@ -30,6 +30,10 @@ async def lifespan(app: FastAPI):
     app.state.candle_tasks = {}
     app.state.screener_refresh_task = None
     app.state.screener_refresh_started_at = None
+    try:
+        await asyncio.wait_for(_refresh_screener(app), timeout=10)
+    except Exception as exc:
+        log.warning("initial screener history warmup failed: %s", type(exc).__name__)
     yield
     if app.state.screener_refresh_task and not app.state.screener_refresh_task.done():
         app.state.screener_refresh_task.cancel()
@@ -275,6 +279,7 @@ async def screener():
             task.result()
         except Exception as exc:
             log.warning("screener history refresh failed: %s", type(exc).__name__)
+            app.state.screener_refresh_started_at = None
         app.state.screener_refresh_task = None
         task = None
     last_started = app.state.screener_refresh_started_at

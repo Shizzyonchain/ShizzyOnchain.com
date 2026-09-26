@@ -694,10 +694,12 @@ export function Dashboard({
   initialView = "screener",
   initialRows = [],
   initialTaoUsd = 0,
+  initialDollarHistory = [],
 }: {
   initialView?: DashboardView;
   initialRows?: ScreenerRow[];
   initialTaoUsd?: number;
+  initialDollarHistory?: FxPoint[];
 }) {
   const serverRows = initialRows.filter((row) => row.netuid !== 0);
   const hasInitialRows = serverRows.length > 0;
@@ -708,7 +710,7 @@ export function Dashboard({
   const [currency, setCurrency] = useState<"usd" | "tao">("usd");
   const [taoUsd, setTaoUsd] = useState(initialTaoUsd);
   const [rawRows, setRows] = useState<ScreenerRow[]>(serverRows);
-  const [dollarHistory, setDollarHistory] = useState<FxPoint[]>([]);
+  const [dollarHistory, setDollarHistory] = useState<FxPoint[]>(initialDollarHistory);
   const rows = useMemo(() => rawRows.map(row => currencyReturns(row, currency, dollarHistory)), [rawRows, currency, dollarHistory]);
   const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">(
     hasInitialRows ? (marketSnapshotIsFresh(serverRows) ? "live" : "stale") : "loading",
@@ -854,11 +856,16 @@ export function Dashboard({
         const response = await fetch("/api/tao-history", { signal: AbortSignal.timeout(10_000) });
         if (!response.ok) return;
         const payload = await response.json();
-        if (!cancelled && Array.isArray(payload.data)) setDollarHistory(payload.data);
+        if (!cancelled && Array.isArray(payload.data)) setDollarHistory(previous => {
+          const merged = new Map(previous.map(point => [point.time, point]));
+          for (const point of payload.data as FxPoint[]) merged.set(point.time, point);
+          const oldest = Date.now() / 1000 - 8 * 86400;
+          return [...merged.values()].filter(point => point.time >= oldest).sort((a, b) => a.time - b.time);
+        });
       } catch { /* Missing or stale rates render as unavailable, never as TAO returns. */ }
     };
     void refreshHistory();
-    const timer = window.setInterval(refreshHistory, 30_000);
+    const timer = window.setInterval(refreshHistory, 10_000);
     return () => { cancelled = true; window.clearInterval(timer); };
   }, []);
   useEffect(() => {

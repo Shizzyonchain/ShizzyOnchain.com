@@ -1,3 +1,4 @@
+import { getTaoHistory } from "../lib/tao-history";
 import type { Metadata } from "next";
 import { Dashboard } from "../dashboard";
 import { getInitialMarkets, getInitialTaoUsd } from "../lib/market-data";
@@ -9,6 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default async function BubblesPage() {
-  const [initialRows, initialTaoUsd] = await Promise.all([getInitialMarkets(), getInitialTaoUsd()]);
-  return <Dashboard initialView="bubbles" initialRows={initialRows} initialTaoUsd={initialTaoUsd} />;
+  const [initialRows, initialTaoUsd, initialDollarHistory] = await Promise.all([getInitialMarkets(), getInitialTaoUsd(), getTaoHistory()]);
+  return <Dashboard initialDollarHistory={initialDollarHistory} initialView="bubbles" initialRows={initialRows} initialTaoUsd={initialTaoUsd} />;
 }
