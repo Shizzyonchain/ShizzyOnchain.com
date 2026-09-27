@@ -2,10 +2,10 @@
   "version": 1,
   "date": "2026-09-27",
   "title": "Subnet News — September 27, 2026",
-  "summary": "SN7 Allways announces subnet-wide cross-chain swaps. Former SN82 Compelle reports deregistration, SN120 Affine changes its crown threshold, and SN78 UMI outlines SignRush’s role in sign-language data. Plus SN38 ChronoLLM’s Monday keynote watch and miner-reward updates. Updated through 5:04 PM ET with SN108 ChipForge testing progress.",
+  "summary": "SN7 Allways announces subnet-wide cross-chain swaps. Former SN82 Compelle reports deregistration, SN120 Affine changes its crown threshold, and SN78 UMI outlines SignRush’s role in sign-language data. Plus SN38 ChronoLLM’s Monday keynote watch and miner-reward updates. Updated through 6:04 PM ET: SN122 CookingTAO mining opening and a reported SN94 identity change added.",
   "publishedAt": "2026-09-27T17:48:51.328Z",
   "coverageStart": "2026-09-26T15:52:43.079Z",
-  "coverageEnd": "2026-09-27T21:04:00Z",
+  "coverageEnd": "2026-09-27T22:04:00Z",
   "highlights": [],
   "upcomingUnlocks": [],
   "subnets": [
@@ -875,7 +875,26 @@
     {
       "netuid": 94,
       "name": "pending...",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN94 identity feed reports a rename from BitSota to Cathedral",
+          "summary": "SubnetRadar records a September 27, 21:42 UTC identity event changing SN94 from BitSota to Cathedral, citing Bittensor mainnet SubnetIdentitiesV3 storage. This is a reported name change, not proof of new ownership or a product launch. Our 6:02 PM ET market snapshot showed about +19.03% over 24 hours against TAO; the price move prompted review but does not establish a cause. The former BitSota X account is suspended and the identity event has not been independently reproduced from chain storage.",
+          "rating": 3,
+          "ratingReason": "A reported subnet identity change matters for tracking the correct project; ownership and product details remain unconfirmed.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN94 identity event",
+              "url": "https://subnetradar.com/moments/subnet_renamed-91926y"
+            },
+            {
+              "label": "SN94 market snapshot source",
+              "url": "https://shizzyunchained.com/api/backend/v1/screener"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 95,
@@ -995,7 +1014,22 @@
     {
       "netuid": 122,
       "name": "CookingTAO",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN122 CookingTAO announces mining is open",
+          "summary": "SN122 CookingTAO announced at 5:26 PM ET that mining is officially open. The team says it plans to reduce incentive burn to zero as developers submit more miner code that users can access through its platform. That is a conditional future change, not confirmation that burning has ended. The announcement also says currently 30% without clearly specifying the denominator; no payout percentage is inferred here. Live miner payouts were not independently tested.",
+          "rating": 4,
+          "ratingReason": "Opening mining is a concrete participation milestone; unclear percentage wording and the conditional burn transition limit certainty.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "label": "SN122 official mining announcement",
+              "url": "https://x.com/CookingTao_/status/2104321860691181985"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 123,
@@ -1037,7 +1071,8 @@
       "175 repository paths scanned; eleven selected commits checked at patch level.",
       "Full-roster market outliers, emission leaders, 75 linked Moments and the preceding seven days of reports checked before selection.",
       "YouTube Videos, Live and four watch pages rechecked: no new upload or schedule change found.",
-      "Hourly checks through 5:04 PM ET: signed-in X organizer/team posts, AlphaGap, SubnetRadar Moments, TAO Daily, 243 public X profiles and 175 repository paths. SN108 primary update added."
+      "Hourly checks through 5:04 PM ET: signed-in X organizer/team posts, AlphaGap, SubnetRadar Moments, TAO Daily, 243 public X profiles and 175 repository paths. SN108 primary update added.",
+      "6:04 PM ET hourly review: SN122 primary announcement and SN94 identity event added; 248 X profiles and 175 repository paths scanned."
     ],
     "gaps": [
       "Initial research ran through 1:48 PM ET; hourly checks extended coverage to 5:04 PM ET. This is a broad scan, not exhaustive coverage of X or private communities.",
