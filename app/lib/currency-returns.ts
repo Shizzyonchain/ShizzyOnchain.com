@@ -1,6 +1,6 @@
 export const returnPeriods = { "10m": 600, "1h": 3600, "24h": 86400, "7d": 604800 } as const;
 type Period = keyof typeof returnPeriods;
-export type FxPoint = { time: number; usd: number };
+export type FxPoint = { time: number; usd: number; carriedFrom?: number };
 export type ReturnHistory = Partial<Record<`price_${Period}_tao` | `time_${Period}`, string>>;
 type ReturnRow = ReturnHistory & { price_tao: string; time?: string } & Partial<Record<`change_${Period}`, string>>;
 

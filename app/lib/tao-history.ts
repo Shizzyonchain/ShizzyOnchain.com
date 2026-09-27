@@ -1,5 +1,6 @@
 import "server-only";
 import type { FxPoint } from "./currency-returns";
+import { completeCandleWindow } from "./candle-history";
 
 export async function getTaoHistory(): Promise<FxPoint[]> {
   const now = Math.floor(Date.now() / 60_000) * 60;
@@ -18,11 +19,7 @@ export async function getTaoHistory(): Promise<FxPoint[]> {
     if (!response.ok) throw new Error(`History HTTP ${response.status}`);
     const raw: unknown = await response.json();
     if (!Array.isArray(raw)) throw new Error("Invalid history");
-    return raw.flatMap((c): FxPoint[] => {
-      if (!Array.isArray(c) || c.length < 5) return [];
-      const time = Number(c[0]) + 60, usd = Number(c[4]);
-      return Number.isFinite(time) && time <= now && Number.isFinite(usd) && usd > 0 ? [{ time, usd }] : [];
-    });
+    return completeCandleWindow(raw, now);
   }));
   const points = new Map<number, FxPoint>();
   for (const result of results) {

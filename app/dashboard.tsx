@@ -858,7 +858,12 @@ export function Dashboard({
         const payload = await response.json();
         if (!cancelled && Array.isArray(payload.data)) setDollarHistory(previous => {
           const merged = new Map(previous.map(point => [point.time, point]));
-          for (const point of payload.data as FxPoint[]) merged.set(point.time, point);
+          for (const point of payload.data as FxPoint[]) {
+            const existing = merged.get(point.time);
+            // A partial exchange response must not replace a real candle with
+            // a carried close. A later real candle may replace a carried one.
+            if (!point.carriedFrom || !existing || existing.carriedFrom) merged.set(point.time, point);
+          }
           const oldest = Date.now() / 1000 - 8 * 86400;
           return [...merged.values()].filter(point => point.time >= oldest).sort((a, b) => a.time - b.time);
         });
