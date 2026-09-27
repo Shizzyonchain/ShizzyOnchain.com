@@ -1730,12 +1730,12 @@ export function Dashboard({
               <div className="screener-head">
                 <div>
                   <p className="eyebrow">Bittensor markets</p>
-                  <h2>Subnet screener</h2>
+                  <h1>Subnet screener</h1>
                   <small>Price changes in {currency.toUpperCase()} · Rolling periods</small>
                 </div>
                 <label className="search">
-                  <span>⌕</span>
-                  <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search subnet or netuid" />
+                  <span aria-hidden="true">⌕</span>
+                  <input aria-label="Search subnets by name or subnet number" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search subnet or netuid" />
                 </label>
               </div>
               <div className="table-wrap">
