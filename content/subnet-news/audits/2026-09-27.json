@@ -32,618 +32,618 @@
   ],
   "marketReview": {
     "source": "https://shizzyunchained.com/api/backend/v1/screener",
-    "observedAt": "2026-09-27T17:44:03.393Z",
+    "observedAt": "2026-09-27T21:02:29.957703+00:00",
     "basis": "alpha/TAO",
     "rows": [
       {
         "netuid": 51,
-        "change24hPct": 1.4498422425818933,
-        "change7dPct": 7.213591024116656
+        "change24hPct": 1.4695203288175014,
+        "change7dPct": 7.433907747451936
       },
       {
         "netuid": 64,
-        "change24hPct": 0.4425400018188881,
-        "change7dPct": -1.018111708482926
+        "change24hPct": 0.493774944462238,
+        "change7dPct": -0.8514110788757946
       },
       {
         "netuid": 4,
-        "change24hPct": -0.04968268105894862,
-        "change7dPct": -3.267321977496607
+        "change24hPct": -0.038681495413210504,
+        "change7dPct": -3.08525536237747
       },
       {
         "netuid": 120,
-        "change24hPct": 3.308859676724315,
-        "change7dPct": -3.9549853398135673
+        "change24hPct": 4.109257680872744,
+        "change7dPct": -3.498182789703425
       },
       {
         "netuid": 44,
-        "change24hPct": -0.1303767280318815,
-        "change7dPct": -1.0124991851486986
+        "change24hPct": 0.3451960728060326,
+        "change7dPct": 1.0075192959157393
       },
       {
         "netuid": 53,
-        "change24hPct": -3.6305783436392067,
-        "change7dPct": 12.011875957207419
+        "change24hPct": -5.274366759067432,
+        "change7dPct": 10.832521108282297
       },
       {
         "netuid": 3,
-        "change24hPct": -0.09091042653124051,
-        "change7dPct": -5.865714810234661
+        "change24hPct": -0.31142756684529527,
+        "change7dPct": -6.014706112147702
       },
       {
         "netuid": 8,
-        "change24hPct": -0.8422251590601626,
-        "change7dPct": 3.654433730891249
+        "change24hPct": -1.145326464228902,
+        "change7dPct": 3.8957438239238225
       },
       {
         "netuid": 9,
-        "change24hPct": 2.849598129275983,
-        "change7dPct": -5.554897797808417
+        "change24hPct": 2.533677914969812,
+        "change7dPct": -5.81940852320558
       },
       {
         "netuid": 95,
-        "change24hPct": 3.650821659997237,
-        "change7dPct": 13.424800162998743
+        "change24hPct": 3.474855188882969,
+        "change7dPct": 13.327756739935976
       },
       {
         "netuid": 68,
-        "change24hPct": -0.8119505725291887,
-        "change7dPct": -3.8683366783449395
+        "change24hPct": -0.9199846168514365,
+        "change7dPct": -4.3857187354332625
       },
       {
         "netuid": 28,
-        "change24hPct": -6.023692134519065,
-        "change7dPct": 3.4036818941361875
-      },
-      {
-        "netuid": 75,
-        "change24hPct": 2.043840254777824,
-        "change7dPct": 10.037720100411606
+        "change24hPct": -3.1805509572261608,
+        "change7dPct": 4.157052197218373
       },
       {
         "netuid": 56,
-        "change24hPct": -3.387953649793311,
-        "change7dPct": -1.803261703147769
+        "change24hPct": -3.980120764263521,
+        "change7dPct": -2.276578599145461
+      },
+      {
+        "netuid": 75,
+        "change24hPct": 0.6238560565320351,
+        "change7dPct": 8.926637216026617
       },
       {
         "netuid": 93,
-        "change24hPct": -3.1528991439096594,
-        "change7dPct": -0.5068844644634168
-      },
-      {
-        "netuid": 61,
-        "change24hPct": 9.736487400434973,
-        "change7dPct": 1.2232945332313752
+        "change24hPct": -2.5057215483944066,
+        "change7dPct": -0.17624738554271996
       },
       {
         "netuid": 34,
-        "change24hPct": 0.7891428861415064,
-        "change7dPct": -0.3546683221075514
+        "change24hPct": 0.7830375444335327,
+        "change7dPct": 0.2353774642839767
+      },
+      {
+        "netuid": 61,
+        "change24hPct": 4.424256002982216,
+        "change7dPct": 0.7083031285169025
       },
       {
         "netuid": 107,
-        "change24hPct": -1.9069106883117262,
-        "change7dPct": -12.298800380257612
+        "change24hPct": -0.7754560419707466,
+        "change7dPct": -8.713142219812118
       },
       {
         "netuid": 62,
-        "change24hPct": 0.36838832596121546,
-        "change7dPct": 0.6581585800599962
+        "change24hPct": 0.17749920653862772,
+        "change7dPct": 0.6983914973020503
       },
       {
         "netuid": 5,
-        "change24hPct": -0.33933426184824533,
-        "change7dPct": -0.9892237704664508
-      },
-      {
-        "netuid": 17,
-        "change24hPct": -0.1948441383922087,
-        "change7dPct": -3.704019133610918
+        "change24hPct": -0.2747445578299695,
+        "change7dPct": -0.8874512589290096
       },
       {
         "netuid": 80,
-        "change24hPct": -7.548921378488538,
-        "change7dPct": 17.29716815941492
+        "change24hPct": 1.8277659765037915,
+        "change7dPct": 24.81031602631186
+      },
+      {
+        "netuid": 17,
+        "change24hPct": 0.3309530939895598,
+        "change7dPct": -3.154029597894867
       },
       {
         "netuid": 19,
-        "change24hPct": -0.30478075627395296,
-        "change7dPct": -4.313739094778308
+        "change24hPct": -0.09635565046808309,
+        "change7dPct": -4.391826441859707
       },
       {
         "netuid": 38,
-        "change24hPct": -8.708907584865733,
-        "change7dPct": 153.7226621016432
+        "change24hPct": -9.631375693314904,
+        "change7dPct": 152.09235508706823
       },
       {
         "netuid": 110,
-        "change24hPct": 4.213607803579832,
-        "change7dPct": 18.94467973404419
+        "change24hPct": 6.057871603268814,
+        "change7dPct": 23.791536199064318
       },
       {
         "netuid": 14,
-        "change24hPct": -0.05624234789355149,
-        "change7dPct": -1.4981799294517688
+        "change24hPct": -0.07807698076777765,
+        "change7dPct": -1.5015620287329685
       },
       {
         "netuid": 11,
-        "change24hPct": -1.0238537904395975,
-        "change7dPct": -6.373416959334859
+        "change24hPct": -0.8938894069346289,
+        "change7dPct": -6.600768441377513
       },
       {
         "netuid": 41,
-        "change24hPct": 12.696951645631735,
-        "change7dPct": 33.52330263122458
+        "change24hPct": 13.222520022973201,
+        "change7dPct": 34.02529021888414
       },
       {
         "netuid": 124,
-        "change24hPct": 0.07240242426833876,
-        "change7dPct": -4.567956319255865
+        "change24hPct": -0.24935654957262446,
+        "change7dPct": -3.112824221873468
       },
       {
         "netuid": 15,
-        "change24hPct": -1.9373098861760183,
-        "change7dPct": -9.420363831957056
+        "change24hPct": -2.255612936525016,
+        "change7dPct": -6.907974149312611
       },
       {
         "netuid": 25,
-        "change24hPct": 2.3079964173477205,
-        "change7dPct": -25.041051431598785
+        "change24hPct": 5.66891982099269,
+        "change7dPct": -23.084455390361928
       },
       {
         "netuid": 1,
-        "change24hPct": -0.171879076142836,
-        "change7dPct": -5.4337154257372555
+        "change24hPct": -0.1240671124832601,
+        "change7dPct": -5.44035954728983
       },
       {
         "netuid": 10,
-        "change24hPct": 1.3929317771148468,
-        "change7dPct": -8.888072894277855
+        "change24hPct": 0.10561998901526494,
+        "change7dPct": -9.058567487831201
       },
       {
         "netuid": 114,
-        "change24hPct": -1.7936989268632306,
-        "change7dPct": 22.805709929196414
+        "change24hPct": 2.2486142092237156,
+        "change7dPct": 24.901072504873355
       },
       {
         "netuid": 54,
-        "change24hPct": -1.5762171557979836,
-        "change7dPct": 9.738359673360037
+        "change24hPct": -3.1289691427646718,
+        "change7dPct": 6.853010225389707
       },
       {
         "netuid": 39,
-        "change24hPct": -0.2577511872164792,
-        "change7dPct": -9.72522977337005
+        "change24hPct": -0.256334111462538,
+        "change7dPct": -9.719253523841845
       },
       {
         "netuid": 52,
-        "change24hPct": -0.028223897746594794,
-        "change7dPct": -0.8731885357922169
+        "change24hPct": -0.0251326288960098,
+        "change7dPct": -0.8723345717595443
       },
       {
         "netuid": 83,
-        "change24hPct": -0.6625285632511113,
-        "change7dPct": -3.402358822594571
+        "change24hPct": -0.6937875835749691,
+        "change7dPct": -3.4359116364059634
       },
       {
         "netuid": 81,
-        "change24hPct": -0.42348350381495103,
-        "change7dPct": -1.4145081103945851
-      },
-      {
-        "netuid": 13,
-        "change24hPct": -0.0851611791903386,
-        "change7dPct": -13.850705112612077
-      },
-      {
-        "netuid": 77,
-        "change24hPct": -2.608925957426007,
-        "change7dPct": -4.923340714109686
+        "change24hPct": -0.04652204830797058,
+        "change7dPct": -0.86567313954537
       },
       {
         "netuid": 85,
-        "change24hPct": 0.8404989438333246,
-        "change7dPct": 6.5208069261597625
+        "change24hPct": 7.683144911499764,
+        "change7dPct": 14.54095756621202
+      },
+      {
+        "netuid": 13,
+        "change24hPct": -0.10249745909660223,
+        "change7dPct": -13.866911413627436
+      },
+      {
+        "netuid": 77,
+        "change24hPct": -2.612447741688604,
+        "change7dPct": -4.806546574706328
       },
       {
         "netuid": 24,
-        "change24hPct": -0.18675012862727855,
-        "change7dPct": -7.3555527194192
-      },
-      {
-        "netuid": 23,
-        "change24hPct": -4.61566480996211,
-        "change7dPct": 17.289580999526226
+        "change24hPct": -0.10277080546431323,
+        "change7dPct": -6.996294109668823
       },
       {
         "netuid": 97,
-        "change24hPct": 1.1751948709911846,
-        "change7dPct": -16.18574022407811
+        "change24hPct": 2.267707141397157,
+        "change7dPct": -14.381573555083847
+      },
+      {
+        "netuid": 23,
+        "change24hPct": -2.6921746809001315,
+        "change7dPct": 18.097124569757625
       },
       {
         "netuid": 12,
-        "change24hPct": 0.0972672346642666,
-        "change7dPct": -0.8435257343000201
+        "change24hPct": 0.09690616140080172,
+        "change7dPct": -0.8433621868034934
       },
       {
         "netuid": 63,
-        "change24hPct": 0.0842424385186833,
-        "change7dPct": -10.932164361204261
+        "change24hPct": 0.08660016635197407,
+        "change7dPct": -10.933080857469927
       },
       {
         "netuid": 50,
-        "change24hPct": -0.03152679625255377,
-        "change7dPct": -4.818074995295439
+        "change24hPct": -0.22153710670092414,
+        "change7dPct": -4.710516921119624
       },
       {
         "netuid": 48,
-        "change24hPct": 0.5240762801828444,
-        "change7dPct": -0.22316534867037896
+        "change24hPct": 0.5265944338815572,
+        "change7dPct": -0.21639436524485253
       },
       {
         "netuid": 118,
-        "change24hPct": -6.351421243076517,
-        "change7dPct": 2.116850372989374
+        "change24hPct": -8.420970322547323,
+        "change7dPct": 2.0994833935747574
       },
       {
         "netuid": 43,
-        "change24hPct": 0.46444370514083183,
-        "change7dPct": -10.372926703123417
+        "change24hPct": 0.46839018714322783,
+        "change7dPct": -10.372596352181098
       },
       {
         "netuid": 60,
-        "change24hPct": 0.2965416913316756,
-        "change7dPct": -7.159637004107167
+        "change24hPct": 1.27771227582073,
+        "change7dPct": -5.3386584739455225
       },
       {
         "netuid": 49,
-        "change24hPct": 14.986137824247296,
-        "change7dPct": 43.48831896513779
+        "change24hPct": 15.0027636528229,
+        "change7dPct": 42.39066282273629
       },
       {
         "netuid": 18,
-        "change24hPct": -0.6274556208541664,
-        "change7dPct": -4.179196005269551
+        "change24hPct": -0.47761452077812266,
+        "change7dPct": -3.4436901412732785
       },
       {
         "netuid": 33,
-        "change24hPct": 0.4377433581095271,
-        "change7dPct": -8.690433501122719
+        "change24hPct": -0.21546262028309976,
+        "change7dPct": -10.088664333652199
       },
       {
         "netuid": 71,
-        "change24hPct": -0.4998003805731411,
-        "change7dPct": -7.1558974783236176
+        "change24hPct": -2.796156537385046,
+        "change7dPct": -7.814043460042812
       },
       {
         "netuid": 104,
-        "change24hPct": -0.023188786698892766,
-        "change7dPct": -1.244805415064628
+        "change24hPct": -0.027169494963931475,
+        "change7dPct": -1.3145638592227897
       },
       {
         "netuid": 21,
-        "change24hPct": 1.4918815102722707,
-        "change7dPct": 1.7973842946448837
+        "change24hPct": 1.4698707588038429,
+        "change7dPct": 1.4133549916454362
       },
       {
         "netuid": 111,
-        "change24hPct": 0.9388061286692091,
-        "change7dPct": -2.941243359680063
+        "change24hPct": 1.084778761814159,
+        "change7dPct": -3.0420078315867705
       },
       {
         "netuid": 30,
-        "change24hPct": -0.02688755672497988,
-        "change7dPct": 0.3482211927424016
+        "change24hPct": -0.026735443951486436,
+        "change7dPct": 0.3492346241708505
       },
       {
         "netuid": 46,
-        "change24hPct": 2.574743901548815,
-        "change7dPct": -6.694806082814623
+        "change24hPct": -0.30112400920939936,
+        "change7dPct": -5.47029683869991
       },
       {
         "netuid": 66,
-        "change24hPct": 6.0867852926637696,
-        "change7dPct": -0.38977221253344
+        "change24hPct": 6.6455018357453985,
+        "change7dPct": 1.7099904526953789
       },
       {
         "netuid": 32,
-        "change24hPct": 0.1831772301536783,
-        "change7dPct": -2.2584332383344212
+        "change24hPct": 0.17375786948190547,
+        "change7dPct": -1.6856559846695587
       },
       {
         "netuid": 2,
-        "change24hPct": 0.7865196554457317,
-        "change7dPct": -1.7913937527392625
-      },
-      {
-        "netuid": 112,
-        "change24hPct": 0.8236868019978416,
-        "change7dPct": 28.41747788271099
-      },
-      {
-        "netuid": 74,
-        "change24hPct": 1.1144396263726295,
-        "change7dPct": -0.567136864529126
+        "change24hPct": 0.7674469421220789,
+        "change7dPct": -1.6469936465645334
       },
       {
         "netuid": 29,
-        "change24hPct": 0.3427837965076262,
-        "change7dPct": 1.083658274651694
+        "change24hPct": 0.5261322109751888,
+        "change7dPct": 1.2682624458523435
+      },
+      {
+        "netuid": 112,
+        "change24hPct": -0.5330803019919662,
+        "change7dPct": 25.92032187480871
+      },
+      {
+        "netuid": 74,
+        "change24hPct": -0.28303749227494335,
+        "change7dPct": -1.9493306655003437
       },
       {
         "netuid": 88,
-        "change24hPct": 0.6595333170951426,
-        "change7dPct": -8.146832852940888
+        "change24hPct": -0.5702626942336017,
+        "change7dPct": -8.066416684789889
       },
       {
         "netuid": 22,
-        "change24hPct": -1.139071666079139,
-        "change7dPct": -4.377878626405204
+        "change24hPct": -0.6813725736005737,
+        "change7dPct": -4.34313223902328
       },
       {
         "netuid": 79,
-        "change24hPct": -0.5375821681218155,
-        "change7dPct": -5.354791028187829
+        "change24hPct": -0.478944291234007,
+        "change7dPct": -5.407008142012087
       },
       {
         "netuid": 73,
-        "change24hPct": 0.15201295318167615,
-        "change7dPct": -1.6062385162067896
+        "change24hPct": 0.36818733134515463,
+        "change7dPct": -1.3883909291348129
       },
       {
         "netuid": 37,
-        "change24hPct": -0.32937204749449156,
-        "change7dPct": -10.71591936407545
+        "change24hPct": -0.3297011379806573,
+        "change7dPct": -10.714931231802721
       },
       {
         "netuid": 6,
-        "change24hPct": -0.11407396081456367,
-        "change7dPct": -7.772846728527959
+        "change24hPct": -0.079530465195217,
+        "change7dPct": -7.507253466649963
       },
       {
         "netuid": 7,
-        "change24hPct": -0.5801004605937374,
-        "change7dPct": -3.31862096391832
+        "change24hPct": -0.6610735414299342,
+        "change7dPct": -3.659509870789284
       },
       {
         "netuid": 55,
-        "change24hPct": -0.9986851469860915,
-        "change7dPct": -2.979457344791279
-      },
-      {
-        "netuid": 105,
-        "change24hPct": 13.93267209911139,
-        "change7dPct": 0.5111203718401635
+        "change24hPct": 0.6245442159083713,
+        "change7dPct": -2.798604210258786
       },
       {
         "netuid": 89,
-        "change24hPct": -0.4355763811594379,
-        "change7dPct": -3.443194925488857
+        "change24hPct": -0.43320902804586625,
+        "change7dPct": -3.4669059367397836
+      },
+      {
+        "netuid": 105,
+        "change24hPct": 12.196927324241397,
+        "change7dPct": 0.0669656174395344
       },
       {
         "netuid": 121,
-        "change24hPct": 2.369507215880052,
-        "change7dPct": -0.49199951375207585
+        "change24hPct": 2.3555613423504,
+        "change7dPct": -0.4188274289741417
       },
       {
         "netuid": 128,
-        "change24hPct": -0.052366232138864106,
-        "change7dPct": -0.2674340976157625
+        "change24hPct": -0.052759195174016046,
+        "change7dPct": -0.2647691307994438
       },
       {
         "netuid": 45,
-        "change24hPct": -0.8359166487077897,
-        "change7dPct": -3.5872668707676514
+        "change24hPct": -0.8406015131075898,
+        "change7dPct": -3.592526526206276
       },
       {
         "netuid": 65,
-        "change24hPct": 3.928423308852945,
-        "change7dPct": -2.04583928791492
+        "change24hPct": 3.894062631468599,
+        "change7dPct": -2.0776345545980117
       },
       {
         "netuid": 90,
-        "change24hPct": 1.7450199230111152,
-        "change7dPct": -12.339292372193203
-      },
-      {
-        "netuid": 42,
-        "change24hPct": 5.024362018518927,
-        "change7dPct": -13.826075035723086
+        "change24hPct": 1.6137892441246597,
+        "change7dPct": -9.514817629292994
       },
       {
         "netuid": 27,
-        "change24hPct": -0.9556532081965554,
-        "change7dPct": -5.455998799049593
+        "change24hPct": -0.9478670843856151,
+        "change7dPct": -5.454667026152602
       },
       {
         "netuid": 20,
-        "change24hPct": -0.014044253442597625,
-        "change7dPct": -10.849081153761418
+        "change24hPct": -0.003423286776633171,
+        "change7dPct": -10.839017991591193
+      },
+      {
+        "netuid": 42,
+        "change24hPct": 0.8385496991139738,
+        "change7dPct": -15.862463388120615
       },
       {
         "netuid": 72,
-        "change24hPct": 0.49015008113489617,
-        "change7dPct": -8.250673494158566
+        "change24hPct": -1.136257429034946,
+        "change7dPct": -9.295177009083105
       },
       {
         "netuid": 123,
-        "change24hPct": -0.26646398981008057,
-        "change7dPct": -4.236693422604956
+        "change24hPct": -0.08116223983721149,
+        "change7dPct": -4.154194192659488
       },
       {
         "netuid": 69,
-        "change24hPct": -0.15758630312382016,
-        "change7dPct": -12.218451142897658
+        "change24hPct": -0.16163469379851572,
+        "change7dPct": -12.211996678224123
       },
       {
         "netuid": 101,
-        "change24hPct": -0.16139030074446684,
-        "change7dPct": -4.626595075305189
+        "change24hPct": -0.16291141819463312,
+        "change7dPct": -4.618666655978324
       },
       {
         "netuid": 125,
-        "change24hPct": -0.443497431267964,
-        "change7dPct": -5.1160819566788485
-      },
-      {
-        "netuid": 106,
-        "change24hPct": 0.652601055654511,
-        "change7dPct": -14.255898004354123
+        "change24hPct": -0.42527326129246906,
+        "change7dPct": -5.428863548996732
       },
       {
         "netuid": 102,
-        "change24hPct": 4.19115478108543,
-        "change7dPct": 4.425088572457476
+        "change24hPct": 4.101783761651747,
+        "change7dPct": 5.92459403576451
       },
       {
         "netuid": 94,
-        "change24hPct": 3.09900861745461,
-        "change7dPct": 22.253978078345945
+        "change24hPct": 8.150888103860305,
+        "change7dPct": 27.667273171631678
+      },
+      {
+        "netuid": 106,
+        "change24hPct": -1.8647566206197865,
+        "change7dPct": -16.924954934808763
       },
       {
         "netuid": 98,
-        "change24hPct": -0.029721164844643627,
-        "change7dPct": -15.642248378630157
+        "change24hPct": -0.02123795226758507,
+        "change7dPct": -15.640710897530482
       },
       {
         "netuid": 117,
-        "change24hPct": 0.6947349244593202,
-        "change7dPct": 8.462338178020914
+        "change24hPct": 0.5616757397802449,
+        "change7dPct": 8.322322323862968
       },
       {
         "netuid": 127,
-        "change24hPct": -0.657633689023023,
-        "change7dPct": -5.174773514220261
+        "change24hPct": -0.6520394546874225,
+        "change7dPct": -4.252475145627071
       },
       {
         "netuid": 100,
-        "change24hPct": -0.3253872016162208,
-        "change7dPct": -3.708023121988647
-      },
-      {
-        "netuid": 91,
-        "change24hPct": -3.506166516967909,
-        "change7dPct": -25.55848572925256
+        "change24hPct": -1.6478817627057747,
+        "change7dPct": -2.6387297386701953
       },
       {
         "netuid": 87,
-        "change24hPct": 4.970743368539681,
-        "change7dPct": 9.253605683638007
+        "change24hPct": 9.375334958492585,
+        "change7dPct": 11.331637746612788
+      },
+      {
+        "netuid": 91,
+        "change24hPct": -4.236961063271598,
+        "change7dPct": -24.887011894524928
       },
       {
         "netuid": 31,
-        "change24hPct": -0.9092048077795941,
-        "change7dPct": -2.8323080126074354
+        "change24hPct": -0.028533938256158742,
+        "change7dPct": -1.952293298963383
       },
       {
         "netuid": 126,
-        "change24hPct": 0.011513828152941715,
-        "change7dPct": -5.609974390633115
+        "change24hPct": -0.002606501066965545,
+        "change7dPct": -5.9851461845494836
       },
       {
         "netuid": 115,
-        "change24hPct": -0.07594631469782855,
-        "change7dPct": -5.931100011155429
+        "change24hPct": -0.0771479936342547,
+        "change7dPct": -7.7094606488745345
       },
       {
         "netuid": 96,
-        "change24hPct": -0.9225424653627843,
-        "change7dPct": -14.459088892485576
+        "change24hPct": -0.9526103610653469,
+        "change7dPct": -14.70418852184575
       },
       {
         "netuid": 78,
-        "change24hPct": -1.7146542298494838,
-        "change7dPct": 23.189137961244644
+        "change24hPct": -0.9369387511867138,
+        "change7dPct": 23.103765385065948
       },
       {
         "netuid": 67,
-        "change24hPct": -0.5462043631014228,
-        "change7dPct": -6.760743227055717
+        "change24hPct": -0.5622492710437147,
+        "change7dPct": -6.588227084298424
       },
       {
         "netuid": 119,
-        "change24hPct": 0.008843646961613293,
-        "change7dPct": -11.698543756832331
+        "change24hPct": -0.8679544969564175,
+        "change7dPct": -15.571993329960842
       },
       {
         "netuid": 58,
-        "change24hPct": -0.44182300886790543,
-        "change7dPct": -7.650502938556122
+        "change24hPct": -0.5262571347857902,
+        "change7dPct": -7.6580142808154035
       },
       {
         "netuid": 84,
-        "change24hPct": 0.6195645933206826,
-        "change7dPct": 15.06045660481194
+        "change24hPct": -0.2178534669781726,
+        "change7dPct": 15.05733105227436
       },
       {
         "netuid": 26,
-        "change24hPct": -3.6662925551814443,
-        "change7dPct": -29.378807765392676
+        "change24hPct": -3.8150802358390066,
+        "change7dPct": -29.370505853484644
       },
       {
         "netuid": 109,
-        "change24hPct": -0.22154658957808956,
-        "change7dPct": 2.2959339013587727
+        "change24hPct": -0.23978883299999335,
+        "change7dPct": 2.306539126583249
       },
       {
         "netuid": 113,
-        "change24hPct": -5.2331169777052855,
-        "change7dPct": -7.8072866112594035
+        "change24hPct": 0.22934550738378146,
+        "change7dPct": -7.7999289015286175
       },
       {
         "netuid": 122,
-        "change24hPct": -0.6273329598300134,
-        "change7dPct": -1.1436329188596583
+        "change24hPct": -0.637802356102459,
+        "change7dPct": -1.1165212415122387
       },
       {
         "netuid": 47,
-        "change24hPct": -0.27749286314580274,
-        "change7dPct": -5.403516298697465
+        "change24hPct": -0.5582468849691173,
+        "change7dPct": -5.379090370629478
       },
       {
         "netuid": 57,
-        "change24hPct": -0.11109515140120414,
-        "change7dPct": -4.901926631751994
+        "change24hPct": -0.117207464998332,
+        "change7dPct": -4.898159627440842
       },
       {
         "netuid": 40,
-        "change24hPct": -0.4636080204901887,
-        "change7dPct": -7.754234525045687
+        "change24hPct": -0.5411258887745556,
+        "change7dPct": -7.725813619117441
       },
       {
         "netuid": 116,
-        "change24hPct": -0.4173112958480857,
-        "change7dPct": -1.2772732224264864
+        "change24hPct": -1.0149680437007558,
+        "change7dPct": -2.126747170058046
       },
       {
         "netuid": 92,
-        "change24hPct": 3.968534540822153,
-        "change7dPct": -12.903114936089334
+        "change24hPct": 1.5862618879410544,
+        "change7dPct": -13.206262841531927
       },
       {
         "netuid": 99,
-        "change24hPct": -1.1955799121846902,
-        "change7dPct": -5.2700044169156355
+        "change24hPct": -1.2723863595429925,
+        "change7dPct": -5.062550362978061
       },
       {
         "netuid": 35,
-        "change24hPct": -6.996957356764843,
-        "change7dPct": 8.774342734680433
+        "change24hPct": -7.5186145335976144,
+        "change7dPct": 13.475748585573728
       },
       {
         "netuid": 36,
-        "change24hPct": -10.37345873017136,
-        "change7dPct": -76.1451312026043
+        "change24hPct": -10.391425183598802,
+        "change7dPct": -76.0948436936242
       },
       {
         "netuid": 76,
-        "change24hPct": -2.873529661361581,
-        "change7dPct": -5.037928333051488
+        "change24hPct": -1.8676861432331677,
+        "change7dPct": -5.549892856974253
       },
       {
         "netuid": 16,
-        "change24hPct": 0.051911157254362,
-        "change7dPct": -24.78367294570323
+        "change24hPct": -3.8111679798363074,
+        "change7dPct": -25.787923485070767
       },
       {
         "netuid": 86,
@@ -652,13 +652,13 @@
       },
       {
         "netuid": 82,
-        "change24hPct": 130.28931176440796,
-        "change7dPct": 112.64428644985067
+        "change24hPct": 130.29073991960698,
+        "change7dPct": 112.68995919567413
       },
       {
         "netuid": 103,
-        "change24hPct": 0.9181571917738386,
-        "change7dPct": -30.543154099227845
+        "change24hPct": -0.5047313156657721,
+        "change7dPct": -32.31067309044685
       },
       {
         "netuid": 59,
@@ -667,13 +667,13 @@
       },
       {
         "netuid": 70,
-        "change24hPct": -3.7633233367978725,
-        "change7dPct": -34.28294501913473
+        "change24hPct": -6.390202856495021,
+        "change7dPct": -35.38931071610117
       },
       {
         "netuid": 108,
         "change24hPct": 0,
-        "change7dPct": 235.40936297320948
+        "change7dPct": 0.03143632949777086
       }
     ],
     "decisions": [
@@ -713,6 +713,14 @@
         "sources": [
           "https://subnetradar.com/subnet-news/108/2026-09-27",
           "https://github.com/TatsuProject/ChipForge_SN108"
+        ]
+      },
+      {
+        "netuid": 49,
+        "outcome": "excluded",
+        "reason": "Refreshed official Nepher feed still leads with Sept25 whitepaper; no newly verified catalyst for the 15 percent daily move. Price alone is insufficient for a new story.",
+        "sources": [
+          "https://x.com/nepher_robotics/status/2103474285767516507"
         ]
       }
     ]
@@ -9031,6 +9039,13 @@
       ],
       "publishedItemCount": 0,
       "disposition": "No sufficiently supported fresh material story selected; see separate market and editorial review."
+    }
+  ],
+  "hourlyUpdates": [
+    {
+      "at": "2026-09-27T21:04:00Z",
+      "source": "https://x.com/TatsuEcosystem/status/2104313970907894106",
+      "decision": "Updated SN108 with primary internal-test progress; launch explicitly pending. Rating remains three, no X post. TatsuOS alert features noted as weekly ecosystem context, not evidence that ChipForge launched."
     }
   ]
 }

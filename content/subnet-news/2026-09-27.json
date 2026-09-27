@@ -2,10 +2,10 @@
   "version": 1,
   "date": "2026-09-27",
   "title": "Subnet News — September 27, 2026",
-  "summary": "SN7 Allways announces subnet-wide cross-chain swaps. Former SN82 Compelle reports deregistration, SN120 Affine changes its crown threshold, and SN78 UMI outlines SignRush’s role in sign-language data. Plus SN38 ChronoLLM’s Monday keynote watch and miner-reward updates. Researched through 1:48 PM ET.",
+  "summary": "SN7 Allways announces subnet-wide cross-chain swaps. Former SN82 Compelle reports deregistration, SN120 Affine changes its crown threshold, and SN78 UMI outlines SignRush’s role in sign-language data. Plus SN38 ChronoLLM’s Monday keynote watch and miner-reward updates. Updated through 5:04 PM ET with SN108 ChipForge testing progress.",
   "publishedAt": "2026-09-27T17:48:51.328Z",
   "coverageStart": "2026-09-26T15:52:43.079Z",
-  "coverageEnd": "2026-09-27T17:48:00.000Z",
+  "coverageEnd": "2026-09-27T21:04:00Z",
   "highlights": [],
   "upcomingUnlocks": [],
   "subnets": [
@@ -206,13 +206,17 @@
       "name": "ChipForge",
       "updates": [
         {
-          "headline": "SN108 ChipForge outlines how its NPU designs will be evaluated",
-          "summary": "The September 27 channel brief says SN108 ChipForge plans to measure inference cycles with Verilator, timing with OpenLane and area with Yosys, with a full scoring formula due at NPU v1.0 launch. It says miners need design skills rather than special hardware. These details remain attributed channel reporting, not a confirmed v1.0 launch. The 1:44 PM ET feed showed +235.41% over seven days against TAO, but that window includes the recent subnet re-registration. It is not a clean like-for-like investment return or evidence of product readiness.",
+          "headline": "SN108 ChipForge reports successful evaluator tests; challenge still pending",
+          "summary": "The September 27 channel brief says SN108 ChipForge plans to measure inference cycles with Verilator, timing with OpenLane and area with Yosys, with a full scoring formula due at NPU v1.0 launch. It says miners need design skills rather than special hardware. These details remain attributed channel reporting, not a confirmed v1.0 launch. The 1:44 PM ET feed showed +235.41% over seven days against TAO, but that window includes the recent subnet re-registration. It is not a clean like-for-like investment return or evidence of product readiness. In its 4:55 PM ET primary-source weekly update, Tatsu says the evaluator, scoring setup and reference results ran as expected on its EDA server using test cases and a dummy NPU design. It also reports resource-sharing improvements, a 45-minute timeout and anti-gaming work. The team explicitly says the challenge will launch only after all internal challenge-server testing is finished; this is reported test progress, not a live challenge.",
           "rating": 3,
           "ratingReason": "Specific evaluation requirements help prospective miners; the large weekly move triggered an additional source review.",
           "importance": "medium",
           "status": "developing",
           "sources": [
+            {
+              "label": "SN108 Tatsu September 27 primary update",
+              "url": "https://x.com/TatsuEcosystem/status/2104313970907894106"
+            },
             {
               "label": "SN108 September 27 channel brief",
               "url": "https://subnetradar.com/subnet-news/108/2026-09-27"
@@ -1032,10 +1036,11 @@
       "Signed-in AlphaGap feed, SubnetRadar, TAO Daily and TAO Media reviewed as discovery sources.",
       "175 repository paths scanned; eleven selected commits checked at patch level.",
       "Full-roster market outliers, emission leaders, 75 linked Moments and the preceding seven days of reports checked before selection.",
-      "YouTube Videos, Live and four watch pages rechecked: no new upload or schedule change found."
+      "YouTube Videos, Live and four watch pages rechecked: no new upload or schedule change found.",
+      "Hourly checks through 5:04 PM ET: signed-in X organizer/team posts, AlphaGap, SubnetRadar Moments, TAO Daily, 243 public X profiles and 175 repository paths. SN108 primary update added."
     ],
     "gaps": [
-      "Research began with a 1:44 PM ET market snapshot and continued through 1:48 PM ET. This is a broad scan, not exhaustive coverage of X or private communities.",
+      "Initial research ran through 1:48 PM ET; hourly checks extended coverage to 5:04 PM ET. This is a broad scan, not exhaustive coverage of X or private communities.",
       "13 repository paths had access errors. Public X profile sampling is not a complete chronological search; no Grok scan is claimed.",
       "Channel briefs and AlphaGap are secondary sources. Stories based on briefs retain developing labels; claims about live rewards and deployments were not independently checked on every validator.",
       "SN82 has a reported deregistration and new registration. The new slot identity is unconfirmed; its historical return is not attributed to Compelle.",
