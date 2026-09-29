@@ -127,6 +127,11 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "VQAAbraL8Xk",
+    title: "Const Just Dropped GAMMA Tokens: Bittensor’s Next Big Thing?",
+    meta: "40:59 · September 29, 2026",
+  },
+  {
     id: "LR3wKS9n0B8",
     title: "Was I WRONG About Bittensor TAO? | Subnet Update",
     meta: "25:37 · September 24, 2026",
