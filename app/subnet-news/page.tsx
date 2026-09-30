@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Fragment } from "react";
+import { ConferenceCard } from "./conference-card";
 import { formatBriefDate, getSubnetNewsBriefs } from "../lib/subnet-news";
 import { NewsItem } from "./news-item";
 import { SubnetNewsHeader } from "./subnet-news-header";
@@ -49,16 +51,19 @@ export default function SubnetNewsPage() {
             )}
           </section>
 
+          {latest.date === "2026-09-30" && <ConferenceCard />}
+
           <section className="news-archive" aria-labelledby="subnet-news-archive">
             <div><p className="eyebrow">Daily archive</p><h2 id="subnet-news-archive">Previous reports</h2></div>
             {archive.length ? (
               <div className="news-archive-list">
                 {archive.map((brief) => (
-                  <Link href={`/subnet-news/${brief.date}`} key={brief.date}>
+                  <Fragment key={brief.date}><Link href={`/subnet-news/${brief.date}`}>
                     <time dateTime={brief.date}>{formatBriefDate(brief.date)}</time>
                     <strong>{brief.title}</strong>
                     <span>Read →</span>
                   </Link>
+                  {brief.date === "2026-09-30" && <ConferenceCard />}</Fragment>
                 ))}
               </div>
             ) : <p className="news-empty-copy">The archive will build here one report at a time.</p>}

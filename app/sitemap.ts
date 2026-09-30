@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/bubbles",
     "/wallet-tracker",
     "/subnet-news",
+    "/subnet-news/exploit-conference-catch-up",
     "/deep-dives",
     "/deep-dives/bittensor-v440",
     "/deep-dives/compute-wars",
