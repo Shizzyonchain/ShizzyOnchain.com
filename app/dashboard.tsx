@@ -127,6 +127,11 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "1J8va16QaMQ",
+    title: "Stablecoins on Bittensor… But NOT What You Think",
+    meta: "44:44 · September 30, 2026",
+  },
+  {
     id: "VQAAbraL8Xk",
     title: "Const Just Dropped GAMMA Tokens: Bittensor’s Next Big Thing?",
     meta: "40:59 · September 29, 2026",
@@ -152,6 +157,12 @@ const channelVideos: ChannelVideo[] = [
     meta: "20:56 · September 14, 2026",
   },
   latestMemberVideo,
+  {
+    id: "4JHTcfpT28M",
+    title: "9/25/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "9:06 · Members-only video · September 25, 2026",
+    membersOnly: true,
+  },
   {
     id: "b3yTGrM1RYM",
     title: "9/20/26 Bittensor News Updates & TAO Price Action | Members Video",
