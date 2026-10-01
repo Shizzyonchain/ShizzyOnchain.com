@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/wallet-tracker",
     "/subnet-news",
     "/subnet-news/exploit-conference-catch-up",
+    "/subnet-news/exploit-conference-catch-up-day-2",
     "/deep-dives",
     "/deep-dives/bittensor-v440",
     "/deep-dives/compute-wars",
