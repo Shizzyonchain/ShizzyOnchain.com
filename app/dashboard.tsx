@@ -127,6 +127,11 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "TmGJBuSoqrI",
+    title: "$400 TAO NEXT WEEK? Bittensor Is Ready to Explode!",
+    meta: "31:03 · September 30, 2026",
+  },
+  {
     id: "1J8va16QaMQ",
     title: "Stablecoins on Bittensor… But NOT What You Think",
     meta: "44:44 · September 30, 2026",
