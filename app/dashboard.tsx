@@ -126,6 +126,7 @@ type ChannelVideo = {
 };
 
 const channelVideos: ChannelVideo[] = [
+  ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
     id: "TmGJBuSoqrI",
     title: "$400 TAO NEXT WEEK? Bittensor Is Ready to Explode!",

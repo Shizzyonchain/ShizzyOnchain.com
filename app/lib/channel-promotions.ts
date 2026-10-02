@@ -11,13 +11,13 @@ export const latestMemberVideo = {
 // Update this alongside the channel's Live tab during each news/video refresh.
 // The removed Cascade and postponed VUNE URLs must not be restored.
 export const promotedLivestream = {
-  enabled: true,
+  enabled: false,
   listed: true,
   id: "NAbCyYwZ_5w",
   title: "Can Bittensor Train Real Robots? Inside Nepher Robotics SN49",
-  meta: "Upcoming · October 1, 2026 · 1 PM ET / 10 AM PT",
+  meta: "52:47 · Livestream replay · October 1, 2026",
   membersOnly: false,
-  upcoming: true,
+  upcoming: false,
   headline: "Can Bittensor Train Real Robots? Live with SN49 Nepher",
   schedule: "October 1 · 1 PM ET / 10 AM PT",
   startsAt: "2026-10-01T17:00:00Z",
