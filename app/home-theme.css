@@ -27,6 +27,7 @@ body:has(.home-monochrome) {
 .home-monochrome h1,
 .home-monochrome h2,
 .home-monochrome h3 {
+  color: #fff;
   text-shadow: none;
 }
 
@@ -461,6 +462,7 @@ body:has(.home-monochrome) {
 .home-monochrome .livestream-banner,
 .home-monochrome .membership-promo {
   background: #1c1c1c;
+  color: #fff;
   border-color: #454545;
   border-left-color: #fff;
 }
