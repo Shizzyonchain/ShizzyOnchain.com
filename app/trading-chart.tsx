@@ -24,9 +24,9 @@ const chartPalettes = {
     priceLine: "#20a7e8", ma: "#c28cff", ema: "#ffb84d", boll: "#4da3ff",
   },
   monochrome: {
-    background: "#111111", text: "#aaaaaa", grid: "rgba(255,255,255,.07)",
+    background: "#000000", text: "#aaaaaa", grid: "rgba(255,255,255,.07)",
     crosshair: "#b5b5b5", crosshairLabel: "#393939", border: "#333333",
-    priceLine: "#dddddd", ma: "#f5f5f5", ema: "#b5b5b5", boll: "#858585",
+    priceLine: "#ffffff", ma: "#ffffff", ema: "#b5b5b5", boll: "#858585",
   },
 };
 

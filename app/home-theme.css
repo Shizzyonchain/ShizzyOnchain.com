@@ -1,7 +1,7 @@
 /* The first monochrome page. Other routes retain their existing appearance. */
 html:has(.home-monochrome) {
   color-scheme: dark;
-  --bg: #08090b;
+  --bg: #000;
   --panel: #121417;
   --panel2: #1c2025;
   --line: #3b4149;
@@ -59,7 +59,7 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome nav a.active::after {
-  background: #ededed;
+  background: #fff;
   box-shadow: none;
 }
 
@@ -74,8 +74,8 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .currency-toggle button.active {
-  color: #111;
-  background: #ededed;
+  color: #000;
+  background: #fff;
   box-shadow: none;
 }
 
@@ -85,7 +85,7 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .mobile-menu-toggle span {
-  background: #ededed;
+  background: #fff;
 }
 
 .home-monochrome .status {
@@ -100,7 +100,7 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .market-ticker {
-  background: #111;
+  background: #000;
   border-color: var(--line);
   box-shadow: none;
 }
@@ -121,7 +121,7 @@ body:has(.home-monochrome) {
 .home-monochrome .tao-price-tile:hover,
 .home-monochrome .tao-price-tile.active {
   background: #252525;
-  box-shadow: inset 0 -2px 0 #ededed;
+  box-shadow: inset 0 -2px 0 #fff;
 }
 
 .home-monochrome .shop-card {
@@ -139,7 +139,7 @@ body:has(.home-monochrome) {
   padding: 5px;
   border: 1px solid #d7dce4;
   border-radius: 8px;
-  background: #edf0f4;
+  background: #fff;
 }
 
 .home-monochrome .shop-card-copy small,
@@ -175,7 +175,7 @@ body:has(.home-monochrome) {
   object-fit: contain;
   padding: 3px;
   border: 3px solid #fff;
-  background: #08090b;
+  background: #000;
   box-shadow: none;
 }
 
@@ -205,7 +205,7 @@ body:has(.home-monochrome) {
 .home-monochrome .university-home-cta > b {
   background: #fff;
   border-color: #fff;
-  color: #111;
+  color: #000;
 }
 
 .home-monochrome .screener-head > div > small {
@@ -213,7 +213,7 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .search {
-  background: #08090b;
+  background: #000;
   border-color: #555;
   color: #d1d6dd;
 }
@@ -224,13 +224,13 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .search:focus-within {
-  border-color: #ededed;
-  outline: 2px solid #ededed;
+  border-color: #fff;
+  outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
 .home-monochrome th {
-  background: #08090b;
+  background: #000;
   color: #d1d6dd;
 }
 
@@ -273,7 +273,7 @@ body:has(.home-monochrome) {
 .home-monochrome .token {
   background: #303030;
   border-color: #555;
-  color: #ededed;
+  color: #fff;
 }
 
 .home-monochrome .screener .emission-cell small,
@@ -301,7 +301,7 @@ body:has(.home-monochrome) {
 
 .home-monochrome .liquidation-help summary,
 .home-monochrome .liquidation-help a {
-  color: #ededed;
+  color: #fff;
 }
 
 .home-monochrome .liquidation-help a {
@@ -314,14 +314,14 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .market-modal {
-  background: #0e0e0e;
+  background: #000;
   border-color: #555;
 }
 
 .home-monochrome .market-modal-close {
   background: #242424;
   border-color: #666;
-  color: #ededed;
+  color: #fff;
 }
 
 .home-monochrome .market-modal-close:hover {
@@ -351,7 +351,7 @@ body:has(.home-monochrome) {
 .home-monochrome .subnet-view-tabs button.active {
   background: #303030;
   color: #fff;
-  box-shadow: inset 0 -2px 0 #ededed;
+  box-shadow: inset 0 -2px 0 #fff;
 }
 
 .home-monochrome .subnet-description > p:not(.eyebrow),
@@ -377,7 +377,7 @@ body:has(.home-monochrome) {
 .home-monochrome .project-links span {
   background: #242424;
   border-color: #555;
-  color: #ededed;
+  color: #fff;
 }
 
 .home-monochrome .project-links a:hover {
@@ -387,7 +387,7 @@ body:has(.home-monochrome) {
 
 .home-monochrome .trading-terminal,
 .home-monochrome .trading-terminal:fullscreen {
-  background: #111;
+  background: #000;
   border-color: var(--line);
 }
 
@@ -419,15 +419,15 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .chart-toolbar button.active {
-  background: #ededed;
-  color: #111;
+  background: #fff;
+  color: #000;
 }
 
 .home-monochrome .chart-ohlc b {
-  color: #ededed;
+  color: #fff;
 }
 
-.home-monochrome .chart-legend .ma-line { background: #f5f5f5; }
+.home-monochrome .chart-legend .ma-line { background: #fff; }
 .home-monochrome .chart-legend .ema-line { background: #b5b5b5; }
 .home-monochrome .chart-legend .boll-line { border-color: #858585; }
 .home-monochrome .chart-legend small { color: #ababab; }
@@ -447,11 +447,11 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .signal-grid article p {
-  color: #ededed;
+  color: #fff;
 }
 
 .home-monochrome .signal-grid article > i {
-  background: linear-gradient(90deg, #d4d4d4 var(--score), #393939 var(--score));
+  background: linear-gradient(90deg, #fff var(--score), #393939 var(--score));
 }
 
 .home-monochrome .signal-grid .risk-signal > i {
@@ -462,15 +462,15 @@ body:has(.home-monochrome) {
 .home-monochrome .membership-promo {
   background: #1c1c1c;
   border-color: #454545;
-  border-left-color: #d4d4d4;
+  border-left-color: #fff;
 }
 
 .home-monochrome .livestream-banner-label {
-  color: #ededed;
+  color: #fff;
 }
 
 .home-monochrome .membership-promo-label {
-  color: #ededed !important;
+  color: #fff !important;
 }
 
 .home-monochrome .livestream-banner time,
@@ -481,24 +481,24 @@ body:has(.home-monochrome) {
 }
 
 .home-monochrome .membership-preview {
-  background: #111;
+  background: #000;
   border-color: #666;
 }
 
 .home-monochrome .membership-preview:hover {
-  border-color: #ededed;
+  border-color: #fff;
 }
 
 .home-monochrome .membership-preview > span,
 .home-monochrome .membership-join,
 .home-monochrome .stream-reminder {
-  background: #ededed;
-  color: #111;
+  background: #fff;
+  color: #000;
 }
 
 .home-monochrome .membership-preview > b {
-  background: rgba(17, 17, 17, .86);
-  border-color: #ededed;
+  background: rgba(0, 0, 0, .9);
+  border-color: #fff;
   color: #fff;
 }
 
