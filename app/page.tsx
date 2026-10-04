@@ -2,6 +2,7 @@ import { getTaoHistory } from "./lib/tao-history";
 import type { Metadata } from "next";
 import { Dashboard } from "./dashboard";
 import { getInitialMarkets, getInitialTaoUsd } from "./lib/market-data";
+import "./home-theme.css";
 
 export const revalidate = 15;
 export const metadata: Metadata = {
@@ -40,7 +41,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
-      <Dashboard initialDollarHistory={initialDollarHistory} initialRows={rows} initialTaoUsd={taoUsd} />
+      <Dashboard appearance="monochrome" initialDollarHistory={initialDollarHistory} initialRows={rows} initialTaoUsd={taoUsd} />
     </>
   );
 }

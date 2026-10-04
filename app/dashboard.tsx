@@ -713,11 +713,13 @@ function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string,
 export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "videos" | "university" | "partners";
 
 export function Dashboard({
+  appearance = "blue",
   initialView = "screener",
   initialRows = [],
   initialTaoUsd = 0,
   initialDollarHistory = [],
 }: {
+  appearance?: "blue" | "monochrome";
   initialView?: DashboardView;
   initialRows?: ScreenerRow[];
   initialTaoUsd?: number;
@@ -1360,7 +1362,7 @@ export function Dashboard({
   };
 
   return (
-    <main className="shell">
+    <main className={`shell${appearance === "monochrome" ? " home-monochrome" : ""}`}>
       <section className="market-ticker" aria-label="Top subnet tokens by market capitalization">
         <div className="ticker-label">
           <span>Market leaders</span>
@@ -1550,7 +1552,7 @@ export function Dashboard({
                           )}
                           {showTaoChart || !hasActiveMetadata || subnetPanel === "chart" ? (
                             <>
-                              <TradingChart key={requestedChartKey} candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
+                              <TradingChart key={requestedChartKey} appearance={appearance} candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
                               {showTaoChart ? (
                                 <div className="chart-stats">
                                   <span>

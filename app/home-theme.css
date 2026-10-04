@@ -1,0 +1,541 @@
+/* The first monochrome page. Other routes retain their existing appearance. */
+html:has(.home-monochrome) {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --panel: #161616;
+  --panel2: #202020;
+  --line: #353535;
+  --text: #f5f5f5;
+  --muted: #ababab;
+  --mint: #ededed;
+  --blue: #757575;
+}
+
+body:has(.home-monochrome) {
+  background: #0a0a0a;
+}
+
+.home-monochrome .panel {
+  background: #161616;
+  box-shadow: none;
+}
+
+.home-monochrome .eyebrow {
+  color: #d4d4d4;
+}
+
+.home-monochrome h1,
+.home-monochrome h2,
+.home-monochrome h3 {
+  text-shadow: none;
+}
+
+.home-monochrome .table-wrap,
+.home-monochrome .chart-ohlc,
+.home-monochrome .market-modal {
+  scrollbar-color: #686868 #181818;
+  scrollbar-width: thin;
+}
+
+/* Preserve the recognizable artwork without downloading another logo. */
+.home-monochrome .brand img {
+  filter: grayscale(1) brightness(1.45);
+}
+
+.home-monochrome .topbar,
+.home-monochrome .topbar::before {
+  background: #0a0a0a;
+  border-color: var(--line);
+}
+
+.home-monochrome nav a {
+  color: #b8b8b8;
+  text-shadow: none;
+}
+
+.home-monochrome nav a:hover,
+.home-monochrome nav a.active {
+  color: #fff;
+}
+
+.home-monochrome nav a.active::after {
+  background: #ededed;
+  box-shadow: none;
+}
+
+.home-monochrome .currency-toggle {
+  background: #171717;
+  border-color: #454545;
+  box-shadow: none;
+}
+
+.home-monochrome .currency-toggle button {
+  color: #b8b8b8;
+}
+
+.home-monochrome .currency-toggle button.active {
+  color: #111;
+  background: #ededed;
+  box-shadow: none;
+}
+
+.home-monochrome .mobile-menu-toggle {
+  background: #191919;
+  border-color: #454545;
+}
+
+.home-monochrome .mobile-menu-toggle span {
+  background: #ededed;
+}
+
+.home-monochrome .status {
+  background: #171717;
+  border-color: #454545;
+  color: #c1c1c1;
+}
+
+.home-monochrome .status.live i {
+  background: #4ade80;
+  box-shadow: none;
+}
+
+.home-monochrome .market-ticker {
+  background: #111;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.home-monochrome .ticker-label,
+.home-monochrome .ticker-track button {
+  border-color: var(--line);
+}
+
+.home-monochrome .ticker-track button:hover {
+  background: #252525;
+}
+
+.home-monochrome .hero-strip {
+  background: #161616;
+}
+
+.home-monochrome .tao-price-tile:hover,
+.home-monochrome .tao-price-tile.active {
+  background: #252525;
+  box-shadow: inset 0 -2px 0 #ededed;
+}
+
+.home-monochrome .shop-card {
+  background: #1c1c1c;
+  border-color: #454545;
+}
+
+.home-monochrome .shop-card:hover {
+  background: #272727;
+  border-color: #ababab;
+}
+
+.home-monochrome .shop-card > img {
+  filter: grayscale(1) brightness(1.35);
+}
+
+.home-monochrome .shop-card-copy small,
+.home-monochrome .shop-card-arrow {
+  color: #d4d4d4;
+}
+
+.home-monochrome .network-pulse-label {
+  background: #202020;
+}
+
+.home-monochrome .network-pulse button:hover {
+  background: #252525;
+}
+
+/* Quiet surfaces let the artwork and white calls to action stand out. */
+.home-monochrome .insiders-home-cta,
+.home-monochrome .university-home-cta {
+  background: #181818;
+  border-color: #454545;
+  box-shadow: none;
+}
+
+.home-monochrome .insiders-home-cta:hover,
+.home-monochrome .university-home-cta:hover {
+  background: #222;
+  border-color: #a3a3a3;
+  box-shadow: none;
+}
+
+.home-monochrome .insiders-home-cta img {
+  filter: grayscale(1) brightness(1.25);
+  border: 3px solid #d4d4d4;
+  background: #080808;
+  box-shadow: none;
+}
+
+.home-monochrome .university-home-cta > img {
+  filter: grayscale(1) brightness(1.3);
+  border-color: #686868;
+}
+
+.home-monochrome .insiders-home-cta small,
+.home-monochrome .university-home-cta small {
+  color: #c4c4c4;
+}
+
+.home-monochrome .university-home-cta em {
+  color: #ababab;
+}
+
+.home-monochrome .insiders-home-cta > b,
+.home-monochrome .university-home-cta > b {
+  background: #ededed;
+  border-color: #ededed;
+  color: #111;
+}
+
+.home-monochrome .screener-head > div > small {
+  color: #b8b8b8;
+}
+
+.home-monochrome .search {
+  background: #101010;
+  border-color: #555;
+  color: #b8b8b8;
+}
+
+.home-monochrome .search input::placeholder {
+  color: #ababab;
+  opacity: 1;
+}
+
+.home-monochrome .search:focus-within {
+  border-color: #ededed;
+  outline: 2px solid #ededed;
+  outline-offset: 2px;
+}
+
+.home-monochrome th {
+  background: #101010;
+  color: #b8b8b8;
+}
+
+.home-monochrome .screener th:nth-child(2) {
+  background: #202020;
+  box-shadow: 1px 0 0 #353535;
+}
+
+.home-monochrome td {
+  border-color: #303030;
+}
+
+.home-monochrome td:first-child {
+  color: #ababab;
+}
+
+.home-monochrome tbody tr {
+  background: #161616;
+}
+
+.home-monochrome tbody tr:nth-child(even) {
+  background: #1c1c1c;
+}
+
+.home-monochrome tbody tr:hover,
+.home-monochrome tbody tr.selected {
+  background: #2a2a2a;
+}
+
+.home-monochrome .screener td:nth-child(2) {
+  background: #1c1c1c;
+  box-shadow: 1px 0 0 #353535;
+}
+
+.home-monochrome .screener tr:hover td:nth-child(2),
+.home-monochrome .screener tr.selected td:nth-child(2) {
+  background: #2a2a2a;
+}
+
+.home-monochrome .token {
+  background: #303030;
+  border-color: #555;
+  color: #ededed;
+}
+
+.home-monochrome .screener .emission-cell small,
+.home-monochrome .screener .apy-cell small,
+.home-monochrome .screener .locked-alpha-cell small,
+.home-monochrome .screener tr.selected .emission-cell small,
+.home-monochrome .screener tr.selected .apy-cell small,
+.home-monochrome .screener tr.selected .locked-alpha-cell small,
+.home-monochrome .liquidation-column small {
+  color: #ababab;
+}
+
+.home-monochrome .positive {
+  color: #4ade80 !important;
+}
+
+.home-monochrome .negative {
+  color: #fb7185 !important;
+}
+
+.home-monochrome .liquidation-help {
+  border-color: var(--line);
+  color: #b8b8b8;
+}
+
+.home-monochrome .liquidation-help summary,
+.home-monochrome .liquidation-help a {
+  color: #ededed;
+}
+
+.home-monochrome .liquidation-help a {
+  text-decoration: underline;
+}
+
+/* Market details and chart controls belong to the same homepage palette. */
+.home-monochrome .market-modal-backdrop {
+  background: rgba(0, 0, 0, .82);
+}
+
+.home-monochrome .market-modal {
+  background: #0e0e0e;
+  border-color: #555;
+}
+
+.home-monochrome .market-modal-close {
+  background: #242424;
+  border-color: #666;
+  color: #ededed;
+}
+
+.home-monochrome .market-modal-close:hover {
+  background: #393939;
+}
+
+.home-monochrome .chart-card::after {
+  display: none;
+}
+
+.home-monochrome .movers > button:hover {
+  background: #252525;
+}
+
+.home-monochrome .movers em {
+  color: #ababab;
+}
+
+.home-monochrome .subnet-view-tabs {
+  border-color: var(--line);
+}
+
+.home-monochrome .subnet-view-tabs button {
+  color: #b8b8b8;
+}
+
+.home-monochrome .subnet-view-tabs button.active {
+  background: #303030;
+  color: #fff;
+  box-shadow: inset 0 -2px 0 #ededed;
+}
+
+.home-monochrome .subnet-description > p:not(.eyebrow),
+.home-monochrome .subnet-description .metadata-empty,
+.home-monochrome .subnet-description .project-additional {
+  color: #b8b8b8;
+}
+
+.home-monochrome .overview-stats,
+.home-monochrome .overview-stats span,
+.home-monochrome .chart-stats,
+.home-monochrome .chart-stats span {
+  background: #191919;
+  border-color: var(--line);
+}
+
+.home-monochrome .overview-stats span,
+.home-monochrome .overview-stats dt {
+  color: #ababab;
+}
+
+.home-monochrome .project-links a,
+.home-monochrome .project-links span {
+  background: #242424;
+  border-color: #555;
+  color: #ededed;
+}
+
+.home-monochrome .project-links a:hover {
+  background: #333;
+  border-color: #ababab;
+}
+
+.home-monochrome .trading-terminal,
+.home-monochrome .trading-terminal:fullscreen {
+  background: #111;
+  border-color: var(--line);
+}
+
+.home-monochrome .chart-toolbar {
+  background: #1c1c1c;
+  border-color: var(--line);
+}
+
+.home-monochrome .chart-control-group,
+.home-monochrome .chart-mode,
+.home-monochrome .chart-legend {
+  border-color: var(--line);
+}
+
+.home-monochrome .chart-toolbar button,
+.home-monochrome .chart-mode,
+.home-monochrome .chart-ohlc,
+.home-monochrome .chart-legend {
+  color: #ababab;
+}
+
+.home-monochrome .chart-mode {
+  background: #242424;
+}
+
+.home-monochrome .chart-toolbar button:hover {
+  background: #303030;
+  color: #fff;
+}
+
+.home-monochrome .chart-toolbar button.active {
+  background: #ededed;
+  color: #111;
+}
+
+.home-monochrome .chart-ohlc b {
+  color: #ededed;
+}
+
+.home-monochrome .chart-legend .ma-line { background: #f5f5f5; }
+.home-monochrome .chart-legend .ema-line { background: #b5b5b5; }
+.home-monochrome .chart-legend .boll-line { border-color: #858585; }
+.home-monochrome .chart-legend small { color: #ababab; }
+
+.home-monochrome .signal-grid {
+  background: var(--line);
+}
+
+.home-monochrome .signal-grid article {
+  background: #191919;
+}
+
+.home-monochrome .signal-grid article > div span,
+.home-monochrome .signal-grid article small,
+.home-monochrome .signals-note {
+  color: #ababab;
+}
+
+.home-monochrome .signal-grid article p {
+  color: #ededed;
+}
+
+.home-monochrome .signal-grid article > i {
+  background: linear-gradient(90deg, #d4d4d4 var(--score), #393939 var(--score));
+}
+
+.home-monochrome .signal-grid .risk-signal > i {
+  background: linear-gradient(90deg, #fb7185 var(--score), #393939 var(--score));
+}
+
+.home-monochrome .livestream-banner,
+.home-monochrome .membership-promo {
+  background: #1c1c1c;
+  border-color: #454545;
+  border-left-color: #d4d4d4;
+}
+
+.home-monochrome .livestream-banner-label {
+  color: #ededed;
+}
+
+.home-monochrome .membership-promo-label {
+  color: #ededed !important;
+}
+
+.home-monochrome .livestream-banner time,
+.home-monochrome .membership-promo-copy > p:not(.membership-promo-label),
+.home-monochrome .membership-promo-copy > small,
+.home-monochrome .membership-promo-action > small {
+  color: #b8b8b8;
+}
+
+.home-monochrome .membership-preview {
+  background: #111;
+  border-color: #666;
+}
+
+.home-monochrome .membership-preview:hover {
+  border-color: #ededed;
+}
+
+.home-monochrome .membership-preview > span,
+.home-monochrome .membership-join,
+.home-monochrome .stream-reminder {
+  background: #ededed;
+  color: #111;
+}
+
+.home-monochrome .membership-preview > b {
+  background: rgba(17, 17, 17, .86);
+  border-color: #ededed;
+  color: #fff;
+}
+
+.home-monochrome .membership-join:hover,
+.home-monochrome .stream-reminder:hover {
+  background: #d4d4d4;
+}
+
+.home-monochrome .livestream-banner-close {
+  color: #b8b8b8;
+}
+
+.home-monochrome .livestream-banner-close:hover {
+  background: #333;
+  color: #fff;
+}
+
+.home-monochrome footer {
+  color: #ababab;
+}
+
+@media (max-width: 1550px) {
+  .home-monochrome .topbar {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .home-monochrome .site-header nav {
+    background: #141414;
+    border-color: #454545;
+  }
+
+  .home-monochrome .site-header nav a {
+    background: #202020;
+    border-color: #454545;
+    color: #c4c4c4;
+  }
+
+  .home-monochrome .site-header nav a:hover,
+  .home-monochrome .site-header nav a.active {
+    background: #303030;
+    border-color: #ababab;
+    color: #fff;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-monochrome .site-header .brand img {
+    width: clamp(115px, 40vw, 170px);
+  }
+
+  .home-monochrome .currency-toggle button {
+    min-height: 40px;
+  }
+}

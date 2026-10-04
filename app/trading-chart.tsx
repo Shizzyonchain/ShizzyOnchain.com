@@ -17,6 +17,18 @@ type Candle = { time: string; open: string; high: string; low: string; close: st
 type DisplayCandle = { time: UTCTimestamp; open: number; high: number; low: number; close: number };
 type Ohlc = { open: number; high: number; low: number; close: number; time: number };
 const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
+const chartPalettes = {
+  blue: {
+    background: "#071328", text: "#7892b8", grid: "rgba(35,76,124,.32)",
+    crosshair: "#388bd1", crosshairLabel: "#126ea8", border: "#173b68",
+    priceLine: "#20a7e8", ma: "#c28cff", ema: "#ffb84d", boll: "#4da3ff",
+  },
+  monochrome: {
+    background: "#111111", text: "#aaaaaa", grid: "rgba(255,255,255,.07)",
+    crosshair: "#b5b5b5", crosshairLabel: "#393939", border: "#333333",
+    priceLine: "#dddddd", ma: "#f5f5f5", ema: "#b5b5b5", boll: "#858585",
+  },
+};
 
 const average = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
 
@@ -51,6 +63,7 @@ const formatValue = (value: number, usd: boolean) => usd
   : `τ${value.toLocaleString("en-US", { maximumFractionDigits: value < 1 ? 6 : 4 })}`;
 
 export default function TradingChart({
+  appearance = "blue",
   candles,
   currency,
   taoUsd,
@@ -60,6 +73,7 @@ export default function TradingChart({
   error = false,
   onTimeframeChange,
 }: {
+  appearance?: "blue" | "monochrome";
   candles: Candle[];
   currency: "usd" | "tao";
   taoUsd: number;
@@ -127,31 +141,32 @@ export default function TradingChart({
     const host = hostRef.current;
     if (!host) return;
     host.replaceChildren();
+    const palette = chartPalettes[appearance];
     const chart = createChart(host, {
       autoSize: true,
       height: 390,
       layout: {
-        background: { type: ColorType.Solid, color: "#071328" },
-        textColor: "#7892b8",
+        background: { type: ColorType.Solid, color: palette.background },
+        textColor: palette.text,
         fontFamily: "var(--font-mono)",
         fontSize: 11,
         attributionLogo: false,
       },
       grid: {
-        vertLines: { color: "rgba(35,76,124,.32)" },
-        horzLines: { color: "rgba(35,76,124,.32)" },
+        vertLines: { color: palette.grid },
+        horzLines: { color: palette.grid },
       },
       crosshair: {
         mode: CrosshairMode.Normal,
-        vertLine: { color: "#388bd1", labelBackgroundColor: "#126ea8" },
-        horzLine: { color: "#388bd1", labelBackgroundColor: "#126ea8" },
+        vertLine: { color: palette.crosshair, labelBackgroundColor: palette.crosshairLabel },
+        horzLine: { color: palette.crosshair, labelBackgroundColor: palette.crosshairLabel },
       },
       rightPriceScale: {
-        borderColor: "#173b68",
+        borderColor: palette.border,
         scaleMargins: { top: .12, bottom: .12 },
       },
       timeScale: {
-        borderColor: "#173b68",
+        borderColor: palette.border,
         timeVisible: timeframeRef.current !== "1d",
         secondsVisible: false,
         rightOffset: 4,
@@ -171,7 +186,7 @@ export default function TradingChart({
       wickUpColor: "#20d17a",
       wickDownColor: "#ff4d5e",
       priceFormat,
-      priceLineColor: "#20a7e8",
+      priceLineColor: palette.priceLine,
       autoscaleInfoProvider: ((baseImplementation) => {
         const info = baseImplementation();
         if (!info?.priceRange) return info;
@@ -196,11 +211,11 @@ export default function TradingChart({
     });
     candleSeriesRef.current = candleSeries;
 
-    if (ma) maSeriesRef.current = chart.addSeries(LineSeries, { color: "#c28cff", lineWidth: 2, priceLineVisible: false, lastValueVisible: false, priceFormat });
-    if (ema) emaSeriesRef.current = chart.addSeries(LineSeries, { color: "#ffb84d", lineWidth: 2, priceLineVisible: false, lastValueVisible: false, priceFormat });
+    if (ma) maSeriesRef.current = chart.addSeries(LineSeries, { color: palette.ma, lineWidth: 2, priceLineVisible: false, lastValueVisible: false, priceFormat });
+    if (ema) emaSeriesRef.current = chart.addSeries(LineSeries, { color: palette.ema, lineWidth: 2, priceLineVisible: false, lastValueVisible: false, priceFormat });
     if (boll) {
-      bollUpperRef.current = chart.addSeries(LineSeries, { color: "#4da3ff", lineWidth: 1, lineStyle: LineStyle.Dashed, priceLineVisible: false, lastValueVisible: false, priceFormat });
-      bollLowerRef.current = chart.addSeries(LineSeries, { color: "#4da3ff", lineWidth: 1, lineStyle: LineStyle.Dashed, priceLineVisible: false, lastValueVisible: false, priceFormat });
+      bollUpperRef.current = chart.addSeries(LineSeries, { color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dashed, priceLineVisible: false, lastValueVisible: false, priceFormat });
+      bollLowerRef.current = chart.addSeries(LineSeries, { color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dashed, priceLineVisible: false, lastValueVisible: false, priceFormat });
     }
 
     chart.subscribeCrosshairMove(param => {
@@ -218,7 +233,7 @@ export default function TradingChart({
       bollUpperRef.current = null;
       bollLowerRef.current = null;
     };
-  }, [ma, ema, boll, usd]);
+  }, [ma, ema, boll, usd, appearance]);
 
   useEffect(() => {
     chartRef.current?.applyOptions({
