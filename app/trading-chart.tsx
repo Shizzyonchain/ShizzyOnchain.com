@@ -1,369 +1,180 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  CandlestickSeries,
-  ColorType,
-  CrosshairMode,
-  type AutoscaleInfoProvider,
-  ISeriesApi,
-  LineSeries,
-  LineStyle,
-  UTCTimestamp,
-  createChart,
-} from "lightweight-charts";
+import { CandlestickSeries, ColorType, CrosshairMode, HistogramSeries, LineSeries, LineStyle,
+  createChart, type IChartApi, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
+import { chartPrecision, indicatorPoints, type PriceBar } from "./lib/chart-data";
 
-type Candle = { time: string; open: string; high: string; low: string; close: string; volume_tao?: string };
-type DisplayCandle = { time: UTCTimestamp; open: number; high: number; low: number; close: number };
-type Ohlc = { open: number; high: number; low: number; close: number; time: number };
-const candleIntervalMs: Record<string, number> = { "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 };
-const chartPalettes = {
-  blue: {
-    background: "#071328", text: "#7892b8", grid: "rgba(35,76,124,.32)",
-    crosshair: "#388bd1", crosshairLabel: "#126ea8", border: "#173b68",
-    priceLine: "#20a7e8", ma: "#c28cff", ema: "#ffb84d", boll: "#4da3ff",
-  },
-  monochrome: {
-    background: "#000000", text: "#aaaaaa", grid: "rgba(255,255,255,.07)",
-    crosshair: "#b5b5b5", crosshairLabel: "#393939", border: "#333333",
-    priceLine: "#ffffff", ma: "#ffffff", ema: "#b5b5b5", boll: "#858585",
-  },
+const palettes = {
+  blue: { background: "#071328", text: "#adbfda", grid: "rgba(120,146,184,.1)", border: "#173b68", ma: "#c28cff", ema: "#ffb84d", boll: "#4da3ff" },
+  monochrome: { background: "#000000", text: "#c6c6c6", grid: "rgba(255,255,255,.07)", border: "#333333", ma: "#ffffff", ema: "#b5b5b5", boll: "#858585" },
+};
+const green = "#23d18b", red = "#ff5263";
+type ChartSeries = {
+  candles: ISeriesApi<"Candlestick">; line: ISeriesApi<"Line">; volume: ISeriesApi<"Histogram">;
+  ma: ISeriesApi<"Line">; ema: ISeriesApi<"Line">; upper: ISeriesApi<"Line">; lower: ISeriesApi<"Line">;
 };
 
-const average = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
-
-function movingAverage(data: DisplayCandle[], period: number) {
-  return data.slice(period - 1).map((candle, index) => ({
-    time: candle.time,
-    value: average(data.slice(index, index + period).map(item => item.close)),
-  }));
-}
-
-function exponentialAverage(data: DisplayCandle[], period: number) {
-  if (!data.length) return [];
-  const multiplier = 2 / (period + 1);
-  let value = data[0].close;
-  return data.map(candle => {
-    value = candle.close * multiplier + value * (1 - multiplier);
-    return { time: candle.time, value };
-  });
-}
-
-function bollingerBands(data: DisplayCandle[], period: number) {
-  return data.slice(period - 1).map((candle, index) => {
-    const values = data.slice(index, index + period).map(item => item.close);
-    const mid = average(values);
-    const deviation = Math.sqrt(average(values.map(value => (value - mid) ** 2)));
-    return { time: candle.time, upper: mid + deviation * 2, lower: mid - deviation * 2 };
-  });
-}
-
-const formatValue = (value: number, usd: boolean) => usd
-  ? value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: value < 1 ? 4 : 2 })
-  : `τ${value.toLocaleString("en-US", { maximumFractionDigits: value < 1 ? 6 : 4 })}`;
-
-export default function TradingChart({
-  appearance = "blue",
-  candles,
-  currency,
-  taoUsd,
-  timeframe,
-  valueCurrency = "tao",
-  loading = false,
-  error = false,
-  onTimeframeChange,
-}: {
-  appearance?: "blue" | "monochrome";
-  candles: Candle[];
-  currency: "usd" | "tao";
-  taoUsd: number;
-  timeframe: string;
-  valueCurrency?: "tao" | "usd";
-  loading?: boolean;
-  error?: boolean;
-  onTimeframeChange: (timeframe: string) => void;
+export default function TradingChart({ appearance = "monochrome", bars, currency, timeframe, loading = false,
+  error = false, note, onTimeframeChange, onRetry }: {
+  appearance?: "blue" | "monochrome"; bars: PriceBar[]; currency: "usd" | "tao"; timeframe: string;
+  loading?: boolean; error?: boolean; note: string; onTimeframeChange: (timeframe: string) => void; onRetry: () => void;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-  const [ma, setMa] = useState(true);
+  const chartRef = useRef<IChartApi | null>(null);
+  const seriesRef = useRef<ChartSeries | null>(null);
+  const fittedRef = useRef("");
+  const [mode, setMode] = useState<"candles" | "line">("candles");
+  const [ma, setMa] = useState(false);
   const [ema, setEma] = useState(false);
   const [boll, setBoll] = useState(false);
-  const [selected, setSelected] = useState<Ohlc | null>(null);
-  const chartRef = useRef<ReturnType<typeof createChart> | null>(null);
-  const candleSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
-  const maSeriesRef = useRef<ISeriesApi<"Line"> | null>(null);
-  const emaSeriesRef = useRef<ISeriesApi<"Line"> | null>(null);
-  const bollUpperRef = useRef<ISeriesApi<"Line"> | null>(null);
-  const bollLowerRef = useRef<ISeriesApi<"Line"> | null>(null);
-  const fittedRef = useRef(false);
-  const timeframeRef = useRef(timeframe);
+  const [volume, setVolume] = useState(true);
+  const [hoverTime, setHoverTime] = useState<number | null>(null);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [fullscreenError, setFullscreenError] = useState(false);
+  const indicators = useMemo(() => indicatorPoints(bars), [bars]);
+  const data = useMemo(() => bars.map(bar => ({ ...bar, time: bar.time as UTCTimestamp })), [bars]);
+  const last = bars.at(-1);
+  const current = bars.find(bar => bar.time === hoverTime) || last;
+  const precision = chartPrecision(last?.close || 0);
+  const formatPrice = (value: number) => `${currency === "usd" ? "$" : "τ"}${value.toLocaleString("en-US", { maximumFractionDigits: precision })}`;
 
-  useEffect(() => {
-    timeframeRef.current = timeframe;
-  }, [timeframe]);
-
-  const usd = valueCurrency === "usd" || currency === "usd";
-  const data = useMemo(() => {
-    const multiplier = valueCurrency === "tao" && currency === "usd" ? taoUsd : 1;
-    const unique = new Map<number, DisplayCandle>();
-    candles.forEach(candle => {
-      const seconds = Math.floor(new Date(candle.time).getTime() / 1000);
-      const values = [candle.open, candle.high, candle.low, candle.close].map(Number);
-      if (!Number.isFinite(seconds) || values.some(value => !Number.isFinite(value) || value <= 0)) return;
-      unique.set(seconds, {
-        time: seconds as UTCTimestamp,
-        open: values[0] * multiplier,
-        high: values[1] * multiplier,
-        low: values[2] * multiplier,
-        close: values[3] * multiplier,
-      });
-    });
-    const sorted = [...unique.values()].sort((a, b) => Number(a.time) - Number(b.time));
-    if (sorted.length < 2) return sorted;
-
-    // Preserve real OHLC candles while carrying the previous close through
-    // missing no-trade buckets. This keeps the time scale stable while archive
-    // history is backfilled instead of rendering large blank jumps on load.
-    const intervalSeconds = Math.max(60, Math.round((candleIntervalMs[timeframe] || 60_000) / 1000));
-    const filled: DisplayCandle[] = [sorted[0]];
-    for (let index = 1; index < sorted.length; index++) {
-      const current = sorted[index];
-      const previous = filled.at(-1)!;
-      for (let time = Number(previous.time) + intervalSeconds; time < Number(current.time) && filled.length < 500; time += intervalSeconds) {
-        filled.push({ time: time as UTCTimestamp, open: previous.close, high: previous.close, low: previous.close, close: previous.close });
-      }
-      filled.push(current);
-    }
-    return filled.slice(-500);
-  }, [candles, currency, taoUsd, valueCurrency, timeframe]);
-
+  // Create every series once. Indicators only change visibility: never remove
+  // the chart, lose the viewport, or leave a fresh canvas without its dataset.
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
-    host.replaceChildren();
-    const palette = chartPalettes[appearance];
+    const palette = palettes[appearance];
     const chart = createChart(host, {
       autoSize: true,
-      height: 390,
-      layout: {
-        background: { type: ColorType.Solid, color: palette.background },
-        textColor: palette.text,
-        fontFamily: "var(--font-mono)",
-        fontSize: 11,
-        attributionLogo: false,
-      },
-      grid: {
-        vertLines: { color: palette.grid },
-        horzLines: { color: palette.grid },
-      },
-      crosshair: {
-        mode: CrosshairMode.Normal,
-        vertLine: { color: palette.crosshair, labelBackgroundColor: palette.crosshairLabel },
-        horzLine: { color: palette.crosshair, labelBackgroundColor: palette.crosshairLabel },
-      },
-      rightPriceScale: {
-        borderColor: palette.border,
-        scaleMargins: { top: .12, bottom: .12 },
-      },
-      timeScale: {
-        borderColor: palette.border,
-        timeVisible: timeframeRef.current !== "1d",
-        secondsVisible: false,
-        rightOffset: 4,
-        barSpacing: timeframeRef.current === "1h" ? 18 : timeframeRef.current === "1d" ? 12 : 8,
-        minBarSpacing: 4,
-      },
-      handleScroll: true,
-      handleScale: true,
+      layout: { background: { type: ColorType.Solid, color: palette.background }, textColor: palette.text,
+        fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace", fontSize: 11, attributionLogo: true },
+      grid: { vertLines: { color: palette.grid }, horzLines: { color: palette.grid } },
+      crosshair: { mode: CrosshairMode.Magnet, vertLine: { color: "#808080", labelBackgroundColor: "#333333" },
+        horzLine: { color: "#808080", labelBackgroundColor: "#333333" } },
+      rightPriceScale: { borderColor: palette.border, scaleMargins: { top: .08, bottom: .23 } },
+      timeScale: { borderColor: palette.border, timeVisible: true, rightOffset: 5, barSpacing: 8, minBarSpacing: 2, lockVisibleTimeRangeOnResize: true },
+      handleScale: { axisPressedMouseMove: true, mouseWheel: true, pinch: true },
+      handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
     });
+    const lineOptions = { priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false };
+    const candles = chart.addSeries(CandlestickSeries, { upColor: green, downColor: red, borderVisible: false,
+      wickUpColor: green, wickDownColor: red, priceLineColor: "#999999" });
+    const line = chart.addSeries(LineSeries, { color: "#ffffff", lineWidth: 2, visible: false, priceLineColor: "#999999" });
+    const histogram = chart.addSeries(HistogramSeries, { priceScaleId: "volume", priceFormat: { type: "volume" },
+      priceLineVisible: false, lastValueVisible: false });
+    histogram.priceScale().applyOptions({ scaleMargins: { top: .84, bottom: 0 }, visible: false });
+    seriesRef.current = { candles, line, volume: histogram,
+      ma: chart.addSeries(LineSeries, { ...lineOptions, color: palette.ma, lineWidth: 2, visible: false }),
+      ema: chart.addSeries(LineSeries, { ...lineOptions, color: palette.ema, lineWidth: 2, lineStyle: LineStyle.Dashed, visible: false }),
+      upper: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dotted, visible: false }),
+      lower: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dotted, visible: false }),
+    };
     chartRef.current = chart;
-    const precision = usd ? 4 : 6;
+    fittedRef.current = "";
+    chart.subscribeCrosshairMove(param => setHoverTime(typeof param.time === "number" ? param.time : null));
+    return () => { chart.remove(); chartRef.current = null; seriesRef.current = null; };
+  }, [appearance]);
+
+  useEffect(() => {
+    const chart = chartRef.current, series = seriesRef.current;
+    if (!chart || !series) return;
     const priceFormat = { type: "price" as const, precision, minMove: 10 ** -precision };
-    const candleSeries = chart.addSeries(CandlestickSeries, {
-      upColor: "#20d17a",
-      downColor: "#ff4d5e",
-      borderVisible: false,
-      wickUpColor: "#20d17a",
-      wickDownColor: "#ff4d5e",
-      priceFormat,
-      priceLineColor: palette.priceLine,
-      autoscaleInfoProvider: ((baseImplementation) => {
-        const info = baseImplementation();
-        if (!info?.priceRange) return info;
-
-        const { minValue, maxValue } = info.priceRange;
-        const midpoint = (minValue + maxValue) / 2;
-        const currentRange = maxValue - minValue;
-        const activeTimeframe = timeframeRef.current;
-        const minimumVisibleMove = activeTimeframe === "1m" ? 0.005 : activeTimeframe === "10m" ? 0.01 : activeTimeframe === "1h" ? 0.02 : 0.05;
-        const minimumRange = Math.max(Math.abs(midpoint) * minimumVisibleMove, 10 ** -precision * 20);
-        if (currentRange >= minimumRange) return info;
-
-        const padding = (minimumRange - currentRange) / 2;
-        return {
-          ...info,
-          priceRange: {
-            minValue: minValue - padding,
-            maxValue: maxValue + padding,
-          },
-        };
-      }) satisfies AutoscaleInfoProvider,
-    });
-    candleSeriesRef.current = candleSeries;
-
-    if (ma) maSeriesRef.current = chart.addSeries(LineSeries, { color: palette.ma, lineWidth: 2, priceLineVisible: false, lastValueVisible: false, priceFormat });
-    if (ema) emaSeriesRef.current = chart.addSeries(LineSeries, { color: palette.ema, lineWidth: 2, priceLineVisible: false, lastValueVisible: false, priceFormat });
-    if (boll) {
-      bollUpperRef.current = chart.addSeries(LineSeries, { color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dashed, priceLineVisible: false, lastValueVisible: false, priceFormat });
-      bollLowerRef.current = chart.addSeries(LineSeries, { color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dashed, priceLineVisible: false, lastValueVisible: false, priceFormat });
+    for (const item of [series.candles, series.line, series.ma, series.ema, series.upper, series.lower]) item.applyOptions({ priceFormat });
+    series.candles.setData(data);
+    series.line.setData(data.map(bar => ({ time: bar.time, value: bar.close })));
+    series.volume.setData(data.map(bar => ({ time: bar.time, value: bar.volume, color: bar.close >= bar.open ? "rgba(35,209,139,.25)" : "rgba(255,82,99,.25)" })));
+    const ready = indicators.filter(point => point.ready);
+    series.ma.setData(ready.map(point => ({ time: point.time as UTCTimestamp, value: point.ma })));
+    series.ema.setData(indicators.map(point => ({ time: point.time as UTCTimestamp, value: point.ema })));
+    series.upper.setData(ready.map(point => ({ time: point.time as UTCTimestamp, value: point.upper })));
+    series.lower.setData(ready.map(point => ({ time: point.time as UTCTimestamp, value: point.lower })));
+    chart.applyOptions({ timeScale: { timeVisible: timeframe !== "1d" } });
+    // Fit once per dataset/currency, not on live refresh or indicator toggles.
+    const viewKey = `${timeframe}:${currency}`;
+    if (data.length && fittedRef.current !== viewKey) {
+      chart.priceScale("right").setAutoScale(true);
+      chart.timeScale().setVisibleLogicalRange({ from: Math.max(-1, data.length - 100), to: data.length + 5 });
+      fittedRef.current = viewKey;
     }
-
-    chart.subscribeCrosshairMove(param => {
-      const point = param.seriesData.get(candleSeries) as DisplayCandle | undefined;
-      if (point) setSelected({ ...point, time: Number(point.time) });
-    });
-    fittedRef.current = false;
-
-    return () => {
-      chart.remove();
-      chartRef.current = null;
-      candleSeriesRef.current = null;
-      maSeriesRef.current = null;
-      emaSeriesRef.current = null;
-      bollUpperRef.current = null;
-      bollLowerRef.current = null;
-    };
-  }, [ma, ema, boll, usd, appearance]);
+  }, [data, indicators, timeframe, currency, precision, appearance]);
 
   useEffect(() => {
-    chartRef.current?.applyOptions({
-      timeScale: {
-        timeVisible: timeframe !== "1d",
-        secondsVisible: false,
-        rightOffset: 4,
-        barSpacing: timeframe === "1h" ? 18 : timeframe === "1d" ? 12 : 8,
-        minBarSpacing: 4,
-      },
-    });
-    fittedRef.current = false;
-  }, [timeframe]);
+    const series = seriesRef.current;
+    if (!series) return;
+    series.candles.applyOptions({ visible: mode === "candles" }); series.line.applyOptions({ visible: mode === "line" });
+    series.ma.applyOptions({ visible: ma }); series.ema.applyOptions({ visible: ema });
+    series.upper.applyOptions({ visible: boll }); series.lower.applyOptions({ visible: boll });
+    series.volume.applyOptions({ visible: volume });
+    chartRef.current?.priceScale("right").applyOptions({ scaleMargins: { top: .08, bottom: volume ? .23 : .08 } });
+  }, [mode, ma, ema, boll, volume, appearance]);
 
   useEffect(() => {
-    if (!candleSeriesRef.current) return;
-    if (!data.length) {
-      candleSeriesRef.current.setData([]);
-      maSeriesRef.current?.setData([]);
-      emaSeriesRef.current?.setData([]);
-      bollUpperRef.current?.setData([]);
-      bollLowerRef.current?.setData([]);
-      return;
-    }
-    candleSeriesRef.current.setData(data);
-    maSeriesRef.current?.setData(data.length >= 20 ? movingAverage(data, 20) : []);
-    emaSeriesRef.current?.setData(exponentialAverage(data, 20));
-    if (bollUpperRef.current && bollLowerRef.current) {
-      const bands = data.length >= 20 ? bollingerBands(data, 20) : [];
-      bollUpperRef.current.setData(bands.map(point => ({ time: point.time, value: point.upper })));
-      bollLowerRef.current.setData(bands.map(point => ({ time: point.time, value: point.lower })));
-    }
-    if (!fittedRef.current) {
-      const timeScale = chartRef.current?.timeScale();
-      if (timeframe === "1m" && data.length > 1) {
-        const visibleCandles = Math.min(data.length, 90);
-        timeScale?.setVisibleLogicalRange({
-          from: data.length - visibleCandles - 0.5,
-          to: data.length + 2,
-        });
-      } else {
-        timeScale?.fitContent();
-      }
-      fittedRef.current = true;
-    }
-  }, [data, timeframe]);
-
-  useEffect(() => {
-    const host = hostRef.current;
-    const chart = chartRef.current;
-    if (!host || !chart) return;
-    const zoomPriceAxis = (event: WheelEvent) => {
-      const bounds = host.getBoundingClientRect();
-      if (event.clientX < bounds.right - 88) return;
-      const priceScale = chart.priceScale("right");
-      const range = priceScale.getVisibleRange();
-      if (!range || range.to <= range.from) return;
-      event.preventDefault();
-      event.stopPropagation();
-      const pointerRatio = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
-      const pointerPrice = range.to - (range.to - range.from) * pointerRatio;
-      const factor = event.deltaY < 0 ? 0.82 : 1.22;
-      priceScale.setAutoScale(false);
-      priceScale.setVisibleRange({
-        from: pointerPrice - (pointerPrice - range.from) * factor,
-        to: pointerPrice + (range.to - pointerPrice) * factor,
-      });
-    };
-    host.addEventListener("wheel", zoomPriceAxis, { passive: false, capture: true });
-    return () => host.removeEventListener("wheel", zoomPriceAxis, { capture: true });
-  }, [data]);
-
-  const selectedInCurrentData = selected && data.some(candle => Number(candle.time) === selected.time);
-  const current = data.length
-    ? (selectedInCurrentData ? selected : { ...data.at(-1)!, time: Number(data.at(-1)!.time) })
-    : null;
-  const change = current?.open ? (current.close / current.open - 1) * 100 : 0;
-
+    const update = () => setFullscreen(document.fullscreenElement === terminalRef.current);
+    document.addEventListener("fullscreenchange", update);
+    return () => document.removeEventListener("fullscreenchange", update);
+  }, []);
   const toggleFullscreen = async () => {
-    if (!terminalRef.current) return;
-    if (document.fullscreenElement) await document.exitFullscreen();
-    else await terminalRef.current.requestFullscreen();
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else if (terminalRef.current?.requestFullscreen) await terminalRef.current.requestFullscreen();
+      else throw new Error("Fullscreen unavailable");
+      setFullscreenError(false);
+    } catch { setFullscreenError(true); }
   };
-  const fitChart = () => {
-    const timeScale = chartRef.current?.timeScale();
-    chartRef.current?.priceScale("right").setAutoScale(true);
-    if (timeframe === "1m" && data.length > 1) {
-      const visibleCandles = Math.min(data.length, 90);
-      timeScale?.setVisibleLogicalRange({
-        from: data.length - visibleCandles - 0.5,
-        to: data.length + 2,
-      });
-      return;
-    }
-    timeScale?.fitContent();
-  };
+  const change = current ? 100 * (current.close / current.open - 1) : 0;
+  const reset = () => { chartRef.current?.priceScale("right").setAutoScale(true); chartRef.current?.timeScale().fitContent(); };
 
-  return <div ref={terminalRef} className="trading-terminal">
-    <div className="chart-toolbar" aria-label="Chart controls">
-      <div className="chart-control-group">
-        <span className="chart-mode">Candles</span>
-        <button className={ma ? "active" : ""} aria-pressed={ma} onClick={() => setMa(value => !value)}>MA</button>
-        <button className={ema ? "active" : ""} aria-pressed={ema} onClick={() => setEma(value => !value)}>EMA</button>
-        <button className={boll ? "active" : ""} aria-pressed={boll} onClick={() => setBoll(value => !value)}>BOLL</button>
+  return <div ref={terminalRef} className="trading-terminal chart-rebuilt">
+    <div className="chart-toolbar" role="group" aria-label="Chart controls">
+      <div className="chart-control-group" aria-label="Chart type">
+        <button aria-pressed={mode === "candles"} className={mode === "candles" ? "active" : ""} onClick={() => setMode("candles")}>Candles</button>
+        <button aria-pressed={mode === "line"} className={mode === "line" ? "active" : ""} onClick={() => setMode("line")}>Line</button>
       </div>
-      <div className="chart-control-group chart-periods">
-        {[["10m", "10M"], ["1h", "1H"], ["1d", "1D"]].map(([value, label]) =>
-          <button key={value} className={timeframe === value ? "active" : ""} aria-pressed={timeframe === value} onClick={() => onTimeframeChange(value)}>{label}</button>
-        )}
+      <div className="chart-control-group chart-periods" aria-label="Candle interval">
+        {[["10m", "10m", "10-minute candles"], ["1h", "1h", "1-hour candles"], ["1d", "1D", "Daily candles"]].map(([value, label, name]) =>
+          <button key={value} className={timeframe === value ? "active" : ""} aria-label={name} aria-pressed={timeframe === value} onClick={() => onTimeframeChange(value)}>{label}</button>)}
       </div>
+      <span className="chart-currency">{currency.toUpperCase()}</span>
       <div className="chart-control-group chart-actions">
-        <button onClick={fitChart}>Fit</button>
-        <button onClick={toggleFullscreen} aria-label="Toggle chart fullscreen">⛶</button>
+        <button onClick={() => chartRef.current?.timeScale().scrollToRealTime()} title="Return to the latest candle">Latest</button>
+        <button onClick={reset} title="Fit all available history and reset price scale">Reset</button>
+        <button onClick={toggleFullscreen} aria-label={fullscreen ? "Exit chart fullscreen" : "Expand chart fullscreen"}>{fullscreen ? "↙" : "⛶"}</button>
       </div>
     </div>
-    {current && <div className="chart-ohlc" aria-live="polite">
-      <span>{new Date(current.time * 1000).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
-      <span>O <b>{formatValue(current.open, usd)}</b></span>
-      <span>H <b>{formatValue(current.high, usd)}</b></span>
-      <span>L <b>{formatValue(current.low, usd)}</b></span>
-      <span>C <b>{formatValue(current.close, usd)}</b></span>
-      <strong className={change >= 0 ? "positive" : "negative"}>{change >= 0 ? "+" : ""}{change.toFixed(2)}%</strong>
-    </div>}
-    <div ref={hostRef} className="trading-chart-host" role="img" aria-label={`Interactive ${timeframe} candlestick chart with zoom, pan, crosshair, and technical indicators`} />
-    {!data.length && <div className="chart-empty">{error ? "Chart data is temporarily unavailable" : loading ? "Loading recent candles…" : "Building candle history from your node…"}</div>}
-    <div className="chart-legend">
-      {ma && <span><i className="ma-line" />MA 20</span>}
-      {ema && <span><i className="ema-line" />EMA 20</span>}
-      {boll && <span><i className="boll-line" />Bollinger 20, 2</span>}
-      <small>Scroll to zoom · Drag to pan</small>
+    <div className="chart-study-toolbar" role="group" aria-label="Technical indicators">
+      <span>Indicators</span>
+      {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>
+        <button key={String(label)} aria-pressed={Boolean(active)} className={active ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
     </div>
+    <div className="chart-ohlc">
+      {current ? <>
+        <time dateTime={new Date(current.time * 1000).toISOString()}>{new Date(current.time * 1000).toLocaleString("en-US", { timeZone: "UTC", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} UTC</time>
+        <span>O <b>{formatPrice(current.open)}</b></span><span>H <b>{formatPrice(current.high)}</b></span>
+        <span>L <b>{formatPrice(current.low)}</b></span><span>C <b>{formatPrice(current.close)}</b></span>
+        <strong className={change >= 0 ? "positive" : "negative"}>{change >= 0 ? "+" : ""}{change.toFixed(2)}%</strong>
+      </> : <span>{loading ? "Loading price history…" : "No price history available"}</span>}
+    </div>
+    <div className="chart-plot">
+      <div ref={hostRef} className="trading-chart-host" role="img" aria-label={`${currency.toUpperCase()} ${timeframe} ${mode} chart. ${bars.length} sampled intervals. ${note}`} />
+      {!data.length && <div className="chart-empty" role="status">
+        <strong>{loading ? "Loading chart…" : error ? "Chart temporarily unavailable" : "No matching price history"}</strong>
+        <span>{loading ? "Getting the latest available history." : "Try another interval or retry."}</span>
+        {!loading && <button onClick={onRetry}>Retry chart</button>}
+      </div>}
+    </div>
+    <div className="chart-legend">
+      {ma && bars.length >= 20 && <span><i className="ma-line" />MA 20</span>}{ema && <span><i className="ema-line" />EMA 20</span>}
+      {boll && bars.length >= 20 && <span><i className="boll-line" />Bollinger 20 / 2</span>}
+      {volume && <span>Volume in TAO</span>}
+      <small>Drag to pan · Pinch or scroll to zoom</small>
+    </div>
+    {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
+    <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC</span>
+      <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">Charts by TradingView ↗</a>
+    </div>
+    {error && data.length > 0 && <div className="chart-warning" role="status">Refresh failed. Showing the last available history. <button onClick={onRetry}>Retry</button></div>}
+    {fullscreenError && <div className="chart-warning" role="status">Fullscreen isn’t supported in this browser. You can still zoom and pan here.</div>}
   </div>;
 }

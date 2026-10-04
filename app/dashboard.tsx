@@ -3,7 +3,8 @@
 import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import TradingChart from "./trading-chart";
+import dynamic from "next/dynamic";
+import { dollarBars, priceBars } from "./lib/chart-data";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
@@ -589,8 +590,11 @@ const candleIntervalMs: Record<string, number> = {
   "1h": 3_600_000,
   "1d": 86_400_000,
 };
-const candleCache = new Map<string, { data: Candle[]; savedAt: number }>();
-const candleRequests = new Map<string, Promise<Candle[]>>();
+const TradingChart = dynamic(() => import("./trading-chart"), { ssr: false,
+  loading: () => <div className="chart-module-loading" role="status">Opening chart…</div> });
+type ChartHistory = { data: Candle[]; savedAt: number; method: string };
+const candleCache = new Map<string, ChartHistory>();
+const candleRequests = new Map<string, Promise<ChartHistory>>();
 const portfolioColors = ["#16d9c4", "#ffb547", "#ff5d73", "#64748b", "#36d66b", "#ff8a4c", "#173766", "#c7e85b", "#40b8ff"];
 
 const safeProjectUrl = (value?: string) => {
@@ -619,13 +623,13 @@ function decodeCompactCandles(rows: unknown[]): Candle[] {
   });
 }
 
-function loadSubnetCandles(netuid: number, timeframe: string) {
+function loadChartHistory(netuid: number | "tao", timeframe: string) {
   const key = `${netuid}:${timeframe}`;
   const cached = candleCache.get(key);
-  if (cached?.data.length) return Promise.resolve(cached.data);
+  if (cached?.data.length && Date.now() - cached.savedAt < 30_000) return Promise.resolve(cached);
   const pending = candleRequests.get(key);
   if (pending) return pending;
-  const url = `/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`;
+  const url = netuid === "tao" ? `/api/tao-chart?interval=${timeframe}` : `/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`;
   const fetchWithRetry = async () => {
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 28_000);
@@ -642,9 +646,11 @@ function loadSubnetCandles(netuid: number, timeframe: string) {
   };
   const request = fetchWithRetry()
     .then((json) => {
-      const data = decodeCompactCandles(json.data || []);
-      candleCache.set(key, { data, savedAt: Date.now() });
-      return data;
+      const data = netuid === "tao" ? (json.data || []) as Candle[] : decodeCompactCandles(json.data || []);
+      const snapshot = { data, savedAt: Date.now(), method: json.method || (netuid === "tao" ? "exchange" : "boundary") };
+      candleCache.set(key, snapshot);
+      if (candleCache.size > 128) candleCache.delete(candleCache.keys().next().value!);
+      return snapshot;
     })
     .finally(() => candleRequests.delete(key));
   candleRequests.set(key, request);
@@ -771,7 +777,10 @@ export function Dashboard({
   const [chartData, setChartData] = useState<{
     key: string;
     candles: Candle[];
-  }>({ key: "", candles: [] });
+    rates: Candle[];
+    method: string;
+  }>({ key: "", candles: [], rates: [], method: "boundary" });
+  const [chartRetry, setChartRetry] = useState(0);
   const [chartLoading, setChartLoading] = useState(true);
   const [chartError, setChartError] = useState(false);
   const [walletInput, setWalletInput] = useState("");
@@ -787,6 +796,9 @@ export function Dashboard({
   const [activitySummary, setActivitySummary] = useState<ActivitySummary | null>(null);
   const [activityCollectingSince, setActivityCollectingSince] = useState<string | null>(null);
   const [activityFilter, setActivityFilter] = useState<"all" | "locks" | "keys">("all");
+  const chartTarget = rawRows.find(row => row.netuid === selected);
+  const targetHasMetadata = Boolean(chartTarget && (chartTarget.description || chartTarget.website || chartTarget.github_repo || chartTarget.discord || chartTarget.contact || chartTarget.additional));
+  const chartVisible = view === "screener" && marketDetailOpen && (showTaoChart || !targetHasMetadata || subnetPanel === "chart");
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
@@ -913,66 +925,47 @@ export function Dashboard({
     return () => window.clearInterval(refreshTimer);
   }, []);
   useEffect(() => {
-    if (view !== "screener") return;
+    if (!chartVisible) return;
     let activeRequest = true;
-    const controller = new AbortController();
-    const cacheKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
-    const cached = candleCache.get(cacheKey);
+    let refreshing = false;
+    const historyKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
+    const cacheKey = `${historyKey}:${showTaoChart ? "usd" : currency}`;
+    const cached = candleCache.get(historyKey);
+    const cachedRates = candleCache.get(`tao:${timeframe}`);
     queueMicrotask(() => {
       if (!activeRequest) return;
-      setChartData({ key: cacheKey, candles: cached?.data || [] });
-      setChartLoading(!cached?.data.length);
+      setChartData({ key: cacheKey, candles: cached?.data || [], rates: cachedRates?.data || [], method: cached?.method || "boundary" });
+      setChartLoading(!cached?.data.length || (!showTaoChart && currency === "usd" && !cachedRates?.data.length));
       setChartError(false);
     });
-    const refreshChart = (background = false) => {
-      if (document.hidden) return;
-      if (showTaoChart) {
-        fetch(`/api/tao-chart?interval=${timeframe}`, {
-          cache: "no-store",
-          signal: controller.signal,
-        })
-          .then((r) => (r.ok ? r.json() : Promise.reject()))
-          .then((json) => {
-            if (activeRequest) {
-              const data = json.data || [];
-              candleCache.set(cacheKey, { data, savedAt: Date.now() });
-              setChartData({ key: cacheKey, candles: data });
-              setChartLoading(false);
-              setChartError(false);
-            }
-          })
-          .catch(() => {
-            if (activeRequest) {
-              setChartLoading(false);
-              setChartError(true);
-            }
-          });
-        return;
-      }
-      if (background) candleCache.delete(cacheKey);
-      loadSubnetCandles(selected, timeframe)
-        .then((data) => {
+    const refreshChart = () => {
+      if (document.hidden || refreshing) return;
+      refreshing = true;
+      Promise.all([
+        loadChartHistory(showTaoChart ? "tao" : selected, timeframe),
+        !showTaoChart && currency === "usd" ? loadChartHistory("tao", timeframe) : Promise.resolve(null),
+      ])
+        .then(([history, rates]) => {
           if (activeRequest) {
-            setChartData({ key: cacheKey, candles: data });
+            setChartData({ key: cacheKey, candles: history.data, rates: rates?.data || [], method: history.method });
             setChartLoading(false);
             setChartError(false);
           }
         })
-        .catch((error) => {
-          if (activeRequest && error?.name !== "AbortError") {
+        .catch(() => {
+          if (activeRequest) {
             setChartLoading(false);
-            setChartError(!cached?.data.length);
+            setChartError(true);
           }
-        });
+        }).finally(() => { refreshing = false; });
     };
     refreshChart();
-    const refreshTimer = window.setInterval(() => refreshChart(true), 30_000);
+    const refreshTimer = window.setInterval(refreshChart, 30_000);
     return () => {
       activeRequest = false;
-      controller.abort();
       window.clearInterval(refreshTimer);
     };
-  }, [selected, timeframe, showTaoChart, view]);
+  }, [selected, timeframe, showTaoChart, currency, chartVisible, chartRetry]);
 
   useEffect(() => {
     if (view !== "activity") return;
@@ -1035,7 +1028,8 @@ export function Dashboard({
       })
       .join(",")})`;
   }, [portfolioChartAssets, portfolioTotal]);
-  const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
+  const chartCurrency = showTaoChart ? "usd" : currency;
+  const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}:${chartCurrency}`;
   const candles = useMemo(
     () => (chartData.key === requestedChartKey ? chartData.candles : []),
     [chartData, requestedChartKey],
@@ -1048,6 +1042,12 @@ export function Dashboard({
     ),
     [candles, showTaoChart, taoUsd, active?.price_tao, timeframe],
   );
+  const chartBars = useMemo(() => {
+    const base = priceBars(chartCandles);
+    return !showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base;
+  }, [chartCandles, chartData.rates, showTaoChart, currency]);
+  const chartNote = showTaoChart ? "Coinbase TAO/USD candles · Volume in TAO"
+    : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`;
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = rows.filter(row => row.change_1h != null).sort((a, b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const advancingMarkets = rows.filter((row) => Number(row.change_1h || 0) > 0).length;
@@ -1254,16 +1254,13 @@ export function Dashboard({
     setSelected(netuid);
     setView("screener");
   }
-  function warmSubnetChart(netuid: number) {
-    void loadSubnetCandles(netuid, timeframe).catch(() => undefined);
-  }
   function openTaoChart() {
     setShowTaoChart(true);
     setMarketDetailOpen(true);
     setSubnetPanel("chart");
     setView("screener");
   }
-  const taoChartChange = chartCandles.length > 1 ? (Number(chartCandles.at(-1)?.close || 0) / Number(chartCandles[0]?.open || 1) - 1) * 100 : 0;
+  const chartRangeChange = chartBars.length > 1 ? (chartBars.at(-1)!.close / chartBars[0].open - 1) * 100 : null;
   const clampScore = (value: number) => Math.round(Math.max(0, Math.min(100, value)));
   const signalData = active
     ? (() => {
@@ -1547,10 +1544,7 @@ export function Dashboard({
                                     })
                                   : money(active?.price_tao, true)}
                               </strong>
-                              <span className={changeClass(showTaoChart ? String(taoChartChange) : active?.change_1h)}>
-                                {Number(showTaoChart ? taoChartChange : active?.change_1h || 0) > 0 ? "+" : ""}
-                                {fmt(showTaoChart ? taoChartChange : active?.change_1h)}% · {timeframe === "1d" ? "1 Day" : timeframe === "1h" ? "1 Hour" : "10 Minutes"}
-                              </span>
+                              <span className={changeClass(active?.change_24h)}>{active?.change_24h == null || showTaoChart ? "" : `${Number(active.change_24h) > 0 ? "+" : ""}${fmt(active.change_24h)}% · 24 Hours`}</span>
                             </div>
                           </div>
                           {!showTaoChart && hasActiveMetadata && (
@@ -1565,7 +1559,8 @@ export function Dashboard({
                           )}
                           {showTaoChart || !hasActiveMetadata || subnetPanel === "chart" ? (
                             <>
-                              <TradingChart key={requestedChartKey} appearance={appearance} candles={chartCandles} currency={currency} taoUsd={taoUsd} timeframe={timeframe} onTimeframeChange={setTimeframe} valueCurrency={showTaoChart ? "usd" : "tao"} loading={chartLoading} error={chartError} />
+                              <TradingChart key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
+                              {chartRangeChange != null && <p className="chart-range-return">Available history <strong className={chartRangeChange >= 0 ? "positive" : "negative"}>{chartRangeChange > 0 ? "+" : ""}{chartRangeChange.toFixed(2)}%</strong> · {chartCurrency.toUpperCase()}</p>}
                               {showTaoChart ? (
                                 <div className="chart-stats">
                                   <span>
@@ -1834,8 +1829,6 @@ export function Dashboard({
                       <tr
                         key={r.netuid}
                         className={r.netuid === selected ? "selected" : ""}
-                        onPointerEnter={() => warmSubnetChart(r.netuid)}
-                        onFocus={() => warmSubnetChart(r.netuid)}
                         onClick={() => openSubnetChart(r.netuid)}
                         tabIndex={0}
                         onKeyDown={(event) => {

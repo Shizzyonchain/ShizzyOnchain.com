@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { aggregateBars, chartIntervals, priceBars } from "../../lib/chart-data";
 
 export const revalidate = 60;
 
@@ -22,19 +23,13 @@ export async function GET(request: NextRequest) {
       time: new Date(c[0] * 1000).toISOString(), low: String(c[1]), high: String(c[2]),
       open: String(c[3]), close: String(c[4]), volume_tao: String(c[5]),
     }));
-    if (interval !== "10m") return NextResponse.json({ data: normalized, source: "coinbase" });
-    const data = [];
-    for (let i = 0; i < normalized.length; i += 2) {
-      const pair = normalized.slice(i, i + 2);
-      if (pair.length < 2) continue;
-      data.push({
-        time: pair[0].time, open: pair[0].open, close: pair.at(-1)!.close,
-        high: String(Math.max(...pair.map(c => Number(c.high)))),
-        low: String(Math.min(...pair.map(c => Number(c.low)))),
-        volume_tao: String(pair.reduce((sum, c) => sum + Number(c.volume_tao), 0)),
-      });
-    }
-    return NextResponse.json({ data, source: "coinbase" });
+    // Use UTC bucket boundaries, not adjacent pairs: missing 5-minute trades
+    // must not join two unrelated buckets or shift the 10-minute timestamps.
+    const bars = priceBars(normalized);
+    const aggregated = interval === "10m" ? aggregateBars(bars, chartIntervals[interval]) : bars;
+    const data = aggregated.slice(-180).map(bar => ({ time: new Date(bar.time * 1000).toISOString(),
+      open: String(bar.open), high: String(bar.high), low: String(bar.low), close: String(bar.close), volume_tao: String(bar.volume) }));
+    return NextResponse.json({ data, source: "coinbase", interval, method: "exchange" });
   } catch {
     return NextResponse.json({ error: "TAO chart unavailable" }, { status: 503 });
   }

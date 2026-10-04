@@ -11,6 +11,7 @@
     "start": "next start",
     "lint": "eslint . --ignore-pattern .next",
     "test:bubbles": "node --test --experimental-strip-types tests/bubble-timeframe.test.mjs",
+    "test:charts": "node --test --experimental-strip-types tests/chart-data.test.mjs",
     "validate:subnet-news": "node scripts/publish-subnet-news.mjs --check",
     "publish:subnet-news": "node scripts/publish-subnet-news.mjs"
   },
