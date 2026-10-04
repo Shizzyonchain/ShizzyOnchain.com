@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CandlestickSeries, ColorType, CrosshairMode, HistogramSeries, LineSeries, LineStyle,
   createChart, type IChartApi, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
 import { chartPrecision, indicatorPoints, type PriceBar } from "./lib/chart-data";
+import "./trading-chart.css";
 
 const palettes = {
   blue: { background: "#071328", text: "#adbfda", grid: "rgba(120,146,184,.1)", border: "#173b68", ma: "#c28cff", ema: "#ffb84d", boll: "#4da3ff" },
