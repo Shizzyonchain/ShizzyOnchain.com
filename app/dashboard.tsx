@@ -1387,6 +1387,7 @@ export function Dashboard({
         </div>
       </section>
       <SiteHeader
+        brandArtwork={appearance === "monochrome" ? "redrawn" : "original"}
         currency={currency}
         onCurrencyChange={setCurrency}
         currencyTitle={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}
@@ -1485,7 +1486,13 @@ export function Dashboard({
           </section>
           <div className="home-promo-row">
             <Link className="insiders-home-cta tao-heads-home-cta" href={taoHeadsCommunity.path} aria-label={`Explore ${taoHeadsCommunity.name}`}>
-              <Image src={taoHeadsCommunity.icon} alt="" width={1254} height={1254} sizes="(max-width: 600px) 64px, 76px" />
+              <Image
+                src={appearance === "monochrome" ? "/tao-heads-home-v2.webp" : taoHeadsCommunity.icon}
+                alt=""
+                width={appearance === "monochrome" ? 312 : 1254}
+                height={appearance === "monochrome" ? 240 : 1254}
+                sizes="(max-width: 600px) 64px, 76px"
+              />
               <span>
                 <small>Your Bittensor community</small>
                 <strong>{taoHeadsCommunity.name}</strong>
@@ -1493,7 +1500,13 @@ export function Dashboard({
               <b>Explore <i aria-hidden="true">→</i></b>
             </Link>
             <a className="university-home-cta" href="/university" aria-label="Explore Shiz University">
-              <Image src="/shiz-university.webp" alt="Shiz University" width={512} height={512} sizes="58px" />
+              <Image
+                src={appearance === "monochrome" ? "/shiz-university-home-v2.webp" : "/shiz-university.webp"}
+                alt="Shiz University"
+                width={appearance === "monochrome" ? 312 : 512}
+                height={appearance === "monochrome" ? 300 : 512}
+                sizes={appearance === "monochrome" ? "(max-width: 600px) 64px, 76px" : "58px"}
+              />
               <div>
                 <small>Struggling with TAO?</small>
                 <strong>Take a 1-on-1 class with Shizzy</strong>

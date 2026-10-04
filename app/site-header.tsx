@@ -9,6 +9,7 @@ type Currency = "usd" | "tao";
 type DataState = "loading" | "live" | "stale" | "error";
 
 type SiteHeaderProps = {
+  brandArtwork?: "original" | "redrawn";
   currency?: Currency;
   onCurrencyChange?: (currency: Currency) => void;
   currencyTitle?: string;
@@ -37,7 +38,7 @@ const navigation: readonly NavItem[] = [
   { href: "/partners", label: "Partners" },
 ];
 
-export function SiteHeader({ currency, onCurrencyChange, currencyTitle, dataState, lastUpdated }: SiteHeaderProps) {
+export function SiteHeader({ brandArtwork = "original", currency, onCurrencyChange, currencyTitle, dataState, lastUpdated }: SiteHeaderProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [localCurrency, setLocalCurrency] = useState<Currency>("usd");
@@ -84,7 +85,14 @@ export function SiteHeader({ currency, onCurrencyChange, currencyTitle, dataStat
   return (
     <header className="topbar site-header">
       <Link className="brand" href="/" aria-label="Shizzy Unchained home">
-        <Image src="/shizzy-unchained-logo.svg" alt="Shizzy Unchained" width={220} height={74} priority />
+        <Image
+          src={brandArtwork === "redrawn" ? "/shizzy-unchained-home-v2.webp" : "/shizzy-unchained-logo.svg"}
+          alt="Shizzy Unchained"
+          width={brandArtwork === "redrawn" ? 888 : 220}
+          height={brandArtwork === "redrawn" ? 313 : 74}
+          sizes="(max-width: 600px) 170px, (max-width: 1550px) 220px, 285px"
+          priority
+        />
       </Link>
       <button
         className={`mobile-menu-toggle ${mobileMenuOpen ? "open" : ""}`}
