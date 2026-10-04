@@ -1,0 +1,857 @@
+/* Shared black, white and silver theme. Full-color artwork and data signals retain their colors. */
+html.site-theme {
+  color-scheme: dark;
+  --bg: #000;
+  --panel: #0a0a0a;
+  --panel2: #111;
+  --line: #333;
+  --text: #fff;
+  --muted: #c2c2c2;
+  --mint: #fff;
+  --blue: #858585;
+  --cyan: #fff;
+}
+
+.site-theme body {
+  background: var(--bg);
+}
+
+.site-theme .panel {
+  background: var(--panel);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+
+.site-theme .eyebrow {
+  color: #fff;
+}
+
+.site-theme h1,
+.site-theme h2,
+.site-theme h3 {
+  color: #fff;
+  text-shadow: none;
+}
+
+.site-theme .table-wrap,
+.site-theme .chart-ohlc,
+.site-theme .market-modal {
+  scrollbar-color: #686868 #181818;
+  scrollbar-width: thin;
+}
+
+/* Purpose-made colored artwork; no desaturation or brightness overlays. */
+.site-theme .brand img {
+  filter: none;
+}
+
+.site-theme .topbar,
+.site-theme .topbar::before {
+  background: var(--bg);
+  border-color: var(--line);
+}
+
+.site-theme nav a {
+  color: #d1d1d1;
+  text-shadow: none;
+}
+
+.site-theme nav a:hover,
+.site-theme nav a.active {
+  color: #fff;
+}
+
+.site-theme nav a.active::after {
+  background: #fff;
+  box-shadow: none;
+}
+
+.site-theme .currency-toggle {
+  background: var(--panel2);
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.site-theme .currency-toggle button {
+  color: #b8b8b8;
+}
+
+.site-theme .currency-toggle button.active {
+  color: #000;
+  background: #fff;
+  box-shadow: none;
+}
+
+.site-theme .mobile-menu-toggle {
+  background: var(--panel2);
+  border-color: var(--line);
+}
+
+.site-theme .mobile-menu-toggle span {
+  background: #fff;
+}
+
+.site-theme .status {
+  background: var(--panel2);
+  border-color: var(--line);
+  color: #c1c1c1;
+}
+
+.site-theme .status.live i {
+  background: #4ade80;
+  box-shadow: none;
+}
+
+.site-theme .market-ticker {
+  background: #000;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.site-theme .ticker-label,
+.site-theme .ticker-track button {
+  border-color: var(--line);
+}
+
+.site-theme .ticker-track button:hover {
+  background: #1a1a1a;
+}
+
+.site-theme .hero-strip {
+  background: var(--panel);
+}
+
+.site-theme .tao-price-tile:hover,
+.site-theme .tao-price-tile.active {
+  background: #1a1a1a;
+  box-shadow: inset 0 -2px 0 #fff;
+}
+
+.site-theme .shop-card {
+  background: var(--panel);
+  border-color: var(--line);
+}
+
+.site-theme .shop-card:hover {
+  background: #1a1a1a;
+  border-color: #ababab;
+}
+
+.site-theme .shop-card > img {
+  filter: none;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.site-theme .shop-card-copy small,
+.site-theme .shop-card-arrow {
+  color: #fff;
+}
+
+.site-theme .network-pulse-label {
+  background: var(--panel2);
+}
+
+.site-theme .network-pulse button:hover {
+  background: #1a1a1a;
+}
+
+/* Colored brand artwork sits on crisp, neutral surfaces. */
+.site-theme .insiders-home-cta,
+.site-theme .university-home-cta {
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+}
+
+.site-theme .insiders-home-cta:hover,
+.site-theme .university-home-cta:hover {
+  background: #1a1a1a;
+  border-color: #a3a3a3;
+  box-shadow: none;
+}
+
+.site-theme .insiders-home-cta img {
+  filter: none;
+  object-fit: contain;
+  padding: 3px;
+  border: 3px solid #fff;
+  background: #000;
+  box-shadow: none;
+}
+
+.site-theme .university-home-cta {
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+}
+
+.site-theme .university-home-cta > img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  filter: none;
+  border: 0;
+  background: transparent;
+}
+
+.site-theme .insiders-home-cta small,
+.site-theme .university-home-cta small {
+  color: #e1e1e1;
+}
+
+.site-theme .university-home-cta em {
+  color: var(--muted);
+}
+
+.site-theme .insiders-home-cta > b,
+.site-theme .university-home-cta > b {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+}
+
+.site-theme .screener-head > div > small {
+  color: var(--muted);
+}
+
+.site-theme .search {
+  background: #000;
+  border-color: var(--line);
+  color: #d1d1d1;
+}
+
+.site-theme .search input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.site-theme .search:focus-within {
+  border-color: #fff;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.site-theme th {
+  background: #000;
+  color: #d1d1d1;
+}
+
+.site-theme .screener th:nth-child(2) {
+  background: var(--panel2);
+  box-shadow: 1px 0 0 var(--line);
+}
+
+.site-theme td {
+  border-color: #262626;
+}
+
+.site-theme td:first-child {
+  color: #ababab;
+}
+
+.site-theme tbody tr {
+  background: var(--panel);
+}
+
+.site-theme tbody tr:nth-child(even) {
+  background: #101010;
+}
+
+.site-theme tbody tr:hover,
+.site-theme tbody tr.selected {
+  background: #1a1a1a;
+}
+
+.site-theme .screener td:nth-child(2) {
+  background: var(--panel2);
+  box-shadow: 1px 0 0 var(--line);
+}
+
+.site-theme .screener tr:hover td:nth-child(2),
+.site-theme .screener tr.selected td:nth-child(2) {
+  background: #1a1a1a;
+}
+
+.site-theme .token {
+  background: var(--panel2);
+  border-color: var(--line);
+  color: #fff;
+}
+
+.site-theme .screener .emission-cell small,
+.site-theme .screener .apy-cell small,
+.site-theme .screener .locked-alpha-cell small,
+.site-theme .screener tr.selected .emission-cell small,
+.site-theme .screener tr.selected .apy-cell small,
+.site-theme .screener tr.selected .locked-alpha-cell small,
+.site-theme .liquidation-column small {
+  color: var(--muted);
+}
+
+.site-theme .positive {
+  color: #20e681 !important;
+}
+
+.site-theme .negative {
+  color: #ff5267 !important;
+}
+
+.site-theme .liquidation-help {
+  border-color: var(--line);
+  color: #b8b8b8;
+}
+
+.site-theme .liquidation-help summary,
+.site-theme .liquidation-help a {
+  color: #fff;
+}
+
+.site-theme .liquidation-help a {
+  text-decoration: underline;
+}
+
+/* Market details and chart controls belong to the same homepage palette. */
+.site-theme .market-modal-backdrop {
+  background: rgba(0, 0, 0, .82);
+}
+
+.site-theme .market-modal {
+  background: #000;
+  border-color: var(--line);
+}
+
+.site-theme .market-modal-close {
+  background: var(--panel2);
+  border-color: var(--line);
+  color: #fff;
+}
+
+.site-theme .market-modal-close:hover {
+  background: #1a1a1a;
+}
+
+.site-theme .chart-card::after {
+  display: none;
+}
+
+.site-theme .movers > button:hover {
+  background: #1a1a1a;
+}
+
+.site-theme .movers em {
+  color: #ababab;
+}
+
+.site-theme .subnet-view-tabs {
+  border-color: var(--line);
+}
+
+.site-theme .subnet-view-tabs button {
+  color: #b8b8b8;
+}
+
+.site-theme .subnet-view-tabs button.active {
+  background: #1a1a1a;
+  color: #fff;
+  box-shadow: inset 0 -2px 0 #fff;
+}
+
+.site-theme .subnet-description > p:not(.eyebrow),
+.site-theme .subnet-description .metadata-empty,
+.site-theme .subnet-description .project-additional {
+  color: #b8b8b8;
+}
+
+.site-theme .overview-stats,
+.site-theme .overview-stats span,
+.site-theme .chart-stats,
+.site-theme .chart-stats span {
+  background: var(--panel2);
+  border-color: var(--line);
+}
+
+.site-theme .overview-stats span,
+.site-theme .overview-stats dt {
+  color: #ababab;
+}
+
+.site-theme .project-links a,
+.site-theme .project-links span {
+  background: var(--panel2);
+  border-color: var(--line);
+  color: #fff;
+}
+
+.site-theme .project-links a:hover {
+  background: #1a1a1a;
+  border-color: #ababab;
+}
+
+.site-theme .trading-terminal,
+.site-theme .trading-terminal:fullscreen {
+  background: #000;
+  border-color: var(--line);
+}
+
+.site-theme .chart-toolbar {
+  background: var(--panel2);
+  border-color: var(--line);
+}
+
+.site-theme .chart-control-group,
+.site-theme .chart-mode,
+.site-theme .chart-legend {
+  border-color: var(--line);
+}
+
+.site-theme .chart-toolbar button,
+.site-theme .chart-mode,
+.site-theme .chart-ohlc,
+.site-theme .chart-legend {
+  color: #ababab;
+}
+
+.site-theme .chart-mode {
+  background: var(--panel2);
+}
+
+.site-theme .chart-toolbar button:hover {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.site-theme .chart-toolbar button.active {
+  background: #fff;
+  color: #000;
+}
+
+.site-theme .chart-ohlc b {
+  color: #fff;
+}
+
+.site-theme .chart-legend .ma-line { background: #fff; }
+.site-theme .chart-legend .ema-line { background: #b5b5b5; }
+.site-theme .chart-legend .boll-line { border-color: #858585; }
+.site-theme .chart-legend small { color: #ababab; }
+
+.site-theme .signal-grid {
+  background: var(--line);
+}
+
+.site-theme .signal-grid article {
+  background: var(--panel);
+}
+
+.site-theme .signal-grid article > div span,
+.site-theme .signal-grid article small,
+.site-theme .signals-note {
+  color: #ababab;
+}
+
+.site-theme .signal-grid article p {
+  color: #fff;
+}
+
+.site-theme .signal-grid article > i {
+  background: linear-gradient(90deg, #fff var(--score), #393939 var(--score));
+}
+
+.site-theme .signal-grid .risk-signal > i {
+  background: linear-gradient(90deg, #fb7185 var(--score), #393939 var(--score));
+}
+
+.site-theme .livestream-banner,
+.site-theme .membership-promo {
+  background: var(--panel);
+  color: #fff;
+  border-color: var(--line);
+  border-left-color: #fff;
+}
+
+.site-theme .livestream-banner-label {
+  color: #fff;
+}
+
+.site-theme .membership-promo-label {
+  color: #fff !important;
+}
+
+.site-theme .livestream-banner time,
+.site-theme .membership-promo-copy > p:not(.membership-promo-label),
+.site-theme .membership-promo-copy > small,
+.site-theme .membership-promo-action > small {
+  color: #b8b8b8;
+}
+
+.site-theme .membership-preview {
+  background: #000;
+  border-color: var(--line);
+}
+
+.site-theme .membership-preview:hover {
+  border-color: #fff;
+}
+
+.site-theme .membership-preview > span,
+.site-theme .membership-join,
+.site-theme .stream-reminder {
+  background: #fff;
+  color: #000;
+}
+
+.site-theme .membership-preview > b {
+  background: rgba(0, 0, 0, .9);
+  border-color: #fff;
+  color: #fff;
+}
+
+.site-theme .membership-join:hover,
+.site-theme .stream-reminder:hover {
+  background: #d4d4d4;
+}
+
+.site-theme .livestream-banner-close {
+  color: #b8b8b8;
+}
+
+.site-theme .livestream-banner-close:hover {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.site-theme footer {
+  color: #ababab;
+}
+
+/* News index, daily reports and the shared conference shell. */
+.site-theme .news-shell,
+.site-theme .deep-shell {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.site-theme :is(.news-hero, .news-latest-head, .news-archive-list, .news-archive-list > a,
+  .news-report-hero dl, .news-report-hero dl div, .news-report-section,
+  .subnet-news-group > header, .rating-reason, .news-footer) {
+  border-color: var(--line);
+}
+
+.site-theme :is(.news-latest, .news-archive, .news-coming, .news-item,
+  .subnet-news-group, .coverage-grid > div, .unlock-card) {
+  background: var(--panel);
+  border-color: var(--line);
+}
+
+.site-theme :is(.news-hero h1, .news-hero h1 span, .news-section-head > span,
+  .news-coming > span, .subnet-news-group > header span, .news-archive-list span,
+  .news-footer b, .unlock-card time, .unlock-identity span) {
+  color: var(--text);
+  text-shadow: none;
+}
+
+.site-theme :is(.news-hero-copy p, .news-latest-head > div > p:last-child,
+  .news-item > p, .news-report-hero > p:not(.eyebrow), .rating-explainer,
+  .unlock-explainer, .unlock-card > p, .coverage-grid ul, .coverage-grid p,
+  .quiet-subnets, .news-empty-copy, .news-coming > div > p:last-child) {
+  color: var(--muted);
+}
+
+.site-theme :is(.news-archive-list time, .news-report-hero dt, .unlock-card > small) {
+  color: #aaa;
+}
+
+.site-theme .news-hero-copy > span {
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.site-theme .news-latest-head > a {
+  background: #fff;
+  color: #000;
+}
+
+.site-theme .news-latest-head > a:hover { background: #e5e5e5; }
+.site-theme .news-archive-list > a:hover { background: #111; }
+.site-theme .news-report-hero > a { color: #ddd; }
+.site-theme .news-report-hero > a:hover { color: #fff; }
+.site-theme .news-item.importance-high { border-top-color: #ffbf15; }
+.site-theme .news-item.importance-medium { border-top-color: #bbb; }
+.site-theme .news-item-meta > span { color: #ddd; }
+.site-theme .news-item-meta em,
+.site-theme .unlock-status { background: #1a1a1a; color: #c2c2c2; }
+.site-theme .news-item-meta .status-verified,
+.site-theme .unlock-status.status-confirmed { color: #8df8bd; }
+.site-theme .news-item-meta .status-rumor,
+.site-theme .unlock-status.status-unverified { color: #ff9f94; }
+.site-theme .ranked-news-list .news-item { background: var(--panel); border-left-color: #bbb; }
+.site-theme .ranked-news-list .news-item.five-star {
+  background: #111;
+  border-color: #6d5210;
+  border-left-color: #ffbf15;
+}
+.site-theme .news-rating strong { text-shadow: none; }
+.site-theme .news-rating i { color: #555; }
+.site-theme .news-sources a { color: #fff; background: #111; border-color: #555; }
+.site-theme .news-sources a:hover { background: #1a1a1a; border-color: #fff; }
+.site-theme .quiet-subnets { border-color: var(--line); }
+
+/* Bubbles: keep green/red performance signals on a neutral market canvas. */
+.site-theme .bubbles-page { background: var(--bg); }
+.site-theme .bubbles-hero h1 span { color: #fff; text-shadow: none; }
+.site-theme .bubbles-hero p:not(.eyebrow) { color: var(--muted); }
+.site-theme :is(.bubble-controls, .bubble-legend, .bubble-legend > button, .bubble-token) {
+  background: #111;
+  border-color: var(--line);
+  color: #ddd;
+}
+.site-theme .bubble-controls button { color: var(--muted); }
+.site-theme .bubble-controls button.active {
+  background: #fff;
+  color: #000;
+  box-shadow: none;
+}
+.site-theme .bubble-legend b { color: var(--muted); }
+.site-theme .bubble-legend > button:hover { border-color: #fff; color: #fff; }
+.site-theme .bubble-cloud { background: var(--panel); }
+.site-theme .bubble-cloud::before {
+  background-image: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
+}
+.site-theme .bubble-detail small { color: var(--muted); }
+.site-theme .bubble-detail dl { background: var(--line); }
+.site-theme .bubble-detail dl > div { background: #111; }
+.site-theme .bubble-detail dt { color: var(--muted); }
+.site-theme .bubble-detail > button { background: #fff; color: #000; }
+
+/* Wallet checker and portfolio results; allocation colors identify assets. */
+.site-theme .wallet-page::before { display: none; }
+.site-theme .wallet-intro h1 { text-shadow: none; }
+.site-theme .wallet-form textarea { background: #000; border-color: #555; }
+.site-theme .wallet-safety { background: #111; border-color: var(--line); color: var(--muted); }
+.site-theme .form-foot button {
+  background: #fff;
+  color: #000;
+  box-shadow: none;
+}
+.site-theme .wallet-ident { background: #111; border-color: var(--line); color: #fff; }
+.site-theme .wallet-view-tabs button.active {
+  background: #1a1a1a;
+  color: #fff;
+  box-shadow: inset 0 -3px 0 #fff;
+}
+.site-theme .wallet-view-tabs .balance-privacy {
+  background: #111;
+  border-color: var(--line);
+  color: #ddd;
+}
+.site-theme .wallet-view-tabs .balance-privacy:hover,
+.site-theme .wallet-view-tabs .balance-privacy.active { background: #1a1a1a; border-color: #fff; }
+.site-theme .portfolio-metric { background: #000; }
+.site-theme .portfolio-metric button.active { background: #fff; color: #000; }
+.site-theme .portfolio-donut { --portfolio-gradient: #111; box-shadow: none; }
+.site-theme .portfolio-donut::before { background: #000; border-color: var(--line); }
+.site-theme .portfolio-legend > div { border-color: var(--line); }
+.site-theme .portfolio-legend > div > em { color: #aaa; }
+.site-theme :is(.portfolio-bar, .portfolio-mini-bar) { background: #222; }
+.site-theme .radar,
+.site-theme .radar::before,
+.site-theme .radar::after { border-color: var(--line); }
+
+/* Activity feed and conviction/flow rankings. */
+.site-theme .activity-hero h1 span { color: #fff; }
+.site-theme .activity-hero > p { color: var(--muted); }
+.site-theme :is(.activity-head > span, .activity-note, .activity-summary span,
+  .activity-summary small, .activity-toolbar > span, .activity-list small,
+  .activity-empty span, .intel-panel-head > span, .intel-empty,
+  .conviction-ranking small, .flow-ranking small) { color: var(--muted); }
+.site-theme .activity-summary article { background: var(--panel); }
+.site-theme .activity-toolbar button { background: #111; color: #ddd; border-color: var(--line); }
+.site-theme .activity-toolbar button.active { background: #fff; color: #000; border-color: #fff; }
+.site-theme .activity-list time,
+.site-theme .activity-empty { color: #ddd; }
+.site-theme .event-badge { background: #111; color: #fff; border-color: #555; }
+.site-theme .event-badge.stakelocked { background: #09281c; color: #30dc85; border-color: #17613e; }
+.site-theme .event-badge.stakeunlocked { background: #2d1515; color: #ff7c70; border-color: #74342d; }
+.site-theme :is(.conviction-ranking button:hover, .flow-ranking button:hover) { background: #1a1a1a; }
+.site-theme .flow-ranking { scrollbar-color: #686868 #111; }
+.site-theme :is(.conviction-ranking, .flow-ranking)::-webkit-scrollbar-track { background: #111; }
+.site-theme :is(.conviction-ranking, .flow-ranking)::-webkit-scrollbar-thumb { background: #686868; border-color: #111; }
+.site-theme .timeframes button.active { background: #1a1a1a; color: #fff; box-shadow: inset 0 -2px 0 #fff; }
+
+/* Video library and channel promotions. Thumbnails retain their original colors. */
+.site-theme .videos-intro h1 { text-shadow: none; }
+.site-theme :is(.video-frame, .video-thumb, .video-thumb em) { background: #000; }
+.site-theme .live-library { background: var(--panel); border-color: var(--line); }
+.site-theme .live-grid > button { background: var(--panel); }
+.site-theme :is(.live-grid > button:hover, .live-grid > button.active,
+  .video-grid > button:hover, .video-grid > button.active) { border-color: #fff; }
+.site-theme .video-thumb i { background: rgba(0,0,0,.88); border-color: #ddd; color: #fff; }
+.site-theme .video-thumb .stream-badge { background: #c81926; }
+.site-theme .video-thumb .upcoming-badge { background: #fff; color: #000; }
+.site-theme .video-thumb .members-badge { background: #ffbf15; color: #000; }
+.site-theme .member-video-link { background: #000; }
+.site-theme .member-video-link > span { background: rgba(0,0,0,.9); border-color: var(--line); }
+.site-theme .member-video-link strong { color: #fff; }
+.site-theme .member-video-link small { color: var(--muted); }
+
+/* Partner pages: neutral cards with legible, full-color partner artwork. */
+.site-theme .partners-page { background: var(--bg); }
+.site-theme .partners-hero h1 span { color: #fff; text-shadow: none; }
+.site-theme .partners-hero > p:not(.eyebrow) { color: var(--muted); }
+.site-theme .partner-banner,
+.site-theme .partner-banner:is(.mentat, .alphagap, .ledger, .nord, .alphachaser) {
+  background: var(--panel);
+  color: #fff;
+  border-color: var(--line);
+}
+.site-theme .partner-banner::before { display: none; }
+.site-theme .partner-banner:hover { border-color: #aaa; background: #111; }
+.site-theme .partner-banner:is(.mentat, .alphagap, .ledger, .nord, .alphachaser):hover { border-color: #aaa; background: #111; }
+.site-theme .partner-number { color: #aaa; }
+.site-theme .partner-logo img,
+.site-theme .partner-banner.ledger .partner-logo img { filter: none; }
+.site-theme .partner-banner.ledger .partner-logo img { background: #fff; padding: 12px; border-radius: 6px; }
+.site-theme .partner-banner.alphachaser .partner-logo { color: #fff; }
+.site-theme .partner-banner.alphachaser .partner-logo img { background: #fff; }
+.site-theme .partner-copy p { color: var(--muted); }
+.site-theme .partner-banner > strong { border-color: var(--line); }
+.site-theme .partner-note { border-color: var(--line); color: var(--muted); }
+.site-theme .partner-note span { color: #fff; }
+.site-theme .partner-offer { background: #111; border-color: #555; color: #fff; }
+.site-theme .partner-offer-label { color: #fff; }
+.site-theme .partner-offer-code > span,
+.site-theme .partner-offer small { color: var(--muted); }
+.site-theme .partner-offer-code code { background: #000; border-color: #aaa; color: #fff; }
+.site-theme .partner-offer p { color: #ddd; }
+
+/* University: classes, FAQs and the booking dialog. */
+.site-theme .university-page { background: var(--bg); }
+.site-theme .university-copy h1 span { color: #fff; text-shadow: none; }
+.site-theme .university-hero > img { filter: none; }
+.site-theme .course-card li::before { color: #fff; }
+.site-theme :is(.university-proof span, .university-trust, .course-card,
+  .course-outcome, .university-about, .university-faq details, .university-final,
+  .course-checkout, .tao-payment, .schedule-step.locked) {
+  background: var(--panel);
+  border-color: var(--line);
+}
+.site-theme :is(.university-trust > div, .course-top em, .course-foot,
+  .process-grid, .process-grid > div, .university-about span, .university-note,
+  .checkout-price, .tao-payment code, .schedule-step) { border-color: var(--line); }
+.site-theme :is(.university-copy > p:not(.eyebrow), .university-proof span,
+  .university-trust span, .course-heading > p, .course-card > p, .course-outcome span,
+  .course-foot small, .process-grid p, .university-about > div > p:not(.eyebrow),
+  .university-about span, .university-faq details p, .university-final p:not(.eyebrow),
+  .university-note, .checkout-price span, .checkout-divider, .tao-payment span,
+  .tao-payment small, .schedule-step p, .schedule-step.locked b) { color: var(--muted); }
+.site-theme :is(.course-top span, .course-best, .course-outcome b, .course-card li::before,
+  .process-grid span, .university-note span, .schedule-step span) { color: #fff; }
+.site-theme .course-top em { color: #ddd; }
+.site-theme .course-card ul,
+.site-theme .tao-payment code { color: #ddd; }
+.site-theme .course-card:hover { border-color: #aaa; }
+.site-theme .course-outcome { border-left-color: #fff; }
+.site-theme :is(.university-primary, .university-final a, .course-foot button, .card-checkout) {
+  background: #fff;
+  color: #000;
+}
+.site-theme :is(.university-primary, .university-final a, .course-foot button, .card-checkout):hover {
+  background: #e5e5e5;
+  color: #000;
+}
+.site-theme .university-secondary,
+.site-theme .tao-payment button { background: #111; color: #fff; border-color: #555; }
+.site-theme .checkout-backdrop { background: rgba(0,0,0,.88); }
+.site-theme .checkout-close { color: #ddd; }
+.site-theme .schedule-step a { color: #000; }
+.site-theme .schedule-step a:hover { color: #000; }
+
+/* Deep-dive library, article typography and protocol diagrams. */
+.site-theme :is(.deep-index-hero, .deep-feature, .deep-archive, .deep-archive-card,
+  .article-cover, .article-layout aside, .article-body .article-thesis) { border-color: var(--line); }
+.site-theme :is(.deep-feature, .deep-archive-card) { background: var(--panel); }
+.site-theme :is(.deep-index-hero > p, .deep-index-hero h1 span, .deep-feature-copy > a,
+  .deep-archive-head p, .deep-archive-card p, .deep-archive-card span,
+  .article-hero > p, .article-hero h1 span, .article-body h2 > span,
+  .article-body h3, .article-body .article-thesis) { color: #fff; text-shadow: none; }
+.site-theme .deep-index-hero h1 { text-shadow: none; }
+.site-theme :is(.deep-index-hero > div p, .deep-feature-copy > p:not(.eyebrow),
+  .deep-feature-copy > div, .article-hero > a, .article-hero > div, .article-layout ol,
+  .article-body > p) { color: var(--muted); }
+.site-theme .article-body > p:first-child { color: #fff; }
+.site-theme .deep-cover span { background: #fff; color: #000; }
+.site-theme :is(.deep-feature-copy > a, .article-hero > a, .v440-sources a):hover { color: #fff; text-decoration: underline; }
+.site-theme :is(.v440-thesis, .v440-quote, .v440-before-after, .v440-before-after > div,
+  .v440-flow > div, .v440-gate, .v440-note, .v440-stats, .v440-stats div,
+  .v440-roles, .v440-roles > div, .v440-warning, .v440-myth, .v440-myth > div,
+  .v440-myth > div:nth-child(even), .v440-verdict, .v440-disclaimer) {
+  background: var(--panel);
+  border-color: var(--line);
+}
+.site-theme :is(.v440-before-after > div + div, .v440-gate > div, .v440-table,
+  .v440-tr, .v440-risks, .v440-risks li, .v440-checklist, .v440-checklist li,
+  .v440-sources, .v440-sources a) { border-color: var(--line); }
+.site-theme :is(.v440-gate, .v440-warning, .v440-myth > div:nth-child(even)) { background: #111; }
+.site-theme :is(.v440-thesis > span, .v440-verdict > span, .v440-before-after span,
+  .v440-flow > i, .v440-flow b, .v440-tr strong, .v440-stats strong,
+  .v440-roles span, .v440-myth span, .v440-risks li::before) { color: #fff; }
+.site-theme :is(.v440-quote cite, .v440-flow small, .v440-gate > div, .v440-gate em,
+  .v440-th, .v440-stats span, .v440-checklist li, .v440-sources a) { color: var(--muted); }
+.site-theme :is(.v440-before-after p, .v440-note, .v440-roles p, .v440-warning p,
+  .v440-risks p, .v440-verdict p, .v440-disclaimer) { color: var(--muted) !important; }
+.site-theme .v440-note { border-left-color: #fff; }
+.site-theme .v440-gate i { background: #333; }
+.site-theme .v440-gate i b { background: #fff; }
+.site-theme .v440-checklist code { background: #1a1a1a; color: #fff; }
+.site-theme .v440-warning { border-left: 3px solid #ffbf15; }
+
+/* Error screens share the same neutral colors. */
+.site-theme .market-loading { color: var(--muted); }
+.site-theme .market-loading i { border-color: #333; border-top-color: #fff; }
+.site-theme .route-error { background: #000; color: #fff; }
+.site-theme .route-error p { color: #fff; }
+.site-theme .route-error span { color: var(--muted); }
+.site-theme .route-error button { background: #fff; color: #000; border-color: #fff; }
+
+@media (max-width: 1550px) {
+  .site-theme .topbar {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .site-theme .site-header nav {
+    background: var(--panel);
+    border-color: var(--line);
+  }
+
+  .site-theme .site-header nav a {
+    background: var(--panel2);
+    border-color: var(--line);
+    color: #c4c4c4;
+  }
+
+  .site-theme .site-header nav a:hover,
+  .site-theme .site-header nav a.active {
+    background: #1a1a1a;
+    border-color: #ababab;
+    color: #fff;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-theme .university-home-cta {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+  }
+
+  .site-theme .university-home-cta > img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .site-theme .site-header .brand img {
+    width: clamp(115px, 40vw, 170px);
+  }
+
+  .site-theme .currency-toggle button {
+    min-height: 40px;
+  }
+}

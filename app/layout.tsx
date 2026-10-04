@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+import "./site-theme.css";
 
 const title = "ShizzyUnchained — Bittensor Market Intelligence";
 const description = "Live Bittensor subnet price action, market analytics, and mass wallet portfolio checks.";
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" className="site-theme" data-scroll-behavior="smooth">
       <body>
         {children}
         <Analytics />

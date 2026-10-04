@@ -713,7 +713,7 @@ function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string,
 export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "videos" | "university" | "partners";
 
 export function Dashboard({
-  appearance = "blue",
+  appearance = "monochrome",
   initialView = "screener",
   initialRows = [],
   initialTaoUsd = 0,
@@ -2565,7 +2565,7 @@ export function Dashboard({
                 </span>
               </div>
             </div>
-            <Image src="/Copy%20of%20new%20shizzy%20logo.png" alt="Shiz University" width={2000} height={2000} sizes="(max-width: 700px) 100vw, 50vw" />
+            <Image src="/shiz-university-v2.webp" alt="Shiz University" width={820} height={788} sizes="(max-width: 600px) 86vw, 410px" />
           </div>
           <section className="university-trust" aria-label="Why learn with Shizzy">
             <div>

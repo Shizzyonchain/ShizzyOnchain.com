@@ -2,7 +2,6 @@ import { getTaoHistory } from "./lib/tao-history";
 import type { Metadata } from "next";
 import { Dashboard } from "./dashboard";
 import { getInitialMarkets, getInitialTaoUsd } from "./lib/market-data";
-import "./home-theme.css";
 
 export const revalidate = 15;
 export const metadata: Metadata = {

@@ -2,7 +2,7 @@
 
 export default function GlobalError({ retry }: { error: Error & { digest?: string }; retry: () => void }) {
   return (
-    <html lang="en">
+    <html lang="en" className="site-theme">
       <body>
         <main className="route-error" role="alert">
           <p>ShizzyUnchained</p>

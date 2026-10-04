@@ -38,7 +38,7 @@ const navigation: readonly NavItem[] = [
   { href: "/partners", label: "Partners" },
 ];
 
-export function SiteHeader({ brandArtwork = "original", currency, onCurrencyChange, currencyTitle, dataState, lastUpdated }: SiteHeaderProps) {
+export function SiteHeader({ brandArtwork = "redrawn", currency, onCurrencyChange, currencyTitle, dataState, lastUpdated }: SiteHeaderProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [localCurrency, setLocalCurrency] = useState<Currency>("usd");
