@@ -127,6 +127,11 @@ type ChannelVideo = {
 };
 
 const channelVideos: ChannelVideo[] = [
+  {
+    id: "PQ7gRxDG1Sg",
+    title: "How to Buy Bittensor Subnet Tokens: Set Up a TAO Wallet in Minutes",
+    meta: "10:24 · October 4, 2026",
+  },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
     id: "TmGJBuSoqrI",
@@ -164,6 +169,18 @@ const channelVideos: ChannelVideo[] = [
     meta: "20:56 · September 14, 2026",
   },
   latestMemberVideo,
+  {
+    id: "ChgsHOGC1hM",
+    title: "10/2/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "8:46 · Members-only video · October 2, 2026",
+    membersOnly: true,
+  },
+  {
+    id: "FqFmRffEgVU",
+    title: "9/29/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "9:13 · Members-only video · September 29, 2026",
+    membersOnly: true,
+  },
   {
     id: "4JHTcfpT28M",
     title: "9/25/26 Bittensor News Updates & TAO Price Action | Members Video",
