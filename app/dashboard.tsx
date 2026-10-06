@@ -373,6 +373,11 @@ const channelVideos: ChannelVideo[] = [
 const liveStreams: ChannelVideo[] = [
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
+    id: "NAbCyYwZ_5w",
+    title: "Can Bittensor Train Real Robots? Inside Nepher Robotics SN49",
+    meta: "52:47 · Livestream replay · October 1, 2026",
+  },
+  {
     id: "MHGlnZgsUQI",
     title: "Should TAO Be In YOUR Portfolio??",
     meta: "46:58 · Livestream replay · September 24, 2026",
