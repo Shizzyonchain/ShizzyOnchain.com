@@ -11,15 +11,15 @@ export const latestMemberVideo = {
 // Update this alongside the channel's Live tab during each news/video refresh.
 // The removed Cascade and postponed VUNE URLs must not be restored.
 export const promotedLivestream = {
-  enabled: false,
+  enabled: true,
   listed: true,
-  id: "NAbCyYwZ_5w",
-  title: "Can Bittensor Train Real Robots? Inside Nepher Robotics SN49",
-  meta: "52:47 · Livestream replay · October 1, 2026",
+  id: "mTJBFowN4Yo",
+  title: "Your Stake. Your Decision. Inside Bittensor’s First Democratised Validator",
+  meta: "Upcoming livestream · October 6, 2026 · 11 AM ET",
   membersOnly: false,
-  upcoming: false,
-  headline: "Can Bittensor Train Real Robots? Live with SN49 Nepher",
-  schedule: "October 1 · 1 PM ET / 10 AM PT",
-  startsAt: "2026-10-01T17:00:00Z",
-  expiresAt: "2026-10-01T20:00:00Z",
+  upcoming: true,
+  headline: "Your Stake. Your Decision. Live with Subnet Summer & Medulla Labs",
+  schedule: "October 6 · 11 AM ET / 8 AM PT",
+  startsAt: "2026-10-06T15:00:00Z",
+  expiresAt: "2026-10-06T18:00:00Z",
 };

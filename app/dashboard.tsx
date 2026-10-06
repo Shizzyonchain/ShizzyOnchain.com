@@ -128,11 +128,21 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "EY-s2-882uA",
+    title: "Bittensor TAO at $300: Is This the Launchpad for Liftoff?",
+    meta: "22:09 · October 5, 2026",
+  },
+  {
     id: "PQ7gRxDG1Sg",
     title: "How to Buy Bittensor Subnet Tokens: Set Up a TAO Wallet in Minutes",
     meta: "10:24 · October 4, 2026",
   },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
+  {
+    id: "NAbCyYwZ_5w",
+    title: "Can Bittensor Train Real Robots? Inside Nepher Robotics SN49",
+    meta: "52:47 · Livestream replay · October 1, 2026",
+  },
   {
     id: "TmGJBuSoqrI",
     title: "$400 TAO NEXT WEEK? Bittensor Is Ready to Explode!",
