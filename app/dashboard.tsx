@@ -139,6 +139,17 @@ const channelVideos: ChannelVideo[] = [
   },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
+    id: "mTJBFowN4Yo",
+    title: "Your Stake. Your Decision. Inside Bittensor’s First Democratised Validator",
+    meta: "49:17 · Livestream replay · October 6, 2026",
+  },
+  {
+    id: "M2nWtKAkw6I",
+    title: "10/4/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "10:11 · Members-only video · October 4, 2026",
+    membersOnly: true,
+  },
+  {
     id: "NAbCyYwZ_5w",
     title: "Can Bittensor Train Real Robots? Inside Nepher Robotics SN49",
     meta: "52:47 · Livestream replay · October 1, 2026",
@@ -372,6 +383,11 @@ const channelVideos: ChannelVideo[] = [
 ];
 const liveStreams: ChannelVideo[] = [
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
+  {
+    id: "mTJBFowN4Yo",
+    title: "Your Stake. Your Decision. Inside Bittensor’s First Democratised Validator",
+    meta: "49:17 · Livestream replay · October 6, 2026",
+  },
   {
     id: "NAbCyYwZ_5w",
     title: "Can Bittensor Train Real Robots? Inside Nepher Robotics SN49",

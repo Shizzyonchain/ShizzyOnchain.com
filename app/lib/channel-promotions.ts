@@ -1,25 +1,25 @@
 export const youtubeMembershipUrl = "https://www.youtube.com/channel/UCzp_1hHByX_XBnRRJPucEIw/join";
 
 export const latestMemberVideo = {
-  id: "M2nWtKAkw6I",
-  title: "10/4/26 Bittensor News Updates & TAO Price Action | Members Video",
-  meta: "10:11 · Members-only video · October 4, 2026",
-  publishedLabel: "October 4",
+  id: "w7yEF24XuFc",
+  title: "10/6/26 Bittensor News Updates & TAO Price Action | Members Video",
+  meta: "5:29 · Members-only video · October 6, 2026",
+  publishedLabel: "October 6",
   membersOnly: true,
 };
 
 // Update this alongside the channel's Live tab during each news/video refresh.
-// The removed Cascade and postponed VUNE URLs must not be restored.
+// The removed Cascade URL and postponed VUNE URL must not be restored.
 export const promotedLivestream = {
   enabled: true,
   listed: true,
-  id: "mTJBFowN4Yo",
-  title: "Your Stake. Your Decision. Inside Bittensor’s First Democratised Validator",
-  meta: "Upcoming livestream · October 6, 2026 · 11 AM ET",
+  id: "OWQoSVN3M9s",
+  title: "Can AI Predict the Future? Inside Bittensor’s Cascade SN91",
+  meta: "Upcoming livestream · October 7, 2026 · 11 AM ET",
   membersOnly: false,
   upcoming: true,
-  headline: "Your Stake. Your Decision. Live with Subnet Summer & Medulla Labs",
-  schedule: "October 6 · 11 AM ET / 8 AM PT",
-  startsAt: "2026-10-06T15:00:00Z",
-  expiresAt: "2026-10-06T18:00:00Z",
+  headline: "Live with SN91 Cascade: Can AI Predict the Future?",
+  schedule: "October 7 · 11 AM ET / 8 AM PT",
+  startsAt: "2026-10-07T15:00:00Z",
+  expiresAt: "2026-10-07T18:00:00Z",
 };
