@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     google: "LOBmr7tij4lUklupg4cSvTaPoKhpCMgmC87eYESDjes",
   },
   icons: {
-    icon: [{ url: "/favicon.svg?v=2", type: "image/svg+xml", sizes: "any" }],
-    shortcut: "/favicon.svg?v=2",
+    icon: [{ url: "/favicon.svg?v=3", type: "image/svg+xml", sizes: "any" }],
+    shortcut: "/favicon.svg?v=3",
     apple: "/shizzy-unchained-logo.png",
   },
   openGraph: { title, description, type: "website", siteName: "ShizzyUnchained", images: [shareImage] },

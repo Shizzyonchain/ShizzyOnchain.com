@@ -1,10 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Shizzy Unchained</title>
   <defs>
     <linearGradient id="blue" x1="12" y1="54" x2="51" y2="8" gradientUnits="userSpaceOnUse">
       <stop stop-color="#1558ff"/><stop offset=".58" stop-color="#00cfff"/><stop offset="1" stop-color="#ffffff"/>
     </linearGradient>
+    <rect id="left-top" x="11" y="13" width="12" height="22" rx="6" transform="rotate(-8 17 24)"/>
+    <rect id="right-top" x="41" y="13" width="12" height="22" rx="6" transform="rotate(8 47 24)"/>
+    <rect id="left-base" x="13" y="29" width="12" height="23" rx="6" transform="rotate(-29 19 40.5)"/>
+    <rect id="right-base" x="39" y="29" width="12" height="23" rx="6" transform="rotate(29 45 40.5)"/>
+    <rect id="bottom" x="21" y="43" width="22" height="12" rx="6"/>
   </defs>
-  <circle cx="32" cy="32" r="31" fill="#020817" stroke="#ffffff" stroke-width="2"/>
-  <path d="M15 19v20c0 9 7 15 16 15s16-6 16-15V19h-9v20c0 4-3 7-7 7s-7-3-7-7V19z" fill="none" stroke="#ffffff" stroke-width="8" stroke-linejoin="round"/>
-  <path d="M38 5 19 35h11l-5 24 22-34H35z" fill="url(#blue)" stroke="#031126" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="31" fill="#000000" stroke="#ffffff" stroke-width="2"/>
+  <g fill="#000000" stroke="#ffffff" stroke-width="4.5">
+    <use href="#left-top"/>
+    <use href="#right-top"/>
+    <use href="#left-base" stroke="#000000" stroke-width="8"/>
+    <use href="#left-base"/>
+    <use href="#right-base" stroke="#000000" stroke-width="8"/>
+    <use href="#right-base"/>
+    <use href="#bottom" stroke="#000000" stroke-width="8"/>
+    <use href="#bottom"/>
+  </g>
+  <path d="M37 7 21 33h10l-5 23 19-29H34z" fill="url(#blue)" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
 </svg>
