@@ -135,7 +135,7 @@ const channelVideos: ChannelVideo[] = [
   {
     id: "PQ7gRxDG1Sg",
     title: "How to Buy Bittensor Subnet Tokens: Set Up a TAO Wallet in Minutes",
-    meta: "10:24 · October 4, 2026",
+    meta: "10:25 · October 4, 2026",
   },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
