@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SiteHeader } from "../site-header";
 import { CreatorFooter } from "../creator-footer";
 import { taoHeadsCommunity } from "../lib/community";
+import { shizzyShareImage } from "../lib/share-images";
 import styles from "../creator-pages.module.css";
 
 const title = "About Shizzy Unchained | Bittensor, TAO & the People Building It";
@@ -13,8 +14,8 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/about" },
-  openGraph: { title, description, url: "/about", images: ["/shizzy-unchained-logo.png"] },
-  twitter: { card: "summary_large_image", title, description, images: ["/shizzy-unchained-logo.png"] },
+  openGraph: { title, description, url: "/about", images: [shizzyShareImage] },
+  twitter: { card: "summary_large_image", title, description, images: [shizzyShareImage] },
 };
 
 const explore = [

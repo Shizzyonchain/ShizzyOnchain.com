@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { shizzyShareImage } from "./lib/share-images";
 import "./globals.css";
 import "./site-theme.css";
 
 const title = "ShizzyUnchained — Bittensor Market Intelligence";
 const description = "Live Bittensor subnet price action, market analytics, and mass wallet portfolio checks.";
-const shareImage = {
-  url: "/shizzy-unchained-logo.png",
-  width: 560,
-  height: 280,
-  alt: "ShizzyUnchained",
-};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shizzyunchained.com"),
@@ -26,8 +21,8 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg?v=3",
     apple: "/shizzy-unchained-logo.png",
   },
-  openGraph: { title, description, type: "website", siteName: "ShizzyUnchained", images: [shareImage] },
-  twitter: { card: "summary_large_image", title, description, images: [shareImage] },
+  openGraph: { title, description, type: "website", siteName: "ShizzyUnchained", images: [shizzyShareImage] },
+  twitter: { card: "summary_large_image", title, description, images: [shizzyShareImage] },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
