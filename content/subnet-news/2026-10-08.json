@@ -2,10 +2,10 @@
   "version": 1,
   "date": "2026-10-08",
   "title": "Subnet News — October 8, 2026",
-  "summary": "SN51 lium.io’s revenue-funded buybacks get a quantified OpenTensor Foundation report. SN75 Hippius launches Shared Accounts, SN95 Actual opens toks to unrestricted commercial scale under Apache 2.0, and SN71 Leadpoet announces SubConnect backing. SN3 Teutonic expands its competitions, SN28 SayGM ships a desktop agent, and SN41 Almanac reports record monthly fees. Plus fresh robotics, forecasting and coding results, reward changes that still need confirmation, and the SN91 Cascade replay.",
-  "publishedAt": "2026-10-08T15:58:12.068Z",
+  "summary": "SN51 lium.io’s revenue-funded buybacks get a quantified OpenTensor Foundation report. SN75 Hippius launches Shared Accounts, SN95 Actual opens toks to unrestricted commercial scale under Apache 2.0, and SN71 Leadpoet announces SubConnect backing. SN3 Teutonic expands its competitions, SN28 SayGM ships a desktop agent, and SN41 Almanac reports record monthly fees. Plus fresh robotics, forecasting and coding results, reward changes that still need confirmation, and the SN91 Cascade replay. A follow-up sweep adds SN44 Score’s world-model demo and late-found football task, SN105 Beam’s OpenClaw skill, and SN64 Chutes’ SN114 SOMA integration and hardware gates. SN122 CookingTAO also sets a future one-click SN51 lium.io mining target.",
+  "publishedAt": "2026-10-08T16:31:05Z",
   "coverageStart": "2026-10-07T14:44:53.172Z",
-  "coverageEnd": "2026-10-08T15:58:12.068Z",
+  "coverageEnd": "2026-10-08T16:31:05Z",
   "highlights": [],
   "upcomingUnlocks": [],
   "subnets": [
@@ -401,7 +401,44 @@
     {
       "netuid": 44,
       "name": "Score",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN44 Score demonstrates an early world-model baseline from one store image",
+          "summary": "On October 8, SN44 Score shared a world-model demonstration from Max Sebti: one AI-generated store image and a camera path produce 49 frames at 512×512, alongside an estimate of the visible 3D surfaces. The official team shared the clip as a baseline for miners to improve. It gives the move from computer vision toward spatial intelligence a concrete output: generating how a scene might look as a camera moves through it, rather than only detecting objects already in a frame. The original post explicitly acknowledges visible artifacts, predicted unseen views and reliable physical simulation still ahead. This is an early demonstrated pipeline, not a launched simulator, independently reproduced benchmark or new customer deployment.",
+          "rating": 3,
+          "ratingReason": "SN44 Score provides an inspectable early world-model demonstration with official team confirmation; commercial deployment and reliable simulation remain future goals.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN44 October 8 world-model demonstration and limitations",
+              "url": "https://x.com/MaxSebti/status/2108108478317277507"
+            },
+            {
+              "label": "SN44 official team shares the baseline for miners",
+              "url": "https://x.com/webuildscore/status/2108109549181837380"
+            }
+          ]
+        },
+        {
+          "headline": "SN44 Score’s October 6 football task is live with hourly evaluations",
+          "summary": "Late-found October 6 announcement: SN44 Score opened Detect Football Event, asking miners to identify passes, shots, saves and other match events in low-resolution youth-football footage. A single wide camera and a ball only a few pixels across make this a temporal understanding problem, beyond recognizing an object in a still image. The team announced a 53.1% best score against an 85% target and hourly evaluations. At the October 8 follow-up check, 16:27 UTC, the public console listed the task as live with a 53.9% private score against the same 85% target. Those are task-specific scores at different observation times, not a general accuracy claim or proof that the target has been reached. This corrects an omission without presenting the October 6 launch as new today.",
+          "rating": 3,
+          "ratingReason": "SN44 Score has a distinct live mining task supported by an original team announcement and current public console; the original event date and unmet target are explicit.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN44 original October 6 football-task announcement",
+              "url": "https://x.com/webuildscore/status/2107448200495788245"
+            },
+            {
+              "label": "SN44 public challenge console checked October 8",
+              "url": "https://console.scorestudio.ai/"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 45,
@@ -439,7 +476,7 @@
       "updates": [
         {
           "headline": "SN51 lium.io: OpenTensor reports nearly $2.7 million in revenue-funded alpha buybacks",
-          "summary": "The OpenTensor Foundation’s October 8 update puts numbers behind SN51 lium.io’s GPU business: five buybacks between April and September reportedly removed roughly 171,000 alpha, worth nearly $2.7 million. September’s $946,000 purchase was the largest. The Foundation also cites $964,000 in rental billings and about 613,000 GPU-hours for August 10–September 9, with billed accounts rising from 445 to 1,187. The business connection matters: customer GPU-credit revenue is used to purchase SN51 lium.io alpha with TAO, then burn that alpha. This is a new primary ecosystem report about historical activity, not a new $2.7 million purchase today. Transaction-by-transaction burns and funding were not independently reconstructed, and these figures do not settle yesterday’s separate report of an October 5,000 TAO purchase. TAO itself is not the token described as burned.",
+          "summary": "The OpenTensor Foundation’s October 8 update puts numbers behind SN51 lium.io’s GPU business: five buybacks between April and September reportedly removed roughly 171,000 alpha, worth nearly $2.7 million. September’s $946,000 purchase was the largest. The Foundation also cites $964,000 in rental billings and about 613,000 GPU-hours for August 10–September 9, with billed accounts rising from 445 to 1,187. The business connection matters: customer GPU-credit revenue is used to purchase SN51 lium.io alpha with TAO, then burn that alpha. This is a new primary ecosystem report about historical activity, not a new $2.7 million purchase today. Transaction-by-transaction burns and funding were not independently reconstructed, and these figures do not settle yesterday’s separate report of an October 5,000 TAO purchase. TAO itself is not the token described as burned. Separately, on October 7, SN51 lium.io said utilization was at an all-time high and most GPU types were fully rented, calling for more GPU providers. That is a current team-reported capacity signal, not an independently audited utilization percentage or guaranteed provider income.",
           "rating": 4,
           "ratingReason": "SN51 lium.io has substantial, quantified customer usage and a described revenue-to-alpha mechanism in a fresh OpenTensor Foundation report. Historical figures and independent transaction verification remain distinct.",
           "importance": "high",
@@ -460,6 +497,10 @@
             {
               "label": "SN51 alpha buyback-and-burn mechanics",
               "url": "https://x.com/opentensor/status/2108218982356631759"
+            },
+            {
+              "label": "SN51 October 7 GPU-utilization statement and provider call",
+              "url": "https://x.com/lium_io/status/2107895913930768749"
             }
           ]
         }
@@ -593,7 +634,22 @@
     {
       "netuid": 64,
       "name": "Chutes",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN64 Chutes confirms SN114 SOMA inference integration; AMD hardware remains gated",
+          "summary": "SN64 Chutes’ October 7 engineering recap confirms that SN114 SOMA is live on its inference service. SN114 SOMA compresses an agent’s context before inference, reducing the tokens it sends; the cost benefit is a team-described product mechanism, not an independently measured savings guarantee. The recap also distinguishes AMD SEV-SNP verification support from actual AMD hardware admission: the team says no AMD hosts are on the network yet and admission waits for attestable resolution of AMD-SB-3030. Private-chute hot-swap upgrades remain in progress. On research, the successor Lambda run is reported ahead of Kappa at the same training point, without an independently repeated comparison. Kappa results and the phone demonstration were already covered; the recap does not turn either into a newly downloadable consumer app.",
+          "rating": 3,
+          "ratingReason": "SN64 Chutes supplies a primary integration and engineering-status update with clear boundaries between available inference, verification support and future hardware admission.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN64 October 7 engineering recap: SN114 integration, Lambda and AMD gates",
+              "url": "https://x.com/chutes_ai/status/2107926637387894892"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 65,
@@ -1057,6 +1113,24 @@
               "url": "https://github.com/Beam-Network/beam-core-public"
             }
           ]
+        },
+        {
+          "headline": "SN105 Beam makes its OpenClaw data-movement skill available on ClawHub",
+          "summary": "SN105 Beam announced its OpenClaw skill late October 7 Eastern, at 03:30 UTC October 8. The linked ClawHub listing is available as version 0.1.0 and describes agent-controlled object transfers and fan-out between supported storage endpoints, including Amazon S3, Cloudflare R2, SN75 Hippius and Hugging Face, plus Beam Rooms for machine-to-machine messages, streams and file exchange. This packages the network’s data movement for AI-agent workflows instead of requiring every developer to assemble the integration. The listing explicitly says private-service tunnels are not available, so the older deeper-integration roadmap is not treated as fully delivered. Availability does not establish new paying customers, revenue or measured transfer performance, and it does not resolve the separate holding and telemetry questions reported today.",
+          "rating": 3,
+          "ratingReason": "SN105 Beam has an original launch announcement and reachable product listing for a practical agent integration, with unsupported roadmap features and business results kept separate.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN105 original OpenClaw skill availability announcement",
+              "url": "https://x.com/b1m_ai/status/2108037272532664806"
+            },
+            {
+              "label": "SN105 Beam skill version 0.1.0 and supported capabilities",
+              "url": "https://clawhub.ai/beam-network/skills/beam"
+            }
+          ]
         }
       ]
     },
@@ -1181,7 +1255,26 @@
     {
       "netuid": 122,
       "name": "CookingTAO",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN122 CookingTAO targets third-week-of-October one-click SN51 lium.io mining",
+          "summary": "SN122 CookingTAO’s October 7 roadmap says SN51 lium.io will be available for one-click mining setup during the third week of October, in its beta v2 phase. The plan would extend its simplified mining workflow into a GPU-rental subnet; it is a dated integration target, not a feature confirmed available today. The announcement quotes SN51 lium.io’s separate call for additional GPU providers, but that post does not independently confirm SN122 CookingTAO’s delivery date or a formal partnership. The beta dashboard and future buyback allocation were already covered on October 7, with buybacks explicitly not started. This item adds the specific SN51 integration target and keeps those earlier milestones separate.",
+          "rating": 3,
+          "ratingReason": "SN122 CookingTAO supplies a concrete, primary-sourced integration timeline relevant to miners, while availability, delivery and bilateral partnership remain unconfirmed.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "label": "SN122 October 7 one-click SN51 mining roadmap",
+              "url": "https://x.com/CookingTao_/status/2107956092961796111"
+            },
+            {
+              "label": "SN51 October 7 call for additional GPU providers",
+              "url": "https://x.com/lium_io/status/2107895913930768749"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 123,
@@ -1254,10 +1347,11 @@
       "Signed-in @ShizzyUnchained X searches for ecosystem launches, official organizers, revenue claims, customer/investment leads and market outliers; 196 associated public-account candidates, 186 usable samples and 205 current post records. Public samples are discovery, not exhaustive SN-number/name searches.",
       "AlphaGap signed dashboard, SubnetRadar public feed and dated briefs, TAO Daily and TAO Media, official releases and 186 repository paths reviewed. Partnership counterparties checked where identifiable.",
       "Full-roster timestamped alpha/TAO market review, top-twelve emission review and 8 dated Moments compared with published selections; reviews retained separately in the source audit.",
-      "YouTube Videos and Live checked in the signed browser. SN91 Cascade replay OWQoSVN3M9s is public, 54:15, ended October 7. Latest members upload w7yEF24XuFc remains October 6, 5:29. Public default remains EY-s2-882uA; wallet setup PQ7gRxDG1Sg duration corrected to 10:25."
+      "YouTube Videos and Live checked in the signed browser. SN91 Cascade replay OWQoSVN3M9s is public, 54:15, ended October 7. Latest members upload w7yEF24XuFc remains October 6, 5:29. Public default remains EY-s2-882uA; wallet setup PQ7gRxDG1Sg duration corrected to 10:25.",
+      "Follow-up signed-in @ShizzyUnchained Grok discovery plus a second omission check against the public draft. Original X announcements and linked product pages verified: five distinct additions, including one explicitly dated October 6 catch-up, plus an update to the existing SN51 lium.io business story. Grok is discovery and does not establish exhaustive coverage."
     ],
     "gaps": [
-      "Research cutoff 2026-10-08T15:58:12.068Z. No complete X archive, private Discord access or Grok scan is claimed; associated public-account samples and selected signed searches are not exhaustive per-subnet name/SN searches.",
+      "Full-roster research cutoff 2026-10-08T15:58:12.068Z; focused Grok-led omission review through 2026-10-08T16:31:05Z. No complete X archive or private Discord access is claimed. Grok and associated public-account samples remain partial discovery, not exhaustive per-subnet name/SN searches.",
       "13 repository paths returned errors and 10 account candidates yielded no usable sample. Directory aliases can be stale. TAO Daily’s Hippius tag page returned 500; the relevant article and primary documentation were reachable.",
       "Generated briefs and AlphaGap summaries were discovery sources. SN14 Cacheon revenue, SN23 Trishool experiment, SN105 Beam access changes and SN102 Connito AI customer lead remain developing where original records or rollout were unavailable. Community allegations were not upgraded to verified facts.",
       "SN51 lium.io’s new OpenTensor Foundation report describes April–September billings and buybacks; exact burn transactions and the separate October 5,000 TAO claim were not reconstructed. SN41 Almanac figures are team reports, not independently audited accounts.",
@@ -1266,7 +1360,8 @@
       "SN108 ChipForge still displays zero validator agreement and no daily payout figure. SN78 UMI’s API still says rewards_active:false and chain_submission_authorized:false. SN116 Carbon’s public material remains development/testnet rather than a verified production reward launch.",
       "SN91 Cascade, SN62 Ridges, SN33 ReadyAI and SN18 Zeus performance figures are scoped team reports, not independently reproduced benchmarks or demonstrated financial returns.",
       "Subtensor owner-control code is merged, but Finney runtime activation was not verified. Pool lending remains an open proposal. Code, winning records and dashboard state do not by themselves prove live reward settlement.",
-      "No new upcoming Shizzy stream appeared in the sampled Live tab. The completed SN91 Cascade stream is retained as a replay; removed or postponed Cat, VUNE and older Cascade URLs remain excluded."
+      "No new upcoming Shizzy stream appeared in the sampled Live tab. The completed SN91 Cascade stream is retained as a replay; removed or postponed Cat, VUNE and older Cascade URLs remain excluded.",
+      "SN79 MVTRX testnet 0.6.3 was returned as a third-party lead without an original team post in Grok results; no new mainnet or completed activation claim was inferred. Grok did not search private Discord/Telegram channels or query chain state."
     ]
   }
 }

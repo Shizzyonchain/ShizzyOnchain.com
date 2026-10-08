@@ -2,28 +2,33 @@
   "version": 1,
   "date": "2026-10-08",
   "coverageStart": "2026-10-07T14:44:53.172Z",
-  "coverageEnd": "2026-10-08T15:58:12.068Z",
-  "assembledAt": "2026-10-08T15:58:12.068Z",
+  "coverageEnd": "2026-10-08T16:31:05Z",
+  "assembledAt": "2026-10-08T16:31:05Z",
   "counts": {
     "activeSubnets": 128,
-    "publishedItems": 32,
-    "subnetsWithUpdates": 28,
+    "publishedItems": 37,
+    "subnetsWithUpdates": 31,
     "datedBriefsScreened": 96,
     "repositoryPaths": 186,
     "publicXAccountCandidates": 196,
     "publicXAccountsAvailable": 186,
     "uniqueCurrentPostRecords": 205,
-    "linkedMoments": 8
+    "linkedMoments": 8,
+    "grokQueries": 2,
+    "grokLeadsReviewed": 22,
+    "grokAddedItems": 5,
+    "grokUpdatedItems": 1
   },
   "sourceMethods": [
     "All 128 current subnet identities and 96 October 7–8 channel briefs screened; preceding October 1–7 editions checked for pending launches, unresolved incidents and duplicates.",
     "Signed-in @ShizzyUnchained X searches for ecosystem launches, official organizers, revenue claims, customer/investment leads and market outliers; 196 associated public-account candidates, 186 usable samples and 205 current post records. Public samples are discovery, not exhaustive SN-number/name searches.",
     "AlphaGap signed dashboard, SubnetRadar public feed and dated briefs, TAO Daily and TAO Media, official releases and 186 repository paths reviewed. Partnership counterparties checked where identifiable.",
     "Full-roster timestamped alpha/TAO market review, top-twelve emission review and 8 dated Moments compared with published selections; reviews retained separately in the source audit.",
-    "YouTube Videos and Live checked in the signed browser. SN91 Cascade replay OWQoSVN3M9s is public, 54:15, ended October 7. Latest members upload w7yEF24XuFc remains October 6, 5:29. Public default remains EY-s2-882uA; wallet setup PQ7gRxDG1Sg duration corrected to 10:25."
+    "YouTube Videos and Live checked in the signed browser. SN91 Cascade replay OWQoSVN3M9s is public, 54:15, ended October 7. Latest members upload w7yEF24XuFc remains October 6, 5:29. Public default remains EY-s2-882uA; wallet setup PQ7gRxDG1Sg duration corrected to 10:25.",
+    "Follow-up signed-in @ShizzyUnchained Grok discovery plus a second omission check against the public draft. Original X announcements and linked product pages verified: five distinct additions, including one explicitly dated October 6 catch-up, plus an update to the existing SN51 lium.io business story. Grok is discovery and does not establish exhaustive coverage."
   ],
   "accessGaps": [
-    "Research cutoff 2026-10-08T15:58:12.068Z. No complete X archive, private Discord access or Grok scan is claimed; associated public-account samples and selected signed searches are not exhaustive per-subnet name/SN searches.",
+    "Full-roster research cutoff 2026-10-08T15:58:12.068Z; focused Grok-led omission review through 2026-10-08T16:31:05Z. No complete X archive or private Discord access is claimed. Grok and associated public-account samples remain partial discovery, not exhaustive per-subnet name/SN searches.",
     "13 repository paths returned errors and 10 account candidates yielded no usable sample. Directory aliases can be stale. TAO Daily’s Hippius tag page returned 500; the relevant article and primary documentation were reachable.",
     "Generated briefs and AlphaGap summaries were discovery sources. SN14 Cacheon revenue, SN23 Trishool experiment, SN105 Beam access changes and SN102 Connito AI customer lead remain developing where original records or rollout were unavailable. Community allegations were not upgraded to verified facts.",
     "SN51 lium.io’s new OpenTensor Foundation report describes April–September billings and buybacks; exact burn transactions and the separate October 5,000 TAO claim were not reconstructed. SN41 Almanac figures are team reports, not independently audited accounts.",
@@ -32,7 +37,8 @@
     "SN108 ChipForge still displays zero validator agreement and no daily payout figure. SN78 UMI’s API still says rewards_active:false and chain_submission_authorized:false. SN116 Carbon’s public material remains development/testnet rather than a verified production reward launch.",
     "SN91 Cascade, SN62 Ridges, SN33 ReadyAI and SN18 Zeus performance figures are scoped team reports, not independently reproduced benchmarks or demonstrated financial returns.",
     "Subtensor owner-control code is merged, but Finney runtime activation was not verified. Pool lending remains an open proposal. Code, winning records and dashboard state do not by themselves prove live reward settlement.",
-    "No new upcoming Shizzy stream appeared in the sampled Live tab. The completed SN91 Cascade stream is retained as a replay; removed or postponed Cat, VUNE and older Cascade URLs remain excluded."
+    "No new upcoming Shizzy stream appeared in the sampled Live tab. The completed SN91 Cascade stream is retained as a replay; removed or postponed Cat, VUNE and older Cascade URLs remain excluded.",
+    "SN79 MVTRX testnet 0.6.3 was returned as a third-party lead without an original team post in Grok results; no new mainnet or completed activation claim was inferred. Grok did not search private Discord/Telegram channels or query chain state."
   ],
   "marketReview": {
     "source": "https://shizzyunchained.com/api/backend/v1/screener",
@@ -1006,6 +1012,22 @@
       "netuid": 75,
       "state": "open",
       "decision": "NewsharedaccountsandCVMreleases do notclose earlierfamily-countcap."
+    },
+    {
+      "netuid": 122,
+      "state": "scheduled",
+      "decision": "SN122 CookingTAO targets one-click SN51 lium.io mining in the third week of October. Check delivery and partner confirmation in later daily runs; buybacks remain distinct and not assumed started.",
+      "sources": [
+        "https://x.com/CookingTao_/status/2107956092961796111"
+      ]
+    },
+    {
+      "netuid": 79,
+      "state": "unverified",
+      "decision": "Grok returned a third-party v0.6.3 testnet/multi-asset lead without an original team post. Recheck original release and actual network before any mainnet claim.",
+      "sources": [
+        "https://x.com/wu_tao_clan/status/2107777047640891890"
+      ]
     }
   ],
   "priorEditionsReviewed": [
@@ -2061,7 +2083,8 @@
     "EightMomentsinwindow ordinarywhaletrades only; no indexedlockreduction,swap,registration/removal inthissample. Fourhour309TAOrotationsnotindependentcommercialcatalysts.",
     "No unrelatedStonkFun, Xpost, wallettransaction, bridgeswap orpaidbenchmark.",
     "Cascadeendedreplay54:15verifiedwatchplayer; bannerdisabled, librarylistedtrue, upcomingfalse. Publicdefaultandmembersgate retained.",
-    "Final signed-in X Latest overlap check through 15:58 UTC: DSV announced a scheduled Monday Summit recap, rather than a completed launch; excluded from the material-development feed. Unconfirmed third-party listing/vote posts were not treated as official listings and their external sites were not opened."
+    "Final signed-in X Latest overlap check through 15:58 UTC: DSV announced a scheduled Monday Summit recap, rather than a completed launch; excluded from the material-development feed. Unconfirmed third-party listing/vote posts were not treated as official listings and their external sites were not opened.",
+    "October 8 Grok follow-up: five distinct supported additions (SN44 world-model baseline and explicitly late-found October 6 football task, SN105 OpenClaw listing, SN64 engineering recap, SN122 planned SN51 integration) plus an update to the existing SN51 story. New items are three stars; no forced five-star rating or X post. Prior editions preserved."
   ],
   "primaryChecks": [
     {
@@ -3840,6 +3863,61 @@
     {
       "localEvidence": "youtube-videos-signed.txt",
       "method": "Read-only signed browser evidence."
+    },
+    {
+      "localEvidence": "x-score-world-model-original.txt",
+      "method": "Original MaxSebti post and precise UTC announcement time.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "x-score-world-model-team.txt",
+      "method": "Official SN44 Score quote and team attribution.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "x-score-football-original.txt",
+      "method": "Original October 6 SN44 task announcement.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "score-console-grok-followup.txt",
+      "method": "Public SN44 console: live football task with current task score/target.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "x-beam-openclaw-original.txt",
+      "method": "Original SN105 Beam announcement in signed X.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "beam-clawhub-listing.txt",
+      "method": "Public v0.1.0 product listing and explicit tunnels limitation; no installation performed.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "x-chutes-technical-recap.txt",
+      "method": "Original SN64 October 7 engineering article read in signed X.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "grok-discovery-first.txt",
+      "method": "Signed-in Grok discovery response; leads only.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "grok-discovery-omission-check.txt",
+      "method": "Second Grok response compared against the public draft; leads only.",
+      "checkedAt": "2026-10-08T16:27:42Z"
+    },
+    {
+      "localEvidence": "x-cookingtao-lium-roadmap.txt",
+      "method": "Original SN122 October 7 roadmap; planned, not completed, SN51 integration.",
+      "checkedAt": "2026-10-08T16:31:05Z"
+    },
+    {
+      "localEvidence": "x-lium-capacity-original.txt",
+      "method": "Original SN51 October 7 GPU-capacity statement; not independent utilization or income verification.",
+      "checkedAt": "2026-10-08T16:31:05Z"
     }
   ],
   "chainEvents": [
@@ -6245,7 +6323,7 @@
           "error": null
         }
       ],
-      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search.",
+      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search. Follow-up: original official X source opened in the signed-in browser after Grok discovery. Follow-up: original official X source opened in the signed-in browser after Grok discovery.",
       "datedBriefs": [
         {
           "date": "2026-10-08",
@@ -6343,8 +6421,8 @@
           "error": null
         }
       ],
-      "publishedItemCount": 0,
-      "disposition": "No sufficiently supported distinct fresh item selected; emission, incident and outlier decisions retained separately."
+      "publishedItemCount": 2,
+      "disposition": "Published with primary-source checks, original event dates and specific prototype, rollout or observation limits; follow-up leads recorded in grokReview."
     },
     {
       "netuid": 45,
@@ -6731,7 +6809,7 @@
           "error": null
         }
       ],
-      "xSearchStatus": "Focused signed account/name/subject follow-up and associated public samples; no exhaustive history claimed.",
+      "xSearchStatus": "Focused signed account/name/subject follow-up and associated public samples; no exhaustive history claimed. Follow-up: original official X post opened in signed browser after Grok discovery.",
       "datedBriefs": [
         {
           "date": "2026-10-08",
@@ -6772,7 +6850,7 @@
         }
       ],
       "publishedItemCount": 1,
-      "disposition": "Published with source-specific scope and verification limits."
+      "disposition": "Published with original-source verification and clear distinction between current team reports and a planned future integration."
     },
     {
       "netuid": 52,
@@ -7661,7 +7739,7 @@
           "error": null
         }
       ],
-      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search.",
+      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search. Follow-up: original official X source opened in the signed-in browser after Grok discovery.",
       "datedBriefs": [
         {
           "date": "2026-10-08",
@@ -7706,8 +7784,8 @@
           "error": null
         }
       ],
-      "publishedItemCount": 0,
-      "disposition": "No sufficiently supported distinct fresh item selected; emission, incident and outlier decisions retained separately."
+      "publishedItemCount": 1,
+      "disposition": "Published with primary-source checks, original event dates and specific prototype, rollout or observation limits; follow-up leads recorded in grokReview."
     },
     {
       "netuid": 65,
@@ -10327,7 +10405,7 @@
           "error": null
         }
       ],
-      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search.",
+      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search. Follow-up: original official X source opened in the signed-in browser after Grok discovery.",
       "datedBriefs": [
         {
           "date": "2026-10-08",
@@ -10437,8 +10515,8 @@
           "error": null
         }
       ],
-      "publishedItemCount": 1,
-      "disposition": "Published with source-specific scope and verification limits."
+      "publishedItemCount": 2,
+      "disposition": "Published with primary-source checks, original event dates and specific prototype, rollout or observation limits; follow-up leads recorded in grokReview."
     },
     {
       "netuid": 106,
@@ -11570,7 +11648,7 @@
           "error": null
         }
       ],
-      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search.",
+      "xSearchStatus": "Associated public-account samples reviewed when available; not exhaustive SN-number/name search. Follow-up: original official X post opened in signed browser after Grok discovery.",
       "datedBriefs": [
         {
           "date": "2026-10-08",
@@ -11615,8 +11693,8 @@
           "error": null
         }
       ],
-      "publishedItemCount": 0,
-      "disposition": "No sufficiently supported distinct fresh item selected; emission, incident and outlier decisions retained separately."
+      "publishedItemCount": 1,
+      "disposition": "Published with original-source verification and clear distinction between current team reports and a planned future integration."
     },
     {
       "netuid": 123,
@@ -11883,5 +11961,254 @@
       "publishedItemCount": 0,
       "disposition": "No sufficiently supported distinct fresh item selected; emission, incident and outlier decisions retained separately."
     }
-  ]
+  ],
+  "grokReview": {
+    "status": "completed",
+    "identity": "@ShizzyUnchained",
+    "checkedAt": "2026-10-08T16:31:05Z",
+    "initialReportCutoff": "2026-10-08T15:58:12.068Z",
+    "coverageStart": "2026-10-07T14:44:53.172Z",
+    "coverageEnd": "2026-10-08T16:31:05Z",
+    "conversationUrl": "https://x.com/i/grok?conversation=22dcdb4b-e747-452f-a011-2f34438008e0",
+    "prompts": [
+      "Subnet news for today, October 8, 2026 (America/New_York). Search X for material announcements across Bittensor and ALL active subnets, not just popular accounts: product launches, customers/revenue, partnerships, benchmarks, model releases, validator/miner or emissions changes, security incidents, registrations/ownership changes, and OpenTensor/protocol news. Cover posts since October 7 at 14:44 UTC through now, and separately flag material announcements from the previous seven days that may have been missed. For every lead give the verified SN number and team name, exact original announcement date/time, what changed, why it matters, and a DIRECT original X post URL plus primary product/repository link if available. Distinguish completed launches from plans, teasers, reposts and old news. Do not invent facts, subnet numbers or links. No unrelated StonkFun or general crypto news. Separate uncertain claims and tell me what could not be searched. Aim for broad coverage including small subnets, and search official team accounts and relevant partner announcements. This is research, not a request to post anything.",
+      "Now do a focused omission check for October 8, 2026. Our report already covers the following public headlines:\nSN3 Teutonic adds code, math and text competitions with separate rewards\nSN14 Cacheon brief reports first customer and $100,000 September revenue\nSN15 ORO prepares runtime 3.5 and an OpenRouter-only Reader path\nSN18 Zeus reports a faster forecast-distribution window\nSN23 Trishool brief describes a temporary burn-weight experiment\nSN26 Perturb targets a November product launch and future revenue buybacks\nSN28 SayGM releases a desktop agent for everyday work\nSN30 Endure opens a dashboard for checking mainnet activity\nSN33 ReadyAI previews measured slide-deck skills; store opens later this month\nSN41 Almanac reports $69,868 in September fees and a larger buyback budget\nSN51 lium.io: OpenTensor reports nearly $2.7 million in revenue-funded alpha buybacks\nSN54 Yanez adds voice cloning in Phase 5; images still drive live rewards\nSN58 Attune invites robotics miners; Horizon remains upcoming\nSN62 Ridges’ test-generation competition lifts its top approved score to 42%\nSN65 True Performance Network reports more than 150 Bench accounts\nSN66 Conjectures lowers new bounty starting shares to 5%\nSN71 Leadpoet announces strategic investment from SubConnect\nSN71 Leadpoet changes Arena rewards to cumulative slots with weekly decay\nSN74 Gittensor adds a GPU-rental CLI with a testnet default\nSN75 Hippius launches team accounts with individual logins and one bill\nSN75 Hippius publishes a reproducible confidential-VM miner agent\nSN80 OpenRoboto bridge operator reports first-72-hour activity\nSN91 Cascade reports a stronger time-series result using fewer training tokens\nSN95 Actual releases toks 0.3.2 under Apache 2.0\nSN96 Verathos combines GPU verification and model computation with SN106 Nodexo\nSN97 Albedo expands coding trajectories with SN120 Affine data and leakage filters\nSN102 Connito AI brief reports a first customer design; primary confirmation pending\nSN105 Beam brief flags holding and telemetry changes; FAQ pending\nSN108 ChipForge reaches 53 submissions and a higher design score\nSN114 SOMA makes Jev available to miners for compression decisions\nSubtensor merges owner controls for proof-of-work difficulty\nPool-lending proposal adds a disabled-by-default price-impact control\nSN44 Score demonstrates a world-model baseline: 49 frames at 512x512 from one store image and a camera path (original MaxSebti post and official webuildscore quote checked)\nWhat OTHER material Bittensor announcements are missing from this list? Search official team and partner posts, smaller subnets, incidents, launches and reward changes from October 7 14:44 UTC through now. Return only distinct additional leads with original announcement dates and direct original links. For late discoveries from October 1-7, label the original date. Do not repeat covered developments, mistake plans for launches, or infer that a product integration is a new subnet. If no further supported lead is found, say so. We still verify every source ourselves."
+    ],
+    "evidence": [
+      "grok-discovery-first.txt",
+      "grok-discovery-omission-check.txt",
+      "grok-primary-checks.json"
+    ],
+    "limitations": "Keyword and semantic searches are partial. Original author/date/current subnet identity and linked product state must be verified; secondary digests are not primary proof. No private-community or chain-state completeness is claimed.",
+    "leads": [
+      {
+        "netuid": 44,
+        "topic": "World-model baseline",
+        "outcome": "added",
+        "reason": "Original October 8 post and official team quote verified in signed X; artifacts and simulation limits retained.",
+        "sources": [
+          "https://x.com/MaxSebti/status/2108108478317277507",
+          "https://x.com/webuildscore/status/2108109549181837380"
+        ],
+        "originalDate": "2026-10-08T08:13:22Z"
+      },
+      {
+        "netuid": 44,
+        "topic": "Detect Football Event",
+        "outcome": "added",
+        "reason": "Late-found October 6 original team launch verified; October 8 public console independently shows live task, 53.9 private score and 85 target. Earlier editions preserved.",
+        "sources": [
+          "https://x.com/webuildscore/status/2107448200495788245",
+          "https://console.scorestudio.ai/"
+        ],
+        "originalDate": "2026-10-06T12:29:40Z"
+      },
+      {
+        "netuid": 105,
+        "topic": "OpenClaw skill",
+        "outcome": "added",
+        "reason": "Original announcement and reachable v0.1.0 ClawHub listing verified; tunnels not available, no transfer-performance or new revenue claim.",
+        "sources": [
+          "https://x.com/b1m_ai/status/2108037272532664806",
+          "https://clawhub.ai/beam-network/skills/beam"
+        ],
+        "originalDate": "2026-10-08T03:30:25Z"
+      },
+      {
+        "netuid": 64,
+        "topic": "Engineering recap, SN114 SOMA integration, Lambda and AMD gate",
+        "outcome": "added",
+        "reason": "Original October 7 article read in signed X. New integration and engineering status distinguished from Kappa and phone results covered earlier.",
+        "sources": [
+          "https://x.com/chutes_ai/status/2107926637387894892"
+        ],
+        "originalDate": "2026-10-07T20:10:48Z"
+      },
+      {
+        "netuid": 95,
+        "topic": "toks Apache 2.0 licensing",
+        "outcome": "already-covered",
+        "reason": "October 8 edition already covers v0.3.2 and removal of the commercial-license gate. Grok mixes the older BSL threshold into its summary; the verified licence is controlling.",
+        "sources": [
+          "https://x.com/Tom_A_Lynch/status/2107994744781692966",
+          "https://github.com/actual-computer/toks"
+        ],
+        "originalDate": "2026-10-08"
+      },
+      {
+        "netuid": 51,
+        "topic": "Foundation buyback and billings report",
+        "outcome": "already-covered",
+        "reason": "October 8 edition already covers the primary Foundation report, retrospective figures and annualization boundary.",
+        "sources": [
+          "https://x.com/opentensor/status/2108219001138725206",
+          "https://x.com/opentensor/status/2108218982356631759"
+        ],
+        "originalDate": "2026-10-08"
+      },
+      {
+        "netuid": 30,
+        "topic": "Mainnet and dashboard",
+        "outcome": "already-covered",
+        "reason": "Mainnet announcement covered October 7; dashboard follow-up covered October 8. No duplicate launch.",
+        "sources": [
+          "https://x.com/EndureNet/status/2107484684837917119",
+          "https://x.com/EndureNet/status/2107884600001270100"
+        ],
+        "originalDate": "2026-10-06"
+      },
+      {
+        "netuid": 95,
+        "topic": "Original toks release",
+        "outcome": "already-covered",
+        "reason": "Original release covered October 7; October 8 licensing update already selected.",
+        "sources": [
+          "https://x.com/actualinc/status/2107573418434629849"
+        ],
+        "originalDate": "2026-10-06"
+      },
+      {
+        "netuid": 28,
+        "topic": "Proof of Customers/referrals",
+        "outcome": "already-covered",
+        "reason": "October 7 edition covers paying-customer qualification and alpha pool. Miner-health alerts in a generated digest are not elevated to a separate material primary announcement.",
+        "sources": [
+          "https://x.com/say_gm_/status/2107556664442544458",
+          "https://x.com/subnetradarcom/status/2107910118243225800"
+        ],
+        "originalDate": "2026-10-06"
+      },
+      {
+        "netuid": 122,
+        "topic": "Beta v2.1 and dashboard",
+        "outcome": "already-covered",
+        "reason": "October 7 edition covers beta v2.1 dashboard, three mining deployments and buybacks not started.",
+        "sources": [
+          "https://x.com/CookingTao_/status/2107544381771141313"
+        ],
+        "originalDate": "2026-10-06"
+      },
+      {
+        "netuid": 122,
+        "topic": "Planned one-click SN51 lium.io mining",
+        "outcome": "added",
+        "reason": "Original October 7 team roadmap checked in signed X. Third-week-of-October target is explicit; launch and a formal bilateral partnership are not claimed.",
+        "sources": [
+          "https://x.com/CookingTao_/status/2107956092961796111"
+        ],
+        "originalDate": "2026-10-07T22:07:51Z"
+      },
+      {
+        "netuid": 79,
+        "topic": "MVTRX testnet v0.6.3 and second asset",
+        "outcome": "unverified",
+        "reason": "Third-party source supplied, no original team post retrieved. October 3 edition already distinguished v0.6.2 mainnet from planned multi-asset work; do not infer v0.6.3 mainnet activation.",
+        "sources": [
+          "https://x.com/wu_tao_clan/status/2107777047640891890",
+          "https://subnetradar.com/subnet-news/79/2026-10-07"
+        ],
+        "originalDate": "2026-10-07"
+      },
+      {
+        "netuid": 114,
+        "topic": "Competition and Jev availability",
+        "outcome": "already-covered",
+        "reason": "October 8 edition covers original Jev availability; earlier October 5 reruns and payout questions remain separately tracked.",
+        "sources": [
+          "https://x.com/SomaSubnet/status/2107879871720665090"
+        ],
+        "originalDate": "2026-10-07"
+      },
+      {
+        "netuid": 106,
+        "topic": "Nodexo focus on SN96 and sale exploration",
+        "outcome": "already-covered",
+        "reason": "October 5 developing item and October 8 official product-combination update already cover this; no completed ownership sale inferred.",
+        "sources": [
+          "https://x.com/subnetradarcom/status/2107184228190286225"
+        ],
+        "originalDate": "2026-10-05"
+      },
+      {
+        "netuid": 105,
+        "topic": "PRISM exploit/fix digest",
+        "outcome": "unverified",
+        "reason": "Secondary recap alone does not establish current resolution. No new exploit allegation or all-clear published without checking original security records.",
+        "sources": [
+          "https://x.com/subnetradarcom/status/2107184228190286225"
+        ],
+        "originalDate": "2026-10-01"
+      },
+      {
+        "netuid": 15,
+        "topic": "One-agent enforcement",
+        "outcome": "already-covered",
+        "reason": "October 3 and October 5 editions cover copied-agent restrictions and enforcement with code/brief sources; current unresolved incidents remain open.",
+        "sources": [
+          "https://subnetradar.com/subnet-news/15/2026-10-05"
+        ],
+        "originalDate": "2026-10-05"
+      },
+      {
+        "netuid": 26,
+        "topic": "70/30 adversarial/clean weighting",
+        "outcome": "already-covered",
+        "reason": "October 5 developing item already covers the weighting change; October 8 primary commercialization roadmap is distinct.",
+        "sources": [
+          "https://subnetradar.com/subnet-news/26/2026-10-05"
+        ],
+        "originalDate": "2026-10-05"
+      },
+      {
+        "netuid": 111,
+        "topic": "90% default miner burn",
+        "outcome": "already-covered",
+        "reason": "October 3 plan and October 7 merged code already covered, with applied on-chain distribution not assumed.",
+        "sources": [
+          "https://subnetradar.com/subnet-news/111/2026-10-03"
+        ],
+        "originalDate": "2026-10-03"
+      },
+      {
+        "netuid": 58,
+        "topic": "Attune launch identity",
+        "outcome": "already-covered",
+        "reason": "Current primary identity and team invitation checked in October 8 research; Grok failing to identify the account does not undo those checks. No blanket new launch claim added.",
+        "sources": [
+          "https://x.com/RealMrNida/status/2108213767708586289"
+        ],
+        "originalDate": "2026-10-08"
+      },
+      {
+        "netuid": 71,
+        "topic": "SubConnect backing",
+        "outcome": "already-covered",
+        "reason": "Current identity is SN71 and the October 8 original-source story is already published. Grok uncertainty about the SN number is not controlling.",
+        "sources": [
+          "https://shizzyunchained.com/subnet-news/2026-10-08"
+        ],
+        "originalDate": "2026-10-08"
+      },
+      {
+        "netuid": null,
+        "topic": "OpenTensor weekly roundup and Root Reborn commentary",
+        "outcome": "excluded",
+        "reason": "Weekly retrospective and mechanism commentary are not new launches. SN4 capacity, SN44 business report, SN10/SN53 production collaboration and SN78 hardware/intake have dated coverage; current primary activation gates remain controlling.",
+        "sources": [
+          "https://x.com/opentensor/status/2106786624210194524"
+        ],
+        "originalDate": "2026-10-04"
+      },
+      {
+        "netuid": 51,
+        "topic": "GPU capacity and provider recruitment",
+        "outcome": "updated",
+        "reason": "Original October 7 team post verified in signed X; added the reported capacity signal to the existing SN51 story without claiming independently audited utilization or guaranteed provider income.",
+        "sources": [
+          "https://x.com/lium_io/status/2107895913930768749"
+        ],
+        "originalDate": "2026-10-07T18:08:43Z"
+      }
+    ]
+  }
 }

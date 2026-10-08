@@ -4,7 +4,7 @@ Subnet News is a repository-backed daily publication. Each report is a validated
 
 ## Daily 10 AM workflow
 
-1. Research the public Bittensor ecosystem for the coverage window, prioritizing X searches by every active SN number and subnet name.
+1. Research the public Bittensor ecosystem for the coverage window, prioritizing X searches by every active SN number and subnet name. Run the required signed-in Grok discovery and omission check below alongside the usual sources.
 2. Cross-check claims against primary sources and label each item `verified`, `developing`, or `rumor`.
 3. Create a report from `scripts/subnet-news-template.json`. Include every active subnet in `subnets`; use an empty `updates` array when no material update is found.
 4. Run `npm run publish:subnet-news -- <report-file.json>`.
@@ -13,6 +13,16 @@ Subnet News is a repository-backed daily publication. Each report is a validated
 7. Confirm `/subnet-news` shows the new date and `/subnet-news/YYYY-MM-DD` loads successfully.
 
 This workflow uses the repository's existing authenticated Git access. It does not require a public ingestion endpoint, a GitHub personal access token in Vercel, or a publishing secret. Invalid reports fail validation before deployment.
+
+## Required signed-in Grok discovery and omission check
+
+Starting October 8, 2026, use the owner's signed-in X account to ask Grok for subnet news on every daily news run. This is an additional discovery source, alongside AlphaGap, SubnetRadar, TAO Daily, official team and partner accounts, repositories, market outliers, emissions and Moments. It does not replace the full-roster research or primary-source checks. Research through Grok does not authorize posting on X.
+
+1. Verify that X is signed in as `@ShizzyUnchained`. Ask: "Subnet news for today, [actual date] (America/New_York). Search all active Bittensor subnets and relevant partner accounts for launches, customers/revenue, partnerships, benchmarks, models, miner/validator and emission changes, incidents and protocol developments. Cover [previous coverageEnd] through [current cutoff], plus material missed announcements from the preceding seven days. Give the current SN number, team name, original announcement date/time, what changed, why it matters and direct original post/product/repository URLs. Separate completed developments from plans, teasers and old news. Flag uncertain identities and inaccessible sources. Exclude unrelated crypto news."
+2. Compare every returned lead with today's draft and the preceding seven editions, including unresolved and planned leads in their `grokReview` audits. Follow the original links; verify the author, original event date, current subnet identity and claimed product or code state. Grok's account references, citations, numbers and summaries can be wrong. Record each lead as `added`, `updated`, `already-covered`, `excluded` or `unverified`, with its source and a specific reason.
+3. Before signing off, ask a second focused question for omissions, supplying only the public draft headlines and coverage window: "What material Bittensor announcements are missing from this list? Check smaller subnets, official team and partner posts, incidents and launch/reward changes. Return only new leads with direct original links and dates; say when no additional lead is verified." Check any new leads against their primary sources as above.
+4. Save `grokReview` in the dated source audit: signed-in identity, actual check time, coverage window, prompts, conversation URL, access/result status, returned leads and their editorial dispositions. Save the visible response with the dated research evidence. A completed Grok query is not proof of exhaustive X coverage.
+5. If Grok is unavailable, rate-limited or returns no usable original links, record the exact limitation in `grokReview` and `coverage.gaps`, continue the other research, and state the gap honestly. Never silently omit this step or publish an unsupported Grok claim as verified. Date late-found stories explicitly and preserve prior editions.
 
 ## Editorial requirements
 
@@ -23,7 +33,7 @@ This workflow uses the repository's existing authenticated Git access. It does n
 - For editions after September 13, 2026, put the subnet number before its name whenever a subnet is mentioned in reader-facing news copy: for example, `SN80 OpenRoboto`, `SN92 MicroTensor`, and `SN23 Trishool`. Apply this to headlines, report summaries, story text, rating explanations, and source labels where applicable, including references to other subnets within a story. Use the verified current subnet number; do not guess one for a non-subnet organization or an uncertain identity. Keep official titles quoted verbatim and source URLs unchanged. This is a forward-only convention: do not revise September 13 or older editions for naming alone.
 - Maintain a per-subnet source audit in `content/subnet-news/audits/YYYY-MM-DD.json`: current identity, X access/search status, dated briefs reviewed, repositories scanned, errors, and published item count. A roster entry alone is not evidence that its X account was searched.
 - Begin each window at the previous report's `coverageEnd`. If publishing after the usual 10 AM run, extend to the actual research cutoff and state that timestamp so later posts are not silently omitted or counted twice.
-- Search X by current project account, name, aliases and SN number. Grok may discover leads when accessible, but follow its links to original posts and verify author/date. Never publish an unsupported Grok claim as verified.
+- Search X by current project account, name, aliases and SN number. Run the required signed-in Grok discovery and omission check when accessible; follow its links to original posts and verify author/date. Never publish an unsupported Grok claim as verified.
 - Search recent Bittensor and TAO mentions from infrastructure providers, exchanges, bridges and other partner accounts outside the subnet roster. Check both sides of partnership announcements before publication.
 - Starting September 4, 2026, assign every item a 1–5 star rating and a concise rationale. Rank the published feed by stars, with 5-star stories first. Use price action when it materially confirms market attention, record the observation time, and do not let price alone determine the rating.
 - Use the public project feed, dated Discord briefs and GitHub as additional discovery sources. If signed-in X or Grok is blocked, record the exact gap; do not claim exhaustive X coverage. X-only stories available solely through a secondary feed stay developing.
