@@ -24,6 +24,15 @@ Starting October 8, 2026, use the owner's signed-in X account to ask Grok for su
 4. Save `grokReview` in the dated source audit: signed-in identity, actual check time, coverage window, prompts, conversation URL, access/result status, returned leads and their editorial dispositions. Save the visible response with the dated research evidence. A completed Grok query is not proof of exhaustive X coverage.
 5. If Grok is unavailable, rate-limited or returns no usable original links, record the exact limitation in `grokReview` and `coverage.gaps`, continue the other research, and state the gap honestly. Never silently omit this step or publish an unsupported Grok claim as verified. Date late-found stories explicitly and preserve prior editions.
 
+## Required Const Reborn source review
+
+Starting with the October 9, 2026 edition, check `@const_reborn` (`https://x.com/const_reborn`) directly on every daily news run using the owner's signed-in X account. The owner requested this on October 8 and explicitly deferred the first check until October 9; do not backfill the October 8 edition for this request.
+
+- Review original posts, quote-posts and substantive replies in the coverage window, with the same seven-day overlap used for missed announcements. Explicitly include this account in both Grok discovery prompts; Grok does not replace the direct account check.
+- Include each distinct TAO/Bittensor announcement or relevant commentary in the news report, using ecosystem updates when no subnet applies. Preserve the actual post/event date, source URL and context. Label commentary as commentary and planned changes as planned; verify factual claims against primary releases, repositories or other original sources before marking them verified. Follow the existing SN naming and star-rating requirements.
+- Deduplicate repeated posts and already-covered announcements, adding meaningful new context to the existing story where appropriate. Unrelated posts do not belong in subnet news. Record reviewed post URLs and an explicit included, updated, already-covered, unrelated or unverified decision in the dated source audit, including when no new relevant post is found or access fails. Carry unresolved leads into the next run.
+- This is research and site-news coverage only; it does not authorize posting, reposting or replying on X.
+
 ## Editorial requirements
 
 - September 26 omission correction: SN38 was present in research but dropped during selection. Before publication, save a full-roster market snapshot in the dated audit's `marketReview` (source, observedAt, rows containing netuid/change24hPct/change7dPct). The validator now requires a sourced, specific `covered` or `excluded` decision for every absolute 24h move of at least 15%, seven-day move of at least 75%, or missing return. A generic no-update note is insufficient. Price is a discovery trigger, not proof of a catalyst or an automatic five-star rating. Read primary project sources and explain the business alongside a timestamped currency-labelled market observation when relevant.
