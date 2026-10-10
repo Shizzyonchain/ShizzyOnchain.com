@@ -53,13 +53,12 @@ export function SiteHeader({ brandArtwork = "redrawn", currency, onCurrencyChang
     const checkFinney = async () => {
       if (document.hidden) return;
       try {
-        const response = await fetch("/api/backend/v1/screener", {
-          cache: "no-store",
+        const response = await fetch("/api/market-status", {
           signal: AbortSignal.timeout(6_000),
         });
         if (!response.ok) throw new Error(`Market status failed: ${response.status}`);
         const json = await response.json();
-        const newest = Math.max(...(json.data || []).map((row: { time?: string }) => Date.parse(row.time || "")).filter(Number.isFinite));
+        const newest = Date.parse(json.updatedAt || "");
         if (!cancelled) setLocalDataState(Number.isFinite(newest) && Date.now() - newest <= 120_000 ? "live" : "stale");
       } catch {
         if (!cancelled) setLocalDataState("error");
@@ -67,10 +66,12 @@ export function SiteHeader({ brandArtwork = "redrawn", currency, onCurrencyChang
     };
 
     void checkFinney();
-    const timer = window.setInterval(checkFinney, 60_000);
+    const timer = window.setInterval(checkFinney, 15_000);
+    document.addEventListener("visibilitychange", checkFinney);
     return () => {
       cancelled = true;
       window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", checkFinney);
     };
   }, [dataState]);
 

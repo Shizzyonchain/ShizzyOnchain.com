@@ -3,7 +3,7 @@ import hmac
 import json
 import logging
 import uuid
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from datetime import datetime, timedelta, timezone
 
 import uvicorn
@@ -29,14 +29,15 @@ async def lifespan(app: FastAPI):
     app.state.candle_refreshing = set()
     app.state.candle_tasks = {}
     app.state.screener_refresh_task = None
-    app.state.screener_refresh_started_at = None
     try:
         await asyncio.wait_for(_refresh_screener(app), timeout=10)
     except Exception as exc:
         log.warning("initial screener history warmup failed: %s", type(exc).__name__)
+    app.state.screener_refresh_task = asyncio.create_task(_keep_screener_warm(app))
     yield
-    if app.state.screener_refresh_task and not app.state.screener_refresh_task.done():
-        app.state.screener_refresh_task.cancel()
+    app.state.screener_refresh_task.cancel()
+    with suppress(asyncio.CancelledError):
+        await app.state.screener_refresh_task
     await close()
 
 
@@ -264,31 +265,26 @@ async def _refresh_screener(current_app: FastAPI):
     return current_app.state.screener_cache
 
 
+async def _keep_screener_warm(current_app: FastAPI):
+    """Refresh independently of visitors; requests never wait for SQL history."""
+    history_due = 0.0
+    while True:
+        try:
+            await asyncio.wait_for(_refresh_live_screener(current_app), timeout=5)
+            if asyncio.get_running_loop().time() >= history_due:
+                await asyncio.wait_for(_refresh_screener(current_app), timeout=10)
+                history_due = asyncio.get_running_loop().time() + 20
+        except Exception as exc:
+            log.warning("background screener refresh failed: %s", type(exc).__name__)
+        await asyncio.sleep(6)
+
+
 @app.get("/v1/screener", dependencies=[Depends(authorize)])
 async def screener():
-    try:
-        await asyncio.wait_for(_refresh_live_screener(app), timeout=5)
-    except Exception:
-        if app.state.screener_cache is None:
-            raise HTTPException(503, "live market snapshot is temporarily unavailable")
-
-    now = datetime.now(timezone.utc)
-    task = app.state.screener_refresh_task
-    if task and task.done():
-        try:
-            task.result()
-        except Exception as exc:
-            log.warning("screener history refresh failed: %s", type(exc).__name__)
-            app.state.screener_refresh_started_at = None
-        app.state.screener_refresh_task = None
-        task = None
-    last_started = app.state.screener_refresh_started_at
-    if task is None and (last_started is None or now - last_started >= timedelta(seconds=60)):
-        app.state.screener_refresh_started_at = now
-        app.state.screener_refresh_task = asyncio.create_task(
-            asyncio.wait_for(_refresh_screener(app), timeout=10)
-        )
-    return app.state.screener_cache
+    cached = app.state.screener_cache
+    if not cached or not cached["data"]:
+        raise HTTPException(503, "live market snapshot is warming up")
+    return cached
 
 
 @app.get("/v1/subnets/{netuid}/prices", dependencies=[Depends(authorize)])

@@ -9,6 +9,7 @@ import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
 import { currencyReturns, type FxPoint, type ReturnHistory } from "./lib/currency-returns";
+import { mergeFxHistory } from "./lib/merge-fx-history";
 import { compareLiquidation, liquidationExplanation, liquidationPercent } from "./lib/liquidation";
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import { taoHeadsCommunity } from "./lib/community";
@@ -930,33 +931,46 @@ export function Dashboard({
     };
     refreshMarkets();
     const refreshTimer = window.setInterval(refreshMarkets, view === "bubbles" ? 6_000 : 12_000);
-    return () => window.clearInterval(refreshTimer);
+    document.addEventListener("visibilitychange", refreshMarkets);
+    return () => {
+      window.clearInterval(refreshTimer);
+      document.removeEventListener("visibilitychange", refreshMarkets);
+    };
   }, [hasInitialRows, view]);
   useEffect(() => {
     let cancelled = false;
+    let refreshing = false;
+    try {
+      const cached = JSON.parse(window.localStorage.getItem("shizzy:fx-history") || "[]");
+      if (Array.isArray(cached)) queueMicrotask(() => setDollarHistory(previous => mergeFxHistory(cached, previous)));
+    } catch { /* A corrupt or unavailable browser cache must not block live rates. */ }
     const refreshHistory = async () => {
-      if (document.hidden) return;
+      if (document.hidden || refreshing) return;
+      refreshing = true;
       try {
         const response = await fetch("/api/tao-history", { signal: AbortSignal.timeout(10_000) });
         if (!response.ok) return;
         const payload = await response.json();
         if (!cancelled && Array.isArray(payload.data)) setDollarHistory(previous => {
-          const merged = new Map(previous.map(point => [point.time, point]));
-          for (const point of payload.data as FxPoint[]) {
-            const existing = merged.get(point.time);
-            // A partial exchange response must not replace a real candle with
-            // a carried close. A later real candle may replace a carried one.
-            if (!point.carriedFrom || !existing || existing.carriedFrom) merged.set(point.time, point);
-          }
-          const oldest = Date.now() / 1000 - 8 * 86400;
-          return [...merged.values()].filter(point => point.time >= oldest).sort((a, b) => a.time - b.time);
+          return mergeFxHistory(previous, payload.data);
         });
       } catch { /* Missing or stale rates render as unavailable, never as TAO returns. */ }
+      finally { refreshing = false; }
     };
     void refreshHistory();
     const timer = window.setInterval(refreshHistory, 10_000);
-    return () => { cancelled = true; window.clearInterval(timer); };
+    document.addEventListener("visibilitychange", refreshHistory);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", refreshHistory);
+    };
   }, []);
+  useEffect(() => {
+    if (!dollarHistory.length) return;
+    try { window.localStorage.setItem("shizzy:fx-history", JSON.stringify(dollarHistory)); }
+    catch { /* Storage can be disabled or full. */ }
+  }, [dollarHistory]);
   useEffect(() => {
     const refreshTaoPrice = () => {
       if (document.hidden) return;
@@ -1436,8 +1450,8 @@ export function Dashboard({
         currency={currency}
         onCurrencyChange={setCurrency}
         currencyTitle={taoUsd ? `1 TAO = ${taoUsd.toLocaleString("en-US", { style: "currency", currency: "USD" })}` : "Loading live TAO price"}
-        dataState={dataState}
-        lastUpdated={lastUpdated}
+        dataState={view === "screener" || view === "bubbles" ? dataState : undefined}
+        lastUpdated={view === "screener" || view === "bubbles" ? lastUpdated : undefined}
       />
 
       {(view === "screener" || view === "videos") && <LivestreamBanner />}
