@@ -419,3 +419,9 @@ html,body{overflow-x:clip}
 }
 @media(min-width:801px){.screener th:nth-child(2),.screener td:nth-child(2){position:sticky;left:0;background:#09172f;z-index:1;box-shadow:1px 0 #173b68}.screener th:nth-child(2){z-index:2}.screener td:nth-child(2){display:table-cell}.screener tbody tr:hover td:nth-child(2){background:#0f2342}}
 
+/* Keep the mobile screener focused on price, 1h and 24h after moving emissions. */
+@media(max-width:800px){
+  .screener th:nth-child(4),.screener td:nth-child(4),.screener th:nth-child(5),.screener td:nth-child(5),.screener th:nth-child(6),.screener td:nth-child(6){display:none}
+  .screener th:nth-child(7),.screener td:nth-child(7),.screener th:nth-child(8),.screener td:nth-child(8){display:table-cell;text-align:right;width:20%}
+  .screener td:nth-child(7),.screener td:nth-child(8){font-size:11px}
+}

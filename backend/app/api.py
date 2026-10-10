@@ -167,6 +167,8 @@ async def _refresh_live_screener(current_app: FastAPI):
         for old_row in cached["data"]:
             row = dict(old_row)
             row.update(live_by_netuid.pop(row["netuid"], {}))
+            if row.get("emission_share_24h") is not None and row.get("emission_pct") is not None:
+                row["emission_change_24h"] = row["emission_pct"] - 100 * row["emission_share_24h"]
             merged.append(row)
         merged.extend(live_by_netuid.values())
     else:
@@ -220,6 +222,9 @@ async def _refresh_screener(current_app: FastAPI):
                     AS liquidity_change_1h,
                   100 * (l.emission_share - p1.emission_share)
                     AS emission_change_1h,
+                  p24.emission_share AS emission_share_24h,
+                  100 * (l.emission_share - p24.emission_share)
+                    AS emission_change_24h,
                   l.volume_tao - p1.volume_tao AS volume_1h_tao,
                   (l.volume_tao - p1.volume_tao) /
                     NULLIF(p1.volume_tao - p2.volume_tao,0) AS volume_acceleration_1h
@@ -242,7 +247,7 @@ async def _refresh_screener(current_app: FastAPI):
              ORDER BY hist2.time DESC LIMIT 1
            ) p2 ON true
            LEFT JOIN LATERAL (
-             SELECT price_tao,time FROM subnet_price_samples
+             SELECT price_tao,time,emission_share FROM subnet_price_samples
              WHERE netuid=l.netuid AND time <= l.time - interval '24 hours'
              ORDER BY time DESC LIMIT 1
            ) p24 ON true

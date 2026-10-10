@@ -50,6 +50,8 @@ export type ScreenerRow = ReturnHistory & {
   change_7d?: string;
   liquidity_change_1h?: string;
   emission_change_1h?: string;
+  emission_share_24h?: string;
+  emission_change_24h?: string;
   volume_1h_tao?: string;
   volume_acceleration_1h?: string;
   time?: string;
@@ -1851,6 +1853,9 @@ export function Dashboard({
                           {sortArrow("price_tao")}
                         </button>
                       </th>
+                      <th title="Current share of network emissions. Green means the emission share increased over 24 hours; red means it decreased. White means unchanged or historical data unavailable. This is emission allocation, not price performance.">
+                        <button onClick={() => changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button>
+                      </th>
                       <th>
                         <button onClick={() => changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button>
                       </th>
@@ -1865,9 +1870,6 @@ export function Dashboard({
                       </th>
                       <th>
                         <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
-                      </th>
-                      <th>
-                        <button onClick={() => changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button>
                       </th>
                       <th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
                         <button onClick={() => changeSort("apy")}>Staker APY{sortArrow("apy")}</button>
@@ -1908,6 +1910,10 @@ export function Dashboard({
                           </div>
                         </td>
                         <td>{money(r.price_tao, true)}</td>
+                        <td className={`emission-cell ${changeClass(r.emission_change_24h)}`} title={r.emission_change_24h == null ? "24-hour emission history unavailable. Color tracks emission allocation, not price." : `Emission share ${Number(r.emission_change_24h) > 0 ? "increased" : Number(r.emission_change_24h) < 0 ? "decreased" : "was unchanged"} by ${fmt(Math.abs(Number(r.emission_change_24h)), 4)} percentage points over 24 hours. Green = increased; red = decreased. This is allocation, not price.`}>
+                          {r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}
+                          <small>of each block</small>
+                        </td>
                         <td>{money(r.market_cap_tao)}</td>
                         {[r.change_10m, r.change_1h, r.change_24h, r.change_7d].map((v, j) => (
                           <td key={j} className={changeClass(v)}>
@@ -1915,10 +1921,6 @@ export function Dashboard({
                             {v == null ? "—" : `${fmt(v)}%`}
                           </td>
                         ))}
-                        <td className="emission-cell">
-                          {r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}
-                          <small>of each block</small>
-                        </td>
                         <td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
                           {r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}
                           <small>latest realized tempo</small>

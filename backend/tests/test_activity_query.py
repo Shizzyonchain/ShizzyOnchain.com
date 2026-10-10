@@ -1,4 +1,5 @@
 import json
+from decimal import Decimal
 from datetime import datetime, timedelta, timezone
 
 import pytest
@@ -89,6 +90,27 @@ async def test_live_screener_updates_price_without_discarding_history_metrics():
     assert result["data"][0]["block_number"] == 123
     assert result["data"][0]["price_tao"] == 0.5
     assert result["data"][0]["change_1h"] == 2.5
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("current,baseline,expected", [
+    ("12", "0.10", "2"),
+    ("8", "0.10", "-2"),
+    ("10", "0.10", "0"),
+])
+async def test_live_emission_direction_uses_retained_daily_share(current, baseline, expected):
+    class LiveDatabase:
+        async def fetch(self, query):
+            return [{"netuid": 64, "emission_pct": Decimal(current)}]
+
+    app.state.db = LiveDatabase()
+    app.state.screener_cache = {"data": [{
+        "netuid": 64,
+        "emission_share_24h": Decimal(baseline),
+        "emission_change_24h": Decimal("999"),
+    }]}
+    result = await _refresh_live_screener(app)
+    assert result["data"][0]["emission_change_24h"] == Decimal(expected)
 
 
 @pytest.mark.asyncio
