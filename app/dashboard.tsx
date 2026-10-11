@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -20,6 +20,36 @@ import {
   resolveBubbleTimeframe,
   type BubbleTimeframe,
 } from "./lib/bubble-timeframe";
+
+function ScrollableScreener({ children }: { children: ReactNode }) {
+  const topRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLDivElement>(null);
+  const [scrollWidth, setScrollWidth] = useState(0);
+
+  useEffect(() => {
+    const container = tableRef.current;
+    const table = container?.querySelector("table");
+    if (!container || !table) return;
+    const measure = () => setScrollWidth(container.scrollWidth > container.clientWidth ? container.scrollWidth : 0);
+    const observer = new ResizeObserver(measure);
+    observer.observe(container);
+    observer.observe(table);
+    measure();
+    return () => observer.disconnect();
+  }, []);
+
+  return <>
+    <div className="screener-scroll-top" ref={topRef} hidden={!scrollWidth}
+      role="region" aria-label="Scroll subnet table horizontally" tabIndex={0}
+      onScroll={() => { if (tableRef.current && topRef.current) tableRef.current.scrollLeft = topRef.current.scrollLeft; }}>
+      <div style={{ width: scrollWidth, height: 1 }} />
+    </div>
+    <div className="table-wrap" ref={tableRef} tabIndex={0} role="region" aria-label="Subnet market data"
+      onScroll={() => { if (topRef.current && tableRef.current) topRef.current.scrollLeft = tableRef.current.scrollLeft; }}>
+      {children}
+    </div>
+  </>;
+}
 
 export type ScreenerRow = ReturnHistory & {
   netuid: number;
@@ -1839,7 +1869,7 @@ export function Dashboard({
                   <input aria-label="Search subnets by name or subnet number" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search subnet or netuid" />
                 </label>
               </div>
-              <div className="table-wrap">
+              <ScrollableScreener>
                 <table>
                   <thead>
                     <tr>
@@ -1941,7 +1971,7 @@ export function Dashboard({
                     ))}
                   </tbody>
                 </table>
-              </div>
+              </ScrollableScreener>
               <details className="liquidation-help">
                 <summary>What is Liq Diff?</summary>
                 <p>{liquidationExplanation}</p>

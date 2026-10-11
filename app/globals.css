@@ -420,6 +420,11 @@ html,body{overflow-x:clip}
 /* Scroll every column together so subnet names never cover adjacent data. */
 @media(min-width:801px){.screener td:nth-child(2){display:table-cell}}
 
+.screener-scroll-top{overflow-x:scroll;overflow-y:hidden;border-top:1px solid var(--line)}
+.screener-scroll-top,.screener .table-wrap{scrollbar-width:auto;scrollbar-color:#666 #111}
+.screener-scroll-top::-webkit-scrollbar,.screener .table-wrap::-webkit-scrollbar{height:12px}
+.screener-scroll-top::-webkit-scrollbar-track,.screener .table-wrap::-webkit-scrollbar-track{background:#111}
+.screener-scroll-top::-webkit-scrollbar-thumb,.screener .table-wrap::-webkit-scrollbar-thumb{background:#666;border:2px solid #111;border-radius:6px}
 /* Keep the mobile screener focused on price, 1h and 24h after moving emissions. */
 @media(max-width:800px){
   .screener th:nth-child(4),.screener td:nth-child(4),.screener th:nth-child(5),.screener td:nth-child(5),.screener th:nth-child(6),.screener td:nth-child(6){display:none}
