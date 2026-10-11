@@ -630,6 +630,14 @@ const partners = [
     cta: "Explore Mentat",
   },
   {
+    key: "saygm",
+    name: "SayGM",
+    kicker: "SN28 · AI models and developer tools",
+    description: "Access Claude, GPT, Gemini, and open models through one Bittensor-powered AI gateway. Use SayGM’s desktop app, CLI, or compatible APIs with pay-as-you-go pricing.",
+    href: "https://saygm.com/r/qm2gl6jx",
+    cta: "Try SayGM",
+  },
+  {
     key: "alphagap",
     name: "Alpha Gap",
     kicker: "Subnet intelligence",
@@ -2603,6 +2611,8 @@ export function Dashboard({
                       <Image src="/partners/alphachaser.svg" alt="" width={44} height={44} unoptimized />
                       <span>AlphaChaser.</span>
                     </>
+                  ) : partner.key === "saygm" ? (
+                    <span>SayGM</span>
                   ) : (
                     <Image src={`/partners/${partner.key}.svg`} alt="" width={720} height={158} unoptimized />
                   )}
