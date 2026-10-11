@@ -421,6 +421,10 @@ html,body{overflow-x:clip}
 @media(min-width:801px){.screener td:nth-child(2){display:table-cell}}
 
 .screener-scroll-top{overflow-x:scroll;overflow-y:hidden;border-top:1px solid var(--line)}
+.screener-column-help{min-height:90px;padding:18px 28px;border-top:1px solid var(--line);background:#0a0a0a;display:grid;align-content:center;gap:7px}
+.screener-column-help strong{font:700 11px var(--font-mono);text-transform:uppercase;letter-spacing:.8px;color:#fff}
+.screener-column-help p{margin:0;max-width:1100px;color:#ccc;font:13px/1.5 var(--font)}
+@media(max-width:800px){.screener-column-help{padding:14px;min-height:106px}.screener-column-help p{font-size:12px}}
 .screener-scroll-top,.screener .table-wrap{scrollbar-width:auto;scrollbar-color:#666 #111}
 .screener-scroll-top::-webkit-scrollbar,.screener .table-wrap::-webkit-scrollbar{height:12px}
 .screener-scroll-top::-webkit-scrollbar-track,.screener .table-wrap::-webkit-scrollbar-track{background:#111}

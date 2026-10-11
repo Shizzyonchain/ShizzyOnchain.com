@@ -25,6 +25,15 @@ function ScrollableScreener({ children }: { children: ReactNode }) {
   const topRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLDivElement>(null);
   const [scrollWidth, setScrollWidth] = useState(0);
+  const [help, setHelp] = useState({ label: "Column guide", text: "Hover over a column or focus its heading to see what it means here." });
+  const showHelp = (target: EventTarget) => {
+    if (!(target instanceof Element)) return;
+    const cell = target.closest<HTMLTableCellElement>("th, td");
+    if (!cell) return;
+    const heading = tableRef.current?.querySelector("thead tr")?.children[cell.cellIndex] as HTMLElement | undefined;
+    const text = cell.dataset.help || heading?.dataset.help;
+    if (text && heading) setHelp({ label: heading.textContent?.replace(/[↑↓]/g, "").trim() || "Column guide", text });
+  };
 
   useEffect(() => {
     const container = tableRef.current;
@@ -38,7 +47,10 @@ function ScrollableScreener({ children }: { children: ReactNode }) {
     return () => observer.disconnect();
   }, []);
 
-  return <>
+  return <div onMouseOver={(event) => showHelp(event.target)} onFocus={(event) => showHelp(event.target)}>
+    <div className="screener-column-help" role="status" aria-live="polite" aria-atomic="true">
+      <strong>{help.label}</strong><p>{help.text}</p>
+    </div>
     <div className="screener-scroll-top" ref={topRef} hidden={!scrollWidth}
       role="region" aria-label="Scroll subnet table horizontally" tabIndex={0}
       onScroll={() => { if (tableRef.current && topRef.current) tableRef.current.scrollLeft = topRef.current.scrollLeft; }}>
@@ -48,7 +60,7 @@ function ScrollableScreener({ children }: { children: ReactNode }) {
       onScroll={() => { if (topRef.current && tableRef.current) topRef.current.scrollLeft = tableRef.current.scrollLeft; }}>
       {children}
     </div>
-  </>;
+  </div>;
 }
 
 export type ScreenerRow = ReturnHistory & {
@@ -1873,47 +1885,47 @@ export function Dashboard({
                 <table>
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>
+                      <th data-help="Position in the current sorted and filtered list.">#</th>
+                      <th data-help="Subnet name and its on-chain subnet number.">
                         <button onClick={() => changeSort("netuid")}>Subnet{sortArrow("netuid")}</button>
                       </th>
-                      <th>
+                      <th data-help="Current alpha token price in the selected currency.">
                         <button onClick={() => changeSort("price_tao")}>
                           Price {currency === "usd" ? "$" : "τ"}
                           {sortArrow("price_tao")}
                         </button>
                       </th>
-                      <th title="Current share of network emissions. Green means the emission share increased over 24 hours; red means it decreased. White means unchanged or historical data unavailable. This is emission allocation, not price performance.">
+                      <th data-help="Current share of network emissions. Green means the emission share increased over 24 hours; red means it decreased. White means unchanged or historical data unavailable. This is emission allocation, not price performance.">
                         <button onClick={() => changeSort("emission_pct")}>Emission %{sortArrow("emission_pct")}</button>
                       </th>
-                      <th>
+                      <th data-help="Current alpha token price multiplied by circulating alpha supply, in the selected currency.">
                         <button onClick={() => changeSort("market_cap_tao")}>Market Cap{sortArrow("market_cap_tao")}</button>
                       </th>
-                      <th>
-                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button>
+                      <th data-help={`Rolling price change over the last 10 minutes in ${currency.toUpperCase()}. USD includes changes in TAO/USD; TAO measures alpha against TAO. Green = up, red = down. A dash means history is unavailable.`}>
+                        <button onClick={() => changeSort("change_10m")}>10 Minutes{sortArrow("change_10m")}</button>
                       </th>
-                      <th>
-                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button>
+                      <th data-help={`Rolling price change over the last 1 hour in ${currency.toUpperCase()}. USD includes changes in TAO/USD; TAO measures alpha against TAO. Green = up, red = down. A dash means history is unavailable.`}>
+                        <button onClick={() => changeSort("change_1h")}>1 Hour{sortArrow("change_1h")}</button>
                       </th>
-                      <th>
-                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_24h")}>24 Hours{sortArrow("change_24h")}</button>
+                      <th data-help={`Rolling price change over the last 24 hours in ${currency.toUpperCase()}. USD includes changes in TAO/USD; TAO measures alpha against TAO. Green = up, red = down. A dash means history is unavailable.`}>
+                        <button onClick={() => changeSort("change_24h")}>24 Hours{sortArrow("change_24h")}</button>
                       </th>
-                      <th>
-                        <button title={`Price change in ${currency.toUpperCase()}`} onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
+                      <th data-help={`Rolling price change over the last 7 days in ${currency.toUpperCase()}. USD includes changes in TAO/USD; TAO measures alpha against TAO. Green = up, red = down. A dash means history is unavailable.`}>
+                        <button onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
                       </th>
-                      <th title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
+                      <th data-help="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
                         <button onClick={() => changeSort("apy")}>Staker APY{sortArrow("apy")}</button>
                       </th>
-                      <th title="Current locked alpha mass. The percentage is measured against SubnetAlphaOut (staked/outstanding alpha). Locked mass and matured conviction are separate on-chain values.">
+                      <th data-help="Current locked alpha mass. The percentage is measured against SubnetAlphaOut (staked/outstanding alpha). Locked mass and matured conviction are separate on-chain values.">
                         <button onClick={() => changeSort("conviction_locked_pct")}>Locked Alpha{sortArrow("conviction_locked_pct")}</button>
                       </th>
-                      <th>
+                      <th data-help="Trading volume over the last 24 hours, in the selected currency.">
                         <button onClick={() => changeSort("volume_24h_tao")}>Volume{sortArrow("volume_24h_tao")}</button>
                       </th>
-                      <th>
+                      <th data-help="TAO reserve in the subnet liquidity pool, shown in the selected currency.">
                         <button onClick={() => changeSort("tao_reserve")}>Liquidity{sortArrow("tao_reserve")}</button>
                       </th>
-                      <th className="liquidation-column" title={liquidationExplanation} aria-sort={sort === "liquidation_diff_pct" ? (sortDirection === "desc" ? "descending" : "ascending") : "none"}>
+                      <th className="liquidation-column" data-help={liquidationExplanation} aria-sort={sort === "liquidation_diff_pct" ? (sortDirection === "desc" ? "descending" : "ascending") : "none"}>
                         <button onClick={() => changeSort("liquidation_diff_pct")}>Liq Diff{sortArrow("liquidation_diff_pct")}</button>
                       </th>
                     </tr>
@@ -1940,7 +1952,7 @@ export function Dashboard({
                           </div>
                         </td>
                         <td>{money(r.price_tao, true)}</td>
-                        <td className={`emission-cell ${changeClass(r.emission_change_24h)}`} title={r.emission_change_24h == null ? "24-hour emission history unavailable. Color tracks emission allocation, not price." : `Emission share ${Number(r.emission_change_24h) > 0 ? "increased" : Number(r.emission_change_24h) < 0 ? "decreased" : "was unchanged"} by ${fmt(Math.abs(Number(r.emission_change_24h)), 4)} percentage points over 24 hours. Green = increased; red = decreased. This is allocation, not price.`}>
+                        <td className={`emission-cell ${changeClass(r.emission_change_24h)}`} data-help={r.emission_change_24h == null ? "24-hour emission history unavailable. Color tracks emission allocation, not price." : `Emission share ${Number(r.emission_change_24h) > 0 ? "increased" : Number(r.emission_change_24h) < 0 ? "decreased" : "was unchanged"} by ${fmt(Math.abs(Number(r.emission_change_24h)), 4)} percentage points over 24 hours. Green = increased; red = decreased. This is allocation, not price.`}>
                           {r.emission_pct == null ? "—" : `${fmt(r.emission_pct, 4)}%`}
                           <small>of each block</small>
                         </td>
@@ -1951,19 +1963,19 @@ export function Dashboard({
                             {v == null ? "—" : `${fmt(v)}%`}
                           </td>
                         ))}
-                        <td className="apy-cell" title="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
+                        <td className="apy-cell" data-help="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
                           {r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}
                           <small>latest realized tempo</small>
                         </td>
                         <td
                           className="locked-alpha-cell"
-                          title="Locked alpha mass; percentage of staked/outstanding alpha (SubnetAlphaOut), not matured conviction."
+                          data-help="Locked alpha mass; percentage of staked/outstanding alpha (SubnetAlphaOut), not matured conviction."
                         >
                           {r.conviction_locked_alpha == null ? "—" : <>{compactAlpha(r.conviction_locked_alpha)} α<small>{fmt(r.conviction_locked_pct, 2)}% of α-out</small></>}
                         </td>
                         <td>{money(r.volume_24h_tao)}</td>
                         <td>{money(r.tao_reserve)}</td>
-                        <td className={`liquidation-column ${changeClass(r.liquidation_diff_pct)}`} title={r.liquidation_price_tao == null ? "A fresh payout estimate is unavailable." : `Estimated liquidation price: ${fmt(r.liquidation_price_tao, 6)} τ per α. ${liquidationExplanation}`}>
+                        <td className={`liquidation-column ${changeClass(r.liquidation_diff_pct)}`} data-help={r.liquidation_price_tao == null ? "A fresh payout estimate is unavailable." : `Estimated liquidation price: ${fmt(r.liquidation_price_tao, 6)} τ per α. ${liquidationExplanation}`}>
                           {liquidationPercent(r.liquidation_diff_pct)}
                           <small>on deregistration</small>
                         </td>
