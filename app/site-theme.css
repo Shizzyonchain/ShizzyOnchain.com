@@ -710,7 +710,7 @@ html.site-theme {
 .site-theme .partner-number { color: #aaa; }
 .site-theme .partner-logo img,
 .site-theme .partner-banner.ledger .partner-logo img { filter: none; }
-.site-theme .partner-banner.ledger .partner-logo img { background: #fff; padding: 12px; border-radius: 6px; }
+.site-theme .partner-banner.ledger .partner-logo img { background: transparent; padding: 0; border-radius: 0; }
 .site-theme .partner-banner.alphachaser .partner-logo { color: #fff; }
 .site-theme .partner-banner.alphachaser .partner-logo img { background: #fff; }
 .site-theme .partner-copy p { color: var(--muted); }
