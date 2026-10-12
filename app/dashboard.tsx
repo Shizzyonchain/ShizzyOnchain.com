@@ -638,6 +638,14 @@ const partners = [
     cta: "Try SayGM",
   },
   {
+    key: "engy",
+    name: "engy",
+    kicker: "SN53 · AI inference",
+    description: "Access open AI models through engy’s chat interface and inference API. Explore models for text, image, and video tasks with usage-based pricing.",
+    href: "https://engy.ai/r/ShizzyUnchained",
+    cta: "Try engy",
+  },
+  {
     key: "alphagap",
     name: "Alpha Gap",
     kicker: "Subnet intelligence",
@@ -2611,8 +2619,8 @@ export function Dashboard({
                       <Image src="/partners/alphachaser.svg" alt="" width={44} height={44} unoptimized />
                       <span>AlphaChaser.</span>
                     </>
-                  ) : partner.key === "saygm" ? (
-                    <span>SayGM</span>
+                  ) : partner.key === "saygm" || partner.key === "engy" ? (
+                    <span>{partner.name}</span>
                   ) : (
                     <Image src={`/partners/${partner.key}.svg`} alt="" width={720} height={158} unoptimized />
                   )}
