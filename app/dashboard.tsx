@@ -2604,23 +2604,16 @@ export function Dashboard({
               <a className={`partner-banner ${partner.key}`} href={partner.href} target="_blank" rel="sponsored noreferrer" key={partner.name}>
                 <div className="partner-number">0{index + 1}</div>
                 <div className="partner-logo" aria-hidden="true">
-                  {partner.key === "mentat" ? (
-                    <>
-                      <span className="mentat-mark">
-                        <b />
-                        <b />
-                        <b />
-                        <b />
-                      </span>
-                      <span>Mentat</span>
-                    </>
-                  ) : partner.key === "alphachaser" ? (
+                  {partner.key === "alphachaser" ? (
                     <>
                       <Image src="/partners/alphachaser.svg" alt="" width={44} height={44} unoptimized />
                       <span>AlphaChaser.</span>
                     </>
                   ) : partner.key === "saygm" || partner.key === "engy" ? (
-                    <span>{partner.name}</span>
+                    <>
+                      <Image src={`/partners/${partner.key}.svg`} alt="" width={44} height={38} unoptimized />
+                      <span>{partner.name}</span>
+                    </>
                   ) : (
                     <Image src={`/partners/${partner.key}.svg`} alt="" width={720} height={158} unoptimized />
                   )}
