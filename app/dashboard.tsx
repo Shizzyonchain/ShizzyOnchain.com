@@ -173,6 +173,28 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "q4QrIy3lBEA",
+    title: "LIUM SN51: The First BILLION DOLLAR Subnet on Bittensor?",
+    meta: "11:29 · October 11, 2026",
+  },
+  {
+    id: "KvPXO07ehdE",
+    title: "10/9/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "10:14 · Members-only video · October 9, 2026",
+    membersOnly: true,
+  },
+  {
+    id: "u388cY3nvQk",
+    title: "Bittensor TAO Below $300 | Shakeout or More Pain Ahead?",
+    meta: "25:53 · October 8, 2026",
+  },
+  {
+    id: "w7yEF24XuFc",
+    title: "10/6/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "5:28 · Members-only video · October 6, 2026",
+    membersOnly: true,
+  },
+  {
     id: "EY-s2-882uA",
     title: "Bittensor TAO at $300: Is This the Launchpad for Liftoff?",
     meta: "22:09 · October 5, 2026",

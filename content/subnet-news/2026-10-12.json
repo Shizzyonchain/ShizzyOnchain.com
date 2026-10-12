@@ -2,10 +2,10 @@
   "version": 1,
   "date": "2026-10-12",
   "title": "Subnet News — October 12, 2026",
-  "summary": "SN58 Attune opens Vector mining, SN49 Nepher Robotics starts a Go2 maze-navigation tournament, and SN65 True Performance Network announces its first release-ready optimized model. SN118 Ditto changes its mining direction and interim emission allocation. Also: SN53 Engy referrals, the taostats API migration, scheduled launches, incident follow-ups and a directly verified SN112 owner-key change. Coverage ends October 12 at 10:33 AM Eastern.",
+  "summary": "SN58 Attune opens Vector mining, SN49 Nepher Robotics starts a Go2 maze-navigation tournament, and SN65 True Performance Network announces its first release-ready optimized model. SN118 Ditto changes its mining direction and interim emission allocation. Also: SN53 Engy referrals, the taostats API migration, scheduled launches, incident follow-ups and a directly verified SN112 owner-key change. Refreshed through October 12 at 11:58 AM Eastern, including SN112 THOR’s new identity, Const’s SN65 commentary, additional verified code changes and Yoko’s pre-launch selection.",
   "publishedAt": "2026-10-12T14:33:36.476Z",
   "coverageStart": "2026-10-11T18:17:07.484Z",
-  "coverageEnd": "2026-10-12T14:33:00.000Z",
+  "coverageEnd": "2026-10-12T15:58:38.000Z",
   "highlights": [],
   "upcomingUnlocks": [],
   "subnets": [
@@ -131,7 +131,22 @@
     {
       "netuid": 21,
       "name": "AdTAO",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN21 AdTAO plans fresh advertiser codes for each future training slice",
+          "summary": "SN21 AdTAO updated its training documentation on October 12: starting with the next slice after v4, account, campaign and ad-group codes will change between slices. Records can still be joined within one slice, but miners should no longer be able to track the same advertiser across successive slices using a stable code. Existing v4 and earlier datasets remain unchanged, and each manifest identifies its coding scheme. This is a documented forward privacy policy; the next dataset’s publication and the effectiveness of every privacy protection are not independently confirmed.",
+          "rating": 2,
+          "ratingReason": "A specific future dataset policy changes how miners can link advertiser records; activation remains pending.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://github.com/ippcteam/SN21-adtao/commit/43c698a0f610a87f483b3fc6e43940b28d920739",
+              "label": "SN21 AdTAO future slice-specific coding policy"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 22,
@@ -353,7 +368,22 @@
     {
       "netuid": 51,
       "name": "lium.io",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN51 Lium fixes edits to pods rented from public templates",
+          "summary": "SN51 Lium’s October 12 SDK change fixes HTTP 400 errors when editing a pod rented from a public template, a regression described as present since version 0.15.0. The request now omits the temporary-template field while preserving one-time-template cleanup when enabled. For GPU renters, this addresses a concrete management failure after renting a pod. The merged fix is verified; a published package version and universal rollout are not established by this commit alone.",
+          "rating": 3,
+          "ratingReason": "A customer-facing SDK regression has a specific, reviewed fix rather than a general performance claim.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/Datura-ai/lium/commit/67907ecbf1754163f5c4f620b5dcd0481153239a",
+              "label": "SN51 Lium public-template edit fix and changelog"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 52,
@@ -479,7 +509,7 @@
       "updates": [
         {
           "headline": "SN65 True Performance Network announces TPN005 as its first release-ready model",
-          "summary": "SN65 True Performance Network says TPN005 reduces the size of the Ministral-3-8B base model by about 40% while retaining its full 32k context. The October 12 announcement calls this the first successful upgrade and the first competition scored entirely on Fluid Bench, and links the Competition 5 dashboard. These are the team’s results, not an independent replication or proof that every capability is unchanged. The full numerical case study and consumer product are still forthcoming; release-ready does not by itself mean a public downloadable model or launched consumer service.",
+          "summary": "SN65 True Performance Network says TPN005 reduces the size of the Ministral-3-8B base model by about 40% while retaining its full 32k context. The October 12 announcement calls this the first successful upgrade and the first competition scored entirely on Fluid Bench, and links the Competition 5 dashboard. These are the team’s results, not an independent replication or proof that every capability is unchanged. The full numerical case study and consumer product are still forthcoming; release-ready does not by itself mean a public downloadable model or launched consumer service. At 15:39 UTC, Const quote-posted the announcement with “Bravo to the newest neo lab on Bittensor.” That is ecosystem commentary, not independent reproduction of the model results.",
           "rating": 4,
           "ratingReason": "A concrete model-optimization result is material, with measurement attribution and pending release details explicit.",
           "importance": "high",
@@ -492,6 +522,10 @@
             {
               "url": "https://stats.trueperformancenetwork.com",
               "label": "SN65 True Performance Network competition dashboard"
+            },
+            {
+              "url": "https://x.com/const_reborn/status/2109670215261016454",
+              "label": "Const original commentary on SN65 TPN005"
             }
           ]
         }
@@ -525,7 +559,26 @@
     {
       "netuid": 71,
       "name": "Leadpoet",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN71 Leadpoet tightens company-name verification and updates its reveal decoder",
+          "summary": "SN71 Leadpoet merged two operational changes on October 12. Company-fit scoring can now reconcile legal and trading names when first-party wording and an exact independently fetched company profile support the same identity; denied or merely proposed aliases are rejected. A separate change adds decoding for measured Finney runtime 477 weight-reveal events. Together these address false identity mismatches and compatibility in reward-related event handling. The code is verified, but improved sales conversion, live validator adoption and a network-wide runtime upgrade are not inferred from these merges.",
+          "rating": 3,
+          "ratingReason": "Evidence-bound company identity and event compatibility materially affect scoring correctness.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/leadpoet/leadpoet/commit/f580481eaca5920c2fe504e91a137b32a2ab82ea",
+              "label": "SN71 Leadpoet first-party legal-name alias scoring"
+            },
+            {
+              "url": "https://github.com/leadpoet/leadpoet/commit/852838976639796d873c7f2509193372cb598642",
+              "label": "SN71 Leadpoet runtime 477 reveal-decoder support"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 72,
@@ -560,7 +613,22 @@
     {
       "netuid": 78,
       "name": "Umi",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN78 UMI preserves signed references when replaying paid-service evidence",
+          "summary": "SN78 UMI’s October 12 merge preserves the exact committed bytes of retained service references through certification replay. Before opening new paid-service work, the lifecycle checks selected terms, signed catalogs and reference files; missing or changed inputs hold progression, including after a restart. Already-running work retains its existing recovery rules. This strengthens the evidence behind certification and settlement without rewriting signed commitments. It is a verified implementation change, not proof of new customer revenue or a completed app launch.",
+          "rating": 3,
+          "ratingReason": "Protecting signed evidence and refusing missing inputs improves the reliability of paid-service settlement.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/Umi-BitSign/umi/commit/9282301375ef87543a4394fdbf477d65bfbe528c",
+              "label": "SN78 UMI committed-reference replay and lifecycle safeguards"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 79,
@@ -756,7 +824,26 @@
     {
       "netuid": 105,
       "name": "Beam",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN105 Beam briefs report security fixes and a fresh task-volume concern",
+          "summary": "Late-found SN105 Beam coverage distinguishes two dates. The October 11 digest attributes to the team caller-ownership checks on orchestrator routes, hidden miner identities during integrity checks, corrected sale counting and lower telemetry prices. An October 12 digest then reports community concerns about a NATS protocol change, falling verified task volume and persistent debt calculations. Those later messages are not automatically team statements, and the private originals and underlying measurements were not independently inspected. These remain developing reports: earlier fixes do not establish that the later operational concerns are resolved. Operators should confirm current SDK and migration instructions with the team.",
+          "rating": 3,
+          "ratingReason": "Reported security and accounting fixes plus fresh operational concerns warrant a carefully attributed incident follow-up.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/105/2026-10-11",
+              "label": "SN105 Beam dated fix and telemetry digest"
+            },
+            {
+              "url": "https://subnetradar.com/subnet-news/105/2026-10-12",
+              "label": "SN105 Beam dated community task-volume and protocol concerns"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 106,
@@ -766,7 +853,26 @@
     {
       "netuid": 107,
       "name": "Minos",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN107 Minos bounds genomic scoring to stop late jobs holding up rounds",
+          "summary": "Late-found code update: SN107 Minos merged its scoring-deadline fix on October 9 at 03:53 UTC. New secondary work stops seven minutes before the scoring deadline by default; once results can no longer be stored, the validator stops waiting and removes remaining scoring containers. That frees CPU for the next round instead of letting a slow genomic job delay finalization. The merge and implementation are verified; adoption by every validator and a measured production speed gain are not. This is a scoring-reliability change, separate from the planned second incentive mechanism.",
+          "rating": 3,
+          "ratingReason": "A concrete merged reliability fix prevents one slow scoring job from delaying an entire round.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/minos-protocol/minos_subnet/pull/40",
+              "label": "SN107 Minos merged scoring-deadline explanation"
+            },
+            {
+              "url": "https://github.com/minos-protocol/minos_subnet/commit/4b3c0944b517d09be9b54eb8fa3158ae700b5d5f",
+              "label": "SN107 Minos dated scoring-deadline implementation"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 108,
@@ -809,11 +915,11 @@
     },
     {
       "netuid": 112,
-      "name": "for sale",
+      "name": "THOR",
       "updates": [
         {
-          "headline": "SN112 owner coldkey changed at finalized block 9,267,377",
-          "summary": "A direct Finney archive-node check confirms SN112’s owner coldkey changed at 13:19 UTC on October 12, block 9,267,377. The decoded ColdkeySwapped event is attached to extrinsic 4, and owner storage differs immediately before and after that block. The registration height remained unchanged between the daily snapshots. This establishes an executed owner-key replacement, not a new registration or proof of a negotiated sale. The current for-sale label and bot coverage do not establish a buyer, purchase price or sale completion.",
+          "headline": "SN112 THOR replaces its owner key and updates its public identity",
+          "summary": "A direct Finney archive-node check confirms SN112’s owner coldkey changed at 13:19 UTC on October 12, block 9,267,377. The decoded ColdkeySwapped event is attached to extrinsic 4, and owner storage differs immediately before and after that block. The registration height remained unchanged between the daily snapshots. This establishes an executed owner-key replacement, not a new registration or proof of a negotiated sale. By the 15:54 UTC market snapshot, the slot’s identity had changed from for sale to THOR, with the description Home of Open Source Robotics and a thormachines.ai website. SubnetRadar separately reports the rename. The new identity and key swap do not establish a buyer, purchase price, completed negotiated sale or launched robotics product.",
           "rating": 3,
           "ratingReason": "An independently traced ownership-key execution is useful slot-watch information, with sale and registration claims kept separate.",
           "importance": "medium",
@@ -826,6 +932,14 @@
             {
               "url": "https://x.com/TensiaBot/status/2109636734711378367",
               "label": "SN112 secondary swap alert"
+            },
+            {
+              "url": "https://x.com/subnetradarcom/status/2109660453114720394",
+              "label": "SN112 THOR dated identity-change report"
+            },
+            {
+              "url": "https://shizzyunchained.com/api/backend/v1/screener",
+              "label": "SN112 THOR 15:54 UTC current identity snapshot"
             }
           ]
         }
@@ -986,6 +1100,24 @@
           "label": "Original inference-for-equity discussion"
         }
       ]
+    },
+    {
+      "headline": "Yoko opens selection for its first subnet bouts; ForeverMoney points to TAO bridging",
+      "summary": "Yoko’s October 12 post asks users to select three subnets for its first prediction-market bouts and says the podium locks Sunday at 20:00 UTC. ForeverMoney quote-posts that invitation, explicitly saying the market has not yet gone live and pointing to existing TAO bridging to Robinhood Chain through its site or Talisman. This connects a planned Bittensor-focused application to available cross-chain infrastructure. The invitation is verified; completed trading launch, final selected subnets and volumes are not. This is reported as product planning, without a recommendation to trade or bridge funds.",
+      "rating": 3,
+      "ratingReason": "A direct Bittensor product-selection announcement and partner context are material, while trading activation remains unconfirmed.",
+      "importance": "medium",
+      "status": "developing",
+      "sources": [
+        {
+          "url": "https://x.com/Yokomarkets/status/2109660644827967492",
+          "label": "Yoko original initial-subnet selection announcement"
+        },
+        {
+          "url": "https://x.com/forevermoney_ai/status/2109662800570401133",
+          "label": "ForeverMoney original pre-launch TAO bridging context"
+        }
+      ]
     }
   ],
   "coverage": {
@@ -994,12 +1126,14 @@
       "202 associated public X account samples, with 192 returning visible posts; signed-in X verified as @ShizzyUnchained.",
       "Grok daily discovery, top-five attention question and omission check, explicitly including @const_reborn; direct Const posts and replies.",
       "Direct finalized Finney archive-RPC owner, registration-height and network-status comparisons, with the SN112 change traced to its decoded execution block.",
-      "SubnetRadar Moments, TAO Daily, TAO Media, AlphaGap public dashboard, partners, market outliers, emission leaders, preceding seven editions and YouTube Videos/Live."
+      "SubnetRadar Moments, TAO Daily, TAO Media, AlphaGap public dashboard, partners, market outliers, emission leaders, preceding seven editions and YouTube Videos/Live.",
+      "Checklist rerun: 128 profiles, 92 briefs, 190 repository paths and 203 public X account samples refreshed; signed-in Grok discovery/top-five/omission checks, direct Const quote and both YouTube tabs."
     ],
     "gaps": [
       "X account samples and Grok are discovery aids, not an exhaustive census of every alias or post. Private Discord originals were not independently read; digest-only stories remain developing.",
       "The historical multi-key chain query did not return within the bounded attempt. Finalized endpoint comparisons and the traced SN112 event do not exclude a transient registration or owner change between snapshots. No exhaustive no-event claim is made.",
-      "AlphaGap’s public response did not expose its complete live leaderboard. Published repository code does not establish adoption by every live validator. The omission prompt requested a later cutoff than the actual run; only sources observed by the report’s actual cutoff are included."
+      "AlphaGap’s public response did not expose its complete live leaderboard. Published repository code does not establish adoption by every live validator. The omission prompt requested a later cutoff than the actual run; only sources observed by the report’s actual cutoff are included.",
+      "The SN8 Vanta video post was collected earlier with a sparse caption, but its media was not reviewed then. During this correction X returns page does not exist and the post is absent from the visible profile; Grok also cannot retrieve it. Its contents remain unverified and carried forward, not treated as proof of no news. Additional media not fully inspected is not represented as exhaustively reviewed."
     ]
   }
 }

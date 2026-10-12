@@ -4,6 +4,8 @@ Subnet News is a repository-backed daily publication. Each report is a validated
 
 ## Daily 10 AM workflow
 
+Before starting, read `DAILY_SITE_CHECKLIST.md` and keep a dated completion record. An owner's request to do today's news includes the full video refresh unless explicitly narrowed. Complete each gate or report its specific blocker; a members promotion change alone is not a video refresh. Review attached media before dismissing sparse-caption official posts, and retain an explicit outcome when media cannot be inspected.
+
 1. Research the public Bittensor ecosystem for the coverage window, prioritizing X searches by every active SN number and subnet name. Run the required signed-in Grok discovery and omission check below alongside the usual sources.
 2. Cross-check claims against primary sources and label each item `verified`, `developing`, or `rumor`.
 3. Create a report from `scripts/subnet-news-template.json`. Include every active subnet in `subnets`; use an empty `updates` array when no material update is found.
