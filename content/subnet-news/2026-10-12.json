@@ -1,0 +1,1005 @@
+{
+  "version": 1,
+  "date": "2026-10-12",
+  "title": "Subnet News — October 12, 2026",
+  "summary": "SN58 Attune opens Vector mining, SN49 Nepher Robotics starts a Go2 maze-navigation tournament, and SN65 True Performance Network announces its first release-ready optimized model. SN118 Ditto changes its mining direction and interim emission allocation. Also: SN53 Engy referrals, the taostats API migration, scheduled launches, incident follow-ups and a directly verified SN112 owner-key change. Coverage ends October 12 at 10:33 AM Eastern.",
+  "publishedAt": "2026-10-12T14:33:36.476Z",
+  "coverageStart": "2026-10-11T18:17:07.484Z",
+  "coverageEnd": "2026-10-12T14:33:00.000Z",
+  "highlights": [],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DSperse",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": []
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": []
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "kenju",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": [
+        {
+          "headline": "SN17 404 extends the community vote and opens it to all GitHub users",
+          "summary": "SN17 404’s October 12 Game Jam rules extend community voting by 48 hours to October 14 at 10:00 UTC, or 6 AM Eastern. Voting is now open to anyone with a GitHub account, rather than entrants only. The rules allow one account, one vote on a shortlisted entry; entrants cannot vote for their own game, and podium winners cannot also take the community prize. The published community prize is 0.5 TAO. This changes who can participate and when voting closes, rather than announcing a new main competition winner.",
+          "rating": 3,
+          "ratingReason": "A documented eligibility and deadline change is directly actionable for the community.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/404-Repo/404-game-jam/commit/91be72d52a5ff86fe582ea84aafa3d32a2202910",
+              "label": "SN17 404 original voting-rule change"
+            },
+            {
+              "url": "https://game.404.xyz/#entries",
+              "label": "SN17 404 shortlisted games"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": [
+        {
+          "headline": "SN22 Desearch v0.0.236 changes page checks after false-lockout concerns",
+          "summary": "SN22 Desearch’s new published validator code moves to 20 checked pages per 1,000-URL task, fails a task at five or more mismatched pages, removes JavaScript-rendered rechecks and adds an hourly ScrapingDog budget. Unconfirmed fetch errors alone do not fail a task. This supersedes yesterday’s rendered-recheck implementation, so operators should use the current version rather than combine incompatible rules. The dated digest reports earlier false lockouts and a rollback; the new code is verified, but universal deployment and resolution for every affected miner are not.",
+          "rating": 3,
+          "ratingReason": "Material validation rules and error handling affect fairness and cost for miners and validators.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/Desearch-ai/subnet-22/commit/0098ed262fc5c476567ef890e36b1a247f327a0e",
+              "label": "SN22 Desearch new sampling and error rules"
+            },
+            {
+              "url": "https://github.com/Desearch-ai/subnet-22/commit/7a535d2796a77355dba42400cf4dcd2f6af1ce7c",
+              "label": "SN22 Desearch v0.0.236 version"
+            },
+            {
+              "url": "https://subnetradar.com/subnet-news/22/2026-10-12",
+              "label": "SN22 Desearch dated lockout context"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": []
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": [
+        {
+          "headline": "SN33 ReadyAI previews a Skills Store planned for this month",
+          "summary": "SN33 ReadyAI’s October 11 demonstration compares the same brief and models with a subnet-produced social-carousel skill, reporting large gains on its Chrome-based scoring. The post says the Skills Store is coming this month. This shows the team’s proposed route from mined skills to useful agent output, but the demonstration is not an independently replicated general benchmark and the store is not announced live. The distinction matters: a promising showcase and a dated product plan are different from a completed marketplace launch.",
+          "rating": 2,
+          "ratingReason": "A primary demonstration clarifies the planned product, with benchmark and availability limits preserved.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/ReadyAI_/status/2109394082216964318",
+              "label": "SN33 ReadyAI original skill demonstration and store plan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "Subnet 35",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": [
+        {
+          "headline": "SN44 Score brief distinguishes resumed beverage work from a planned track pause",
+          "summary": "SN44 Score’s October 12 digest reports the beverage track resumed after roughly ten hours without work, while the fallen-person detection track is planned to be taken down for changes. These are separate challenge states, so one recovery does not imply the entire pipeline is clear. The digest also describes removing specific bad blocks. The private originals were not independently read; the resumption and pause remain developing reports and the exact maintenance timing should be confirmed with the team.",
+          "rating": 2,
+          "ratingReason": "Specific task-level status matters to miners, but secondary reporting limits certainty.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/44/2026-10-12",
+              "label": "SN44 Score dated challenge status follow-up"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "GPUForge",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": [
+        {
+          "headline": "SN49 Nepher Robotics opens a Unitree Go2 LiDAR maze tournament",
+          "summary": "SN49 Nepher Robotics announced a live Unitree Go2 maze-navigation tournament on October 12. Miners train a high-level planner using only a 360-degree LiDAR scan, above a frozen walking policy, with no camera or map. The team provides an Isaac Lab environment, training/evaluation scripts and fixed benchmark mazes. It advertises a $13,900 prize pool split 70/20/10 among the top three, with submissions closing October 18. The important step is moving the navigation challenge from a wheeled vehicle to a quadruped; a simulated benchmark win is not proof of dependable deployment in every physical environment.",
+          "rating": 4,
+          "ratingReason": "A new robotics competition has a specific task, reproducible evaluation and a published reward/deadline announcement.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/nepher_robotics/status/2109650258712006779",
+              "label": "SN49 Nepher Robotics original Go2 tournament and terms"
+            },
+            {
+              "url": "https://nepher.ai/tournament/tournaments/997ea97f-4371-4ca0-b700-f117c8f2e2f5",
+              "label": "SN49 Nepher Robotics official Go2 tournament page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": [
+        {
+          "headline": "SN53 Engy launches referrals paying a share of referred API spending",
+          "summary": "SN53 Engy announced its referral program on October 11, after the preceding report’s cutoff. The official post offers 10% of referred customers’ API spending and directs users to the referral dashboard. The significance is distribution: people bringing paying inference users can participate in customer acquisition. This is a referral commission, not a subnet staking yield, guaranteed income or proof of a new enterprise contract. Detailed eligibility, duration and withdrawal terms should be checked in the program rather than inferred from the short announcement.",
+          "rating": 3,
+          "ratingReason": "A directly launched customer-acquisition feature connects incentives to actual API spending.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/engyai/status/2109400015135531437",
+              "label": "SN53 Engy original referral-program launch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": []
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Subnet 57",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "Attune",
+      "updates": [
+        {
+          "headline": "SN58 Attune opens Vector to miners training adaptive models",
+          "summary": "SN58 Attune’s October 12 announcement opens Vector: miners can train models and submit weights to compete for rewards. Its public documentation describes adaptive robot intelligence that learns from examples at deployment while model weights stay frozen. This puts a concrete mining competition behind the project’s in-context-learning ambition. Vector is open; the separate Horizon track remains coming soon. Participation does not establish real-world robot deployment or guaranteed rewards.",
+          "rating": 4,
+          "ratingReason": "A directly announced competition opening creates a new, documented route for miners to contribute adaptive intelligence.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/robotensor_ai/status/2109641337226289577",
+              "label": "SN58 Attune original Vector opening"
+            },
+            {
+              "url": "https://attune.robotensor.ai/docs",
+              "label": "SN58 Attune live documentation"
+            },
+            {
+              "url": "https://github.com/robotensor/attune-subnet",
+              "label": "SN58 Attune miner and validator repository"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 59,
+      "name": "Subnet 59",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": [
+        {
+          "headline": "SN64 Chutes brief reports TEE v1.5.0; AMD hosts still restricted",
+          "summary": "SN64 Chutes’ October 12 digest reports TEE v1.5.0 with AMD SEV-SNP support, serving-preserving maintenance and a TDX reboot-hang fix. Crucially, it says SNP hosts are not yet accepted because of open security bulletins. It describes an upgrade window through October 25 and up to two servers per miner upgraded concurrently. These details come from a dated digest whose private originals were not independently read. Implementation support is not admission approval, and the discussed future model additions are not verified live launches.",
+          "rating": 3,
+          "ratingReason": "A reported miner release and security-related admission restriction deserve attention, with source limitations explicit.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/64/2026-10-12",
+              "label": "SN64 Chutes dated TEE v1.5.0 and admission restrictions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": [
+        {
+          "headline": "SN65 True Performance Network announces TPN005 as its first release-ready model",
+          "summary": "SN65 True Performance Network says TPN005 reduces the size of the Ministral-3-8B base model by about 40% while retaining its full 32k context. The October 12 announcement calls this the first successful upgrade and the first competition scored entirely on Fluid Bench, and links the Competition 5 dashboard. These are the team’s results, not an independent replication or proof that every capability is unchanged. The full numerical case study and consumer product are still forthcoming; release-ready does not by itself mean a public downloadable model or launched consumer service.",
+          "rating": 4,
+          "ratingReason": "A concrete model-optimization result is material, with measurement attribution and pending release details explicit.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/TPN_Labs/status/2109627952514175330",
+              "label": "SN65 True Performance Network original TPN005 results"
+            },
+            {
+              "url": "https://stats.trueperformancenetwork.com",
+              "label": "SN65 True Performance Network competition dashboard"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": []
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": []
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Subnet 70",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": []
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Umi",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": []
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Subnet 82",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": []
+    },
+    {
+      "netuid": 86,
+      "name": "Subnet 86",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": [
+        {
+          "headline": "SN89 InfiniteQuant carries unpaid claims forward and adds finite market depth",
+          "summary": "SN89 InfiniteQuant’s October 12 code schedules unpaid reward claims to carry into later cycles from 01:00 UTC rather than being dropped above the cycle’s emission budget. A second change, armed for 05:00 UTC, gives each account $100 and each entity $400 of same-side stake at model pricing across matching windows; excess stake pays a depth premium. These are code-defined accounting and pricing changes, not guaranteed payouts or proof that all validators adopted them. The current README also says USDC withdrawals are sent without manual review, while alpha withdrawals remain manually handled.",
+          "rating": 3,
+          "ratingReason": "Concrete settlement and pricing changes alter participant economics and withdrawal handling.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/5693c4beb512e73fc87ba5278e0050827eb8915a",
+              "label": "SN89 InfiniteQuant unpaid-claim carry"
+            },
+            {
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/3f6d260696fecc8f98b0f33398e2e2216b0e356c",
+              "label": "SN89 InfiniteQuant finite market-depth change"
+            },
+            {
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/cd691a3e3a2b1afecf40c021f589413f585fa3d0",
+              "label": "SN89 InfiniteQuant revised withdrawal documentation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "Subnet 92",
+      "updates": []
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "Cathedral",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": [
+        {
+          "headline": "SN96 Verathos schedules its Decide transition for October 15",
+          "summary": "SN96 Verathos says it becomes Verathos Decide on Thursday, October 15. The October 12 announcement describes open-weight decision models that return a probability for each option, signed by the responding miner, with emissions following paid demand. This is a scheduled product and incentive transition, not a completed mainnet rollout. At the 14:25 UTC snapshot, its alpha/TAO price was up 16.77% over 24 hours; that is market context, not proof that the transition has succeeded or caused the move.",
+          "rating": 3,
+          "ratingReason": "A specific dated transition gives users and miners a concrete event to follow, while activation remains pending.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/verathos_ai/status/2109546517220794560",
+              "label": "SN96 Verathos original Decide schedule"
+            },
+            {
+              "url": "https://shizzyunchained.com/api/backend/v1/screener",
+              "label": "SN96 Verathos 14:25 UTC alpha/TAO market observation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 97,
+      "name": "Albedo",
+      "updates": []
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": [
+        {
+          "headline": "SN100 Cortex sets HyperTrain’s start for 18:00 UTC; proxy results retain limits",
+          "summary": "SN100 Cortex’s October 12 post sets a start for 18:00 UTC today, or 2 PM Eastern, after this report’s cutoff. Separately, its public HyperTrain repository records completion of a 150-job, roughly 1.1-million-parameter proxy grid on an RTX 5090. The documentation explicitly says no cell demonstrated parity with data-parallel training and that provisional settings remain unvalidated for a paid run. Completing the experiment is progress; it does not establish training parity at large-model scale or that tonight’s planned start has already happened.",
+          "rating": 3,
+          "ratingReason": "A specific operational schedule and transparent experiment results update the earlier plan without overstating readiness.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/cortex_100/status/2109484708958789841",
+              "label": "SN100 Cortex original 18:00 UTC start announcement"
+            },
+            {
+              "url": "https://github.com/CortexLM/hypertrain/commit/b7cc7a850089febd687ddb1ac52f4882d41f49b0",
+              "label": "SN100 Cortex full proxy grid and parity limitations"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": []
+    },
+    {
+      "netuid": 108,
+      "name": "ChipForge",
+      "updates": [
+        {
+          "headline": "SN108 ChipForge brief reports revalidation, reopened submissions and 13 bans",
+          "summary": "SN108 ChipForge’s October 12 digest attributes to the team a completed re-evaluation of 85 quest_001_npu entries using hardened validation, a new winner, reopened submissions and a return to a 10% minimum-improvement requirement. It also reports 13 coldkeys banned for exploiting evaluation. The private original messages and per-account evidence were not independently read, so these remain attributed reports rather than independently proven misconduct. This updates the unresolved validation story; it does not certify every payment or submission issue as resolved.",
+          "rating": 3,
+          "ratingReason": "A material reported validation recovery and eligibility change updates an ongoing incident.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/108/2026-10-12",
+              "label": "SN108 ChipForge dated revalidation and reopening report"
+            },
+            {
+              "url": "https://github.com/TatsuProject/ChipForge_SN108",
+              "label": "SN108 ChipForge primary repository"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "for sale",
+      "updates": [
+        {
+          "headline": "SN112 owner coldkey changed at finalized block 9,267,377",
+          "summary": "A direct Finney archive-node check confirms SN112’s owner coldkey changed at 13:19 UTC on October 12, block 9,267,377. The decoded ColdkeySwapped event is attached to extrinsic 4, and owner storage differs immediately before and after that block. The registration height remained unchanged between the daily snapshots. This establishes an executed owner-key replacement, not a new registration or proof of a negotiated sale. The current for-sale label and bot coverage do not establish a buyer, purchase price or sale completion.",
+          "rating": 3,
+          "ratingReason": "An independently traced ownership-key execution is useful slot-watch information, with sale and registration claims kept separate.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://taostats.io/extrinsic/9267377-4",
+              "label": "SN112 finalized coldkey-swap extrinsic"
+            },
+            {
+              "url": "https://x.com/TensiaBot/status/2109636734711378367",
+              "label": "SN112 secondary swap alert"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 113,
+      "name": "Subnet 113",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": []
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Carbon",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "everyframe.studio",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "SN118 Ditto ends its memory track and announces an interim emission allocation",
+          "summary": "SN118 Ditto’s October 12 post says its memory track is finished and a router competition is next. A reranker, learned retrieval weights and a small language model under seven billion parameters are also planned. Until the new incentive mechanism is live, the team says miner emissions go to its UID 21 to fund development. That allocation is a team statement here, not a separately reconstructed chain-payment total. This is a consequential change for miners: the replacement competition is not yet live, and the team’s claim that memory is solved should not be read as a universal scientific result.",
+          "rating": 4,
+          "ratingReason": "A directly announced mining transition and interim reward destination materially affect participants.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/heydittoai/status/2109648101091012623",
+              "label": "SN118 Ditto original mining and emission transition"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": [
+        {
+          "headline": "SN120 Affine separates fresh training diagnostics from held-out claims",
+          "summary": "SN120 Affine’s October 12 code and documentation add a separate dashboard series for fresh generations on a fixed 128-task training cohort. Results require authenticated aggregates and complete provenance; missing or invalid observations stay unavailable rather than becoming zero accuracy. The docs distinguish the original 7B comparison reference from the actual training-run starting checkpoint, and explicitly say this is not independent held-out confirmation. Publishing the display does not establish that the producer is deployed or that the first new numerical measurement is available.",
+          "rating": 3,
+          "ratingReason": "Clearer evaluation provenance helps readers interpret learning results without mistaking training diagnostics for independent validation.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/AffineFoundation/affine/commit/86af9c5193eeefc1dc77cb193710c0254df21a9d",
+              "label": "SN120 Affine authenticated fresh-training diagnostics"
+            },
+            {
+              "url": "https://github.com/AffineFoundation/affine/commit/57e533e18f45dc37215e6aa6f3e53f63f403505e",
+              "label": "SN120 Affine actual genesis and comparison-reference distinction"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "taostats API migration: October 8 launch, November 9 retirement deadline",
+      "summary": "Late-found infrastructure update: taostats’ primary launch article is dated October 8 and says the new API is live, with the old /api/ endpoints switching off on November 9. An October 12 X reminder says 30 days, but the published migration timeline gives the precise date. Existing keys, host and Authorization header stay the same; paths move to /v1/, with revised endpoint names and sorting parameters. Developers should follow the guide and test field mappings. The provider’s speed and accuracy claims were not independently benchmarked here.",
+      "rating": 4,
+      "ratingReason": "A live API migration and retirement deadline can affect many Bittensor dashboards and integrations.",
+      "importance": "high",
+      "status": "verified",
+      "sources": [
+        {
+          "url": "https://x.com/taostats/status/2109607935408054750",
+          "label": "taostats original API launch and migration deadline"
+        },
+        {
+          "url": "https://taostats.io/docs/new",
+          "label": "taostats new API documentation"
+        },
+        {
+          "url": "https://taostats.io/blog/taostats-new-api-launch",
+          "label": "taostats dated primary launch and exact migration timeline"
+        }
+      ]
+    },
+    {
+      "headline": "Const comments “Gamma” in an inference-for-equity discussion",
+      "summary": "On October 11 at 19:35 UTC, Const replied “Gamma” to Algod’s public question about giving startups inference instead of only cash investment. This is relevant ecosystem commentary and is included with the original thread context. The one-word reply does not announce a new protocol feature, launch date, funding program or finalized Gamma economics. Other commenters’ descriptions are not substituted for an official specification.",
+      "rating": 2,
+      "ratingReason": "The owner-requested Const review found a fresh relevant reply; its limited wording supports commentary, not a launch claim.",
+      "importance": "informational",
+      "status": "verified",
+      "sources": [
+        {
+          "url": "https://x.com/const_reborn/status/2109367292287140299",
+          "label": "Const original Gamma reply"
+        },
+        {
+          "url": "https://x.com/AlgodTrading/status/2109355469605085355",
+          "label": "Original inference-for-equity discussion"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "All 128 current subnet profiles, 92 dated briefs and 190 associated repository paths; original posts and published code checked for selected stories.",
+      "202 associated public X account samples, with 192 returning visible posts; signed-in X verified as @ShizzyUnchained.",
+      "Grok daily discovery, top-five attention question and omission check, explicitly including @const_reborn; direct Const posts and replies.",
+      "Direct finalized Finney archive-RPC owner, registration-height and network-status comparisons, with the SN112 change traced to its decoded execution block.",
+      "SubnetRadar Moments, TAO Daily, TAO Media, AlphaGap public dashboard, partners, market outliers, emission leaders, preceding seven editions and YouTube Videos/Live."
+    ],
+    "gaps": [
+      "X account samples and Grok are discovery aids, not an exhaustive census of every alias or post. Private Discord originals were not independently read; digest-only stories remain developing.",
+      "The historical multi-key chain query did not return within the bounded attempt. Finalized endpoint comparisons and the traced SN112 event do not exclude a transient registration or owner change between snapshots. No exhaustive no-event claim is made.",
+      "AlphaGap’s public response did not expose its complete live leaderboard. Published repository code does not establish adoption by every live validator. The omission prompt requested a later cutoff than the actual run; only sources observed by the report’s actual cutoff are included."
+    ]
+  }
+}
