@@ -11,15 +11,15 @@ export const latestMemberVideo = {
 // Update this alongside the channel's Live tab during each news/video refresh.
 // The removed Cascade URL and postponed VUNE URL must not be restored.
 export const promotedLivestream = {
-  enabled: false,
+  enabled: true,
   listed: true,
-  id: "OWQoSVN3M9s",
-  title: "Can AI Predict the Future? Inside Bittensor’s Cascade SN91",
-  meta: "54:15 · Livestream replay · October 7, 2026",
+  id: "rEaGFK5yn8g",
+  title: "Quantum Computing Is Already on Bittensor?! | SN48 Quantum Compute",
+  meta: "Upcoming · October 14, 2026 · 11:30 AM ET / 8:30 AM PT",
   membersOnly: false,
-  upcoming: false,
-  headline: "Live with SN91 Cascade: Can AI Predict the Future?",
-  schedule: "October 7 · 11 AM ET / 8 AM PT",
-  startsAt: "2026-10-07T15:00:00Z",
-  expiresAt: "2026-10-07T18:00:00Z",
+  upcoming: true,
+  headline: "Live with SN48 Quantum Compute",
+  schedule: "October 14 · 11:30 AM ET / 8:30 AM PT",
+  startsAt: "2026-10-14T15:30:00Z",
+  expiresAt: "2026-10-14T18:30:00Z",
 };

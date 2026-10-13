@@ -173,6 +173,11 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "02ZUtgwaUAQ",
+    title: "Bittensor TAO: The Greatest Generational Wealth Opportunity of Our Lifetime?",
+    meta: "22:30 · October 12, 2026",
+  },
+  {
     id: "q4QrIy3lBEA",
     title: "LIUM SN51: The First BILLION DOLLAR Subnet on Bittensor?",
     meta: "11:29 · October 11, 2026",
@@ -205,6 +210,11 @@ const channelVideos: ChannelVideo[] = [
     meta: "10:25 · October 4, 2026",
   },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
+  {
+    id: "OWQoSVN3M9s",
+    title: "Can AI Predict the Future? Inside Bittensor’s Cascade SN91",
+    meta: "54:15 · Livestream replay · October 7, 2026",
+  },
   {
     id: "mTJBFowN4Yo",
     title: "Your Stake. Your Decision. Inside Bittensor’s First Democratised Validator",
@@ -450,6 +460,11 @@ const channelVideos: ChannelVideo[] = [
 ];
 const liveStreams: ChannelVideo[] = [
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
+  {
+    id: "OWQoSVN3M9s",
+    title: "Can AI Predict the Future? Inside Bittensor’s Cascade SN91",
+    meta: "54:15 · Livestream replay · October 7, 2026",
+  },
   {
     id: "mTJBFowN4Yo",
     title: "Your Stake. Your Decision. Inside Bittensor’s First Democratised Validator",
