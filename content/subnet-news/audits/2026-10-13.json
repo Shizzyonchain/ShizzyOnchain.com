@@ -20,7 +20,7 @@
     "YouTube Videos and Live tabs; public upload, latest members video and the new October 14 scheduled stream verified."
   ],
   "accessGaps": [
-    "Public X samples and Grok are not exhaustive searches of every alias. Ten account samples returned no post links; private Discord originals were not read. Digest-only claims remain developing.",
+    "Public X samples and Grok are not exhaustive searches of every alias. Twelve account samples returned no post links; private Discord originals were not read. Digest-only claims remain developing.",
     "Several signed-in X detail pages stayed on Loading despite a retry. Original public HTML and linked product pages supplied text checks; attached media not actually viewed is not represented as reviewed. SN8 Vanta’s October 13 teaser artwork was inspected directly; its October 12 video remains unavailable.",
     "Chain endpoint comparisons cannot exclude temporary changes between snapshots. Full historical event replay remains incomplete; an unchanged owner key does not disprove an off-chain business handover or establish a sale price.",
     "AlphaGap public landing page was accessible, but its full paid/live leaderboard was not inspected. Repository merges establish code state, not fleet-wide deployment or mainnet runtime activation."
@@ -10978,9 +10978,15 @@
     }
   ],
   "checklistReview": {
-    "status": "research and video refresh completed with explicit media/history gaps; publication gates pending",
+    "status": "Published and live dated edition verified; historical chain and media gaps remain open",
     "evidence": "content/subnet-news/audits/2026-10-13-checklist.md",
-    "publication": "pending validation and live verification"
+    "publication": {
+      "deploymentId": "dpl_82ibwtC31mP8SFmwL9YkY6mKkwf7",
+      "commit": "7c6f726ea48a5acfd7ab3429f2fc56d20f0e5c30",
+      "liveDatedPage": "https://shizzyunchained.com/subnet-news/2026-10-13",
+      "verifiedAt": "2026-10-13T17:01:37.500Z",
+      "note": "Initial release verified; follow-up evidence/count correction tracked in local final run log."
+    }
   },
   "emissionReview": [
     {
