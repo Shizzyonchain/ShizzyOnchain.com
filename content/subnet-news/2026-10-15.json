@@ -824,8 +824,8 @@
       "name": "OpenRoboto",
       "updates": [
         {
-          "headline": "SN80 OpenRoboto and peaq confirm machine identities for 30 collectors",
-          "summary": "SN80 OpenRoboto’s October 15 thread says its first 30 OR-S1 data collectors now use peaqOS Pro, each with a decentralized identity anchored on Solana. peaq’s counterpart post confirms 30live units and says future collectors will follow. This advances yesterday’s scheduled discussion/teaser to a specifically announced fleet integration, giving buyers a checkable device identity behind captured robotics data. It does not by itself prove every recording is authentic or independently validate the hardware. Connecting the fleet to machine money markets is described as the next step, not financing already received. The October 19 discussion remains a separate upcoming event.",
+          "headline": "SN80 OpenRoboto’s peaq integration gets confirmation from Solana",
+          "summary": "SN80 OpenRoboto’s October 15 thread says its first 30 OR-S1 data collectors now use peaqOS Pro, each with a decentralized identity anchored on Solana. peaq’s counterpart post confirms 30 live units and says future collectors will follow. This advances yesterday’s scheduled discussion/teaser to a specifically announced fleet integration, giving buyers a checkable device identity behind captured robotics data. It does not by itself prove every recording is authentic or independently validate the hardware. Connecting the fleet to machine money markets is described as the next step, not financing already received. The October 19 discussion remains a separate upcoming event. Update: Solana’s official account also highlighted the integration on October 15 at 15:33 UTC (11:33 AM Eastern), saying the devices have Solana identities and wallets and can be verified and paid for performance through peaq. This adds acknowledgement from the chain’s own account and explains the payment capability; it is not evidence that a specific payment or financing transaction has already occurred.",
           "rating": 4,
           "ratingReason": "Both sides confirm a specific deployed fleet integration rather than only a partnership teaser.",
           "importance": "high",
@@ -833,11 +833,15 @@
           "sources": [
             {
               "url": "https://x.com/openroboto/status/2110731220103618645",
-              "label": "SN80 OpenRoboto original30collector announcement"
+              "label": "SN80 OpenRoboto original 30-collector announcement"
             },
             {
               "url": "https://x.com/peaq",
-              "label": "peaq counterpart confirmation of30live collectors"
+              "label": "peaq counterpart confirmation of 30 live collectors"
+            },
+            {
+              "url": "https://x.com/solana/status/2110755957303107965",
+              "label": "Solana original SN80 OpenRoboto integration post"
             }
           ]
         }

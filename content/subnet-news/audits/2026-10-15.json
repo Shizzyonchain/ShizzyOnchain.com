@@ -1299,6 +1299,17 @@
       "sources": [
         "https://subnetstats.app/news"
       ]
+    },
+    {
+      "netuid": 80,
+      "lead": "Solana official integration acknowledgement",
+      "outcome": "updated",
+      "checkedAt": "2026-10-15T17:03:48.401Z",
+      "postUtc": "2026-10-15T15:33:30.827Z",
+      "reason": "User-requested focused addendum after morning cutoff; verified original account/post. Capability is not completed payment. Morning coverageEnd preserved.",
+      "sources": [
+        "https://x.com/solana/status/2110755957303107965"
+      ]
     }
   ],
   "priorEditionsReviewed": [
@@ -11789,6 +11800,16 @@
       "sources": [
         "https://subnetradar.com/subnet/9"
       ]
+    }
+  ],
+  "focusedAddenda": [
+    {
+      "checkedAt": "2026-10-15T17:03:48.401Z",
+      "sources": [
+        "https://x.com/solana/status/2110755957303107965"
+      ],
+      "evidence": "research-oct15/solana-posts.json",
+      "scope": "SN80 story only; no full rescan or X posting."
     }
   ]
 }
