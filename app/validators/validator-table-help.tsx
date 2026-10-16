@@ -4,6 +4,13 @@ import { createContext, useContext, useId, useState, type ReactNode } from "reac
 import styles from "./validators.module.css";
 
 const explanations: [string[], string][] = [
+  [["Basket value τ", "Realizable value τ"], "Estimated TAO obtainable from selling the basket holdings at the source snapshot, accounting for liquidity and fees. This is the whole fund’s NAV, not your root principal or personal claim amount. Quotes change with the pools."],
+  [["Spot value τ"], "Alpha amount multiplied by its spot price, expressed in TAO. This display mark does not account for the price impact of selling a holding. Realizable value is the basis used for basket allocations here."],
+  [["7d staker return", "30d staker return"], "TaoStats’ historical basket staker total return over the stated period, combining accrued income and changes in value. This is a period return, not APY. A dash means the source lacks comparable observations within the same fund life. It is not a guaranteed personal wallet return."],
+  [["7d capital return"], "Change in realizable basket value per share over seven days. This tracks capital performance, separately from staker total return which includes accrual. It is not annualized; negative values are possible. Missing history stays unavailable."],
+  [["Holdings"], "Open the validator’s actual escrowed root reward basket positions from the same snapshot. These are separate from personal wallet holdings and ordinary delegated subnet stake. Opening them makes no additional data request."],
+  [["Alpha held"], "Native units held in the root basket: alpha on each subnet, or TAO for the SN0 cash slot. Alpha quantities from different subnets are different tokens."],
+  [["Basket allocation"], "This holding’s realizable TAO value divided by the whole basket’s realizable NAV. This is current value exposure at the snapshot, not a target weight or evidence of a new trade."],
   [["Rank"], "The validator’s position in TaoStats’ overall leaderboard. This is a provider ranking, not our recommendation score or a security rating."],
   [["Validator"], "The validator’s on-chain identity or shortened hotkey address. Select its name to open the detailed profile. Different hotkeys can share the same name."],
   [["Take"], "The validator’s reward fee, shown as a percentage. For example, 9% take means a 9% validator cut of the applicable rewards—not 9% of your deposited stake. Subnet and child-hotkey arrangements can affect the final reward split."],

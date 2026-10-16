@@ -1,0 +1,26 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { readFile } from "node:fs/promises";
+import { stripTypeScriptTypes } from "node:module";
+const types = new URL("../app/lib/validator-types.ts", import.meta.url).href;
+const source = (await readFile(new URL("../app/lib/root-baskets.ts", import.meta.url), "utf8")).replace('"./validator-types"', JSON.stringify(types));
+const { joinRootBaskets, holdingShare } = await import(`data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(source)).toString("base64")}`);
+const holding = { netuid: 51, alpha: "1000000000", realizable_tao: "2500000000", spot_tao: "3000000000" };
+const basket = { hotkey: "parent", nav_tao: "5000000000", holdings: [holding], staker_return_7d: null };
+test("allocation uses realizable value, not the higher spot mark", () => {
+  assert.equal(holdingShare(holding, basket), .5);
+  assert.equal(holdingShare(holding, { ...basket, nav_tao: "0" }), null);
+});
+test("child exclusion preserves unlisted parent baskets and missing return history", () => {
+  const rows = joinRootBaskets([basket, { ...basket, hotkey: "child" }], [], ["child"]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].hotkey, "parent");
+  assert.equal(rows[0].name, null);
+  assert.equal(rows[0].take, null);
+  assert.equal(rows[0].staker_return_7d, null);
+});
+test("duplicate snapshots and invalid holdings fail instead of presenting misleading allocations", () => {
+  assert.throws(() => joinRootBaskets([basket, basket], [], []));
+  assert.throws(() => joinRootBaskets([{ ...basket, holdings: [holding, holding] }], [], []));
+  assert.throws(() => joinRootBaskets([{ ...basket, holdings: [{ ...holding, realizable_tao: "-1" }] }], [], []));
+});
