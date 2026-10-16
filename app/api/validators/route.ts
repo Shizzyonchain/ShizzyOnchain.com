@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
   const hotkey = query.get("hotkey");
   const page = Number(query.get("page") || 1);
   const order = query.get("order") || "rank";
+  const search = (query.get("search") || "").trim().slice(0, 100).toLowerCase();
   if (!["directory", "yield", "history"].includes(kind) || !Number.isInteger(page) || page < 1 || page > 50 || !orders.has(order) || (hotkey && !hotkeyPattern.test(hotkey)) || (kind !== "directory" && !hotkey)) {
     return NextResponse.json({ error: "Invalid validator query." }, { status: 400 });
   }
@@ -19,13 +20,13 @@ export async function GET(request: NextRequest) {
     if (kind === "directory" && !hotkey) {
       const snapshot = await getStandaloneValidators();
       const descending = !order.endsWith("rank") && order !== "take";
-      const rows = [...snapshot.rows].sort((a, b) => {
+      const rows = snapshot.rows.filter(row => `${row.name || ""} ${row.hotkey} ${row.coldkey}`.toLowerCase().includes(search)).sort((a, b) => {
         const field = order as keyof typeof a;
         return (Number(a[field]) - Number(b[field])) * (descending ? -1 : 1) || a.hotkey.localeCompare(b.hotkey);
       });
       const totalPages = Math.max(1, Math.ceil(rows.length / 200));
       const currentPage = Math.min(page, totalPages);
-      return NextResponse.json({ data: rows.slice((currentPage - 1) * 200, currentPage * 200), hiddenChildren: snapshot.hiddenChildren, childCheck: snapshot.childCheck, pagination: { current_page: currentPage, next_page: currentPage < totalPages ? currentPage + 1 : null, prev_page: currentPage > 1 ? currentPage - 1 : null, total_items: rows.length, total_pages: totalPages }, source: "TaoStats + finalized Finney ParentKeys" }, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } });
+      return NextResponse.json({ data: rows.slice((currentPage - 1) * 200, currentPage * 200), directoryTotal: snapshot.rows.length, hiddenChildren: snapshot.hiddenChildren, childCheck: snapshot.childCheck, pagination: { current_page: currentPage, next_page: currentPage < totalPages ? currentPage + 1 : null, prev_page: currentPage > 1 ? currentPage - 1 : null, total_items: rows.length, total_pages: totalPages }, source: "TaoStats + finalized Finney ParentKeys" }, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } });
     }
     if (hotkey && (await getChildHotkeys()).hotkeys.includes(hotkey)) return NextResponse.json({ error: "Child validator profiles have been removed. Please use the parent/standalone validator directory." }, { status: 410 });
   } catch {

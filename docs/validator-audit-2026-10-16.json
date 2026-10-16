@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-16",
+  "scope": ["validator directory", "subnet finder", "root baskets", "linked Arbos mechanics"],
+  "publicSnapshotFindings": {
+    "rootBaskets": 131,
+    "balancesUnderPointZeroOneTao": 69,
+    "emptyBaskets": 7,
+    "missingDisplayName": 80,
+    "missingDirectoryRootStake": 68,
+    "basketHoldingsTotalMismatches": 0,
+    "rootSnapshot": "2026-10-16T15:51:48.000Z",
+    "subnetFinderSamples": [51, 64]
+  },
+  "changes": [
+    "Search the complete cached standalone validator directory before pagination, rather than only the visible page.",
+    "Hide baskets under 0.01 TAO by default with an explicit opt-in control; preserve all source rows.",
+    "Show top-five concentration, TAO cash share and spot-to-realizable quote gap without extra provider calls.",
+    "Move selected holdings to a focused panel with independent bounded scrolling.",
+    "Validate exact integer sums of realizable and spot holdings against NAV before serving a snapshot.",
+    "Show basket and directory source times separately; flag basket sources over two hours old.",
+    "Make direct-permit-only ranking coverage and unverified operator claims prominent.",
+    "Correct linked Arbos article's automatic sell-and-rebuy and target-weight descriptions; preserve historical screen context."
+  ],
+  "limits": [
+    "Root basket presence does not establish a current root seat.",
+    "Subnet rankings exclude child-only hotkeys and parents without their own direct permit; they are not an exhaustive ranking of every staking option.",
+    "Provider nominator APY is used without a second take deduction; this audit does not independently reconstruct every historical reward payment.",
+    "Registration age is global hotkey age, not proof of operation on one subnet throughout the yield window.",
+    "Window-average agreement is not a volatility measure. Participation is not uptime.",
+    "Unknown identities stay addresses. Identity labels do not verify insurance, security or service quality.",
+    "Root staker returns and capital returns are period returns, not APY or personalized profit. The spot-to-quote gap is a whole-fund valuation comparison, not an individual redemption fee.",
+    "No account connection, staking, trade or claim transaction is performed by these research pages."
+  ],
+  "sources": [
+    "https://www.bittensor.com/docs/guides/root-reborn",
+    "https://taostats.io/docs/new/validators/get-validators-baskets",
+    "https://taostats.io/docs/new/validators/get-validators-yield",
+    "https://taostats.io/docs/concepts/staking/some-of-the-math-behind-taostats"
+  ]
+}

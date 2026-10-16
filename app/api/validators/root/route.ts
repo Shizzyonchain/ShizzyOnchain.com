@@ -23,7 +23,7 @@ const loadRoot = unstable_cache(async () => {
   })()]);
   const data = joinRootBaskets(baskets, directory.rows, children.hotkeys);
   return { data, hiddenChildren: baskets.length - data.length, source: "TaoStats root baskets + finalized Finney child exclusion", collectedAt: new Date().toISOString(), childCheck: directory.childCheck };
-}, ["root-basket-snapshot-v1"], { revalidate: 1800 });
+}, ["root-basket-audited-v2"], { revalidate: 1800 });
 
 export async function GET() {
   try {

@@ -4,9 +4,9 @@ import { readFile } from "node:fs/promises";
 import { stripTypeScriptTypes } from "node:module";
 const types = new URL("../app/lib/validator-types.ts", import.meta.url).href;
 const source = (await readFile(new URL("../app/lib/root-baskets.ts", import.meta.url), "utf8")).replace('"./validator-types"', JSON.stringify(types));
-const { joinRootBaskets, holdingShare } = await import(`data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(source)).toString("base64")}`);
+const { joinRootBaskets, holdingShare, basketContext } = await import(`data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(source)).toString("base64")}`);
 const holding = { netuid: 51, alpha: "1000000000", realizable_tao: "2500000000", spot_tao: "3000000000" };
-const basket = { hotkey: "parent", nav_tao: "5000000000", holdings: [holding], staker_return_7d: null };
+const basket = { hotkey: "parent", nav_tao: "5000000000", spot_nav_tao: "6000000000", deposited_tao: "5000000000", redeemed_tao: "0", timestamp: "2026-10-16T16:00:00Z", holdings: [holding, { ...holding, netuid: 0 }], staker_return_7d: null };
 test("allocation uses realizable value, not the higher spot mark", () => {
   assert.equal(holdingShare(holding, basket), .5);
   assert.equal(holdingShare(holding, { ...basket, nav_tao: "0" }), null);
@@ -23,4 +23,12 @@ test("duplicate snapshots and invalid holdings fail instead of presenting mislea
   assert.throws(() => joinRootBaskets([basket, basket], [], []));
   assert.throws(() => joinRootBaskets([{ ...basket, holdings: [holding, holding] }], [], []));
   assert.throws(() => joinRootBaskets([{ ...basket, holdings: [{ ...holding, realizable_tao: "-1" }] }], [], []));
+  assert.throws(() => joinRootBaskets([{ ...basket, nav_tao: "4999999999" }], [], []));
+});
+test("concentration, cash exposure and quote gap use the correct denominator", () => {
+  const context = basketContext(basket);
+  assert.equal(context.topFiveShare, 1);
+  assert.equal(context.cashShare, .5);
+  assert.ok(Math.abs(context.quoteGap - 1 / 6) < 1e-12);
+  assert.equal(basketContext({ ...basket, nav_tao: "0", spot_nav_tao: "0" }).quoteGap, null);
 });
