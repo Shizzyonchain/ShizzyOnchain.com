@@ -173,6 +173,11 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "lPKnwlkAWdQ",
+    title: "TAO RISES FROM HELL! 🔥 Bittensor Is Making HUGE Moves!",
+    meta: "18:44 · October 15, 2026",
+  },
+  {
     id: "02ZUtgwaUAQ",
     title: "Bittensor TAO: The Greatest Generational Wealth Opportunity of Our Lifetime?",
     meta: "22:30 · October 12, 2026",
