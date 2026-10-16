@@ -1,4 +1,4 @@
-export type HistoryPoint = { day: string; timestamp: string; twr: number | null; twr_first_block: string | null };
+export type HistoryPoint = { day: string; timestamp: string; twr: number | null; twr_first_block: string | null; nav_per_share?: number | null };
 export type Performance = { days: string[]; series: { values: number[]; totalReturn: number; drawdown: number }[] };
 export function compareHistory(histories: HistoryPoint[][]): Performance {
   if (histories.length < 2 || histories.length > 3) throw new Error("Choose two or three baskets.");

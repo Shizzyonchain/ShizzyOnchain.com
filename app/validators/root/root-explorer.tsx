@@ -7,6 +7,7 @@ import { basketContext, holdingShare, type NamedRootBasket } from "../../lib/roo
 import { ValidatorColumn, ValidatorTableHelp } from "../validator-table-help";
 import styles from "../validators.module.css";
 import { RootComparison } from "./root-comparison";
+import { RootRecommendations } from "./root-recommendations";
 
 type Result = { data: NamedRootBasket[]; hiddenChildren: number; collectedAt: string };
 const percent = (value: unknown) => numeric(value) === null ? "—" : `${displayNumber(Number(value) * 100)}%`;
@@ -41,6 +42,7 @@ export function RootExplorer({ subnets }: { subnets: { netuid: number; name: str
   const oldest = result?.data.reduce((time, row) => Math.min(time, Date.parse(row.timestamp)), Infinity);
   const stale = oldest !== undefined && Number.isFinite(oldest) && now - oldest > 2 * 3600_000;
   return <section aria-label="Root validator baskets"><div className={styles.controls}><label>Search root validators<input value={search} onChange={event => setSearch(event.target.value)} placeholder="Validator name or hotkey" /></label><label>Sort root baskets<select value={sort} onChange={event => setSort(event.target.value)}>{sorts.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label></div>
+    <RootRecommendations />
     {result && <RootComparison baskets={result.data} subnets={subnets} />}
     <label className={styles.filterToggle}><input type="checkbox" checked={includeSmall} onChange={event => setIncludeSmall(event.target.checked)} /> Include baskets below 0.01 TAO (including empty funds)</label>
     <p className={styles.source}>These are root reward baskets, not personal wallets. A retained basket does not prove a current root validator seat. Returns below cover the stated period and are not annualized APY. Values are in TAO; each row keeps its source time. Shared hourly source cache; opening holdings does not make another request.</p>
