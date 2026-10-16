@@ -44,7 +44,8 @@ const loadCandidates = unstable_cache(async (netuid: number) => {
     const v = fees.get(neuron.hotkey), y = performance.get(neuron.hotkey);
     return {
       hotkey: neuron.hotkey, name: neuron.name || v?.name || neuron.hotkey,
-      take: numeric(v?.take), yield7: numeric(y?.seven_day_apy), yield30: numeric(y?.thirty_day_apy),
+      // Actual nominator returns already reflect reward fees. Do not deduct current take again.
+      yieldBasis: "nominator-net", take: numeric(v?.take), yield7: numeric(y?.seven_day_apy), yield30: numeric(y?.thirty_day_apy),
       participation7: numeric(y?.seven_day_epoch_participation), participation30: numeric(y?.thirty_day_epoch_participation),
       active: neuron.active === true, permit: neuron.validator_permit === true,
       updated: numeric(neuron.updated), cutoff: numeric(hypers[0].activity_cutoff),
@@ -55,7 +56,7 @@ const loadCandidates = unstable_cache(async (netuid: number) => {
   });
   if (new Set(candidates.map(c => c.hotkey)).size !== candidates.length || new Set(yields.map(y => y.hotkey)).size !== yields.length) throw new Error("Ambiguous validator rows. No recommendation generated.");
   return { candidates, netuid, collectedAt: new Date().toISOString(), coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length, hiddenChildren: neurons.length - candidates.length }, childCheck: { block: childIndex.block, checkedAt: childIndex.checkedAt } };
-}, ["validator-recommendations-no-child-v2"], { revalidate: 1800 });
+}, ["validator-recommendations-net-yield-v3"], { revalidate: 1800 });
 
 export async function GET(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get("netuid");

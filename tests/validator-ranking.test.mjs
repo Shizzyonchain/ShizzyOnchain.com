@@ -4,7 +4,7 @@ import { rankValidators } from "../app/lib/validator-ranking.ts";
 
 const now = Date.parse("2026-10-16T16:00:00Z");
 const base = {
-  hotkey: "steady", name: "Steady", take: .09, yield7: .3, yield30: .3,
+  yieldBasis: "nominator-net", hotkey: "steady", name: "Steady", take: .09, yield7: .3, yield30: .3,
   participation7: 1, participation30: 1, active: true, permit: true,
   updated: 5, cutoff: 500, stakeShare: .1, dividends: .1,
   registered: "2025-01-01", timestamps: Array(4).fill("2026-10-16T15:50:00Z"),
@@ -37,5 +37,21 @@ test("preference changes favor low fees or lower concentration without disabling
 test("zero yield, nonfinite numbers and missing parameters do not become favorable defaults", () => {
   for (const overrides of [{ yield30: 0 }, { yield7: NaN }, { take: null }, { stakeShare: Infinity }, { cutoff: null }]) {
     assert.equal(rankValidators([{ ...base, ...overrides }], "balanced", now)[0].score, null);
+  }
+});
+
+test("net nominator yield is not reduced by take a second time", () => {
+  const higherNet = { ...base, hotkey: "higher-net", take: .18, yield7: .32, yield30: .32 };
+  const zeroFee = { ...base, hotkey: "zero-fee", take: 0, yield7: .30, yield30: .30 };
+  const rows = rankValidators([zeroFee, higherNet], "yield", now);
+  assert.equal(rows[0].hotkey, "higher-net");
+  assert.equal(rows[0].yield7, .32);
+  assert.equal(rows[0].yield30, .32);
+});
+test("unknown or gross yield basis cannot enter recommendations", () => {
+  for (const yieldBasis of ["unknown", "gross", undefined]) {
+    const row = rankValidators([{ ...base, yieldBasis, yield7: 99 }], "yield", now)[0];
+    assert.equal(row.score, null);
+    assert.ok(row.excluded.includes("Yield after validator take could not be established"));
   }
 });
