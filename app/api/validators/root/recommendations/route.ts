@@ -12,17 +12,17 @@ const historyScan = unstable_cache(async (day: number, hotkeys: string[]) => {
   for (const hotkey of hotkeys) {
     const started = Date.now();
     const history = await getRootRecommendationHistory(hotkey, day);
-    try { metrics[hotkey] = rootHistoryMetrics(history, day); }
+    try { metrics[hotkey] = rootHistoryMetrics(history.data, day); }
     catch (error) {
       const reason = error instanceof Error ? error.message : "History unavailable";
       if (!reason.startsWith("Requires ")) throw error;
       exclusions[hotkey] = reason;
     }
     // Pace first-time preparation to 15 history calls/minute. Per-hotkey results survive retries.
-    if (hotkey !== hotkeys.at(-1)) await new Promise(resolve => setTimeout(resolve, Math.max(0, 4000 - (Date.now() - started))));
+    if (history.lookedUpAt >= started && hotkey !== hotkeys.at(-1)) await new Promise(resolve => setTimeout(resolve, Math.max(0, 4000 - (Date.now() - started))));
   }
   return { metrics, exclusions, preparedAt: new Date().toISOString() };
-}, ["all-root-history-scan-daily-v1"], { revalidate: 86400 });
+}, ["all-root-history-scan-daily-v2"], { revalidate: 86400 });
 export async function GET() {
   try {
     const snapshot = await getRootSnapshot();
