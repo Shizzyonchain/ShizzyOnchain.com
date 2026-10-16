@@ -19,6 +19,8 @@ export async function GET(request: NextRequest) {
     if (!Array.isArray(payload.data) || (kind === "operation" && payload.pagination?.next_page !== null)) throw new Error("Incomplete context source.");
     if (kind === "operation" && payload.data.some((row: { hotkey: string }) => row.hotkey !== hotkey)) throw new Error("Context hotkey mismatch.");
     if (kind === "operator" && payload.data.some((row: { address: string }) => row.address !== validator.coldkey)) throw new Error("Operator identity mismatch.");
-    return NextResponse.json({ data: payload.data, checkedAt: new Date().toISOString(), source: kind === "operator" ? "TaoStats on-chain coldkey identity" : "TaoStats metagraph" }, { headers: { "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=300" } });
+    const fields = kind === "operation" ? ["hotkey", "netuid", "active", "validator_permit", "updated", "block_number", "timestamp"] : ["address", "name", "description", "url", "github_repo", "discord"];
+    const data = payload.data.map((row: Record<string, unknown>) => Object.fromEntries(fields.map(field => [field, row[field] ?? null])));
+    return NextResponse.json({ data, checkedAt: new Date().toISOString(), source: kind === "operator" ? "TaoStats on-chain coldkey identity" : "TaoStats metagraph" }, { headers: { "Cache-Control": "public, s-maxage=1800, stale-while-revalidate=300" } });
   } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : "Context unavailable." }, { status: 503, headers: { "Cache-Control": "no-store" } }); }
 }
