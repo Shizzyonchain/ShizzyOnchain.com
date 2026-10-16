@@ -1,6 +1,13 @@
 import type { HistoryPoint } from "./root-comparison";
 export type RootMode = "balanced" | "risk" | "returns";
 export type RootMatch = { hotkey: string; name: string; take: number; totalReturn: number; drawdown: number; volatility: number; concentration: number; quoteGap: number; topFive: number; snapshot: string; identityTimestamp: string; start: string; end: string };
+export function rootEligibility(row: { root_stake: string | null; take: number | null; nav_tao: string }) {
+  const reasons: string[] = [];
+  if (row.root_stake === null || !Number.isFinite(Number(row.root_stake)) || Number(row.root_stake) <= 0) reasons.push("Positive reported root stake unavailable");
+  if (row.take === null || !Number.isFinite(row.take) || row.take < 0 || row.take > 1) reasons.push("Valid validator take unavailable");
+  if (!Number.isFinite(Number(row.nav_tao)) || Number(row.nav_tao) <= 0) reasons.push("Basket has no positive realizable value");
+  return reasons;
+}
 export function rootHistoryMetrics(history: HistoryPoint[], utcDay: number) {
   const expected = Array.from({ length: 31 }, (_, i) => new Date((utcDay - (31 - i) * 86400) * 1000).toISOString().slice(0, 10));
   const map = new Map(history.map(row => [row.day, row]));
