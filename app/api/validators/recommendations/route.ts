@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { unstable_cache } from "next/cache";
 import { numeric, type Validator, type ValidatorYield } from "../../../lib/validator-types";
+import { delegatedOperation } from "../../../lib/validator-operation";
 import type { Candidate } from "../../../lib/validator-ranking";
 import { getChildHotkeys } from "../../../lib/standalone-validators";
 
@@ -40,23 +41,30 @@ const loadCandidates = unstable_cache(async (netuid: number) => {
   const parents = new Set(childIndex.subnetParents[netuid] || []);
   const children = new Set((childIndex.subnetChildren[netuid] || []).filter(hotkey => !parents.has(hotkey)));
   for (const hotkey of childIndex.hotkeys) children.add(hotkey);
-  const candidates: Candidate[] = neurons.filter(neuron => !children.has(neuron.hotkey)).map(neuron => {
-    const v = fees.get(neuron.hotkey), y = performance.get(neuron.hotkey);
+  const edgeRows = childIndex.edges[netuid] || [];
+  const direct = new Map(neurons.map(row => [row.hotkey, row]));
+  const universe = new Set([...direct.keys(), ...parents]);
+  const candidates: Candidate[] = [...universe].filter(hotkey => !children.has(hotkey)).map(hotkey => {
+    const neuron = direct.get(hotkey);
+    const delegated = delegatedOperation(hotkey, edgeRows, neurons, hypers[0].activity_cutoff);
+    const hasEdges = edgeRows.some(edge => edge.parent === hotkey);
+    const operating = hasEdges ? delegated : neuron;
+    const v = fees.get(hotkey), y = performance.get(hotkey);
     return {
-      hotkey: neuron.hotkey, name: neuron.name || v?.name || neuron.hotkey,
+      hotkey, name: neuron?.name || v?.name || hotkey, operation: hasEdges ? delegated ? "delegated" : "unverified" : "direct", operators: delegated?.children,
       // Actual nominator returns already reflect reward fees. Do not deduct current take again.
       yieldBasis: "nominator-net", take: numeric(v?.take), yield7: numeric(y?.seven_day_apy), yield30: numeric(y?.thirty_day_apy),
       participation7: numeric(y?.seven_day_epoch_participation), participation30: numeric(y?.thirty_day_epoch_participation),
-      active: neuron.active === true, permit: neuron.validator_permit === true,
-      updated: numeric(neuron.updated), cutoff: numeric(hypers[0].activity_cutoff),
-      stakeShare: total > 0 && numeric(neuron.total_alpha_stake) !== null ? Number(neuron.total_alpha_stake) / total : null,
-      dividends: numeric(neuron.dividends), registered: v?.created_on_date ?? null,
-      timestamps: [neuron.timestamp, y?.timestamp || "", v?.timestamp || "", hypers[0].timestamp],
+      active: hasEdges ? !!delegated : neuron?.active === true, permit: hasEdges ? !!delegated : neuron?.validator_permit === true,
+      updated: numeric(operating?.updated), cutoff: numeric(hypers[0].activity_cutoff),
+      stakeShare: total > 0 ? (delegated?.stake ?? numeric(neuron?.total_alpha_stake) ?? NaN) / total : null,
+      dividends: numeric(operating?.dividends), registered: v?.created_on_date ?? null,
+      timestamps: [y?.timestamp || "", v?.timestamp || "", hypers[0].timestamp, ...(hasEdges ? [childIndex.checkedAt, ...(delegated?.timestamps || [""])] : [neuron?.timestamp || ""])],
     };
   });
   if (new Set(candidates.map(c => c.hotkey)).size !== candidates.length || new Set(yields.map(y => y.hotkey)).size !== yields.length) throw new Error("Ambiguous validator rows. No recommendation generated.");
-  return { candidates, netuid, collectedAt: new Date().toISOString(), coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length, hiddenChildren: neurons.length - candidates.length }, childCheck: { block: childIndex.block, checkedAt: childIndex.checkedAt } };
-}, ["validator-recommendations-net-yield-v3"], { revalidate: 1800 });
+  return { candidates, netuid, collectedAt: new Date().toISOString(), coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length, parentPaths: parents.size, hiddenChildren: neurons.filter(row => children.has(row.hotkey)).length }, childCheck: { block: childIndex.block, checkedAt: childIndex.checkedAt } };
+}, ["validator-recommendations-parent-paths-v4"], { revalidate: 1800 });
 
 export async function GET(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get("netuid");

@@ -13,13 +13,13 @@ type Result = { data: NamedRootBasket[]; hiddenChildren: number; collectedAt: st
 const percent = (value: unknown) => numeric(value) === null ? "—" : `${displayNumber(Number(value) * 100)}%`;
 const sorts = [["nav_tao", "Basket value"], ["root_stake", "Root stake"], ["staker_return_7d", "7d staker return"], ["staker_return_30d", "30d staker return"]];
 
-export function RootExplorer({ subnets }: { subnets: { netuid: number; name: string }[] }) {
+export function RootExplorer({ subnets, initialHotkey = "" }: { initialHotkey?: string; subnets: { netuid: number; name: string }[] }) {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
   const [attempt, setAttempt] = useState(0);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("nav_tao");
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>(initialHotkey || null);
   const [includeSmall, setIncludeSmall] = useState(false);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => { const timer = window.setInterval(() => setNow(Date.now()), 60_000); return () => window.clearInterval(timer); }, []);
@@ -43,12 +43,13 @@ export function RootExplorer({ subnets }: { subnets: { netuid: number; name: str
   const stale = oldest !== undefined && Number.isFinite(oldest) && now - oldest > 2 * 3600_000;
   return <section aria-label="Root validator baskets"><div className={styles.controls}><label>Search root validators<input value={search} onChange={event => setSearch(event.target.value)} placeholder="Validator name or hotkey" /></label><label>Sort root baskets<select value={sort} onChange={event => setSort(event.target.value)}>{sorts.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label></div>
     <RootRecommendations />
-    {result && <RootComparison baskets={result.data} subnets={subnets} />}
+    {result && <RootComparison baskets={result.data} subnets={subnets} initialHotkey={initialHotkey} />}
     <label className={styles.filterToggle}><input type="checkbox" checked={includeSmall} onChange={event => setIncludeSmall(event.target.checked)} /> Include baskets below 0.01 TAO (including empty funds)</label>
     <p className={styles.source}>These are root reward baskets, not personal wallets. A retained basket does not prove a current root validator seat. Returns below cover the stated period and are not annualized APY. Values are in TAO; each row keeps its source time. Shared hourly source cache; opening holdings does not make another request.</p>
     {error && <p className={styles.notice} role="alert">{error} <button onClick={() => { setError(""); setAttempt(value => value + 1); }}>Retry root data</button></p>}
     {!result && !error && <p className={styles.notice} role="status">Loading root basket snapshot…</p>}
     {stale && <p className={styles.notice} role="status">Basket source is over two hours old. These are historical snapshots; check the source before comparing current allocations.</p>}
+    {initialHotkey && result && !result.data.some(row => row.hotkey === initialHotkey) && <p className={styles.notice}>No root reward basket is available for the selected validator. Choose another validator below.</p>}
     {selected && <RootHoldings key={selected.hotkey} row={selected} names={names} onClose={() => setOpen(null)} />}
     {result && <><p className={styles.source}>{rows.length} of {result.data.length} baskets shown{!includeSmall ? " · balances below 0.01 TAO hidden" : ""} · {result.hiddenChildren} child-only hotkeys excluded. Missing figures stay unavailable. Oldest basket source: {oldest !== undefined && Number.isFinite(oldest) ? `${new Date(oldest).toLocaleString("en-US", { timeZone: "UTC" })} UTC` : "unavailable"}.</p><ValidatorTableHelp><div className={styles.tableWrap} role="region" aria-label="Root basket comparison" tabIndex={0}><table className={`${styles.table} ${styles.rootTable} ${styles.pinFirst}`}><thead><tr>{["Validator", "Holdings", "Take", "Root stake τ", "Basket value τ", "7d staker return", "30d staker return", "7d capital return", "Snapshot UTC"].map(label => <ValidatorColumn key={label} label={label} />)}</tr></thead><tbody>{rows.map(row => <tr key={row.hotkey}><td><Link href={`/validators/${row.hotkey}`} prefetch={false}>{row.name || shortAddress(row.hotkey)}</Link><small>{shortAddress(row.hotkey)}</small></td><td><button aria-expanded={open === row.hotkey} aria-controls={open === row.hotkey ? `holdings-${row.hotkey}` : undefined} onClick={() => setOpen(open === row.hotkey ? null : row.hotkey)}>{open === row.hotkey ? "Hide" : "View"} {row.holdings.length} holdings</button></td><td>{percent(row.take)}</td><td>{displayNumber(rao(row.root_stake))}</td><td>{displayNumber(rao(row.nav_tao))}</td><td className={color(row.staker_return_7d)}>{percent(row.staker_return_7d)}</td><td className={color(row.staker_return_30d)}>{percent(row.staker_return_30d)}</td><td className={color(row.return_7d)}>{percent(row.return_7d)}</td><td>{new Date(row.timestamp).toLocaleString("en-US", { timeZone: "UTC" })}<small>Block {displayNumber(row.block_number, 0)}</small></td></tr>
     )}</tbody></table></div></ValidatorTableHelp>{!rows.length && <p className={styles.notice}>No root baskets match this search.</p>}</>}

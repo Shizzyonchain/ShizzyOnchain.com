@@ -6,7 +6,7 @@ import type { Validator } from "./validator-types";
 export const getChildHotkeys = unstable_cache(async () => {
   const endpoint = process.env.SUBTENSOR_HTTP_URL || "https://entrypoint-finney.opentensor.ai";
   return scanChildHotkeys(endpoint);
-}, ["finalized-child-hotkeys-v1"], { revalidate: 1800 });
+}, ["finalized-child-hotkeys-v2"], { revalidate: 1800 });
 
 export const getStandaloneValidators = unstable_cache(async () => {
   const key = process.env.TAOSTATS_API_KEY;

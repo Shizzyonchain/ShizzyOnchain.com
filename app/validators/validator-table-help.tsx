@@ -4,6 +4,14 @@ import { createContext, useContext, useId, useState, type ReactNode } from "reac
 import styles from "./validators.module.css";
 
 const explanations: [string[], string][] = [
+  [["Operating path"], "Direct means this hotkey operates with its own permit. Delegated means 100% of its chain delegation is to verified active direct children; its own net yield is still required. Unverified paths cannot rank."],
+  [["Permit"], "The source reports whether this hotkey holds a validator permit on this subnet. A parent can operate through child permits instead. A permit alone does not establish service quality."],
+  [["Active flag"], "The metagraph activity flag at the dated snapshot. Stale data is labelled explicitly. This is not independent server uptime monitoring."],
+  [["Weight update age"], "Blocks since the hotkey last updated weights, as reported by the metagraph. Compare against the subnet activity cutoff in the finder; root and alpha activity rules differ."],
+  [["Capital drawdown"], "Largest peak-to-trough daily-close decline in realizable value per basket share during the common completed 30-day window. Intraday losses are not captured."],
+  [["Capital volatility"], "Standard deviation of daily changes in realizable basket value per share. Lower historical volatility does not guarantee lower future risk."],
+  [["Top five holdings"], "Share of realizable basket NAV concentrated in its five largest holdings."],
+  [["Quote gap"], "Difference between the basket spot mark and whole-fund realizable value, divided by spot value. This is not your personal exit fee."],
   [["Basket value τ", "Realizable value τ"], "Estimated TAO obtainable from selling the basket holdings at the source snapshot, accounting for liquidity and fees. This is the whole fund’s NAV, not your root principal or personal claim amount. Quotes change with the pools."],
   [["Spot value τ"], "Alpha amount multiplied by its spot price, expressed in TAO. This display mark does not account for the price impact of selling a holding. Realizable value is the basis used for basket allocations here."],
   [["7d staker return", "30d staker return"], "TaoStats’ historical basket staker total return over the stated period, combining accrued income and changes in value. This is a period return, not APY. A dash means the source lacks comparable observations within the same fund life. It is not a guaranteed personal wallet return."],
@@ -28,8 +36,8 @@ const explanations: [string[], string][] = [
   [["Emission share"], "The subnet’s share of network TAO allocation from our Finney-backed market feed. This is a subnet-wide figure, not this validator’s personal rewards or fee. Its source time is shown separately from the yield snapshot."],
   [["Snapshot UTC"], "The time of the source’s original data snapshot, displayed in Coordinated Universal Time (UTC). Cached figures are not a live feed; different source snapshots may have different times."],
   [["Block"], "The Bittensor block height associated with this historical snapshot. It identifies the chain state behind the figures on that row."],
-  [["Score"], "Our provisional 0–100 match score for the selected preference, calculated only for qualifying direct validators. It combines the published method’s factors; it is not a safety rating or guaranteed return. Not ranked means an evidence requirement was not met."],
-  [["Stake weight share"], "This hotkey’s share of total stake weight among the selected subnet’s direct permit holders in the metagraph snapshot. Lower concentration receives more weight in Decentralization mode. This differs from network-wide dominance."],
+  [["Score"], "Our provisional 0–100 match score for the selected preference, calculated only for qualifying validators. It combines the published method’s factors; it is not a safety rating or guaranteed return. Not ranked means an evidence requirement was not met."],
+  [["Stake weight share"], "This direct hotkey’s share, or the delegated parent’s conservative full operating-child share, of total stake weight among the selected subnet’s direct permit holders in the metagraph snapshot. Lower concentration receives more weight in Decentralization mode. This differs from network-wide dominance."],
   [["Evidence"], "Open this row’s details to see source timestamps or the exact reasons it was excluded. Missing or stale evidence prevents a recommendation rather than being treated as a favorable value."],
 ];
 const help = new Map(explanations.flatMap(([labels, text]) => labels.map(label => [label.toLowerCase(), text] as const)));

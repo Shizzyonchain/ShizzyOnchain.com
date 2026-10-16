@@ -13,7 +13,7 @@ function ss58(account: Buffer) {
   while (value) { encoded = alphabet[Number(value % BigInt(58))] + encoded; value /= BigInt(58); }
   return encoded;
 }
-export function decodeChildStorage(key: string, value: string | null): { hotkey: string; netuid: number; isChild: boolean; parents: string[] } {
+export function decodeChildStorage(key: string, value: string | null): { hotkey: string; netuid: number; isChild: boolean; parents: string[]; delegations: { parent: string; proportion: string }[] } {
   if (!key.startsWith(parentKeysPrefix) || key.length !== 166 || !value || !/^0x(?:[\da-f]{2})+$/i.test(value)) throw new Error("Unexpected ParentKeys storage shape");
   const bytes = Buffer.from(value.slice(2), "hex"), mode = bytes[0] & 3;
   const offset = mode === 0 ? 1 : mode === 1 ? 2 : mode === 2 ? 4 : 0;
@@ -22,8 +22,9 @@ export function decodeChildStorage(key: string, value: string | null): { hotkey:
   if (length > 4096 || bytes.length !== offset + length * 40) throw new Error("Unexpected parent vector length");
   let isChild = false;
   const parents: string[] = [];
-  for (let i = 0; i < length; i++) if (bytes.readBigUInt64LE(offset + i * 40) > BigInt(0)) { isChild = true; parents.push(ss58(bytes.subarray(offset + i * 40 + 8, offset + i * 40 + 40))); }
-  return { hotkey: ss58(Buffer.from(key.slice(98, 162), "hex")), netuid: Buffer.from(key.slice(162), "hex").readUInt16LE(0), isChild, parents };
+  const delegations: { parent: string; proportion: string }[] = [];
+  for (let i = 0; i < length; i++) if (bytes.readBigUInt64LE(offset + i * 40) > BigInt(0)) { isChild = true; const parent = ss58(bytes.subarray(offset + i * 40 + 8, offset + i * 40 + 40)); parents.push(parent); delegations.push({ parent, proportion: bytes.readBigUInt64LE(offset + i * 40).toString() }); }
+  return { hotkey: ss58(Buffer.from(key.slice(98, 162), "hex")), netuid: Buffer.from(key.slice(162), "hex").readUInt16LE(0), isChild, parents, delegations };
 }
 
 export async function scanChildHotkeys(endpoint: string) {
@@ -43,6 +44,7 @@ export async function scanChildHotkeys(endpoint: string) {
   const parents = new Set<string>();
   const subnetChildren: Record<string, string[]> = {};
   const subnetParents: Record<string, string[]> = {};
+  const edges: Record<string, { parent: string; child: string; proportion: string }[]> = {};
   while (true) {
     const keys = await rpc<string[]>("state_getKeysPaged", [parentKeysPrefix, 1000, start, hash]);
     if (!keys.length) break;
@@ -53,6 +55,7 @@ export async function scanChildHotkeys(endpoint: string) {
     for (const [key, value] of changes) {
       const row = decodeChildStorage(key, value);
       if (row.isChild) { children.add(row.hotkey); (subnetChildren[row.netuid] ||= []).push(row.hotkey); }
+      for (const edge of row.delegations) (edges[row.netuid] ||= []).push({ ...edge, child: row.hotkey });
       for (const parent of row.parents) { parents.add(parent); (subnetParents[row.netuid] ||= []).push(parent); }
     }
     inspected += keys.length;
@@ -60,5 +63,5 @@ export async function scanChildHotkeys(endpoint: string) {
     start = keys[keys.length - 1];
   }
   if (!inspected) throw new Error("ParentKeys schema could not be verified");
-  return { hotkeys: [...children].filter(hotkey => !parents.has(hotkey)).sort(), subnetChildren, subnetParents, inspected, block: Number.parseInt(header.number, 16), blockHash: hash, checkedAt: new Date().toISOString() };
+  return { hotkeys: [...children].filter(hotkey => !parents.has(hotkey)).sort(), subnetChildren, subnetParents, edges, inspected, block: Number.parseInt(header.number, 16), blockHash: hash, checkedAt: new Date().toISOString() };
 }

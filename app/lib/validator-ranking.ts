@@ -1,6 +1,6 @@
 export type RankingMode = "balanced" | "yield" | "fees" | "decentralization";
 export type Candidate = {
-  hotkey: string; name: string; take: number | null; yield7: number | null; yield30: number | null;
+  operation?: "direct" | "delegated" | "unverified"; operators?: string[]; hotkey: string; name: string; take: number | null; yield7: number | null; yield30: number | null;
   participation7: number | null; participation30: number | null;
   active: boolean; permit: boolean; updated: number | null; cutoff: number | null;
   stakeShare: number | null; dividends: number | null; registered: string | null;
@@ -17,7 +17,7 @@ export function rankValidators(candidates: Candidate[], mode: RankingMode, now: 
   const reviewed = candidates.map(candidate => {
     const excluded: string[] = [];
     if (candidate.yieldBasis !== "nominator-net") excluded.push("Yield after validator take could not be established");
-    if (!candidate.active || !candidate.permit) excluded.push("No active direct validator permit in the snapshot");
+    if (!candidate.active || !candidate.permit) excluded.push("No fully verified active validator path in the snapshot");
     if (!valid(candidate.updated) || !valid(candidate.cutoff) || candidate.cutoff <= 0 || candidate.updated < 0 || candidate.updated > candidate.cutoff) excluded.push("Recent weight-update activity could not be established");
     if (![candidate.yield7, candidate.yield30].every(n => valid(n) && n > 0)) excluded.push("Positive 7d and 30d yield measurements required");
     if (![candidate.participation7, candidate.participation30].every(n => valid(n) && n >= .9 && n <= 1)) excluded.push("At least 90% reported participation in both windows required");
@@ -27,7 +27,7 @@ export function rankValidators(candidates: Candidate[], mode: RankingMode, now: 
     const created = Date.parse(candidate.registered || "");
     if (!Number.isFinite(created) || now - created < 30 * 86400_000) excluded.push("Hotkey registration history shorter than 30 days or unknown");
     const times = candidate.timestamps.map(t => Date.parse(t));
-    if (times.length !== 4 || times.some(t => !Number.isFinite(t) || now - t > 2 * 3600_000 || t > now + 60_000)) excluded.push("Required snapshots missing, over two hours old or invalid");
+    if (times.length < 4 || times.some(t => !Number.isFinite(t) || now - t > 2 * 3600_000 || t > now + 60_000)) excluded.push("Required snapshots missing, over two hours old or invalid");
     else if (Math.max(...times) - Math.min(...times) > 3600_000) excluded.push("Source snapshots are more than an hour apart");
     const consistency = valid(candidate.yield7) && valid(candidate.yield30) && candidate.yield7 > 0 && candidate.yield30 > 0 ? Math.min(candidate.yield7, candidate.yield30) / Math.max(candidate.yield7, candidate.yield30) : null;
     return { ...candidate, excluded, consistency, score: null, reasons: [] } as RankedCandidate;
@@ -42,7 +42,7 @@ export function rankValidators(candidates: Candidate[], mode: RankingMode, now: 
       `7d net APY ${(row.yield7! * 100).toFixed(2)}% · 30d net APY ${(row.yield30! * 100).toFixed(2)}%`,
       `${(row.consistency! * 100).toFixed(0)}% agreement between yield windows`,
       `At least ${(Math.min(row.participation7!, row.participation30!) * 100).toFixed(1)}% reported epoch participation`,
-      `Active permit · weight update ${row.updated} blocks ago (cutoff ${row.cutoff})`,
+      `${row.operation === "delegated" ? "Verified child permits" : "Active direct permit"} · weight update ${row.updated} blocks ago (cutoff ${row.cutoff})`,
       `${(row.take! * 100).toFixed(2)}% take · ${(row.stakeShare! * 100).toFixed(2)}% of direct-validator stake weight`,
     ];
   }

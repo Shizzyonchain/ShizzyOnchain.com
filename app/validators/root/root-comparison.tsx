@@ -10,9 +10,9 @@ type Loaded = { baskets: NamedRootBasket[]; histories: HistoryPoint[][] };
 const name = (basket: NamedRootBasket) => basket.name || shortAddress(basket.hotkey);
 const pct = (value: number) => `${displayNumber(value * 100)}%`;
 
-export function RootComparison({ baskets, subnets }: { baskets: NamedRootBasket[]; subnets: { netuid: number; name: string }[] }) {
+export function RootComparison({ baskets, subnets, initialHotkey = "" }: { initialHotkey?: string; baskets: NamedRootBasket[]; subnets: { netuid: number; name: string }[] }) {
   const options = baskets.filter(basket => basket.root_stake !== null && Number(basket.nav_tao) >= 10_000_000);
-  const [selected, setSelected] = useState<string[]>(["", "", ""]);
+  const [selected, setSelected] = useState<string[]>([initialHotkey, "", ""]);
   const [period, setPeriod] = useState("30");
   const [request, setRequest] = useState<{ keys: string[]; id: number } | null>(null);
   const [loaded, setLoaded] = useState<Loaded | null>(null);
