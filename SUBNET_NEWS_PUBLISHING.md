@@ -4,6 +4,8 @@ Subnet News is a repository-backed daily publication. Each report is a validated
 
 ## Daily 10 AM workflow
 
+Owner addition October 16, 2026: every "let's do today" run includes the TaoStats daily cross-check in `DAILY_SITE_CHECKLIST.md`: reconcile chain events, investigate missing/stale market data and enrich relevant news research with trading/operating metrics. Preserve our node as primary and the existing site design/calculations. Record access failures, discrepancies and pending integrations honestly; this requirement does not claim fallbacks or chart backfills are already implemented. Keep charts hidden and do not add wallet P&L.
+
 Before starting, read `DAILY_SITE_CHECKLIST.md` and keep a dated completion record. An owner's request to do today's news includes the full video refresh unless explicitly narrowed. Complete each gate or report its specific blocker; a members promotion change alone is not a video refresh. Review attached media before dismissing sparse-caption official posts, and retain an explicit outcome when media cannot be inspected.
 
 1. Research the public Bittensor ecosystem for the coverage window, prioritizing X searches by every active SN number and subnet name. Run the required signed-in Grok discovery and omission check below alongside the usual sources.

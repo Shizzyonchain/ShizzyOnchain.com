@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/activity",
     "/bubbles",
     "/wallet-tracker",
+    "/validators",
     "/subnet-news",
     "/subnet-news/exploit-conference-catch-up",
     "/subnet-news/exploit-conference-catch-up-day-2",

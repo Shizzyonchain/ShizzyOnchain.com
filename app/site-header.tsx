@@ -15,6 +15,7 @@ type SiteHeaderProps = {
   currencyTitle?: string;
   dataState?: DataState;
   lastUpdated?: Date | null;
+  hideCurrency?: boolean;
 };
 
 type NavItem = {
@@ -33,12 +34,13 @@ const navigation: readonly NavItem[] = [
   { href: "https://shizzyunchained.printful.me/", label: "Shop", external: true },
   { href: "/university", label: "Shiz University" },
   { href: "/wallet-tracker", label: "Wallet Tracker" },
+  { href: "/validators", label: "Validators" },
   { href: "/tao-heads", label: "TAO Heads" },
   { href: "/about", label: "About" },
   { href: "/partners", label: "Partners" },
 ];
 
-export function SiteHeader({ brandArtwork = "redrawn", currency, onCurrencyChange, currencyTitle, dataState, lastUpdated }: SiteHeaderProps) {
+export function SiteHeader({ brandArtwork = "redrawn", currency, onCurrencyChange, currencyTitle, dataState, lastUpdated, hideCurrency = false }: SiteHeaderProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [localCurrency, setLocalCurrency] = useState<Currency>("usd");
@@ -125,10 +127,10 @@ export function SiteHeader({ brandArtwork = "redrawn", currency, onCurrencyChang
         ))}
       </nav>
       <div className="header-actions">
-        <div className="currency-toggle" role="group" aria-label="Display currency" title={currencyTitle}>
+        {!hideCurrency && <div className="currency-toggle" role="group" aria-label="Display currency" title={currencyTitle}>
           <button className={activeCurrency === "usd" ? "active" : ""} type="button" aria-pressed={activeCurrency === "usd"} onClick={() => changeCurrency("usd")}>USD</button>
           <button className={activeCurrency === "tao" ? "active" : ""} type="button" aria-pressed={activeCurrency === "tao"} onClick={() => changeCurrency("tao")}>TAO</button>
-        </div>
+        </div>}
         <div
           className={`status ${activeDataState === "live" ? "live" : "demo"}`}
           title={lastUpdated ? `Market data updated ${lastUpdated.toLocaleTimeString()}` : undefined}

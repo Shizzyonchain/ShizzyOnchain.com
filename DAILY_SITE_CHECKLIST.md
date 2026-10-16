@@ -19,6 +19,20 @@ Copy the checklist into dated research notes with the actual date, coverage wind
 - [ ] Explain why each material development matters in original, clear wording, rather than copying a source or listing headlines. Keep the team, actual development and evidence central.
 - [ ] Carry forward unresolved leads and scheduled announcements from the previous audit; reconcile collected material against selected stories so a found item cannot silently disappear (the SN38 ChronoLLM and SN8 Vanta corrections).
 
+## TaoStats daily cross-check — owner addition October 16, 2026
+
+Include this section whenever the owner says "let's do today" or an equivalent daily-update request. Preserve our node/feed as primary, the existing design and USD/TAO calculations. This is a required research and health check, not a claim that the proposed API integrations are already implemented or permission to redesign the site.
+
+- [ ] Verify server-side TaoStats access without exposing keys; record endpoint, check time, block/time freshness, pagination, errors and actual credit usage when available. Use the new `/v1/` API; the documented legacy API retirement is November 9, 2026. If access is unavailable, record a specific BLOCKED outcome and continue available sources.
+- [ ] Cross-check finalized registrations, deregistrations and ownership changes against our direct chain review over the complete coverage window. Investigate discrepancies and retain block/event references. Distinguish coldkey migrations, scheduled changes and executed transfers; verify sales and prices separately.
+- [ ] Compare screener completeness and freshness with current pools/market aggregates: missing market caps, prices, 1-hour/24-hour/7-day returns and emission history. Investigate discrepancies rather than silently overwriting our feed. Aggregates do not document a 10-minute return; verify units, timestamps and historical TAO/USD conversion before using backup values. Compare emission share consistently, not token-price change or incompatible raw emission amounts.
+- [ ] Use buy/sell volume, unique buyers/sellers, liquidity, conviction/owner locks and active miner/validator metrics to investigate market outliers and news leads where relevant. Record sourced dispositions; trading activity alone is not adoption, a lock reduction is not a sale, and metrics alone do not establish project health or a five-star story.
+- [ ] Check any implemented cached fallback and historical gap-repair paths for freshness and failures; keep an explicit pending status until implemented. Shared background collection must not add a TaoStats request per visitor or slow the homepage/wallet checker. Retain source/time labels and last-good data; never represent stale data as live.
+- [ ] Review hidden chart data gaps and carry forward historical-candle/backfill work when relevant. Keep charts hidden; a compatible candle feed does not itself supply or license a TradingView chart product. No P&L or average purchase-price additions.
+- [ ] Save `taostatsReview` in the dated research evidence with access/result status, endpoints, coverage, findings, lead outcomes, discrepancies, quota limitations and pending integration work. Use existing audit/schema fields where compatible; do not add unsupported report fields. No deployment for an unchanged check and no unrelated infrastructure work merely to complete the daily scan.
+
+Reference: https://taostats.io/docs/new ; market aggregates: https://taostats.io/docs/new/subnets/get-subnets-pools-aggregate ; historical candles: https://taostats.io/docs/new/tradingview/get-tradingview-udf-history . Verify current endpoint costs and account entitlement before setting collection intervals; do not assume one request equals one credit.
+
 ## Full video refresh — separate from news and promotions
 
 - [ ] Inspect BOTH the channel's Videos and Live tabs for new uploads, completed streams, upcoming streams, removals and reschedules.
