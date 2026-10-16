@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { rootEligibility, rootHistoryMetrics, rankRootMatches } from "../app/lib/root-ranking.ts";
 const now = Date.parse("2026-10-16T16:00:00Z"), day = Math.floor(now / 86400_000) * 86400;
 const history = Array.from({ length: 31 }, (_, i) => ({ day: new Date((day - (31 - i) * 86400) * 1000).toISOString().slice(0, 10), twr: 1 + i / 1000, twr_first_block: "1", nav_per_share: i === 20 ? .7 : 1 }));
-const base = { hotkey: "steady", name: "Steady", take: .18, totalReturn: .03, drawdown: -.01, volatility: .001, concentration: .05, quoteGap: .01, topFive: .2, snapshot: "2026-10-16T15:50:00Z", identityTimestamp: "2026-10-16T15:50:00Z", start: "2026-09-15", end: "2026-10-15" };
+const base = { operatingTimestamp: "2026-10-16T15:50:00Z", hotkey: "steady", name: "Steady", take: .18, totalReturn: .03, drawdown: -.01, volatility: .001, concentration: .05, quoteGap: .01, topFive: .2, snapshot: "2026-10-16T15:50:00Z", identityTimestamp: "2026-10-16T15:50:00Z", start: "2026-09-15", end: "2026-10-15" };
 test("small and unnamed baskets have no size or name eligibility cutoff", () => {
   assert.deepEqual(rootEligibility({ root_stake: "1", nav_tao: "1", take: 0 }), []);
   assert.equal(rootEligibility({ root_stake: null, nav_tao: "0", take: null }).length, 3);
@@ -30,4 +30,9 @@ test("stale evidence cannot win and fees are not deducted twice", () => {
   const low = { ...base, hotkey: "low", take: 0 };
   assert.equal(rankRootMatches([low, high], "returns", now)[0].hotkey, "high");
   assert.equal(rankRootMatches([low, high], "returns", now)[0].totalReturn, .04);
+});
+
+test("missing or stale current root-permit evidence cannot win", () => {
+  assert.equal(rankRootMatches([{ ...base, operatingTimestamp: undefined }], "balanced", now).length, 0);
+  assert.equal(rankRootMatches([{ ...base, operatingTimestamp: "2026-10-15T15:50:00Z" }], "balanced", now).length, 0);
 });

@@ -55,3 +55,10 @@ test("unknown or gross yield basis cannot enter recommendations", () => {
     assert.ok(row.excluded.includes("Yield after validator take could not be established"));
   }
 });
+
+test("delegated paths require every operating snapshot to be fresh and the parent own yield", () => {
+  const parent = { ...base, operation: "delegated", timestamps: [...base.timestamps, "2026-10-16T15:50:00Z"] };
+  assert.notEqual(rankValidators([parent], "balanced", now)[0].score, null);
+  assert.equal(rankValidators([{ ...parent, timestamps: [...base.timestamps, "2026-10-15T15:50:00Z"] }], "balanced", now)[0].score, null);
+  assert.equal(rankValidators([{ ...parent, yield30: null }], "balanced", now)[0].score, null);
+});
