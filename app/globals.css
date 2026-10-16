@@ -417,7 +417,7 @@ html,body{overflow-x:clip}
   .screener th,.screener td{padding-inline:7px}
   .liquidation-help{display:none}
 }
-/* Scroll every column together so subnet names never cover adjacent data. */
+/* Keep the subnet identity visible while the desktop market metrics scroll. */
 @media(min-width:801px){.screener td:nth-child(2){display:table-cell}}
 
 .screener-scroll-top{overflow-x:scroll;overflow-y:hidden;border-top:1px solid var(--line)}

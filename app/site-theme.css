@@ -272,6 +272,20 @@ html.site-theme {
   background: #1a1a1a;
 }
 
+@media (min-width: 801px) {
+  .site-theme .screener th:nth-child(2),
+  .site-theme .screener td:nth-child(2) {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    box-shadow: 2px 0 0 var(--line), 8px 0 12px -10px #000;
+  }
+
+  .site-theme .screener th:nth-child(2) {
+    z-index: 3;
+  }
+}
+
 .site-theme .token {
   background: var(--panel2);
   border-color: var(--line);
