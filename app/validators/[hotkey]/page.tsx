@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 export default async function ValidatorPage({ params }: { params: Promise<{ hotkey: string }> }) {
   const { hotkey } = await params;
   if (!/^[1-9A-HJ-NP-Za-km-z]{46,50}$/.test(hotkey)) notFound();
-  return <><div className="shell"><SiteHeader hideCurrency /></div><main className={styles.page}><Link className={styles.back} href="/validators">← All validators</Link><ValidatorProfile hotkey={hotkey} /></main><CreatorFooter /></>;
+  return <><div className={styles.header}><SiteHeader hideCurrency /></div><main className={styles.page}><Link className={styles.back} href="/validators">← All validators</Link><ValidatorProfile hotkey={hotkey} /></main><CreatorFooter /></>;
 }
+
 
