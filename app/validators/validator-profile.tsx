@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { displayNumber, numeric, rao, shortAddress, type Validator, type ValidatorYield, type ValidatorResult } from "../lib/validator-types";
 import type { ScreenerRow } from "../dashboard";
 import styles from "./validators.module.css";
-import { ValidatorName } from "./validator-name";
+
 import { ValidatorColumn, ValidatorTableHelp } from "./validator-table-help";
 
 type Tab = "Overview" | "Subnets & yield" | "Stake history";
@@ -26,7 +26,7 @@ export function ValidatorProfile({ hotkey }: { hotkey: string }) {
     }).catch(reason => { if (!controller.signal.aborted) setError(reason.message || "Validator unavailable."); });
     return () => controller.abort();
   }, [hotkey, attempt]);
-  return <><header className={styles.hero}><p className={styles.eyebrow}>VALIDATOR PROFILE</p><h1>{validator ? <ValidatorName hotkey={hotkey} name={validator.name} /> : shortAddress(hotkey)}</h1><p className={styles.address}>Hotkey: {hotkey}<br />{validator && <>Owner: {validator.coldkey}</>}</p><p className={styles.source}>{validator ? `TaoStats snapshot · block ${validator.block_number.toLocaleString()} · ${timestamp(validator.timestamp)}` : "Retrieving validator snapshot…"}</p></header>
+  return <><header className={styles.hero}><p className={styles.eyebrow}>VALIDATOR PROFILE</p><h1>{validator?.name || shortAddress(hotkey)}</h1><p className={styles.address}>Hotkey: {hotkey}<br />{validator && <>Owner: {validator.coldkey}</>}</p><p className={styles.source}>{validator ? `TaoStats snapshot · block ${validator.block_number.toLocaleString()} · ${timestamp(validator.timestamp)}` : "Retrieving validator snapshot…"}</p></header>
     {error && <div className={styles.notice} role="alert">{error} <button onClick={() => setAttempt(value => value + 1)}>Retry</button></div>}
     {validator && <><dl className={styles.facts}>{[
       ["Overall rank", `#${validator.rank}`], ["Validator take", percent(validator.take)], ["Active subnets", displayNumber(validator.active_subnets, 0)],

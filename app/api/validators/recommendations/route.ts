@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { unstable_cache } from "next/cache";
 import { numeric, type Validator, type ValidatorYield } from "../../../lib/validator-types";
 import type { Candidate } from "../../../lib/validator-ranking";
+import { getChildHotkeys } from "../../../lib/standalone-validators";
 
 type Neuron = { hotkey: string; name: string | null; active: boolean; validator_permit: boolean; updated: number; total_alpha_stake: string; dividends: string; timestamp: string };
 type Hyper = { activity_cutoff: number; timestamp: string };
@@ -25,17 +26,21 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
 const loadCandidates = unstable_cache(async (netuid: number) => {
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) throw new Error("Validator recommendations are not configured for this environment.");
-  const [validators, yields, neurons, hypers] = await Promise.all([
+  const [validators, yields, neurons, hypers, childIndex] = await Promise.all([
     collection<Validator>("/v1/validators", { order_by: "rank", order_dir: "asc" }, key),
     collection<ValidatorYield>("/v1/validators/yield", { netuid: String(netuid), order_by: "stake", order_dir: "desc" }, key),
     collection<Neuron>("/v1/subnets/metagraph", { netuid: String(netuid), validator_permit: "true" }, key),
     collection<Hyper>("/v1/subnets/hyperparameters", { netuid: String(netuid) }, key),
+    getChildHotkeys(),
   ]);
   if (hypers.length !== 1) throw new Error("Subnet activity parameters are unavailable.");
   const fees = new Map(validators.map(v => [v.hotkey, v]));
   const performance = new Map(yields.map(v => [v.hotkey, v]));
   const total = neurons.reduce((sum, n) => sum + (numeric(n.total_alpha_stake) ?? 0), 0);
-  const candidates: Candidate[] = neurons.map(neuron => {
+  const parents = new Set(childIndex.subnetParents[netuid] || []);
+  const children = new Set((childIndex.subnetChildren[netuid] || []).filter(hotkey => !parents.has(hotkey)));
+  for (const hotkey of childIndex.hotkeys) children.add(hotkey);
+  const candidates: Candidate[] = neurons.filter(neuron => !children.has(neuron.hotkey)).map(neuron => {
     const v = fees.get(neuron.hotkey), y = performance.get(neuron.hotkey);
     return {
       hotkey: neuron.hotkey, name: neuron.name || v?.name || neuron.hotkey,
@@ -49,8 +54,8 @@ const loadCandidates = unstable_cache(async (netuid: number) => {
     };
   });
   if (new Set(candidates.map(c => c.hotkey)).size !== candidates.length || new Set(yields.map(y => y.hotkey)).size !== yields.length) throw new Error("Ambiguous validator rows. No recommendation generated.");
-  return { candidates, netuid, collectedAt: new Date().toISOString(), coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length } };
-}, ["validator-recommendations-v1"], { revalidate: 3600 });
+  return { candidates, netuid, collectedAt: new Date().toISOString(), coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length, hiddenChildren: neurons.length - candidates.length }, childCheck: { block: childIndex.block, checkedAt: childIndex.checkedAt } };
+}, ["validator-recommendations-no-child-v2"], { revalidate: 1800 });
 
 export async function GET(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get("netuid");

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getChildHotkeys, getStandaloneValidators } from "../../lib/standalone-validators";
 
 const orders = new Set(["rank", "root_rank", "alpha_rank", "active_subnets", "global_nominators", "take", "global_weighted_stake", "global_alpha_stake_as_tao", "weighted_root_stake", "root_stake", "dominance"]);
 const hotkeyPattern = /^[1-9A-HJ-NP-Za-km-z]{46,50}$/;
@@ -14,6 +15,22 @@ export async function GET(request: NextRequest) {
   }
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) return NextResponse.json({ error: "Validator data is not configured for this environment." }, { status: 503 });
+  try {
+    if (kind === "directory" && !hotkey) {
+      const snapshot = await getStandaloneValidators();
+      const descending = !order.endsWith("rank") && order !== "take";
+      const rows = [...snapshot.rows].sort((a, b) => {
+        const field = order as keyof typeof a;
+        return (Number(a[field]) - Number(b[field])) * (descending ? -1 : 1) || a.hotkey.localeCompare(b.hotkey);
+      });
+      const totalPages = Math.max(1, Math.ceil(rows.length / 200));
+      const currentPage = Math.min(page, totalPages);
+      return NextResponse.json({ data: rows.slice((currentPage - 1) * 200, currentPage * 200), hiddenChildren: snapshot.hiddenChildren, childCheck: snapshot.childCheck, pagination: { current_page: currentPage, next_page: currentPage < totalPages ? currentPage + 1 : null, prev_page: currentPage > 1 ? currentPage - 1 : null, total_items: rows.length, total_pages: totalPages }, source: "TaoStats + finalized Finney ParentKeys" }, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } });
+    }
+    if (hotkey && (await getChildHotkeys()).hotkeys.includes(hotkey)) return NextResponse.json({ error: "Child validator profiles have been removed. Please use the parent/standalone validator directory." }, { status: 410 });
+  } catch {
+    return NextResponse.json({ error: "The child-validator exclusion check is temporarily unavailable. Please try again." }, { status: 503, headers: { "Cache-Control": "no-store" } });
+  }
   const path = kind === "yield" ? "/v1/validators/yield" : kind === "history" ? `/v1/validators/${hotkey}/history` : "/v1/validators";
   const target = new URL(path, "https://api.taostats.io");
   target.searchParams.set("page", String(page));
