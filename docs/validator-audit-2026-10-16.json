@@ -1,6 +1,11 @@
 {
   "date": "2026-10-16",
-  "scope": ["validator directory", "subnet finder", "root baskets", "linked Arbos mechanics"],
+  "scope": [
+    "validator directory",
+    "subnet finder",
+    "root baskets",
+    "linked Arbos mechanics"
+  ],
   "publicSnapshotFindings": {
     "rootBaskets": 131,
     "balancesUnderPointZeroOneTao": 69,
@@ -9,7 +14,10 @@
     "missingDirectoryRootStake": 68,
     "basketHoldingsTotalMismatches": 0,
     "rootSnapshot": "2026-10-16T15:51:48.000Z",
-    "subnetFinderSamples": [51, 64]
+    "subnetFinderSamples": [
+      51,
+      64
+    ]
   },
   "changes": [
     "Search the complete cached standalone validator directory before pagination, rather than only the visible page.",
@@ -36,5 +44,34 @@
     "https://taostats.io/docs/new/validators/get-validators-baskets",
     "https://taostats.io/docs/new/validators/get-validators-yield",
     "https://taostats.io/docs/concepts/staking/some-of-the-math-behind-taostats"
-  ]
+  ],
+  "followUp": {
+    "implementedAt": "2026-10-16T17:27:59.879Z",
+    "changes": [
+      "Optional profile operating-status evidence, with SN0 permits and stale flags",
+      "Full subnet parent-path universe, using finalized u64 ParentKeys proportions; fully delegated direct-child paths can qualify using parent own net APY",
+      "Observed fee-change intervals and paginated fee snapshots",
+      "Coldkey-bound on-chain operator website/repository/support identity",
+      "Full root recommendation ranking alongside top cards",
+      "Profile deep links preselect root basket holdings and comparison",
+      "Root recommendation eligibility requires a fresh active SN0 permit"
+    ],
+    "limits": [
+      "Partial or nested child paths fail closed; all considered parent rows remain in exclusions",
+      "Delegated concentration conservatively counts full operating-child stake, potentially overstating parent share",
+      "Fee history is sampled, not an exact transaction audit",
+      "Operator descriptions and links are operator-published; security and insurance are not independently verified"
+    ],
+    "validation": {
+      "lint": "passed",
+      "build": "passed, 69 news reports preserved",
+      "tests": "24 calculation and chain-decoding tests passed",
+      "liveSN51": {
+        "candidates": 75,
+        "qualifying": 36
+      },
+      "operatorSource": "tao.bot coldkey identity returned correct website and support",
+      "operationSource": "120 direct registration rows including a current SN0 permit"
+    }
+  }
 }
