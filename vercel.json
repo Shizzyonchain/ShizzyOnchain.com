@@ -1,8 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["sfo1"],
+  "regions": [
+    "sfo1"
+  ],
   "framework": "nextjs",
   "buildCommand": "next build",
   "installCommand": "npm ci",
-  "outputDirectory": null
+  "outputDirectory": null,
+  "crons": [
+    {
+      "path": "/api/cron/root-recommendations",
+      "schedule": "*/15 * * * *"
+    }
+  ]
 }

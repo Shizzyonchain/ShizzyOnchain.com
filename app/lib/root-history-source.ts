@@ -17,7 +17,8 @@ export const getRootHistory = unstable_cache(async (hotkey: string, utcDay: numb
   return { data, hotkey, source: "TaoStats daily basket history", completedDaysOnly: true };
 }, ["root-comparison-history-v2"], { revalidate: 3600 });
 
-export const getRootRecommendationHistory = unstable_cache(async (hotkey: string, utcDay: number) => {
+export const getRootRecommendationHistory = unstable_cache(async (hotkey: string, utcDay: number, retryWindow = 0) => {
+  void retryWindow;
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) throw new Error("Basket history is not configured.");
   const target = new URL("/v1/validators/baskets/history", "https://api.taostats.io");

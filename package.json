@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "@vercel/functions": "^3.10.1",
     "@vercel/speed-insights": "^2.0.0",
     "lightweight-charts": "^5.0.9",
     "next": "^16.3.6",

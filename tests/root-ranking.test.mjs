@@ -36,3 +36,11 @@ test("missing or stale current root-permit evidence cannot win", () => {
   assert.equal(rankRootMatches([{ ...base, operatingTimestamp: undefined }], "balanced", now).length, 0);
   assert.equal(rankRootMatches([{ ...base, operatingTimestamp: "2026-10-15T15:50:00Z" }], "balanced", now).length, 0);
 });
+
+test("previous-day preparation is permitted only during explicit midnight rollover", () => {
+  const midnight = Date.parse("2026-10-17T00:30:00Z");
+  const row = { ...base, snapshot: "2026-10-17T00:20:00Z", identityTimestamp: "2026-10-17T00:20:00Z", operatingTimestamp: "2026-10-17T00:20:00Z" };
+  assert.equal(rankRootMatches([row, { ...row, hotkey: "second" }], "balanced", midnight).length, 0);
+  assert.equal(rankRootMatches([{ ...row, historyRollover: true }, { ...row, hotkey: "second", historyRollover: true }], "balanced", midnight).length, 2);
+  assert.equal(rankRootMatches([{ ...row, historyRollover: true }], "balanced", midnight + 2 * 3600000).length, 0);
+});

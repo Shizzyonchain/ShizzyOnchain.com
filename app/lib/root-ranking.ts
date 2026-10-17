@@ -1,6 +1,6 @@
 import type { HistoryPoint } from "./root-comparison";
 export type RootMode = "balanced" | "risk" | "returns";
-export type RootMatch = { operatingTimestamp: string; hotkey: string; name: string; take: number; totalReturn: number; drawdown: number; volatility: number; concentration: number; quoteGap: number; topFive: number; snapshot: string; identityTimestamp: string; start: string; end: string };
+export type RootMatch = { historyRollover?: boolean; operatingTimestamp: string; hotkey: string; name: string; take: number; totalReturn: number; drawdown: number; volatility: number; concentration: number; quoteGap: number; topFive: number; snapshot: string; identityTimestamp: string; start: string; end: string };
 export function rootEligibility(row: { root_stake: string | null; take: number | null; nav_tao: string }) {
   const reasons: string[] = [];
   if (row.root_stake === null || !Number.isFinite(Number(row.root_stake)) || Number(row.root_stake) <= 0) reasons.push("Positive reported root stake unavailable");
@@ -23,7 +23,7 @@ export function rootHistoryMetrics(history: HistoryPoint[], utcDay: number) {
   return { totalReturn: valid.at(-1)!.twr / valid[0].twr - 1, drawdown, volatility: Math.sqrt(changes.reduce((sum, value) => sum + (value - mean) ** 2, 0) / changes.length), start: expected[0], end: expected.at(-1)! };
 }
 export function rankRootMatches(matches: RootMatch[], mode: RootMode, now: number) {
-  const valid = matches.filter(row => [row.totalReturn, row.drawdown, row.volatility, row.concentration, row.quoteGap, row.topFive, row.take].every(Number.isFinite) && row.take >= 0 && row.take <= 1 && row.drawdown <= 0 && row.volatility >= 0 && row.concentration > 0 && row.concentration <= 1.000001 && row.quoteGap >= 0 && row.quoteGap <= 1 && [row.snapshot, row.identityTimestamp, row.operatingTimestamp].every(time => Number.isFinite(Date.parse(time)) && now - Date.parse(time) <= 2 * 3600_000 && Date.parse(time) <= now + 60_000) && row.end === new Date(Math.floor(now / 86400_000) * 86400_000 - 86400_000).toISOString().slice(0, 10));
+  const valid = matches.filter(row => [row.totalReturn, row.drawdown, row.volatility, row.concentration, row.quoteGap, row.topFive, row.take].every(Number.isFinite) && row.take >= 0 && row.take <= 1 && row.drawdown <= 0 && row.volatility >= 0 && row.concentration > 0 && row.concentration <= 1.000001 && row.quoteGap >= 0 && row.quoteGap <= 1 && [row.snapshot, row.identityTimestamp, row.operatingTimestamp].every(time => Number.isFinite(Date.parse(time)) && now - Date.parse(time) <= 2 * 3600_000 && Date.parse(time) <= now + 60_000) && (row.end === new Date(Math.floor(now / 86400_000) * 86400_000 - 86400_000).toISOString().slice(0, 10) || (row.historyRollover === true && now % 86400_000 < 7200000 && row.end === new Date(Math.floor(now / 86400_000) * 86400_000 - 2 * 86400_000).toISOString().slice(0, 10))));
   if (valid.length < 2) return [];
   const weights = { balanced: [30, 20, 15, 20, 15], risk: [10, 30, 20, 25, 15], returns: [50, 15, 10, 15, 10] }[mode];
   const signal = (row: RootMatch) => [row.totalReturn, row.drawdown, -row.volatility, -row.concentration, -row.quoteGap];
