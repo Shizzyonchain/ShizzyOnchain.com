@@ -4,6 +4,7 @@ import { createContext, useContext, useId, useState, type ReactNode } from "reac
 import styles from "./validators.module.css";
 
 const explanations: [string[], string][] = [
+  [["Why & watch"], "Open this validator’s explanation to see its largest weighted score contributions for your selected preference, plus measured capital downside, relative weaknesses, holdings exposure and current fees. These use the loaded data and do not verify operator security or predict future outcomes."],
   [["Operating path"], "Direct means this hotkey operates with its own permit. Delegated means 100% of its chain delegation is to verified active direct children; its own net yield is still required. Unverified paths cannot rank."],
   [["Permit"], "The source reports whether this hotkey holds a validator permit on this subnet. A parent can operate through child permits instead. A permit alone does not establish service quality."],
   [["Active flag"], "The metagraph activity flag at the dated snapshot. Stale data is labelled explicitly. This is not independent server uptime monitoring."],

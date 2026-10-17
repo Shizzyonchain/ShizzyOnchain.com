@@ -27,9 +27,14 @@ export function rankRootMatches(matches: RootMatch[], mode: RootMode, now: numbe
   if (valid.length < 2) return [];
   const weights = { balanced: [30, 20, 15, 20, 15], risk: [10, 30, 20, 25, 15], returns: [50, 15, 10, 15, 10] }[mode];
   const signal = (row: RootMatch) => [row.totalReturn, row.drawdown, -row.volatility, -row.concentration, -row.quoteGap];
-  return valid.map(row => ({ ...row, score: Math.round(signal(row).reduce((sum, value, index) => {
+  const labels = ["30-day return", "Capital drawdown", "Capital volatility", "Holdings concentration", "Liquidity quote gap"];
+  return valid.map(row => {
+    const factors = signal(row).map((value, index) => {
     const lower = valid.filter(other => signal(other)[index] < value).length;
     const tied = valid.filter(other => signal(other)[index] === value).length - 1;
-    return sum + (lower + tied / 2) / (valid.length - 1) * weights[index];
-  }, 0) * 10) / 10 })).sort((a, b) => b.score - a.score || a.hotkey.localeCompare(b.hotkey));
+    const percentile = (lower + tied / 2) / (valid.length - 1);
+    return { index, label: labels[index], weight: weights[index], percentile, points: percentile * weights[index] };
+    });
+    return { ...row, factors, score: Math.round(factors.reduce((sum, factor) => sum + factor.points, 0) * 10) / 10 };
+  }).sort((a, b) => b.score - a.score || a.hotkey.localeCompare(b.hotkey));
 }

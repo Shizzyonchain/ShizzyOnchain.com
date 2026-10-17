@@ -20,3 +20,5 @@
 .chartScroll{max-width:100%;overflow:auto;overscroll-behavior-x:contain}
 
 .scrollPair{min-width:0;max-width:100%}.tableScrollTop{overflow-x:scroll;overflow-y:hidden;height:20px;max-width:100%;background:#111;border:1px solid #444;border-bottom:0;scrollbar-color:#aaa #222;scrollbar-width:auto}.tableScrollTop[hidden]{display:none}.tableScrollTop::-webkit-scrollbar{height:14px}.tableScrollTop::-webkit-scrollbar-track{background:#222}.tableScrollTop::-webkit-scrollbar-thumb{background:#aaa;border:2px solid #222;border-radius:7px}.tableScrollTop:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+.rootExplanation{border-top:1px solid #444;margin-top:20px;padding-top:4px}.rootExplanation h4{font:700 14px var(--font);color:#fff;margin:16px 0 8px}.rootExplanation p{font:11px/1.8 var(--font-mono);color:#aaa}.rootExplanation ul{padding-left:18px;font:12px/1.8 var(--font-mono);color:#ccc}.rootExplanation li+li{margin-top:9px}.table td.explanationCell{white-space:normal;min-width:290px;max-width:390px;text-align:left}.explanationCell summary{cursor:pointer;padding:12px 0;color:#fff}
