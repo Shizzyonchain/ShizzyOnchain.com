@@ -14,7 +14,7 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
     const url = new URL(path, "https://api.taostats.io");
     Object.entries({ ...filters, limit: "200", page: String(page) }).forEach(([name, value]) => url.searchParams.set(name, value));
     const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 3600 }, signal: AbortSignal.timeout(8_000) });
-    if (!response.ok) throw new Error(response.status === 429 ? "Provider rate limit reached. Try again in a few minutes." : "A required validator source is unavailable.");
+    if (!response.ok) throw new Error(response.status === 429 ? `Provider rate limit reached: ${path} page ${page}. Try again in a few minutes.` : "A required validator source is unavailable.");
     const payload = await response.json();
     if (!Array.isArray(payload.data) || !payload.pagination || payload.pagination.current_page !== page) throw new Error("Incomplete validator source response.");
     if (page === 1) console.info("Validator source preparation", path, "rows", payload.pagination.total_items);
