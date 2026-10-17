@@ -15,6 +15,7 @@ const percent = (value: unknown) => numeric(value) === null ? "—" : `${display
 const sorts = [["nav_tao", "Basket value"], ["root_stake", "Root stake"], ["staker_return_7d", "7d staker return"], ["staker_return_30d", "30d staker return"]];
 
 export function RootExplorer({ subnets, initialHotkey = "" }: { initialHotkey?: string; subnets: { netuid: number; name: string }[] }) {
+  const [comparison, setComparison] = useState<{ keys: string[]; id: number } | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
   const [attempt, setAttempt] = useState(0);
@@ -43,8 +44,8 @@ export function RootExplorer({ subnets, initialHotkey = "" }: { initialHotkey?: 
   const oldest = result?.data.reduce((time, row) => Math.min(time, Date.parse(row.timestamp)), Infinity);
   const stale = oldest !== undefined && Number.isFinite(oldest) && now - oldest > 2 * 3600_000;
   return <section aria-label="Root validator baskets"><div className={styles.controls}><label>Search root validators<input value={search} onChange={event => setSearch(event.target.value)} placeholder="Validator name or hotkey" /></label><label>Sort root baskets<select value={sort} onChange={event => setSort(event.target.value)}>{sorts.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label></div>
-    <RootRecommendations />
-    {result && <RootComparison baskets={result.data} subnets={subnets} initialHotkey={initialHotkey} />}
+    <RootRecommendations compareReady={!!result} onCompare={keys => setComparison({ keys, id: Date.now() })} />
+    {result && <RootComparison key={comparison?.id || "manual"} baskets={result.data} subnets={subnets} initialHotkey={initialHotkey} comparison={comparison} />}
     <label className={styles.filterToggle}><input type="checkbox" checked={includeSmall} onChange={event => setIncludeSmall(event.target.checked)} /> Include baskets below 0.01 TAO (including empty funds)</label>
     <p className={styles.source}>These are root reward baskets, not personal wallets. A retained basket does not prove a current root validator seat. Returns below cover the stated period and are not annualized APY. Values are in TAO; each row keeps its source time. Shared hourly source cache; opening holdings does not make another request.</p>
     {error && <p className={styles.notice} role="alert">{error} <button onClick={() => { setError(""); setAttempt(value => value + 1); }}>Retry root data</button></p>}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { basketOverlap, compareHistory, type HistoryPoint, type Performance } from "../../lib/root-comparison";
 import { displayNumber, shortAddress } from "../../lib/validator-types";
 import type { NamedRootBasket } from "../../lib/root-baskets";
@@ -11,16 +11,20 @@ type Loaded = { baskets: NamedRootBasket[]; histories: HistoryPoint[][] };
 const name = (basket: NamedRootBasket) => basket.name || shortAddress(basket.hotkey);
 const pct = (value: number) => `${displayNumber(value * 100)}%`;
 
-export function RootComparison({ baskets, subnets, initialHotkey = "" }: { initialHotkey?: string; baskets: NamedRootBasket[]; subnets: { netuid: number; name: string }[] }) {
-  const options = baskets.filter(basket => basket.root_stake !== null && Number(basket.nav_tao) >= 10_000_000);
-  const [selected, setSelected] = useState<string[]>([initialHotkey, "", ""]);
+export function RootComparison({ baskets, subnets, initialHotkey = "", comparison = null }: { comparison?: { keys: string[]; id: number } | null; initialHotkey?: string; baskets: NamedRootBasket[]; subnets: { netuid: number; name: string }[] }) {
+  const options = baskets.filter(basket => basket.root_stake !== null && (Number(basket.nav_tao) >= 10_000_000 || comparison?.keys.includes(basket.hotkey)));
+  const invalidComparison = !!comparison && (comparison.keys.length !== 2 || new Set(comparison.keys).size !== 2 || comparison.keys.some(key => !baskets.some(row => row.hotkey === key)));
+  const heading = useRef<HTMLHeadingElement>(null);
+  const [selected, setSelected] = useState<string[]>(comparison ? [...comparison.keys, ""] : [initialHotkey, "", ""]);
+  useEffect(() => { if (comparison) { heading.current?.focus(); heading.current?.scrollIntoView({ block: "start" }); } }, [comparison]);
   const [period, setPeriod] = useState("30");
-  const [request, setRequest] = useState<{ keys: string[]; id: number } | null>(null);
+  const [request, setRequest] = useState<{ keys: string[]; id: number } | null>(invalidComparison ? null : comparison);
   const [loaded, setLoaded] = useState<Loaded | null>(null);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(invalidComparison ? "The selected baskets are not available in this directory snapshot. Please choose two listed validators." : "");
+  const [loading, setLoading] = useState(!!comparison && !invalidComparison);
   useEffect(() => {
     if (!request) return;
+    if (request.keys.length < 2 || new Set(request.keys).size !== request.keys.length || request.keys.some(key => !baskets.some(row => row.hotkey === key))) return;
     const controller = new AbortController();
     Promise.all(request.keys.map(async hotkey => {
       const response = await fetch(`/api/validators/root/history?hotkey=${hotkey}`, { signal: controller.signal });
@@ -40,7 +44,7 @@ export function RootComparison({ baskets, subnets, initialHotkey = "" }: { initi
   }, [loaded, period]);
   const pairs = loaded ? loaded.baskets.flatMap((a, index) => loaded.baskets.slice(index + 1).map(b => ({ a, b, data: basketOverlap(a, b) }))) : [];
   const labels = new Map(subnets.map(subnet => [subnet.netuid, subnet.name]));
-  return <section className={styles.basketPanel} aria-labelledby="root-compare-title"><p className={styles.eyebrow}>COMPARE THE EXPOSURE AND THE RIDE</p><h2 id="root-compare-title">Compare root baskets</h2><p>Choose two or three listed validators. Compare daily staker total returns, historical declines and how much subnet exposure they share.</p><form onSubmit={event => {
+  return <section className={styles.basketPanel} aria-labelledby="root-compare-title"><p className={styles.eyebrow}>COMPARE THE EXPOSURE AND THE RIDE</p><h2 ref={heading} tabIndex={-1} id="root-compare-title" className={styles.compareHeading}>Compare root baskets</h2><p>Choose two or three listed validators. Compare daily staker total returns, historical declines and how much subnet exposure they share.</p><form onSubmit={event => {
     event.preventDefault(); const keys = selected.filter(Boolean);
     if (keys.length < 2 || new Set(keys).size !== keys.length) { setError("Choose at least two different validators."); return; }
     setLoading(true); setLoaded(null); setError(""); setRequest({ keys, id: Date.now() });
