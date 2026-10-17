@@ -18,6 +18,7 @@ test('name observations link both archive dates and never claim a verified sale'
 test('missing names, generic placeholders and case-only edits do not invent renames', () => {
   assert.equal(subnetTimeline([brief('2026-10-01', 'Vanta'), brief('2026-10-02', 'VANTA')], 8).length, 0);
   assert.equal(subnetTimeline([brief('2026-10-01', 'Old'), brief('2026-10-02', 'Subnet 8'), brief('2026-10-03', 'New')], 8).length, 0);
+  assert.equal(subnetTimeline([brief('2026-10-01', 'Unnamed SN8'), brief('2026-10-02', 'Unknown'), brief('2026-10-03', 'SN8 — identity pending')], 8).length, 0);
 });
 test('network stories require an exact subnet-number mention, not a prefix', () => {
   const rows = subnetTimeline([brief('2026-10-01', 'Vanta', [], [item('SN80 robots'), item('Protocol update', 'SN8 has adopted this change')])], 8);

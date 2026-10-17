@@ -12,7 +12,8 @@ export function subnetTimeline(briefs: SubnetNewsBrief[], netuid: number) {
   for (const brief of [...briefs].sort((a, b) => a.date.localeCompare(b.date))) {
     const subnet = brief.subnets.find(row => row.netuid === netuid);
     const name = subnet?.name.trim() || `Subnet ${netuid}`;
-    const knownName = !!subnet && !new RegExp(`^subnet\\s*${netuid}$`, "i").test(name);
+    const placeholder = new RegExp(`^subnet\\s*${netuid}$|^(unknown|pending|unnamed)\\b|identity pending`, "i").test(name);
+    const knownName = !!subnet && !placeholder;
     if (knownName && previous && previous.name.toLowerCase() !== name.toLowerCase()) {
       entries.push({ id: `name:${brief.date}`, date: brief.date, name, kind: "archive-name", status: "Archive observation",
         headline: `${previous.name} → ${name}`,
