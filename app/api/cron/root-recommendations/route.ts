@@ -12,5 +12,5 @@ export async function GET(request: Request) {
     const keys = snapshot.data.filter(row => seats.has(row.hotkey) && !rootEligibility(row).length).map(row => row.hotkey);
     if (!keys.length) throw new Error("No fresh root permit universe");
     return Response.json(await prepareRootHistory(keys, now), { headers: { "Cache-Control": "no-store" } });
-  } catch { return Response.json({ error: "Root preparation failed; the last complete result was preserved." }, { status: 503, headers: { "Cache-Control": "no-store" } }); }
+  } catch (error) { console.error("Root background preparation failed:", error instanceof Error ? error.message : "Unknown preparation error"); return Response.json({ error: "Root preparation failed; the last complete result was preserved." }, { status: 503, headers: { "Cache-Control": "no-store" } }); }
 }

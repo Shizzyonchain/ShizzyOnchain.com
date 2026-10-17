@@ -24,7 +24,7 @@ export const getRootRecommendationHistory = unstable_cache(async (hotkey: string
   const target = new URL("/v1/validators/baskets/history", "https://api.taostats.io");
   Object.entries({ hotkey, timestamp_start: String(utcDay - 31 * 86400), timestamp_end: String(utcDay - 1), limit: "200", page: "1", order_by: "day", order_dir: "asc" }).forEach(([name, value]) => target.searchParams.set(name, value));
   const response = await fetch(target, { headers: { Authorization: key }, cache: "no-store", signal: AbortSignal.timeout(10_000) });
-  if (!response.ok) throw new Error("Required history provider unavailable; retry preparation later.");
+  if (!response.ok) throw new Error(`Required history provider unavailable (${response.status}); retry preparation later.`);
   const payload = await response.json();
   if (!Array.isArray(payload.data) || payload.pagination?.current_page !== 1 || payload.pagination.next_page !== null) throw new Error("Incomplete history source.");
   const data = payload.data.map((row: HistoryPoint & { hotkey: string }) => {

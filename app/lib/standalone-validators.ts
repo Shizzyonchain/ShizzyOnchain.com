@@ -1,12 +1,15 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
+import { packChildIndex, unpackChildIndex } from "./child-hotkey-cache";
 import { scanChildHotkeys } from "./child-hotkey-storage";
 import type { Validator } from "./validator-types";
 
-export const getChildHotkeys = unstable_cache(async () => {
+const getPackedChildHotkeys = unstable_cache(async () => {
   const endpoint = process.env.SUBTENSOR_HTTP_URL || "https://entrypoint-finney.opentensor.ai";
-  return scanChildHotkeys(endpoint);
-}, ["finalized-child-hotkeys-v2"], { revalidate: 1800 });
+  return packChildIndex(await scanChildHotkeys(endpoint));
+}, ["finalized-child-hotkeys-compact-v3"], { revalidate: 1800 });
+
+export async function getChildHotkeys() { return unpackChildIndex(await getPackedChildHotkeys()); }
 
 export const getStandaloneValidators = unstable_cache(async () => {
   const key = process.env.TAOSTATS_API_KEY;
