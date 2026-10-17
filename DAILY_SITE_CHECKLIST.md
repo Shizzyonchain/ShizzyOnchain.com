@@ -44,6 +44,12 @@ Reference: https://taostats.io/docs/new ; market aggregates: https://taostats.io
 
 ## Editorial and publication gates
 
+### Subnet detail news/history — standing requirement October 17, 2026
+
+- [ ] Every daily update must feed the homepage subnet panels: put each material subnet story, registration, deregistration, verified ownership/sale development and sourced name change under the correct SN in the dated report. Keep actual event dates distinct from report dates, current team names accurate, and older editions intact.
+- [ ] Check new names against finalized identity/registration evidence and the prior report. Unknown, unnamed or identity-pending labels are placeholders, not project renames. Archive name observations alone do not prove a chain rename, completed sale or ownership transfer. Keep old-project coverage labelled with its recorded name when a slot is reused.
+- [ ] After publication, check affected subnet panels for the new dated stories and direct sources, plus older-history pagination. The panel automatically reads the published report archive; no separate manual copy is needed. Allow the five-minute news cache to refresh, or verify using a fresh request. Keep news loading on panel open, never in the homepage market-table loading path. Record outcomes/gaps in the dated checklist.
+
 - [ ] Use verified SN numbers before names, justified star ratings, direct sources, accurate event dates and clear planned/developing labels; exclude unrelated crypto news.
 - [ ] Save the dated source audit, mandatory marketReview, media dispositions, chain review and video review; preserve prior editions and deduplicate.
 - [ ] Validate news, lint and build; inspect the final diff and commit only intended files.

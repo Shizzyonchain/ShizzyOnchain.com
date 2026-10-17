@@ -4,6 +4,8 @@ Subnet News is a repository-backed daily publication. Each report is a validated
 
 ## Daily 10 AM workflow
 
+Owner addition October 17, 2026: maintain the homepage subnet panel's Recent news & history on every daily update. Follow the standing subnet-detail checklist in `DAILY_SITE_CHECKLIST.md`. Panels automatically aggregate the published report archive by SN, including covered registration/removal/ownership events and observed report-name changes. Publish new material under the correct SN, preserve historical project names and actual event dates, verify affected live panels after publication, and never present placeholder labels or archive observations as verified chain renames or sales. Keep this history loaded only when a subnet panel opens, preserving main-table speed.
+
 Owner addition October 16, 2026: every "let's do today" run includes the TaoStats daily cross-check in `DAILY_SITE_CHECKLIST.md`: reconcile chain events, investigate missing/stale market data and enrich relevant news research with trading/operating metrics. Preserve our node as primary and the existing site design/calculations. Record access failures, discrepancies and pending integrations honestly; this requirement does not claim fallbacks or chart backfills are already implemented. Keep charts hidden and do not add wallet P&L.
 
 Before starting, read `DAILY_SITE_CHECKLIST.md` and keep a dated completion record. An owner's request to do today's news includes the full video refresh unless explicitly narrowed. Complete each gate or report its specific blocker; a members promotion change alone is not a video refresh. Review attached media before dismissing sparse-caption official posts, and retain an explicit outcome when media cannot be inspected.
