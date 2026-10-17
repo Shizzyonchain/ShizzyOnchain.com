@@ -89,7 +89,8 @@ async def queue_yield_check(payload: YieldCheckRequest, x_api_key: str | None = 
         VALUES($1,$2::jsonb) ON CONFLICT(netuid) DO UPDATE SET
         payload=EXCLUDED.payload,state='queued',requested_at=now(),error=NULL
         WHERE validator_yield_checks.state NOT IN ('queued','running')
-          AND validator_yield_checks.requested_at<now()-interval '1 hour'
+          AND (validator_yield_checks.requested_at<now()-interval '1 hour'
+            OR COALESCE((validator_yield_checks.result->>'methodVersion')::int,0)<>2)
         RETURNING netuid""", payload.netuid, payload.model_dump_json())
     return {"queued": accepted is not None, "netuid": payload.netuid}
 

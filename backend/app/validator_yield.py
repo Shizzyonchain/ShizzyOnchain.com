@@ -99,12 +99,13 @@ def compare_window(points, days, provider):
             ratio = selected[0]["rate"] / selected[-1]["rate"]
             log_return = float(ratio.ln())
         apy = math.expm1(log_return * 365 / days)
+        apr = math.expm1(log_return / days) * 365
         observed = math.expm1(log_return)
     except (OverflowError, ValueError):
         return {"status": "unavailable", "reason": "Chain return cannot be safely annualized."}
-    if not all(math.isfinite(v) for v in [apy, observed]):
+    if not all(math.isfinite(v) for v in [apy, apr, observed]):
         return {"status": "unavailable", "reason": "Non-finite return."}
-    base = {"chainApy": apy, "observedReturn": observed, "days": days,
+    base = {"chainApy": apy, "chainApr": apr, "observedReturn": observed, "days": days,
             "startBlock": selected[-1]["block"], "endBlock": selected[0]["block"],
             "start": selected[-1]["timestamp"], "end": selected[0]["timestamp"]}
     if provider is None or not math.isfinite(provider):
@@ -113,8 +114,11 @@ def compare_window(points, days, provider):
     # threshold, not a claim that the two averaging methods are identical.
     tolerance = max(.02, abs(provider) * .1)
     difference = apy - provider
+    status = "consistent" if abs(difference) <= tolerance else "review"
+    if status == "review" and abs(apr - provider) <= tolerance:
+        status = "basis-review"
     return {**base, "providerApy": provider, "difference": difference, "tolerance": tolerance,
-            "status": "consistent" if abs(difference) <= tolerance else "review"}
+            "status": status}
 
 
 async def check_payload(payload, endpoint):
@@ -184,7 +188,7 @@ async def check_payload(payload, endpoint):
                 for history in histories.values():
                     history.append(None)
         checked = datetime.now(timezone.utc).isoformat()
-        return {"netuid": netuid, "checkedAt": checked, "source": "configured-node-archive",
+        return {"netuid": netuid, "methodVersion": 2, "checkedAt": checked, "source": "configured-node-archive",
                 "rows": [{"hotkey": row["hotkey"], "providerBlock": end, "providerTimestamp": row["timestamp"],
                           "seven": compare_window(histories[row["hotkey"]], 7, row.get("seven")),
                           "thirty": compare_window(histories[row["hotkey"]], 30, row.get("thirty"))} for row in rows]}
