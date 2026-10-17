@@ -471,6 +471,11 @@ const channelVideos: ChannelVideo[] = [
   },
 ];
 const liveStreams: ChannelVideo[] = [
+  {
+    id: "fTlViZhXXzQ",
+    title: "TAO, XRP, CC & NEAR: Which Crypto Wins BIG? Experts Debate LIVE!",
+    meta: "1:51:56 · Guest appearance on Crypto Verdict · October 15, 2026",
+  },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
     id: "OWQoSVN3M9s",
