@@ -18,3 +18,5 @@
 @media(max-width:760px){.pinFirst>thead>tr>th:first-child,.pinFirst>tbody>tr>td:first-child,.pinSecond>thead>tr>th:nth-child(2),.pinSecond>tbody>tr>td:nth-child(2){min-width:140px;max-width:180px}}
 
 .chartScroll{max-width:100%;overflow:auto;overscroll-behavior-x:contain}
+
+.scrollPair{min-width:0;max-width:100%}.tableScrollTop{overflow-x:scroll;overflow-y:hidden;height:20px;max-width:100%;background:#111;border:1px solid #444;border-bottom:0;scrollbar-color:#aaa #222;scrollbar-width:auto}.tableScrollTop[hidden]{display:none}.tableScrollTop::-webkit-scrollbar{height:14px}.tableScrollTop::-webkit-scrollbar-track{background:#222}.tableScrollTop::-webkit-scrollbar-thumb{background:#aaa;border:2px solid #222;border-radius:7px}.tableScrollTop:focus-visible{outline:2px solid #fff;outline-offset:2px}
