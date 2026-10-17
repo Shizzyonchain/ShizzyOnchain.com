@@ -1,5 +1,6 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
+import { getCache } from "@vercel/functions";
 import { numeric, type Validator, type ValidatorYield } from "./validator-types";
 import { delegatedOperation } from "./validator-operation";
 import type { Candidate } from "./validator-ranking";
@@ -11,12 +12,21 @@ type Hyper = { netuid: number; activity_cutoff: number; timestamp: string };
 async function collection<T>(path: string, filters: Record<string, string>, key: string): Promise<T[]> {
   const rows: T[] = [];
   for (let page = 1; page <= 128; page++) {
+    const checkpointKey = JSON.stringify([path, filters, page]);
+    const checkpoints = getCache({ namespace: "validator-source-pages-v1" });
+    type Page = { data: T[]; pagination: { current_page: number; next_page: number | null; total_items: number } };
+    let payload = await checkpoints.get(checkpointKey) as Page | undefined;
+    if (!payload) {
     const url = new URL(path, "https://api.taostats.io");
     Object.entries({ ...filters, limit: "200", page: String(page) }).forEach(([name, value]) => url.searchParams.set(name, value));
     const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 3600 }, signal: AbortSignal.timeout(8_000) });
     if (!response.ok) throw new Error(response.status === 429 ? `Provider rate limit reached: ${path} page ${page}. Try again in a few minutes.` : "A required validator source is unavailable.");
-    const payload = await response.json();
-    if (!Array.isArray(payload.data) || !payload.pagination || payload.pagination.current_page !== page) throw new Error("Incomplete validator source response.");
+    payload = await response.json() as Page;
+    if (!Array.isArray(payload.data) || !payload.pagination || payload.pagination.current_page !== page || !Number.isInteger(payload.pagination.total_items)) throw new Error("Incomplete validator source response.");
+    // Persist each successful page immediately, even if a later page is throttled.
+    await checkpoints.set(checkpointKey, payload, { ttl: 3600 });
+    }
+    if (!Array.isArray(payload.data) || payload.pagination.current_page !== page) throw new Error("Invalid validator source checkpoint.");
     if (page === 1) console.info("Validator source preparation", path, "rows", payload.pagination.total_items);
     rows.push(...payload.data);
     if (payload.pagination.next_page === null) {
