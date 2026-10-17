@@ -18,7 +18,7 @@ export function ValidatorYieldChecks({ netuid, candidates, now }: { netuid: numb
   const [queueFailed, setQueueFailed] = useState(false);
   useEffect(() => {
     const controller = new AbortController();
-    const url = `/api/validators/yield-checks?netuid=${netuid}`;
+    const url = `/api/validators/yield-checks?netuid=${netuid}&method=2`;
     let timer: number | undefined;
     let attempts = 0;
     async function read() {
@@ -39,7 +39,7 @@ export function ValidatorYieldChecks({ netuid, candidates, now }: { netuid: numb
     }).catch(() => { if (!controller.signal.aborted) setQueueFailed(true); });
     return () => { controller.abort(); window.clearTimeout(timer); };
   }, [netuid]);
-  const byHotkey = new Map((checks?.state === "ready" ? checks.result?.rows || [] : []).map(row => [row.hotkey, row]));
+  const byHotkey = new Map((checks?.state === "ready" && checks.result?.methodVersion === 2 ? checks.result.rows : []).map(row => [row.hotkey, row]));
   const rows = candidates.map(row => ({ row, check: currentYieldCheck(byHotkey.get(row.hotkey), row.yieldBlock, row.timestamps[0], now) }));
   const comparable = rows.filter(({ check }) => check && check.seven.status !== "unavailable" && check.thirty.status !== "unavailable");
   const review = comparable.filter(({ check }) => check!.seven.status === "review" || check!.thirty.status === "review").length;
