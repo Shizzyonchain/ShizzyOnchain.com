@@ -20,7 +20,15 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
     const url = new URL(path, "https://api.taostats.io");
     Object.entries({ ...filters, limit: "200", page: String(page) }).forEach(([name, value]) => url.searchParams.set(name, value));
     const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 3600 }, signal: AbortSignal.timeout(8_000) });
-    if (!response.ok) throw new Error(response.status === 429 ? `Provider rate limit reached: ${path} page ${page}. Try again in a few minutes.` : "A required validator source is unavailable.");
+    if (!response.ok) {
+      if (response.status === 429) {
+        const detail = await response.text();
+        const window = /month/i.test(detail) ? "monthly allowance" : /minute/i.test(detail) ? "minute allowance" : "provider allowance";
+        const retry = response.headers.get("retry-after");
+        throw new Error(`Provider rate limit reached: ${path} page ${page}; ${window}${retry && /^\d+$/.test(retry) ? `; retry after ${retry}s` : ""}.`);
+      }
+      throw new Error("A required validator source is unavailable.");
+    }
     payload = await response.json() as Page;
     if (!Array.isArray(payload.data) || !payload.pagination || payload.pagination.current_page !== page || !Number.isInteger(payload.pagination.total_items)) throw new Error("Incomplete validator source response.");
     // Persist each successful page immediately, even if a later page is throttled.
