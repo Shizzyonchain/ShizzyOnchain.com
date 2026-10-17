@@ -9,6 +9,10 @@
   "outputDirectory": null,
   "crons": [
     {
+      "path": "/api/cron/subnet-recommendations",
+      "schedule": "*/5 * * * *"
+    },
+    {
       "path": "/api/cron/validator-yield",
       "schedule": "7,22,37,52 * * * *"
     },

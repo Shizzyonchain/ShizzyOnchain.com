@@ -42,11 +42,26 @@ export function ValidatorFinder({ subnets }: { subnets: { netuid: number; name: 
   useEffect(() => {
     if (!request) return;
     const controller = new AbortController();
-    fetch(`/api/validators/recommendations?netuid=${request.netuid}`, { signal: controller.signal }).then(async response => {
-      const payload = await response.json(); if (!response.ok) throw new Error(payload.error || "Recommendation sources unavailable.");
-      setResult(payload); setNow(Date.now()); setError("");
-    }).catch(reason => { if (!controller.signal.aborted) setError(reason.message); }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
-    return () => controller.abort();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let attempts = 0;
+    const read = async () => {
+      try {
+        const response = await fetch(`/api/validators/recommendations?netuid=${request.netuid}`, { signal: controller.signal });
+        const payload = await response.json();
+        if (controller.signal.aborted) return;
+        if (response.status === 202) {
+          if (++attempts >= 24) throw new Error("This subnet is still being prepared in the background. Please try again shortly.");
+          timer = setTimeout(read, 5000);
+          return;
+        }
+        if (!response.ok) throw new Error(payload.error || "Recommendation sources unavailable.");
+        setResult(payload); setNow(Date.now()); setError(""); setLoading(false);
+      } catch (reason) {
+        if (!controller.signal.aborted) { setError(reason instanceof Error ? reason.message : "Recommendations unavailable."); setLoading(false); }
+      }
+    };
+    void read();
+    return () => { controller.abort(); clearTimeout(timer); };
   }, [request]);
   const yieldData = useMemo(() => yieldCandidates(result?.candidates || [], yieldChecks, result?.netuid, now), [result, yieldChecks, now]);
   const rows = useMemo(() => rankValidators(yieldData.candidates, mode, now), [yieldData, mode, now]);
