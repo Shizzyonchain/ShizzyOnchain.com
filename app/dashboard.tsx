@@ -84,6 +84,7 @@ export type ScreenerRow = ReturnHistory & {
   volume_24h_tao?: string;
   emission_pct?: string;
   apy?: string;
+  apr?: string;
   conviction_locked_alpha?: string;
   conviction_locked_pct?: string;
   change_10m?: string;
@@ -1977,7 +1978,7 @@ export function Dashboard({
                       <th data-help={`Rolling price change over the last 7 days in ${currency.toUpperCase()}. USD includes changes in TAO/USD; TAO measures alpha against TAO. Green = up, red = down. A dash means history is unavailable.`}>
                         <button onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
                       </th>
-                      <th data-help="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
+                      <th data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
                         <button onClick={() => changeSort("apy")}>Staker APY{sortArrow("apy")}</button>
                       </th>
                       <th data-help="Current locked alpha mass. The percentage is measured against SubnetAlphaOut (staked/outstanding alpha). Locked mass and matured conviction are separate on-chain values.">
@@ -2027,9 +2028,9 @@ export function Dashboard({
                             {v == null ? "—" : `${fmt(v)}%`}
                           </td>
                         ))}
-                        <td className="apy-cell" data-help="Annualized latest on-chain validator dividends per tempo, divided by subnet alpha stake.">
+                        <td className="apy-cell" data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
                           {r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}
-                          <small>latest realized tempo</small>
+                          <small>{r.apr == null ? "—" : `${fmt(r.apr, 2)}% APR`} · estimate</small>
                         </td>
                         <td
                           className="locked-alpha-cell"

@@ -17,6 +17,7 @@ from app.config import get_settings
 from app.db import close, connect
 from app.models import MassWalletRequest
 from app.liquidation import liquidation_join
+from app.yield_math import subnet_reward_estimate
 
 settings = get_settings()
 log = logging.getLogger("shizzy.api")
@@ -91,7 +92,7 @@ async def queue_yield_check(payload: YieldCheckRequest, x_api_key: str | None = 
         WHERE validator_yield_checks.state NOT IN ('queued','running')
           AND (validator_yield_checks.requested_at<now()-interval '1 hour'
             OR (validator_yield_checks.result IS NOT NULL
-                AND COALESCE((validator_yield_checks.result->>'methodVersion')::int,0)<>2))
+                AND COALESCE((validator_yield_checks.result->>'methodVersion')::int,0)<>3))
         RETURNING netuid""", payload.netuid, payload.model_dump_json())
     return {"queued": accepted is not None, "netuid": payload.netuid}
 
@@ -200,11 +201,10 @@ async def _refresh_live_screener(current_app: FastAPI):
                   100 * (liq.liquidation_price_tao / NULLIF(p.price_tao,0) - 1)
                     AS liquidation_diff_pct,
                   100 * p.emission_share AS emission_pct,
-                  CASE WHEN p.tempo IS NULL OR p.tempo < 0 OR p.alpha_out <= 0
-                         OR p.staker_epoch_dividends_alpha IS NULL THEN NULL ELSE
-                    100 * p.staker_epoch_dividends_alpha / p.alpha_out
-                      * (7200.0 / (p.tempo + 1)) * 365
-                  END AS apy,
+                  p.tempo,
+                  p.staker_epoch_dividends_alpha,
+                  p.circulating_alpha,
+                  p.alpha_reserve,
                   p.conviction_locked_alpha,
                   CASE WHEN p.conviction_locked_alpha IS NULL
                          OR COALESCE(p.alpha_out, 0) <= 0
@@ -218,7 +218,7 @@ async def _refresh_live_screener(current_app: FastAPI):
            {liquidation_join("p")}
            ORDER BY p.netuid"""
     )
-    live_by_netuid = {row["netuid"]: dict(row) for row in rows}
+    live_by_netuid = {row["netuid"]: {**dict(row), **subnet_reward_estimate(row)} for row in rows}
     cached = current_app.state.screener_cache
     if cached:
         merged = []
@@ -254,11 +254,10 @@ async def _refresh_screener(current_app: FastAPI):
                   100 * (liq.liquidation_price_tao / NULLIF(l.price_tao,0) - 1)
                     AS liquidation_diff_pct,
                   100 * l.emission_share AS emission_pct,
-                  CASE WHEN l.tempo IS NULL OR l.tempo < 0 OR l.alpha_out <= 0
-                         OR l.staker_epoch_dividends_alpha IS NULL THEN NULL ELSE
-                    100 * l.staker_epoch_dividends_alpha / l.alpha_out
-                      * (7200.0 / (l.tempo + 1)) * 365
-                  END AS apy,
+                  l.tempo,
+                  l.staker_epoch_dividends_alpha,
+                  l.circulating_alpha,
+                  l.alpha_reserve,
                   l.conviction_locked_alpha,
                   CASE WHEN l.conviction_locked_alpha IS NULL
                          OR COALESCE(l.alpha_out, 0) <= 0
@@ -322,7 +321,7 @@ async def _refresh_screener(current_app: FastAPI):
            ORDER BY market_cap_tao DESC NULLS LAST"""
     )
     current_app.state.screener_cache = {
-        "data": [dict(row) for row in rows],
+        "data": [{**dict(row), **subnet_reward_estimate(row)} for row in rows],
         "cached_at": datetime.now(timezone.utc),
     }
     return current_app.state.screener_cache

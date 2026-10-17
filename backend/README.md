@@ -238,3 +238,27 @@ or certification. Comparison tolerance is max(2 percentage points, 10% of the
 provider APY). Provider averaging can differ from geometric share growth; a
 mismatch means review, not proven incorrect yield. Recommendation scores are
 unchanged. The UI only labels an exact fresh provider block/time as current.
+
+### APR/APY display correction (2026-10-16)
+
+Method version 3 uses one explicit convention from the same observed window:
+APR = window growth * (365 / Bittensor days); APY = (1 + window growth) raised
+to (365 / Bittensor days), minus 1. This differs from the earlier geometric
+daily-rate APR proxy. Neither formula converts an unknown provider rate.
+The provider's public documentation names its fields APY but does not specify
+the precise compounding/averaging equation. Its rates remain original, labelled
+reported, until independently calculated figures exist. A rate being closer
+to our APR is evidence of a possible method difference, not proof of its formula.
+
+The finder switches the whole ranking to node-calculated net APY when at least
+two complete fresh window calculations exist. Other rows are then excluded;
+node and provider rates never compete in one ranking. APR appears alongside APY.
+Without sufficient node coverage, the comparison is explicitly provider-only
+and provisional. Profile provider tables use reported-rate labels.
+
+The homepage's previous linear formula was APR despite its APY label. Its new
+shared calculation compounds the latest net epoch rate, using recent actual
+staked alpha (circulating alpha minus pool reserve), not SubnetAlphaOut issuance.
+Both APR and APY are shown as subnet-wide latest-epoch estimates. Stake can
+change after an epoch, so these are estimates rather than historical realized
+validator yields. Calculations run on existing cached data and add no node calls.

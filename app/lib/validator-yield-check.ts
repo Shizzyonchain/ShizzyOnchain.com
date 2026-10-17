@@ -1,3 +1,5 @@
+import type { Candidate } from "./validator-ranking";
+
 export type YieldWindow = {
   status: "consistent" | "review" | "basis-review" | "unavailable"; reason?: string;
   chainApy?: number; chainApr?: number; providerApy?: number; observedReturn?: number;
@@ -9,4 +11,20 @@ export type YieldChecks = { netuid: number; state: string; error?: string; resul
 export function currentYieldCheck(check: YieldCheck | undefined, block: number | undefined, timestamp: string, now: number) {
   const time = Date.parse(timestamp);
   return check && check.providerBlock === block && Date.parse(check.providerTimestamp) === time && Number.isFinite(time) && now - time <= 7200000 && time <= now + 60000 ? check : undefined;
+}
+
+export function chainYield(check: YieldCheck | undefined) {
+  if (!check) return null;
+  const values = [check.seven.chainApy, check.thirty.chainApy, check.seven.chainApr, check.thirty.chainApr];
+  if (check.seven.status === "unavailable" || check.thirty.status === "unavailable" || values.some(value => typeof value !== "number" || !Number.isFinite(value))) return null;
+  return { yield7: check.seven.chainApy!, yield30: check.thirty.chainApy!, apr7: check.seven.chainApr!, apr30: check.thirty.chainApr! };
+}
+
+export function yieldCandidates(candidates: Candidate[], checks: YieldChecks | null, netuid: number | undefined, now: number) {
+  const byHotkey = new Map((checks && checks.netuid === netuid && checks.state === "ready" && checks.result?.methodVersion === 3 ? checks.result.rows : []).map(row => [row.hotkey, row]));
+  const measured = candidates.map(row => chainYield(currentYieldCheck(byHotkey.get(row.hotkey), row.yieldBlock, row.timestamps[0], now)));
+  if (measured.filter(Boolean).length < 2) return { source: "provider" as const, candidates };
+  return { source: "chain" as const, candidates: candidates.map((row, index): Candidate => measured[index]
+    ? { ...row, ...measured[index], yieldBasis: "chain-net" }
+    : { ...row, yield7: null, yield30: null, apr7: null, apr30: null, yieldBasis: "unknown" }) };
 }

@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from decimal import Decimal, localcontext
 
 import websockets
+from app.yield_math import annualized_return
 
 log = logging.getLogger("shizzy.validator_yield")
 MODULE = "658faa385070e074c85bf6b568cf0555"
@@ -98,12 +99,11 @@ def compare_window(points, days, provider):
             context.prec = 70
             ratio = selected[0]["rate"] / selected[-1]["rate"]
             log_return = float(ratio.ln())
-        apy = math.expm1(log_return * 365 / days)
-        apr = math.expm1(log_return / days) * 365
         observed = math.expm1(log_return)
+        apr, apy = annualized_return(observed, 365 / days)
     except (OverflowError, ValueError):
         return {"status": "unavailable", "reason": "Chain return cannot be safely annualized."}
-    if not all(math.isfinite(v) for v in [apy, apr, observed]):
+    if any(v is None or not math.isfinite(v) for v in [apy, apr, observed]):
         return {"status": "unavailable", "reason": "Non-finite return."}
     base = {"chainApy": apy, "chainApr": apr, "observedReturn": observed, "days": days,
             "startBlock": selected[-1]["block"], "endBlock": selected[0]["block"],
@@ -188,7 +188,7 @@ async def check_payload(payload, endpoint):
                 for history in histories.values():
                     history.append(None)
         checked = datetime.now(timezone.utc).isoformat()
-        return {"netuid": netuid, "methodVersion": 2, "checkedAt": checked, "source": "configured-node-archive",
+        return {"netuid": netuid, "methodVersion": 3, "checkedAt": checked, "source": "configured-node-archive",
                 "rows": [{"hotkey": row["hotkey"], "providerBlock": end, "providerTimestamp": row["timestamp"],
                           "seven": compare_window(histories[row["hotkey"]], 7, row.get("seven")),
                           "thirty": compare_window(histories[row["hotkey"]], 30, row.get("thirty"))} for row in rows]}

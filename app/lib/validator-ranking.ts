@@ -4,8 +4,9 @@ export type Candidate = {
   participation7: number | null; participation30: number | null;
   active: boolean; permit: boolean; updated: number | null; cutoff: number | null;
   stakeShare: number | null; dividends: number | null; registered: string | null;
-  timestamps: string[]; yieldBasis: "nominator-net" | "unknown";
+  timestamps: string[]; yieldBasis: "nominator-net" | "chain-net" | "unknown";
   yieldBlock?: number;
+  apr7?: number | null; apr30?: number | null;
 };
 export type RankedCandidate = Candidate & { score: number | null; reasons: string[]; excluded: string[]; consistency: number | null };
 const weights: Record<RankingMode, number[]> = {
@@ -15,9 +16,11 @@ const weights: Record<RankingMode, number[]> = {
 const valid = (n: number | null): n is number => n !== null && Number.isFinite(n);
 
 export function rankValidators(candidates: Candidate[], mode: RankingMode, now: number): RankedCandidate[] {
+  const usesChain = candidates.some(candidate => candidate.yieldBasis === "chain-net");
   const reviewed = candidates.map(candidate => {
     const excluded: string[] = [];
-    if (candidate.yieldBasis !== "nominator-net") excluded.push("Yield after validator take could not be established");
+    if (candidate.yieldBasis !== "nominator-net" && candidate.yieldBasis !== "chain-net") excluded.push("Yield after validator take could not be established");
+    if (usesChain && candidate.yieldBasis !== "chain-net") excluded.push("Comparable node-calculated yield history required; provider rates cannot enter this ranking");
     if (!candidate.active || !candidate.permit) excluded.push("No fully verified active validator path in the snapshot");
     if (!valid(candidate.updated) || !valid(candidate.cutoff) || candidate.cutoff <= 0 || candidate.updated < 0 || candidate.updated > candidate.cutoff) excluded.push("Recent weight-update activity could not be established");
     if (![candidate.yield7, candidate.yield30].every(n => valid(n) && n > 0)) excluded.push("Positive 7d and 30d yield measurements required");
@@ -40,7 +43,9 @@ export function rankValidators(candidates: Candidate[], mode: RankingMode, now: 
     const signals = [yieldRank, row.consistency!, Math.min(row.participation7!, row.participation30!), 1 - row.updated! / row.cutoff!, 1 - row.stakeShare!, 1 - row.take!];
     row.score = Math.round(signals.reduce((sum, signal, index) => sum + Math.max(0, Math.min(1, signal)) * weights[mode][index], 0) * 10) / 10;
     row.reasons = [
-      `7d net APY ${(row.yield7! * 100).toFixed(2)}% · 30d net APY ${(row.yield30! * 100).toFixed(2)}%`,
+      row.yieldBasis === "chain-net"
+        ? `Node 7d net APY ${(row.yield7! * 100).toFixed(2)}% · 30d net APY ${(row.yield30! * 100).toFixed(2)}%`
+        : `Provider 7d annualized rate ${(row.yield7! * 100).toFixed(2)}% · 30d rate ${(row.yield30! * 100).toFixed(2)}% · compounding method unconfirmed`,
       `${(row.consistency! * 100).toFixed(0)}% agreement between yield windows`,
       `At least ${(Math.min(row.participation7!, row.participation30!) * 100).toFixed(1)}% reported epoch participation`,
       `${row.operation === "delegated" ? "Verified child permits" : "Active direct permit"} · weight update ${row.updated} blocks ago (cutoff ${row.cutoff})`,

@@ -32,6 +32,7 @@ def test_correct_compounding_and_no_second_take_deduction():
     assert result['status'] == 'consistent'
     assert result['chainApy'] == pytest.approx(expected)
     assert result['observedReturn'] == pytest.approx(float(Decimal('1.001')**7-1))
+    assert result['chainApr'] == pytest.approx(float(Decimal('1.001')**7-1)*365/7)
     assert result['startBlock'] == 949600
     assert compare_window(history(7), 7, .365)['status'] == 'basis-review'
 
