@@ -21,7 +21,7 @@ export function chainYield(check: YieldCheck | undefined) {
 }
 
 export function yieldCandidates(candidates: Candidate[], checks: YieldChecks | null, netuid: number | undefined, now: number) {
-  const byHotkey = new Map((checks && checks.netuid === netuid && checks.state === "ready" && checks.result?.methodVersion === 3 ? checks.result.rows : []).map(row => [row.hotkey, row]));
+  const byHotkey = new Map((checks && checks.netuid === netuid && checks.state === "ready" && checks.result?.methodVersion === 4 ? checks.result.rows : []).map(row => [row.hotkey, row]));
   const measured = candidates.map(row => chainYield(currentYieldCheck(byHotkey.get(row.hotkey), row.yieldBlock, row.timestamps[0], now)));
   if (measured.filter(Boolean).length < 2) return { source: "provider" as const, candidates };
   return { source: "chain" as const, candidates: candidates.map((row, index): Candidate => measured[index]

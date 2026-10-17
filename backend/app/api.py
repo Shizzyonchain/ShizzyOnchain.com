@@ -92,7 +92,7 @@ async def queue_yield_check(payload: YieldCheckRequest, x_api_key: str | None = 
         WHERE validator_yield_checks.state NOT IN ('queued','running')
           AND (validator_yield_checks.requested_at<now()-interval '1 hour'
             OR (validator_yield_checks.result IS NOT NULL
-                AND COALESCE((validator_yield_checks.result->>'methodVersion')::int,0)<>3))
+                AND COALESCE((validator_yield_checks.result->>'methodVersion')::int,0)<>4))
         RETURNING netuid""", payload.netuid, payload.model_dump_json())
     return {"queued": accepted is not None, "netuid": payload.netuid}
 

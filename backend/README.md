@@ -262,3 +262,11 @@ staked alpha (circulating alpha minus pool reserve), not SubnetAlphaOut issuance
 Both APR and APY are shown as subnet-wide latest-epoch estimates. Stake can
 change after an epoch, so these are estimates rather than historical realized
 validator yields. Calculations run on existing cached data and add no node calls.
+
+Method version 4 also checks the controlling owner's share balance and pool
+share epoch at each daily checkpoint. Operator-only pools are excluded from
+ordinary nominator history: under Null consensus, credit_epoch_owner_emission
+can credit an existing sole-owner pool directly, so alpha-per-share growth can
+include operator take or owner income. This is not evidence of the net return
+available to an outside nominator. Shared-pool fee credits mint owner shares
+instead. See opentensor/subtensor staking/stake_utils.rs and share-pool.

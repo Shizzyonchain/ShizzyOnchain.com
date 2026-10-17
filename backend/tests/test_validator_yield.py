@@ -1,6 +1,6 @@
 from decimal import Decimal
 import pytest
-from app.validator_yield import account_bytes, pool_rate, compare_window
+from app.validator_yield import account_bytes, pool_rate, compare_window, sole_operator
 
 
 def raw(n, size=8):
@@ -51,6 +51,18 @@ def test_missing_day_or_provider_and_negative_return():
     assert compare_window(points,7,.3)['status'] == 'unavailable'
     assert compare_window(history(7),7,None)['status'] == 'unavailable'
     assert compare_window(history(7, Decimal('.999')),7,.3)['status'] == 'review'
+
+
+def test_owner_only_pool_income_cannot_rank_as_ordinary_nominator_yield():
+    point = pool_rate(raw(1000), sf(10**21,-19), None, raw(2), raw(1))
+    assert sole_operator(point,sf(10**21,-19),None,raw(2))
+    assert not sole_operator(point,sf(5*10**20,-19),None,raw(2))
+    assert not sole_operator(point,sf(0,0),None,raw(2))
+    assert not sole_operator(point,sf(10**21,-19),None,raw(1))
+    points = history(30)
+    points[10]['soleOperator'] = True
+    assert compare_window(points,30,.3)['status'] == 'unavailable'
+    assert compare_window(points,7,.3)['status'] != 'unavailable'
 
 
 def test_unknown_share_encoding_and_bad_address_fail_closed():

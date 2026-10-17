@@ -24,6 +24,10 @@ PREFIXES = {
     "legacy": MODULE + "3dbb78074d07a16f4942c7df159ed5e5",
     "epoch": MODULE + "d851552cd35f25e6f62c168db3aa2838",
     "registration": MODULE + "271d29b9b717ce3d8c571f1cbc180fa2",
+    "owner": MODULE + "eca6b7a1fdc9f689184ecb4f359c0518",
+    "owner_shares": MODULE + "421d8174603a6a6036511a7619b402f0",
+    "owner_legacy": MODULE + "7261f9a8fde18018cccf70368697902f",
+    "owner_epoch": MODULE + "7d5f646b6504d6b113791974df342604",
 }
 TIME_KEY = "0xf0c365c3cf59d671eb72da0e7a4113c49f1f0515f462cdcf84e0f1d6045dfcbb"
 SCHEMA = """
@@ -65,8 +69,7 @@ def uint(value, size, *, default=None):
     return int.from_bytes(raw, "little")
 
 
-def pool_rate(alpha, shares, legacy, epoch, registration):
-    total = uint(alpha, 8)
+def share_value(shares, legacy):
     with localcontext() as context:
         context.prec = 70
         if shares is not None:
@@ -75,23 +78,45 @@ def pool_rate(alpha, shares, legacy, epoch, registration):
                 raise ValueError("Unknown share format")
             mantissa = int.from_bytes(raw[:16], "little")
             exponent = int.from_bytes(raw[16:], "little", signed=True)
-            if not 0 < mantissa <= 10**21 or not -512 <= exponent <= 512:
+            if not 0 <= mantissa <= 10**21 or not -512 <= exponent <= 512:
                 raise ValueError("Invalid share denominator")
             denominator = Decimal(mantissa) * Decimal(10) ** exponent
             encoding = "safe-float-v2"
         else:
             denominator = Decimal(uint(legacy, 16)) / Decimal(2**64)
             encoding = "fixed-v1"
+        return denominator, encoding
+
+
+def pool_rate(alpha, shares, legacy, epoch, registration):
+    total = uint(alpha, 8)
+    denominator, encoding = share_value(shares, legacy)
+    with localcontext() as context:
+        context.prec = 70
         if total <= 0 or denominator <= 0:
             raise ValueError("Empty stake pool")
         return {"rate": Decimal(total) / denominator, "epoch": uint(epoch, 8, default=0),
-                "registration": uint(registration, 8), "encoding": encoding}
+                "registration": uint(registration, 8), "encoding": encoding, "shares": denominator}
+
+
+def sole_operator(point, shares, legacy, owner_epoch):
+    if uint(owner_epoch, 8, default=0) != point["epoch"] or (shares is None and legacy is None):
+        return False
+    owner_share, encoding = share_value(shares, legacy)
+    if encoding != point["encoding"]:
+        raise ValueError("Owner and pool share formats differ")
+    # SafeFloat rounding may put an owner's stored share marginally above D.
+    # Null owner credits can use a direct sole-member credit, including take.
+    # Such growth is not evidence of an ordinary nominator's after-fee return.
+    return owner_share >= point["shares"] * Decimal("0.999999999999999999")
 
 
 def compare_window(points, days, provider):
     selected = points[:days + 1]  # newest first, exactly 7,200 blocks per step
     if len(selected) != days + 1 or any(point is None for point in selected):
         return {"status": "unavailable", "reason": "Complete historical chain state is unavailable."}
+    if any(point.get("soleOperator", False) for point in selected):
+        return {"status": "unavailable", "reason": "Operator-only stake pool inside this window; owner income cannot be presented as ordinary nominator yield."}
     if len({(p["epoch"], p["registration"], p["encoding"]) for p in selected}) != 1:
         return {"status": "unavailable", "reason": "Pool reset, subnet registration or share format changed inside this window."}
     try:
@@ -161,6 +186,7 @@ async def check_payload(payload, endpoint):
                 keys = [TIME_KEY, registration_key]
                 for suffix in suffixes.values():
                     keys.extend("0x" + PREFIXES[name] + suffix for name in ["alpha", "shares", "legacy", "epoch"])
+                    keys.append("0x" + PREFIXES["owner"] + suffix[:-4])
                 values = {}
                 for start in range(0, len(keys), 400):
                     chunk = keys[start:start + 400]
@@ -171,12 +197,34 @@ async def check_payload(payload, endpoint):
                     if len(changes) != len(chunk) or {k for k, _ in changes} != set(chunk):
                         raise ValueError("Incomplete historical response")
                     values.update(changes)
+                owner_keys = {}
+                for hotkey, suffix in suffixes.items():
+                    owner_raw = values["0x" + PREFIXES["owner"] + suffix[:-4]]
+                    if owner_raw is None or len(owner_raw) != 66:
+                        owner_keys[hotkey] = []
+                        continue
+                    owner = bytes.fromhex(owner_raw[2:])
+                    owner_suffix = suffix[:-4] + hashlib.blake2b(owner, digest_size=16).hexdigest() + owner.hex() + suffix[-4:]
+                    owner_keys[hotkey] = ["0x" + PREFIXES[name] + owner_suffix for name in ["owner_shares", "owner_legacy", "owner_epoch"]]
+                keys = [key for group in owner_keys.values() for key in group]
+                for start in range(0, len(keys), 400):
+                    chunk = keys[start:start + 400]
+                    groups = await rpc("state_queryStorageAt", [chunk, block_hash])
+                    if len(groups) != 1 or groups[0].get("block") != block_hash:
+                        raise ValueError("Unpinned owner response")
+                    changes = groups[0]["changes"]
+                    if len(changes) != len(chunk) or {k for k, _ in changes} != set(chunk):
+                        raise ValueError("Incomplete owner response")
+                    values.update(changes)
                 timestamp = datetime.fromtimestamp(uint(values[TIME_KEY], 8) / 1000, timezone.utc).isoformat()
                 if day == 0 and any(abs((datetime.fromisoformat(row["timestamp"].replace("Z", "+00:00")) - datetime.fromisoformat(timestamp)).total_seconds()) > 60 for row in rows):
                     raise ValueError("Provider timestamp does not match its chain block")
                 for hotkey, suffix in suffixes.items():
                     try:
                         point = pool_rate(*(values["0x" + PREFIXES[name] + suffix] for name in ["alpha", "shares", "legacy", "epoch"]), values[registration_key])
+                        if not owner_keys[hotkey]:
+                            raise ValueError("Missing controlling owner")
+                        point["soleOperator"] = sole_operator(point, *(values[key] for key in owner_keys[hotkey]))
                         histories[hotkey].append({**point, "block": block, "timestamp": timestamp})
                     except ValueError:
                         histories[hotkey].append(None)
@@ -188,7 +236,7 @@ async def check_payload(payload, endpoint):
                 for history in histories.values():
                     history.append(None)
         checked = datetime.now(timezone.utc).isoformat()
-        return {"netuid": netuid, "methodVersion": 3, "checkedAt": checked, "source": "configured-node-archive",
+        return {"netuid": netuid, "methodVersion": 4, "checkedAt": checked, "source": "configured-node-archive",
                 "rows": [{"hotkey": row["hotkey"], "providerBlock": end, "providerTimestamp": row["timestamp"],
                           "seven": compare_window(histories[row["hotkey"]], 7, row.get("seven")),
                           "thirty": compare_window(histories[row["hotkey"]], 30, row.get("thirty"))} for row in rows]}
