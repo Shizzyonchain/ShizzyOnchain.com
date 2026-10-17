@@ -19,8 +19,13 @@ export async function prepareSubnetRecommendations(netuid: number) {
   try {
     const snapshot = { ...await loadCandidates(netuid), preparedAt: new Date().toISOString() };
     await cache().set(`snapshot:${netuid}`, snapshot, { ttl: 7200 });
+    await cache().delete(`preparing:${netuid}`);
     return snapshot;
-  } finally { await cache().delete(`preparing:${netuid}`); }
+  } catch (error) {
+    // Polling visitors must not repeatedly hit an already throttled provider.
+    await cache().set(`preparing:${netuid}`, true, { ttl: 60 });
+    throw error;
+  }
 }
 export async function prepareSubnetBatch() {
   const started = Date.now();
@@ -31,13 +36,13 @@ export async function prepareSubnetBatch() {
   }));
   const pending = snapshots.filter(row => !row.snapshot || started - Date.parse(row.snapshot.preparedAt) >= 1800000)
     .sort((a, b) => a.attemptedAt - b.attemptedAt);
-  const prepared: number[] = [], failed: number[] = [];
+  const prepared: number[] = [], failed: number[] = [], inProgress: number[] = [];
   for (const { netuid } of pending.slice(0, 20)) {
     if (Date.now() - started > 220000) break;
-    try { await prepareSubnetRecommendations(netuid); prepared.push(netuid); }
+    try { if (await prepareSubnetRecommendations(netuid)) prepared.push(netuid); else inProgress.push(netuid); }
     catch { failed.push(netuid); }
     // Spread provider calls rather than exhausting the allowance in one burst.
     await new Promise(resolve => setTimeout(resolve, 6000));
   }
-  return { prepared, failed, remaining: pending.length - prepared.length - failed.length, total: netuids.length };
+  return { prepared, failed, inProgress, remaining: pending.length - prepared.length, total: netuids.length };
 }
