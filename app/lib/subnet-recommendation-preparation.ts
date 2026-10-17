@@ -36,6 +36,8 @@ export async function prepareSubnetBatch() {
     if (Date.now() - started > 220000) break;
     try { await prepareSubnetRecommendations(netuid); prepared.push(netuid); }
     catch { failed.push(netuid); }
+    // Spread provider calls rather than exhausting the allowance in one burst.
+    await new Promise(resolve => setTimeout(resolve, 6000));
   }
   return { prepared, failed, remaining: pending.length - prepared.length - failed.length, total: netuids.length };
 }

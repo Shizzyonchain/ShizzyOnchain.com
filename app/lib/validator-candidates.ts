@@ -6,7 +6,7 @@ import type { Candidate } from "./validator-ranking";
 import { getChildHotkeys } from "./standalone-validators";
 
 type Neuron = { hotkey: string; name: string | null; active: boolean; validator_permit: boolean; updated: number; total_alpha_stake: string; dividends: string; timestamp: string };
-type Hyper = { activity_cutoff: number; timestamp: string };
+type Hyper = { netuid: number; activity_cutoff: number; timestamp: string };
 
 async function collection<T>(path: string, filters: Record<string, string>, key: string): Promise<T[]> {
   const rows: T[] = [];
@@ -27,13 +27,15 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
 export const loadCandidates = unstable_cache(async (netuid: number) => {
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) throw new Error("Validator recommendations are not configured for this environment.");
-  const [validators, yields, neurons, hypers, childIndex] = await Promise.all([
+  const [validators, yields, neurons, allHypers, childIndex] = await Promise.all([
     collection<Validator>("/v1/validators", { order_by: "rank", order_dir: "asc" }, key),
     collection<ValidatorYield>("/v1/validators/yield", { netuid: String(netuid), order_by: "stake", order_dir: "desc" }, key),
     collection<Neuron>("/v1/subnets/metagraph", { netuid: String(netuid), validator_permit: "true" }, key),
-    collection<Hyper>("/v1/subnets/hyperparameters", { netuid: String(netuid) }, key),
+    // One shared all-subnet snapshot replaces 128 separate parameter requests.
+    collection<Hyper>("/v1/subnets/hyperparameters", {}, key),
     getChildHotkeys(),
   ]);
+  const hypers = allHypers.filter(row => row.netuid === netuid);
   if (hypers.length !== 1) throw new Error("Subnet activity parameters are unavailable.");
   const fees = new Map(validators.map(v => [v.hotkey, v]));
   const performance = new Map(yields.map(v => [v.hotkey, v]));
