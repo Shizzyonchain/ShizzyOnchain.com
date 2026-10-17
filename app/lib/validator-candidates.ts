@@ -19,7 +19,7 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
     if (!payload) {
     const url = new URL(path, "https://api.taostats.io");
     Object.entries({ ...filters, limit: "200", page: String(page) }).forEach(([name, value]) => url.searchParams.set(name, value));
-    const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 3600 }, signal: AbortSignal.timeout(8_000) });
+    const response = await fetch(url, { headers: { Authorization: key }, cache: "no-store", signal: AbortSignal.timeout(8_000) });
     if (!response.ok) {
       if (response.status === 429) {
         const detail = await response.text();
