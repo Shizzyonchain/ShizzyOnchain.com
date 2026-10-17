@@ -13,6 +13,7 @@ import { mergeFxHistory } from "./lib/merge-fx-history";
 import { compareLiquidation, liquidationExplanation, liquidationPercent } from "./lib/liquidation";
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import { taoHeadsCommunity } from "./lib/community";
+import { SubnetNewsPanel } from "./subnet-news-panel";
 import {
   bubbleTimeframeHasCoverage,
   bubbleTimeframeLabel,
@@ -1817,6 +1818,7 @@ export function Dashboard({
                               </div>
                             )
                           )}
+                          {!showTaoChart && active && <SubnetNewsPanel key={active.netuid} netuid={active.netuid} />}
                         </>
                       )}
                     </div>
