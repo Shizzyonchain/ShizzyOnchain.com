@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const snapshot = await readSubnetRecommendations(netuid);
     if (!snapshot) {
-      after(async () => { try { await prepareSubnetRecommendations(netuid); } catch { console.error("Subnet recommendation preparation failed", netuid); } });
+      after(async () => { try { await prepareSubnetRecommendations(netuid); } catch (error) { console.error("Subnet recommendation preparation failed", netuid, error instanceof Error ? error.message : "Unknown source failure"); } });
       return NextResponse.json({ preparing: true, message: "Preparing this subnet’s recommendations in the background." }, { status: 202, headers: { "Cache-Control": "no-store", "Retry-After": "5" } });
     }
     return NextResponse.json(snapshot, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=60" } });
