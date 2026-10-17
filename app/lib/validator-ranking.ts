@@ -5,6 +5,7 @@ export type Candidate = {
   active: boolean; permit: boolean; updated: number | null; cutoff: number | null;
   stakeShare: number | null; dividends: number | null; registered: string | null;
   timestamps: string[]; yieldBasis: "nominator-net" | "unknown";
+  yieldBlock?: number;
 };
 export type RankedCandidate = Candidate & { score: number | null; reasons: string[]; excluded: string[]; consistency: number | null };
 const weights: Record<RankingMode, number[]> = {

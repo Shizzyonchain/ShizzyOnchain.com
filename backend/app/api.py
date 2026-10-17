@@ -11,6 +11,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Query, WebSocket, W
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.db import close, connect
@@ -56,6 +57,61 @@ async def authorize(x_api_key: str | None = Header(None)):
         return
     if not x_api_key or not any(hmac.compare_digest(x_api_key, key) for key in settings.api_keys):
         raise HTTPException(401, "Missing or invalid API key")
+
+
+class YieldCheckRow(BaseModel):
+    hotkey: str = Field(pattern=r"^[1-9A-HJ-NP-Za-km-z]{48}$")
+    block: int = Field(ge=216000)
+    timestamp: datetime
+    seven: float | None = Field(default=None, allow_inf_nan=False)
+    thirty: float | None = Field(default=None, allow_inf_nan=False)
+
+
+class YieldCheckRequest(BaseModel):
+    netuid: int = Field(ge=1, le=1024)
+    rows: list[YieldCheckRow] = Field(min_length=1, max_length=512)
+    watch: bool = True
+
+
+@app.post("/v1/validators/yield-checks")
+async def queue_yield_check(payload: YieldCheckRequest, x_api_key: str | None = Header(None)):
+    # Queue writes always require the server credential, even with public reads.
+    if not x_api_key or not any(hmac.compare_digest(x_api_key, key) for key in settings.api_keys):
+        raise HTTPException(401, "Missing or invalid API key")
+    now = datetime.now(timezone.utc)
+    if any(row.timestamp.tzinfo is None or not -60 <= (now - row.timestamp).total_seconds() <= 7200 for row in payload.rows):
+        raise HTTPException(400, "Fresh dated yield sources required")
+    if len({row.hotkey for row in payload.rows}) != len(payload.rows) or len({row.block for row in payload.rows}) != 1:
+        raise HTTPException(400, "Unique hotkeys at one provider block required")
+    if payload.watch:
+        await app.state.db.execute("UPDATE validator_yield_checks SET last_viewed_at=now() WHERE netuid=$1", payload.netuid)
+    accepted = await app.state.db.fetchval("""INSERT INTO validator_yield_checks(netuid,payload)
+        VALUES($1,$2::jsonb) ON CONFLICT(netuid) DO UPDATE SET
+        payload=EXCLUDED.payload,state='queued',requested_at=now(),error=NULL
+        WHERE validator_yield_checks.state NOT IN ('queued','running')
+          AND validator_yield_checks.requested_at<now()-interval '1 hour'
+        RETURNING netuid""", payload.netuid, payload.model_dump_json())
+    return {"queued": accepted is not None, "netuid": payload.netuid}
+
+
+@app.get("/v1/validators/yield-checks", dependencies=[Depends(authorize)])
+async def read_yield_check(netuid: int = Query(ge=1, le=1024)):
+    row = await app.state.db.fetchrow("""SELECT state,result,checked_at,error
+        FROM validator_yield_checks WHERE netuid=$1""", netuid)
+    if not row:
+        return {"netuid": netuid, "state": "pending", "rows": []}
+    result = json.loads(row["result"]) if isinstance(row["result"], str) else row["result"]
+    return {"netuid": netuid, "state": row["state"], "result": result,
+            "checkedAt": row["checked_at"], "error": row["error"]}
+
+
+@app.get("/v1/validators/yield-watch", dependencies=[Depends(authorize)])
+async def yield_watch():
+    rows = await app.state.db.fetch("""SELECT netuid FROM validator_yield_checks
+        WHERE state NOT IN ('queued','running') AND last_viewed_at>now()-interval '24 hours'
+          AND requested_at<now()-interval '1 hour'
+        ORDER BY requested_at LIMIT 2""")
+    return {"netuids": [row["netuid"] for row in rows]}
 
 
 @app.get("/livez")

@@ -20,6 +20,9 @@ class Settings(BaseSettings):
         default_factory=lambda: ["wss://archive.chain.opentensor.ai:443"]
     )
     backfill_ws_url: str = "wss://archive.chain.opentensor.ai:443"
+    # Optional private archive node for independent validator reward checks.
+    # Defaults to the already configured history node, never the request path.
+    validator_yield_ws_url: str = ""
     backfill_price_gaps: bool = True
     backfill_sample_blocks: int = 5
     backfill_concurrency: int = 4

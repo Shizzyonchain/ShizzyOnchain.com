@@ -1,0 +1,47 @@
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import type { Candidate } from "../lib/validator-ranking";
+import { currentYieldCheck, type YieldChecks, type YieldWindow } from "../lib/validator-yield-check";
+import { shortAddress } from "../lib/validator-types";
+import { ValidatorTableScroll } from "./validator-table-scroll";
+import styles from "./validators.module.css";
+
+const percent = (n: number | undefined) => n === undefined || !Number.isFinite(n) ? "—" : `${(n * 100).toFixed(2)}%`;
+function WindowCheck({ value }: { value?: YieldWindow }) {
+  if (!value) return <>Pending current snapshot</>;
+  if (value.status === "unavailable") return <>{value.reason || "Not independently checked"}</>;
+  return <><strong>{value.status === "consistent" ? "Within tolerance" : "Review difference"}</strong><p>Node APY {percent(value.chainApy)} · provider {percent(value.providerApy)}<br />Observed reward growth {percent(value.observedReturn)}</p><details><summary>Measurement details</summary><p>Blocks {value.startBlock}–{value.endBlock}<br />{value.start}–{value.end}<br />APY difference {percent(value.difference)} · tolerance ±{percent(value.tolerance)}</p></details></>;
+}
+export function ValidatorYieldChecks({ netuid, candidates, now }: { netuid: number; candidates: Candidate[]; now: number }) {
+  const [checks, setChecks] = useState<YieldChecks | null>(null);
+  const [queueFailed, setQueueFailed] = useState(false);
+  useEffect(() => {
+    const controller = new AbortController();
+    const url = `/api/validators/yield-checks?netuid=${netuid}`;
+    let timer: number | undefined;
+    let attempts = 0;
+    async function read() {
+      try {
+        const response = await fetch(url, { signal: controller.signal });
+        if (!response.ok) throw new Error("Unavailable");
+        const payload = await response.json();
+        if (!controller.signal.aborted) setChecks(payload);
+      } catch {
+        if (!controller.signal.aborted) setChecks({ netuid, state: "unavailable" });
+      }
+      if (!controller.signal.aborted && ++attempts < 7) timer = window.setTimeout(read, 30000);
+    }
+    void read();
+    // Recommendations render first. This only queues work; the separate worker reads the node.
+    void fetch(url, { method: "POST", signal: controller.signal }).then(response => {
+      if (!controller.signal.aborted && !response.ok) setQueueFailed(true);
+    }).catch(() => { if (!controller.signal.aborted) setQueueFailed(true); });
+    return () => { controller.abort(); window.clearTimeout(timer); };
+  }, [netuid]);
+  const byHotkey = new Map((checks?.state === "ready" ? checks.result?.rows || [] : []).map(row => [row.hotkey, row]));
+  const rows = candidates.map(row => ({ row, check: currentYieldCheck(byHotkey.get(row.hotkey), row.yieldBlock, row.timestamps[0], now) }));
+  const comparable = rows.filter(({ check }) => check && check.seven.status !== "unavailable" && check.thirty.status !== "unavailable");
+  const review = comparable.filter(({ check }) => check!.seven.status === "review" || check!.thirty.status === "review").length;
+  return <section className={styles.yieldChecks} aria-label="Background yield checks"><h3>Background yield checks</h3><p role="status">{comparable.length ? `${comparable.length - review} within tolerance · ${review} need review · ${rows.length - comparable.length} not fully checked.` : checks?.state === "ready" ? "Check completed; full comparable history is unavailable for these validators. Review the details below." : checks?.state === "unavailable" || queueFailed ? "Independent chain checks are currently unavailable. Yields remain provider-reported." : "The node check runs separately. Recommendations are ready to use while it checks historical rewards."}</p><p className={styles.source}>We compare alpha per stake share at the provider’s finalized block and 7,200-block daily checkpoints over 7 and 30 Bittensor days. Fees are already reflected; deposits buy shares rather than counting as earnings. Token-price changes are excluded. Within tolerance means APY differs by no more than 2 percentage points or 10% of provider APY, whichever is larger. Different averaging methods can cause differences; this is a cross-check, not a certification. Scores still use provider yields.</p>{checks?.result?.checkedAt && <p className={styles.source}>Last completed check: {checks.result.checkedAt}. Only checks matching the current yield snapshot are shown as current.</p>}<details><summary>View validator checks</summary><ValidatorTableScroll label="Independent validator yield checks"><table className={`${styles.table} ${styles.pinFirst}`}><thead><tr><th scope="col">Validator</th><th scope="col">7-day node check</th><th scope="col">30-day node check</th></tr></thead><tbody>{rows.map(({ row, check }) => <tr key={row.hotkey}><td><Link href={`/validators/${row.hotkey}`} prefetch={false}>{row.name === row.hotkey ? shortAddress(row.hotkey) : row.name}</Link></td><td><WindowCheck value={check?.seven} /></td><td><WindowCheck value={check?.thirty} /></td></tr>)}</tbody></table></ValidatorTableScroll></details></section>;
+}

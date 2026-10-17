@@ -212,3 +212,29 @@ deregistration, not ordinary sale proceeds.
 Calculation and ingestion checks: `python -m pytest tests/test_liquidation.py`.
 Frontend formatting and sorting: `node --test --experimental-strip-types tests/liquidation.test.mjs`
 from the repository root.
+
+## Independent validator yield checks
+
+The indexer runs a separate, bounded queue consumer (`app.validator_yield`). Visitor
+requests only enqueue a dated provider snapshot and read stored JSON; they never
+read historical chain state. Vercel refreshes up to two recently viewed subnets
+per 15-minute tick, with at most one queued/running job and one preparation per
+hour per subnet. Watching stops 24 hours after the last visitor request.
+
+Set `VALIDATOR_YIELD_WS_URL` to a private archive node if available. Otherwise the
+collector uses the existing `BACKFILL_WS_URL`. The live node may prune old state;
+a full archive is required for immediate 7/30-day checks. RPC URLs stay private.
+The collector pins the provider's finalized end block and reads alpha/share
+state at 31 daily checkpoints spaced 7,200 blocks apart. It does not scan wallets
+or transactions. Results are stored in one bounded row per subnet in Postgres,
+so deployments do not discard them and reads need no chain connection.
+
+This measures compounded alpha-per-share growth, already net of share dilution
+from operator fees. Deposits/withdrawals change ownership shares. Token prices
+are excluded. Missing state, empty pools, pool generations, subnet registration
+changes and share-format migrations fail closed. Daily checkpoints cannot prove
+the absence of every intraday anomaly; this is a consistency check, not an audit
+or certification. Comparison tolerance is max(2 percentage points, 10% of the
+provider APY). Provider averaging can differ from geometric share growth; a
+mismatch means review, not proven incorrect yield. Recommendation scores are
+unchanged. The UI only labels an exact fresh provider block/time as current.
