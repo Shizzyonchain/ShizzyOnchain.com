@@ -1,0 +1,4 @@
+.tile.tile.tile.tile{flex-direction:column;align-items:stretch;justify-content:center;gap:7px}
+.periods{display:flex;gap:4px}
+.periods button{min-width:40px;min-height:28px;padding:3px 8px;border:1px solid #444;background:#111;color:#aaa;font:700 10px var(--font-mono);cursor:pointer;border-radius:3px}
+.periods button[aria-pressed="true"]{background:#fff;border-color:#fff;color:#000}

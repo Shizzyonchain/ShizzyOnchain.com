@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { taoSentiment, sentimentLabel, type SentimentRow } from "./lib/tao-sentiment";
+import styles from "./sentiment-tile.module.css";
 
 export function SentimentTile({ rows, state }: { rows: SentimentRow[]; state: "loading" | "live" | "stale" | "error" }) {
   const [period, setPeriod] = useState<"1h" | "24h">("24h");
@@ -11,8 +12,8 @@ export function SentimentTile({ rows, state }: { rows: SentimentRow[]; state: "l
   const score = state === "live" ? reading?.score : undefined;
   const label = score === undefined ? state === "stale" ? "Data delayed" : state === "loading" ? "Calculating…" : "Unavailable" : sentimentLabel(score);
   const tone = score === undefined ? "unavailable" : score < 45 ? "fear" : score > 55 ? "greed" : "neutral";
-  return <div className={`sentiment-tile ${tone}`}>
-    <div className="sentiment-periods" role="group" aria-label="Fear and Greed period">
+  return <div className={`sentiment-tile ${tone} ${styles.tile}`}>
+    <div className={styles.periods} role="group" aria-label="Fear and Greed period">
       {(["1h", "24h"] as const).map(value => <button key={value} type="button" aria-pressed={period === value} onClick={() => setPeriod(value)}>{value.toUpperCase()}</button>)}
     </div>
     <button type="button" className="sentiment-trigger" onClick={() => dialog.current?.showModal()} aria-haspopup="dialog" aria-label={`TAO Fear & Greed, ${period}: ${score === undefined ? label : `${score} out of 100, ${label}`}. How this is calculated`}>
