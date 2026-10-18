@@ -815,15 +815,17 @@ function loadChartHistory(netuid: number | "tao", timeframe: string) {
   if (cached?.data.length && Date.now() - cached.savedAt < 30_000) return Promise.resolve(cached);
   const pending = candleRequests.get(key);
   if (pending) return pending;
-  const url = netuid === "tao" ? `/api/tao-chart?interval=${timeframe}` : `/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`;
+  const nodeUrl = `/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`;
+  const url = netuid === "tao" ? `/api/tao-chart?interval=${timeframe}` : netuid === 51 ? `/api/subnet-chart?netuid=51&interval=${timeframe}` : nodeUrl;
   const fetchWithRetry = async () => {
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 28_000);
     try {
-      const response = await fetch(url, {
+      let response = await fetch(url, {
         cache: "no-store",
         signal: controller.signal,
       });
+      if (!response.ok && netuid === 51) response = await fetch(nodeUrl, { cache: "no-store", signal: controller.signal });
       if (!response.ok) throw new Error(`Chart request failed: ${response.status}`);
       return await response.json();
     } finally {
@@ -995,7 +997,7 @@ export function Dashboard({
   const [activityFilter, setActivityFilter] = useState<"all" | "locks" | "keys">("all");
   const chartTarget = rawRows.find(row => row.netuid === selected);
   const targetHasMetadata = Boolean(chartTarget && (chartTarget.description || chartTarget.website || chartTarget.github_repo || chartTarget.discord || chartTarget.contact || chartTarget.additional));
-  const chartVisible = view === "screener" && marketDetailOpen && (showTaoChart || !targetHasMetadata || subnetPanel === "chart");
+  const chartVisible = view === "screener" && marketDetailOpen && (showTaoChart || selected === 51 || !targetHasMetadata || subnetPanel === "chart");
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
@@ -1275,6 +1277,7 @@ export function Dashboard({
     return !showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base;
   }, [chartCandles, chartData.rates, showTaoChart, currency]);
   const chartNote = showTaoChart ? "Coinbase TAO/USD candles · Volume in TAO"
+    : chartData.method === "taostats-alpha" ? `TaoStats candles${currency === "usd" ? " · USD candles use historical TAO/USD rates; high/low are estimates" : " · Alpha/TAO"}`
     : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`;
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = rows.filter(row => row.change_1h != null).sort((a, b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
@@ -1766,7 +1769,7 @@ export function Dashboard({
                               <span className={changeClass(active?.change_24h)}>{active?.change_24h == null || showTaoChart ? "" : `${Number(active.change_24h) > 0 ? "+" : ""}${fmt(active.change_24h)}% · 24 Hours`}</span>
                             </div>
                           </div>
-                          {!showTaoChart && hasActiveMetadata && (
+                          {!showTaoChart && selected !== 51 && hasActiveMetadata && (
                             <div className="subnet-view-tabs" role="tablist" aria-label="Subnet details">
                               <button role="tab" aria-selected={subnetPanel === "overview"} className={subnetPanel === "overview" ? "active" : ""} onClick={() => setSubnetPanel("overview")}>
                                 Overview
@@ -1776,9 +1779,9 @@ export function Dashboard({
                               </button>
                             </div>
                           )}
-                          {showTaoChart || !hasActiveMetadata || subnetPanel === "chart" ? (
+                          {(showTaoChart || selected === 51 || !hasActiveMetadata || subnetPanel === "chart") && (
                             <>
-                              <TradingChart key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
+                              <TradingChart volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
                               {chartRangeChange != null && <p className="chart-range-return">Available history <strong className={chartRangeChange >= 0 ? "positive" : "negative"}>{chartRangeChange > 0 ? "+" : ""}{chartRangeChange.toFixed(2)}%</strong> · {chartCurrency.toUpperCase()}</p>}
                               {showTaoChart ? (
                                 <div className="chart-stats">
@@ -1806,9 +1809,9 @@ export function Dashboard({
                                 </div>
                               )}
                             </>
-                          ) : (
-                            active && (
-                              <div className="subnet-overview" role="tabpanel">
+                          )}
+                          {!showTaoChart && active && hasActiveMetadata && (selected === 51 || subnetPanel === "overview") && (
+                              <div className="subnet-overview">
                                 <div className="subnet-description">
                                   <p className="eyebrow">Owner-submitted on-chain metadata</p>
                                   <h2>What this subnet does</h2>
@@ -1858,7 +1861,6 @@ export function Dashboard({
                                   )}
                                 </div>
                               </div>
-                            )
                           )}
                           {!showTaoChart && active && <SubnetNewsPanel key={active.netuid} netuid={active.netuid} />}
                         </>

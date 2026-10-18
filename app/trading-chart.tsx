@@ -17,9 +17,10 @@ type ChartSeries = {
 };
 
 export default function TradingChart({ appearance = "monochrome", bars, currency, timeframe, loading = false,
-  error = false, note, onTimeframeChange, onRetry }: {
+  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO" }: {
   appearance?: "blue" | "monochrome"; bars: PriceBar[]; currency: "usd" | "tao"; timeframe: string;
   loading?: boolean; error?: boolean; note: string; onTimeframeChange: (timeframe: string) => void; onRetry: () => void;
+  volumeUnit?: "TAO" | "alpha";
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -168,7 +169,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     <div className="chart-legend">
       {ma && bars.length >= 20 && <span><i className="ma-line" />MA 20</span>}{ema && <span><i className="ema-line" />EMA 20</span>}
       {boll && bars.length >= 20 && <span><i className="boll-line" />Bollinger 20 / 2</span>}
-      {volume && <span>Volume in TAO</span>}
+      {volume && <span>Volume in {volumeUnit}</span>}
       <small>Drag to pan · Pinch or scroll to zoom</small>
     </div>
     {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
