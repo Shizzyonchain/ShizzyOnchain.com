@@ -39,7 +39,7 @@ export function SentimentTile({ rows, state }: { rows: SentimentRow[]; state: "l
         <p>0–24 Extreme fear · 25–44 Fear · 45–55 Neutral · 56–75 Greed · 76–100 Extreme greed.</p>
         <p>Requires all four inputs for at least 80% of the roster (minimum 32 subnets). Rows more than three minutes behind the newest snapshot are excluded. No current score is shown while the feed is delayed or unavailable.</p>
       </details>
-      <div className={styles.footer}><span>{reading ? `${reading.count} of ${reading.total} subnets · complete inputs` : "Waiting for sufficient data"}</span><span>{reading ? `Snapshot ${new Date(reading.updatedAt).toISOString().replace("T", " ").replace(".000Z", " UTC")}` : "No reliable snapshot available"}</span></div>
+      <div className={styles.footer}><span>{reading ? `${reading.count} of ${reading.total} subnets · complete inputs` : "Waiting for sufficient data"}</span><span>{reading ? `Snapshot ${new Date(reading.updatedAt).toISOString().replace("T", " ").replace(/\.\d{3}Z$/, " UTC")}` : "No reliable snapshot available"}</span></div>
       <p className={styles.disclaimer}>Our experimental indicator, not a survey of emotions or an official index. Not a trading recommendation.</p>
     </dialog>
   </div>;
