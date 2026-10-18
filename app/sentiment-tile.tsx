@@ -5,7 +5,7 @@ import { taoSentiment, sentimentLabel, type SentimentRow } from "./lib/tao-senti
 import styles from "./sentiment-tile.module.css";
 
 export function SentimentTile({ rows, state }: { rows: SentimentRow[]; state: "loading" | "live" | "stale" | "error" }) {
-  const [period, setPeriod] = useState<"1h" | "24h">("24h");
+  const [period, setPeriod] = useState<"1h" | "24h">("1h");
   const readings = useMemo(() => ({ "1h": taoSentiment(rows, "1h"), "24h": taoSentiment(rows, "24h") }), [rows]);
   const reading = readings[period];
   const dialog = useRef<HTMLDialogElement>(null);
