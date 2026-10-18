@@ -218,6 +218,12 @@ const channelVideos: ChannelVideo[] = [
   },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
+    id: "3i9F3_Ku8Fo",
+    title: "Bittensor’s Next Big Robotics Breakthrough? | Attune SN58",
+    meta: "Upcoming livestream · October 21, 2026 · 12:00 PM ET / 9:00 AM PT",
+    upcoming: true,
+  },
+  {
     id: "rEaGFK5yn8g",
     title: "Quantum Computing Is Already on Bittensor?! | SN48 Quantum Compute",
     meta: "59:18 · Livestream replay · October 14, 2026",
