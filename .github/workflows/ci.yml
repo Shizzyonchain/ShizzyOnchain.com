@@ -27,6 +27,7 @@ jobs:
       - run: npm run lint
       - run: npm run test:charts
       - run: node --test --experimental-strip-types tests/market-snapshot.test.mjs
+      - run: node --test --experimental-strip-types tests/tao-sentiment.test.mjs
       - run: npm run build
 
   backend:

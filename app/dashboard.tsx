@@ -14,6 +14,7 @@ import { compareLiquidation, liquidationExplanation, liquidationPercent } from "
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import { taoHeadsCommunity } from "./lib/community";
 import { SubnetNewsPanel } from "./subnet-news-panel";
+import { SentimentTile } from "./sentiment-tile";
 import { latestSnapshotTime, snapshotIsFresh, persistMarketSnapshot, MARKET_SNAPSHOT_CACHE_MAX_AGE_MS } from "./lib/market-snapshot";
 import {
   bubbleTimeframeHasCoverage,
@@ -1624,11 +1625,7 @@ export function Dashboard({
                 <strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong>
                 <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small>
               </div>
-              <div>
-                <span>Network</span>
-                <strong>FINNEY</strong>
-                <small>Finalized blocks only</small>
-              </div>
+              <SentimentTile rows={rawRows} state={dataState} />
             </section>
             <a className="shop-card" href="https://shizzyunchained.printful.me/" target="_blank" rel="noreferrer" aria-label="Shop Shizzy Unchained merchandise">
               <Image src="/shop-hat.webp" alt="Black TAO hat" width={256} height={256} sizes="(max-width: 1100px) 64px, 80px" />
