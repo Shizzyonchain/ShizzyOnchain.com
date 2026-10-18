@@ -940,6 +940,19 @@ export function Dashboard({
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
   const chartCardRef = useRef<HTMLDivElement>(null);
+  const pulseDialog = useRef<HTMLDialogElement>(null);
+  const [pulseHelp, setPulseHelp] = useState("Momentum");
+  const pulseExplanations: Record<string, string> = {
+    "Markets rising": "The percentage of subnets with a positive price change over the rolling last hour, among those that rose or fell. Unchanged and missing returns are excluded. USD mode uses dollar returns; TAO mode uses alpha/TAO returns. This measures market breadth, not how large the gains were.",
+    "Momentum": "The subnet with the highest available price return over the rolling last hour. USD mode compares dollar returns; TAO mode compares alpha/TAO returns. The leader can change when you switch currencies. If every subnet is down, the leader can still have a negative return. This is a price ranking, not a recommendation.",
+    "Liquidity flow": "The estimated net change in TAO reserves across subnet pools over the rolling last hour. Each available reserve change is reconstructed from the current TAO reserve and its hourly percentage change, then summed. Green means net reserves increased; red means they decreased. USD mode converts the TAO amount at the current reference price. This is not trading volume or a direct measure of money entering Bittensor; missing reserve history is excluded, and a dash means zero or unavailable.",
+    "Emission": "The subnet with the largest available increase in its share of network emissions over the rolling last hour. The change is shown in percentage points: moving from 2% to 2.1% is +0.1 points. If all available changes are negative, the leader has the smallest decline. This is an hourly emission-share change, not yield or price performance, and it does not change with the USD/TAO switch.",
+    "Volume pulse": "Trading activity in the latest rolling hour compared with the preceding hour, measured in TAO. 1× means equal activity, 2× means twice as much, and 0.5× means half as much. The total uses subnets with positive volume and a valid comparison; missing comparisons are excluded. Green means at least 1×; red means below 1×. More activity does not necessarily mean buying or rising prices. A dash means no usable comparison. Switching USD/TAO does not change this ratio.",
+  };
+  function openPulseHelp(title: string) {
+    setPulseHelp(title);
+    pulseDialog.current?.showModal();
+  }
   const marketModalCloseRef = useRef<HTMLButtonElement>(null);
   const bubbleCloudRef = useRef<HTMLElement>(null);
   const bubbleDragRef = useRef<{
@@ -1645,10 +1658,7 @@ export function Dashboard({
               <small>1 Hour</small>
             </div>
             <button
-              onClick={() => {
-                setSort("change_1h");
-                setSortDirection("desc");
-              }}
+              aria-haspopup="dialog" onClick={() => openPulseHelp("Markets rising")}
             >
               <span>Markets rising</span>
               <strong className={marketsRisingPercent >= 50 ? "positive" : "negative"}>{directionalMarkets ? `${Math.round(marketsRisingPercent)}%` : "—"}</strong>
@@ -1656,42 +1666,38 @@ export function Dashboard({
                 {advancingMarkets} rising · {decliningMarkets} falling
               </small>
             </button>
-            <button onClick={() => rankedMovers[0] && openSubnetChart(rankedMovers[0].netuid)}>
+            <button aria-haspopup="dialog" onClick={() => openPulseHelp("Momentum")}>
               <span>Momentum</span>
               <strong>{rankedMovers[0]?.name || "—"}</strong>
               <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) >= 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% leader` : "Collecting"}</small>
             </button>
             <button
-              onClick={() => {
-                setSort("liquidity_change_1h");
-                setSortDirection("desc");
-              }}
+              aria-haspopup="dialog" onClick={() => openPulseHelp("Liquidity flow")}
             >
               <span>Liquidity flow</span>
               <strong className={liquidityFlowTao > 0 ? "positive" : liquidityFlowTao < 0 ? "negative" : ""}>{liquidityFlowTao === 0 ? "—" : `${liquidityFlowTao > 0 ? "+" : "−"}${money(Math.abs(liquidityFlowTao))}`}</strong>
               <small>Net TAO reserve</small>
             </button>
             <button
-              onClick={() => {
-                setSort("emission_change_1h");
-                setSortDirection("desc");
-              }}
+              aria-haspopup="dialog" onClick={() => openPulseHelp("Emission")}
             >
               <span>Emission</span>
               <strong>{emissionLeader?.name || "—"}</strong>
               <small className={changeClass(emissionLeader?.emission_change_1h)}>{emissionLeader ? `${Number(emissionLeader.emission_change_1h || 0) >= 0 ? "+" : ""}${fmt(emissionLeader.emission_change_1h, 4)} pts` : "Collecting"}</small>
             </button>
             <button
-              onClick={() => {
-                setSort("volume_1h_tao");
-                setSortDirection("desc");
-              }}
+              aria-haspopup="dialog" onClick={() => openPulseHelp("Volume pulse")}
             >
               <span>Volume pulse</span>
               <strong className={volumePulse >= 1 ? "positive" : volumePulse > 0 ? "negative" : ""}>{volumePulse ? `${fmt(volumePulse, 2)}×` : "—"}</strong>
               <small>vs previous hour</small>
             </button>
           </section>
+          <dialog ref={pulseDialog} className="sentiment-dialog" aria-labelledby="pulse-help-heading" onClick={event => { if (event.target === event.currentTarget) pulseDialog.current?.close(); }}>
+            <div className="sentiment-dialog-head"><h2 id="pulse-help-heading">{pulseHelp}</h2><button type="button" aria-label="Close network pulse explanation" onClick={() => pulseDialog.current?.close()}>✕</button></div>
+            <p>{pulseExplanations[pulseHelp]}</p>
+            <p>Uses the existing market snapshot. If the feed is delayed, these figures may be stale; no extra data request is made when you open this explanation.</p>
+          </dialog>
           <div className="home-promo-row">
             <Link className="insiders-home-cta tao-heads-home-cta" href={taoHeadsCommunity.path} aria-label={`Explore ${taoHeadsCommunity.name}`}>
               <Image
