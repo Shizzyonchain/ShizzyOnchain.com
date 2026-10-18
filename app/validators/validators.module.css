@@ -27,3 +27,37 @@
 .yieldChecks{border:1px solid #444;background:#080808;margin:24px 0;padding:20px}.yieldChecks>h3{margin-top:0}.yieldChecks p{overflow-wrap:anywhere}.yieldChecks td{min-width:240px;white-space:normal;vertical-align:top}.yieldChecks summary{cursor:pointer;min-height:44px;display:flex;align-items:center}@media(max-width:760px){.yieldChecks{padding:12px}}
 
 .recommendationLoading{display:flex;align-items:flex-start;gap:14px;padding:20px;margin:20px 0;border:1px solid #555;background:#111;color:#fff}.recommendationLoading strong{font:700 14px/1.6 var(--font-mono)}.recommendationLoading p{margin:6px 0 0;color:#ccc;line-height:1.6}.loadingSpinner{flex:none;width:20px;height:20px;margin-top:2px;border:2px solid #555;border-top-color:#fff;border-radius:50%;animation:recommendationSpin 1s linear infinite}@keyframes recommendationSpin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.loadingSpinner{animation:none}}
+.mobileOnly,.mobileMatchFacts,.page .mobileMore{display:none}
+.directoryHeading{font:800 25px var(--font);margin:38px 0 12px}
+.cardDetails summary,.evidenceDetails summary{cursor:pointer;min-height:44px;align-content:center;font-weight:700;color:#fff}
+.evidenceDetails{border:1px solid #444;padding:12px 18px;margin:18px 0;background:#111}
+@media(max-width:760px){
+ .page{padding:20px 16px 40px;overflow-wrap:anywhere}
+ .hero{padding:0 0 18px}.hero h1{font-size:38px;margin:12px 0}.hero>p:not(.eyebrow){font-size:14px;line-height:1.5;margin-bottom:0}.tags{display:none}
+ .viewNav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}.viewNav a,.viewNav span{font-size:11px;padding:12px;min-width:0;line-height:1.5}
+ .finder{padding:16px;margin:18px 0 28px}.finder h2{font-size:24px;line-height:1.2}.finder>p{font-size:13px}.finder .controls{padding-top:16px}
+ .controls{gap:12px;padding:16px 0}.controls button{width:100%}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}.tabs button{font-size:11px;line-height:1.4;min-width:0}
+ .stats{grid-template-columns:1fr 1fr;margin-bottom:18px}.stats>div{padding:14px;gap:6px;min-width:0}.stats>div:first-child{border-right:1px solid #333}.stats>div:last-child{grid-column:1/-1}.stats strong{font-size:23px}.stats small{font-size:11px}.stats strong.date{font-size:12px}
+ .mobileOnly{display:block;font-size:13px;line-height:1.6;color:#bbb}.mobileMatchFacts{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid #333;border-bottom:1px solid #333;padding:14px 0;margin:16px 0}.mobileMatchFacts dt{font:10px var(--font-mono);color:#aaa;margin-bottom:8px}.mobileMatchFacts dd{margin:0;font:700 15px/1.6 var(--font-mono)}.mobileMatchFacts small{display:block;font-size:10px}
+ .matches{gap:12px;margin:16px 0}.match{padding:16px}.match h3{font-size:21px;margin:12px 0}.match>strong{font-size:23px}.match>ul{font-size:11px}.match>a:last-child{display:block;padding:12px 0;min-height:44px}.rootExplanation{margin-top:14px}.rootExplanation p{font-size:11px}
+ .notice{padding:14px;font-size:13px;line-height:1.6}.evidenceDetails{padding:10px 14px}.source{font-size:10px;line-height:1.6}.guide{margin-top:28px}.guide article{padding:16px}.guide p{font-size:13px;line-height:1.6}
+ /* Reflow the same records into cards; no duplicate list or mobile API request. */
+ .tableWrap:has(.directoryCards,.finderCards,.rootRankingCards){border:0;overflow:visible}
+ .scrollPair:has(.directoryCards,.finderCards,.rootRankingCards) .tableScrollTop{display:none}
+ .columnHelp:has(+.scrollPair .directoryCards),.columnHelp:has(+.scrollPair .finderCards),.columnHelp:has(+.scrollPair .rootRankingCards){display:none}
+ .table.directoryCards,.finder .table.finderCards,.table.rootRankingCards{display:block;min-width:0;width:100%;background:none}
+ .directoryCards thead,.finderCards thead,.rootRankingCards thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+ .directoryCards tbody,.finderCards tbody,.rootRankingCards tbody{display:grid;gap:12px}
+ .directoryCards tbody tr,.finderCards tbody tr,.rootRankingCards tbody tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px;padding:16px;border:1px solid #444;background:#0a0a0a}
+ .directoryCards tbody tr.mobileExtra{display:none}.page .mobileMore{display:block;width:100%;margin-top:16px}
+ .page .directoryCards td,.page .finderCards td,.page .rootRankingCards td{display:block!important;position:static;min-width:0;max-width:none;width:auto;box-shadow:none;background:transparent!important;white-space:normal;text-align:left;padding:12px 0;border:0;font-size:13px;overflow-wrap:anywhere}
+ .directoryCards td::before,.finderCards td::before,.rootRankingCards td::before{content:attr(data-label);display:block;color:#aaa;font:10px/1.5 var(--font-mono);margin-bottom:6px;text-transform:uppercase}
+ .page .directoryCards td:nth-child(2),.page .finderCards td:first-child,.page .rootRankingCards td:first-child{grid-column:1/-1;padding:0 0 14px;border-bottom:1px solid #333;margin-bottom:2px}
+ .page .directoryCards td:nth-child(2),.page .finderCards td:first-child,.page .rootRankingCards td:first-child{position:static!important;width:100%!important;min-width:0!important;max-width:none!important;border-right:0!important;box-shadow:none!important}
+ .directoryCards td:nth-child(2)::before,.finderCards td:first-child::before,.rootRankingCards td:first-child::before{display:none}
+ .directoryCards td:nth-child(2) a,.finderCards td:first-child a,.rootRankingCards td:first-child a{font:700 17px/1.4 var(--font)}
+ .page .directoryCards td:nth-child(1),.page .directoryCards td:nth-child(5),.page .directoryCards td:nth-child(6),.page .directoryCards td:nth-child(7),.page .directoryCards td:nth-child(8){display:none!important}
+ .page .finderCards td:nth-child(2),.page .finderCards td:nth-child(7),.page .finderCards td:nth-child(9),.page .rootRankingCards td:nth-child(6),.page .rootRankingCards td:nth-child(7),.page .rootRankingCards td:nth-child(8){display:none!important}
+ .page .finderCards td:last-child,.page .rootRankingCards td:last-child{grid-column:1/-1;border-top:1px solid #333;margin-top:6px;padding-bottom:0}
+ .finderCards td:last-child details,.rootRankingCards td:last-child details{min-width:0;max-width:100%}.finderCards summary,.rootRankingCards summary{min-height:44px;align-content:center}
+}
