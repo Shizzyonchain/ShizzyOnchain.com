@@ -218,6 +218,11 @@ const channelVideos: ChannelVideo[] = [
   },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
+    id: "rEaGFK5yn8g",
+    title: "Quantum Computing Is Already on Bittensor?! | SN48 Quantum Compute",
+    meta: "59:18 · Livestream replay · October 14, 2026",
+  },
+  {
     id: "OWQoSVN3M9s",
     title: "Can AI Predict the Future? Inside Bittensor’s Cascade SN91",
     meta: "54:15 · Livestream replay · October 7, 2026",
@@ -274,6 +279,12 @@ const channelVideos: ChannelVideo[] = [
     meta: "20:56 · September 14, 2026",
   },
   latestMemberVideo,
+  {
+    id: "e5MbgqtTh5E",
+    title: "10/13/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "12:22 · Members-only video · October 13, 2026",
+    membersOnly: true,
+  },
   {
     id: "VoXAV91L9RU",
     title: "10/11/26 Bittensor News Updates & TAO Price Action | Members Video",
