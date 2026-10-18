@@ -10,13 +10,13 @@ export function SentimentTile({ rows, state }: { rows: SentimentRow[]; state: "l
   const label = score === undefined ? state === "stale" ? "Data delayed" : state === "loading" ? "Calculating…" : "Unavailable" : sentimentLabel(score);
   const tone = score === undefined ? "unavailable" : score < 45 ? "fear" : score > 55 ? "greed" : "neutral";
   return <div className={`sentiment-tile ${tone}`}>
-    <button type="button" className="sentiment-trigger" onClick={() => dialog.current?.showModal()} aria-haspopup="dialog" aria-label={`TAO Sentiment: ${score === undefined ? label : `${score} out of 100, ${label}`}. How this is calculated`}>
-      <span className="sentiment-caption">TAO sentiment <span aria-hidden="true">ⓘ</span></span>
+    <button type="button" className="sentiment-trigger" onClick={() => dialog.current?.showModal()} aria-haspopup="dialog" aria-label={`TAO Fear & Greed: ${score === undefined ? label : `${score} out of 100, ${label}`}. How this is calculated`}>
+      <span className="sentiment-caption">TAO Fear &amp; Greed <span aria-hidden="true">ⓘ</span></span>
       <span className="sentiment-reading"><strong>{score ?? "—"}<span className="sentiment-denominator">/100</span></strong><span className="sentiment-label">{label}</span></span>
-      <span className="sentiment-track" aria-hidden="true">{score !== undefined && <span style={{ width: `${score}%` }} />}</span>
+      <span className="sentiment-track" aria-hidden="true">{score !== undefined && <span style={{ left: `${score}%` }} />}</span>
     </button>
     <dialog ref={dialog} className="sentiment-dialog" aria-labelledby="sentiment-heading" onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
-      <div className="sentiment-dialog-head"><h2 id="sentiment-heading">TAO Market Sentiment</h2><button type="button" onClick={() => dialog.current?.close()} aria-label="Close sentiment explanation">✕</button></div>
+      <div className="sentiment-dialog-head"><h2 id="sentiment-heading">TAO Fear &amp; Greed</h2><button type="button" onClick={() => dialog.current?.close()} aria-label="Close sentiment explanation">✕</button></div>
       <p>Our experimental 0–100 market-conditions indicator. It is not a survey of emotions, an official fear-and-greed index, or a trading recommendation.</p>
       <p>Uses the last hour of subnet alpha/TAO data, so switching USD/TAO does not change this reading. Updated with the existing market feed; no extra data requests.</p>
       <ul><li><b>35% breadth:</b> share of subnets rising; unchanged counts half.</li><li><b>25% momentum:</b> median hourly return; −5% to +5% maps to 0–100.</li><li><b>25% liquidity:</b> median hourly TAO-reserve change, using the same −5% to +5% scale.</li><li><b>15% directional volume:</b> above-normal activity reinforces the observed price direction; quiet trading stays neutral.</li></ul>
