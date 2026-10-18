@@ -6,6 +6,10 @@ export type SentimentRow = {
   liquidity_change_1h?: NumberLike;
   volume_1h_tao?: NumberLike;
   volume_acceleration_1h?: NumberLike;
+  change_24h?: NumberLike;
+  liquidity_change_24h?: NumberLike;
+  volume_24h_tao?: NumberLike;
+  volume_acceleration_24h?: NumberLike;
 };
 const numeric = (value: NumberLike | undefined) => value !== null && value !== undefined && value !== "" && Number.isFinite(Number(value));
 const clamp = (value: number) => Math.max(0, Math.min(100, value));
@@ -19,8 +23,11 @@ export function sentimentLabel(score: number) {
 
 // A transparent heuristic, not a surveyed emotion index or calibrated forecast.
 // Raw alpha/TAO data keeps the reading independent of the display currency.
-export function taoSentiment(rows: SentimentRow[]) {
-  const roster = rows.filter(row => row.netuid > 0);
+export function taoSentiment(rows: SentimentRow[], period: "1h" | "24h" = "1h") {
+  const roster = rows.filter(row => row.netuid > 0).map(row => period === "1h" ? row : ({
+    ...row, change_1h: row.change_24h, liquidity_change_1h: row.liquidity_change_24h,
+    volume_1h_tao: row.volume_24h_tao, volume_acceleration_1h: row.volume_acceleration_24h,
+  }));
   const times = roster.map(row => Date.parse(row.time || "")).filter(Number.isFinite);
   const newest = times.length ? Math.max(...times) : NaN;
   const usable = roster.filter(row => {

@@ -22,3 +22,12 @@ test('outliers are bounded and labels cover all thresholds',()=>{
  let r=rows();r[0].change_1h=1000000;assert.equal(taoSentiment(r).components.momentum,50);
  for(const [n,label] of [[0,'Extreme fear'],[24,'Extreme fear'],[25,'Fear'],[44,'Fear'],[45,'Neutral'],[55,'Neutral'],[56,'Greed'],[75,'Greed'],[76,'Extreme greed'],[100,'Extreme greed']])assert.equal(sentimentLabel(n),label);
 });
+
+test('daily score uses only daily inputs and never falls back to hourly data',()=>{
+ const r=rows(-5,-5,2).map(row=>({...row,change_24h:5,liquidity_change_24h:5,volume_24h_tao:2400,volume_acceleration_24h:2}));
+ assert.equal(taoSentiment(r,'1h').score,0);
+ assert.equal(taoSentiment(r,'24h').score,100);
+ assert.equal(taoSentiment(rows(),'24h'),null);
+ for(let i=0;i<26;i++)r[i].volume_acceleration_24h=null;
+ assert.equal(taoSentiment(r,'24h'),null);
+});

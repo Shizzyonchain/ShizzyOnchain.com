@@ -101,6 +101,8 @@ export type ScreenerRow = ReturnHistory & {
   emission_change_24h?: string;
   volume_1h_tao?: string;
   volume_acceleration_1h?: string;
+  liquidity_change_24h?: string;
+  volume_acceleration_24h?: string;
   time?: string;
 };
 type Candle = {
