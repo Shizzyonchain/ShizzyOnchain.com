@@ -15,6 +15,7 @@ import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./l
 import { taoHeadsCommunity } from "./lib/community";
 import { SubnetNewsPanel } from "./subnet-news-panel";
 import { SentimentTile } from "./sentiment-tile";
+import { OverviewHelp } from "./overview-help";
 import { latestSnapshotTime, snapshotIsFresh, persistMarketSnapshot, MARKET_SNAPSHOT_CACHE_MAX_AGE_MS } from "./lib/market-snapshot";
 import {
   bubbleTimeframeHasCoverage,
@@ -1610,18 +1611,20 @@ export function Dashboard({
         <>
           <div className="market-overview">
             <section className="hero-strip" aria-label="Market overview">
-              <button className={`tao-price-tile ${showTaoChart ? "active" : ""}`} onClick={openTaoChart} aria-label="Open TAO price chart">
-                <span>TAO price</span>
+              <div>
+                <OverviewHelp title="TAO price"><p>The current TAO/USD reference price used to convert TAO values across this page into dollars. In TAO mode, one TAO is always shown as τ 1.</p><p>Use the price or chart link below to open the TAO/USD chart. A current reference price does not mean every subnet market snapshot is current; check the Finney feed status too.</p></OverviewHelp>
+                <button type="button" className={`tao-price-tile overview-price-link ${showTaoChart ? "active" : ""}`} onClick={openTaoChart} aria-label="Open TAO price chart">
                 <strong>{currency === "usd" ? money(1, true) : "τ 1"}</strong>
                 <small>Open TAO / USD chart →</small>
-              </button>
+                </button>
+              </div>
               <div>
-                <span>24h volume</span>
+                <OverviewHelp title="24h volume"><p>Total reported trading volume over the rolling last 24 hours, summed across the subnet markets in the current snapshot. This is trading activity, not market capitalization or available liquidity.</p><p>TAO mode shows the total in TAO; USD mode converts it using the current TAO/USD reference price. This is not a sum of historical dollar trade prices. Missing trade history may make the total incomplete; a dash means it is not ready.</p></OverviewHelp>
                 <strong>{!hasMarketData || totalVolume === 0 ? "—" : money(totalVolume)}</strong>
                 <small>{hasMarketData ? (dataState === "stale" ? "Last finalized snapshot" : totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Loading market service"}</small>
               </div>
               <div>
-                <span>Top mover</span>
+                <OverviewHelp title="Top mover"><p>The subnet with the highest available price change over the rolling last hour. In USD mode this uses the dollar return; in TAO mode it uses the alpha/TAO return, so the result can change when you switch currencies.</p><p>This is a price ranking, not a recommendation or a measure of project quality. If every subnet is down, the top mover can still have a negative return. Missing hourly returns are excluded.</p></OverviewHelp>
                 <strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong>
                 <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small>
               </div>
