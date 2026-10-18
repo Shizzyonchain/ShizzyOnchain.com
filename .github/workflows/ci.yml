@@ -26,6 +26,7 @@ jobs:
       - run: npm run validate:subnet-news
       - run: npm run lint
       - run: npm run test:charts
+      - run: node --test --experimental-strip-types tests/market-snapshot.test.mjs
       - run: npm run build
 
   backend:

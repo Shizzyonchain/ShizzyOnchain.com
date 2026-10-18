@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { snapshotIsFresh } from "./lib/market-snapshot";
 
 type Currency = "usd" | "tao";
 type DataState = "loading" | "live" | "stale" | "error";
@@ -51,29 +52,40 @@ export function SiteHeader({ brandArtwork = "redrawn", currency, onCurrencyChang
   useEffect(() => {
     if (dataState) return;
     let cancelled = false;
+    let inFlight = false;
+    let updatedAt: number | null = null;
 
     const checkFinney = async () => {
-      if (document.hidden) return;
+      if (document.hidden || inFlight) return;
+      inFlight = true;
       try {
         const response = await fetch("/api/market-status", {
+          cache: "no-store",
           signal: AbortSignal.timeout(6_000),
         });
         if (!response.ok) throw new Error(`Market status failed: ${response.status}`);
         const json = await response.json();
         const newest = Date.parse(json.updatedAt || "");
-        if (!cancelled) setLocalDataState(Number.isFinite(newest) && Date.now() - newest <= 120_000 ? "live" : "stale");
+        updatedAt = Number.isFinite(newest) ? newest : null;
+        if (!cancelled) setLocalDataState(snapshotIsFresh(updatedAt) ? "live" : "stale");
       } catch {
-        if (!cancelled) setLocalDataState("error");
+        if (!cancelled) setLocalDataState(updatedAt === null ? "error" : snapshotIsFresh(updatedAt) ? "live" : "stale");
+      } finally {
+        inFlight = false;
       }
     };
 
     void checkFinney();
     const timer = window.setInterval(checkFinney, 15_000);
     document.addEventListener("visibilitychange", checkFinney);
+    window.addEventListener("focus", checkFinney);
+    window.addEventListener("online", checkFinney);
     return () => {
       cancelled = true;
       window.clearInterval(timer);
       document.removeEventListener("visibilitychange", checkFinney);
+      window.removeEventListener("focus", checkFinney);
+      window.removeEventListener("online", checkFinney);
     };
   }, [dataState]);
 

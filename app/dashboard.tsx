@@ -14,6 +14,7 @@ import { compareLiquidation, liquidationExplanation, liquidationPercent } from "
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import { taoHeadsCommunity } from "./lib/community";
 import { SubnetNewsPanel } from "./subnet-news-panel";
+import { latestSnapshotTime, snapshotIsFresh, persistMarketSnapshot, MARKET_SNAPSHOT_CACHE_MAX_AGE_MS } from "./lib/market-snapshot";
 import {
   bubbleTimeframeHasCoverage,
   bubbleTimeframeLabel,
@@ -840,16 +841,13 @@ function loadChartHistory(netuid: number | "tao", timeframe: string) {
 
 // A finalized 128-subnet scan plus the regional relay cache normally lands
 // within two minutes. Reserve the delayed state for a real missed cycle.
-const MARKET_SNAPSHOT_MAX_AGE_MS = 3 * 60_000;
-const MARKET_SNAPSHOT_CACHE_MAX_AGE_MS = 24 * 60 * 60_000;
-
 function marketSnapshotAge(rows: ScreenerRow[]) {
-  const newest = Math.max(...rows.map((row) => Date.parse(row.time || "")).filter(Number.isFinite));
-  return Number.isFinite(newest) ? Date.now() - newest : Number.POSITIVE_INFINITY;
+  const newest = latestSnapshotTime(rows);
+  return newest !== null ? Date.now() - newest : Number.POSITIVE_INFINITY;
 }
 
 function marketSnapshotIsFresh(rows: ScreenerRow[]) {
-  return marketSnapshotAge(rows) <= MARKET_SNAPSHOT_MAX_AGE_MS;
+  return snapshotIsFresh(latestSnapshotTime(rows));
 }
 
 function marketSnapshotIsUsable(rows: ScreenerRow[]) {
@@ -914,6 +912,7 @@ export function Dashboard({
 }) {
   const serverRows = initialRows.filter((row) => row.netuid !== 0);
   const hasInitialRows = serverRows.length > 0;
+  const initialSnapshotRef = useRef(serverRows);
   const [view, setView] = useState<DashboardView>(initialView);
   const [activeVideo, setActiveVideo] = useState<ChannelVideo>(channelVideos.find((video) => !video.membersOnly) ?? channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
@@ -924,7 +923,7 @@ export function Dashboard({
   const [dollarHistory, setDollarHistory] = useState<FxPoint[]>(initialDollarHistory);
   const rows = useMemo(() => rawRows.map(row => currencyReturns(row, currency, dollarHistory)), [rawRows, currency, dollarHistory]);
   const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">(
-    hasInitialRows ? (marketSnapshotIsFresh(serverRows) ? "live" : "stale") : "loading",
+    "loading",
   );
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [query, setQuery] = useState("");
@@ -1024,12 +1023,21 @@ export function Dashboard({
   }, [marketDetailOpen]);
 
   useEffect(() => {
+    let cancelled = false;
+    let updatedAt = latestSnapshotTime(initialSnapshotRef.current);
+    if (hasInitialRows) queueMicrotask(() => {
+      if (cancelled) return;
+      setDataState(snapshotIsFresh(updatedAt) ? "live" : "stale");
+      setLastUpdated(updatedAt === null ? null : new Date(updatedAt));
+    });
     if (!hasInitialRows) {
       try {
         const cached = JSON.parse(window.localStorage.getItem("shizzy:screener") || "null");
         const cachedRows = Array.isArray(cached?.data) ? cached.data.filter((row: ScreenerRow) => row.netuid !== 0) : [];
         if (cachedRows.length && marketSnapshotIsUsable(cachedRows)) {
           queueMicrotask(() => {
+            if (cancelled) return;
+            updatedAt = latestSnapshotTime(cachedRows);
             setRows(cachedRows);
             setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
             setDataState(marketSnapshotIsFresh(cachedRows) ? "live" : "stale");
@@ -1037,36 +1045,45 @@ export function Dashboard({
           });
         }
       } catch {
-        window.localStorage.removeItem("shizzy:screener");
+        try { window.localStorage.removeItem("shizzy:screener"); } catch { /* Storage is optional. */ }
       }
     }
     let refreshInFlight = false;
     const refreshMarkets = () => {
       if (document.hidden || refreshInFlight) return;
+      if (updatedAt !== null) setDataState(snapshotIsFresh(updatedAt) ? "live" : "stale");
       refreshInFlight = true;
       fetchJsonWithTimeout("/api/backend/v1/screener")
         .then((json) => {
+          if (cancelled) return;
           const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
           if (subnetMarkets.length) {
-            window.localStorage.setItem("shizzy:screener", JSON.stringify({ data: json.data, savedAt: Date.now() }));
             setRows(subnetMarkets);
             setSelected((current) => (subnetMarkets.some((row: ScreenerRow) => row.netuid === current) ? current : subnetMarkets[0].netuid));
             setDataState(marketSnapshotIsFresh(subnetMarkets) ? "live" : "stale");
-            const newest = Date.now() - marketSnapshotAge(subnetMarkets);
-            setLastUpdated(new Date(newest));
+            updatedAt = latestSnapshotTime(subnetMarkets);
+            setLastUpdated(updatedAt === null ? null : new Date(updatedAt));
+            persistMarketSnapshot(json.data, () => window.localStorage);
           } else {
             throw new Error("Empty market snapshot");
           }
         })
-        .catch(() => setDataState((current) => (current === "live" || current === "stale" ? current : "error")))
+        .catch(() => {
+          if (!cancelled) setDataState(updatedAt === null ? "error" : snapshotIsFresh(updatedAt) ? "live" : "stale");
+        })
         .finally(() => { refreshInFlight = false; });
     };
     refreshMarkets();
     const refreshTimer = window.setInterval(refreshMarkets, view === "bubbles" ? 6_000 : 12_000);
     document.addEventListener("visibilitychange", refreshMarkets);
+    window.addEventListener("focus", refreshMarkets);
+    window.addEventListener("online", refreshMarkets);
     return () => {
+      cancelled = true;
       window.clearInterval(refreshTimer);
       document.removeEventListener("visibilitychange", refreshMarkets);
+      window.removeEventListener("focus", refreshMarkets);
+      window.removeEventListener("online", refreshMarkets);
     };
   }, [hasInitialRows, view]);
   useEffect(() => {
