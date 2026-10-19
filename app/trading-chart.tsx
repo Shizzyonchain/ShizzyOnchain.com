@@ -59,7 +59,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       crosshair: { mode: CrosshairMode.Magnet, vertLine: { color: "#808080", labelBackgroundColor: "#333333" },
         horzLine: { color: "#808080", labelBackgroundColor: "#333333" } },
       rightPriceScale: { borderColor: palette.border, scaleMargins: { top: .08, bottom: .23 } },
-      timeScale: { borderColor: palette.border, timeVisible: true, rightOffset: 5, barSpacing: 8, minBarSpacing: 2, lockVisibleTimeRangeOnResize: true },
+      timeScale: { borderColor: palette.border, timeVisible: true, rightOffset: 5, barSpacing: 8, minBarSpacing: .1, lockVisibleTimeRangeOnResize: true },
       handleScale: { axisPressedMouseMove: true, mouseWheel: true, pinch: true },
       handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
     });
