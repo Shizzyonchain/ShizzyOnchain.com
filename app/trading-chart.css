@@ -24,3 +24,5 @@
 .chart-drawing-colors>select{background:#111;color:#fff;border:1px solid #777;padding:5px;min-height:32px}
 .chart-annotation-layer{position:absolute;inset:0;z-index:4;pointer-events:none}.chart-annotation-svg{position:absolute;overflow:hidden;pointer-events:none;touch-action:none}.chart-annotation-svg.is-drawing{pointer-events:auto;cursor:crosshair}.chart-annotation-svg path[role=button]{cursor:move}.drawing-handle{cursor:crosshair}.chart-drawing-tools .chart-study-toolbar{gap:6px}.chart-annotation-svg path[role=button]:focus-visible{outline:none;stroke:#fff6;stroke-width:12px}
 
+
+.chart-drawing-tools .chart-study-toolbar .drawing-visibility-toggle{min-height:44px;padding:12px 18px;background:#fff;color:#000;border:1px solid #fff;font-size:14px;line-height:1.4;white-space:normal;text-align:center}.chart-drawing-tools .chart-study-toolbar .drawing-visibility-toggle:hover{background:#e5e5e5;color:#000;border-color:#e5e5e5}
