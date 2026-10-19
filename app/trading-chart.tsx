@@ -17,10 +17,11 @@ type ChartSeries = {
 };
 
 export default function TradingChart({ appearance = "monochrome", bars, currency, timeframe, loading = false,
-  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO" }: {
+  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", onCurrencyChange }: {
   appearance?: "blue" | "monochrome"; bars: PriceBar[]; currency: "usd" | "tao"; timeframe: string;
   loading?: boolean; error?: boolean; note: string; onTimeframeChange: (timeframe: string) => void; onRetry: () => void;
   volumeUnit?: "TAO" | "alpha";
+  onCurrencyChange?: (currency: "usd" | "tao") => void;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -138,7 +139,9 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
         {[["10m", "10m", "10-minute candles"], ["1h", "1h", "1-hour candles"], ["1d", "1D", "Daily candles"]].map(([value, label, name]) =>
           <button key={value} className={timeframe === value ? "active" : ""} aria-label={name} aria-pressed={timeframe === value} onClick={() => onTimeframeChange(value)}>{label}</button>)}
       </div>
-      <span className="chart-currency">{currency.toUpperCase()}</span>
+      {onCurrencyChange ? <div className="chart-control-group" role="group" aria-label="Chart currency">
+        {(["usd", "tao"] as const).map(value => <button key={value} type="button" aria-pressed={currency === value} className={currency === value ? "active" : ""} onClick={() => onCurrencyChange(value)}>{value.toUpperCase()}</button>)}
+      </div> : <span className="chart-currency">{currency.toUpperCase()}</span>}
       <div className="chart-control-group chart-actions">
         <button onClick={() => chartRef.current?.timeScale().scrollToRealTime()} title="Return to the latest candle">Latest</button>
         <button onClick={reset} title="Fit all available history and reset price scale">Reset</button>

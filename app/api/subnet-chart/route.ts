@@ -9,16 +9,17 @@ const intervals: Record<string, { resolution: string; seconds: number; count: nu
 };
 export async function GET(request: NextRequest) {
   const interval = request.nextUrl.searchParams.get("interval") || "1h";
-  const netuid = request.nextUrl.searchParams.get("netuid");
+  const subnet = request.nextUrl.searchParams.get("netuid") || "";
+  const netuid = Number(subnet);
   const config = intervals[interval];
-  if (netuid !== "51" || !config) return NextResponse.json({ error: "Unsupported chart query" }, { status: 400 });
+  if (!/^\d{1,3}$/.test(subnet) || !Number.isInteger(netuid) || netuid < 1 || netuid > 128 || !config) return NextResponse.json({ error: "Unsupported chart query" }, { status: 400 });
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) return NextResponse.json({ error: "Chart provider unavailable" }, { status: 503 });
   try {
     // Stable minute buckets share the provider response across visitors.
     const to = Math.floor(Date.now() / 60_000) * 60;
     const url = new URL("/v1/tradingview/udf/history", "https://api.taostats.io");
-    for (const [name, value] of Object.entries({ symbol: "SUB-51", resolution: config.resolution, to, from: to - config.seconds * config.count, countback: config.count })) url.searchParams.set(name, String(value));
+    for (const [name, value] of Object.entries({ symbol: `SUB-${netuid}`, resolution: config.resolution, to, from: to - config.seconds * config.count, countback: config.count })) url.searchParams.set(name, String(value));
     const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 60 }, signal: AbortSignal.timeout(7000) });
     if (!response.ok) throw new Error("Provider unavailable");
     const candles = udfCandles(await response.json());
