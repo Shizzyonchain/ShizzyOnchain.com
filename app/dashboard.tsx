@@ -912,7 +912,7 @@ export function Dashboard({
   const [taoUsd, setTaoUsd] = useState(initialTaoUsd);
   const [rawRows, setRows] = useState<ScreenerRow[]>(serverRows);
   const [dollarHistory, setDollarHistory] = useState<FxPoint[]>(initialDollarHistory);
-  const rows = useMemo(() => rawRows.map(row => currencyReturns(row, currency, dollarHistory)), [rawRows, currency, dollarHistory]);
+  const rows = useMemo(() => rawRows.map(row => currencyReturns({ ...row, name: row.name?.trim() || "Unknown" }, currency, dollarHistory)), [rawRows, currency, dollarHistory]);
   const [dataState, setDataState] = useState<"loading" | "live" | "stale" | "error">(
     "loading",
   );
@@ -1279,7 +1279,7 @@ export function Dashboard({
     wallets.forEach((wallet) => {
       const free = Number(wallet.free_tao || 0);
       if (free > 0) add("tao", null, "Bittensor", "TAO", free, free, wallet.address);
-      wallet.stakes.forEach((stake) => add(`sn-${stake.netuid}`, stake.netuid, stake.name || `Subnet ${stake.netuid}`, stake.symbol || `SN${stake.netuid}`, Number(stake.alpha || 0), Number(stake.tao_value || 0), wallet.address));
+      wallet.stakes.forEach((stake) => add(`sn-${stake.netuid}`, stake.netuid, stake.name || "Unknown", stake.symbol || `SN${stake.netuid}`, Number(stake.alpha || 0), Number(stake.tao_value || 0), wallet.address));
     });
     return [...assets.values()].filter((asset) => asset.alpha > 0 || asset.taoValue > 0).sort((a, b) => b.taoValue - a.taoValue);
   }, [wallets]);
@@ -1645,7 +1645,7 @@ export function Dashboard({
             {[...marketCapLeaders, ...marketCapLeaders].map((r, i) => (
               <button key={`${r.netuid}-${i}`} onClick={() => openSubnetChart(r.netuid)}>
                 <span>
-                  <b>{r.name || `Subnet ${r.netuid}`}</b>
+                  <b>{r.name || "Unknown"}</b>
                   <small>SN{r.netuid}</small>
                 </span>
                 <strong>{money(r.price_tao, true)}</strong>
@@ -1782,7 +1782,7 @@ export function Dashboard({
           <div className="market-content">
             {marketDetailOpen && (
               <div className={chartPage ? "chart-page-content" : "market-modal-backdrop"} onMouseDown={chartPage ? undefined : () => setMarketDetailOpen(false)}>
-                <div className={chartPage ? "chart-page-details" : "market-modal"} role={chartPage ? undefined : "dialog"} aria-modal={chartPage ? undefined : true} aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={(event) => event.stopPropagation()}>
+                <div className={chartPage ? "chart-page-details" : "market-modal"} role={chartPage ? undefined : "dialog"} aria-modal={chartPage ? undefined : true} aria-label={showTaoChart ? "TAO market details" : `${active?.name || "Unknown"} market details`} onMouseDown={(event) => event.stopPropagation()}>
                   {!chartPage && <div className="market-modal-navigation"><button type="button" className="market-modal-back" onClick={() => setMarketDetailOpen(false)}>← Back to markets</button>
                   <button type="button" ref={marketModalCloseRef} className="market-modal-close" onClick={() => setMarketDetailOpen(false)} aria-label="Close market details">Close <span aria-hidden="true">×</span></button></div>}
                   <section className="market-grid">
@@ -1799,7 +1799,7 @@ export function Dashboard({
                           <div className="panel-head">
                             <div>
                               <p className="eyebrow chart-subnet-id">{showTaoChart ? "TAO · USD" : `SN${active?.netuid} · ${active?.symbol || "ALPHA"}`}</p>
-                              <h1>{showTaoChart ? "Bittensor" : active?.name || `Subnet ${active?.netuid}`}</h1>
+                              <h1>{showTaoChart ? "Bittensor" : active?.name || "Unknown"}</h1>
                             </div>
                             <div className="quote">
                               <strong>
@@ -1815,7 +1815,7 @@ export function Dashboard({
                           </div>
                           <>
                               {!showTaoChart && <div className="onchain-activity chart-onchain-activity"><div><strong>On-chain buying activity</strong><span>SN{selected} · Buys and sells on TaoFlows</span></div><a href={`https://taoflows.app/flows?subnets=${selected}`} target="_blank" rel="noopener noreferrer" aria-label={`View SN${selected} buys and sells on TaoFlows (opens in a new tab)`}>View buys &amp; sells ↗</a></div>}
-                              <TradingChart assetOptions={[{ value: "tao", label: "TAO · Bittensor" }, ...Array.from({ length: 128 }, (_, index) => { const netuid = index + 1; const row = rawRows.find(row => row.netuid === netuid); return { value: String(netuid), label: `SN${netuid} · ${row?.name || `Subnet ${netuid}`}` }; })]} onAssetChange={asset => asset === "tao" ? openTaoChart() : openSubnetChart(Number(asset))} onLoadEarlier={loadEarlierHistory} earlierLoading={earlierHistory.key === requestedChartKey && earlierHistory.loading} earlierDone={earlierHistory.key === requestedChartKey && earlierHistory.done} earlierError={earlierHistory.key === requestedChartKey ? earlierHistory.error : ""} historySession={requestedChartKey} historicalDate={chartDate} onHistoryDate={setChartDate} assetLabel={showTaoChart ? "TAO · Bittensor" : `SN${selected} · ${active?.name || "Alpha"}`} drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price" && chartData.method !== "extended-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); candleCache.delete(`tao:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); setChartRetry(value => value + 1); }} />
+                              <TradingChart assetOptions={[{ value: "tao", label: "TAO · Bittensor" }, ...Array.from({ length: 128 }, (_, index) => { const netuid = index + 1; const row = rawRows.find(row => row.netuid === netuid); return { value: String(netuid), label: `SN${netuid} · ${row?.name || "Unknown"}` }; })]} onAssetChange={asset => asset === "tao" ? openTaoChart() : openSubnetChart(Number(asset))} onLoadEarlier={loadEarlierHistory} earlierLoading={earlierHistory.key === requestedChartKey && earlierHistory.loading} earlierDone={earlierHistory.key === requestedChartKey && earlierHistory.done} earlierError={earlierHistory.key === requestedChartKey ? earlierHistory.error : ""} historySession={requestedChartKey} historicalDate={chartDate} onHistoryDate={setChartDate} assetLabel={showTaoChart ? "TAO · Bittensor" : `SN${selected} · ${active?.name || "Unknown"}`} drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price" && chartData.method !== "extended-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); candleCache.delete(`tao:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); setChartRetry(value => value + 1); }} />
                               {chartRangeChange != null && <p className="chart-range-return">Available history <strong className={chartRangeChange >= 0 ? "positive" : "negative"}>{chartRangeChange > 0 ? "+" : ""}{chartRangeChange.toFixed(2)}%</strong> · {chartCurrency.toUpperCase()}</p>}
                               {showTaoChart ? (
                                 <div className="chart-stats">
@@ -2066,7 +2066,7 @@ export function Dashboard({
                         <td>{i + 1}</td>
                         <td>
                           <div>
-                            <b>{r.name || `Subnet ${r.netuid}`}</b>
+                            <b>{r.name || "Unknown"}</b>
                             <small>SN{r.netuid}</small>
                           </div>
                         </td>
@@ -2138,7 +2138,7 @@ export function Dashboard({
                   <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
                     <em>{String(index + 1).padStart(2, "0")}</em>
                     <span>
-                      <b>{row.name || `Subnet ${row.netuid}`}</b>
+                      <b>{row.name || "Unknown"}</b>
                       <small>SN{row.netuid}</small>
                     </span>
                     <i>
@@ -2170,7 +2170,7 @@ export function Dashboard({
                   {emissionMovers.map((row) => (
                     <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
                       <span>
-                        <b>{row.name || `Subnet ${row.netuid}`}</b>
+                        <b>{row.name || "Unknown"}</b>
                         <small>SN{row.netuid}</small>
                       </span>
                       <strong className={changeClass(row.emission_change_1h)}>
@@ -2193,7 +2193,7 @@ export function Dashboard({
                   {liquidityMovers.map((row) => (
                     <button key={row.netuid} onClick={() => openSubnetChart(row.netuid)}>
                       <span>
-                        <b>{row.name || `Subnet ${row.netuid}`}</b>
+                        <b>{row.name || "Unknown"}</b>
                         <small>SN{row.netuid}</small>
                       </span>
                       <strong className={changeClass(row.liquidity_change_1h)}>
@@ -2368,7 +2368,7 @@ export function Dashboard({
                     }
                     setSelected(row.netuid);
                   }}
-                  aria-label={`${row.name || `Subnet ${row.netuid}`}, draggable, ${money(row.market_cap_tao)} market cap, ${movement >= 0 ? "+" : ""}${fmt(movement)} percent`}
+                  aria-label={`${row.name || "Unknown"}, draggable, ${money(row.market_cap_tao)} market cap, ${movement >= 0 ? "+" : ""}${fmt(movement)} percent`}
                 >
                   <small>{row.name || "Unknown"}</small>
                   <strong>SN{row.netuid}</strong>
@@ -2387,7 +2387,7 @@ export function Dashboard({
                 <span className="bubble-token">{active.symbol?.replace("α", "") || active.netuid}</span>
                 <div>
                   <small>SN{active.netuid}</small>
-                  <h2>{active.name || `Subnet ${active.netuid}`}</h2>
+                  <h2>{active.name || "Unknown"}</h2>
                 </div>
               </div>
               <dl>

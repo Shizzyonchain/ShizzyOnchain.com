@@ -14154,5 +14154,12 @@
       "checkedAt": "2026-10-19T14:44:02.639Z",
       "outcome": "404;specificsessionsnotverified"
     }
-  ]
+  ],
+  "nameLabelReview": {
+    "netuid": 113,
+    "checkedAt": "2026-10-19T15:00:13.640461+00:00",
+    "source": "https://taostats.io/subnets/113",
+    "observedLabel": "Unknown",
+    "outcome": "Owner requested matching TaoStats. Replaced current edition placeholder Subnet 113 with Unknown. Blank on-chain identity is not proof of a project rename or sale; prior LongShort/TensorUSD editions retained."
+  }
 }

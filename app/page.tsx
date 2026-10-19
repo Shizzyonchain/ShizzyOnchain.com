@@ -29,7 +29,7 @@ export default async function Home() {
     hasPart: subnetRows.slice(0, 25).map((row, index) => ({
       "@type": "Dataset",
       position: index + 1,
-      name: `${row.name || `Subnet ${row.netuid}`} (SN${row.netuid})`,
+      name: `${row.name || "Unknown"} (SN${row.netuid})`,
       description: `${row.symbol || `SN${row.netuid}`} price ${row.price_tao} TAO${taoUsd > 0 ? ` (${(Number(row.price_tao) * taoUsd).toFixed(4)} USD)` : ""}`,
     })),
   };
