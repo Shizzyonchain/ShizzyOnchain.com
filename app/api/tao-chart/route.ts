@@ -31,10 +31,43 @@ async function dailyTaoHistory() {
 type CoinbaseCandle = [number, number, number, number, number, number];
 const granularities: Record<string, number> = { "1m": 60, "10m": 300, "1h": 3600, "1d": 86400, "1w": 86400, "1mo": 86400 };
 
+async function earlierPriceHistory(before: number, interval: string) {
+  const key = process.env.TAOSTATS_API_KEY;
+  if (!key) throw new Error("Price history provider unavailable");
+  const minute = interval === "10m" || interval === "1m";
+  const seconds = minute ? 60 : interval === "1h" ? 3600 : 86400;
+  const period = minute ? "1m" : interval === "1h" ? "1h" : "1d";
+  const end = Math.floor(before / (interval === "10m" ? 600 : seconds)) * (interval === "10m" ? 600 : seconds);
+  const start = Math.max(Date.UTC(2021, 0, 1) / 1000, end - (minute ? 86400 : period === "1h" ? 30 * 86400 : 900 * 86400));
+  const windows = Array.from({ length: Math.ceil((end - start) / (200 * seconds)) }, (_, i) => ({ from: start + i * 200 * seconds, to: Math.min(end, start + (i + 1) * 200 * seconds) }));
+  const data = [];
+  for (let i = 0; i < windows.length; i += 3) {
+    const pages = await Promise.all(windows.slice(i, i + 3).map(async window => {
+      const url = new URL("https://api.taostats.io/v1/price/ohlc");
+      for (const [name, value] of Object.entries({ asset: "TAO", period, timestamp_start: window.from, timestamp_end: window.to, limit: 200 })) url.searchParams.set(name, String(value));
+      const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 86400 }, signal: AbortSignal.timeout(6000) });
+      if (!response.ok) throw new Error("Earlier price history unavailable");
+      return taoPriceCandles(await response.json());
+    }));
+    data.push(...pages.flat());
+  }
+  const bars = priceBars(data).filter(bar => bar.time < end);
+  return (interval === "10m" ? aggregateBars(bars, 600) : bars).map(bar => ({ time: new Date(bar.time * 1000).toISOString(), open: String(bar.open), high: String(bar.high), low: String(bar.low), close: String(bar.close) }));
+}
+
 export async function GET(request: NextRequest) {
   const interval = request.nextUrl.searchParams.get("interval") || "1h";
   const granularity = granularities[interval];
   if (!granularity) return NextResponse.json({ error: "Unsupported interval" }, { status: 400 });
+  const beforeParam = request.nextUrl.searchParams.get("before");
+  if (beforeParam !== null) {
+    const before = Number(beforeParam);
+    if (!Number.isSafeInteger(before) || before < 1609459200 || before > Date.now() / 1000 + 86400) return NextResponse.json({ error: "Invalid history cursor" }, { status: 400 });
+    try {
+      const data = await earlierPriceHistory(before, interval);
+      return NextResponse.json({ data, done: !data.length, source: "TaoStats", method: "taostats-price", interval }, { headers: { "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=300" } });
+    } catch { return NextResponse.json({ error: "Earlier TAO price history unavailable" }, { status: 503 }); }
+  }
   const long = interval === "1d" || interval === "1w" || interval === "1mo";
   if (long) {
     try {

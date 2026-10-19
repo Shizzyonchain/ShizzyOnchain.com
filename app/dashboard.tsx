@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { calendarBars, dollarBars, priceBars } from "./lib/chart-data";
+import { calendarBars, dollarBars, priceBars, mergeChartCandles } from "./lib/chart-data";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
@@ -781,7 +781,7 @@ const candleIntervalMs: Record<string, number> = {
 };
 const TradingChart = dynamic(() => import("./trading-chart"), { ssr: false,
   loading: () => <div className="chart-module-loading" role="status">Opening chart…</div> });
-type ChartHistory = { data: Candle[]; savedAt: number; method: string };
+type ChartHistory = { data: Candle[]; savedAt: number; method: string; done?: boolean };
 const candleCache = new Map<string, ChartHistory>();
 const candleRequests = new Map<string, Promise<ChartHistory>>();
 const portfolioColors = ["#16d9c4", "#ffb547", "#ff5d73", "#64748b", "#36d66b", "#ff8a4c", "#173766", "#c7e85b", "#40b8ff"];
@@ -812,15 +812,15 @@ function decodeCompactCandles(rows: unknown[]): Candle[] {
   });
 }
 
-function loadChartHistory(netuid: number | "tao", timeframe: string) {
-  const key = `${netuid}:${timeframe}`;
+function loadChartHistory(netuid: number | "tao", timeframe: string, before?: number) {
+  const key = `${netuid}:${timeframe}${before === undefined ? "" : `:${before}`}`;
   const cached = candleCache.get(key);
-  if (cached?.data.length && Date.now() - cached.savedAt < 30_000) return Promise.resolve(cached);
+  if (cached?.data.length && Date.now() - cached.savedAt < (before === undefined ? 30_000 : 86_400_000)) return Promise.resolve(cached);
   const pending = candleRequests.get(key);
   if (pending) return pending;
   const longInterval = timeframe === "1w" || timeframe === "1mo";
   const nodeUrl = `/api/backend/v1/subnets/${netuid}/candles?interval=${longInterval ? "1d" : timeframe}&limit=${longInterval ? 500 : 180}`;
-  const url = netuid === "tao" ? `/api/tao-chart?interval=${timeframe}` : `/api/subnet-chart?netuid=${netuid}&interval=${timeframe}`;
+  const url = (netuid === "tao" ? `/api/tao-chart?interval=${timeframe}` : `/api/subnet-chart?netuid=${netuid}&interval=${timeframe}`) + (before === undefined ? "" : `&before=${before}`);
   const fetchWithRetry = async () => {
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 28_000);
@@ -829,7 +829,7 @@ function loadChartHistory(netuid: number | "tao", timeframe: string) {
         cache: "no-store",
         signal: controller.signal,
       });
-      if (!response.ok && netuid !== "tao") response = await fetch(nodeUrl, { cache: "no-store", signal: controller.signal });
+      if (!response.ok && netuid !== "tao" && before === undefined) response = await fetch(nodeUrl, { cache: "no-store", signal: controller.signal });
       if (!response.ok) throw new Error(`Chart request failed: ${response.status}`);
       return await response.json();
     } finally {
@@ -839,7 +839,7 @@ function loadChartHistory(netuid: number | "tao", timeframe: string) {
   const request = fetchWithRetry()
     .then((json) => {
       const data = netuid === "tao" ? (json.data || []) as Candle[] : decodeCompactCandles(json.data || []);
-      const snapshot = { data, savedAt: Date.now(), method: json.method || (netuid === "tao" ? "exchange" : "boundary") };
+      const snapshot = { data: before === undefined ? mergeChartCandles(cached?.data || [], data) : data, savedAt: Date.now(), method: cached?.method === "extended-price" ? "extended-price" : json.method || (netuid === "tao" ? "exchange" : "boundary"), done: cached?.done || json.done === true };
       candleCache.set(key, snapshot);
       if (candleCache.size > 128) candleCache.delete(candleCache.keys().next().value!);
       return snapshot;
@@ -984,6 +984,11 @@ export function Dashboard({
     method: string;
   }>({ key: "", candles: [], rates: [], method: "boundary" });
   const [chartRetry, setChartRetry] = useState(0);
+  const [earlierHistory, setEarlierHistory] = useState({ key: "", loading: false, done: false, error: "" });
+  const [chartDate, setChartDate] = useState<number | null>(null);
+  const earlierBusy = useRef(false);
+  const chartHistoryRun = useRef(0);
+  useEffect(() => { chartHistoryRun.current += 1; earlierBusy.current = false; return () => { chartHistoryRun.current += 1; }; }, [selected, timeframe, currency, chartDate]);
   const [chartLoading, setChartLoading] = useState(true);
   const [chartError, setChartError] = useState(false);
   const [walletInput, setWalletInput] = useState("");
@@ -1216,10 +1221,10 @@ export function Dashboard({
     if (!chartVisible) return;
     let activeRequest = true;
     let refreshing = false;
-    const historyKey = `${showTaoChart ? "tao" : selected}:${timeframe}`;
+    const historyKey = `${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`;
     const cacheKey = `${historyKey}:${showTaoChart ? "usd" : currency}`;
     const cached = candleCache.get(historyKey);
-    const cachedRates = candleCache.get(`tao:${timeframe}`);
+    const cachedRates = candleCache.get(`tao:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`);
     queueMicrotask(() => {
       if (!activeRequest) return;
       setChartData({ key: cacheKey, candles: cached?.data || [], rates: cachedRates?.data || [], method: cached?.method || "boundary" });
@@ -1230,12 +1235,13 @@ export function Dashboard({
       if (document.hidden || refreshing) return;
       refreshing = true;
       Promise.all([
-        loadChartHistory(showTaoChart ? "tao" : selected, timeframe),
-        !showTaoChart && currency === "usd" ? loadChartHistory("tao", timeframe) : Promise.resolve(null),
+        loadChartHistory(showTaoChart ? "tao" : selected, timeframe, chartDate ?? undefined),
+        !showTaoChart && currency === "usd" ? loadChartHistory("tao", timeframe, chartDate ?? undefined) : Promise.resolve(null),
       ])
         .then(([history, rates]) => {
           if (activeRequest) {
-            setChartData({ key: cacheKey, candles: history.data, rates: rates?.data || [], method: history.method });
+            setChartData(previous => ({ key: cacheKey, candles: mergeChartCandles(previous.key === cacheKey ? previous.candles : [], history.data), rates: mergeChartCandles(previous.key === cacheKey ? previous.rates : [], rates?.data || []), method: previous.key === cacheKey && previous.method === "extended-price" ? "extended-price" : history.method }));
+            if (history.done) setEarlierHistory(previous => previous.key === cacheKey && previous.loading ? previous : { key: cacheKey, loading: false, done: true, error: "" });
             setChartLoading(false);
             setChartError(false);
           }
@@ -1248,12 +1254,12 @@ export function Dashboard({
         }).finally(() => { refreshing = false; });
     };
     refreshChart();
-    const refreshTimer = window.setInterval(refreshChart, 30_000);
+    const refreshTimer = chartDate === null ? window.setInterval(refreshChart, 30_000) : undefined;
     return () => {
       activeRequest = false;
       window.clearInterval(refreshTimer);
     };
-  }, [selected, timeframe, showTaoChart, currency, chartVisible, chartRetry]);
+  }, [selected, timeframe, showTaoChart, currency, chartVisible, chartRetry, chartDate]);
 
   useEffect(() => {
     if (view !== "activity") return;
@@ -1318,24 +1324,49 @@ export function Dashboard({
       .join(",")})`;
   }, [portfolioChartAssets, portfolioTotal]);
   const chartCurrency = showTaoChart ? "usd" : currency;
-  const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}:${chartCurrency}`;
+  const requestedChartKey = `${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}:${chartCurrency}`;
   const candles = useMemo(
     () => (chartData.key === requestedChartKey ? chartData.candles : []),
     [chartData, requestedChartKey],
   );
   const chartCandles = useMemo(
-    () => withLiveCandle(
+    () => chartDate !== null ? candles : withLiveCandle(
       candles,
       showTaoChart ? taoUsd : Number(active?.price_tao || 0),
       timeframe === "1w" || timeframe === "1mo" ? "1d" : timeframe,
     ),
-    [candles, showTaoChart, taoUsd, active?.price_tao, timeframe],
+    [candles, showTaoChart, taoUsd, active?.price_tao, timeframe, chartDate],
   );
   const chartBars = useMemo(() => {
     const base = priceBars(chartCandles);
     return calendarBars(!showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base, timeframe);
   }, [chartCandles, chartData.rates, showTaoChart, currency, timeframe]);
-  const chartNote = (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? (chartData.method === "taostats-price" ? "TaoStats historical TAO/USD price candles · Candle volume unavailable" : "Coinbase TAO/USD candles · Volume in TAO")
+  async function loadEarlierHistory() {
+    if (earlierBusy.current || !candles.length || chartLoading) return;
+    const historyKey = `${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`;
+    const key = requestedChartKey, run = chartHistoryRun.current;
+    const before = Math.floor(Date.parse(candles[0].time) / 1000);
+    earlierBusy.current = true;
+    setEarlierHistory({ key, loading: true, done: false, error: "" });
+    try {
+      const [history, rates] = await Promise.all([
+        loadChartHistory(showTaoChart ? "tao" : selected, timeframe, before),
+        !showTaoChart && currency === "usd" ? loadChartHistory("tao", timeframe, before) : Promise.resolve(null),
+      ]);
+      if (run !== chartHistoryRun.current) return;
+      const newCandles = history.data.filter(candle => Date.parse(candle.time) < before * 1000);
+      if (rates && newCandles.length && !rates.data.length) throw new Error("Earlier USD rates are unavailable for this period. Switch to TAO to inspect the subnet history.");
+      const method = showTaoChart && history.method === "taostats-price" ? (chartData.method === "exchange" || chartData.method === "extended-price" ? "extended-price" : "taostats-price") : chartData.method;
+      const merged = mergeChartCandles(newCandles, candles), mergedRates = mergeChartCandles(rates?.data || [], chartData.rates);
+      candleCache.set(historyKey, { data: merged, savedAt: Date.now(), method, done: history.done });
+      if (rates) candleCache.set(`tao:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`, { data: mergedRates, savedAt: Date.now(), method: chartDate === null ? "extended-price" : "taostats-price" });
+      setChartData(previous => previous.key !== key ? previous : { ...previous, candles: mergeChartCandles(newCandles, previous.candles), rates: mergeChartCandles(rates?.data || [], previous.rates), method });
+      setEarlierHistory({ key, loading: false, done: history.done === true || !newCandles.length, error: "" });
+    } catch (error) {
+      if (run === chartHistoryRun.current) setEarlierHistory({ key, loading: false, done: false, error: error instanceof Error ? error.message : "Earlier history could not load. Please retry." });
+    } finally { if (run === chartHistoryRun.current) earlierBusy.current = false; }
+  }
+  const chartNote = (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? (chartData.method === "extended-price" ? "Coinbase recent candles · TaoStats older price history · Historical candle volume unavailable" : chartData.method === "taostats-price" ? "TaoStats historical TAO/USD price candles · Candle volume unavailable" : "Coinbase TAO/USD candles · Volume in TAO")
     : chartData.method === "taostats-alpha" ? `TaoStats candles${currency === "usd" ? " · USD candles use historical TAO/USD rates; high/low are estimates" : " · Alpha/TAO"}`
     : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`);
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
@@ -1804,7 +1835,7 @@ export function Dashboard({
                             </div>
                           </div>
                           <>
-                              <TradingChart assetLabel={showTaoChart ? "TAO · Bittensor" : `SN${selected} · ${active?.name || "Alpha"}`} drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
+                              <TradingChart onLoadEarlier={loadEarlierHistory} earlierLoading={earlierHistory.key === requestedChartKey && earlierHistory.loading} earlierDone={earlierHistory.key === requestedChartKey && earlierHistory.done} earlierError={earlierHistory.key === requestedChartKey ? earlierHistory.error : ""} historySession={requestedChartKey} historicalDate={chartDate} onHistoryDate={setChartDate} assetLabel={showTaoChart ? "TAO · Bittensor" : `SN${selected} · ${active?.name || "Alpha"}`} drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price" && chartData.method !== "extended-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); candleCache.delete(`tao:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); setChartRetry(value => value + 1); }} />
                               {chartRangeChange != null && <p className="chart-range-return">Available history <strong className={chartRangeChange >= 0 ? "positive" : "negative"}>{chartRangeChange > 0 ? "+" : ""}{chartRangeChange.toFixed(2)}%</strong> · {chartCurrency.toUpperCase()}</p>}
                               {showTaoChart ? (
                                 <div className="chart-stats">
@@ -1812,7 +1843,7 @@ export function Dashboard({
                                     Pair <b>TAO / USD</b>
                                   </span>
                                   <span>
-                                    Price source <b>{chartData.method === "taostats-price" ? "TaoStats" : "Coinbase"}</b>
+                                    Price source <b>{chartData.method === "extended-price" ? "Coinbase / TaoStats" : chartData.method === "taostats-price" ? "TaoStats" : "Coinbase"}</b>
                                   </span>
                                   <span>
                                     History <b>{candles.length} candles</b>

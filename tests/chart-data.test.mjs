@@ -1,7 +1,16 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { aggregateBars, dollarBars, priceBars, chartPrecision, taoPriceCandles, futureChartTimes } from "../app/lib/chart-data.ts";
+import { aggregateBars, dollarBars, priceBars, chartPrecision, taoPriceCandles, futureChartTimes, mergeChartCandles } from "../app/lib/chart-data.ts";
 const candle = (time, close = "1") => ({ time, open: close, high: close, low: close, close });
+
+test("history paging preserves older candles through live refreshes and replaces overlapping bars", () => {
+  const older = [candle("2025-02-13T00:00:00Z"), candle("2025-02-13T00:10:00Z", "2")];
+  const recent = [candle("2025-02-13T00:10:00.000Z", "3"), candle("2025-02-13T00:20:00Z", "4")];
+  const merged = mergeChartCandles(older, recent);
+  assert.deepEqual(merged.map(row => row.close), ["1", "3", "4"]);
+  assert.equal(mergeChartCandles(merged, [candle("2025-02-13T00:20:00Z", "5")]).length, 3);
+  assert.equal(mergeChartCandles(merged, [candle("2025-02-13T00:20:00Z", "5")])[2].close, "5");
+});
 
 test("future chart space uses real UTC days, weeks and calendar months without prices", () => {
   const stamp = value => Date.parse(value) / 1000;

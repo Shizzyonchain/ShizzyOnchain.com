@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { CandlestickSeries, ColorType, CrosshairMode, HistogramSeries, LineSeries, LineStyle,
   createChart, type IChartApi, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
 import { chartPrecision, futureChartTimes, indicatorPoints, type PriceBar } from "./lib/chart-data";
@@ -18,12 +18,15 @@ type ChartSeries = {
 };
 
 export default function TradingChart({ appearance = "monochrome", bars, currency, timeframe, loading = false,
-  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", volumeAvailable = true, onCurrencyChange, drawingId, assetLabel }: {
+  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", volumeAvailable = true, onCurrencyChange, drawingId, assetLabel,
+  onLoadEarlier, earlierLoading = false, earlierDone = false, earlierError = "", historySession = "", historicalDate = null, onHistoryDate }: {
   appearance?: "blue" | "monochrome"; bars: PriceBar[]; currency: "usd" | "tao"; timeframe: string;
   loading?: boolean; error?: boolean; note: string; onTimeframeChange: (timeframe: string) => void; onRetry: () => void;
   volumeUnit?: "TAO" | "alpha"; volumeAvailable?: boolean;
   drawingId: string;
   assetLabel: string;
+  onLoadEarlier?: () => void; earlierLoading?: boolean; earlierDone?: boolean; earlierError?: string;
+  historySession?: string; historicalDate?: number | null; onHistoryDate?: (before: number | null) => void;
   onCurrencyChange?: (currency: "usd" | "tao") => void;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -31,6 +34,10 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ChartSeries | null>(null);
   const fittedRef = useRef("");
+  const previousFirst = useRef<number | null>(null);
+  const historyInteraction = useRef(0);
+  const [historyDateInput, setHistoryDateInput] = useState("");
+  const requestEarlier = useEffectEvent((from: number) => { if (from < 20 && !loading && !earlierLoading && !earlierDone && !earlierError && bars.length > 0) onLoadEarlier?.(); });
   const [mode, setMode] = useState<"candles" | "line">("candles");
   const [ma, setMa] = useState(false);
   const [ema, setEma] = useState(false);
@@ -96,15 +103,20 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       lower: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 3, lineStyle: LineStyle.Solid, visible: false }),
     };
     chartRef.current = chart;
+    chart.timeScale().subscribeVisibleLogicalRangeChange(range => { if (range && performance.now() - historyInteraction.current < 2000) requestEarlier(range.from); });
     // Fit the initial data normally, then release automatic price fitting when
     // the user grabs the plot. The library can now pan both price and time.
     const beginPan = (event: PointerEvent) => {
       if (event.button !== 0 || !(event.target instanceof HTMLCanvasElement)) return;
       const bounds = event.target.getBoundingClientRect();
       if (bounds.width < host.clientWidth / 2 || bounds.height < host.clientHeight / 2) return;
+      historyInteraction.current = performance.now();
       if (candles.data().length) chart.priceScale("right").setAutoScale(false);
     };
     host.addEventListener("pointerdown", beginPan, true);
+    const historyPan = (event: PointerEvent | WheelEvent) => { if (event instanceof WheelEvent || event.buttons === 1) historyInteraction.current = performance.now(); };
+    host.addEventListener("pointermove", historyPan, true);
+    host.addEventListener("wheel", historyPan, { capture: true, passive: true });
     const wheelPriceScale = (event: WheelEvent) => {
       const rect = host.getBoundingClientRect(), scale = chart.priceScale("right");
       const x = (event.clientX - rect.left) * host.clientWidth / rect.width;
@@ -135,7 +147,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       });
       if (hit) setBandEditor(true);
     });
-    return () => { host.removeEventListener("pointerdown", beginPan, true); host.removeEventListener("wheel", wheelPriceScale, true); chart.remove(); chartRef.current = null; seriesRef.current = null; };
+    return () => { host.removeEventListener("pointerdown", beginPan, true); host.removeEventListener("pointermove", historyPan, true); host.removeEventListener("wheel", historyPan, true); host.removeEventListener("wheel", wheelPriceScale, true); chart.remove(); chartRef.current = null; seriesRef.current = null; };
   }, [appearance]);
 
   useEffect(() => {
@@ -146,6 +158,8 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   useEffect(() => {
     const chart = chartRef.current, series = seriesRef.current;
     if (!chart || !series) return;
+    const previousRange = chart.timeScale().getVisibleLogicalRange();
+    const prependCount = previousFirst.current === null ? 0 : data.findIndex(bar => bar.time === previousFirst.current);
     const priceFormat = { type: "price" as const, precision, minMove: 10 ** -precision };
     for (const item of [series.candles, series.line, series.ma, series.ema, series.upper, series.lower]) item.applyOptions({ priceFormat });
     series.candles.setData([...data, ...future]);
@@ -158,13 +172,16 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     series.lower.setData(ready.map(point => ({ time: point.time as UTCTimestamp, value: point.lower })));
     chart.applyOptions({ timeScale: { timeVisible: !["1d", "1w", "1mo"].includes(timeframe) } });
     // Fit once per dataset/currency, not on live refresh or indicator toggles.
-    const viewKey = `${timeframe}:${currency}`;
+    const viewKey = `${timeframe}:${currency}:${historySession}`;
     if (data.length && fittedRef.current !== viewKey) {
       chart.priceScale("right").setAutoScale(true);
       chart.timeScale().setVisibleLogicalRange({ from: Math.max(-1, data.length - 100), to: data.length + 20 });
       fittedRef.current = viewKey;
+    } else if (data.length && prependCount > 0 && previousRange) {
+      chart.timeScale().setVisibleLogicalRange({ from: previousRange.from + prependCount, to: previousRange.to + prependCount });
     }
-  }, [data, future, indicators, timeframe, currency, precision, appearance]);
+    previousFirst.current = data[0]?.time ?? null;
+  }, [data, future, indicators, timeframe, currency, precision, appearance, historySession]);
 
   useEffect(() => {
     const series = seriesRef.current;
@@ -191,7 +208,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   };
   const change = current ? 100 * (current.close / current.open - 1) : 0;
   const reset = () => { chartRef.current?.priceScale("right").setAutoScale(true); if (bars.length) chartRef.current?.timeScale().setVisibleLogicalRange({ from: -1, to: bars.length + 20 }); };
-  const latest = () => { const scale = chartRef.current?.timeScale(); const range = scale?.getVisibleLogicalRange(); if (scale && bars.length) scale.setVisibleLogicalRange({ from: bars.length + 20 - (range ? range.to - range.from : 120), to: bars.length + 20 }); };
+  const latest = () => { if (historicalDate !== null) { onHistoryDate?.(null); return; } const scale = chartRef.current?.timeScale(); const range = scale?.getVisibleLogicalRange(); if (scale && bars.length) scale.setVisibleLogicalRange({ from: bars.length + 20 - (range ? range.to - range.from : 120), to: bars.length + 20 }); };
 
   return <div ref={terminalRef} className="trading-terminal chart-rebuilt">
     <div className="chart-toolbar" role="group" aria-label="Chart controls">
@@ -212,6 +229,13 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
         <button onClick={toggleFullscreen} aria-label={fullscreen ? "Exit chart fullscreen" : "Expand chart fullscreen"}>{fullscreen ? "↙" : "⛶"}</button>
       </div>
     </div>
+    {onLoadEarlier && <div className="chart-history-toolbar" aria-label="Chart history navigation">
+      <button type="button" onClick={onLoadEarlier} disabled={loading || earlierLoading || earlierDone || !bars.length}>{earlierLoading ? "Loading older candles…" : earlierDone ? "Earliest available history" : "Load older candles"}</button>
+      {onHistoryDate && <form onSubmit={event => { event.preventDefault(); const time = Date.parse(`${historyDateInput}T00:00:00Z`); if (Number.isFinite(time)) onHistoryDate(Math.floor(time / 1000) + 86400); }}>
+        <label>Go to date <input type="date" aria-label="Chart history date" min="2021-01-01" value={historyDateInput} onChange={event => setHistoryDateInput(event.target.value)} required /></label><button type="submit" disabled={loading || earlierLoading}>Go</button>
+      </form>}
+      <span role="status">{earlierError || (earlierLoading ? "Fetching the next historical page; your chart stays in place." : earlierDone ? "Provider history boundary reached. This may differ from the project's launch date." : historicalDate !== null ? "Historical window · Latest returns to current candles." : "Scroll left to load earlier history automatically.")}</span>
+    </div>}
     <div className="chart-study-toolbar" role="group" aria-label="Technical indicators">
       <span>Indicators</span>
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>

@@ -14,21 +14,29 @@ export async function GET(request: NextRequest) {
   const subnet = request.nextUrl.searchParams.get("netuid") || "";
   const netuid = Number(subnet);
   const config = intervals[interval];
+  const beforeParam = request.nextUrl.searchParams.get("before");
+  const before = beforeParam === null ? null : Number(beforeParam);
+  if (before !== null && (!Number.isSafeInteger(before) || before < 1609459200 || before > Date.now() / 1000 + 86400)) return NextResponse.json({ error: "Invalid history cursor" }, { status: 400 });
   if (!/^\d{1,3}$/.test(subnet) || !Number.isInteger(netuid) || netuid < 1 || netuid > 128 || !config) return NextResponse.json({ error: "Unsupported chart query" }, { status: 400 });
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) return NextResponse.json({ error: "Chart provider unavailable" }, { status: 503 });
   try {
     // Stable minute buckets share the provider response across visitors.
-    const to = Math.floor(Date.now() / 60_000) * 60;
+    const bucket = interval === "10m" ? 600 : config.seconds;
+    const to = before === null ? Math.floor(Date.now() / 60_000) * 60 : Math.floor(before / bucket) * bucket;
+    const count = before === null ? config.count : interval === "10m" ? 288 : interval === "1h" ? 720 : 900;
     const url = new URL("/v1/tradingview/udf/history", "https://api.taostats.io");
-    for (const [name, value] of Object.entries({ symbol: `SUB-${netuid}`, resolution: config.resolution, to, from: to - config.seconds * config.count, countback: config.count })) url.searchParams.set(name, String(value));
-    const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 60 }, signal: AbortSignal.timeout(7000) });
+    for (const [name, value] of Object.entries({ symbol: `SUB-${netuid}`, resolution: config.resolution, to, from: to - config.seconds * count, countback: count })) url.searchParams.set(name, String(value));
+    const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: before === null ? 60 : 86400 }, signal: AbortSignal.timeout(7000) });
     if (!response.ok) throw new Error("Provider unavailable");
-    const candles = udfCandles(await response.json());
+    const payload = await response.json();
+    if (payload.s === "no_data") return NextResponse.json({ data: [], method: "taostats-alpha", done: true, interval });
+    const candles = udfCandles(payload);
     const bars = priceBars(candles);
-    const data = (interval === "10m" ? aggregateBars(bars, 600) : bars).map(bar => [new Date(bar.time * 1000).toISOString(), String(bar.open), String(bar.high), String(bar.low), String(bar.close), String(bar.volume)]);
-    if (!data.length) throw new Error("No usable candles");
-    return NextResponse.json({ data, method: "taostats-alpha", source: "TaoStats", volumeUnit: "alpha", interval }, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } });
+    const usable = (interval === "10m" ? aggregateBars(bars, 600) : bars).filter(bar => before === null || bar.time < to);
+    const data = usable.map(bar => [new Date(bar.time * 1000).toISOString(), String(bar.open), String(bar.high), String(bar.low), String(bar.close), String(bar.volume)]);
+    const done = !usable.length || usable[0].time <= Date.UTC(2025, 1, 13) / 1000;
+    return NextResponse.json({ data, done, method: "taostats-alpha", source: "TaoStats", volumeUnit: "alpha", interval }, { headers: { "Cache-Control": `public, s-maxage=${before === null ? 60 : 86400}, stale-while-revalidate=120` } });
   } catch {
     return NextResponse.json({ error: "TaoStats chart history unavailable; use node fallback." }, { status: 503 });
   }

@@ -2,6 +2,14 @@ export type Candle = {
   time: string; open: string; high: string; low: string; close: string; volume_tao?: string;
 };
 export type PriceBar = { time: number; open: number; high: number; low: number; close: number; volume: number };
+export function mergeChartCandles(older: Candle[], newer: Candle[]): Candle[] {
+  const unique = new Map<number, Candle>();
+  for (const candle of [...older, ...newer]) {
+    const time = Date.parse(candle.time);
+    if (Number.isFinite(time)) unique.set(time, candle);
+  }
+  return [...unique.entries()].sort((a,b) => a[0] - b[0]).map(([,candle]) => candle);
+}
 export const chartIntervals: Record<string, number> = { "1m": 60, "10m": 600, "1h": 3600, "1d": 86400 };
 
 // Time-only chart space, never forecast prices or volume. Calendar months must
