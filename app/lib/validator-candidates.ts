@@ -1,5 +1,4 @@
 import "server-only";
-import { unstable_cache } from "next/cache";
 import { getCache } from "@vercel/functions";
 import { numeric, type Validator, type ValidatorYield } from "./validator-types";
 import { delegatedOperation } from "./validator-operation";
@@ -46,7 +45,7 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
   throw new Error("Source exceeds the bounded scan. No recommendation was generated from partial results.");
 }
 
-export const loadCandidates = unstable_cache(async (netuid: number) => {
+async function readCandidateSources() {
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) throw new Error("Validator recommendations are not configured for this environment.");
   const [validators, allYields, allNeurons, allHypers, childIndex] = await Promise.all([
@@ -59,6 +58,22 @@ export const loadCandidates = unstable_cache(async (netuid: number) => {
     collection<Hyper>("/v1/subnets/hyperparameters", {}, key),
     getChildHotkeys(),
   ]);
+  return { validators, allYields, allNeurons, allHypers, childIndex, collectedAt: new Date().toISOString() };
+}
+// Persist bounded pages in Runtime Cache; avoid storing the entire network as one
+// oversized Next data-cache entry. Coalesce concurrent readers on a warm instance.
+let sourceTask: ReturnType<typeof readCandidateSources> | null = null;
+let sourceReadAt = 0;
+export function loadCandidateSources() {
+  if (!sourceTask || Date.now() - sourceReadAt >= 300000) {
+    sourceReadAt = Date.now();
+    sourceTask = readCandidateSources().catch(error => { sourceTask = null; throw error; });
+  }
+  return sourceTask;
+}
+
+export function buildCandidates(netuid: number, sources: Awaited<ReturnType<typeof loadCandidateSources>>) {
+  const { validators, allYields, allNeurons, allHypers, childIndex } = sources;
   const yields = allYields.filter(row => row.netuid === netuid);
   const neurons = allNeurons.filter(row => row.netuid === netuid);
   const hypers = allHypers.filter(row => row.netuid === netuid);
@@ -93,6 +108,9 @@ export const loadCandidates = unstable_cache(async (netuid: number) => {
     };
   });
   if (new Set(candidates.map(c => c.hotkey)).size !== candidates.length || new Set(yields.map(y => y.hotkey)).size !== yields.length) throw new Error("Ambiguous validator rows. No recommendation generated.");
-  return { candidates, netuid, collectedAt: new Date().toISOString(), coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length, parentPaths: parents.size, hiddenChildren: neurons.filter(row => children.has(row.hotkey)).length }, childCheck: { block: childIndex.block, checkedAt: childIndex.checkedAt } };
-}, ["validator-recommendations-parent-paths-v6"], { revalidate: 300 });
+  return { candidates, netuid, collectedAt: sources.collectedAt, coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length, parentPaths: parents.size, hiddenChildren: neurons.filter(row => children.has(row.hotkey)).length }, childCheck: { block: childIndex.block, checkedAt: childIndex.checkedAt } };
+}
 
+export async function loadCandidates(netuid: number) {
+  return buildCandidates(netuid, await loadCandidateSources());
+}

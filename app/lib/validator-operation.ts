@@ -14,3 +14,13 @@ export function delegatedOperation(hotkey: string, edges: DelegationEdge[], neur
   if (rows.some(row => !Number.isFinite(Number(row.total_alpha_stake)) || Number(row.total_alpha_stake) < 0)) return null;
   return { children: rows.map(row => row.hotkey), updated: Math.max(...rows.map(row => row.updated)), stake: rows.reduce((sum, row) => sum + Number(row.total_alpha_stake), 0), dividends: Math.min(...rows.map(row => Number(row.dividends))), timestamps: rows.map(row => row.timestamp) };
 }
+
+// Distinct parent names can share an operator. Count each parent once per hotkey.
+export function sharedOperators(rows: { hotkey: string; name: string; operators?: string[]; operatorIdentities?: { hotkey: string; name: string | null }[] }[]) {
+  const groups = new Map<string, { hotkey: string; name: string | null; parents: Set<string> }>();
+  for (const row of rows) for (const hotkey of new Set(row.operators?.length ? row.operators : [row.hotkey])) {
+    const group = groups.get(hotkey) || { hotkey, name: row.operatorIdentities?.find(operator => operator.hotkey === hotkey)?.name || (hotkey === row.hotkey && row.name !== hotkey ? row.name : null), parents: new Set<string>() };
+    group.parents.add(row.hotkey); groups.set(hotkey, group);
+  }
+  return [...groups.values()].filter(group => group.parents.size > 1).map(group => ({ hotkey: group.hotkey, name: group.name, parents: group.parents.size })).sort((a,b) => b.parents - a.parents || a.hotkey.localeCompare(b.hotkey));
+}

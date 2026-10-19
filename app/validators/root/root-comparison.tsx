@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
 import { basketOverlap, compareHistory, type HistoryPoint, type Performance } from "../../lib/root-comparison";
 import { displayNumber, shortAddress } from "../../lib/validator-types";
 import type { NamedRootBasket } from "../../lib/root-baskets";
@@ -22,18 +22,20 @@ export function RootComparison({ baskets, subnets, initialHotkey = "", compariso
   const [loaded, setLoaded] = useState<Loaded | null>(null);
   const [error, setError] = useState(invalidComparison ? "The selected baskets are not available in this directory snapshot. Please choose two listed validators." : "");
   const [loading, setLoading] = useState(!!comparison && !invalidComparison);
+  const captureBaskets = useEffectEvent((keys: string[]) => keys.map(hotkey => baskets.find(basket => basket.hotkey === hotkey)));
   useEffect(() => {
     if (!request) return;
-    if (request.keys.length < 2 || new Set(request.keys).size !== request.keys.length || request.keys.some(key => !baskets.some(row => row.hotkey === key))) return;
+    const captured = captureBaskets(request.keys);
+    if (request.keys.length < 2 || new Set(request.keys).size !== request.keys.length || captured.some(row => !row)) return;
     const controller = new AbortController();
     Promise.all(request.keys.map(async hotkey => {
       const response = await fetch(`/api/validators/root/history?hotkey=${hotkey}`, { signal: controller.signal });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Basket history unavailable.");
       return payload.data as HistoryPoint[];
-    })).then(histories => { setLoaded({ histories, baskets: request.keys.map(hotkey => baskets.find(basket => basket.hotkey === hotkey)!) }); }).catch(reason => { if (!controller.signal.aborted) setError(reason.message); }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
+    })).then(histories => { if (!controller.signal.aborted) setLoaded({ histories, baskets: captured as NamedRootBasket[] }); }).catch(reason => { if (!controller.signal.aborted) setError(reason.message); }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
-  }, [request, baskets]);
+  }, [request]);
   const calculated = useMemo(() => {
     if (!loaded) return null;
     try {
@@ -50,9 +52,9 @@ export function RootComparison({ baskets, subnets, initialHotkey = "", compariso
     setLoading(true); setLoaded(null); setError(""); setRequest({ keys, id: Date.now() });
   }}><div className={styles.compareControls}>{selected.map((value, index) => <label key={index}>Validator {index + 1}{index === 2 ? " (optional)" : ""}<select required={index < 2} value={value} onChange={event => setSelected(old => old.map((key, i) => i === index ? event.target.value : key))}><option value="">Choose validator</option>{options.map(basket => <option key={basket.hotkey} value={basket.hotkey}>{name(basket)} · {shortAddress(basket.hotkey)}</option>)}</select></label>)}</div><button disabled={loading} type="submit">{loading ? "Loading daily history…" : "Compare baskets"}</button></form><div className={styles.tabs} role="group" aria-label="Basket comparison period">{["30", "90"].map(days => <button key={days} aria-pressed={period === days} onClick={() => setPeriod(days)}>{days} days</button>)}</div><p className={styles.source}>History loads on request from a shared hourly cache. Period changes reuse loaded history. Only completed UTC days are included. Missing or reset fund history is not joined into a fabricated return.</p>
     {loading && <p role="status">Loading comparable daily observations. The rest of the page stays available.</p>}{error && <p className={styles.notice} role="alert">{error}</p>}
-    {calculated?.error && <p className={styles.notice} role="status">{calculated.error} Current basket overlap is still shown below.</p>}
+    {calculated?.error && <p className={styles.notice} role="status">{calculated.error} Basket overlap at comparison is still shown below.</p>}
     {loaded && calculated?.performance && <PerformanceChart performance={calculated.performance} baskets={loaded.baskets} />}
-    {loaded && <><h3>Current basket overlap</h3><p>Overlap sums the smaller allocation to each shared subnet, including TAO cash: 100% means identical value allocations; 0% means no shared exposure. It does not measure return correlation or operator independence.</p><ValidatorTableScroll className={styles.tableWrap} label="Basket overlap comparison"><table className={`${styles.table} ${styles.holdingsTable} ${styles.pinFirst}`}><thead><tr><th>Basket pair</th><th>Weighted overlap</th><th>Largest shared exposures</th></tr></thead><tbody>{pairs.map(({ a, b, data }) => <tr key={`${a.hotkey}-${b.hotkey}`}><td>{name(a)} / {name(b)}</td><td>{data ? pct(data.overlap) : "Unavailable: different blocks or empty basket"}</td><td>{data?.shared.slice(0, 3).map(holding => `SN${holding.netuid} ${holding.netuid === 0 ? "TAO cash" : labels.get(holding.netuid) || "Subnet"} (${pct(holding.share)})`).join(" · ") || "—"}</td></tr>)}</tbody></table></ValidatorTableScroll><p className={styles.source}>Overlap uses the current basket snapshot, separately from the historical chart: {loaded.baskets.map(basket => `${name(basket)}: ${basket.timestamp}, block ${basket.block_number}`).join(" · ")}</p></>}
+    {loaded && <><h3>Basket overlap at comparison</h3><p>Overlap sums the smaller allocation to each shared subnet, including TAO cash: 100% means identical value allocations; 0% means no shared exposure. It does not measure return correlation or operator independence.</p><ValidatorTableScroll className={styles.tableWrap} label="Basket overlap comparison"><table className={`${styles.table} ${styles.holdingsTable} ${styles.pinFirst}`}><thead><tr><th>Basket pair</th><th>Weighted overlap</th><th>Largest shared exposures</th></tr></thead><tbody>{pairs.map(({ a, b, data }) => <tr key={`${a.hotkey}-${b.hotkey}`}><td>{name(a)} / {name(b)}</td><td>{data ? pct(data.overlap) : "Unavailable: different blocks or empty basket"}</td><td>{data?.shared.slice(0, 3).map(holding => `SN${holding.netuid} ${holding.netuid === 0 ? "TAO cash" : labels.get(holding.netuid) || "Subnet"} (${pct(holding.share)})`).join(" · ") || "—"}</td></tr>)}</tbody></table></ValidatorTableScroll><p className={styles.source}>Overlap uses the basket snapshot captured when you press Compare, separately from the historical chart: {loaded.baskets.map(basket => `${name(basket)}: ${basket.timestamp}, block ${basket.block_number}`).join(" · ")}</p></>}
     <p className={styles.source}><a href="https://taostats.io/docs/new/validators/get-validators-baskets-history" target="_blank" rel="noreferrer">Source and method: TaoStats daily basket history</a>. Total return includes accrual and valuation changes. Take is not deducted again. These are basket observations, not personalized profit or guaranteed returns.</p>
   </section>;
 }

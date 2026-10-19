@@ -1,6 +1,7 @@
 import "server-only";
 import { getCache } from "@vercel/functions";
-import { loadCandidates } from "./validator-candidates";
+import { loadCandidates, loadCandidateSources, buildCandidates } from "./validator-candidates";
+import { prepareSubnetWrites } from "./subnet-preparation-batch";
 import { recommendationNeedsRefresh } from "./recommendation-freshness";
 import { getSubnetNewsBriefs } from "./subnet-news";
 
@@ -11,14 +12,14 @@ export async function readSubnetRecommendations(netuid: number) {
   // Retaining a snapshot never overrides the ranking's stricter source-age checks.
   return value && value.netuid === netuid && Date.parse(value.preparedAt) <= Date.now() + 60000 && Date.now() - Date.parse(value.preparedAt) < 7200000 ? value : null;
 }
-export async function prepareSubnetRecommendations(netuid: number) {
+export async function prepareSubnetRecommendations(netuid: number, sources?: Awaited<ReturnType<typeof loadCandidateSources>>) {
   // A short shared lease avoids a new scan on each polling request. This is
   // best-effort coalescing; correctness does not depend on exclusive ownership.
   if (await cache().get(`preparing:${netuid}`)) return;
   await cache().set(`preparing:${netuid}`, true, { ttl: 120 });
   await cache().set(`attempt:${netuid}`, Date.now(), { ttl: 7200 });
   try {
-    const snapshot = { ...await loadCandidates(netuid), preparedAt: new Date().toISOString() };
+    const snapshot = { ...(sources ? buildCandidates(netuid, sources) : await loadCandidates(netuid)), preparedAt: new Date().toISOString() };
     await cache().set(`snapshot:${netuid}`, snapshot, { ttl: 7200 });
     await cache().delete(`preparing:${netuid}`);
     return snapshot;
@@ -37,13 +38,9 @@ export async function prepareSubnetBatch() {
   }));
   const pending = snapshots.filter(row => !row.snapshot || recommendationNeedsRefresh(row.snapshot, started))
     .sort((a, b) => a.attemptedAt - b.attemptedAt);
-  const prepared: number[] = [], failed: number[] = [], inProgress: number[] = [];
-  for (const { netuid } of pending.slice(0, 20)) {
-    if (Date.now() - started > 220000) break;
-    try { if (await prepareSubnetRecommendations(netuid)) prepared.push(netuid); else inProgress.push(netuid); }
-    catch { failed.push(netuid); }
-    // Spread provider calls rather than exhausting the allowance in one burst.
-    await new Promise(resolve => setTimeout(resolve, 6000));
-  }
-  return { prepared, failed, inProgress, remaining: pending.length - prepared.length, total: netuids.length };
+  if (!pending.length) return { prepared: [], failed: [], inProgress: [], remaining: 0, total: netuids.length };
+  // One complete source scan serves every subnet; building rows does not call providers.
+  const sources = await loadCandidateSources();
+  const result = await prepareSubnetWrites(pending.map(row => row.netuid), netuid => prepareSubnetRecommendations(netuid, sources), started + 220000);
+  return { ...result, total: netuids.length };
 }

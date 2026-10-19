@@ -38,3 +38,10 @@ export function rao(value: unknown): number | null {
 export function shortAddress(address: string): string {
   return `${address.slice(0, 6)}…${address.slice(-6)}`;
 }
+
+export function directorySnapshotTimes(rows: { timestamp: string }[], now: number) {
+  const times = rows.map(row => Date.parse(row.timestamp));
+  const valid = times.filter(Number.isFinite);
+  return { oldest: valid.length ? Math.min(...valid) : null, newest: valid.length ? Math.max(...valid) : null,
+    stale: times.filter(time => !Number.isFinite(time) || now - time > 7200000 || time > now + 60000).length };
+}

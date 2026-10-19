@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { delegatedOperation } from '../app/lib/validator-operation.ts';
+import { delegatedOperation, sharedOperators } from '../app/lib/validator-operation.ts';
 const edge = { parent: 'parent', child: 'operator', proportion: '18446744073709551615' };
 const neuron = { hotkey: 'operator', active: true, validator_permit: true, updated: 4, total_alpha_stake: '100', dividends: '0.1', timestamp: '2026-10-16T16:00:00Z' };
 test('a fully delegated parent gets operating evidence, never an inherited yield', () => {
@@ -19,4 +19,14 @@ test('partial, duplicate, nested, missing and inactive paths cannot qualify', ()
     [[edge], [{ ...neuron, validator_permit: false }]],
     [[edge], [{ ...neuron, updated: 501 }]],
   ]) assert.equal(delegatedOperation('parent', edges, neurons, 500), null);
+});
+
+test('shared operator warning counts distinct parents, not duplicate edges or names', () => {
+  const rows = [
+    { hotkey: 'parent-a', name: 'Brand A', operators: ['operator', 'operator'], operatorIdentities: [{ hotkey: 'operator', name: 'Shared Lab' }] },
+    { hotkey: 'parent-b', name: 'Brand B', operators: ['operator', 'second'] },
+    { hotkey: 'independent', name: 'Brand A' },
+  ];
+  assert.deepEqual(sharedOperators(rows), [{ hotkey: 'operator', name: 'Shared Lab', parents: 2 }]);
+  assert.deepEqual(sharedOperators([rows[0], rows[2]]), []);
 });

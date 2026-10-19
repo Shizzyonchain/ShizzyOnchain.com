@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Candidate } from "../lib/validator-ranking";
-import { currentYieldCheck, type YieldChecks, type YieldWindow } from "../lib/validator-yield-check";
+import { currentYieldCheck, yieldSnapshotKey, type YieldChecks, type YieldWindow } from "../lib/validator-yield-check";
 import { shortAddress } from "../lib/validator-types";
 import { ValidatorTableScroll } from "./validator-table-scroll";
 import styles from "./validators.module.css";
@@ -16,12 +16,22 @@ function WindowCheck({ value }: { value?: YieldWindow }) {
 export function ValidatorYieldChecks({ netuid, candidates, now, onChecks }: { netuid: number; candidates: Candidate[]; now: number; onChecks: (value: YieldChecks) => void }) {
   const [checks, setChecks] = useState<YieldChecks | null>(null);
   const [queueFailed, setQueueFailed] = useState(false);
+  const revision = useMemo(() => yieldSnapshotKey(candidates), [candidates]);
   useEffect(() => {
     const controller = new AbortController();
     const url = `/api/validators/yield-checks?netuid=${netuid}&method=4`;
     let timer: number | undefined;
-    let attempts = 0;
+    let lastQueued = 0;
+    async function queue() {
+      lastQueued = Date.now();
+      try {
+        const response = await fetch(url, { method: "POST", signal: controller.signal });
+        if (!controller.signal.aborted) setQueueFailed(!response.ok);
+      } catch { if (!controller.signal.aborted) setQueueFailed(true); }
+    }
     async function read() {
+      if (document.hidden) { timer = window.setTimeout(read, 60000); return; }
+      if (Date.now() - lastQueued >= 300000) void queue();
       try {
         const response = await fetch(url, { signal: controller.signal });
         if (!response.ok) throw new Error("Unavailable");
@@ -30,15 +40,11 @@ export function ValidatorYieldChecks({ netuid, candidates, now, onChecks }: { ne
       } catch {
         if (!controller.signal.aborted) { const unavailable = { netuid, state: "unavailable" }; setChecks(unavailable); onChecks(unavailable); }
       }
-      if (!controller.signal.aborted && ++attempts < 7) timer = window.setTimeout(read, 30000);
+      if (!controller.signal.aborted) timer = window.setTimeout(read, 60000);
     }
     void read();
-    // Recommendations render first. This only queues work; the separate worker reads the node.
-    void fetch(url, { method: "POST", signal: controller.signal }).then(response => {
-      if (!controller.signal.aborted && !response.ok) setQueueFailed(true);
-    }).catch(() => { if (!controller.signal.aborted) setQueueFailed(true); });
     return () => { controller.abort(); window.clearTimeout(timer); };
-  }, [netuid, onChecks]);
+  }, [netuid, onChecks, revision]);
   const byHotkey = new Map((checks?.state === "ready" && checks.result?.methodVersion === 4 ? checks.result.rows : []).map(row => [row.hotkey, row]));
   const rows = candidates.map(row => ({ row, check: currentYieldCheck(byHotkey.get(row.hotkey), row.yieldBlock, row.timestamps[0], now) }));
   const comparable = rows.filter(({ check }) => check && check.seven.status !== "unavailable" && check.thirty.status !== "unavailable");

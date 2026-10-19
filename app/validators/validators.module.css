@@ -93,3 +93,6 @@
 .operatingPath>small,.operatingPath p>small{display:block;white-space:normal;font-size:11px;color:#bbb}
 .operatingPath p{margin:8px 0}.operatingPath a{font-size:13px}
 @media(max-width:700px){.operatingPath{min-width:0;max-width:100%;margin:12px 0}}
+
+.shortlistMore{width:100%;min-height:48px;margin:14px 0;background:#fff!important;color:#000!important;white-space:normal}
+@media(max-width:760px){.phoneResult>.operatingPath{font:12px/1.5 Arial,sans-serif;min-width:0;max-width:100%}.phoneResultDetails .operatingPath{max-width:100%;min-width:0}.phoneResultDetails .address{overflow-wrap:anywhere;white-space:normal}}

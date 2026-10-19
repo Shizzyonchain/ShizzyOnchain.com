@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { currentYieldCheck, yieldCandidates } from '../app/lib/validator-yield-check.ts';
+import { currentYieldCheck, yieldCandidates, yieldSnapshotKey } from '../app/lib/validator-yield-check.ts';
 test('only the exact fresh provider snapshot can carry a current chain check', () => {
   const timestamp = '2026-10-16T12:00:00Z';
   const check = { providerBlock: 100, providerTimestamp: timestamp };
@@ -25,4 +25,13 @@ test('chain rankings never mix provider rates with calculated APY, and need exac
   assert.equal(yieldCandidates(candidates,checks,51,now).source,'provider');
   assert.equal(yieldCandidates(candidates,checks,64,now+7200000).source,'provider');
   assert.equal(yieldCandidates(candidates,{...checks,result:{...checks.result,methodVersion:2}},64,now).source,'provider');
+});
+
+test('continuous node checks restart only when yield evidence changes', () => {
+  const rows = [{ hotkey: 'a', yieldBlock: 100, timestamps: ['2026-10-19T17:00:00Z'], name: 'Old label' }, { hotkey: 'b', yieldBlock: 100, timestamps: ['2026-10-19T17:00:00Z'] }];
+  const original = yieldSnapshotKey(rows);
+  assert.equal(yieldSnapshotKey([...rows].reverse()), original);
+  assert.equal(yieldSnapshotKey([{ ...rows[0], name: 'New label' }, rows[1]]), original);
+  assert.notEqual(yieldSnapshotKey([{ ...rows[0], yieldBlock: 101 }, rows[1]]), original);
+  assert.notEqual(yieldSnapshotKey([{ ...rows[0], timestamps: ['2026-10-19T18:00:00Z'] }, rows[1]]), original);
 });

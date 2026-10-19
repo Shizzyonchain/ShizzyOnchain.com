@@ -28,3 +28,8 @@ export function yieldCandidates(candidates: Candidate[], checks: YieldChecks | n
     ? { ...row, ...measured[index], yieldBasis: "chain-net" }
     : { ...row, yield7: null, yield30: null, apr7: null, apr30: null, yieldBasis: "unknown" }) };
 }
+
+// Only a change in the actual yield evidence restarts the independent check.
+export function yieldSnapshotKey(candidates: Pick<Candidate, "hotkey" | "yieldBlock" | "timestamps">[]) {
+  return candidates.map(row => `${row.hotkey}:${row.yieldBlock ?? ""}:${row.timestamps[0] || ""}`).sort().join("|");
+}

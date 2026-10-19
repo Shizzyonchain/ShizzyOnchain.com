@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       });
       const totalPages = Math.max(1, Math.ceil(rows.length / 200));
       const currentPage = Math.min(page, totalPages);
-      return NextResponse.json({ data: rows.slice((currentPage - 1) * 200, currentPage * 200), directoryTotal: snapshot.rows.length, hiddenChildren: snapshot.hiddenChildren, childCheck: snapshot.childCheck, pagination: { current_page: currentPage, next_page: currentPage < totalPages ? currentPage + 1 : null, prev_page: currentPage > 1 ? currentPage - 1 : null, total_items: rows.length, total_pages: totalPages }, source: "TaoStats + finalized Finney ParentKeys" }, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } });
+      return NextResponse.json({ data: rows.slice((currentPage - 1) * 200, currentPage * 200), directoryTotal: snapshot.rows.length, hiddenChildren: snapshot.hiddenChildren, childCheck: snapshot.childCheck, pagination: { current_page: currentPage, next_page: currentPage < totalPages ? currentPage + 1 : null, prev_page: currentPage > 1 ? currentPage - 1 : null, total_items: rows.length, total_pages: totalPages }, source: "TaoStats + finalized Finney ParentKeys" }, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=60" } });
     }
     if (hotkey && (await getChildHotkeys()).hotkeys.includes(hotkey)) return NextResponse.json({ error: "Child validator profiles have been removed. Please use the parent/standalone validator directory." }, { status: 410 });
   } catch {
