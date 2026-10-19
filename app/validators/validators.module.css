@@ -61,3 +61,30 @@
  .page .finderCards td:last-child,.page .rootRankingCards td:last-child{grid-column:1/-1;border-top:1px solid #333;margin-top:6px;padding-bottom:0}
  .finderCards td:last-child details,.rootRankingCards td:last-child details{min-width:0;max-width:100%}.finderCards summary,.rootRankingCards summary{min-height:44px;align-content:center}
 }
+
+/* Selected-subnet results: compact phone shortlist, evidence on demand. */
+.phoneResults{display:none}
+@media(max-width:760px){
+ .desktopFinderResults{display:none}
+ .phoneResults{display:block;margin-top:16px}
+ .phoneResultsCaption{font:12px/1.6 Arial,sans-serif;color:#bbb}
+ .phoneResult{padding:16px 0;border-top:1px solid #333;min-width:0}
+ .phoneResultHeading{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+ .phoneResultHeading a{font:700 17px/1.4 Arial,sans-serif;color:#fff;overflow-wrap:anywhere;min-width:0}
+ .phoneResultHeading>span{font:11px/1.4 monospace;color:#bbb;white-space:nowrap}
+ .phoneResultNumbers{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin:12px 0 0}
+ .phoneResultNumbers dt,.phoneResultDetails dt{font:11px/1.5 Arial,sans-serif;color:#aaa}
+ .phoneResultNumbers dd{margin:4px 0 0;font:700 16px/1.4 monospace;color:#fff}
+ .phoneResultNumbers dd small,.phoneResultDetails dd small{display:block;font:11px/1.5 Arial,sans-serif;color:#aaa}
+ .phoneResultDetails summary,.phoneExcluded>summary{cursor:pointer;min-height:44px;align-content:center;font:12px/1.5 Arial,sans-serif;color:#ddd;padding:12px 0}
+ .phoneResultDetails li{font:13px/1.6 Arial,sans-serif;margin:8px 0;overflow-wrap:anywhere}
+ .phoneResultDetails ul{padding-left:18px}
+ .phoneResultDetails dl{display:grid;gap:12px}
+ .phoneResultDetails dd{margin:3px 0;font:13px/1.5 monospace}
+ .phoneResultDetails .source{overflow-wrap:anywhere}
+ .phoneResultDetails>a{display:inline-block;padding:12px 0;font-size:13px}
+ .phoneExcluded{margin-top:12px;border-top:1px solid #444}
+ .finder>.evidenceDetails{padding:0 12px;margin:12px 0}
+ .finder>.evidenceDetails>summary{font:12px/1.5 Arial,sans-serif}
+ .finder>h3{font:700 21px/1.4 Arial,sans-serif;margin:20px 0 10px}
+}
