@@ -1840,6 +1840,7 @@ export function Dashboard({
                             </div>
                           </div>
                           <>
+                              {!showTaoChart && <div className="onchain-activity chart-onchain-activity"><div><strong>On-chain buying activity</strong><span>SN{selected} · Buys and sells on TaoFlows</span></div><a href={`https://taoflows.app/flows?subnets=${selected}`} target="_blank" rel="noopener noreferrer" aria-label={`View SN${selected} buys and sells on TaoFlows (opens in a new tab)`}>View buys &amp; sells ↗</a></div>}
                               <TradingChart onLoadEarlier={loadEarlierHistory} earlierLoading={earlierHistory.key === requestedChartKey && earlierHistory.loading} earlierDone={earlierHistory.key === requestedChartKey && earlierHistory.done} earlierError={earlierHistory.key === requestedChartKey ? earlierHistory.error : ""} historySession={requestedChartKey} historicalDate={chartDate} onHistoryDate={setChartDate} assetLabel={showTaoChart ? "TAO · Bittensor" : `SN${selected} · ${active?.name || "Alpha"}`} drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price" && chartData.method !== "extended-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); candleCache.delete(`tao:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`); setChartRetry(value => value + 1); }} />
                               {chartRangeChange != null && <p className="chart-range-return">Available history <strong className={chartRangeChange >= 0 ? "positive" : "negative"}>{chartRangeChange > 0 ? "+" : ""}{chartRangeChange.toFixed(2)}%</strong> · {chartCurrency.toUpperCase()}</p>}
                               {showTaoChart ? (
@@ -2013,6 +2014,7 @@ export function Dashboard({
                 </div>
               </div>
             )}
+            {!chartPage && <div className="onchain-activity panel"><div><strong>On-chain buying activity</strong><span>Follow subnet buys and sells on TaoFlows. Open a subnet chart for its filtered activity.</span></div><a href="https://taoflows.app/flows" target="_blank" rel="noopener noreferrer" aria-label="View on-chain buying activity on TaoFlows (opens in a new tab)">View buys &amp; sells ↗</a></div>}
             {!chartPage && <section className="screener panel">
               <div className="screener-head">
                 <div>
