@@ -1021,6 +1021,7 @@ export function Dashboard({
   useEffect(() => {
     if (!marketDetailOpen) return;
     const previousOverflow = document.body.style.overflow;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = "hidden";
     marketModalCloseRef.current?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -1030,6 +1031,7 @@ export function Dashboard({
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", closeOnEscape);
+      opener?.focus({ preventScroll: true });
     };
   }, [marketDetailOpen]);
 
@@ -1726,9 +1728,8 @@ export function Dashboard({
             {marketDetailOpen && (
               <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}>
                 <div className="market-modal" role="dialog" aria-modal="true" aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={(event) => event.stopPropagation()}>
-                  <button ref={marketModalCloseRef} className="market-modal-close" onClick={() => setMarketDetailOpen(false)} aria-label="Close market details">
-                    ×
-                  </button>
+                  <div className="market-modal-navigation"><button type="button" className="market-modal-back" onClick={() => setMarketDetailOpen(false)}>← Back to markets</button>
+                  <button type="button" ref={marketModalCloseRef} className="market-modal-close" onClick={() => setMarketDetailOpen(false)} aria-label="Close market details">Close <span aria-hidden="true">×</span></button></div>
                   <section className="market-grid">
                     <div ref={chartCardRef} className="chart-card panel">
                       {!hasMarketData && (
