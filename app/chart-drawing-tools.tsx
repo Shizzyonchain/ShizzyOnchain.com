@@ -88,9 +88,10 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     schedule();
     chart.timeScale().subscribeVisibleLogicalRangeChange(schedule);
     host.addEventListener("pointermove",schedule); host.addEventListener("pointerup",schedule); host.addEventListener("wheel",schedule,{passive:true}); host.addEventListener("touchmove",schedule,{passive:true});
+    host.addEventListener("chart-price-scale-change",schedule);
     const scroller = host.closest(".market-modal"); scroller?.addEventListener("scroll",schedule,{passive:true});
     const observer = new ResizeObserver(schedule); observer.observe(host);
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); scroller?.removeEventListener("scroll",schedule); host.removeEventListener("pointermove",schedule); host.removeEventListener("pointerup",schedule); host.removeEventListener("wheel",schedule); host.removeEventListener("touchmove",schedule); if (isCurrentChart()) chart.timeScale().unsubscribeVisibleLogicalRangeChange(schedule); };
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); scroller?.removeEventListener("scroll",schedule); host.removeEventListener("pointermove",schedule); host.removeEventListener("pointerup",schedule); host.removeEventListener("wheel",schedule); host.removeEventListener("touchmove",schedule); host.removeEventListener("chart-price-scale-change",schedule); if (isCurrentChart()) chart.timeScale().unsubscribeVisibleLogicalRangeChange(schedule); };
   }, [items, draft, editing, bars, mode, hostRef, chartRef, appearance]);
   useEffect(() => { chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:!drawing&&editing<0,horzTouchDrag:!drawing&&editing<0,vertTouchDrag:!drawing&&editing<0}}); }, [chartRef,drawing,editing,appearance,bars]);
   const location = (event: PointerEvent<SVGSVGElement>) => {

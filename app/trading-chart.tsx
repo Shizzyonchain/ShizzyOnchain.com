@@ -89,9 +89,25 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       if (candles.data().length) chart.priceScale("right").setAutoScale(false);
     };
     host.addEventListener("pointerdown", beginPan, true);
+    const wheelPriceScale = (event: WheelEvent) => {
+      const rect = host.getBoundingClientRect(), scale = chart.priceScale("right");
+      const x = (event.clientX - rect.left) * host.clientWidth / rect.width;
+      const y = (event.clientY - rect.top) * host.clientHeight / rect.height;
+      if (x < host.clientWidth - scale.width() || y < 0 || y >= host.clientHeight - chart.timeScale().height() || !event.deltaY) return;
+      const range = scale.getVisibleRange();
+      if (!range || !Number.isFinite(range.from) || !Number.isFinite(range.to) || range.to <= range.from) return;
+      event.preventDefault(); event.stopPropagation();
+      const factor = Math.exp(Math.max(-.3, Math.min(.3, event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? host.clientHeight : 1) * .002)));
+      const center = (range.from + range.to) / 2, half = (range.to - range.from) * factor / 2;
+      if (!Number.isFinite(half) || half <= Math.max(Math.abs(center), 1e-12) * 1e-10) return;
+      scale.setAutoScale(false);
+      scale.setVisibleRange({ from: center - half, to: center + half });
+      host.dispatchEvent(new Event("chart-price-scale-change"));
+    };
+    host.addEventListener("wheel", wheelPriceScale, { capture: true, passive: false });
     fittedRef.current = "";
     chart.subscribeCrosshairMove(param => setHoverTime(typeof param.time === "number" ? param.time : null));
-    return () => { host.removeEventListener("pointerdown", beginPan, true); chart.remove(); chartRef.current = null; seriesRef.current = null; };
+    return () => { host.removeEventListener("pointerdown", beginPan, true); host.removeEventListener("wheel", wheelPriceScale, true); chart.remove(); chartRef.current = null; seriesRef.current = null; };
   }, [appearance]);
 
   useEffect(() => {
@@ -189,7 +205,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {ma && bars.length >= 20 && <span><i className="ma-line" />MA 20</span>}{ema && <span><i className="ema-line" />EMA 20</span>}
       {boll && bars.length >= 20 && <span><i className="boll-line" />Bollinger 20 / 2</span>}
       {volume && volumeAvailable && <span>Volume in {volumeUnit}</span>}
-      <small>Drag in any direction to pan · Reset restores price fit · Future dates are empty drawing space</small>
+      <small>Drag chart to pan · Drag or scroll price numbers to stretch/compress · Reset restores fit</small>
     </div>
     {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
     <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC{bars.length > 0 && ` · History from ${new Date(bars[0].time * 1000).toISOString().slice(0, 10)} · Reset shows all loaded history`}</span>
