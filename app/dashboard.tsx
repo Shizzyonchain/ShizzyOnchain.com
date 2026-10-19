@@ -1804,7 +1804,7 @@ export function Dashboard({
                             </div>
                           </div>
                           <>
-                              <TradingChart drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
+                              <TradingChart assetLabel={showTaoChart ? "TAO · Bittensor" : `SN${selected} · ${active?.name || "Alpha"}`} drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
                               {chartRangeChange != null && <p className="chart-range-return">Available history <strong className={chartRangeChange >= 0 ? "positive" : "negative"}>{chartRangeChange > 0 ? "+" : ""}{chartRangeChange.toFixed(2)}%</strong> · {chartCurrency.toUpperCase()}</p>}
                               {showTaoChart ? (
                                 <div className="chart-stats">
@@ -1876,25 +1876,7 @@ export function Dashboard({
                         </>
                       )}
                     </div>
-                    <aside className="movers panel">
-                      <div className="panel-title">
-                        <h2>Momentum</h2>
-                        <span>1 Hour</span>
-                      </div>
-                      {rankedMovers.slice(0, 5).map((r, i) => (
-                        <button key={r.netuid} onClick={() => openSubnetChart(r.netuid)}>
-                          <em>{String(i + 1).padStart(2, "0")}</em>
-                          <span>
-                            <b>{r.name || `Subnet ${r.netuid}`}</b>
-                            <small>SN{r.netuid}</small>
-                          </span>
-                          <strong className={changeClass(r.change_1h)}>
-                            {Number(r.change_1h) > 0 ? "+" : ""}
-                            {r.change_1h == null ? "—" : `${fmt(r.change_1h)}%`}
-                          </strong>
-                        </button>
-                      ))}
-                    </aside>
+
                   </section>
                   {!showTaoChart && active && signalData && (
                     <section className="trading-signals panel" aria-labelledby="signals-title">

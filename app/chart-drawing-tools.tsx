@@ -22,6 +22,8 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
   const storageKey = `shizzy:chart-drawings:v1:${storageId}:${currency}`;
   const [saved, setSaved] = useState<{ key: string; items: Drawing[] }>({ key: "", items: [] });
   const [tool, setTool] = useState<Tool>("pan");
+  const [collapsed, setCollapsed] = useState(false);
+  useEffect(() => { try { const hidden = localStorage.getItem("shizzy:drawing-tools-collapsed") === "true"; queueMicrotask(() => setCollapsed(hidden)); } catch { /* Optional preference. */ } }, []);
   const [anchor, setAnchor] = useState<Point | null>(null);
   const [draft, setDraft] = useState<Drawing | null>(null);
   const [color, setColor] = useState("#ffcc66");
@@ -102,7 +104,8 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     return { point:{time:timeForLogical(times,Number(logical)-p.firstLogical),price:Number(price)},xy:{x,y} };
   };
   const chooseTool = (next: Tool) => { setTool(next);setAnchor(null);setDraft(null);setEditing(-1);setSelected(-1);gesture.current=null; };
-  const selectDrawing = (index: number) => { setSelected(index);setTool("select");setColor(drawingColor(items[index]?.color));setWidth(items[index]?.width||3); };
+  const selectDrawing = (index: number) => { setCollapsed(false);setSelected(index);setTool("select");setColor(drawingColor(items[index]?.color));setWidth(items[index]?.width||3); };
+  const collapseTools = (hidden: boolean) => { setCollapsed(hidden); if(hidden)chooseTool("pan"); try { localStorage.setItem("shizzy:drawing-tools-collapsed", String(hidden)); } catch { /* Optional preference. */ } };
   const style = (next: {color?: string;width?:number}) => {
     if (next.color) setColor(next.color); if (next.width) setWidth(next.width);
     if (selectedIndex>=0) update(items.map((item,index)=>index===selectedIndex?{...item,...next}:item));
@@ -182,7 +185,9 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     </svg>
   </div>,surfaceHost):null;
   return <div className="chart-drawing-tools">
+    {collapsed ? <div className="chart-study-toolbar chart-drawing-collapsed"><button type="button" aria-expanded={false} onClick={()=>collapseTools(false)}>Drawing tools · Show ▾</button><span>{items.length} saved drawings</span></div> : <>
     <div className="chart-study-toolbar" role="group" aria-label="Chart drawing tools">
+      <button type="button" aria-expanded={true} onClick={()=>collapseTools(true)}>Minimize drawing tools ▴</button>
       <button type="button" aria-pressed={drawing} className={drawing?'active':''} disabled={bars.length<2||items.length>=40} onClick={()=>chooseTool(drawing?'pan':'brush')}>Draw ✎</button>
       {([["pan","Pan"],["select","Select"],["trend","Trend line"],["level","Price level"],["circle","Circle"],["brush","Freehand"]] as const).map(([value,label])=><button key={value} type="button" aria-pressed={tool===value} className={tool===value?'active':''} disabled={value!=='pan'&&value!=='select'&&(bars.length<2||items.length>=40)} onClick={()=>chooseTool(value)}>{label}</button>)}
       <button type="button" disabled={!items.length&&!draft&&!anchor} onClick={()=>{if(!draft&&!anchor)update(items.slice(0,-1));chooseTool('pan');}}>Undo</button>
@@ -192,6 +197,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     </div>
     {palette()}
     <p className="chart-drawing-hint" role="status">{tool==='brush'?'Drag freely to draw. Release to edit color and thickness above the chart.':tool==='circle'?'Drag from the center outward to draw a circle, or tap center then edge.':tool==='trend'?'Drag a line, or tap its two ends. A live preview follows your pointer.':tool==='level'?'Tap or drag to place a price level.':selectedDrawing?'Drawing selected. Grab its line to move it, or drag an end handle to reshape it. Color and thickness are above the chart. Choose Pan or Done drawing to move the chart.':`${items.length}/40 drawings · ${currency.toUpperCase()} · saved on this device. Grab a drawing to edit it.`}{storageFailed?' Storage unavailable; changes last for this session.':''}</p>
+    </>}
     {overlay}
   </div>;
 }

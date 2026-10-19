@@ -18,11 +18,12 @@ type ChartSeries = {
 };
 
 export default function TradingChart({ appearance = "monochrome", bars, currency, timeframe, loading = false,
-  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", volumeAvailable = true, onCurrencyChange, drawingId }: {
+  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", volumeAvailable = true, onCurrencyChange, drawingId, assetLabel }: {
   appearance?: "blue" | "monochrome"; bars: PriceBar[]; currency: "usd" | "tao"; timeframe: string;
   loading?: boolean; error?: boolean; note: string; onTimeframeChange: (timeframe: string) => void; onRetry: () => void;
   volumeUnit?: "TAO" | "alpha"; volumeAvailable?: boolean;
   drawingId: string;
+  assetLabel: string;
   onCurrencyChange?: (currency: "usd" | "tao") => void;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -227,6 +228,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       </> : <span>{futureHover ? `${new Date(hoverTime! * 1000).toLocaleString("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" })} UTC · Future drawing space · No price data` : loading ? "Loading price history…" : "No price history available"}</span>}
     </div>
     <div className="chart-plot">
+      <div className="chart-plot-context"><strong>{assetLabel}</strong><span>{({ "10m": "10 minutes", "1h": "1 hour", "1d": "1 day", "1w": "1 week", "1mo": "1 month" } as Record<string,string>)[timeframe] || timeframe} · {currency.toUpperCase()}</span></div>
       <div ref={hostRef} className="trading-chart-host" role="group" aria-label={`${currency.toUpperCase()} ${timeframe} ${mode} chart. ${bars.length} sampled intervals. ${note}`} />
       {!data.length && <div className="chart-empty" role="status">
         <strong>{loading ? "Loading chart…" : error ? "Chart temporarily unavailable" : "No matching price history"}</strong>
