@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState, type PointerEvent, type RefObject } from "react";
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState, type PointerEvent, type RefObject, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import type { IChartApi, ISeriesApi, Logical, UTCTimestamp } from "lightweight-charts";
 import type { PriceBar } from "./lib/chart-data";
@@ -14,9 +14,10 @@ const colors = ["#ffcc66", "#ffffff", "#23d18b", "#ff5263", "#46bfff", "#c28cff"
 const labels = { trend: "Trend line", level: "Price level", circle: "Circle", brush: "Freehand" };
 const emptyProjection: Projection = { left: 0, top: 0, width: 0, height: 0, shapes: [] };
 
-export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, storageId, currency, appearance, mode }: {
+export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, storageId, currency, appearance, mode, navigation }: {
   chartRef: RefObject<IChartApi | null>; hostRef: RefObject<HTMLDivElement | null>;
   series: RefObject<{ candles: ISeriesApi<"Candlestick">; line: ISeriesApi<"Line"> } | null>;
+  navigation?: ReactNode;
   bars: PriceBar[]; timeline?: number[]; storageId: string; currency: string; appearance: string; mode: "candles" | "line";
 }) {
   const storageKey = `shizzy:chart-drawings:v1:${storageId}:${currency}`;
@@ -205,6 +206,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     {collapsed ? <div className="chart-study-toolbar chart-drawing-collapsed"><button type="button" className="drawing-visibility-toggle" aria-expanded={false} onClick={()=>collapseTools(false)}>Tools ▸</button><span>{items.length} saved drawings</span></div> : <>
     <div className="chart-study-toolbar" role="group" aria-label="Chart drawing tools">
       <button type="button" className="drawing-visibility-toggle" aria-expanded={true} onClick={()=>collapseTools(true)}>Minimize ◂</button>
+      {navigation}
       <button type="button" aria-pressed={drawing} className={drawing?'active':''} disabled={bars.length<2||items.length>=40} onClick={()=>chooseTool(drawing?'pan':'brush')}>Draw ✎</button>
       {([["pan","Pan"],["select","Select"],["trend","Trend line"],["level","Price level"],["circle","Circle"],["brush","Freehand"]] as const).map(([value,label])=><button key={value} type="button" aria-pressed={tool===value} className={tool===value?'active':''} disabled={value!=='pan'&&value!=='select'&&(bars.length<2||items.length>=40)} onClick={()=>chooseTool(value)}>{label}</button>)}
       <button type="button" disabled={!items.length&&!draft&&!anchor} onClick={()=>{if(!draft&&!anchor)update(items.slice(0,-1));chooseTool('pan');}}>Undo</button>
