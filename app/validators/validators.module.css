@@ -96,3 +96,6 @@
 
 .shortlistMore{width:100%;min-height:48px;margin:14px 0;background:#fff!important;color:#000!important;white-space:normal}
 @media(max-width:760px){.phoneResult>.operatingPath{font:12px/1.5 Arial,sans-serif;min-width:0;max-width:100%}.phoneResultDetails .operatingPath{max-width:100%;min-width:0}.phoneResultDetails .address{overflow-wrap:anywhere;white-space:normal}}
+
+.rootMatchDetails{border-top:1px solid #333;margin-top:16px;padding-top:14px;overflow-wrap:anywhere}.rootMatchDetails summary{cursor:pointer;min-height:44px;font:700 14px/1.5 var(--font);color:#fff}.rootMatchDetails>ul{padding-left:18px;font-size:14px;line-height:1.7}.rootMatch .rootMatchDetails .source{font-size:12px}.rootMatch .rootMatchDetails .rootExplanation p{font-size:14px}
+@media(max-width:760px){.rootMatch>ul{font:14px/1.7 var(--font);padding-left:18px}.rootMatch>span{font-size:12px}.rootMatch .rootMatchDetails .rootExplanation li{font-size:14px;line-height:1.6}.rootMatch{padding:16px}.rootMatch>button{min-height:44px}}

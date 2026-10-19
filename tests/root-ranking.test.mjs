@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { rootEligibility, rootHistoryMetrics, rankRootMatches } from "../app/lib/root-ranking.ts";
+import { rootEligibility, rootHistoryMetrics, rankRootMatches, rootMatchExclusions } from "../app/lib/root-ranking.ts";
 const now = Date.parse("2026-10-16T16:00:00Z"), day = Math.floor(now / 86400_000) * 86400;
 const history = Array.from({ length: 31 }, (_, i) => ({ day: new Date((day - (31 - i) * 86400) * 1000).toISOString().slice(0, 10), twr: 1 + i / 1000, twr_first_block: "1", nav_per_share: i === 20 ? .7 : 1 }));
 const base = { operatingTimestamp: "2026-10-16T15:50:00Z", hotkey: "steady", name: "Steady", take: .18, totalReturn: .03, drawdown: -.01, volatility: .001, concentration: .05, quoteGap: .01, topFive: .2, snapshot: "2026-10-16T15:50:00Z", identityTimestamp: "2026-10-16T15:50:00Z", start: "2026-09-15", end: "2026-10-15" };
@@ -43,4 +43,14 @@ test("previous-day preparation is permitted only during explicit midnight rollov
   assert.equal(rankRootMatches([row, { ...row, hotkey: "second" }], "balanced", midnight).length, 0);
   assert.equal(rankRootMatches([{ ...row, historyRollover: true }, { ...row, hotkey: "second", historyRollover: true }], "balanced", midnight).length, 2);
   assert.equal(rankRootMatches([{ ...row, historyRollover: true }], "balanced", midnight + 2 * 3600000).length, 0);
+});
+
+test("exclusions identify the exact expired source and history window", () => {
+  assert.deepEqual(rootMatchExclusions(base, now), []);
+  const reasons = rootMatchExclusions({ ...base, snapshot: "2026-10-16T12:00:00Z", identityTimestamp: "invalid", end: "2026-10-14", volatility: NaN }, now);
+  assert.ok(reasons.some(reason => reason.includes("Basket snapshot is over two hours old")));
+  assert.ok(reasons.some(reason => reason.includes("Fee/root stake source time is missing")));
+  assert.ok(reasons.some(reason => reason.includes("Capital volatility is missing")));
+  assert.ok(reasons.some(reason => reason.includes("through 2026-10-15 UTC")));
+  assert.equal(rankRootMatches([base, { ...base, hotkey: "invalid", topFive: 1.1 }], "balanced", now).length, 0);
 });

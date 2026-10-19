@@ -22,8 +22,30 @@ export function rootHistoryMetrics(history: HistoryPoint[], utcDay: number) {
   const mean = changes.reduce((sum, value) => sum + value, 0) / changes.length;
   return { totalReturn: valid.at(-1)!.twr / valid[0].twr - 1, drawdown, volatility: Math.sqrt(changes.reduce((sum, value) => sum + (value - mean) ** 2, 0) / changes.length), start: expected[0], end: expected.at(-1)! };
 }
+export function rootMatchExclusions(row: RootMatch, now: number) {
+  const reasons: string[] = [];
+  for (const [label, value, valid] of [
+    ["Staker return", row.totalReturn, row.totalReturn > -1],
+    ["Capital drawdown", row.drawdown, row.drawdown >= -1 && row.drawdown <= 0],
+    ["Capital volatility", row.volatility, row.volatility >= 0],
+    ["Holdings concentration", row.concentration, row.concentration > 0 && row.concentration <= 1.000001],
+    ["Liquidity quote gap", row.quoteGap, row.quoteGap >= 0 && row.quoteGap <= 1],
+    ["Top-five holdings", row.topFive, row.topFive >= 0 && row.topFive <= 1.000001],
+    ["Validator take", row.take, row.take >= 0 && row.take <= 1],
+  ] as const) if (!Number.isFinite(value) || !valid) reasons.push(`${label} is missing or invalid`);
+  for (const [label, time] of [["Basket", row.snapshot], ["Fee/root stake", row.identityTimestamp], ["Active root permit", row.operatingTimestamp]] as const) {
+    const timestamp = Date.parse(time);
+    if (!Number.isFinite(timestamp)) reasons.push(`${label} source time is missing or invalid`);
+    else if (timestamp > now + 60_000) reasons.push(`${label} source time is in the future (${time})`);
+    else if (now - timestamp > 2 * 3600_000) reasons.push(`${label} snapshot is over two hours old (${time})`);
+  }
+  const yesterday = new Date(Math.floor(now / 86400_000) * 86400_000 - 86400_000).toISOString().slice(0, 10);
+  const rollover = row.historyRollover === true && now % 86400_000 < 7200000 && row.end === new Date(Math.floor(now / 86400_000) * 86400_000 - 2 * 86400_000).toISOString().slice(0, 10);
+  if (row.end !== yesterday && !rollover) reasons.push(`History ends ${row.end || "on an unknown day"}; completed history through ${yesterday} UTC is required`);
+  return reasons;
+}
 export function rankRootMatches(matches: RootMatch[], mode: RootMode, now: number) {
-  const valid = matches.filter(row => [row.totalReturn, row.drawdown, row.volatility, row.concentration, row.quoteGap, row.topFive, row.take].every(Number.isFinite) && row.take >= 0 && row.take <= 1 && row.drawdown <= 0 && row.volatility >= 0 && row.concentration > 0 && row.concentration <= 1.000001 && row.quoteGap >= 0 && row.quoteGap <= 1 && [row.snapshot, row.identityTimestamp, row.operatingTimestamp].every(time => Number.isFinite(Date.parse(time)) && now - Date.parse(time) <= 2 * 3600_000 && Date.parse(time) <= now + 60_000) && (row.end === new Date(Math.floor(now / 86400_000) * 86400_000 - 86400_000).toISOString().slice(0, 10) || (row.historyRollover === true && now % 86400_000 < 7200000 && row.end === new Date(Math.floor(now / 86400_000) * 86400_000 - 2 * 86400_000).toISOString().slice(0, 10))));
+  const valid = matches.filter(row => rootMatchExclusions(row, now).length === 0);
   if (valid.length < 2) return [];
   const weights = { balanced: [30, 20, 15, 20, 15], risk: [10, 30, 20, 25, 15], returns: [50, 15, 10, 15, 10] }[mode];
   const signal = (row: RootMatch) => [row.totalReturn, row.drawdown, -row.volatility, -row.concentration, -row.quoteGap];
