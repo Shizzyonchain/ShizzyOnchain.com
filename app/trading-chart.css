@@ -7,3 +7,5 @@
 .trading-chart-host tbody tr{background:transparent!important;cursor:default}
 .trading-chart-host td{display:table-cell!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;position:relative!important;left:auto!important;z-index:auto!important}
 .trading-chart-host td>div{display:block}
+
+.chart-drawing-hint{margin:0;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--muted);font:11px/1.6 var(--font-mono)}.chart-drawing-tools button:disabled{opacity:.4;cursor:default}.chart-drawing-tools .chart-study-toolbar>span{display:inline}

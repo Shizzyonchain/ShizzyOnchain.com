@@ -5,6 +5,7 @@ import { CandlestickSeries, ColorType, CrosshairMode, HistogramSeries, LineSerie
   createChart, type IChartApi, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
 import { chartPrecision, indicatorPoints, type PriceBar } from "./lib/chart-data";
 import "./trading-chart.css";
+import { ChartDrawingTools } from "./chart-drawing-tools";
 
 const palettes = {
   blue: { background: "#071328", text: "#adbfda", grid: "rgba(120,146,184,.1)", border: "#173b68", ma: "#c28cff", ema: "#ffb84d", boll: "#4da3ff" },
@@ -17,10 +18,11 @@ type ChartSeries = {
 };
 
 export default function TradingChart({ appearance = "monochrome", bars, currency, timeframe, loading = false,
-  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", onCurrencyChange }: {
+  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", onCurrencyChange, drawingId }: {
   appearance?: "blue" | "monochrome"; bars: PriceBar[]; currency: "usd" | "tao"; timeframe: string;
   loading?: boolean; error?: boolean; note: string; onTimeframeChange: (timeframe: string) => void; onRetry: () => void;
   volumeUnit?: "TAO" | "alpha";
+  drawingId: string;
   onCurrencyChange?: (currency: "usd" | "tao") => void;
 }) {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -153,6 +155,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>
         <button key={String(label)} aria-pressed={Boolean(active)} className={active ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
     </div>
+    <ChartDrawingTools key={appearance} chartRef={chartRef} series={seriesRef} bars={bars} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
     <div className="chart-ohlc">
       {current ? <>
         <time dateTime={new Date(current.time * 1000).toISOString()}>{new Date(current.time * 1000).toLocaleString("en-US", { timeZone: "UTC", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} UTC</time>
