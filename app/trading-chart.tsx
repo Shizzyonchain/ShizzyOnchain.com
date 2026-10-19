@@ -34,6 +34,21 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   const [ma, setMa] = useState(false);
   const [ema, setEma] = useState(false);
   const [boll, setBoll] = useState(false);
+  const [bandEditor, setBandEditor] = useState(false);
+  const bandEditorRef = useRef<HTMLDivElement>(null);
+  const [bandColors, setBandColors] = useState({ upper: "#858585", lower: "#858585" });
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("shizzy:bollinger-colors:v1") || "null");
+      if (saved && /^#[0-9a-f]{6}$/i.test(saved.upper) && /^#[0-9a-f]{6}$/i.test(saved.lower)) queueMicrotask(() => setBandColors(saved));
+    } catch { /* Color editing still works when optional storage is unavailable. */ }
+  }, []);
+  useEffect(() => { if (bandEditor && boll) bandEditorRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" }); }, [bandEditor, boll]);
+  const changeBandColors = (next: Partial<typeof bandColors>) => {
+    const colors = { ...bandColors, ...next };
+    setBandColors(colors);
+    try { localStorage.setItem("shizzy:bollinger-colors:v1", JSON.stringify(colors)); } catch { /* Optional device preference. */ }
+  };
   const [volume, setVolume] = useState(true);
   const [hoverTime, setHoverTime] = useState<number | null>(null);
   const [fullscreen, setFullscreen] = useState(false);
@@ -107,8 +122,17 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     host.addEventListener("wheel", wheelPriceScale, { capture: true, passive: false });
     fittedRef.current = "";
     chart.subscribeCrosshairMove(param => setHoverTime(typeof param.time === "number" ? param.time : null));
+    chart.subscribeClick(param => {
+      const current = seriesRef.current;
+      if (current && (param.hoveredSeries === current.upper || param.hoveredSeries === current.lower)) setBandEditor(true);
+    });
     return () => { host.removeEventListener("pointerdown", beginPan, true); host.removeEventListener("wheel", wheelPriceScale, true); chart.remove(); chartRef.current = null; seriesRef.current = null; };
   }, [appearance]);
+
+  useEffect(() => {
+    seriesRef.current?.upper.applyOptions({ color: bandColors.upper });
+    seriesRef.current?.lower.applyOptions({ color: bandColors.lower });
+  }, [bandColors, appearance]);
 
   useEffect(() => {
     const chart = chartRef.current, series = seriesRef.current;
@@ -183,6 +207,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       <span>Indicators</span>
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>
         <button key={String(label)} disabled={label === "Volume" && !volumeAvailable} aria-pressed={Boolean(active && (label !== "Volume" || volumeAvailable))} className={active && (label !== "Volume" || volumeAvailable) ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
+      {boll && <button type="button" aria-expanded={bandEditor} onClick={() => setBandEditor(value => !value)}>Bollinger colors</button>}
     </div>
     <ChartDrawingTools key={appearance} chartRef={chartRef} hostRef={hostRef} series={seriesRef} bars={bars} timeline={drawingTimes} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
     <div className="chart-ohlc">
@@ -203,10 +228,17 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     </div>
     <div className="chart-legend">
       {ma && bars.length >= 20 && <span><i className="ma-line" />MA 20</span>}{ema && <span><i className="ema-line" />EMA 20</span>}
-      {boll && bars.length >= 20 && <span><i className="boll-line" />Bollinger 20 / 2</span>}
+      {boll && bars.length >= 20 && <button type="button" className="chart-band-legend" aria-expanded={bandEditor} onClick={() => setBandEditor(value => !value)}><i className="boll-line" style={{ background: bandColors.upper }} />Bollinger 20 / 2 · Edit colors</button>}
       {volume && volumeAvailable && <span>Volume in {volumeUnit}</span>}
       <small>Drag chart to pan · Drag or scroll price numbers to stretch/compress · Reset restores fit</small>
     </div>
+    {boll && bandEditor && <div ref={bandEditorRef} className="chart-band-editor" role="group" aria-label="Bollinger band colors">
+      <strong>Bollinger colors</strong>
+      <label>Upper band <input type="color" aria-label="Upper Bollinger band color" value={bandColors.upper} onChange={event => changeBandColors({ upper: event.target.value })} /></label>
+      <label>Lower band <input type="color" aria-label="Lower Bollinger band color" value={bandColors.lower} onChange={event => changeBandColors({ lower: event.target.value })} /></label>
+      {["#ffffff", "#ffcc66", "#23d18b", "#ff5263", "#46bfff", "#c28cff"].map(color => <button type="button" key={color} aria-label={`Both Bollinger bands color ${color}`} style={{ background: color }} onClick={() => changeBandColors({ upper: color, lower: color })} />)}
+      <span>Saved on this device</span><button type="button" className="chart-band-done" onClick={() => setBandEditor(false)}>Done</button>
+    </div>}
     {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
     <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC{bars.length > 0 && ` · History from ${new Date(bars[0].time * 1000).toISOString().slice(0, 10)} · Reset shows all loaded history`}</span>
       <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">Charts by TradingView ↗</a>
