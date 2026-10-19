@@ -16,6 +16,8 @@ import { taoHeadsCommunity } from "./lib/community";
 import { SubnetNewsPanel } from "./subnet-news-panel";
 import { SentimentTile } from "./sentiment-tile";
 import { OverviewHelp } from "./overview-help";
+import { MetricExplanation } from "./metric-explanation";
+import metricStyles from "./metric-explanation.module.css";
 import { latestSnapshotTime, snapshotIsFresh, persistMarketSnapshot, MARKET_SNAPSHOT_CACHE_MAX_AGE_MS } from "./lib/market-snapshot";
 import {
   bubbleTimeframeHasCoverage,
@@ -946,13 +948,6 @@ export function Dashboard({
   const chartCardRef = useRef<HTMLDivElement>(null);
   const pulseDialog = useRef<HTMLDialogElement>(null);
   const [pulseHelp, setPulseHelp] = useState("Momentum");
-  const pulseExplanations: Record<string, string> = {
-    "Markets rising": "The percentage of subnets with a positive price change over the rolling last hour, among those that rose or fell. Unchanged and missing returns are excluded. USD mode uses dollar returns; TAO mode uses alpha/TAO returns. This measures market breadth, not how large the gains were.",
-    "Momentum": "The subnet with the highest available price return over the rolling last hour. USD mode compares dollar returns; TAO mode compares alpha/TAO returns. The leader can change when you switch currencies. If every subnet is down, the leader can still have a negative return. This is a price ranking, not a recommendation.",
-    "Liquidity flow": "The estimated net change in TAO reserves across subnet pools over the rolling last hour. Each available reserve change is reconstructed from the current TAO reserve and its hourly percentage change, then summed. Green means net reserves increased; red means they decreased. USD mode converts the TAO amount at the current reference price. This is not trading volume or a direct measure of money entering Bittensor; missing reserve history is excluded, and a dash means zero or unavailable.",
-    "Emission": "The subnet with the largest available increase in its share of network emissions over the rolling last hour. The change is shown in percentage points: moving from 2% to 2.1% is +0.1 points. If all available changes are negative, the leader has the smallest decline. This is an hourly emission-share change, not yield or price performance, and it does not change with the USD/TAO switch.",
-    "Volume pulse": "Trading activity in the latest rolling hour compared with the preceding hour, measured in TAO. 1× means equal activity, 2× means twice as much, and 0.5× means half as much. The total uses subnets with positive volume and a valid comparison; missing comparisons are excluded. Green means at least 1×; red means below 1×. More activity does not necessarily mean buying or rising prices. A dash means no usable comparison. Switching USD/TAO does not change this ratio.",
-  };
   function openPulseHelp(title: string) {
     setPulseHelp(title);
     pulseDialog.current?.showModal();
@@ -1630,19 +1625,19 @@ export function Dashboard({
           <div className="market-overview">
             <section className="hero-strip" aria-label="Market overview">
               <div>
-                <OverviewHelp title="TAO price"><p>The current TAO/USD reference price used to convert TAO values across this page into dollars. In TAO mode, one TAO is always shown as τ 1.</p><p>Use the price or chart link below to open the TAO/USD chart. A current reference price does not mean every subnet market snapshot is current; check the Finney feed status too.</p></OverviewHelp>
+                <OverviewHelp title="TAO price" />
                 <button type="button" className={`tao-price-tile overview-price-link ${showTaoChart ? "active" : ""}`} onClick={openTaoChart} aria-label="Open TAO price chart">
                 <strong>{currency === "usd" ? money(1, true) : "τ 1"}</strong>
                 <small>Open TAO / USD chart →</small>
                 </button>
               </div>
               <div>
-                <OverviewHelp title="24h volume"><p>Total reported trading volume over the rolling last 24 hours, summed across the subnet markets in the current snapshot. This is trading activity, not market capitalization or available liquidity.</p><p>TAO mode shows the total in TAO; USD mode converts it using the current TAO/USD reference price. This is not a sum of historical dollar trade prices. Missing trade history may make the total incomplete; a dash means it is not ready.</p></OverviewHelp>
+                <OverviewHelp title="24h volume" />
                 <strong>{!hasMarketData || totalVolume === 0 ? "—" : money(totalVolume)}</strong>
                 <small>{hasMarketData ? (dataState === "stale" ? "Last finalized snapshot" : totalVolume === 0 ? "Collecting trade history" : `Across ${rows.length} markets`) : "Loading market service"}</small>
               </div>
               <div>
-                <OverviewHelp title="Top mover"><p>The subnet with the highest available price change over the rolling last hour. In USD mode this uses the dollar return; in TAO mode it uses the alpha/TAO return, so the result can change when you switch currencies.</p><p>This is a price ranking, not a recommendation or a measure of project quality. If every subnet is down, the top mover can still have a negative return. Missing hourly returns are excluded.</p></OverviewHelp>
+                <OverviewHelp title="Top mover" />
                 <strong className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0]?.name || "—"}</strong>
                 <small className={changeClass(rankedMovers[0]?.change_1h)}>{rankedMovers[0] ? `${Number(rankedMovers[0].change_1h || 0) > 0 ? "+" : ""}${fmt(rankedMovers[0].change_1h)}% · 1 Hour` : "Waiting for market data"}</small>
               </div>
@@ -1698,10 +1693,9 @@ export function Dashboard({
               <small>vs previous hour</small>
             </button>
           </section>
-          <dialog ref={pulseDialog} className="sentiment-dialog" aria-labelledby="pulse-help-heading" onClick={event => { if (event.target === event.currentTarget) pulseDialog.current?.close(); }}>
+          <dialog ref={pulseDialog} className={`sentiment-dialog ${metricStyles.dialog}`} aria-labelledby="pulse-help-heading" onClick={event => { if (event.target === event.currentTarget) pulseDialog.current?.close(); }}>
             <div className="sentiment-dialog-head"><h2 id="pulse-help-heading">{pulseHelp}</h2><button type="button" aria-label="Close network pulse explanation" onClick={() => pulseDialog.current?.close()}>✕</button></div>
-            <p>{pulseExplanations[pulseHelp]}</p>
-            <p>Uses the existing market snapshot. If the feed is delayed, these figures may be stale; no extra data request is made when you open this explanation.</p>
+            <MetricExplanation title={pulseHelp} />
           </dialog>
           <div className="home-promo-row">
             <Link className="insiders-home-cta tao-heads-home-cta" href={taoHeadsCommunity.path} aria-label={`Explore ${taoHeadsCommunity.name}`}>
