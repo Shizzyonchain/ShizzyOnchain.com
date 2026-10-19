@@ -35,7 +35,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   const seriesRef = useRef<ChartSeries | null>(null);
   const fittedRef = useRef("");
   const previousFirst = useRef<number | null>(null);
-  const historyInteraction = useRef(0);
+  const historyInteraction = useRef(Number.NEGATIVE_INFINITY);
   const [historyDateInput, setHistoryDateInput] = useState("");
   const requestEarlier = useEffectEvent((from: number) => { if (from < 20 && !loading && !earlierLoading && !earlierDone && !earlierError && bars.length > 0) onLoadEarlier?.(); });
   const [mode, setMode] = useState<"candles" | "line">("candles");

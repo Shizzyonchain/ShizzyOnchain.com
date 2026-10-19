@@ -1341,6 +1341,11 @@ export function Dashboard({
     const base = priceBars(chartCandles);
     return calendarBars(!showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base, timeframe);
   }, [chartCandles, chartData.rates, showTaoChart, currency, timeframe]);
+  const missingUsdPeriods = useMemo(() => {
+    if (showTaoChart || currency !== "usd") return 0;
+    const rateTimes = new Set(chartData.rates.map(candle => Date.parse(candle.time)));
+    return chartCandles.filter(candle => !rateTimes.has(Date.parse(candle.time))).length;
+  }, [showTaoChart, currency, chartData.rates, chartCandles]);
   async function loadEarlierHistory() {
     if (earlierBusy.current || !candles.length || chartLoading) return;
     const historyKey = `${showTaoChart ? "tao" : selected}:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`;
@@ -1367,7 +1372,7 @@ export function Dashboard({
     } finally { if (run === chartHistoryRun.current) earlierBusy.current = false; }
   }
   const chartNote = (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? (chartData.method === "extended-price" ? "Coinbase recent candles · TaoStats older price history · Historical candle volume unavailable" : chartData.method === "taostats-price" ? "TaoStats historical TAO/USD price candles · Candle volume unavailable" : "Coinbase TAO/USD candles · Volume in TAO")
-    : chartData.method === "taostats-alpha" ? `TaoStats candles${currency === "usd" ? " · USD candles use historical TAO/USD rates; high/low are estimates" : " · Alpha/TAO"}`
+    : chartData.method === "taostats-alpha" ? `TaoStats candles${currency === "usd" ? ` · USD candles use historical TAO/USD rates; high/low are estimates${missingUsdPeriods > 2 ? ` · ${missingUsdPeriods} periods lack USD quotes; TAO mode retains those subnet candles` : ""}` : " · Alpha/TAO"}`
     : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`);
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = rows.filter(row => row.change_1h != null).sort((a, b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
