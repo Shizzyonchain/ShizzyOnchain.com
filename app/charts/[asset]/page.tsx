@@ -24,7 +24,7 @@ export default async function ChartPage({ params, searchParams }: { params: Prom
   const selected = chartAsset(asset);
   const query = await searchParams;
   const currency = query.currency === "tao" && selected !== "tao" ? "tao" : "usd";
-  const interval = typeof query.interval === "string" && ["10m", "1h", "1d", "1w", "1mo"].includes(query.interval) ? query.interval : "10m";
+  const interval = typeof query.interval === "string" && ["10m", "1h", "1d", "1w", "1mo"].includes(query.interval) ? query.interval : "1d";
   const [rows, taoUsd, history] = await Promise.all([getInitialMarkets(), getInitialTaoUsd(), getTaoHistory()]);
   return <Dashboard key={asset} initialChart={selected} initialCurrency={currency} initialInterval={interval} initialRows={rows} initialTaoUsd={taoUsd} initialDollarHistory={history} />;
 }

@@ -915,7 +915,7 @@ export function Dashboard({
   initialDollarHistory = [],
   initialChart,
   initialCurrency = "usd",
-  initialInterval = "10m",
+  initialInterval = "1d",
 }: {
   appearance?: "blue" | "monochrome";
   initialView?: DashboardView;
