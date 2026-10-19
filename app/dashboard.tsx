@@ -2014,7 +2014,6 @@ export function Dashboard({
                 </div>
               </div>
             )}
-            {!chartPage && <div className="onchain-activity panel"><div><strong>On-chain buying activity</strong><span>Follow subnet buys and sells on TaoFlows. Open a subnet chart for its filtered activity.</span></div><a href="https://taoflows.app/flows" target="_blank" rel="noopener noreferrer" aria-label="View on-chain buying activity on TaoFlows (opens in a new tab)">View buys &amp; sells ↗</a></div>}
             {!chartPage && <section className="screener panel">
               <div className="screener-head">
                 <div>
