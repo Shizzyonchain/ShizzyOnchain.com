@@ -1,7 +1,16 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { aggregateBars, dollarBars, priceBars, chartPrecision, taoPriceCandles } from "../app/lib/chart-data.ts";
+import { aggregateBars, dollarBars, priceBars, chartPrecision, taoPriceCandles, futureChartTimes } from "../app/lib/chart-data.ts";
 const candle = (time, close = "1") => ({ time, open: close, high: close, low: close, close });
+
+test("future chart space uses real UTC days, weeks and calendar months without prices", () => {
+  const stamp = value => Date.parse(value) / 1000;
+  const months = futureChartTimes(stamp("2024-01-01"), "1mo");
+  assert.deepEqual(months.slice(0, 3).map(t => new Date(t * 1000).toISOString().slice(0,10)), ["2024-02-01", "2024-03-01", "2024-04-01"]);
+  assert.equal(futureChartTimes(stamp("2024-02-28"), "1d")[0], stamp("2024-02-29"));
+  assert.equal(futureChartTimes(stamp("2026-10-19"), "1w")[0], stamp("2026-10-26"));
+  assert.deepEqual(futureChartTimes(undefined, "1d"), []);
+});
 
 test("TAO price history keeps pre-listing candles and never treats rolling USD volume as candle volume", () => {
   const row = { timestamp: "2023-03-01T00:00:00Z", open: "50", high: "55", low: "49", close: "54", volume_24h: "1000000" };

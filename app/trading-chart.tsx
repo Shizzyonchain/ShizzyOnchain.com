@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CandlestickSeries, ColorType, CrosshairMode, HistogramSeries, LineSeries, LineStyle,
   createChart, type IChartApi, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
-import { chartPrecision, indicatorPoints, type PriceBar } from "./lib/chart-data";
+import { chartPrecision, futureChartTimes, indicatorPoints, type PriceBar } from "./lib/chart-data";
 import "./trading-chart.css";
 import { ChartDrawingTools } from "./chart-drawing-tools";
 
@@ -40,8 +40,11 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   const [fullscreenError, setFullscreenError] = useState(false);
   const indicators = useMemo(() => indicatorPoints(bars), [bars]);
   const data = useMemo(() => bars.map(bar => ({ ...bar, time: bar.time as UTCTimestamp })), [bars]);
+  const future = useMemo(() => futureChartTimes(bars.at(-1)?.time, timeframe).map(time => ({ time: time as UTCTimestamp })), [bars, timeframe]);
+  const drawingTimes = useMemo(() => [...bars.map(bar => bar.time), ...future.map(point => Number(point.time))], [bars, future]);
   const last = bars.at(-1);
-  const current = bars.find(bar => bar.time === hoverTime) || last;
+  const futureHover = hoverTime !== null && last !== undefined && hoverTime > last.time;
+  const current = futureHover ? undefined : bars.find(bar => bar.time === hoverTime) || last;
   const precision = chartPrecision(last?.close || 0);
   const formatPrice = (value: number) => `${currency === "usd" ? "$" : "τ"}${value.toLocaleString("en-US", { maximumFractionDigits: precision })}`;
 
@@ -87,8 +90,8 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     if (!chart || !series) return;
     const priceFormat = { type: "price" as const, precision, minMove: 10 ** -precision };
     for (const item of [series.candles, series.line, series.ma, series.ema, series.upper, series.lower]) item.applyOptions({ priceFormat });
-    series.candles.setData(data);
-    series.line.setData(data.map(bar => ({ time: bar.time, value: bar.close })));
+    series.candles.setData([...data, ...future]);
+    series.line.setData([...data.map(bar => ({ time: bar.time, value: bar.close })), ...future]);
     series.volume.setData(data.map(bar => ({ time: bar.time, value: bar.volume, color: bar.close >= bar.open ? "rgba(35,209,139,.25)" : "rgba(255,82,99,.25)" })));
     const ready = indicators.filter(point => point.ready);
     series.ma.setData(ready.map(point => ({ time: point.time as UTCTimestamp, value: point.ma })));
@@ -100,10 +103,10 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     const viewKey = `${timeframe}:${currency}`;
     if (data.length && fittedRef.current !== viewKey) {
       chart.priceScale("right").setAutoScale(true);
-      chart.timeScale().setVisibleLogicalRange({ from: Math.max(-1, data.length - 100), to: data.length + 5 });
+      chart.timeScale().setVisibleLogicalRange({ from: Math.max(-1, data.length - 100), to: data.length + 20 });
       fittedRef.current = viewKey;
     }
-  }, [data, indicators, timeframe, currency, precision, appearance]);
+  }, [data, future, indicators, timeframe, currency, precision, appearance]);
 
   useEffect(() => {
     const series = seriesRef.current;
@@ -129,7 +132,8 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     } catch { setFullscreenError(true); }
   };
   const change = current ? 100 * (current.close / current.open - 1) : 0;
-  const reset = () => { chartRef.current?.priceScale("right").setAutoScale(true); chartRef.current?.timeScale().fitContent(); };
+  const reset = () => { chartRef.current?.priceScale("right").setAutoScale(true); if (bars.length) chartRef.current?.timeScale().setVisibleLogicalRange({ from: -1, to: bars.length + 20 }); };
+  const latest = () => { const scale = chartRef.current?.timeScale(); const range = scale?.getVisibleLogicalRange(); if (scale && bars.length) scale.setVisibleLogicalRange({ from: bars.length + 20 - (range ? range.to - range.from : 120), to: bars.length + 20 }); };
 
   return <div ref={terminalRef} className="trading-terminal chart-rebuilt">
     <div className="chart-toolbar" role="group" aria-label="Chart controls">
@@ -145,7 +149,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
         {(["usd", "tao"] as const).map(value => <button key={value} type="button" aria-pressed={currency === value} className={currency === value ? "active" : ""} onClick={() => onCurrencyChange(value)}>{value.toUpperCase()}</button>)}
       </div> : <span className="chart-currency">{currency.toUpperCase()}</span>}
       <div className="chart-control-group chart-actions">
-        <button onClick={() => chartRef.current?.timeScale().scrollToRealTime()} title="Return to the latest candle">Latest</button>
+        <button onClick={latest} title="Return to the latest candle with room to draw ahead">Latest</button>
         <button onClick={reset} title="Fit all available history and reset price scale">Reset</button>
         <button onClick={toggleFullscreen} aria-label={fullscreen ? "Exit chart fullscreen" : "Expand chart fullscreen"}>{fullscreen ? "↙" : "⛶"}</button>
       </div>
@@ -155,14 +159,14 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>
         <button key={String(label)} disabled={label === "Volume" && !volumeAvailable} aria-pressed={Boolean(active && (label !== "Volume" || volumeAvailable))} className={active && (label !== "Volume" || volumeAvailable) ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
     </div>
-    <ChartDrawingTools key={appearance} chartRef={chartRef} hostRef={hostRef} series={seriesRef} bars={bars} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
+    <ChartDrawingTools key={appearance} chartRef={chartRef} hostRef={hostRef} series={seriesRef} bars={bars} timeline={drawingTimes} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
     <div className="chart-ohlc">
       {current ? <>
         <time dateTime={new Date(current.time * 1000).toISOString()}>{new Date(current.time * 1000).toLocaleString("en-US", { timeZone: "UTC", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} UTC</time>
         <span>O <b>{formatPrice(current.open)}</b></span><span>H <b>{formatPrice(current.high)}</b></span>
         <span>L <b>{formatPrice(current.low)}</b></span><span>C <b>{formatPrice(current.close)}</b></span>
         <strong className={change >= 0 ? "positive" : "negative"}>{change >= 0 ? "+" : ""}{change.toFixed(2)}%</strong>
-      </> : <span>{loading ? "Loading price history…" : "No price history available"}</span>}
+      </> : <span>{futureHover ? `${new Date(hoverTime! * 1000).toLocaleString("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" })} UTC · Future drawing space · No price data` : loading ? "Loading price history…" : "No price history available"}</span>}
     </div>
     <div className="chart-plot">
       <div ref={hostRef} className="trading-chart-host" role="group" aria-label={`${currency.toUpperCase()} ${timeframe} ${mode} chart. ${bars.length} sampled intervals. ${note}`} />
@@ -176,7 +180,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {ma && bars.length >= 20 && <span><i className="ma-line" />MA 20</span>}{ema && <span><i className="ema-line" />EMA 20</span>}
       {boll && bars.length >= 20 && <span><i className="boll-line" />Bollinger 20 / 2</span>}
       {volume && volumeAvailable && <span>Volume in {volumeUnit}</span>}
-      <small>Drag to pan · Pinch or scroll to zoom</small>
+      <small>Drag to pan · Pinch or scroll to zoom · Future dates are empty drawing space</small>
     </div>
     {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
     <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC{bars.length > 0 && ` · History from ${new Date(bars[0].time * 1000).toISOString().slice(0, 10)} · Reset shows all loaded history`}</span>

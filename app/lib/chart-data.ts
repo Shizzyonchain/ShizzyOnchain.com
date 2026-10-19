@@ -4,6 +4,17 @@ export type Candle = {
 export type PriceBar = { time: number; open: number; high: number; low: number; close: number; volume: number };
 export const chartIntervals: Record<string, number> = { "1m": 60, "10m": 600, "1h": 3600, "1d": 86400 };
 
+// Time-only chart space, never forecast prices or volume. Calendar months must
+// advance by month rather than repeating the length of the latest month.
+export function futureChartTimes(last: number | undefined, interval: string): number[] {
+  if (last === undefined || !Number.isFinite(last)) return [];
+  const count = interval === "1mo" ? 60 : interval === "1w" ? 104 : interval === "1d" ? 365 : 288;
+  const date = new Date(last * 1000);
+  return Array.from({ length: count }, (_, i) => interval === "1mo"
+    ? Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + i + 1, 1) / 1000
+    : last + (i + 1) * (interval === "1w" ? 604800 : chartIntervals[interval] || 3600));
+}
+
 // Invalid/incomplete rows must not become zero-price candles or invented history.
 export function priceBars(candles: Candle[]): PriceBar[] {
   const unique = new Map<number, PriceBar>();

@@ -14,10 +14,10 @@ const colors = ["#ffcc66", "#ffffff", "#23d18b", "#ff5263", "#46bfff", "#c28cff"
 const labels = { trend: "Trend line", level: "Price level", circle: "Circle", brush: "Freehand" };
 const emptyProjection: Projection = { left: 0, top: 0, width: 0, height: 0, shapes: [] };
 
-export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, currency, appearance, mode }: {
+export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, storageId, currency, appearance, mode }: {
   chartRef: RefObject<IChartApi | null>; hostRef: RefObject<HTMLDivElement | null>;
   series: RefObject<{ candles: ISeriesApi<"Candlestick">; line: ISeriesApi<"Line"> } | null>;
-  bars: PriceBar[]; storageId: string; currency: string; appearance: string; mode: "candles" | "line";
+  bars: PriceBar[]; timeline?: number[]; storageId: string; currency: string; appearance: string; mode: "candles" | "line";
 }) {
   const storageKey = `shizzy:chart-drawings:v1:${storageId}:${currency}`;
   const [saved, setSaved] = useState<{ key: string; items: Drawing[] }>({ key: "", items: [] });
@@ -32,7 +32,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
   const [surfaceHost, setSurfaceHost] = useState<HTMLDivElement | null>(null);
   const [projection, setProjection] = useState<Projection>(emptyProjection);
   const gesture = useRef<Gesture | null>(null);
-  const times = useMemo(() => bars.map(bar => bar.time), [bars]);
+  const times = useMemo(() => timeline || bars.map(bar => bar.time), [timeline, bars]);
   const items = useMemo(() => saved.key === storageKey ? saved.items : [], [saved, storageKey]);
   const selectedIndex = selected >= 0 && selected < items.length ? selected : -1;
   const drawing = tool !== "pan" && tool !== "select";
@@ -92,7 +92,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
     const observer = new ResizeObserver(schedule); observer.observe(host);
     return () => { cancelAnimationFrame(frame); observer.disconnect(); scroller?.removeEventListener("scroll",schedule); host.removeEventListener("pointermove",schedule); host.removeEventListener("pointerup",schedule); host.removeEventListener("wheel",schedule); host.removeEventListener("touchmove",schedule); if (isCurrentChart()) chart.timeScale().unsubscribeVisibleLogicalRangeChange(schedule); };
   }, [items, draft, editing, bars, mode, hostRef, chartRef, appearance]);
-  useEffect(() => { chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:!drawing&&tool!=="select",horzTouchDrag:!drawing&&tool!=="select"}}); }, [chartRef,drawing,tool,appearance,bars]);
+  useEffect(() => { chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:!drawing&&editing<0,horzTouchDrag:!drawing&&editing<0}}); }, [chartRef,drawing,editing,appearance,bars]);
   const location = (event: PointerEvent<SVGSVGElement>) => {
     const p = plot(); if (!p) return null;
     const x = (event.clientX-p.rect.left)*p.canvas.clientWidth/p.rect.width, y = (event.clientY-p.rect.top)*p.canvas.clientHeight/p.rect.height;
@@ -129,7 +129,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
     const hit=target.hasAttribute("data-index") && Number.isInteger(index) && items[index];
     if(!drawing && !hit)return;
     // Freeze the chart before it can interpret grabbing a drawing as panning.
-    // The Select mode keeps it frozen until the user returns to Pan/Done.
+    // Restore background panning when this gesture ends.
     chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:false,horzTouchDrag:false}});
     event.preventDefault();event.stopPropagation();event.currentTarget.setPointerCapture(event.pointerId);
     if(hit && !drawing) { selectDrawing(index);setEditing(index); }
