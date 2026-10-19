@@ -202,9 +202,9 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     </svg>
   </div>,surfaceHost):null;
   return <div className="chart-drawing-tools">
-    {collapsed ? <div className="chart-study-toolbar chart-drawing-collapsed"><button type="button" className="drawing-visibility-toggle" aria-expanded={false} onClick={()=>collapseTools(false)}>Drawing tools · Show ▾</button><span>{items.length} saved drawings</span></div> : <>
+    {collapsed ? <div className="chart-study-toolbar chart-drawing-collapsed"><button type="button" className="drawing-visibility-toggle" aria-expanded={false} onClick={()=>collapseTools(false)}>Tools ▸</button><span>{items.length} saved drawings</span></div> : <>
     <div className="chart-study-toolbar" role="group" aria-label="Chart drawing tools">
-      <button type="button" className="drawing-visibility-toggle" aria-expanded={true} onClick={()=>collapseTools(true)}>Minimize drawing tools ▴</button>
+      <button type="button" className="drawing-visibility-toggle" aria-expanded={true} onClick={()=>collapseTools(true)}>Minimize ◂</button>
       <button type="button" aria-pressed={drawing} className={drawing?'active':''} disabled={bars.length<2||items.length>=40} onClick={()=>chooseTool(drawing?'pan':'brush')}>Draw ✎</button>
       {([["pan","Pan"],["select","Select"],["trend","Trend line"],["level","Price level"],["circle","Circle"],["brush","Freehand"]] as const).map(([value,label])=><button key={value} type="button" aria-pressed={tool===value} className={tool===value?'active':''} disabled={value!=='pan'&&value!=='select'&&(bars.length<2||items.length>=40)} onClick={()=>chooseTool(value)}>{label}</button>)}
       <button type="button" disabled={!items.length&&!draft&&!anchor} onClick={()=>{if(!draft&&!anchor)update(items.slice(0,-1));chooseTool('pan');}}>Undo</button>

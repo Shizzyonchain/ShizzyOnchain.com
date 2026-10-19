@@ -242,7 +242,9 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
         <button key={String(label)} disabled={label === "Volume" && !volumeAvailable} aria-pressed={Boolean(active && (label !== "Volume" || volumeAvailable))} className={active && (label !== "Volume" || volumeAvailable) ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
       {boll && <button type="button" aria-expanded={bandEditor} onClick={() => setBandEditor(value => !value)}>Bollinger colors</button>}
     </div>
+    <div className="chart-workspace">
     <ChartDrawingTools key={appearance} chartRef={chartRef} hostRef={hostRef} series={seriesRef} bars={bars} timeline={drawingTimes} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
+    <div className="chart-workspace-main">
     <div className="chart-ohlc">
       {current ? <>
         <time dateTime={new Date(current.time * 1000).toISOString()}>{new Date(current.time * 1000).toLocaleString("en-US", { timeZone: "UTC", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} UTC</time>
@@ -273,6 +275,8 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {["#ffffff", "#ffcc66", "#23d18b", "#ff5263", "#46bfff", "#c28cff"].map(color => <button type="button" key={color} aria-label={`Both Bollinger bands color ${color}`} style={{ background: color }} onClick={() => changeBandColors({ upper: color, lower: color })} />)}
       <span>Saved on this device</span><button type="button" className="chart-band-done" onClick={() => setBandEditor(false)}>Done</button>
     </div>}
+    </div>
+    </div>
     {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
     <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC{bars.length > 0 && ` · History from ${new Date(bars[0].time * 1000).toISOString().slice(0, 10)} · Reset shows all loaded history`}</span>
       <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">Charts by TradingView ↗</a>
