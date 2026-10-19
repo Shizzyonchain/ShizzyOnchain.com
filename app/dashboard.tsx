@@ -183,6 +183,17 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "AeDXwWTAaf0",
+    title: "Buying Bittensor Subnets? Watch This Before You Buy Another One!",
+    meta: "16:27 · October 19, 2026",
+  },
+  {
+    id: "HT5bXLvAYwc",
+    title: "10/16/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "9:03 · Members-only video · October 16, 2026",
+    membersOnly: true,
+  },
+  {
     id: "lPKnwlkAWdQ",
     title: "TAO RISES FROM HELL! 🔥 Bittensor Is Making HUGE Moves!",
     meta: "18:44 · October 15, 2026",

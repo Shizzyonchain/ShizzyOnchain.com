@@ -1,0 +1,1234 @@
+{
+  "version": 1,
+  "date": "2026-10-19",
+  "title": "Subnet News — October 19, 2026",
+  "summary": "SN75 Hippius opens Confidential Compute, SN65 TPN launches a quantization toolkit, and SN28 SayGM with SN114 SOMA reports a combined cost-saving case study. Also: SN66 Conjectures publishes a certified Carmichael-number result, SN124 Swarm reports two contracts, SN55 NIOME sets migration plans, and SN107 Minos prepares for Montreal. Includes miner rules, operating incidents and today’s new site walkthrough.",
+  "publishedAt": "2026-10-19T14:41:42.060Z",
+  "coverageStart": "2026-10-18T15:23:00Z",
+  "coverageEnd": "2026-10-19T14:40:00Z",
+  "highlights": [],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DaniLabs",
+      "updates": []
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": [
+        {
+          "headline": "SN7 Allways reports reimbursements while the network remains halted",
+          "summary": "The October 19 digest attributes reimbursements for five affected miners and fixes in v3.7.0 to SN7 Allways’s team. It reports roughly 3.57 SOL and 19.24 TAO reimbursed, but says the network remains halted with no confirmed restart time. These totals and deployment claims were not independently decoded or reproduced. This is progress on an unresolved incident, not a resumed-network announcement.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/7/2026-10-19",
+              "label": "SN7 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Affected operators need both the reported remedy and the continuing halt, not an implied all-clear."
+        }
+      ]
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": [
+        {
+          "headline": "SN8 Vanta founder reports growth and locked buybacks, with more purchases planned",
+          "summary": "The original October 19 founder post, quoted by SN8 Vanta, says the first 18 days of the month surpassed the previous month and that buybacks were locked. It forecasts continued month-over-month growth and further buys. We treat these as attributed operating and tokenomics claims, not audited revenue, a completed future purchase or promised returns. The short “Big things” caption links to this substantive founder statement rather than being dismissed as an empty teaser.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/0xarrash/status/2112043588238692812",
+              "label": "SN8 founder original operating statement"
+            },
+            {
+              "url": "https://x.com/VantaTrading/status/2112176004034650299",
+              "label": "SN8 official quote of founder update"
+            },
+            {
+              "url": "https://vantanetwork.io/tokenomics",
+              "label": "SN8 tokenomics reference"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Following the quoted original recovers material context while keeping forecasts and unverified totals separate."
+        }
+      ]
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": []
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": []
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "Zero Hour",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": []
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": []
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": [
+        {
+          "headline": "SN28 SayGM and SN114 SOMA detail a compression-and-inference case study",
+          "summary": "An October 18 case study, promoted by SN28 SayGM on October 19 and shared by SN114 SOMA, explains combining context compression with discounted inference. It says SayGM has been selectable in SOMA since September: this is new case-study detail, not a newly launched integration. The DeepSeek V4.1 Flash example reports 28% compression-related cost savings and a 55% model discount. These workload-dependent percentages must not be added into an 83% saving. No independent quality or repeatability benchmark was run.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/say_gm_/status/2112106480770154954",
+              "label": "SN28 primary cost-saving case study"
+            },
+            {
+              "url": "https://x.com/SomaSubnet/status/2112136334420894156",
+              "label": "SN114 counterpart post"
+            },
+            {
+              "url": "https://saygm.com/blog/how-soma-cuts-ai-agent-costs-with-saygm",
+              "label": "SN28 October 18 primary case study and prior availability date"
+            }
+          ],
+          "rating": 4,
+          "ratingReason": "A specific two-subnet workflow is useful evidence, while its measured savings remain conditional on the workload."
+        }
+      ]
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": []
+    },
+    {
+      "netuid": 35,
+      "name": "Subnet 35",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": [
+        {
+          "headline": "SN44 Score reports ground-truth reviews and restored tracks",
+          "summary": "The October 19 channel digest attributes removal of disputed evaluation blocks, a cricket restart and restoration after a six-hour beverage-detection outage to SN44 Score’s team. The digest itself inconsistently labels one removed block’s track, so no precise track/block mapping is asserted here. Football data expansion and further miner-reported label reviews remain ongoing. This is an attributed operating follow-up, separate from previously covered customer deployments.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/44/2026-10-19",
+              "label": "SN44 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Scoring reliability matters to miners; ambiguous block labels and unresolved reports remain explicit."
+        }
+      ]
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": [
+        {
+          "headline": "SN46 Instant describes zero-retention pipeline nearing review completion",
+          "summary": "The October 19 digest reports localnet GPU testing of a zero-retention request/proof pipeline, including miner updates and safe mode. It describes releases as awaiting final review before a new inference-engine migration. We therefore report preparation, not a live zero-retention service or an independently verified privacy guarantee.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/46/2026-10-19",
+              "label": "SN46 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 2,
+          "ratingReason": "A concrete reported milestone is worth watching, but pending review is not launch."
+        }
+      ]
+    },
+    {
+      "netuid": 47,
+      "name": "GPUForge",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": [
+        {
+          "headline": "SN49 Nepher Robotics plans attendance at NVIDIA GTC Berlin",
+          "summary": "SN49 Nepher Robotics’s October 19 original post says the team will attend NVIDIA GTC Berlin October 20–22 and invites conversations about partnerships, benchmarks and talent. This is an attendance plan, not an announced NVIDIA partnership, a confirmed speaking slot or a completed deployment. The invitation is useful context for upcoming team activity without attributing outcomes before they occur.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/nepher_robotics/status/2112167168699949426",
+              "label": "SN49 original event-attendance plan"
+            }
+          ],
+          "rating": 2,
+          "ratingReason": "A sourced upcoming appearance is informative but does not establish a commercial relationship."
+        }
+      ]
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": []
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": [
+        {
+          "headline": "SN55 NIOME schedules October 28 migration; capital estimates remain forecasts",
+          "summary": "SN55 NIOME’s October 19 post says its sickle-cell CRISPR challenge is complete, drug-response work is next, and the GENOME-to-NIOME migration begins October 28. The team estimates 1,500–2,000 TAO across the full migration and says it would be conviction-locked. That is a projection, not capital already received or guaranteed demand. The dated channel digest also reports a mainnet statement; we have not independently reconciled all live deployment and burn settings, including yesterday’s numeric configuration discrepancy.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/NiomeAI/status/2112151753520979970",
+              "label": "SN55 primary migration and roadmap announcement"
+            },
+            {
+              "url": "https://subnetradar.com/subnet-news/55/2026-10-19",
+              "label": "SN55 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "The date and roadmap are actionable research context; projected inflows do not earn a launch or investment claim."
+        }
+      ]
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Subnet 57",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "Attune",
+      "updates": []
+    },
+    {
+      "netuid": 59,
+      "name": "Subnet 59",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": []
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": [
+        {
+          "headline": "SN64 Chutes highlights its TEE catalog; support fixes remain separate",
+          "summary": "SN64 Chutes’s October 19 post highlights 14 open models behind an OpenAI-compatible endpoint and hardware-attested TEEs. The primary catalog lists TEE-labelled routes including Kimi K3 and GLM-5.2. Catalog size and pricing change, so this is a dated service snapshot rather than a claim that every model is newly launched. Separately, the channel digest describes a multi-chute model fix still under investigation and Parallax progress; neither establishes an all-clear for every earlier support issue.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/chutes_ai/status/2112167697785974919",
+              "label": "SN64 primary catalog snapshot"
+            },
+            {
+              "url": "https://chutes.ai/app",
+              "label": "SN64 current primary catalog"
+            },
+            {
+              "url": "https://subnetradar.com/subnet-news/64/2026-10-19",
+              "label": "SN64 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "A verifiable service snapshot is useful, while development and incident recovery are not conflated."
+        }
+      ]
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": [
+        {
+          "headline": "SN65 TPN launches a hosted model-quantization toolkit",
+          "summary": "SN65 True Performance Network’s October 19 announcement introduces a TPN Bench toolkit: submit a Hugging Face model, choose quantizations and receive generated files through storage links or an authorized Hugging Face upload. The team lists regular quantization, I-matrix and quantization-aware distillation. The public workbench resolves, but no paid conversion was run. The value is packaging an infrastructure-heavy optimization workflow into a service, not a newly verified improvement on every model.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/TPN_Labs/status/2112095154849153490",
+              "label": "SN65 primary toolkit announcement"
+            },
+            {
+              "url": "https://bench.trueperformancenetwork.com",
+              "label": "SN65 public workbench"
+            }
+          ],
+          "rating": 4,
+          "ratingReason": "A distinct new service follows earlier model releases; announcement and interface are checked without inventing performance results."
+        }
+      ]
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": [
+        {
+          "headline": "SN66 Conjectures announces a certified result for Erdős problem 1057",
+          "summary": "SN66 Conjectures’s October 19 announcement points to a public result for the Carmichael-number counting exponent tending to one. The result records Lean verification on October 10, approval on October 12 and certification on October 14, credited to JenW1N and gus; those dates predate today’s announcement. Its review says the target has no remaining zero-free or residue-bound hypothesis and the reward is paid. We checked the result, review and public source listing, not a fresh execution of the large proof. Nanoda was not run: the record relies on one kernel implementation.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/conjectures_io/status/2112181979193938156",
+              "label": "SN66 October 19 original announcement"
+            },
+            {
+              "url": "https://conjectures.io/results/4b28b5fa-7e89-47ae-8eb1-1ffd8fcbe516",
+              "label": "SN66 verification and review record"
+            },
+            {
+              "url": "https://conjectures.io/results/4b28b5fa-7e89-47ae-8eb1-1ffd8fcbe516/solution",
+              "label": "SN66 public proof listing"
+            }
+          ],
+          "rating": 4,
+          "ratingReason": "A checkable formal result has more evidentiary value than a claim alone, with actual certification dates and independent-replay limits retained."
+        }
+      ]
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": [
+        {
+          "headline": "SN67 Harnyx adds further research-agent model routes",
+          "summary": "October 19 primary posts and repository changes add Muse Spark Open plus Drex, Span-02 and Step 5 Preview options to SN67 Harnyx’s miner toolchain. This is distinct from the DeepSeek Search/Fetch integration covered yesterday. The additions expand the models research agents may test; upstream model capabilities and improved answer quality were not independently rerun. Provider availability, credentials and model-specific tool-calling limits still apply.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/harnyx_ai/status/2112135087055917525",
+              "label": "SN67 original model-route announcement"
+            },
+            {
+              "url": "https://x.com/harnyx_ai/status/2112157528788554076",
+              "label": "SN67 further model announcement"
+            },
+            {
+              "url": "https://github.com/harnyx/harnyx/commit/090ff971cbb37ef12b607852fd127b2ead28e4c1",
+              "label": "SN67 model-route implementation"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Concrete integration code expands miner choices without inventing quality gains."
+        }
+      ]
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Consted 2.0",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": [
+        {
+          "headline": "SN71 Leadpoet improves source handling; an October 20 launch is unconfirmed",
+          "summary": "Primary SN71 Leadpoet changes preserve publication dates separately from event dates during semantic repair and fix arena source context. The channel digest also describes training exports and billing fixes. A suggested V2 date of October 20 comes from members, not a confirmed team schedule, so it remains unannounced. Better data handling is relevant to research quality but not an independently measured sales outcome.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/leadpoet/leadpoet/commit/77b9070ed39b4eddeb067219545684a6c3a0904d",
+              "label": "SN71 arena source-context fix"
+            },
+            {
+              "url": "https://subnetradar.com/subnet-news/71/2026-10-19",
+              "label": "SN71 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Source provenance and training-data changes are substantive; a community launch date must not be promoted into fact."
+        }
+      ]
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": [
+        {
+          "headline": "SN75 Hippius opens Confidential Compute across four cloud services",
+          "summary": "SN75 Hippius’s October 19 announcement and product documentation say Confidential Compute is available to every account for VMs, managed PostgreSQL, Kubernetes and GitHub Actions runners. The documented AMD SEV-SNP design encrypts memory and gates disk-key release on attestation. This extends protection to workloads while running, rather than storage alone. The launch is supported by primary documentation and a dated code release; we did not provision a paid VM or independently audit its security properties.",
+          "importance": "high",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://x.com/Hippius_cloud/status/2112091278490128850",
+              "label": "SN75 primary launch announcement"
+            },
+            {
+              "url": "https://hippius.com/blog/hippius-confidential-vms-are-live",
+              "label": "SN75 launch documentation"
+            },
+            {
+              "url": "https://github.com/thenervelab/hippius-cvm/commit/696cf756b3e4a7b7def2a5ad3ce9ba6bdd18400a",
+              "label": "SN75 October 19 release"
+            }
+          ],
+          "rating": 4,
+          "ratingReason": "A documented service launch expands usable infrastructure; security claims remain attributed rather than guaranteed."
+        }
+      ]
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Umi",
+      "updates": [
+        {
+          "headline": "SN78 UMI reports C5 live across validators and schedules an AMA",
+          "summary": "The October 19 channel digest says C5 rewards are now live across validators, following the validator-update dependency carried in previous coverage. This operating status remains attributed to the digest. Separately, SN78 UMI’s original post schedules an AMA with Sam for October 19 at 17:00 UTC, or 1:00 PM Eastern. That discussion is upcoming at the research cutoff, not a completed event or new partnership.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/78/2026-10-19",
+              "label": "SN78 dated channel digest — secondary reporting"
+            },
+            {
+              "url": "https://x.com/umi_sn78/status/2112110369842078130",
+              "label": "SN78 primary AMA schedule"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "The reported reward rollout advances a prior dependency; the directly sourced discussion time is kept prospective."
+        }
+      ]
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": [
+        {
+          "headline": "SN80 OpenRoboto reminder links to a Space marked canceled",
+          "summary": "SN80 OpenRoboto’s October 19 reminder points to the earlier peaq robotics discussion. In the signed-in original quote card reviewed through the owner’s X history, the Space is labelled canceled. We therefore do not promote it as an upcoming or completed live discussion. No new time or replacement session was verified at the cutoff. Earlier Solana and peaq collaboration coverage remains in the archive.",
+          "importance": "informational",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/openroboto/status/2112056129593459004",
+              "label": "SN80 original reminder with canceled Space card"
+            }
+          ],
+          "rating": 2,
+          "ratingReason": "The owner’s saved history exposed a scheduling discrepancy that prevents an inaccurate reminder."
+        }
+      ]
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Noah",
+      "updates": [
+        {
+          "headline": "SN82 Noah publishes v0.1.0 as allocation and contribution mechanics draw scrutiny",
+          "summary": "SN82 Noah’s primary repository publishes v0.1.0 with multisig receipt reading and surplus-bonus scoring. Release documentation explicitly keeps mixed-deposit and purchase-deposit production execution unsupported. At the recorded alpha/TAO snapshot, its seven-day return is about +107.44% and emission share about 4.91%; price and allocation do not verify productive output. Public commentary raises concentration and contributor-rights concerns. We have not independently reproduced the cited holder percentages or established fraud; contributions, withdrawal rights and scoring authority should be examined in the project’s own documentation rather than inferred from a rising token.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://github.com/Vora-Inc/NOAH/commit/bf171203f5149ec15d3c8a9cc85c47519bd5bdb6",
+              "label": "SN82 primary v0.1.0 release"
+            },
+            {
+              "url": "https://github.com/Vora-Inc/NOAH/commit/b593f181e7299ba05fb1d3e3ed447b92c9872e96",
+              "label": "SN82 release limitations and scoring documentation"
+            },
+            {
+              "url": "https://x.com/TaoOutsider/status/2112003269543280826",
+              "label": "SN82 public critical commentary — not an adjudicated finding"
+            },
+            {
+              "url": "https://shizzyunchained.com/api/backend/v1/screener",
+              "label": "Dated alpha/TAO market snapshot"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "The release and high allocation justify scrutiny without repeating unverified accusations as fact."
+        }
+      ]
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Subnet 84",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": [
+        {
+          "headline": "SN85 Vidaio closes interpolation round and announces upscaling enrollment",
+          "summary": "The October 19 channel digest says no Competition 003 entrant reached the crown threshold; the top five share emissions beginning October 20. It describes Competition 004 upscaling enrollment for October 23–31, commercial-license requirements and one entry per operator. We preserve the secondary attribution because original rules and live payout activation were not independently reconciled. A completed contest does not establish a deployed customer product.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/85/2026-10-19",
+              "label": "SN85 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Competition results and entry restrictions affect miners; scheduled payouts and enrollment are not already completed."
+        }
+      ]
+    },
+    {
+      "netuid": 86,
+      "name": "OnSale",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": [
+        {
+          "headline": "SN89 InfiniteQuant lengthens emission decay in code",
+          "summary": "Primary October 19 SN89 InfiniteQuant changes extend the decay period from seven to thirty days across both mechanisms. This changes how older scoring contributions lose influence over time. The implementation is verifiable in the repository; we did not independently establish when every production operator adopted it or measure its effect on realized rewards.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/DeltaCompute24/InfiniteQuant-Subnet/commit/9ec1950df1db3239d3fc4ceb818ca657c5cfe00f",
+              "label": "SN89 primary decay-period change"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "A fourfold change in score persistence materially changes miner incentives without a promised yield outcome."
+        }
+      ]
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": [
+        {
+          "headline": "SN90 KubeTEE changes GPU compensation cards; integration talk remains a suggestion",
+          "summary": "Primary October 19 SN90 KubeTEE code pins H200 effective compensation at $3.95 per GPU-hour and lowers the B200 card to $7.00. These are miner compensation settings, not automatically public rental quotes or guaranteed profitability. The channel’s SN75 Hippius integration discussion is explicitly a community suggestion without team confirmation, so no partnership is announced.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/KubeTEE-AI/kubetee-subnet/commit/5e491272b46d9935f9f3e37db0b59e7cd427f18e",
+              "label": "SN90 H200 compensation floor"
+            },
+            {
+              "url": "https://github.com/KubeTEE-AI/kubetee-subnet/commit/2736457c7bc55a66b1bcc53cdbf67baee2ec69a7",
+              "label": "SN90 B200 compensation card"
+            },
+            {
+              "url": "https://subnetradar.com/subnet-news/90/2026-10-19",
+              "label": "SN90 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Concrete economic parameters deserve coverage; speculative cross-subnet integration does not."
+        }
+      ]
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "REAX",
+      "updates": [
+        {
+          "headline": "SN92 REAX stages binding generalization checks; activation must be checked separately",
+          "summary": "The October 19 digest describes rolling startup-failure handling, higher per-hotkey speed caps and private-task evaluation intended for October 19. Primary rc9.post3 code adds a binding cross-author tier and a capped generalization penalty. Crucially, its changelog says unreleased and the binding mode remains off by default; weights version 1240 is unchanged. A merged patch therefore does not prove live activation. The new tests aim to discourage overfitting and failure-counter gaming, but no independently measured post-rollout outcome is claimed.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/92/2026-10-19",
+              "label": "SN92 dated channel digest — secondary reporting"
+            },
+            {
+              "url": "https://github.com/reaxlabs/reax-subnet/commit/5d6b14afda676a8e55f831b0be6ed64cdc6494c2",
+              "label": "SN92 staged worker implementation and activation defaults"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Scoring integrity is material; the code’s off-by-default release status overrides an unqualified rollout claim."
+        }
+      ]
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "Cathedral",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Ingot",
+      "updates": [
+        {
+          "headline": "SN97 Ingot narrows duplicate filtering to near-identical copies",
+          "summary": "Primary SN97 Ingot code sets a 0.9999 correlation and 99% copied threshold for duplicate detection, documenting that a fine-tune of the leading model should still reach evaluation. Another patch fixes display after an evaluation ends. These are code changes, not proof of improved model performance or universal production deployment.",
+          "importance": "medium",
+          "status": "verified",
+          "sources": [
+            {
+              "url": "https://github.com/DendriteLabs/ingot/commit/83097373f8a5a2b4209b5c66ff1a69988c1ae914",
+              "label": "SN97 primary near-copy duplicate policy"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Admission changes affect which miner work competes, without counting minor UI repair as a separate launch."
+        }
+      ]
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Consted",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": [
+        {
+          "headline": "SN107 Minos prepares for Montreal presentations; ASHG link confirmed by original post",
+          "summary": "At the owner’s request, we revisited the October 16 channel digest reporting HelixForge on October 22 and the subnet on October 23. An original May 23 SN107 Minos post explicitly names ASHG in Montreal and describes two works: distributed benchmarking for variant calling and HelixForge-Pheno synthetic genomic cohorts. This confirms the team’s stated ASHG connection, rather than inferring it from the city. ASHG’s official program page confirms the meeting, but exact SN107 session titles, times and room were not independently established. These are scheduled appearances, separate from September’s Exploit Summit. No new scientific adoption, OpenAI investment or commercial partnership is implied.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/theminos_ai/status/2058303856883446140",
+              "label": "SN107 May 23 primary ASHG announcement"
+            },
+            {
+              "url": "https://subnetradar.com/subnet-news/107/2026-10-16",
+              "label": "SN107 October 16 dated conference digest"
+            },
+            {
+              "url": "https://ashgmeeting.ashg.org/programs/daily-program/",
+              "label": "ASHG official daily-program page"
+            },
+            {
+              "url": "https://studio.theminos.ai/",
+              "label": "SN107 primary HelixForge product explanation"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "Primary evidence resolves the event-name uncertainty while keeping exact slots and future outcomes unconfirmed."
+        },
+        {
+          "headline": "SN107 Minos outlines custom-algorithm transition and a forthcoming IM2 date",
+          "summary": "Today’s channel digest attributes a plan to finish configuration search across 22 chromosomes, move IM1 variant calling toward custom algorithms and announce an IM2 release date. The digest is internally inconsistent about a one- versus two-month configuration-search window, so we do not publish a firm deadline. Community accusations about copied scores or database access are not established findings. This is a roadmap update, not an IM2 launch or a verified resolution of the dispute.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/107/2026-10-19",
+              "label": "SN107 dated channel digest — secondary reporting"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "An incentive transition matters to miners, but uncertain timing and allegations require explicit qualification."
+        }
+      ]
+    },
+    {
+      "netuid": 108,
+      "name": "ChipForge",
+      "updates": [
+        {
+          "headline": "SN108 ChipForge closes Quest 1 and prepares a full accelerator challenge",
+          "summary": "The October 18 Taτsu brief says Quest 1 is closed and Quest 2 is being prepared around jointly designing NPU hardware, compiler and runtime. It describes seven vision models, signed evaluator packages and dummy-NPU end-to-end testing, currently taking more than six hours. Those statements support a planned challenge and infrastructure progress, not an already-open Quest 2 competition or verified commercial chip. The separate TatsuOS production plan is not automatically SN108 product adoption.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/TatsuEcosystem/status/2111882039163310329",
+              "label": "SN108 primary October 18 development brief"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "The next competition is materially different, but preparation and testing remain distinct from launch."
+        }
+      ]
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "THOR",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "Subnet 113",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SN114 SOMA case study explains choosing SN28 SayGM for compressed requests",
+          "summary": "The October 18 primary case study says SN114 SOMA users can select SN28 SayGM when creating an API key, combining context compression with inference pricing. It explicitly dates provider availability to September, so today’s October 19 promotion is a walkthrough of an existing production path. Savings depend on workload, context length, model and output quality; the example is not an independent benchmark or a guarantee. The fuller cost example is covered under SN28 SayGM.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "The primary workflow description adds practical context without relaunching an existing integration.",
+          "sources": [
+            {
+              "url": "https://saygm.com/blog/how-soma-cuts-ai-agent-costs-with-saygm",
+              "label": "SN114 SOMA and SN28 SayGM primary workflow case study"
+            },
+            {
+              "url": "https://x.com/SomaSubnet/status/2112136334420894156",
+              "label": "SN114 counterpart post"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Carbon",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "everyframe.studio",
+      "updates": []
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "SN118 Ditto reports clearing a 38-hour scoring blockage",
+          "summary": "The October 19 digest says a submission whose dataset seed was not tied to a chain block stalled v13 scoring for 38 hours, and that waiting agents have now been scored. Rate-limit-related screening retries and support for larger source files remain follow-up work. This is attributed recovery reporting, not proof that every earlier validator issue is closed. A separate October 19 official post demonstrates memory access across assistants through MCP; it does not establish a new paying customer or authorize connecting private accounts.",
+          "importance": "medium",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://subnetradar.com/subnet-news/118/2026-10-19",
+              "label": "SN118 dated channel digest — secondary reporting"
+            },
+            {
+              "url": "https://x.com/heydittoai/status/2112174211993317764",
+              "label": "SN118 primary MCP product demonstration"
+            }
+          ],
+          "rating": 3,
+          "ratingReason": "A reported queue recovery is substantive, with deployment and user-data access claims kept appropriately bounded."
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": [
+        {
+          "headline": "SN124 Swarm reports two signed contracts; field tests remain ahead",
+          "summary": "SN124 Swarm’s October 19 stakeholder thread says two contracts were signed in two months. It names German Solar Power for a Sentinel solar-site project and MEVI DRONS for an avalanche-control system. The solar on-site test is planned for Q1 2027; prototypes, permissions and trials remain delivery milestones. The thread also reports €370,000 raised, an Andorra lab inaugurated October 15 and a new engineer due November 1. These are attributed team statements, not inspected contracts, customer-side confirmation or already-completed deployments.",
+          "importance": "high",
+          "status": "developing",
+          "sources": [
+            {
+              "url": "https://x.com/SwarmSubnet/status/2112159070706667726",
+              "label": "SN124 primary stakeholder update"
+            }
+          ],
+          "rating": 4,
+          "ratingReason": "Named customer work is material, but signed work and future field performance must remain distinct."
+        }
+      ]
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Decentralization debate continues without a newly verified protocol release",
+      "summary": "An October 18 community post argues against self-mining without useful output. This is commentary, not evidence that a named subnet committed misconduct. Direct Const Posts and Replies samples still show the previously covered October 16 discussion of less prescriptive subnet operation, lending-related pool work and consensus flexibility; no distinct new Const release was verified in the inspected window. The October 17 SN107 Minos preview is resolved separately against an older primary ASHG announcement. Older commentary is retained with its actual date rather than promoted into a new chain upgrade.",
+      "importance": "informational",
+      "status": "developing",
+      "sources": [
+        {
+          "url": "https://x.com/kin7371/status/2111990281478566257",
+          "label": "Bookmarked public community commentary"
+        },
+        {
+          "url": "https://x.com/const_reborn/status/2111145962291028143",
+          "label": "Previously covered Const October 16 commentary"
+        },
+        {
+          "url": "https://x.com/sobczak_mariusz/status/2111448792536940883",
+          "label": "Bookmarked Minos preview — secondary commentary"
+        }
+      ],
+      "rating": 2,
+      "ratingReason": "Context separates public debate from implemented protocol changes and verified wrongdoing."
+    },
+    {
+      "headline": "New Shizzy site walkthrough becomes the public video default",
+      "summary": "The public episode “Buying Bittensor Subnets? Watch This Before You Buy Another One!” is added at 16:27 and becomes the default player. YouTube’s publication timestamp is October 19 at 01:36 Eastern. The latest members upload is the 14:33 episode titled “10/18/26 Bittensor News Updates & TAO Price Action”; its publication timestamp is October 19 at 00:12 Eastern, so title date and upload date remain distinct. Both Videos and Live tabs were checked. SN10 Pareton remains scheduled for October 20 at 1 PM Eastern, followed by SN58 Attune October 21 at noon Eastern.",
+      "importance": "informational",
+      "status": "verified",
+      "sources": [
+        {
+          "url": "https://www.youtube.com/watch?v=AeDXwWTAaf0",
+          "label": "New public site walkthrough"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=Oo9VcUot7GI",
+          "label": "Latest members upload — membership required"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=ac6bldErBFU",
+          "label": "SN10 upcoming stream"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=3i9F3_Ku8Fo",
+          "label": "SN58 upcoming stream"
+        }
+      ],
+      "rating": 2,
+      "ratingReason": "Verified IDs, access status, durations and schedules keep the video library accurate."
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "128 current subnet profiles; 98 October18/19 channel briefs; 201 current/legacy repository paths",
+      "210 team, partner and linked public-account samples; 164 original post pages",
+      "Signed-in @ShizzyUnchained Grok discovery/top-five and direct Const Posts/Replies; owner Bookmarks and Likes history",
+      "Finalized owner/registration/network-presence endpoint comparisons and attempted complete-window storage history",
+      "Full-roster market outliers, emission leaders, Moments and prior seven-day reports",
+      "YouTube Videos and Live tabs plus four watch-player metadata records; prepared provider/chain-yield health endpoints"
+    ],
+    "gaps": [
+      "Public account sampling and Grok are not an exhaustive X census. Profile links include community/partner accounts, not 210 verified official teams. Some originals, repositories and attached media remain inaccessible or partially inspected.",
+      "Private Discord messages were not authenticated; digest-only roadmap, rule and incident statements remain attributed and developing. ASHG exact SN107 session times and room were not independently confirmed.",
+      "Finalized owner, registration-height and network-presence endpoints are unchanged through block 9,318,151. Historical state_queryStorage returned RPC4003; intermediate changes cannot be excluded, and no independently verified subnet sale price or buyer was established.",
+      "Prepared TaoStats-backed endpoints and node-yield checks were sampled, but direct API credit usage, exhaustive provider event reconciliation and all historical chart boundaries were not inspected. No new fallback integration is claimed.",
+      "Contracts, growth claims, migration capital forecasts, savings, security and model benchmarks were not independently audited or reproduced. Token price alone is not proof of business output.",
+      "X history here exposes Bookmarks and Likes, not a complete record of every post the owner has viewed. Saved material older than the overlap is not automatically republished.",
+      "AlphaGap public feed returned a shell without substantive cards; premium intelligence not inspected. Official ASHG linked planner returned404 in direct retrieval."
+    ]
+  }
+}
