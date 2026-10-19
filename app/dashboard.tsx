@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -986,11 +986,67 @@ export function Dashboard({
   const [walletProgress, setWalletProgress] = useState("");
   const [walletError, setWalletError] = useState("");
   const walletPollingRef = useRef(false);
+  const walletRunRef = useRef(0);
+  const [walletSavedAt, setWalletSavedAt] = useState<string | null>(null);
+  const [walletCacheMessage, setWalletCacheMessage] = useState("");
   const [activity, setActivity] = useState<ChainEvent[]>([]);
   const [activitySummary, setActivitySummary] = useState<ActivitySummary | null>(null);
+  const [activityCheckedAt, setActivityCheckedAt] = useState(0);
   const [activityCollectingSince, setActivityCollectingSince] = useState<string | null>(null);
   const [activityFilter, setActivityFilter] = useState<"all" | "locks" | "keys">("all");
   const chartVisible = view === "screener" && marketDetailOpen;
+
+  const saveWalletCache = useCallback((results: Wallet[], savedAt: string) => {
+    try {
+      if (results.length) localStorage.setItem("shizzy:wallet-cache:v1", JSON.stringify({ savedAt, wallets: results }));
+      else localStorage.removeItem("shizzy:wallet-cache:v1");
+      setWalletCacheMessage("");
+    } catch { setWalletCacheMessage("Device storage is unavailable or full. These results are visible for this session only."); }
+  }, []);
+
+  const pollWalletJob = useCallback(async (jobId: string, total: number, run = walletRunRef.current) => {
+    if (walletPollingRef.current) return;
+    walletPollingRef.current = true;
+    let missedPolls = 0;
+    try {
+      for (let attempt = 0; attempt < 240; attempt++) {
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        if (run !== walletRunRef.current) return;
+        let job: { completed?: number; total?: number; status: string; error?: string; results?: Wallet[] };
+        try {
+          const response = await fetch(`/api/backend/v1/wallets/jobs/${jobId}`, { cache: "no-store" });
+          if (!response.ok) throw new Error(`status ${response.status}`);
+          job = await response.json();
+          if (run !== walletRunRef.current) return;
+          missedPolls = 0;
+        } catch {
+          if (run !== walletRunRef.current) return;
+          missedPolls += 1;
+          setWalletProgress(`Reconnecting… ${missedPolls}`);
+          if (missedPolls >= 48) throw new Error("The wallet lookup could not reconnect after two minutes. Refresh the page to resume the same job.");
+          continue;
+        }
+        setWalletProgress(`Checking ${job.completed || 0} of ${job.total || total}…`);
+        if (job.status === "failed") {
+          try { localStorage.removeItem("shizzy:wallet-job"); } catch { /* Optional storage. */ }
+          throw new Error(job.error || "The wallet lookup could not complete.");
+        }
+        if (job.status === "complete") {
+          try { localStorage.removeItem("shizzy:wallet-job"); } catch { /* Optional storage. */ }
+          const results = job.results || [];
+          const savedAt = new Date().toISOString();
+          setWallets(results); setWalletInput(results.map(wallet => wallet.address).join("\n")); setWalletSavedAt(savedAt); saveWalletCache(results, savedAt);
+          setWalletDisplay("wallets");
+          return;
+        }
+      }
+      throw new Error("This lookup is still running after ten minutes. Refresh the page to resume the same job.");
+    } finally {
+      if (run === walletRunRef.current) walletPollingRef.current = false;
+    }
+  }, [saveWalletCache]);
+
+  useEffect(() => () => { walletRunRef.current += 1; walletPollingRef.current = false; }, []);
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("view");
@@ -998,26 +1054,24 @@ export function Dashboard({
   }, []);
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("shizzy:wallet-job");
-    if (!saved) return;
     try {
+      const cached = JSON.parse(localStorage.getItem("shizzy:wallet-cache:v1") || "null");
+      if (cached && Array.isArray(cached.wallets) && cached.wallets.length <= 100 && Number.isFinite(Date.parse(cached.savedAt)) && cached.wallets.every((w: Wallet) => w && typeof w.address === "string" && /^5[1-9A-HJ-NP-Za-km-z]{47}$/.test(w.address) && Array.isArray(w.stakes) && w.stakes.every(stake => stake && typeof stake.hotkey === "string" && Number.isInteger(stake.netuid)))) {
+        queueMicrotask(() => { setWallets(cached.wallets); setWalletInput(cached.wallets.map((w: Wallet) => w.address).join("\n")); setWalletSavedAt(cached.savedAt); });
+      }
+      const saved = localStorage.getItem("shizzy:wallet-job");
+      if (!saved) return;
       const job = JSON.parse(saved);
       if (!job?.id || !job?.total) return;
       queueMicrotask(() => {
-        setChecking(true);
-        setWalletError("");
-        setWalletProgress("Reconnecting to wallet lookup…");
-        void pollWalletJob(job.id, job.total)
-          .catch((error) => setWalletError(error instanceof Error ? error.message : "The wallet lookup could not reconnect."))
-          .finally(() => {
-            setChecking(false);
-            setWalletProgress("");
-          });
+        const run = walletRunRef.current;
+        setChecking(true); setWalletError(""); setWalletProgress("Reconnecting to wallet lookup…");
+        void pollWalletJob(job.id, job.total, run)
+          .catch(error => { if (run === walletRunRef.current) setWalletError(error instanceof Error ? error.message : "The wallet lookup could not reconnect."); })
+          .finally(() => { if (run === walletRunRef.current) { setChecking(false); setWalletProgress(""); } });
       });
-    } catch {
-      window.localStorage.removeItem("shizzy:wallet-job");
-    }
-  }, []);
+    } catch { /* Device storage is optional; the tracker still works without it. */ }
+  }, [pollWalletJob]);
 
   useEffect(() => {
     if (!marketDetailOpen) return;
@@ -1199,6 +1253,7 @@ export function Dashboard({
       fetch("/api/backend/v1/activity?limit=200", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((json) => {
+          setActivityCheckedAt(Date.now());
           setActivity(json.data || []);
           setActivitySummary(json.summary || null);
           setActivityCollectingSince(json.collecting_since || null);
@@ -1377,41 +1432,18 @@ export function Dashboard({
   };
   const privateMoney = (value?: string | number, price = false) => (hideBalances ? "$••••" : money(value, price));
 
-  async function pollWalletJob(jobId: string, total: number) {
-    if (walletPollingRef.current) return;
-    walletPollingRef.current = true;
-    let missedPolls = 0;
-    try {
-      for (let attempt = 0; attempt < 240; attempt++) {
-        await new Promise((resolve) => setTimeout(resolve, 2500));
-        let job: { completed?: number; total?: number; status: string; error?: string; results?: Wallet[] };
-        try {
-          const response = await fetch(`/api/backend/v1/wallets/jobs/${jobId}`, { cache: "no-store" });
-          if (!response.ok) throw new Error(`status ${response.status}`);
-          job = await response.json();
-          missedPolls = 0;
-        } catch {
-          missedPolls += 1;
-          setWalletProgress(`Reconnecting… ${missedPolls}`);
-          if (missedPolls >= 48) throw new Error("The wallet lookup could not reconnect after two minutes. Refresh the page to resume the same job.");
-          continue;
-        }
-        setWalletProgress(`Checking ${job.completed || 0} of ${job.total || total}…`);
-        if (job.status === "failed") {
-          window.localStorage.removeItem("shizzy:wallet-job");
-          throw new Error(job.error || "The wallet lookup could not complete.");
-        }
-        if (job.status === "complete") {
-          window.localStorage.removeItem("shizzy:wallet-job");
-          setWallets(job.results || []);
-          setWalletDisplay("wallets");
-          return;
-        }
-      }
-      throw new Error("This lookup is still running after ten minutes. Refresh the page to resume the same job.");
-    } finally {
-      walletPollingRef.current = false;
+  function forgetWallet(address?: string) {
+    if (!address) {
+      walletRunRef.current += 1; walletPollingRef.current = false;
+      setChecking(false); setWalletProgress(""); setWallets([]); setWalletInput(""); setWalletSavedAt(null); setWalletError(""); setWalletDisplay("wallets");
+      try { localStorage.removeItem("shizzy:wallet-cache:v1"); localStorage.removeItem("shizzy:wallet-job"); setWalletCacheMessage("Saved wallet data cleared from this device."); }
+      catch { setWalletCacheMessage("Could not clear browser storage. Clear this site's data in your browser settings."); }
+      return;
     }
+    const remaining = wallets.filter(wallet => wallet.address !== address);
+    setWallets(remaining); setWalletInput(walletInput.split(/[\s,]+/).filter(value => value && value !== address).join("\n"));
+    saveWalletCache(remaining, walletSavedAt || new Date().toISOString());
+    if (!remaining.length) setWalletSavedAt(null);
   }
 
   async function checkWallets(e: FormEvent) {
@@ -1426,11 +1458,13 @@ export function Dashboard({
       ),
     ];
     if (!addresses.length) return setWalletError("Paste at least one coldkey address.");
+    const run = ++walletRunRef.current;
     setChecking(true);
     setWalletProgress("Starting lookup…");
     try {
       let res: Response | undefined;
       for (let attempt = 0; attempt < 7; attempt++) {
+        if (run !== walletRunRef.current) return;
         try {
           res = await fetch("/api/backend/v1/wallets/jobs", {
             method: "POST",
@@ -1441,9 +1475,11 @@ export function Dashboard({
         } catch {
           res = undefined;
         }
+        if (run !== walletRunRef.current) return;
         setWalletProgress("Node service reconnecting…");
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }
+      if (run !== walletRunRef.current) return;
       if (!res) throw new Error("The live wallet lookup is temporarily unavailable. Please try again shortly.");
       if (!res.ok) {
         const contentType = res.headers.get("content-type") || "";
@@ -1455,13 +1491,14 @@ export function Dashboard({
         throw new Error("The live wallet lookup is temporarily unavailable. Your addresses were not saved; please try again shortly.");
       }
       const started = await res.json();
-      window.localStorage.setItem("shizzy:wallet-job", JSON.stringify({ id: started.job_id, total: addresses.length }));
-      await pollWalletJob(started.job_id, addresses.length);
+      if (run !== walletRunRef.current) return;
+      try { localStorage.setItem("shizzy:wallet-job", JSON.stringify({ id: started.job_id, total: addresses.length })); } catch { /* Optional resume storage. */ }
+      await pollWalletJob(started.job_id, addresses.length, run);
     } catch (error) {
+      if (run !== walletRunRef.current) return;
       setWalletError(error instanceof Error ? error.message : "The live wallet lookup is temporarily unavailable. Please try again shortly.");
     } finally {
-      setChecking(false);
-      setWalletProgress("");
+      if (run === walletRunRef.current) { setChecking(false); setWalletProgress(""); }
     }
   }
 
@@ -1551,7 +1588,7 @@ export function Dashboard({
   const convictionLeaders = [...rows].sort((a, b) => Number(b.conviction_locked_pct || 0) - Number(a.conviction_locked_pct || 0));
   const emissionMovers = [...rows].filter((row) => row.emission_change_1h != null).sort((a, b) => Math.abs(Number(b.emission_change_1h || 0)) - Math.abs(Number(a.emission_change_1h || 0)));
   const liquidityMovers = [...rows].filter((row) => row.liquidity_change_1h != null).sort((a, b) => Math.abs(Number(b.liquidity_change_1h || 0)) - Math.abs(Number(a.liquidity_change_1h || 0)));
-  const activityHours = activityCollectingSince ? Math.max(0, (Date.now() - new Date(activityCollectingSince).getTime()) / 3_600_000) : 0;
+  const activityHours = activityCollectingSince ? Math.max(0, (activityCheckedAt - new Date(activityCollectingSince).getTime()) / 3_600_000) : 0;
   const activityPeriod = activityHours < 24 ? `Since tracking began · ${activityHours < 1 ? "<1" : Math.floor(activityHours)}h` : "Last 24 hours";
   const eventDescription = (event: ChainEvent) => {
     const source = eventSubnet(event),
@@ -2393,9 +2430,12 @@ export function Dashboard({
             <label htmlFor="wallets">Coldkey addresses</label>
             <p className="wallet-safety">Read-only lookup. Never enter a seed phrase, private key, or password.</p>
             <textarea id="wallets" value={walletInput} onChange={(e) => setWalletInput(e.target.value)} placeholder={"5F...\n5G...\n5H..."} />
+            <div className="wallet-cache-controls"><p>Last checked wallets are saved only in this browser. Use Refresh wallets to get a new chain snapshot.</p><button type="button" onClick={() => forgetWallet()}>Clear saved wallets &amp; cache</button></div>
+            {walletSavedAt && <p className="wallet-cache-status">Saved snapshot: {new Date(walletSavedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} Eastern. Holdings and TAO valuations are from that check; USD estimates use the current TAO price.</p>}
+            {walletCacheMessage && <p className="wallet-cache-status" role="status">{walletCacheMessage}</p>}
             <div className="form-foot">
               <span>One public coldkey per line, space, or comma</span>
-              <button disabled={checking}>{checking ? walletProgress || "Checking chain…" : "Check wallets →"}</button>
+              <button disabled={checking}>{checking ? walletProgress || "Checking chain…" : wallets.length ? "Refresh wallets →" : "Check wallets →"}</button>
             </div>
             {walletError && <p className="form-error">{walletError}</p>}
           </form>
@@ -2447,6 +2487,7 @@ export function Dashboard({
                       <small>{w.stakes.length} positions</small>
                     </div>
                     <strong>{privateMoney(w.total_tao_value)}</strong>
+                    <button type="button" className="wallet-remove" disabled={checking} onClick={() => forgetWallet(w.address)} aria-label={`Remove wallet ${w.address.slice(0, 6)}…${w.address.slice(-6)} from saved tracker`}>Remove</button>
                   </div>
                   <div className="wallet-split">
                     <span>
