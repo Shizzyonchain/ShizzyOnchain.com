@@ -8,11 +8,11 @@ import { drawingColor, logicalForTime, readDrawings, timeForLogical, type ChartD
 
 type Tool = "pan" | "select" | Drawing["kind"];
 type XY = { x: number; y: number };
-type Projection = { left: number; top: number; width: number; height: number; toolbarTop: number; shapes: { index: number; drawing: Drawing; path: string; handles: XY[] }[] };
+type Projection = { left: number; top: number; width: number; height: number; shapes: { index: number; drawing: Drawing; path: string; handles: XY[] }[] };
 type Gesture = { origin: Point; originXY: XY; points: Point[]; index: number; operation: "draw" | "move" | "start" | "end"; original?: Drawing };
 const colors = ["#ffcc66", "#ffffff", "#23d18b", "#ff5263", "#46bfff", "#c28cff"];
 const labels = { trend: "Trend line", level: "Price level", circle: "Circle", brush: "Freehand" };
-const emptyProjection: Projection = { left: 0, top: 0, width: 0, height: 0, toolbarTop: 8, shapes: [] };
+const emptyProjection: Projection = { left: 0, top: 0, width: 0, height: 0, shapes: [] };
 
 export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, currency, appearance, mode }: {
   chartRef: RefObject<IChartApi | null>; hostRef: RefObject<HTMLDivElement | null>;
@@ -77,9 +77,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
       else if (item.kind === "brush") { const points = (item.points || []).map(point=>xyFor(point,p)).filter((v): v is XY=>v!==null); path = points.map((point,i)=>`${i?'L':'M'}${point.x} ${point.y}`).join(' '); handles = []; }
       if (path) shapes.push({index,drawing:item,path,handles});
     });
-    const navigation = p.host.closest(".market-modal")?.querySelector(".market-modal-navigation")?.getBoundingClientRect();
-    const hiddenTop = Math.max(0,(navigation?.bottom || 0)-p.rect.top+8)*p.canvas.clientHeight/p.rect.height;
-    setProjection({ left:p.left,top:p.top,width:p.canvas.clientWidth,height:p.canvas.clientHeight,toolbarTop:Math.min(Math.max(8,hiddenTop),Math.max(8,p.canvas.clientHeight-140)),shapes });
+    setProjection({ left:p.left,top:p.top,width:p.canvas.clientWidth,height:p.canvas.clientHeight,shapes });
   });
   // Paint only on data/gesture/viewport changes, not a permanent animation loop.
   useEffect(() => {
@@ -94,7 +92,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
     const observer = new ResizeObserver(schedule); observer.observe(host);
     return () => { cancelAnimationFrame(frame); observer.disconnect(); scroller?.removeEventListener("scroll",schedule); host.removeEventListener("pointermove",schedule); host.removeEventListener("pointerup",schedule); host.removeEventListener("wheel",schedule); host.removeEventListener("touchmove",schedule); if (isCurrentChart()) chart.timeScale().unsubscribeVisibleLogicalRangeChange(schedule); };
   }, [items, draft, editing, bars, mode, hostRef, chartRef, appearance]);
-  useEffect(() => { chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:!drawing,horzTouchDrag:!drawing}}); }, [chartRef,drawing,appearance,bars]);
+  useEffect(() => { chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:!drawing&&tool!=="select",horzTouchDrag:!drawing&&tool!=="select"}}); }, [chartRef,drawing,tool,appearance,bars]);
   const location = (event: PointerEvent<SVGSVGElement>) => {
     const p = plot(); if (!p) return null;
     const x = (event.clientX-p.rect.left)*p.canvas.clientWidth/p.rect.width, y = (event.clientY-p.rect.top)*p.canvas.clientHeight/p.rect.height;
@@ -130,6 +128,9 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
     const target=event.target as SVGElement, index=Number(target.getAttribute("data-index"));
     const hit=target.hasAttribute("data-index") && Number.isInteger(index) && items[index];
     if(!drawing && !hit)return;
+    // Freeze the chart before it can interpret grabbing a drawing as panning.
+    // The Select mode keeps it frozen until the user returns to Pan/Done.
+    chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:false,horzTouchDrag:false}});
     event.preventDefault();event.stopPropagation();event.currentTarget.setPointerCapture(event.pointerId);
     if(hit && !drawing) { selectDrawing(index);setEditing(index); }
     const operation = drawing ? "draw" : (target.getAttribute("data-handle")==="start"?"start":target.getAttribute("data-handle")==="end"?"end":"move");
@@ -146,6 +147,8 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
   };
   const pointerUp = (event: PointerEvent<SVGSVGElement>) => {
     const g=gesture.current;gesture.current=null; if(!g)return;
+    event.preventDefault();event.stopPropagation();
+    if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);
     const at=location(event);if(!at){setDraft(null);setEditing(-1);return;}
     const moved=Math.hypot(at.xy.x-g.originXY.x,at.xy.y-g.originXY.y)>3;
     if(g.operation!=="draw"){if(moved)finish(buildDraft(g,at.point),g.index);else{setDraft(null);setEditing(-1);}return;}
@@ -154,12 +157,11 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
     else {setAnchor(at.point);setDraft(null);}
   };
   const selectedDrawing=selectedIndex>=0?items[selectedIndex]:null;
-  const palette=(floating=false)=><div className={floating?"chart-floating-colors":"chart-drawing-colors"}>
-    {!floating && <label>Style for <select aria-label="Drawing to recolor" value={selectedIndex} onChange={event=>{const index=Number(event.target.value);if(index>=0)selectDrawing(index);else setSelected(-1);}}><option value={-1}>New drawing</option>{items.map((item,index)=><option key={index} value={index}>{labels[item.kind]} {index+1}</option>)}</select></label>}
-    {colors.map(value=><button key={value} type="button" aria-label={`${floating?'Selected drawing':'Drawing'} color ${value}`} aria-pressed={color===value} style={{backgroundColor:value}} onClick={()=>style({color:value})}/>)}
-    <label className="chart-custom-color">{!floating&&"Custom"}<input type="color" aria-label={floating?"Selected drawing custom color":"Custom drawing color"} value={color} onChange={event=>style({color:event.target.value})}/></label>
-    <select aria-label={floating?"Selected drawing thickness":"Drawing thickness"} value={width} onChange={event=>style({width:Number(event.target.value)})}>{[1,2,3,4,5].map(value=><option key={value} value={value}>{value}px</option>)}</select>
-    {floating&&<button type="button" className="drawing-done" onClick={()=>chooseTool("pan")}>Done</button>}
+  const palette=()=><div className="chart-drawing-colors">
+    <label>Style for <select aria-label="Drawing to recolor" value={selectedIndex} onChange={event=>{const index=Number(event.target.value);if(index>=0)selectDrawing(index);else setSelected(-1);}}><option value={-1}>New drawing</option>{items.map((item,index)=><option key={index} value={index}>{labels[item.kind]} {index+1}</option>)}</select></label>
+    {colors.map(value=><button key={value} type="button" aria-label={`Drawing color ${value}`} aria-pressed={color===value} style={{backgroundColor:value}} onClick={()=>style({color:value})}/>)}
+    <label className="chart-custom-color">Custom<input type="color" aria-label="Custom drawing color" value={color} onChange={event=>style({color:event.target.value})}/></label>
+    <select aria-label="Drawing thickness" value={width} onChange={event=>style({width:Number(event.target.value)})}>{[1,2,3,4,5].map(value=><option key={value} value={value}>{value}px</option>)}</select>
   </div>;
   const overlay=surfaceHost?createPortal(<div className="chart-annotation-layer">
     <svg className={`chart-annotation-svg ${drawing?'is-drawing':''}`} style={{left:projection.left,top:projection.top,width:projection.width,height:projection.height}} viewBox={`0 0 ${projection.width||1} ${projection.height||1}`} aria-label="Chart drawings" role="group"
@@ -172,7 +174,6 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
         {selectedIndex===shape.index&&!drawing&&shape.handles.map((point,index)=><circle key={index} cx={point.x} cy={point.y} r={7} fill="#000" stroke={drawingColor(shape.drawing.color)} strokeWidth={2} pointerEvents="all" data-index={shape.index} data-handle={index===0?'start':'end'} className="drawing-handle"/>)}
       </g>)}
     </svg>
-    {selectedDrawing&&tool==="select"&&<div className="chart-floating-drawing-style" style={{left:projection.left+8,top:projection.top+projection.toolbarTop,maxWidth:projection.width-16}}><span>{labels[selectedDrawing.kind]} selected · change color or thickness</span>{palette(true)}</div>}
   </div>,surfaceHost):null;
   return <div className="chart-drawing-tools">
     <div className="chart-study-toolbar" role="group" aria-label="Chart drawing tools">
@@ -184,7 +185,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
       <button type="button" onClick={()=>chooseTool('pan')}>Done drawing</button>
     </div>
     {palette()}
-    <p className="chart-drawing-hint" role="status">{tool==='brush'?'Drag freely to draw. Release to edit color and thickness.':tool==='circle'?'Drag from the center outward to draw a circle, or tap center then edge.':tool==='trend'?'Drag a line, or tap its two ends. A live preview follows your pointer.':tool==='level'?'Tap or drag to place a price level.':selectedDrawing?'Drawing selected. Change its style, drag it to move, or drag its handles.':`${items.length}/40 drawings · ${currency.toUpperCase()} · saved on this device. Click a drawing to edit it.`}{storageFailed?' Storage unavailable; changes last for this session.':''}</p>
+    <p className="chart-drawing-hint" role="status">{tool==='brush'?'Drag freely to draw. Release to edit color and thickness above the chart.':tool==='circle'?'Drag from the center outward to draw a circle, or tap center then edge.':tool==='trend'?'Drag a line, or tap its two ends. A live preview follows your pointer.':tool==='level'?'Tap or drag to place a price level.':selectedDrawing?'Drawing selected. Grab its line to move it, or drag an end handle to reshape it. Color and thickness are above the chart. Choose Pan or Done drawing to move the chart.':`${items.length}/40 drawings · ${currency.toUpperCase()} · saved on this device. Grab a drawing to edit it.`}{storageFailed?' Storage unavailable; changes last for this session.':''}</p>
     {overlay}
   </div>;
 }
