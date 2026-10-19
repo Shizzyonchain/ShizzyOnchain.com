@@ -104,6 +104,23 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     return { point:{time:timeForLogical(times,Number(logical)-p.firstLogical),price:Number(price)},xy:{x,y} };
   };
   const chooseTool = (next: Tool) => { setTool(next);setAnchor(null);setDraft(null);setEditing(-1);setSelected(-1);gesture.current=null; };
+  const deleteSelected = () => {
+    if (selectedIndex < 0 || gesture.current) return;
+    update(items.filter((_, index) => index !== selectedIndex));
+    chooseTool("pan");
+  };
+  const handleDrawingKey = useEffectEvent((event: KeyboardEvent) => {
+    if (event.defaultPrevented || event.repeat || event.isComposing || event.ctrlKey || event.metaKey || event.altKey || !["Backspace", "Delete"].includes(event.key) || selectedIndex < 0 || gesture.current) return;
+    const target = event.target;
+    if (target instanceof Element && target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="combobox"], [role="spinbutton"]')) return;
+    event.preventDefault();
+    deleteSelected();
+  });
+  useEffect(() => {
+    const handleKey = (event: KeyboardEvent) => handleDrawingKey(event);
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
   const selectDrawing = (index: number) => { setCollapsed(false);setSelected(index);setTool("select");setColor(drawingColor(items[index]?.color));setWidth(items[index]?.width||3); };
   const collapseTools = (hidden: boolean) => { setCollapsed(hidden); if(hidden)chooseTool("pan"); try { localStorage.setItem("shizzy:drawing-tools-collapsed", String(hidden)); } catch { /* Optional preference. */ } };
   const style = (next: {color?: string;width?:number}) => {
@@ -191,12 +208,12 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
       <button type="button" aria-pressed={drawing} className={drawing?'active':''} disabled={bars.length<2||items.length>=40} onClick={()=>chooseTool(drawing?'pan':'brush')}>Draw ✎</button>
       {([["pan","Pan"],["select","Select"],["trend","Trend line"],["level","Price level"],["circle","Circle"],["brush","Freehand"]] as const).map(([value,label])=><button key={value} type="button" aria-pressed={tool===value} className={tool===value?'active':''} disabled={value!=='pan'&&value!=='select'&&(bars.length<2||items.length>=40)} onClick={()=>chooseTool(value)}>{label}</button>)}
       <button type="button" disabled={!items.length&&!draft&&!anchor} onClick={()=>{if(!draft&&!anchor)update(items.slice(0,-1));chooseTool('pan');}}>Undo</button>
-      <button type="button" disabled={selectedIndex<0} onClick={()=>{update(items.filter((_,index)=>index!==selectedIndex));chooseTool('pan');}}>Delete selected</button>
+      <button type="button" disabled={selectedIndex<0} onClick={deleteSelected}>Delete selected</button>
       <button type="button" disabled={!items.length} onClick={()=>{update([]);chooseTool('pan');}}>Clear drawings</button>
       <button type="button" onClick={()=>chooseTool('pan')}>Done drawing</button>
     </div>
     {palette()}
-    <p className="chart-drawing-hint" role="status">{tool==='brush'?'Drag freely to draw. Release to edit color and thickness above the chart.':tool==='circle'?'Drag from the center outward to draw a circle, or tap center then edge.':tool==='trend'?'Drag a line, or tap its two ends. A live preview follows your pointer.':tool==='level'?'Tap or drag to place a price level.':selectedDrawing?'Drawing selected. Grab its line to move it, or drag an end handle to reshape it. Color and thickness are above the chart. Choose Pan or Done drawing to move the chart.':`${items.length}/40 drawings · ${currency.toUpperCase()} · saved on this device. Grab a drawing to edit it.`}{storageFailed?' Storage unavailable; changes last for this session.':''}</p>
+    <p className="chart-drawing-hint" role="status">{tool==='brush'?'Drag freely to draw. Release to edit color and thickness above the chart.':tool==='circle'?'Drag from the center outward to draw a circle, or tap center then edge.':tool==='trend'?'Drag a line, or tap its two ends. A live preview follows your pointer.':tool==='level'?'Tap or drag to place a price level.':selectedDrawing?'Drawing selected. Press Backspace or Delete to remove it. Grab its line to move it, or drag an end handle to reshape it. Color and thickness are above the chart. Choose Pan or Done drawing to move the chart.':`${items.length}/40 drawings · ${currency.toUpperCase()} · saved on this device. Grab a drawing to edit it.`}{storageFailed?' Storage unavailable; changes last for this session.':''}</p>
     </>}
     {overlay}
   </div>;
