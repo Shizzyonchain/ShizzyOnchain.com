@@ -1,6 +1,7 @@
 import "server-only";
 import { getCache } from "@vercel/functions";
 import { loadCandidates } from "./validator-candidates";
+import { recommendationNeedsRefresh } from "./recommendation-freshness";
 import { getSubnetNewsBriefs } from "./subnet-news";
 
 const cache = () => getCache({ namespace: "subnet-recommendations-v1" });
@@ -8,7 +9,7 @@ type Snapshot = Awaited<ReturnType<typeof loadCandidates>> & { preparedAt: strin
 export async function readSubnetRecommendations(netuid: number) {
   const value = await cache().get(`snapshot:${netuid}`) as Snapshot | undefined;
   // Retaining a snapshot never overrides the ranking's stricter source-age checks.
-  return value && value.netuid === netuid && Date.now() - Date.parse(value.preparedAt) < 7200000 ? value : null;
+  return value && value.netuid === netuid && Date.parse(value.preparedAt) <= Date.now() + 60000 && Date.now() - Date.parse(value.preparedAt) < 7200000 ? value : null;
 }
 export async function prepareSubnetRecommendations(netuid: number) {
   // A short shared lease avoids a new scan on each polling request. This is
@@ -34,7 +35,7 @@ export async function prepareSubnetBatch() {
     const [snapshot, attempt] = await Promise.all([readSubnetRecommendations(netuid), cache().get(`attempt:${netuid}`)]);
     return { netuid, snapshot, attemptedAt: typeof attempt === "number" ? attempt : 0 };
   }));
-  const pending = snapshots.filter(row => !row.snapshot || started - Date.parse(row.snapshot.preparedAt) >= 1800000)
+  const pending = snapshots.filter(row => !row.snapshot || recommendationNeedsRefresh(row.snapshot, started))
     .sort((a, b) => a.attemptedAt - b.attemptedAt);
   const prepared: number[] = [], failed: number[] = [], inProgress: number[] = [];
   for (const { netuid } of pending.slice(0, 20)) {

@@ -46,7 +46,7 @@ export const getStandaloneValidators = unstable_cache(async () => {
     for (let page = 1; page <= 12; page++) {
       const url = new URL("/v1/validators", "https://api.taostats.io");
       Object.entries({ order_by: "rank", order_dir: "asc", limit: "200", page: String(page) }).forEach(([name, value]) => url.searchParams.set(name, value));
-      const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 3600 }, signal: AbortSignal.timeout(8_000) });
+      const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 1800 }, signal: AbortSignal.timeout(8_000) });
       if (!response.ok) throw new Error("Validator provider unavailable.");
       const payload = await response.json();
       if (!Array.isArray(payload.data) || payload.pagination?.current_page !== page) throw new Error("Invalid validator directory response.");
@@ -58,4 +58,4 @@ export const getStandaloneValidators = unstable_cache(async () => {
   })()]);
   const children = new Set(index.hotkeys);
   return { rows: all.filter(row => !children.has(row.hotkey)), hiddenChildren: all.filter(row => children.has(row.hotkey)).length, childCheck: { block: index.block, checkedAt: index.checkedAt } };
-}, ["standalone-validator-directory-v1"], { revalidate: 1800 });
+}, ["standalone-validator-directory-v2"], { revalidate: 900 });

@@ -8,7 +8,7 @@ export type RootBasket = {
   staker_return_7d: number | null; staker_return_30d: number | null; holdings: RootHolding[];
 };
 export type NamedRootBasket = RootBasket & { name: string | null; take: number | null; root_stake: string | null; identityTimestamp: string | null };
-export function joinRootBaskets(baskets: RootBasket[], validators: Validator[], children: string[]) {
+export function joinRootBaskets(baskets: RootBasket[], validators: Validator[], children: string[], now = Date.now()) {
   const identities = new Map(validators.map(row => [row.hotkey, row]));
   const excluded = new Set(children);
   const seen = new Set<string>();
@@ -20,7 +20,7 @@ export function joinRootBaskets(baskets: RootBasket[], validators: Validator[], 
     const amounts = [row.nav_tao, row.spot_nav_tao, row.deposited_tao, row.redeemed_tao, ...row.holdings.flatMap(holding => [holding.alpha, holding.realizable_tao, holding.spot_tao])];
     if (amounts.some(value => typeof value !== "string" || !/^\d+$/.test(value))) throw new Error("Invalid basket amount.");
     if (row.holdings.reduce((sum, holding) => sum + BigInt(holding.realizable_tao), BigInt(0)) !== BigInt(row.nav_tao) || row.holdings.reduce((sum, holding) => sum + BigInt(holding.spot_tao), BigInt(0)) !== BigInt(row.spot_nav_tao)) throw new Error("Basket totals do not reconcile with holdings.");
-    if (!Number.isFinite(Date.parse(row.timestamp))) throw new Error("Invalid basket source time.");
+    if (!/(?:Z|[+-]\d{2}:\d{2})$/.test(row.timestamp) || !Number.isFinite(Date.parse(row.timestamp)) || Date.parse(row.timestamp) > now + 60000) throw new Error("Invalid or future-dated basket source time. No comparison generated.");
     const identity = identities.get(row.hotkey);
     return { ...row, name: identity?.name || null, take: numeric(identity?.take), root_stake: identity?.root_stake ?? null, identityTimestamp: identity?.timestamp ?? null };
   });

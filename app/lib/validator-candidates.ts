@@ -13,7 +13,7 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
   const rows: T[] = [];
   for (let page = 1; page <= 128; page++) {
     const checkpointKey = JSON.stringify([path, filters, page]);
-    const checkpoints = getCache({ namespace: "validator-source-pages-v1" });
+    const checkpoints = getCache({ namespace: "validator-source-pages-v2" });
     type Page = { data: T[]; pagination: { current_page: number; next_page: number | null; total_items: number } };
     let payload = await checkpoints.get(checkpointKey) as Page | undefined;
     if (!payload) {
@@ -32,7 +32,7 @@ async function collection<T>(path: string, filters: Record<string, string>, key:
     payload = await response.json() as Page;
     if (!Array.isArray(payload.data) || !payload.pagination || payload.pagination.current_page !== page || !Number.isInteger(payload.pagination.total_items)) throw new Error("Incomplete validator source response.");
     // Persist each successful page immediately, even if a later page is throttled.
-    await checkpoints.set(checkpointKey, payload, { ttl: 3600 });
+    await checkpoints.set(checkpointKey, payload, { ttl: 1800 });
     }
     if (!Array.isArray(payload.data) || payload.pagination.current_page !== page) throw new Error("Invalid validator source checkpoint.");
     if (page === 1) console.info("Validator source preparation", path, "rows", payload.pagination.total_items);
@@ -81,6 +81,7 @@ export const loadCandidates = unstable_cache(async (netuid: number) => {
     const v = fees.get(hotkey), y = performance.get(hotkey);
     return {
       hotkey, name: neuron?.name || v?.name || hotkey, operation: hasEdges ? delegated ? "delegated" : "unverified" : "direct", operators: delegated?.children,
+      operatorIdentities: delegated?.children.map(operator => ({ hotkey: operator, name: neurons.find(row => row.hotkey === operator)?.name || fees.get(operator)?.name || null })),
       // Actual nominator returns already reflect reward fees. Do not deduct current take again.
       yieldBasis: "nominator-net", yieldBlock: y?.block_number, take: numeric(v?.take), yield7: numeric(y?.seven_day_apy), yield30: numeric(y?.thirty_day_apy),
       participation7: numeric(y?.seven_day_epoch_participation), participation30: numeric(y?.thirty_day_epoch_participation),
@@ -93,5 +94,5 @@ export const loadCandidates = unstable_cache(async (netuid: number) => {
   });
   if (new Set(candidates.map(c => c.hotkey)).size !== candidates.length || new Set(yields.map(y => y.hotkey)).size !== yields.length) throw new Error("Ambiguous validator rows. No recommendation generated.");
   return { candidates, netuid, collectedAt: new Date().toISOString(), coverage: { permitHolders: neurons.length, yieldRows: yields.length, directoryEntries: validators.length, parentPaths: parents.size, hiddenChildren: neurons.filter(row => children.has(row.hotkey)).length }, childCheck: { block: childIndex.block, checkedAt: childIndex.checkedAt } };
-}, ["validator-recommendations-parent-paths-v5"], { revalidate: 1800 });
+}, ["validator-recommendations-parent-paths-v6"], { revalidate: 300 });
 

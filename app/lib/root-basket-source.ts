@@ -10,7 +10,7 @@ export const getRootSnapshot = unstable_cache(async () => {
     for (let page = 1; page <= 12; page++) {
       const url = new URL("/v1/validators/baskets", "https://api.taostats.io");
       Object.entries({ page: String(page), limit: "200", order_by: "nav_tao", order_dir: "desc" }).forEach(([name, value]) => url.searchParams.set(name, value));
-      const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 3600 }, signal: AbortSignal.timeout(8_000) });
+      const response = await fetch(url, { headers: { Authorization: key }, next: { revalidate: 900 }, signal: AbortSignal.timeout(8_000) });
       if (!response.ok) throw new Error(response.status === 429 ? "Root basket provider is rate limited. Try again later." : "Root basket source is temporarily unavailable.");
       const payload = await response.json();
       if (!Array.isArray(payload.data) || payload.pagination?.current_page !== page) throw new Error("Incomplete root basket response.");
@@ -22,4 +22,4 @@ export const getRootSnapshot = unstable_cache(async () => {
   })()]);
   const data = joinRootBaskets(baskets, directory.rows, children.hotkeys);
   return { data, hiddenChildren: baskets.length - data.length, source: "TaoStats root baskets + finalized Finney child exclusion", collectedAt: new Date().toISOString(), childCheck: directory.childCheck };
-}, ["root-basket-audited-v2"], { revalidate: 1800 });
+}, ["root-basket-audited-v3"], { revalidate: 900 });

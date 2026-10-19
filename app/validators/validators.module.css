@@ -88,3 +88,8 @@
  .finder>.evidenceDetails>summary{font:12px/1.5 Arial,sans-serif}
  .finder>h3{font:700 21px/1.4 Arial,sans-serif;margin:20px 0 10px}
 }
+
+.operatingPath{min-width:180px;max-width:290px;white-space:normal;text-align:left;line-height:1.55;overflow-wrap:anywhere}
+.operatingPath>small,.operatingPath p>small{display:block;white-space:normal;font-size:11px;color:#bbb}
+.operatingPath p{margin:8px 0}.operatingPath a{font-size:13px}
+@media(max-width:700px){.operatingPath{min-width:0;max-width:100%;margin:12px 0}}

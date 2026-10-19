@@ -1,6 +1,6 @@
 export type RankingMode = "balanced" | "yield" | "fees" | "decentralization";
 export type Candidate = {
-  operation?: "direct" | "delegated" | "unverified"; operators?: string[]; hotkey: string; name: string; take: number | null; yield7: number | null; yield30: number | null;
+  operation?: "direct" | "delegated" | "unverified"; operators?: string[]; operatorIdentities?: { hotkey: string; name: string | null }[]; hotkey: string; name: string; take: number | null; yield7: number | null; yield30: number | null;
   participation7: number | null; participation30: number | null;
   active: boolean; permit: boolean; updated: number | null; cutoff: number | null;
   stakeShare: number | null; dividends: number | null; registered: string | null;

@@ -32,3 +32,11 @@ test("concentration, cash exposure and quote gap use the correct denominator", (
   assert.ok(Math.abs(context.quoteGap - 1 / 6) < 1e-12);
   assert.equal(basketContext({ ...basket, nav_tao: "0", spot_nav_tao: "0" }).quoteGap, null);
 });
+
+test("future and timezone-ambiguous basket timestamps cannot enter comparisons", () => {
+  const now = Date.parse("2026-10-19T16:00:00Z");
+  assert.throws(() => joinRootBaskets([{ ...basket, timestamp: "2026-10-19T19:55:00Z" }], [], [], now), /future-dated/);
+  assert.throws(() => joinRootBaskets([{ ...basket, timestamp: "2026-10-19T15:55:00" }], [], [], now), /source time/);
+  assert.equal(joinRootBaskets([{ ...basket, timestamp: "2026-10-19T11:55:00-04:00" }], [], [], now).length, 1);
+  assert.equal(joinRootBaskets([{ ...basket, timestamp: "2026-10-19T16:00:30Z" }], [], [], now).length, 1);
+});
