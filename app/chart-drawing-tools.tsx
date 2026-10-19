@@ -67,8 +67,13 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
   const pointAt = (event: PointerEvent<HTMLDivElement>): Point | null => {
     const host = hostRef.current, chart = chartRef.current;
     if (!host || !chart || !bars.length) return null;
-    const rect = host.getBoundingClientRect(), x = event.clientX - rect.left, y = event.clientY - rect.top;
-    if (x < 0 || x >= host.clientWidth - chart.priceScale("right").width() || y < 0 || y >= host.clientHeight - 28) return null;
+    // Measure the plot canvas itself, excluding layout gutters and price axes.
+    const canvas = [...host.querySelectorAll("canvas")].sort((a, b) => b.clientWidth * b.clientHeight - a.clientWidth * a.clientHeight)[0];
+    if (!canvas) return null;
+    const rect = canvas.getBoundingClientRect();
+    const x = (event.clientX - rect.left) * canvas.clientWidth / rect.width;
+    const y = (event.clientY - rect.top) * canvas.clientHeight / rect.height;
+    if (x < 0 || x >= canvas.clientWidth || y < 0 || y >= canvas.clientHeight) return null;
     const price = series.current?.[mode === "candles" ? "candles" : "line"].coordinateToPrice(y);
     const logical = chart.timeScale().coordinateToLogical(x);
     if (price == null || price <= 0 || !Number.isFinite(price) || logical == null) return null;
