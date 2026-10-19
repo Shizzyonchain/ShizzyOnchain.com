@@ -133,7 +133,12 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, storageId, 
     chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:false,horzTouchDrag:false}});
     event.preventDefault();event.stopPropagation();event.currentTarget.setPointerCapture(event.pointerId);
     if(hit && !drawing) { selectDrawing(index);setEditing(index); }
-    const operation = drawing ? "draw" : (target.getAttribute("data-handle")==="start"?"start":target.getAttribute("data-handle")==="end"?"end":"move");
+    // A forgiving handle hit area works even when the transparent line hit-path
+    // receives the event just beside a small visible endpoint (especially touch).
+    const handles = hit ? projection.shapes.find(shape=>shape.index===index)?.handles || [] : [];
+    const nearbyHandle = handles.findIndex(point=>Math.hypot(point.x-at.xy.x,point.y-at.xy.y)<=18);
+    const handle = target.getAttribute("data-handle") || (nearbyHandle===0?"start":nearbyHandle===1?"end":null);
+    const operation = drawing ? "draw" : (handle==="start"?"start":handle==="end"?"end":"move");
     gesture.current={origin:at.point,originXY:at.xy,points:[at.point],index:hit&&!drawing?index:-1,operation,original:hit?items[index]:undefined};
     if(drawing)setDraft({kind:tool as Drawing["kind"],start:anchor||at.point,end:at.point,points:tool==="brush"?[at.point]:undefined,color,width});
   };
