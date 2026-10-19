@@ -95,7 +95,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     series.ema.setData(indicators.map(point => ({ time: point.time as UTCTimestamp, value: point.ema })));
     series.upper.setData(ready.map(point => ({ time: point.time as UTCTimestamp, value: point.upper })));
     series.lower.setData(ready.map(point => ({ time: point.time as UTCTimestamp, value: point.lower })));
-    chart.applyOptions({ timeScale: { timeVisible: timeframe !== "1d" } });
+    chart.applyOptions({ timeScale: { timeVisible: !["1d", "1w", "1mo"].includes(timeframe) } });
     // Fit once per dataset/currency, not on live refresh or indicator toggles.
     const viewKey = `${timeframe}:${currency}`;
     if (data.length && fittedRef.current !== viewKey) {
@@ -138,7 +138,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
         <button aria-pressed={mode === "line"} className={mode === "line" ? "active" : ""} onClick={() => setMode("line")}>Line</button>
       </div>
       <div className="chart-control-group chart-periods" aria-label="Candle interval">
-        {[["10m", "10m", "10-minute candles"], ["1h", "1h", "1-hour candles"], ["1d", "1D", "Daily candles"]].map(([value, label, name]) =>
+        {[["10m", "10m", "10-minute candles"], ["1h", "1h", "1-hour candles"], ["1d", "1D", "Daily candles"], ["1w", "1W", "Weekly candles"], ["1mo", "1M", "Monthly candles"]].map(([value, label, name]) =>
           <button key={value} className={timeframe === value ? "active" : ""} aria-label={name} aria-pressed={timeframe === value} onClick={() => onTimeframeChange(value)}>{label}</button>)}
       </div>
       {onCurrencyChange ? <div className="chart-control-group" role="group" aria-label="Chart currency">

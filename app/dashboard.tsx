@@ -4,7 +4,7 @@ import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode,
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { dollarBars, priceBars } from "./lib/chart-data";
+import { calendarBars, dollarBars, priceBars } from "./lib/chart-data";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
@@ -817,7 +817,8 @@ function loadChartHistory(netuid: number | "tao", timeframe: string) {
   if (cached?.data.length && Date.now() - cached.savedAt < 30_000) return Promise.resolve(cached);
   const pending = candleRequests.get(key);
   if (pending) return pending;
-  const nodeUrl = `/api/backend/v1/subnets/${netuid}/candles?interval=${timeframe}&limit=180`;
+  const longInterval = timeframe === "1w" || timeframe === "1mo";
+  const nodeUrl = `/api/backend/v1/subnets/${netuid}/candles?interval=${longInterval ? "1d" : timeframe}&limit=${longInterval ? 500 : 180}`;
   const url = netuid === "tao" ? `/api/tao-chart?interval=${timeframe}` : `/api/subnet-chart?netuid=${netuid}&interval=${timeframe}`;
   const fetchWithRetry = async () => {
     const controller = new AbortController();
@@ -1262,17 +1263,17 @@ export function Dashboard({
     () => withLiveCandle(
       candles,
       showTaoChart ? taoUsd : Number(active?.price_tao || 0),
-      timeframe,
+      timeframe === "1w" || timeframe === "1mo" ? "1d" : timeframe,
     ),
     [candles, showTaoChart, taoUsd, active?.price_tao, timeframe],
   );
   const chartBars = useMemo(() => {
     const base = priceBars(chartCandles);
-    return !showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base;
-  }, [chartCandles, chartData.rates, showTaoChart, currency]);
-  const chartNote = showTaoChart ? "Coinbase TAO/USD candles · Volume in TAO"
+    return calendarBars(!showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base, timeframe);
+  }, [chartCandles, chartData.rates, showTaoChart, currency, timeframe]);
+  const chartNote = (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? "Coinbase TAO/USD candles · Volume in TAO"
     : chartData.method === "taostats-alpha" ? `TaoStats candles${currency === "usd" ? " · USD candles use historical TAO/USD rates; high/low are estimates" : " · Alpha/TAO"}`
-    : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`;
+    : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`);
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
   const rankedMovers = rows.filter(row => row.change_1h != null).sort((a, b) => Number(b.change_1h || 0) - Number(a.change_1h || 0));
   const advancingMarkets = rows.filter((row) => Number(row.change_1h || 0) > 0).length;

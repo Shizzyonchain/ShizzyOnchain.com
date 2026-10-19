@@ -57,3 +57,18 @@ export function chartPrecision(value: number) {
   if (!(value > 0)) return 4;
   return Math.max(2, Math.min(10, 3 - Math.floor(Math.log10(value))));
 }
+
+// Calendar candles: weeks start Monday UTC; months start on the first UTC day.
+// Convert daily alpha prices to USD before grouping, preserving historical FX.
+export function calendarBars(bars: PriceBar[], interval: string): PriceBar[] {
+  if (interval !== "1w" && interval !== "1mo") return bars;
+  const buckets = new Map<number, PriceBar>();
+  for (const bar of [...bars].sort((a, b) => a.time - b.time)) {
+    const date = new Date(bar.time * 1000);
+    const day = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+    const time = (interval === "1mo" ? Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1) : day - ((date.getUTCDay() + 6) % 7) * 86400000) / 1000;
+    const prior = buckets.get(time);
+    buckets.set(time, prior ? { ...prior, high: Math.max(prior.high, bar.high), low: Math.min(prior.low, bar.low), close: bar.close, volume: prior.volume + bar.volume } : { ...bar, time });
+  }
+  return [...buckets.values()];
+}

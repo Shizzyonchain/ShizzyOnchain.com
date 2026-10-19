@@ -6,6 +6,8 @@ const intervals: Record<string, { resolution: string; seconds: number; count: nu
   "10m": { resolution: "5", seconds: 300, count: 360 },
   "1h": { resolution: "60", seconds: 3600, count: 180 },
   "1d": { resolution: "1D", seconds: 86400, count: 180 },
+  "1w": { resolution: "1D", seconds: 86400, count: 900 },
+  "1mo": { resolution: "1D", seconds: 86400, count: 900 },
 };
 export async function GET(request: NextRequest) {
   const interval = request.nextUrl.searchParams.get("interval") || "1h";
@@ -24,7 +26,7 @@ export async function GET(request: NextRequest) {
     if (!response.ok) throw new Error("Provider unavailable");
     const candles = udfCandles(await response.json());
     const bars = priceBars(candles);
-    const data = (interval === "10m" ? aggregateBars(bars, 600) : bars).slice(-180).map(bar => [new Date(bar.time * 1000).toISOString(), String(bar.open), String(bar.high), String(bar.low), String(bar.close), String(bar.volume)]);
+    const data = (interval === "10m" ? aggregateBars(bars, 600) : bars).slice(-(interval === "1w" || interval === "1mo" ? 900 : 180)).map(bar => [new Date(bar.time * 1000).toISOString(), String(bar.open), String(bar.high), String(bar.low), String(bar.close), String(bar.volume)]);
     if (!data.length) throw new Error("No usable candles");
     return NextResponse.json({ data, method: "taostats-alpha", source: "TaoStats", volumeUnit: "alpha", interval }, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } });
   } catch {
