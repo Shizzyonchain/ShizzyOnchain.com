@@ -124,7 +124,15 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     chart.subscribeCrosshairMove(param => setHoverTime(typeof param.time === "number" ? param.time : null));
     chart.subscribeClick(param => {
       const current = seriesRef.current;
-      if (current && (param.hoveredSeries === current.upper || param.hoveredSeries === current.lower)) setBandEditor(true);
+      if (!current) return;
+      const hit = [current.upper, current.lower].some(band => {
+        if (!band.options().visible) return false;
+        if (param.hoveredSeries === band) return true;
+        const value = param.seriesData.get(band);
+        const y = value && "value" in value ? band.priceToCoordinate(value.value) : null;
+        return y !== null && param.point !== undefined && Math.abs(param.point.y - y) <= 12;
+      });
+      if (hit) setBandEditor(true);
     });
     return () => { host.removeEventListener("pointerdown", beginPan, true); host.removeEventListener("wheel", wheelPriceScale, true); chart.remove(); chartRef.current = null; seriesRef.current = null; };
   }, [appearance]);
