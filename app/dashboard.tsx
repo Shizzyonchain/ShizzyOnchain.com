@@ -1433,8 +1433,9 @@ export function Dashboard({
   const privateMoney = (value?: string | number, price = false) => (hideBalances ? "$••••" : money(value, price));
 
   function forgetWallet(address?: string) {
+    walletRunRef.current += 1; walletPollingRef.current = false;
+    try { localStorage.removeItem("shizzy:wallet-job"); } catch { /* Cache saving reports storage failures below. */ }
     if (!address) {
-      walletRunRef.current += 1; walletPollingRef.current = false;
       setChecking(false); setWalletProgress(""); setWallets([]); setWalletInput(""); setWalletSavedAt(null); setWalletError(""); setWalletDisplay("wallets");
       try { localStorage.removeItem("shizzy:wallet-cache:v1"); localStorage.removeItem("shizzy:wallet-job"); setWalletCacheMessage("Saved wallet data cleared from this device."); }
       catch { setWalletCacheMessage("Could not clear browser storage. Clear this site's data in your browser settings."); }
