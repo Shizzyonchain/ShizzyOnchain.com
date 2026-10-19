@@ -14,6 +14,8 @@
 @media(max-width:700px){.chart-drawing-colors{gap:12px}.chart-drawing-colors>button{width:36px;height:36px}.chart-drawing-colors>label:first-child{width:100%}}
 
 .chart-drawing-hint{box-sizing:border-box;min-height:54px}
+.chart-page-content,.chart-page-details{min-width:0;width:100%}.chart-page .market-grid{margin-top:20px;align-items:start}.chart-page .chart-card{min-width:0}.chart-page .trading-signals{margin-top:20px}
+@media(max-width:700px){.chart-page .market-grid{display:block}.chart-page .movers{display:none}.chart-page .chart-card{padding:16px 10px}.chart-page .chart-card h1{font-size:30px}}
 .chart-band-legend{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:8px;min-height:44px}
 .chart-band-editor{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:16px;background:#111;border-block:1px solid #444;color:#fff;scroll-margin-block:90px;font:12px/1.5 ui-monospace,monospace}.chart-band-editor label{display:flex;align-items:center;gap:8px}.chart-band-editor input{width:44px;height:40px;background:#000;border:1px solid #777;cursor:pointer}.chart-band-editor>button:not(.chart-band-done){width:36px;height:36px;border:1px solid #aaa;border-radius:50%;cursor:pointer}.chart-band-editor .chart-band-done{min-height:44px;padding:8px 16px;background:#fff;color:#000;border:0;cursor:pointer}.chart-band-editor>span{color:#bbb}
 .chart-drawing-colors>select{background:#111;color:#fff;border:1px solid #777;padding:5px;min-height:32px}

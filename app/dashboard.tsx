@@ -4,6 +4,7 @@ import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode,
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { calendarBars, dollarBars, priceBars } from "./lib/chart-data";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
@@ -912,13 +913,21 @@ export function Dashboard({
   initialRows = [],
   initialTaoUsd = 0,
   initialDollarHistory = [],
+  initialChart,
+  initialCurrency = "usd",
+  initialInterval = "10m",
 }: {
   appearance?: "blue" | "monochrome";
   initialView?: DashboardView;
   initialRows?: ScreenerRow[];
   initialTaoUsd?: number;
   initialDollarHistory?: FxPoint[];
+  initialChart?: number | "tao";
+  initialCurrency?: "usd" | "tao";
+  initialInterval?: string;
 }) {
+  const router = useRouter();
+  const chartPage = initialChart !== undefined;
   const serverRows = initialRows.filter((row) => row.netuid !== 0);
   const hasInitialRows = serverRows.length > 0;
   const initialSnapshotRef = useRef(serverRows);
@@ -926,7 +935,7 @@ export function Dashboard({
   const [activeVideo, setActiveVideo] = useState<ChannelVideo>(channelVideos.find((video) => !video.membersOnly) ?? channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
-  const [currency, setCurrency] = useState<"usd" | "tao">("usd");
+  const [currency, setCurrency] = useState<"usd" | "tao">(initialCurrency);
   const [taoUsd, setTaoUsd] = useState(initialTaoUsd);
   const [rawRows, setRows] = useState<ScreenerRow[]>(serverRows);
   const [dollarHistory, setDollarHistory] = useState<FxPoint[]>(initialDollarHistory);
@@ -938,10 +947,10 @@ export function Dashboard({
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<keyof ScreenerRow>("market_cap_tao");
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
-  const [selected, setSelected] = useState(64);
-  const [showTaoChart, setShowTaoChart] = useState(false);
-  const [marketDetailOpen, setMarketDetailOpen] = useState(false);
-  const [timeframe, setTimeframe] = useState("10m");
+  const [selected, setSelected] = useState(typeof initialChart === "number" ? initialChart : 64);
+  const [showTaoChart] = useState(initialChart === "tao");
+  const [marketDetailOpen, setMarketDetailOpen] = useState(chartPage);
+  const [timeframe, setTimeframe] = useState(initialInterval);
   const [bubbleTimeframePreference, setBubbleTimeframePreference] = useState<BubbleTimeframe>("change_24h");
   const [bubbleOffsets, setBubbleOffsets] = useState<Record<number, { x: number; y: number }>>({});
   const [draggingBubble, setDraggingBubble] = useState<number | null>(null);
@@ -1074,7 +1083,7 @@ export function Dashboard({
   }, [pollWalletJob]);
 
   useEffect(() => {
-    if (!marketDetailOpen) return;
+    if (!marketDetailOpen || chartPage) return;
     const previousOverflow = document.body.style.overflow;
     const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = "hidden";
@@ -1088,7 +1097,7 @@ export function Dashboard({
       window.removeEventListener("keydown", closeOnEscape);
       opener?.focus({ preventScroll: true });
     };
-  }, [marketDetailOpen]);
+  }, [marketDetailOpen, chartPage]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1511,15 +1520,10 @@ export function Dashboard({
     }
   }
   function openSubnetChart(netuid: number) {
-    setShowTaoChart(false);
-    setMarketDetailOpen(true);
-    setSelected(netuid);
-    setView("screener");
+    router.push(`/charts/${netuid}?currency=${currency}&interval=${timeframe}`);
   }
   function openTaoChart() {
-    setShowTaoChart(true);
-    setMarketDetailOpen(true);
-    setView("screener");
+    router.push(`/charts/tao?interval=${timeframe}`);
   }
   const chartRangeChange = chartBars.length > 1 ? (chartBars.at(-1)!.close / chartBars[0].open - 1) * 100 : null;
   const clampScore = (value: number) => Math.round(Math.max(0, Math.min(100, value)));
@@ -1620,7 +1624,7 @@ export function Dashboard({
   };
 
   return (
-    <main className={`shell${appearance === "monochrome" ? " home-monochrome" : ""}`}>
+    <main className={`shell${appearance === "monochrome" ? " home-monochrome" : ""}${chartPage ? " chart-page" : ""}`}>
       <section className="market-ticker" aria-label="Top subnet tokens by market capitalization">
         <div className="ticker-label">
           <span>Market leaders</span>
@@ -1657,6 +1661,7 @@ export function Dashboard({
 
       {view === "screener" ? (
         <>
+          {!chartPage && <>
           <div className="market-overview">
             <section className="hero-strip" aria-label="Market overview">
               <div>
@@ -1763,12 +1768,13 @@ export function Dashboard({
               <b>Explore <i aria-hidden="true">→</i></b>
             </a>
           </div>
+          </>}
           <div className="market-content">
             {marketDetailOpen && (
-              <div className="market-modal-backdrop" onMouseDown={() => setMarketDetailOpen(false)}>
-                <div className="market-modal" role="dialog" aria-modal="true" aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={(event) => event.stopPropagation()}>
-                  <div className="market-modal-navigation"><button type="button" className="market-modal-back" onClick={() => setMarketDetailOpen(false)}>← Back to markets</button>
-                  <button type="button" ref={marketModalCloseRef} className="market-modal-close" onClick={() => setMarketDetailOpen(false)} aria-label="Close market details">Close <span aria-hidden="true">×</span></button></div>
+              <div className={chartPage ? "chart-page-content" : "market-modal-backdrop"} onMouseDown={chartPage ? undefined : () => setMarketDetailOpen(false)}>
+                <div className={chartPage ? "chart-page-details" : "market-modal"} role={chartPage ? undefined : "dialog"} aria-modal={chartPage ? undefined : true} aria-label={showTaoChart ? "TAO market details" : `${active?.name || `Subnet ${active?.netuid}`} market details`} onMouseDown={(event) => event.stopPropagation()}>
+                  {!chartPage && <div className="market-modal-navigation"><button type="button" className="market-modal-back" onClick={() => setMarketDetailOpen(false)}>← Back to markets</button>
+                  <button type="button" ref={marketModalCloseRef} className="market-modal-close" onClick={() => setMarketDetailOpen(false)} aria-label="Close market details">Close <span aria-hidden="true">×</span></button></div>}
                   <section className="market-grid">
                     <div ref={chartCardRef} className="chart-card panel">
                       {!hasMarketData && (
@@ -1989,7 +1995,7 @@ export function Dashboard({
                 </div>
               </div>
             )}
-            <section className="screener panel">
+            {!chartPage && <section className="screener panel">
               <div className="screener-head">
                 <div>
                   <p className="eyebrow">Bittensor markets</p>
@@ -2109,7 +2115,7 @@ export function Dashboard({
                 <p>{liquidationExplanation}</p>
                 <p>The estimate accounts for protocol-owned alpha and the subnet’s registration rules, using chain reserves and complete stake totals. A dash means fresh inputs are unavailable. <a href="https://docs.taostats.io/docs/subnet-deregistration" target="_blank" rel="noopener noreferrer">How the payout works ↗</a></p>
               </details>
-            </section>
+            </section>}
           </div>
         </>
       ) : view === "activity" ? (
