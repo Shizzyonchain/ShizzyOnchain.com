@@ -66,15 +66,15 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     const lineOptions = { priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false };
     const candles = chart.addSeries(CandlestickSeries, { upColor: green, downColor: red, borderVisible: false,
       wickUpColor: green, wickDownColor: red, priceLineColor: "#999999" });
-    const line = chart.addSeries(LineSeries, { color: "#ffffff", lineWidth: 2, visible: false, priceLineColor: "#999999" });
+    const line = chart.addSeries(LineSeries, { color: "#ffffff", lineWidth: 3, visible: false, priceLineColor: "#999999" });
     const histogram = chart.addSeries(HistogramSeries, { priceScaleId: "volume", priceFormat: { type: "volume" },
       priceLineVisible: false, lastValueVisible: false });
     histogram.priceScale().applyOptions({ scaleMargins: { top: .84, bottom: 0 }, visible: false });
     seriesRef.current = { candles, line, volume: histogram,
-      ma: chart.addSeries(LineSeries, { ...lineOptions, color: palette.ma, lineWidth: 2, visible: false }),
-      ema: chart.addSeries(LineSeries, { ...lineOptions, color: palette.ema, lineWidth: 2, lineStyle: LineStyle.Dashed, visible: false }),
-      upper: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dotted, visible: false }),
-      lower: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 1, lineStyle: LineStyle.Dotted, visible: false }),
+      ma: chart.addSeries(LineSeries, { ...lineOptions, color: palette.ma, lineWidth: 3, visible: false }),
+      ema: chart.addSeries(LineSeries, { ...lineOptions, color: palette.ema, lineWidth: 3, lineStyle: LineStyle.Dashed, visible: false }),
+      upper: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 3, lineStyle: LineStyle.Solid, visible: false }),
+      lower: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 3, lineStyle: LineStyle.Solid, visible: false }),
     };
     chartRef.current = chart;
     fittedRef.current = "";
@@ -155,7 +155,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>
         <button key={String(label)} aria-pressed={Boolean(active)} className={active ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
     </div>
-    <ChartDrawingTools key={appearance} chartRef={chartRef} series={seriesRef} bars={bars} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
+    <ChartDrawingTools key={appearance} chartRef={chartRef} hostRef={hostRef} series={seriesRef} bars={bars} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
     <div className="chart-ohlc">
       {current ? <>
         <time dateTime={new Date(current.time * 1000).toISOString()}>{new Date(current.time * 1000).toLocaleString("en-US", { timeZone: "UTC", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} UTC</time>

@@ -9,3 +9,8 @@
 .trading-chart-host td>div{display:block}
 
 .chart-drawing-hint{margin:0;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--muted);font:11px/1.6 var(--font-mono)}.chart-drawing-tools button:disabled{opacity:.4;cursor:default}.chart-drawing-tools .chart-study-toolbar>span{display:inline}
+
+.trading-chart-host{position:relative}.chart-drawing-surface{position:absolute;inset:0;z-index:4;cursor:crosshair;touch-action:none;background:transparent}.chart-drawing-colors{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--panel2);font:11px/1.5 var(--font-mono)}.chart-drawing-colors label{display:flex;align-items:center;gap:8px;color:var(--text)}.chart-drawing-colors select{max-width:180px;min-height:36px;background:var(--panel);color:var(--text);border:1px solid var(--line);padding:6px}.chart-drawing-colors>button{width:32px;height:32px;min-height:32px;border:2px solid #555;border-radius:50%;cursor:pointer}.chart-drawing-colors>button[aria-pressed=true]{outline:2px solid #fff;outline-offset:2px}.chart-custom-color input{width:38px;height:36px;padding:2px;border:1px solid #777;cursor:pointer}
+@media(max-width:700px){.chart-drawing-colors{gap:12px}.chart-drawing-colors>button{width:36px;height:36px}.chart-drawing-colors>label:first-child{width:100%}}
+
+.chart-drawing-hint{box-sizing:border-box;min-height:54px}
