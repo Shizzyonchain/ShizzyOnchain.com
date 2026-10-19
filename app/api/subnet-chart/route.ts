@@ -3,9 +3,9 @@ import { aggregateBars, priceBars } from "../../lib/chart-data";
 import { udfCandles } from "../../lib/taostats-candles";
 
 const intervals: Record<string, { resolution: string; seconds: number; count: number }> = {
-  "10m": { resolution: "5", seconds: 300, count: 5000 },
-  "1h": { resolution: "60", seconds: 3600, count: 5000 },
-  "1d": { resolution: "1D", seconds: 86400, count: 900 },
+  "10m": { resolution: "5", seconds: 300, count: 600 },
+  "1h": { resolution: "60", seconds: 3600, count: 300 },
+  "1d": { resolution: "1D", seconds: 86400, count: 200 },
   "1w": { resolution: "1D", seconds: 86400, count: 900 },
   "1mo": { resolution: "1D", seconds: 86400, count: 900 },
 };

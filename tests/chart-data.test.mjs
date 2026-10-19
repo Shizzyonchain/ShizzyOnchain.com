@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { aggregateBars, dollarBars, priceBars, chartPrecision, taoPriceCandles, futureChartTimes, mergeChartCandles } from "../app/lib/chart-data.ts";
+import { aggregateBars, dollarBars, priceBars, chartPrecision, taoPriceCandles, futureChartTimes, mergeChartCandles, withLiveCandle, calendarBars } from "../app/lib/chart-data.ts";
 const candle = (time, close = "1") => ({ time, open: close, high: close, low: close, close });
 
 test("history paging preserves older candles through live refreshes and replaces overlapping bars", () => {
@@ -74,4 +74,28 @@ test("monthly bars use calendar months including leap February and USD is conver
   const monthly = calendarBars(dollarBars(bars,fx), "1mo");
   assert.deepEqual(monthly.map(bar=>new Date(bar.time*1000).toISOString().slice(0,10)), ["2024-02-01","2024-03-01"]);
   assert.deepEqual([monthly[0].open,monthly[0].close,monthly[1].close],[200,600,1200]);
+});
+
+
+test("live USD close agrees across hourly, daily, weekly and monthly without rewriting history", () => {
+  const now = Date.parse("2026-10-19T14:20:00Z");
+  const closes = [];
+  for (const interval of ["1h", "1d", "1w", "1mo"]) {
+    const baseInterval = ["1w", "1mo"].includes(interval) ? "1d" : interval;
+    const time = baseInterval === "1h" ? "2026-10-19T14:00:00Z" : "2026-10-19T00:00:00Z";
+    const oldTime = baseInterval === "1h" ? "2026-10-19T13:00:00Z" : "2026-10-18T00:00:00Z";
+    const alpha = [candle(oldTime, "0.08"), candle(time, "0.1")];
+    const fx = [candle(oldTime, "260"), candle(time, baseInterval === "1h" ? "268" : "267")];
+    const converted = dollarBars(priceBars(withLiveCandle(alpha, 0.11, baseInterval, now)), priceBars(withLiveCandle(fx, 270, baseInterval, now)));
+    assert.equal(converted[0].close, 0.08 * 260);
+    closes.push(calendarBars(converted, interval).at(-1).close);
+    assert.equal(alpha.at(-1).close, "0.1");
+    assert.equal(fx[0].close, "260");
+  }
+  assert.deepEqual(closes, Array(4).fill(0.11 * 270));
+});
+
+test("live price does not bridge a stale archive gap", () => {
+  const rows = [candle("2026-10-01T00:00:00Z", "100")];
+  assert.equal(withLiveCandle(rows, 270, "1h", Date.parse("2026-10-19T14:20:00Z")), rows);
 });

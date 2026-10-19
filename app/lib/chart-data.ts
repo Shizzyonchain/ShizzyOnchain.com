@@ -101,3 +101,36 @@ export function calendarBars(bars: PriceBar[], interval: string): PriceBar[] {
   }
   return [...buckets.values()];
 }
+
+// Live updates touch only the current/recent candle, never backfill stale archives.
+export function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string, now = Date.now()) {
+  if (!candles.length || !Number.isFinite(spotPrice) || spotPrice <= 0) return candles;
+  const interval = ({ "1m": 60_000, "10m": 600_000, "1h": 3_600_000, "1d": 86_400_000 } as Record<string, number>)[timeframe] || 60_000;
+  const bucketTime = Math.floor(now / interval) * interval;
+  const last = candles.at(-1)!;
+  const lastTime = new Date(last.time).getTime();
+  if (!Number.isFinite(lastTime)) return candles;
+  // Do not draw a synthetic spot candle across stale archive history.
+  // That creates a misleading vertical jump while the indexer fills the gap.
+  if (bucketTime - lastTime > interval * 2) return candles;
+  const updated = [...candles];
+  if (lastTime < bucketTime) {
+    const previousClose = Number(last.close);
+    updated.push({
+      time: new Date(bucketTime).toISOString(),
+      open: String(previousClose),
+      high: String(Math.max(previousClose, spotPrice)),
+      low: String(Math.min(previousClose, spotPrice)),
+      close: String(spotPrice),
+      volume_tao: "0",
+    });
+    return updated;
+  }
+  updated[updated.length - 1] = {
+    ...last,
+    high: String(Math.max(Number(last.high), spotPrice)),
+    low: String(Math.min(Number(last.low), spotPrice)),
+    close: String(spotPrice),
+  };
+  return updated;
+}

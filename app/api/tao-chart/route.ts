@@ -3,12 +3,13 @@ import { aggregateBars, chartIntervals, priceBars, taoPriceCandles } from "../..
 
 export const revalidate = 60;
 
-async function dailyTaoHistory() {
+async function dailyTaoHistory(interval: string) {
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) throw new Error("Price provider unavailable");
-  // Fixed windows share older history across visitors and all daily-based views.
-  const start = Date.UTC(2021, 0, 1) / 1000;
+  // Load only the visible recent range; older history is paged on demand.
   const end = Math.floor(Date.now() / 86400000) * 86400 + 86400;
+  const count = interval === "1d" ? 200 : interval === "1w" ? 900 : 1800;
+  const start = Math.max(Date.UTC(2021, 0, 1) / 1000, end - count * 86400);
   const span = 200 * 86400;
   const windows = Array.from({ length: Math.ceil((end - start) / span) }, (_, index) => ({
     from: start + index * span, to: Math.min(end, start + (index + 1) * span),
@@ -71,7 +72,7 @@ export async function GET(request: NextRequest) {
   const long = interval === "1d" || interval === "1w" || interval === "1mo";
   if (long) {
     try {
-      const data = await dailyTaoHistory();
+      const data = await dailyTaoHistory(interval);
       return NextResponse.json({ data, source: "TaoStats", interval, method: "taostats-price" }, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" } });
     } catch {
       // Keep the exchange chart usable when longer price history is unavailable.
@@ -79,7 +80,7 @@ export async function GET(request: NextRequest) {
   }
   try {
     const end = Math.floor(Date.now() / 86400000) * 86400000 + 86400000;
-    const pageCount = long ? 3 : interval === "10m" || interval === "1h" ? 18 : 1;
+    const pageCount = long ? 3 : interval === "10m" ? 3 : 1;
     const windowSeconds = 299 * granularity;
     const boundary = Math.floor(Date.now() / 1000 / windowSeconds) * windowSeconds;
     const pages: CoinbaseCandle[][] = [];
@@ -114,7 +115,7 @@ export async function GET(request: NextRequest) {
     const aggregated = interval === "10m" ? aggregateBars(bars, chartIntervals[interval]) : bars;
     const data = aggregated.slice(-(long ? 900 : interval === "10m" ? 2600 : interval === "1h" ? 5200 : 180)).map(bar => ({ time: new Date(bar.time * 1000).toISOString(),
       open: String(bar.open), high: String(bar.high), low: String(bar.low), close: String(bar.close), volume_tao: String(bar.volume) }));
-    return NextResponse.json({ data, source: "coinbase", interval, method: "exchange" });
+    return NextResponse.json({ data, source: "coinbase", interval, method: "exchange" }, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } });
   } catch {
     return NextResponse.json({ error: "TAO chart unavailable" }, { status: 503 });
   }

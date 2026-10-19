@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { calendarBars, dollarBars, priceBars, mergeChartCandles } from "./lib/chart-data";
+import { calendarBars, dollarBars, priceBars, mergeChartCandles, withLiveCandle } from "./lib/chart-data";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
@@ -784,12 +784,7 @@ const compactAlpha = (value?: string | number) =>
     maximumFractionDigits: 2,
   }).format(Number(value ?? 0));
 const changeClass = (v?: string) => (Number(v ?? 0) > 0 ? "positive" : Number(v ?? 0) < 0 ? "negative" : "neutral");
-const candleIntervalMs: Record<string, number> = {
-  "1m": 60_000,
-  "10m": 600_000,
-  "1h": 3_600_000,
-  "1d": 86_400_000,
-};
+
 const TradingChart = dynamic(() => import("./trading-chart"), { ssr: false,
   loading: () => <div className="chart-module-loading" role="status">Opening chart…</div> });
 type ChartHistory = { data: Candle[]; savedAt: number; method: string; done?: boolean };
@@ -836,10 +831,7 @@ function loadChartHistory(netuid: number | "tao", timeframe: string, before?: nu
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 28_000);
     try {
-      let response = await fetch(url, {
-        cache: "no-store",
-        signal: controller.signal,
-      });
+      let response = await fetch(url, { signal: controller.signal });
       if (!response.ok && netuid !== "tao" && before === undefined) response = await fetch(nodeUrl, { cache: "no-store", signal: controller.signal });
       if (!response.ok) throw new Error(`Chart request failed: ${response.status}`);
       return await response.json();
@@ -884,37 +876,7 @@ async function fetchJsonWithTimeout(url: string, timeoutMs = 18_000) {
   return response.json();
 }
 
-function withLiveCandle(candles: Candle[], spotPrice: number, timeframe: string, now = Date.now()) {
-  if (!candles.length || !Number.isFinite(spotPrice) || spotPrice <= 0) return candles;
-  const interval = candleIntervalMs[timeframe] || 60_000;
-  const bucketTime = Math.floor(now / interval) * interval;
-  const last = candles.at(-1)!;
-  const lastTime = new Date(last.time).getTime();
-  if (!Number.isFinite(lastTime)) return candles;
-  // Do not draw a synthetic spot candle across stale archive history.
-  // That creates a misleading vertical jump while the indexer fills the gap.
-  if (bucketTime - lastTime > interval * 2) return candles;
-  const updated = [...candles];
-  if (lastTime < bucketTime) {
-    const previousClose = Number(last.close);
-    updated.push({
-      time: new Date(bucketTime).toISOString(),
-      open: String(previousClose),
-      high: String(Math.max(previousClose, spotPrice)),
-      low: String(Math.min(previousClose, spotPrice)),
-      close: String(spotPrice),
-      volume_tao: "0",
-    });
-    return updated;
-  }
-  updated[updated.length - 1] = {
-    ...last,
-    high: String(Math.max(Number(last.high), spotPrice)),
-    low: String(Math.min(Number(last.low), spotPrice)),
-    close: String(spotPrice),
-  };
-  return updated;
-}
+
 
 export type DashboardView = "screener" | "activity" | "bubbles" | "wallets" | "videos" | "university" | "partners";
 
@@ -1350,8 +1312,9 @@ export function Dashboard({
   );
   const chartBars = useMemo(() => {
     const base = priceBars(chartCandles);
-    return calendarBars(!showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base, timeframe);
-  }, [chartCandles, chartData.rates, showTaoChart, currency, timeframe]);
+    const rates = chartDate !== null ? chartData.rates : withLiveCandle(chartData.rates, taoUsd, timeframe === "1w" || timeframe === "1mo" ? "1d" : timeframe);
+    return calendarBars(!showTaoChart && currency === "usd" ? dollarBars(base, priceBars(rates)) : base, timeframe);
+  }, [chartCandles, chartData.rates, showTaoChart, currency, timeframe, taoUsd, chartDate]);
   const missingUsdPeriods = useMemo(() => {
     if (showTaoChart || currency !== "usd") return 0;
     const rateTimes = new Set(chartData.rates.map(candle => Date.parse(candle.time)));
