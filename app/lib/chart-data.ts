@@ -19,6 +19,16 @@ export function priceBars(candles: Candle[]): PriceBar[] {
   return [...unique.values()].sort((a, b) => a.time - b.time);
 }
 
+// TaoStats volume_24h is rolling USD activity, not volume for this candle.
+export function taoPriceCandles(payload: unknown): Candle[] {
+  if (!payload || typeof payload !== "object" || !("data" in payload) || !Array.isArray(payload.data)) throw new Error("Invalid TAO price history");
+  return priceBars(payload.data.flatMap(row => {
+    if (!row || typeof row !== "object" || typeof row.timestamp !== "string" ||
+      ![row.open, row.high, row.low, row.close].every(value => typeof value === "string")) return [];
+    return [{ time: row.timestamp, open: row.open, high: row.high, low: row.low, close: row.close }];
+  })).map(bar => ({ time: new Date(bar.time * 1000).toISOString(), open: String(bar.open), high: String(bar.high), low: String(bar.low), close: String(bar.close) }));
+}
+
 // OHLC products do not reveal simultaneous extrema. USD high/low are bounds,
 // explicitly labelled as estimates in the UI; never multiply all history by spot.
 export function dollarBars(bars: PriceBar[], exchange: PriceBar[]): PriceBar[] {

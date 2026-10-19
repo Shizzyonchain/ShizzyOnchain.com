@@ -18,10 +18,10 @@ type ChartSeries = {
 };
 
 export default function TradingChart({ appearance = "monochrome", bars, currency, timeframe, loading = false,
-  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", onCurrencyChange, drawingId }: {
+  error = false, note, onTimeframeChange, onRetry, volumeUnit = "TAO", volumeAvailable = true, onCurrencyChange, drawingId }: {
   appearance?: "blue" | "monochrome"; bars: PriceBar[]; currency: "usd" | "tao"; timeframe: string;
   loading?: boolean; error?: boolean; note: string; onTimeframeChange: (timeframe: string) => void; onRetry: () => void;
-  volumeUnit?: "TAO" | "alpha";
+  volumeUnit?: "TAO" | "alpha"; volumeAvailable?: boolean;
   drawingId: string;
   onCurrencyChange?: (currency: "usd" | "tao") => void;
 }) {
@@ -111,9 +111,9 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     series.candles.applyOptions({ visible: mode === "candles" }); series.line.applyOptions({ visible: mode === "line" });
     series.ma.applyOptions({ visible: ma }); series.ema.applyOptions({ visible: ema });
     series.upper.applyOptions({ visible: boll }); series.lower.applyOptions({ visible: boll });
-    series.volume.applyOptions({ visible: volume });
-    chartRef.current?.priceScale("right").applyOptions({ scaleMargins: { top: .08, bottom: volume ? .23 : .08 } });
-  }, [mode, ma, ema, boll, volume, appearance]);
+    series.volume.applyOptions({ visible: volume && volumeAvailable });
+    chartRef.current?.priceScale("right").applyOptions({ scaleMargins: { top: .08, bottom: volume && volumeAvailable ? .23 : .08 } });
+  }, [mode, ma, ema, boll, volume, volumeAvailable, appearance]);
 
   useEffect(() => {
     const update = () => setFullscreen(document.fullscreenElement === terminalRef.current);
@@ -153,7 +153,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     <div className="chart-study-toolbar" role="group" aria-label="Technical indicators">
       <span>Indicators</span>
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>
-        <button key={String(label)} aria-pressed={Boolean(active)} className={active ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
+        <button key={String(label)} disabled={label === "Volume" && !volumeAvailable} aria-pressed={Boolean(active && (label !== "Volume" || volumeAvailable))} className={active && (label !== "Volume" || volumeAvailable) ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
     </div>
     <ChartDrawingTools key={appearance} chartRef={chartRef} hostRef={hostRef} series={seriesRef} bars={bars} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
     <div className="chart-ohlc">
@@ -175,11 +175,11 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
     <div className="chart-legend">
       {ma && bars.length >= 20 && <span><i className="ma-line" />MA 20</span>}{ema && <span><i className="ema-line" />EMA 20</span>}
       {boll && bars.length >= 20 && <span><i className="boll-line" />Bollinger 20 / 2</span>}
-      {volume && <span>Volume in {volumeUnit}</span>}
+      {volume && volumeAvailable && <span>Volume in {volumeUnit}</span>}
       <small>Drag to pan · Pinch or scroll to zoom</small>
     </div>
     {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
-    <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC</span>
+    <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC{bars.length > 0 && ` · History from ${new Date(bars[0].time * 1000).toISOString().slice(0, 10)} · Reset shows all loaded history`}</span>
       <a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer">Charts by TradingView ↗</a>
     </div>
     {error && data.length > 0 && <div className="chart-warning" role="status">Refresh failed. Showing the last available history. <button onClick={onRetry}>Retry</button></div>}

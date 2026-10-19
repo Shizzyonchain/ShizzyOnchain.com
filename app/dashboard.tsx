@@ -1326,7 +1326,7 @@ export function Dashboard({
     const base = priceBars(chartCandles);
     return calendarBars(!showTaoChart && currency === "usd" ? dollarBars(base, priceBars(chartData.rates)) : base, timeframe);
   }, [chartCandles, chartData.rates, showTaoChart, currency, timeframe]);
-  const chartNote = (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? "Coinbase TAO/USD candles · Volume in TAO"
+  const chartNote = (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? (chartData.method === "taostats-price" ? "TaoStats historical TAO/USD price candles · Candle volume unavailable" : "Coinbase TAO/USD candles · Volume in TAO")
     : chartData.method === "taostats-alpha" ? `TaoStats candles${currency === "usd" ? " · USD candles use historical TAO/USD rates; high/low are estimates" : " · Alpha/TAO"}`
     : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`);
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
@@ -1798,7 +1798,7 @@ export function Dashboard({
                             </div>
                           </div>
                           <>
-                              <TradingChart drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
+                              <TradingChart drawingId={showTaoChart ? "tao" : `sn${selected}`} onCurrencyChange={showTaoChart ? undefined : setCurrency} volumeAvailable={chartData.method !== "taostats-price"} volumeUnit={chartData.method === "taostats-alpha" ? "alpha" : "TAO"} key={showTaoChart ? "tao" : selected} appearance={appearance} bars={chartBars} currency={chartCurrency} timeframe={timeframe} onTimeframeChange={setTimeframe} loading={chartLoading} error={chartError} note={chartNote} onRetry={() => { candleCache.delete(`${showTaoChart ? "tao" : selected}:${timeframe}`); candleCache.delete(`tao:${timeframe}`); setChartRetry(value => value + 1); }} />
                               {chartRangeChange != null && <p className="chart-range-return">Available history <strong className={chartRangeChange >= 0 ? "positive" : "negative"}>{chartRangeChange > 0 ? "+" : ""}{chartRangeChange.toFixed(2)}%</strong> · {chartCurrency.toUpperCase()}</p>}
                               {showTaoChart ? (
                                 <div className="chart-stats">
@@ -1806,7 +1806,7 @@ export function Dashboard({
                                     Pair <b>TAO / USD</b>
                                   </span>
                                   <span>
-                                    Price source <b>Coinbase</b>
+                                    Price source <b>{chartData.method === "taostats-price" ? "TaoStats" : "Coinbase"}</b>
                                   </span>
                                   <span>
                                     History <b>{candles.length} candles</b>

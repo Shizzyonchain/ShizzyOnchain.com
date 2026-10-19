@@ -1,7 +1,17 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { aggregateBars, dollarBars, priceBars, chartPrecision } from "../app/lib/chart-data.ts";
+import { aggregateBars, dollarBars, priceBars, chartPrecision, taoPriceCandles } from "../app/lib/chart-data.ts";
 const candle = (time, close = "1") => ({ time, open: close, high: close, low: close, close });
+
+test("TAO price history keeps pre-listing candles and never treats rolling USD volume as candle volume", () => {
+  const row = { timestamp: "2023-03-01T00:00:00Z", open: "50", high: "55", low: "49", close: "54", volume_24h: "1000000" };
+  const data = taoPriceCandles({ data: [row, { ...row, timestamp: "2023-03-02T00:00:00Z", high: "1" }, { ...row, open: null }] });
+  assert.equal(data.length, 1);
+  assert.equal(Date.parse(data[0].time), Date.parse(row.timestamp));
+  assert.equal(data[0].volume_tao, undefined);
+  assert.equal(priceBars(data)[0].volume, 0);
+  assert.throws(() => taoPriceCandles({ error: "unavailable" }));
+});
 
 test("rejects missing prices and impossible OHLC, keeps gaps and deduplicates", () => {
   const bars = priceBars([
