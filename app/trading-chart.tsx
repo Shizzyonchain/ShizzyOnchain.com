@@ -64,7 +64,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       rightPriceScale: { borderColor: palette.border, scaleMargins: { top: .08, bottom: .23 } },
       timeScale: { borderColor: palette.border, timeVisible: true, rightOffset: 5, barSpacing: 8, minBarSpacing: .1, lockVisibleTimeRangeOnResize: true },
       handleScale: { axisPressedMouseMove: true, mouseWheel: true, pinch: true },
-      handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
+      handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: true },
     });
     const lineOptions = { priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false };
     const candles = chart.addSeries(CandlestickSeries, { upColor: green, downColor: red, borderVisible: false,
@@ -80,9 +80,18 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       lower: chart.addSeries(LineSeries, { ...lineOptions, color: palette.boll, lineWidth: 3, lineStyle: LineStyle.Solid, visible: false }),
     };
     chartRef.current = chart;
+    // Fit the initial data normally, then release automatic price fitting when
+    // the user grabs the plot. The library can now pan both price and time.
+    const beginPan = (event: PointerEvent) => {
+      if (event.button !== 0 || !(event.target instanceof HTMLCanvasElement)) return;
+      const bounds = event.target.getBoundingClientRect();
+      if (bounds.width < host.clientWidth / 2 || bounds.height < host.clientHeight / 2) return;
+      if (candles.data().length) chart.priceScale("right").setAutoScale(false);
+    };
+    host.addEventListener("pointerdown", beginPan, true);
     fittedRef.current = "";
     chart.subscribeCrosshairMove(param => setHoverTime(typeof param.time === "number" ? param.time : null));
-    return () => { chart.remove(); chartRef.current = null; seriesRef.current = null; };
+    return () => { host.removeEventListener("pointerdown", beginPan, true); chart.remove(); chartRef.current = null; seriesRef.current = null; };
   }, [appearance]);
 
   useEffect(() => {
@@ -180,7 +189,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {ma && bars.length >= 20 && <span><i className="ma-line" />MA 20</span>}{ema && <span><i className="ema-line" />EMA 20</span>}
       {boll && bars.length >= 20 && <span><i className="boll-line" />Bollinger 20 / 2</span>}
       {volume && volumeAvailable && <span>Volume in {volumeUnit}</span>}
-      <small>Drag to pan · Pinch or scroll to zoom · Future dates are empty drawing space</small>
+      <small>Drag in any direction to pan · Reset restores price fit · Future dates are empty drawing space</small>
     </div>
     {(ma || boll) && bars.length > 0 && bars.length < 20 && <div className="chart-warning" role="status">MA 20 and Bollinger need 20 intervals. This view currently has {bars.length}.</div>}
     <div className="chart-source-note"><span>{note} · {bars.length} intervals · UTC{bars.length > 0 && ` · History from ${new Date(bars[0].time * 1000).toISOString().slice(0, 10)} · Reset shows all loaded history`}</span>

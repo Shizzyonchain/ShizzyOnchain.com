@@ -92,7 +92,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     const observer = new ResizeObserver(schedule); observer.observe(host);
     return () => { cancelAnimationFrame(frame); observer.disconnect(); scroller?.removeEventListener("scroll",schedule); host.removeEventListener("pointermove",schedule); host.removeEventListener("pointerup",schedule); host.removeEventListener("wheel",schedule); host.removeEventListener("touchmove",schedule); if (isCurrentChart()) chart.timeScale().unsubscribeVisibleLogicalRangeChange(schedule); };
   }, [items, draft, editing, bars, mode, hostRef, chartRef, appearance]);
-  useEffect(() => { chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:!drawing&&editing<0,horzTouchDrag:!drawing&&editing<0}}); }, [chartRef,drawing,editing,appearance,bars]);
+  useEffect(() => { chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:!drawing&&editing<0,horzTouchDrag:!drawing&&editing<0,vertTouchDrag:!drawing&&editing<0}}); }, [chartRef,drawing,editing,appearance,bars]);
   const location = (event: PointerEvent<SVGSVGElement>) => {
     const p = plot(); if (!p) return null;
     const x = (event.clientX-p.rect.left)*p.canvas.clientWidth/p.rect.width, y = (event.clientY-p.rect.top)*p.canvas.clientHeight/p.rect.height;
@@ -130,7 +130,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     if(!drawing && !hit)return;
     // Freeze the chart before it can interpret grabbing a drawing as panning.
     // Restore background panning when this gesture ends.
-    chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:false,horzTouchDrag:false}});
+    chartRef.current?.applyOptions({handleScroll:{pressedMouseMove:false,horzTouchDrag:false,vertTouchDrag:false}});
     event.preventDefault();event.stopPropagation();event.currentTarget.setPointerCapture(event.pointerId);
     if(hit && !drawing) { selectDrawing(index);setEditing(index); }
     // A forgiving handle hit area works even when the transparent line hit-path
