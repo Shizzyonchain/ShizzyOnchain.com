@@ -165,7 +165,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       </> : <span>{loading ? "Loading price history…" : "No price history available"}</span>}
     </div>
     <div className="chart-plot">
-      <div ref={hostRef} className="trading-chart-host" role="img" aria-label={`${currency.toUpperCase()} ${timeframe} ${mode} chart. ${bars.length} sampled intervals. ${note}`} />
+      <div ref={hostRef} className="trading-chart-host" role="group" aria-label={`${currency.toUpperCase()} ${timeframe} ${mode} chart. ${bars.length} sampled intervals. ${note}`} />
       {!data.length && <div className="chart-empty" role="status">
         <strong>{loading ? "Loading chart…" : error ? "Chart temporarily unavailable" : "No matching price history"}</strong>
         <span>{loading ? "Getting the latest available history." : "Try another interval or retry."}</span>
