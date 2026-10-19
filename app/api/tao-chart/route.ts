@@ -46,16 +46,30 @@ export async function GET(request: NextRequest) {
   }
   try {
     const end = Math.floor(Date.now() / 86400000) * 86400000 + 86400000;
-    const pages = await Promise.all(Array.from({ length: long ? 3 : 1 }, async (_, index) => {
+    const pageCount = long ? 3 : interval === "10m" || interval === "1h" ? 18 : 1;
+    const windowSeconds = 299 * granularity;
+    const boundary = Math.floor(Date.now() / 1000 / windowSeconds) * windowSeconds;
+    const pages: CoinbaseCandle[][] = [];
+    // Bounded concurrency respects the public exchange rate limit. Fixed older
+    // windows stay cached; visitors only refresh the short, current window.
+    for (let offset = 0; offset < pageCount; offset += 3) {
+      const batch = await Promise.all(Array.from({ length: Math.min(3, pageCount - offset) }, async (_, slot) => {
+      const index = offset + slot;
       const url = new URL("https://api.exchange.coinbase.com/products/TAO-USD/candles");
       url.searchParams.set("granularity", String(granularity));
       if (long) { url.searchParams.set("start", new Date(end - (index + 1) * 299 * 86400000).toISOString()); url.searchParams.set("end", new Date(end - index * 299 * 86400000).toISOString()); }
-      const response = await fetch(url, { headers: { "User-Agent": "ShizzyUnchained/1.0" }, next: { revalidate: 60 }, signal: AbortSignal.timeout(6000) });
+      else if (pageCount > 1) {
+        url.searchParams.set("start", new Date((boundary - index * windowSeconds) * 1000).toISOString());
+        url.searchParams.set("end", new Date((index === 0 ? Math.floor(Date.now() / 60000) * 60 : boundary - (index - 1) * windowSeconds) * 1000).toISOString());
+      }
+      const response = await fetch(url, { headers: { "User-Agent": "ShizzyUnchained/1.0" }, next: { revalidate: !long && index > 0 ? 86400 : 60 }, signal: AbortSignal.timeout(6000) });
       if (!response.ok) throw new Error("Exchange history unavailable");
       const rows = await response.json();
       if (!Array.isArray(rows)) throw new Error("Invalid candle response");
       return rows as CoinbaseCandle[];
-    }));
+      }));
+      pages.push(...batch);
+    }
     const raw = pages.flat();
     const normalized = raw.filter(c => Array.isArray(c) && c.length >= 6).sort((a, b) => a[0] - b[0]).map(c => ({
       time: new Date(c[0] * 1000).toISOString(), low: String(c[1]), high: String(c[2]),
@@ -65,7 +79,7 @@ export async function GET(request: NextRequest) {
     // must not join two unrelated buckets or shift the 10-minute timestamps.
     const bars = priceBars(normalized);
     const aggregated = interval === "10m" ? aggregateBars(bars, chartIntervals[interval]) : bars;
-    const data = aggregated.slice(-(long ? 900 : 180)).map(bar => ({ time: new Date(bar.time * 1000).toISOString(),
+    const data = aggregated.slice(-(long ? 900 : interval === "10m" ? 2600 : interval === "1h" ? 5200 : 180)).map(bar => ({ time: new Date(bar.time * 1000).toISOString(),
       open: String(bar.open), high: String(bar.high), low: String(bar.low), close: String(bar.close), volume_tao: String(bar.volume) }));
     return NextResponse.json({ data, source: "coinbase", interval, method: "exchange" });
   } catch {
