@@ -11,7 +11,7 @@
     "repositoryPaths": 201,
     "xAccountSamples": 214,
     "originalPages": 269,
-    "stories": 33
+    "stories": 35
   },
   "sourceMethods": [
     "128 current subnet profiles and dated channel digests; current/legacy repositories",
@@ -5539,8 +5539,8 @@
           "error": "gh: Not Found (HTTP 404)\n"
         }
       ],
-      "publishedItems": 0,
-      "decision": "Available profile, account, digest and repository samples did not establish a distinct material announcement beyond prior coverage; routine maintenance, greetings, unconfirmed allegations and unrelated posts excluded."
+      "publishedItems": 1,
+      "decision": "Added transaction-verified eTAO allocation change in targeted six-hour supplement; see etaoSixHourlySupplement for exact block, successful event and before/after storage."
     },
     {
       "netuid": 17,
@@ -7567,8 +7567,8 @@
           "error": "gh: Not Found (HTTP 404)\n"
         }
       ],
-      "publishedItems": 0,
-      "decision": "Available profile, account, digest and repository samples did not establish a distinct material announcement beyond prior coverage; routine maintenance, greetings, unconfirmed allegations and unrelated posts excluded."
+      "publishedItems": 1,
+      "decision": "Added transaction-verified eTAO allocation change in targeted six-hour supplement; see etaoSixHourlySupplement for exact block, successful event and before/after storage."
     },
     {
       "netuid": 48,
@@ -13946,5 +13946,333 @@
   },
   "ownerSourceReview": {
     "outcome": "Owner-requested saved/public leads reviewed and deduplicated. SN80 original plus owner quote and the Doc interview are included. Private account-history details remain only in local research evidence."
+  },
+  "etaoSixHourlySupplement": {
+    "checkedAt": "2026-10-20T18:12:16.698557+00:00",
+    "block": 9326441,
+    "hash": "0xb82b9ec01b5112bb9c63319605dd7b2331867e9da6c2b37516dc00a23377bb35",
+    "chainTime": 1792519908000,
+    "runtime": 481,
+    "changes": [
+      {
+        "netuid": 16,
+        "block": 9325968,
+        "hash": "0xf0ce51abc75a22495cc5e7334fa04a1cea253b1f38006f03948a565cca1b8613",
+        "timestamp": 1792514232000,
+        "extrinsic": 13,
+        "before": [
+          "0",
+          "0",
+          "3320329489486196244",
+          "7563207292111677685",
+          "7563207292111677686"
+        ],
+        "after": [
+          "0",
+          "0",
+          "3320413933267719290",
+          "3781582535110458081",
+          "11344747605331374244"
+        ],
+        "name": "Zero Hour",
+        "events": [
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 13,
+            "event": {
+              "event_index": "0508",
+              "module_id": "Balances",
+              "event_id": "Withdraw",
+              "attributes": {
+                "who": "5FkKY8WJKm1fsUXuVNeoX7ayENaSmR6L2KNoJN48ZAJwtWeU",
+                "amount": 216037
+              }
+            },
+            "event_index": 5,
+            "module_id": "Balances",
+            "event_id": "Withdraw",
+            "attributes": {
+              "who": "5FkKY8WJKm1fsUXuVNeoX7ayENaSmR6L2KNoJN48ZAJwtWeU",
+              "amount": 216037
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 13,
+            "event": {
+              "event_index": "079e",
+              "module_id": "SubtensorModule",
+              "event_id": "SubnetEmissionWeightsSet",
+              "attributes": {
+                "netuid": 16,
+                "weights": [
+                  0,
+                  0,
+                  3320413933267719290,
+                  3781582535110458081,
+                  11344747605331374244
+                ]
+              }
+            },
+            "event_index": 7,
+            "module_id": "SubtensorModule",
+            "event_id": "SubnetEmissionWeightsSet",
+            "attributes": {
+              "netuid": 16,
+              "weights": [
+                0,
+                0,
+                3320413933267719290,
+                3781582535110458081,
+                11344747605331374244
+              ]
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 13,
+            "event": {
+              "event_index": "0507",
+              "module_id": "Balances",
+              "event_id": "Deposit",
+              "attributes": {
+                "who": "5FkKY8WJKm1fsUXuVNeoX7ayENaSmR6L2KNoJN48ZAJwtWeU",
+                "amount": 0
+              }
+            },
+            "event_index": 5,
+            "module_id": "Balances",
+            "event_id": "Deposit",
+            "attributes": {
+              "who": "5FkKY8WJKm1fsUXuVNeoX7ayENaSmR6L2KNoJN48ZAJwtWeU",
+              "amount": 0
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 13,
+            "event": {
+              "event_index": "0600",
+              "module_id": "TransactionPayment",
+              "event_id": "TransactionFeePaid",
+              "attributes": {
+                "who": "5FkKY8WJKm1fsUXuVNeoX7ayENaSmR6L2KNoJN48ZAJwtWeU",
+                "actual_fee": 216037,
+                "tip": 0
+              }
+            },
+            "event_index": 6,
+            "module_id": "TransactionPayment",
+            "event_id": "TransactionFeePaid",
+            "attributes": {
+              "who": "5FkKY8WJKm1fsUXuVNeoX7ayENaSmR6L2KNoJN48ZAJwtWeU",
+              "actual_fee": 216037,
+              "tip": 0
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 13,
+            "event": {
+              "event_index": "0000",
+              "module_id": "System",
+              "event_id": "ExtrinsicSuccess",
+              "attributes": {
+                "dispatch_info": {
+                  "weight": {
+                    "ref_time": 863825000,
+                    "proof_size": 8702
+                  },
+                  "class": "Normal",
+                  "pays_fee": "Yes"
+                }
+              }
+            },
+            "event_index": 0,
+            "module_id": "System",
+            "event_id": "ExtrinsicSuccess",
+            "attributes": {
+              "dispatch_info": {
+                "weight": {
+                  "ref_time": 863825000,
+                  "proof_size": 8702
+                },
+                "class": "Normal",
+                "pays_fee": "Yes"
+              }
+            },
+            "topics": []
+          }
+        ]
+      },
+      {
+        "netuid": 47,
+        "block": 9325918,
+        "hash": "0xcbcf3b172909c687e4965cf5a7b3cc6b9d2f09d3166116f4652e8eb2ddbe9c66",
+        "timestamp": 1792513632000,
+        "extrinsic": 26,
+        "before": [
+          "0",
+          "0",
+          "3320329489486196244",
+          "7563207292111677685",
+          "7563207292111677686"
+        ],
+        "after": [
+          "0",
+          "0",
+          "3320413933267719290",
+          "2324289753287403503",
+          "12802040387154428822"
+        ],
+        "name": "GPUForge",
+        "events": [
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 26,
+            "event": {
+              "event_index": "0508",
+              "module_id": "Balances",
+              "event_id": "Withdraw",
+              "attributes": {
+                "who": "5D7yqC9yVKufNHfGn96MRHXMcseScSThwgurDep2kLbhGuan",
+                "amount": 216037
+              }
+            },
+            "event_index": 5,
+            "module_id": "Balances",
+            "event_id": "Withdraw",
+            "attributes": {
+              "who": "5D7yqC9yVKufNHfGn96MRHXMcseScSThwgurDep2kLbhGuan",
+              "amount": 216037
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 26,
+            "event": {
+              "event_index": "079e",
+              "module_id": "SubtensorModule",
+              "event_id": "SubnetEmissionWeightsSet",
+              "attributes": {
+                "netuid": 47,
+                "weights": [
+                  0,
+                  0,
+                  3320413933267719290,
+                  2324289753287403503,
+                  12802040387154428822
+                ]
+              }
+            },
+            "event_index": 7,
+            "module_id": "SubtensorModule",
+            "event_id": "SubnetEmissionWeightsSet",
+            "attributes": {
+              "netuid": 47,
+              "weights": [
+                0,
+                0,
+                3320413933267719290,
+                2324289753287403503,
+                12802040387154428822
+              ]
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 26,
+            "event": {
+              "event_index": "0507",
+              "module_id": "Balances",
+              "event_id": "Deposit",
+              "attributes": {
+                "who": "5D7yqC9yVKufNHfGn96MRHXMcseScSThwgurDep2kLbhGuan",
+                "amount": 0
+              }
+            },
+            "event_index": 5,
+            "module_id": "Balances",
+            "event_id": "Deposit",
+            "attributes": {
+              "who": "5D7yqC9yVKufNHfGn96MRHXMcseScSThwgurDep2kLbhGuan",
+              "amount": 0
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 26,
+            "event": {
+              "event_index": "0600",
+              "module_id": "TransactionPayment",
+              "event_id": "TransactionFeePaid",
+              "attributes": {
+                "who": "5D7yqC9yVKufNHfGn96MRHXMcseScSThwgurDep2kLbhGuan",
+                "actual_fee": 216037,
+                "tip": 0
+              }
+            },
+            "event_index": 6,
+            "module_id": "TransactionPayment",
+            "event_id": "TransactionFeePaid",
+            "attributes": {
+              "who": "5D7yqC9yVKufNHfGn96MRHXMcseScSThwgurDep2kLbhGuan",
+              "actual_fee": 216037,
+              "tip": 0
+            },
+            "topics": []
+          },
+          {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 26,
+            "event": {
+              "event_index": "0000",
+              "module_id": "System",
+              "event_id": "ExtrinsicSuccess",
+              "attributes": {
+                "dispatch_info": {
+                  "weight": {
+                    "ref_time": 863825000,
+                    "proof_size": 8702
+                  },
+                  "class": "Normal",
+                  "pays_fee": "Yes"
+                }
+              }
+            },
+            "event_index": 0,
+            "module_id": "System",
+            "event_id": "ExtrinsicSuccess",
+            "attributes": {
+              "dispatch_info": {
+                "weight": {
+                  "ref_time": 863825000,
+                  "proof_size": 8702
+                },
+                "class": "Normal",
+                "pays_fee": "Yes"
+              }
+            },
+            "topics": []
+          }
+        ]
+      }
+    ],
+    "scope": "Targeted chain supplement after full daily research cutoff; not a renewed all-source coverage claim.",
+    "rpc": "wss://archive.chain.opentensor.ai:443",
+    "verification": "Successful matching SubnetEmissionWeightsSet event and ExtrinsicSuccess; storage queried at block-1 and block.",
+    "historyLimit": "Binary search identifies these state transitions; full intermediate event replay remains unavailable, so reverted changes are not ruled out.",
+    "monitoring": {
+      "automationId": "verify-etao-changes-every-six-hours",
+      "intervalHours": 6,
+      "status": "ACTIVE"
+    }
   }
 }

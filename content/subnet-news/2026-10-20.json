@@ -2,7 +2,7 @@
   "version": 1,
   "date": "2026-10-20",
   "title": "Subnet News — October 20, 2026",
-  "summary": "eTAO is live, with seven executed allocation changes documented, including SN103’s old slot before re-registration. SN120 Affine opens a video-model dashboard, SN28 SayGM launches app sign-in, SN114 SOMA adds Claude Code, SN71 Leadpoet expands into outreach, and SN65 TPN publishes model 006. Also: SN66 Conjectures publicizes an earlier certified result, operational updates, SN80 OpenRoboto’s teaser and the new Doc interview.",
+  "summary": "eTAO is live, with nine executed allocation changes documented, including SN103’s old slot before re-registration. SN120 Affine opens a video-model dashboard, SN28 SayGM launches app sign-in, SN114 SOMA adds Claude Code, SN71 Leadpoet expands into outreach, and SN65 TPN publishes model 006. Also: SN66 Conjectures publicizes an earlier certified result, operational updates, SN80 OpenRoboto’s teaser and the new Doc interview. Late update: SN16 Zero Hour and SN47 GPUForge shift more alpha rewards toward miners.",
   "publishedAt": "2026-10-20T16:35:20.528970+00:00",
   "coverageStart": "2026-10-19T14:40:00Z",
   "coverageEnd": "2026-10-20T16:35:20.528970+00:00",
@@ -167,7 +167,30 @@
     {
       "netuid": 16,
       "name": "Zero Hour",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN16 Zero Hour raises miner allocation to 61.5% through eTAO",
+          "summary": "SN16 Zero Hour executed an eTAO allocation change on October 20 at 16:37:12 UTC, in finalized transaction 9325968-13. The owner allocation remains approximately 18%; validators fall from approximately 41% to 20.5%, while miners rise from approximately 41% to 61.5%. Successful execution and the exact five-slot storage were checked immediately before and after the transaction; burn and recycle remain zero. This redirects a larger share of alpha rewards toward miners. Root receives its live baseline first, capped by the validator bucket, and alpha validators share the remainder. Historical yield can still include the previous split, so this change does not establish a specific new APR or APY.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A finalized allocation change materially redistributes miner and validator rewards; transaction and before/after storage are verified.",
+          "sources": [
+            {
+              "label": "Finalized transaction",
+              "url": "https://taostats.io/extrinsic/9325968-13"
+            },
+            {
+              "label": "Verified eTAO changes",
+              "url": "https://shizzyunchained.com/subnet-news/etao"
+            },
+            {
+              "label": "Official eTAO methodology",
+              "url": "https://www.bittensor.com/docs/guides/etao"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 17,
@@ -452,7 +475,30 @@
     {
       "netuid": 47,
       "name": "GPUForge",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN47 GPUForge raises miner allocation to 69.4% through eTAO",
+          "summary": "SN47 GPUForge executed an eTAO allocation change on October 20 at 16:27:12 UTC, in finalized transaction 9325918-26. The owner allocation remains approximately 18%; validators fall from approximately 41% to 12.6%, while miners rise from approximately 41% to 69.4%. Successful execution and the exact five-slot storage were checked immediately before and after the transaction; burn and recycle remain zero. This redirects a larger share of alpha rewards toward miners. Root receives its live baseline first, capped by the validator bucket, and alpha validators share the remainder. Historical yield can still include the previous split, so this change does not establish a specific new APR or APY.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A finalized allocation change materially redistributes miner and validator rewards; transaction and before/after storage are verified.",
+          "sources": [
+            {
+              "label": "Finalized transaction",
+              "url": "https://taostats.io/extrinsic/9325918-26"
+            },
+            {
+              "label": "Verified eTAO changes",
+              "url": "https://shizzyunchained.com/subnet-news/etao"
+            },
+            {
+              "label": "Official eTAO methodology",
+              "url": "https://www.bittensor.com/docs/guides/etao"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 48,
@@ -1327,7 +1373,7 @@
       "214 public team/partner account samples and 269 original post pages",
       "Signed-in @ShizzyUnchained Grok discovery, corrected-cutoff top-five and omission checks; direct Const Posts/Replies",
       "Owner Bookmarks and History Likes, with saved lead dispositions",
-      "Finalized owner/registration/presence comparisons and seven verified eTAO changes, including historical SN103",
+      "Finalized owner/registration/presence comparisons and nine verified eTAO changes, including historical SN103",
       "Full-roster market outliers, emissions, Moments and seven prior editions",
       "YouTube Videos/Live tabs, watch-player metadata and guest interview verification"
     ],
@@ -1336,7 +1382,8 @@
       "Archive RPC denies historical state_queryStorage (RPC4003). Specific events and endpoint changes were verified, but complete replay of all intermediate changes is not claimed. No independently confirmed subnet-sale consideration was established.",
       "Team benchmark, customer, payout, encryption and cost claims were not independently audited or reproduced. Conjectures dates come from its result record, without an independent full mathematical/literature review.",
       "TaoStats-backed server routes were sampled without exposing keys; credit usage and full direct event reconciliation remain unavailable. Initial root and candle requests returned503 but both recovered to200 on recheck. No new fallback integration or complete historical backfill is claimed.",
-      "Bookmarks and Likes are not a complete viewing history. SN80 Solana remains speculation; exact SN107 conference sessions remain unverified."
+      "Bookmarks and Likes are not a complete viewing history. SN80 Solana remains speculation; exact SN107 conference sessions remain unverified.",
+      "Targeted eTAO supplement checked through finalized block 9326441 at 18:12 UTC: SN16 and SN47 transactions added after the main research cutoff. Other-source coverageEnd remains 16:35 UTC; no complete new all-source scan or intermediate chain-event replay is claimed."
     ]
   }
 }
