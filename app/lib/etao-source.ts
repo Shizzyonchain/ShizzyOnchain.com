@@ -5,7 +5,14 @@ import { decodeEmission, emissionPrefix, type EmissionObservation } from "./etao
 export type EtaoSnapshot = Omit<typeof seed, "weights" | "observations" | "names"> & { weights: Record<string, string[]>; names: Record<string, string>; observations: EmissionObservation[] };
 const cache = () => getCache({ namespace: "shizzy-etao-v1" });
 export async function getEtaoSnapshot(): Promise<EtaoSnapshot> {
-  try { return await cache().get("snapshot") as EtaoSnapshot || seed; }
+  try {
+    const cached = await cache().get("snapshot") as EtaoSnapshot | null;
+    if (!cached) return seed;
+    const latest = cached.block > seed.block ? cached : seed;
+    const changes = [...new Map([...cached.changes, ...seed.changes].map(row => [`${row.block}-${row.extrinsic}`, row])).values()];
+    // Daily reviewed history takes precedence over an older cached manifest.
+    return { ...latest, changes, names: { ...cached.names, ...seed.names }, observations: cached.observations.filter(row => !seed.changes.some(change => change.netuid === row.netuid && change.block > row.fromBlock && change.block <= row.toBlock && JSON.stringify(change.after) === JSON.stringify(row.after))) };
+  }
   catch { return seed; }
 }
 export async function getEtaoPageData() { const data = await getEtaoSnapshot(); return { data, stale: Date.now() - Date.parse(data.checkedAt) > 30 * 60_000 }; }

@@ -183,6 +183,16 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "0SNqFLlw3oQ",
+    title: "The BEST Bittensor Subnets To Buy Before The Next Leg Up! Ft. Shizzy",
+    meta: "26:36 · Invest with Doc · Guest appearance · October 20, 2026",
+  },
+  {
+    id: "gMXHteCtXbA",
+    title: "Bittensor TAO vs AI Tyranny: Who Controls the Future?",
+    meta: "20:29 · October 19, 2026",
+  },
+  {
     id: "AeDXwWTAaf0",
     title: "Buying Bittensor Subnets? Watch This Before You Buy Another One!",
     meta: "16:27 · October 19, 2026",

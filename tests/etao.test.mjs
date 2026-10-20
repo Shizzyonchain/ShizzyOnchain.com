@@ -11,7 +11,7 @@ test('SCALE emission vectors preserve u64 precision and reject incomplete totals
  assert.throws(()=>decodeEmission('0x00'));
 });
 test('audited history contains unique transactions with reconciled before and after vectors',()=>{
- assert.equal(new Set(seed.changes.map(r=>`${r.block}-${r.extrinsic}`)).size,6);
+ assert.equal(new Set(seed.changes.map(r=>`${r.block}-${r.extrinsic}`)).size,7);
  for(const row of seed.changes)for(const w of [row.before,row.after])assert.equal(w.reduce((s,v)=>s+BigInt(v),0n),18446744073709551615n);
  assert.ok(seed.changes.every(r=>r.netuid!==74));
  assert.equal(Object.keys(seed.weights).length,128);
