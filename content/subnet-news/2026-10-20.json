@@ -824,7 +824,26 @@
     {
       "netuid": 88,
       "name": "Investing",
-      "updates": []
+      "updates": [
+        {
+          "headline": "Const highlights SN88’s Root strategy; comparative returns remain a team claim",
+          "summary": "Const’s October 20 quote praises SN88 Investing88’s use of Root for recursive self-improvement. The quoted chart argues its basket outperforms other validators using lifetime observations. This is commentary on a team-selected comparison, not an independently normalized ranking or staking recommendation. Window, fund life, fees and realizable holdings must match before comparing returns.",
+          "importance": "informational",
+          "status": "verified",
+          "rating": 2,
+          "ratingReason": "A concrete operating or product change with useful implications for participants.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/const_reborn/status/2112350113863516471"
+            },
+            {
+              "label": "SN88 team chart",
+              "url": "https://x.com/Investing88ai/status/2112265024853139861"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 89,
@@ -1276,24 +1295,6 @@
         {
           "label": "Verified changes",
           "url": "https://shizzyunchained.com/subnet-news/etao"
-        }
-      ]
-    },
-    {
-      "headline": "Const highlights SN88’s Root strategy; comparative returns remain a team claim",
-      "summary": "Const’s October 20 quote praises SN88 Investing88’s use of Root for recursive self-improvement. The quoted chart argues its basket outperforms other validators using lifetime observations. This is commentary on a team-selected comparison, not an independently normalized ranking or staking recommendation. Window, fund life, fees and realizable holdings must match before comparing returns.",
-      "importance": "informational",
-      "status": "verified",
-      "rating": 2,
-      "ratingReason": "A concrete operating or product change with useful implications for participants.",
-      "sources": [
-        {
-          "label": "Original announcement",
-          "url": "https://x.com/const_reborn/status/2112350113863516471"
-        },
-        {
-          "label": "SN88 team chart",
-          "url": "https://x.com/Investing88ai/status/2112265024853139861"
         }
       ]
     },
