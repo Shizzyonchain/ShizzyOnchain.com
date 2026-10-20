@@ -71,3 +71,11 @@ Starting with the October 9, 2026 edition, check `@const_reborn` (`https://x.com
 - Do not invent coverage. Record rate limits, inaccessible X content, deleted posts, private communities, and other gaps in `coverage.gaps`.
 - Avoid duplicate stories across highlights, subnet updates, and ecosystem updates unless the summary adds distinct context.
 - Keep the report informational and avoid personalized financial advice.
+
+
+## eTAO daily chain review (owner request October 20, 2026)
+- Read `app/data/etao.json` and the `/subnet-news/etao` background snapshot. Review every pending observation; the 15-minute cron detects snapshot differences, not a complete event stream.
+- Inspect finalized `SubnetEmissionWeightsSet` events since the last audited cutoff using our node where configured, with archive fallback for pruned blocks. Confirm full block-range coverage; record gaps honestly. A current-state comparison cannot rule out changes reversed between snapshots. No “zero changes today” badge without a complete event scan.
+- Verify each event's block hash, extrinsic index, execution UTC time, subnet number/name and before/after five-slot storage. Check successful execution. Preserve prior verified changes in `app/data/etao.json`; archive dated evidence in the daily audit. Never replace legacy migration settings with an invented owner action.
+- Include material changes in the daily news under the correct SN and subnet news/history mapping. Explain owner/miner/validator allocations, Root's baseline/cap, and why historical yield can lag. Link `/subnet-news/etao` and direct transactions. Keep pending snapshot observations distinct from verified transaction history.
+- Refresh the checked-in snapshot, names and finalized coverage after review. The runtime cache is temporary and cannot serve as the permanent archive. Validate, lint, build and verify live on publication. Background cron uses read-only `ETAO_RPC_URL` (WebSocket) when configured, otherwise public archive RPC; visitor page requests never call the chain.

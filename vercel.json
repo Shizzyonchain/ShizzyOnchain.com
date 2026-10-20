@@ -19,6 +19,10 @@
     {
       "path": "/api/cron/root-recommendations",
       "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/cron/etao",
+      "schedule": "4,19,34,49 * * * *"
     }
   ]
 }

@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/validators",
     "/validators/root",
     "/subnet-news",
+    "/subnet-news/etao",
     "/subnet-news/exploit-conference-catch-up",
     "/subnet-news/exploit-conference-catch-up-day-2",
     "/deep-dives",
