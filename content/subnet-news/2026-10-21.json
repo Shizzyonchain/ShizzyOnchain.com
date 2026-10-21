@@ -605,10 +605,10 @@
         {
           "headline": "SN61 RedTeam launches a site with linked buyback and mining metrics",
           "summary": "SN61 RedTeam’s October 20 site launch brings buybacks, conviction-locked alpha, monthly submissions, mining documentation and detection simulations into one place. The live page exposes timestamped snapshots and a buyback-wallet link; its bot, device and VPN simulations are explicitly illustrative. The team says a separate dashboard follows later this week, so that dashboard is not presented as launched. The practical value is easier inspection of the subnet’s activity and research pipeline; displayed aggregates were not independently reconciled transaction by transaction.",
-          "importance": "high",
+          "importance": "medium",
           "status": "verified",
-          "rating": 4,
-          "ratingReason": "A live site makes dated subnet metrics, wallet evidence and mining documentation easier to inspect.",
+          "rating": 3,
+          "ratingReason": "Useful access to metrics and mining documentation, but a website refresh does not establish new adoption or independently reconciled financial results.",
           "sources": [
             {
               "label": "Original announcement",
@@ -1059,10 +1059,10 @@
         {
           "headline": "SN107 Minos publishes ASHG poster-session times for October 22–23",
           "summary": "SN107 Minos has now supplied the details missing from earlier coverage. In an October 20 evening Eastern post, the team names ASHG in Montreal, Exhibition Hall Room 220: synthetic whole-genome cohorts on October 22, 4:15–6:15 p.m. ET, and continuous variant-calling benchmarking on October 23, 2:30–4:30 p.m. ET. These are scheduled presentations, not completed talks or announced customer contracts. The attached material shows branded scientific outreach merchandise; the event planner could not be independently accessed, so times and room remain explicitly team-reported. This gives researchers a concrete opportunity to inspect the work behind the subnet.",
-          "importance": "high",
+          "importance": "medium",
           "status": "verified",
-          "rating": 4,
-          "ratingReason": "Provides concrete scientific poster-session times and location missing from earlier reports; commercial adoption is not inferred.",
+          "rating": 3,
+          "ratingReason": "Useful scheduling information for researchers; the sessions are still upcoming and the team-reported details were not independently confirmed in the event planner.",
           "sources": [
             {
               "label": "Original announcement",

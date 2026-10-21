@@ -40,6 +40,9 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
     ...updatedSubnets.flatMap((subnet) => subnet.updates.map((item) => ({ item, context: `SN${subnet.netuid} · ${subnet.name}` }))),
   ].filter((entry, index, all) => all.findIndex((candidate) => candidate.item.headline === entry.item.headline) === index)
     .toSorted((a, b) => (b.item.rating ?? 0) - (a.item.rating ?? 0) || Number(Boolean(b.item.priceAction)) - Number(Boolean(a.item.priceAction)));
+  const conciseEdition = date >= "2026-10-21";
+  const mainNews = conciseEdition ? rankedNews.filter(({ item }) => (item.rating ?? 0) >= 3) : rankedNews;
+  const shortUpdates = conciseEdition ? rankedNews.filter(({ item }) => (item.rating ?? 0) < 3) : [];
   const sectionNumber = (base: number) => String(base + (brief.upcomingUnlocks.length ? 1 : 0)).padStart(2, "0");
 
   return (
@@ -62,8 +65,9 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
         {scoredFormat ? (
           <section className="news-report-section ranked-news-section" aria-labelledby="ranked-news">
             <div className="news-section-head"><span>01</span><div><p className="eyebrow">Biggest stories first</p><h2 id="ranked-news">Today&apos;s ranked news</h2></div></div>
-            <p className="rating-explainer">★★★★★ marks the day&apos;s most consequential news. Scores weigh the size of the announcement, evidence quality, ecosystem reach and relevant market reaction.</p>
-            <div className="ranked-news-list">{rankedNews.map(({ item, context }, index) => <NewsItem key={item.headline} item={item} rank={index + 1} context={context} />)}</div>
+            <p className="rating-explainer">{conciseEdition ? <>Stars indicate editorial priority, not investment quality. Routine competition updates receive at most three stars; Shizzy original coverage receives at least four. Verification labels describe the evidence, and scheduled events remain plans.</> : <>★★★★★ marks the day&apos;s most consequential news. Scores weigh the size of the announcement, evidence quality, ecosystem reach and relevant market reaction.</>}</p>
+            <div className="ranked-news-list">{mainNews.map(({ item, context }, index) => <NewsItem key={item.headline} item={item} rank={index + 1} context={context} />)}</div>
+            {shortUpdates.length > 0 && <details className="news-short-updates"><summary>Short updates & watchlist · {shortUpdates.length}</summary><p>Minor changes and early plans. Expand to read every story and its sources.</p><div className="ranked-news-list">{shortUpdates.map(({ item, context }, index) => <NewsItem key={item.headline} item={item} rank={mainNews.length + index + 1} context={context} />)}</div></details>}
           </section>
         ) : brief.highlights.length > 0 && (
           <section className="news-report-section" aria-labelledby="top-signals">

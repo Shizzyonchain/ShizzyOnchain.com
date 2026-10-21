@@ -14478,5 +14478,16 @@
     "end": "2026-10-21T16:47:07+00:00",
     "outcome": "Completed public replay; news revised, rating 4 retained, upcoming banner disabled, default public video updated, archive entry preserved without duplicates.",
     "evidence": "research-oct21/attune-completed-player.json"
+  },
+  "editorialQualityReview": {
+    "reviewedAt": "2026-10-21T18:37:01.099563+00:00",
+    "scope": "Editorial audit of existing October 21 report and standing checklist; not a new source scan or extension of the coverage window.",
+    "changes": [
+      "SN61 website refresh and SN107 upcoming poster schedule reduced from four to three stars; sources and factual qualifications preserved.",
+      "Minor one/two-star updates retained in an expandable watchlist, including subnet history.",
+      "Public rating guide discloses Shizzy feature priority and distinguishes stars from evidence and investment quality.",
+      "Added newsworthiness gate and corrected superseded hidden-chart instructions."
+    ],
+    "preserved": "Full roster research, original sources, prior editions, chain coverage requirements and owner Shizzy priority."
   }
 }

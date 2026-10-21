@@ -468,3 +468,9 @@ html,body{overflow-x:clip}
 .sentiment-dialog p,.sentiment-dialog li{font:13px/1.65 var(--font);color:#ccc;white-space:normal}
 .sentiment-dialog ul{padding-left:19px}.sentiment-dialog li+li{margin-top:7px}
 @media(max-width:600px){.market-overview .hero-strip>.sentiment-tile{padding:14px;min-height:90px}.market-overview .hero-strip .sentiment-reading strong{font-size:22px}.sentiment-caption{font-size:9px;letter-spacing:0}.sentiment-label{font-size:10px}.sentiment-dialog{padding:18px}}
+
+.news-short-updates{margin-top:28px;border:1px solid #444;padding:20px;min-width:0}
+.news-short-updates>summary{cursor:pointer;font-size:clamp(18px,2vw,24px);font-weight:700;padding:12px 0;overflow-wrap:anywhere}
+.news-short-updates>summary:focus-visible{outline:2px solid #fff;outline-offset:5px}
+.news-short-updates>p{color:#aaa;line-height:1.6}
+@media(max-width:720px){.news-short-updates{padding:14px}}
