@@ -15,12 +15,12 @@ export function activityRows(data: unknown, kind: "transactions" | "transfers", 
   return data.map(row => {
     if (!row || typeof row !== "object") throw new Error("Invalid transaction evidence");
     const extrinsic = kind === "transfers" ? row.extrinsic_id : row.id;
-    if (!row || !/^\d+-\d+$/.test(row.id) || !/^\d+-\d+$/.test(extrinsic) || !Number.isFinite(Date.parse(row.timestamp))) throw new Error("Invalid transaction evidence");
+    if (typeof row.id !== "string" || !row.id || row.id.length > 128 || !/^\d+-\d+$/.test(extrinsic) || !Number.isFinite(Date.parse(row.timestamp))) throw new Error("Invalid transaction evidence");
     if (kind === "transactions") {
       if (row.signer_address !== address || typeof row.success !== "boolean" || typeof row.pallet !== "string" || typeof row.name !== "string") throw new Error("Wrong wallet transaction");
       return { id: row.id, extrinsic, timestamp: row.timestamp, action: `${row.pallet}.${row.name}`, success: row.success, amount: null, from: null, to: null };
     }
-    if ((row.from !== address && row.to !== address) || row.network !== "finney" || typeof row.amount !== "string" || !/^\d+$/.test(row.amount)) throw new Error("Invalid wallet transfer");
+    if ((row.from !== address && row.to !== address) || row.network !== "finney" || typeof row.amount !== "string" || !/^\d+$/.test(row.amount)) throw new Error(`Invalid wallet transfer (network=${String(row.network)}, amountType=${typeof row.amount}, related=${row.from === address || row.to === address})`);
     return { id: row.id, extrinsic, timestamp: row.timestamp, action: row.from === address && row.to === address ? "Self transfer" : row.from === address ? "Sent TAO" : "Received TAO", success: null, amount: row.amount, from: row.from, to: row.to };
   });
 }
