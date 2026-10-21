@@ -252,12 +252,6 @@ const channelVideos: ChannelVideo[] = [
   },
   ...(promotedLivestream.listed ? [promotedLivestream] : []),
   {
-    id: "3i9F3_Ku8Fo",
-    title: "Bittensor’s Next Big Robotics Breakthrough? | Attune SN58",
-    meta: "Upcoming livestream · October 21, 2026 · 12:00 PM ET / 9:00 AM PT",
-    upcoming: true,
-  },
-  {
     id: "rEaGFK5yn8g",
     title: "Quantum Computing Is Already on Bittensor?! | SN48 Quantum Compute",
     meta: "59:18 · Livestream replay · October 14, 2026",
@@ -529,6 +523,16 @@ const channelVideos: ChannelVideo[] = [
   },
 ];
 const liveStreams: ChannelVideo[] = [
+  {
+    id: "ac6bldErBFU",
+    title: "Can Bittensor Make AI Faster and Cheaper? Inside Pareton SN10",
+    meta: "36:34 · Livestream replay · October 20, 2026",
+  },
+  {
+    id: "rEaGFK5yn8g",
+    title: "Quantum Computing Is Already on Bittensor?! | SN48 Quantum Compute",
+    meta: "59:18 · Livestream replay · October 14, 2026",
+  },
   {
     id: "fTlViZhXXzQ",
     title: "TAO, XRP, CC & NEAR: Which Crypto Wins BIG? Experts Debate LIVE!",
