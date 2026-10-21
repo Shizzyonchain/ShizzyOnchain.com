@@ -14424,5 +14424,30 @@
     ],
     "editorialOutcome": "Publish all verified transaction burns in the dedicated Burns archive. These are small routine executions; no claim of a new team buyback programme, revenue source or guaranteed price impact, and no additional X post. Existing daily stories retained.",
     "coverageGap": "No earlier all-time backfill. Only the explicit runtime-481 AlphaBurned, AddStakeBurn and Balances.Burned transaction-event scope is scanned; recycling reviewed separately. The scan is not an accounting reconciliation of every possible issuance change."
+  },
+  "ratingReview": {
+    "checkedAt": "2026-10-21T18:23:50.962264+00:00",
+    "ownerRule": "Routine competition updates at most three stars.",
+    "changes": [
+      {
+        "netuid": 50,
+        "headline": "SN50 Synth Ultra adds ETH, SOL and XRP reward competitions",
+        "before": 4,
+        "after": 3
+      },
+      {
+        "netuid": 67,
+        "headline": "SN67 Harnyx removes its paid-model allowlist",
+        "before": 4,
+        "after": 3
+      },
+      {
+        "netuid": 92,
+        "headline": "SN92 REAX opens its generalist decision-model competition",
+        "before": 4,
+        "after": 3
+      }
+    ],
+    "scope": "October 21 edition and future editorial rules; prior editions preserved."
   }
 }

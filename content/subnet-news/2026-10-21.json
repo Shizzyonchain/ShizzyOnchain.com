@@ -489,10 +489,10 @@
         {
           "headline": "SN50 Synth Ultra adds ETH, SOL and XRP reward competitions",
           "summary": "SN50 Synth announced October 20 that Ultra now covers ETH, SOL and XRP in addition to Bitcoin, with separate rankings and miner rewards. The task is to forecast price distributions ten seconds ahead; sub-five-millisecond inference is a target, not a measured result established here. The live Ultra route is available and repository changes specify one very-high-frequency competition per rewarded asset. Separate asset competitions give specialized forecasting approaches more room to compete without treating one market’s score as proof across every market.",
-          "importance": "high",
+          "importance": "medium",
           "status": "verified",
-          "rating": 4,
-          "ratingReason": "Separate new asset competitions broaden rewarded forecasting work; latency is a target, not independently measured.",
+          "rating": 3,
+          "ratingReason": "A routine expansion of rewarded forecasting competitions to additional assets; participation and reward changes are capped at three stars.",
           "sources": [
             {
               "label": "Original announcement",
@@ -692,10 +692,10 @@
         {
           "headline": "SN67 Harnyx removes its paid-model allowlist",
           "summary": "SN67 Harnyx says miners can now use any paid LLM or decision model available through OpenRouter, rather than a team-selected allowlist. Repository work supports broader pricing and exact model-ID handling. This moves model selection toward competing miners and may broaden their approaches; it does not remove the competition’s scoring rules or guarantee that every model is economical. The announcement is a participation change, not evidence of a new independently measured research-quality result.",
-          "importance": "high",
+          "importance": "medium",
           "status": "verified",
-          "rating": 4,
-          "ratingReason": "Removing the paid-model allowlist materially expands miner model choice while leaving competition rules in place.",
+          "rating": 3,
+          "ratingReason": "A miner model-eligibility change within an existing competition, not a verified new product or research breakthrough; capped at three stars.",
           "sources": [
             {
               "label": "Original announcement",
@@ -927,10 +927,10 @@
         {
           "headline": "SN92 REAX opens its generalist decision-model competition",
           "summary": "SN92 REAX announced REAX 1, based on Perplexity Decider v1.2, and its competition page says the generalist track opened October 21 at 13:00 UTC, replacing the demand-forecasting and risk-assessment use-case tracks. Their final leaderboards remain available. The team reports a 2.4-point improvement over the base model across six test draws and ten areas; this is its own measurement, not an independently rerun benchmark. Published release code also addresses engine champion payouts. The important change is that miners can now compete on a broader decision model, alongside engine optimization, rather than only the two earlier specialist tasks.",
-          "importance": "high",
+          "importance": "medium",
           "status": "verified",
-          "rating": 4,
-          "ratingReason": "A live generalist track changes the competition available to miners; the model score remains team-measured.",
+          "rating": 3,
+          "ratingReason": "A new competition track and team-reported model scores; competition launches and routine benchmark updates are capped at three stars.",
           "sources": [
             {
               "label": "Original announcement",
