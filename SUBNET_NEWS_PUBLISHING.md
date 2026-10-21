@@ -41,6 +41,10 @@ Starting with the October 9, 2026 edition, check `@const_reborn` (`https://x.com
 - Deduplicate repeated posts and already-covered announcements, adding meaningful new context to the existing story where appropriate. Unrelated posts do not belong in subnet news. Record reviewed post URLs and an explicit included, updated, already-covered, unrelated or unverified decision in the dated source audit, including when no new relevant post is found or access fails. Carry unresolved leads into the next run.
 - This is research and site-news coverage only; it does not authorize posting, reposting or replying on X.
 
+## Required Tensia source review — owner addition October 21, 2026
+
+On every daily news run, directly review @TensiaFDN (https://x.com/TensiaFDN) and @TensiaBot (https://x.com/TensiaBot), including original posts, quote-posts, substantive replies and attached media in the coverage window and preceding seven-day overlap. Include both accounts in Grok discovery and omission checks; Grok does not replace direct review. Verify relevant TAO/Bittensor claims against primary sources, establish any subnet identity before assigning an SN, distinguish commentary and plans from completed announcements, and deduplicate existing coverage. Save direct post URLs, check times and explicit editorial outcomes or access gaps in the dated source audit, even when no new relevant item is found.
+
 ## Editorial requirements
 
 - Starting October 11, 2026, include subnet registrations, deregistrations and subnet sales in each daily research pass. Check registration/removal events and ownership announcements, retain UTC timestamps and block references, and record an explicit outcome in the dated audit even when no additional verified event is found. Cover material late-found events with their actual dates. Distinguish a slot re-registration from a negotiated sale, a sale listing or agreement from a completed transfer, and a scheduled coldkey swap from execution. Verify buyer, seller, price and completion separately; leave undisclosed or unconfirmed details explicit rather than guessing. Conviction locks and token trades alone are not subnet sales.
