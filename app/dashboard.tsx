@@ -15,6 +15,7 @@ import { compareLiquidation, liquidationExplanation, liquidationPercent } from "
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import { taoHeadsCommunity } from "./lib/community";
 import { SubnetNewsPanel } from "./subnet-news-panel";
+import { SubnetOwner } from "./subnet-owner";
 import { SentimentTile } from "./sentiment-tile";
 import { OverviewHelp } from "./overview-help";
 import { MetricExplanation } from "./metric-explanation";
@@ -1283,7 +1284,6 @@ export function Dashboard({
     : (sortDirection === "desc" ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0) : Number(a[sort] ?? 0) - Number(b[sort] ?? 0))), [rows, query, sort, sortDirection]);
   const hasMarketData = rows.length > 0;
   const active = rows.find((r) => r.netuid === selected) || rows[0];
-  const hasActiveMetadata = Boolean(active && (active.description || active.website || active.github_repo || active.discord || active.contact || active.additional));
   const portfolioAssets = useMemo(() => {
     const assets = new Map<string, PortfolioAsset>();
     const add = (key: string, netuid: number | null, name: string, symbol: string, alpha: number, taoValue: number, address: string) => {
@@ -1876,13 +1876,14 @@ export function Dashboard({
                                 </section>
                               )}
                           </>
-                          {!showTaoChart && active && hasActiveMetadata && (
+                          {!showTaoChart && active && (
                               <div className="subnet-overview">
                                 <div className="subnet-description">
                                   <p className="eyebrow">Owner-submitted on-chain metadata</p>
                                   <h2>What this subnet does</h2>
                                   {active.description ? <p>{active.description}</p> : <p className="metadata-empty">The subnet owner has not published a description on-chain yet.</p>}
                                   {active.additional && <p className="project-additional">{active.additional}</p>}
+                                  <SubnetOwner key={active.netuid} netuid={active.netuid} />
                                 </div>
                                 <div className="project-links">
                                   {safeProjectUrl(active.website) && (

@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 // https://github.com/opentensor/subtensor/blob/main/pallets/subtensor/src/lib.rs
 export const parentKeysPrefix = "0x658faa385070e074c85bf6b568cf0555de41ae13ae40a9d3c5fd9b3bdea86fe2";
 const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-function ss58(account: Buffer) {
+export function ss58(account: Buffer) {
   const body = Buffer.concat([Buffer.from([42]), account]);
   const checksum = createHash("blake2b512").update(Buffer.concat([Buffer.from("SS58PRE"), body])).digest().subarray(0, 2);
   const bytes = Buffer.concat([body, checksum]);

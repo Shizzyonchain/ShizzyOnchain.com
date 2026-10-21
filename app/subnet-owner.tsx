@@ -1,0 +1,36 @@
+"use client";
+import { useEffect, useState } from "react";
+import styles from "./subnet-owner.module.css";
+type Owners = { checkedAt: string; block: number; owners: Record<string, string> };
+let cached: Owners | null = null;
+let pending: Promise<Owners> | null = null;
+async function loadOwners() {
+  if (cached && Date.now() - Date.parse(cached.checkedAt) < 15 * 60_000) return cached;
+  if (!pending) pending = fetch("/api/subnets/owners", { signal: AbortSignal.timeout(8000) }).then(async response => {
+    if (!response.ok) throw new Error("Owner data unavailable");
+    const data = await response.json() as Owners;
+    if (!data.owners || !Number.isInteger(data.block) || !Number.isFinite(Date.parse(data.checkedAt))) throw new Error("Invalid owner data");
+    cached = data; return data;
+  }).finally(() => { pending = null; });
+  return pending;
+}
+export function SubnetOwner({ netuid }: { netuid: number }) {
+  const [snapshot, setSnapshot] = useState<Owners | null>(null);
+  const [stale, setStale] = useState(false);
+  const [error, setError] = useState(false);
+  const [copyState, setCopyState] = useState("");
+  useEffect(() => {
+    let cancelled = false;
+    const refresh = () => { loadOwners().then(data => { if (!cancelled) { setSnapshot(data); setStale(Date.now() - Date.parse(data.checkedAt) > 30 * 60_000); setError(false); } }).catch(() => { if (!cancelled) setError(true); }); };
+    refresh();
+    const timer = setInterval(refresh, 60_000);
+    return () => { cancelled = true; clearInterval(timer); };
+  }, [netuid]);
+  const address = snapshot?.owners[String(netuid)];
+  const valid = address && /^[1-9A-HJ-NP-Za-km-z]{46,50}$/.test(address) ? address : null;
+  return <div className={styles.owner}>
+    <p className={styles.label}>Owner wallet <span>Subnet owner coldkey</span></p>
+    {valid && snapshot ? <><div className={styles.actions}><a href={`https://taostats.io/account/${valid}`} target="_blank" rel="noopener noreferrer" aria-label={`Open SN${netuid} owner wallet on TaoStats`}><code>{valid}</code> ↗</a><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(valid); setCopyState("Copied"); } catch { setCopyState("Copy unavailable—select the address"); } }}>Copy address</button></div><small>{stale || error ? "Last verified owner · " : "Chain verified · "}block {snapshot.block.toLocaleString("en-US")} · {new Date(snapshot.checkedAt).toLocaleString("en-US", { timeZone: "UTC" })} UTC</small></> : <p>{error ? "Owner wallet temporarily unavailable" : snapshot ? "No verified owner wallet available" : "Loading owner wallet…"}</p>}
+    <span className={styles.status} role="status">{copyState}</span>
+  </div>;
+}
