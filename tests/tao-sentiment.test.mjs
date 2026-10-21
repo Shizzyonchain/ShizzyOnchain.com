@@ -31,3 +31,14 @@ test('daily score uses only daily inputs and never falls back to hourly data',()
  for(let i=0;i<26;i++)r[i].volume_acceleration_24h=null;
  assert.equal(taoSentiment(r,'24h'),null);
 });
+
+test('quiet subnets retain coverage without fabricating missing comparisons',()=>{
+ const r=rows();
+ for(let i=0;i<33;i++){r[i].volume_1h_tao=0;r[i].volume_acceleration_1h=0;}
+ const result=taoSentiment(r);
+ assert.equal(result.count,128);assert.equal(result.score,50);
+ for(let i=0;i<33;i++)r[i].volume_acceleration_1h=null;
+ assert.equal(taoSentiment(r),null);
+ for(let i=0;i<33;i++)r[i].volume_acceleration_1h=-1;
+ assert.equal(taoSentiment(r),null);
+});

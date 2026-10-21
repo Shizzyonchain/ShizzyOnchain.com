@@ -35,7 +35,8 @@ export function taoSentiment(rows: SentimentRow[], period: "1h" | "24h" = "1h") 
     return Number.isFinite(time) && newest - time <= 180_000 &&
       numeric(row.change_1h) && numeric(row.liquidity_change_1h) && Number(row.liquidity_change_1h) > -100 &&
       numeric(row.volume_1h_tao) && Number(row.volume_1h_tao) >= 0 &&
-      numeric(row.volume_acceleration_1h) && Number(row.volume_acceleration_1h) > 0;
+      // Zero is a valid ratio when this period has no trades and the prior period did.
+      numeric(row.volume_acceleration_1h) && Number(row.volume_acceleration_1h) >= 0;
   });
   const coverage = roster.length ? usable.length / roster.length : 0;
   if (roster.length < 32 || coverage < 0.8) return null;
