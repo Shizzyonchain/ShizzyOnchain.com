@@ -14391,5 +14391,38 @@
     "market": "DONE128rows and6outlierdecisions",
     "videos": "DONE both tabs and metadata; live verification pending",
     "publication": "Local validation, lint, production build and eTAO integrity tests passed. Deployment and live checks are performed after this commit and retained in the dated local completion evidence."
+  },
+  "burnReview": {
+    "checkedAt": "2026-10-21T15:19:02.873183+00:00",
+    "fromBlock": 9325898,
+    "toBlock": 9332665,
+    "finalizedHash": "0xad8589e422715ef406499ca00145ef980adf03774fec8318e617d918beb1148b",
+    "runtime": 481,
+    "source": "Finalized Opentensor archive RPC event scan",
+    "historyStart": "2026-10-20T16:23:12+00:00",
+    "scannedBlocks": 6768,
+    "verifiedBurnEvents": 175,
+    "amountsRawBySubnet": {
+      "62": "339586564206",
+      "8": "552563083369",
+      "80": "16514584923"
+    },
+    "burnCountBySubnet": {
+      "62": 149,
+      "8": 24,
+      "80": 2
+    },
+    "buybackEvents": 2,
+    "buybackTaoSpentRaw": "400000000",
+    "recyclingEventsExcluded": 4,
+    "minerEmissionBurnsExcluded": true,
+    "evidence": [
+      "research-oct21/burn-scan-overlap.json",
+      "research-oct21/burn-scan.json",
+      "research-oct21/burn-identities.json",
+      "research-oct21/burn-coverage.json"
+    ],
+    "editorialOutcome": "Publish all verified transaction burns in the dedicated Burns archive. These are small routine executions; no claim of a new team buyback programme, revenue source or guaranteed price impact, and no additional X post. Existing daily stories retained.",
+    "coverageGap": "No earlier all-time backfill. Only the explicit runtime-481 AlphaBurned, AddStakeBurn and Balances.Burned transaction-event scope is scanned; recycling reviewed separately. The scan is not an accounting reconciliation of every possible issuance change."
   }
 }
