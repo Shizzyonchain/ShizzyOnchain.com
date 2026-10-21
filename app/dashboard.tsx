@@ -15,6 +15,7 @@ import { compareLiquidation, liquidationExplanation, liquidationPercent } from "
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "./lib/channel-promotions";
 import { taoHeadsCommunity } from "./lib/community";
 import { SubnetNewsPanel } from "./subnet-news-panel";
+import { WalletHistory, clearWalletHistoryCache } from "./wallet-history";
 import { SubnetOwner } from "./subnet-owner";
 import { SentimentTile } from "./sentiment-tile";
 import { OverviewHelp } from "./overview-help";
@@ -933,6 +934,7 @@ export function Dashboard({
   const [view, setView] = useState<DashboardView>(initialView);
   const [activeVideo, setActiveVideo] = useState<ChannelVideo>(channelVideos.find((video) => !video.membersOnly) ?? channelVideos[0]);
   const [checkoutCourse, setCheckoutCourse] = useState<(typeof universityCourses)[number] | null>(null);
+  const [walletHistoryAddress, setWalletHistoryAddress] = useState<string | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">(initialCurrency);
   const [taoUsd, setTaoUsd] = useState(initialTaoUsd);
@@ -1085,6 +1087,12 @@ export function Dashboard({
       });
     } catch { /* Device storage is optional; the tracker still works without it. */ }
   }, [pollWalletJob]);
+
+  useEffect(() => {
+    if (initialView !== "wallets") return;
+    const address = new URLSearchParams(window.location.search).get("address");
+    if (address && /^5[1-9A-HJ-NP-Za-km-z]{47}$/.test(address)) queueMicrotask(() => { setWalletInput(address); setWalletHistoryAddress(address); });
+  }, [initialView]);
 
   useEffect(() => {
     if (!marketDetailOpen || chartPage) return;
@@ -1477,6 +1485,8 @@ export function Dashboard({
   const privateMoney = (value?: string | number, price = false) => (hideBalances ? "$••••" : money(value, price));
 
   function forgetWallet(address?: string) {
+    clearWalletHistoryCache(address);
+    if (!address || walletHistoryAddress === address) setWalletHistoryAddress(null);
     walletRunRef.current += 1; walletPollingRef.current = false;
     try { localStorage.removeItem("shizzy:wallet-job"); } catch { /* Cache saving reports storage failures below. */ }
     if (!address) {
@@ -2465,6 +2475,7 @@ export function Dashboard({
             </div>
             {walletError && <p className="form-error">{walletError}</p>}
           </form>
+          {walletHistoryAddress && <WalletHistory key={walletHistoryAddress} address={walletHistoryAddress} hideAmounts={hideBalances} onClose={() => setWalletHistoryAddress(null)} />}
           {wallets.length > 0 && (
             <div className="portfolio-summary panel">
               <div>
@@ -2507,9 +2518,9 @@ export function Dashboard({
                   <div className="wallet-card-head">
                     <span className="wallet-ident">{w.address.slice(0, 6)}</span>
                     <div>
-                      <b>
+                      <button type="button" onClick={() => { if (walletHistoryAddress === w.address) document.getElementById("wallet-history")?.scrollIntoView({ behavior: "smooth", block: "start" }); else setWalletHistoryAddress(w.address); }} aria-label={`View recent transactions for wallet ${w.address}`} style={{ background: "transparent", color: "inherit", border: 0, padding: "8px 0", minHeight: 44, font: "inherit", fontWeight: 700, textAlign: "left", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 4 }}>
                         {w.address.slice(0, 12)}…{w.address.slice(-8)}
-                      </b>
+                      </button>
                       <small>{w.stakes.length} positions</small>
                     </div>
                     <strong>{privateMoney(w.total_tao_value)}</strong>

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./subnet-owner.module.css";
 type Owners = { checkedAt: string; block: number; owners: Record<string, string> };
@@ -30,7 +31,7 @@ export function SubnetOwner({ netuid }: { netuid: number }) {
   const valid = address && /^[1-9A-HJ-NP-Za-km-z]{46,50}$/.test(address) ? address : null;
   return <div className={styles.owner}>
     <p className={styles.label}>Owner wallet <span>Subnet owner coldkey</span></p>
-    {valid && snapshot ? <><div className={styles.actions}><a href={`https://taostats.io/account/${valid}`} target="_blank" rel="noopener noreferrer" aria-label={`Open SN${netuid} owner wallet on TaoStats`}><code>{valid}</code> ↗</a><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(valid); setCopyState("Copied"); } catch { setCopyState("Copy unavailable—select the address"); } }}>Copy address</button></div><small>{stale || error ? "Last verified owner · " : "Chain verified · "}block {snapshot.block.toLocaleString("en-US")} · {new Date(snapshot.checkedAt).toLocaleString("en-US", { timeZone: "UTC" })} UTC</small></> : <p>{error ? "Owner wallet temporarily unavailable" : snapshot ? "No verified owner wallet available" : "Loading owner wallet…"}</p>}
+    {valid && snapshot ? <><div className={styles.actions}><Link href={`/wallet-tracker?address=${valid}`} prefetch={false} aria-label={`Track SN${netuid} owner wallet`}><code>{valid}</code> →</Link><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(valid); setCopyState("Copied"); } catch { setCopyState("Copy unavailable—select the address"); } }}>Copy address</button></div><small>{stale || error ? "Last verified owner · " : "Chain verified · "}block {snapshot.block.toLocaleString("en-US")} · {new Date(snapshot.checkedAt).toLocaleString("en-US", { timeZone: "UTC" })} UTC</small></> : <p>{error ? "Owner wallet temporarily unavailable" : snapshot ? "No verified owner wallet available" : "Loading owner wallet…"}</p>}
     <span className={styles.status} role="status">{copyState}</span>
   </div>;
 }
