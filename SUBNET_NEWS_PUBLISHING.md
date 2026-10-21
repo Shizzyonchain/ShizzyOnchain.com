@@ -79,3 +79,14 @@ Starting with the October 9, 2026 edition, check `@const_reborn` (`https://x.com
 - Verify each event's block hash, extrinsic index, execution UTC time, subnet number/name and before/after five-slot storage. Check successful execution. Preserve prior verified changes in `app/data/etao.json`; archive dated evidence in the daily audit. Never replace legacy migration settings with an invented owner action.
 - Include material changes in the daily news under the correct SN and subnet news/history mapping. Explain owner/miner/validator allocations, Root's baseline/cap, and why historical yield can lag. Link `/subnet-news/etao` and direct transactions. Keep pending snapshot observations distinct from verified transaction history.
 - Refresh the checked-in snapshot, names and finalized coverage after review. The runtime cache is temporary and cannot serve as the permanent archive. Validate, lint, build and verify live on publication. Background cron uses read-only `ETAO_RPC_URL` (WebSocket) when configured, otherwise public archive RPC; visitor page requests never call the chain.
+
+
+## Daily X news roundup — owner authorization October 21, 2026
+
+Every owner request such as “let’s do today’s” includes creating and posting one daily news roundup on the signed-in @ShizzyUnchained X account, automatically after the dated news edition is verified live. The owner explicitly selected automatic posting; no routine draft-approval step is required.
+
+- Verify the signed-in identity and the live dated publication first. Select the most consequential verified stories with SN numbers and current names, clearly separating plans, team claims and confirmed execution.
+- Write an engaging, readable original roundup, include the direct dated news link, and stay within the account’s supported post length. Do not use price predictions, investment promises or unsupported hype.
+- Fact-check the final text against the published report. Do not disclose private bookmarks/history, credentials or unpublished research. No unrelated replies, reposts or DMs are authorized by this addition.
+- Before posting, check the account’s recent posts and dated audit for an existing roundup for that edition. Publish once per edition; do not duplicate a successful post on retries or routine eTAO scans. The six-hour eTAO automation does not independently authorize additional X posts.
+- Record the exact published text, direct post URL, time and publication outcome in the dated completion evidence. Verify the public post is present. If login, access or posting fails, report the specific blocker rather than claiming success.

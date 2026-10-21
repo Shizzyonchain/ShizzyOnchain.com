@@ -118,3 +118,14 @@ October 19 outcome: primary May 23 post https://x.com/theminos_ai/status/2058303
 ## Six-hour eTAO monitoring — owner addition October 20, 2026
 
 The thread automation `verify-etao-changes-every-six-hours` reviews eTAO every six hours, in addition to the shared 15-minute snapshot cron. Verify transactions and preserve exact event/storage evidence before publishing changes to the eTAO archive and the current existing daily edition. Keep scope and full-history RPC gaps explicit; do not claim an exhaustive event scan from snapshots. Carry verified leads into the next full daily edition if no edition exists. No unchanged deployment; no visitor RPC requests.
+
+
+## Daily X news roundup — owner authorization October 21, 2026
+
+Every owner request such as “let’s do today’s” includes creating and posting one daily news roundup on the signed-in @ShizzyUnchained X account, automatically after the dated news edition is verified live. The owner explicitly selected automatic posting; no routine draft-approval step is required.
+
+- Verify the signed-in identity and the live dated publication first. Select the most consequential verified stories with SN numbers and current names, clearly separating plans, team claims and confirmed execution.
+- Write an engaging, readable original roundup, include the direct dated news link, and stay within the account’s supported post length. Do not use price predictions, investment promises or unsupported hype.
+- Fact-check the final text against the published report. Do not disclose private bookmarks/history, credentials or unpublished research. No unrelated replies, reposts or DMs are authorized by this addition.
+- Before posting, check the account’s recent posts and dated audit for an existing roundup for that edition. Publish once per edition; do not duplicate a successful post on retries or routine eTAO scans. The six-hour eTAO automation does not independently authorize additional X posts.
+- Record the exact published text, direct post URL, time and publication outcome in the dated completion evidence. Verify the public post is present. If login, access or posting fails, report the specific blocker rather than claiming success.
