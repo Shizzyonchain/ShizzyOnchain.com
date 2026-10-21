@@ -14468,5 +14468,15 @@
       }
     ],
     "note": "Editorial feature priority, not an investment or independently verified technical-impact score. Actual event status and evidence qualifications retained."
+  },
+  "attuneReplayReview": {
+    "checkedAt": "2026-10-21T18:29:23.734846+00:00",
+    "source": "https://www.youtube.com/watch?v=3i9F3_Ku8Fo",
+    "isLiveNow": false,
+    "durationSeconds": 2774,
+    "start": "2026-10-21T16:00:53+00:00",
+    "end": "2026-10-21T16:47:07+00:00",
+    "outcome": "Completed public replay; news revised, rating 4 retained, upcoming banner disabled, default public video updated, archive entry preserved without duplicates.",
+    "evidence": "research-oct21/attune-completed-player.json"
   }
 }

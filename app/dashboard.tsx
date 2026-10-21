@@ -184,6 +184,7 @@ type ChannelVideo = {
 };
 
 const channelVideos: ChannelVideo[] = [
+  ...(promotedLivestream.listed && !promotedLivestream.upcoming ? [promotedLivestream] : []),
   {
     id: "ac6bldErBFU",
     title: "Can Bittensor Make AI Faster and Cheaper? Inside Pareton SN10",
@@ -252,7 +253,7 @@ const channelVideos: ChannelVideo[] = [
     title: "How to Buy Bittensor Subnet Tokens: Set Up a TAO Wallet in Minutes",
     meta: "10:25 · October 4, 2026",
   },
-  ...(promotedLivestream.listed ? [promotedLivestream] : []),
+  ...(promotedLivestream.listed && promotedLivestream.upcoming ? [promotedLivestream] : []),
   {
     id: "rEaGFK5yn8g",
     title: "Quantum Computing Is Already on Bittensor?! | SN48 Quantum Compute",

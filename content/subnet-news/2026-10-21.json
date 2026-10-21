@@ -2,7 +2,7 @@
   "version": 1,
   "date": "2026-10-21",
   "title": "Subnet News — October 21, 2026",
-  "summary": "SN92 REAX opens its generalist competition, SN48 Quantum Compute adds Qrisp beta access, SN50 Synth expands Ultra rewards, and SN107 Minos supplies ASHG session times. Also: SN28 SayGM’s SN76 Ormas case study, SN64 Chutes attestation hardening, SN66 Conjectures’ newly publicized restricted Wilf result, SN116 Carbon’s ScoreLab plans, operating fixes and today’s SN58 Attune stream.",
+  "summary": "SN92 REAX opens its generalist competition, SN48 Quantum Compute adds Qrisp beta access, SN50 Synth expands Ultra rewards, and SN107 Minos supplies ASHG session times. Also: SN28 SayGM’s SN76 Ormas case study, SN64 Chutes attestation hardening, SN66 Conjectures’ newly publicized restricted Wilf result, SN116 Carbon’s ScoreLab plans, operating fixes and SN58 Attune’s completed interview replay.",
   "publishedAt": "2026-10-21T14:44:42.006646+00:00",
   "coverageStart": "2026-10-20T16:35:20.528970+00:00",
   "coverageEnd": "2026-10-21T14:44:42.006646+00:00",
@@ -569,12 +569,12 @@
       "name": "Attune",
       "updates": [
         {
-          "headline": "SN58 Attune joins Shizzy today for a robotics discussion",
-          "summary": "SN58 Attune’s public stream with Shizzy is scheduled for October 21 at noon ET, 16:00 UTC. At the research check it was still upcoming, not live. The snapshot shows alpha/TAO up about 24.37% over 24 hours, which prompted a closer review; that move alone does not prove a product launch or explain its cause. The scheduled conversation is a chance to examine the robotics competition directly; unconfirmed member reports about stalled uploads are not presented as an established team incident.",
+          "headline": "SN58 Attune’s interview with Shizzy is now available as a 46-minute replay",
+          "summary": "SN58 Attune’s interview with Shizzy is now available as a 46-minute 14-second public replay. YouTube broadcast metadata records the October 21 stream from 16:00:53 to 16:47:07 UTC. The episode description focuses on adaptive robot intelligence and Vector, a competition testing whether a model can use one demonstration to perform the same task in a different scene. This is a completed discussion viewers can watch, not independent confirmation of a new product deployment or customer contract. The earlier daily alpha/TAO snapshot showed a 24.37% 24-hour rise; that historical observation is not updated here or attributed to the interview.",
           "importance": "high",
           "status": "verified",
           "rating": 4,
-          "ratingReason": "A featured Shizzy stream gives viewers a direct opportunity to hear from the subnet; the scheduled appearance is not a completed product launch.",
+          "ratingReason": "Shizzy’s featured robotics interview is available as a completed replay, giving viewers direct access to the team’s discussion.",
           "sources": [
             {
               "label": "Primary code or product",
@@ -1299,7 +1299,8 @@
       "Signed-in @ShizzyUnchained Grok discovery, exactly-five attention follow-up, direct Const Posts/Replies and owner saved-source review",
       "Finalized owner, registration and presence endpoint comparison; 128 eTAO vectors and emission-specific rate-limit keys",
       "Full-roster alpha/TAO market snapshot, outliers, emission leaders, Moments and preceding seven editions",
-      "Both YouTube Videos and Live tabs, exact watch-player metadata, public replay and members/upcoming states"
+      "Both YouTube Videos and Live tabs, exact watch-player metadata, public replay and members/upcoming states",
+      "Post-cutoff owner-requested status correction: SN58 Attune YouTube broadcast metadata confirms a completed 46:14 replay, ending October 21 at 16:47:07 UTC; the main research coverage window is unchanged."
     ],
     "gaps": [
       "Public samples and Grok attention estimates are not an exhaustive X census. Some private Discord originals and attached media could not be fully reviewed; digest-only incidents and plans remain developing and attributed.",
