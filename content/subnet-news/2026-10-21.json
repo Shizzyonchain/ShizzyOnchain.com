@@ -152,10 +152,10 @@
         {
           "headline": "SN10 Pareton interview is available as a replay",
           "summary": "SN10 Pareton’s conversation with Shizzy and Xavier is now a completed public replay, covering miners’ work to improve inference software and the economics of getting more output from the same GPUs. The player reports about 36 minutes 34 seconds; the broadcast ran October 20, 16:58–17:34 UTC. Separate current repository work corrects how short completions are charged for decode time. The next campaign is described as upcoming in channel coverage, not confirmed open by the interview alone.",
-          "importance": "medium",
+          "importance": "high",
           "status": "verified",
-          "rating": 3,
-          "ratingReason": "A specific documented code/reliability change with a clear use for participants; impact and independent adoption are not yet established.",
+          "rating": 4,
+          "ratingReason": "Shizzy’s featured interview replay gives viewers a direct discussion of the subnet and its economics.",
           "sources": [
             {
               "label": "Primary code or product",
@@ -571,10 +571,10 @@
         {
           "headline": "SN58 Attune joins Shizzy today for a robotics discussion",
           "summary": "SN58 Attune’s public stream with Shizzy is scheduled for October 21 at noon ET, 16:00 UTC. At the research check it was still upcoming, not live. The snapshot shows alpha/TAO up about 24.37% over 24 hours, which prompted a closer review; that move alone does not prove a product launch or explain its cause. The scheduled conversation is a chance to examine the robotics competition directly; unconfirmed member reports about stalled uploads are not presented as an established team incident.",
-          "importance": "medium",
+          "importance": "high",
           "status": "verified",
-          "rating": 3,
-          "ratingReason": "A specific documented product or operating update with a clear use for participants; impact and independent adoption are not yet established.",
+          "rating": 4,
+          "ratingReason": "A featured Shizzy stream gives viewers a direct opportunity to hear from the subnet; the scheduled appearance is not a completed product launch.",
           "sources": [
             {
               "label": "Primary code or product",

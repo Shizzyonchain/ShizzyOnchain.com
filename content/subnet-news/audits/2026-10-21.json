@@ -14449,5 +14449,24 @@
       }
     ],
     "scope": "October 21 edition and future editorial rules; prior editions preserved."
+  },
+  "shizzyRatingReview": {
+    "checkedAt": "2026-10-21T18:27:40.542672+00:00",
+    "ownerRule": "Shizzy original videos, interviews, streams and announcements receive at least four stars as featured site coverage.",
+    "changes": [
+      {
+        "netuid": 10,
+        "headline": "SN10 Pareton interview is available as a replay",
+        "before": 3,
+        "after": 4
+      },
+      {
+        "netuid": 58,
+        "headline": "SN58 Attune joins Shizzy today for a robotics discussion",
+        "before": 3,
+        "after": 4
+      }
+    ],
+    "note": "Editorial feature priority, not an investment or independently verified technical-impact score. Actual event status and evidence qualifications retained."
   }
 }
