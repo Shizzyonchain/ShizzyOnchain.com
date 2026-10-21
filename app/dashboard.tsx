@@ -183,6 +183,11 @@ type ChannelVideo = {
 
 const channelVideos: ChannelVideo[] = [
   {
+    id: "ac6bldErBFU",
+    title: "Can Bittensor Make AI Faster and Cheaper? Inside Pareton SN10",
+    meta: "36:34 · Livestream replay · October 20, 2026",
+  },
+  {
     id: "0SNqFLlw3oQ",
     title: "The BEST Bittensor Subnets To Buy Before The Next Leg Up! Ft. Shizzy",
     meta: "26:36 · Invest with Doc · Guest appearance · October 20, 2026",
@@ -314,6 +319,12 @@ const channelVideos: ChannelVideo[] = [
     meta: "20:56 · September 14, 2026",
   },
   latestMemberVideo,
+  {
+    id: "Oo9VcUot7GI",
+    title: "10/18/26 Bittensor News Updates & TAO Price Action | Members Video",
+    meta: "14:33 · Members-only video · Published October 19, 2026",
+    membersOnly: true,
+  },
   {
     id: "e5MbgqtTh5E",
     title: "10/13/26 Bittensor News Updates & TAO Price Action | Members Video",

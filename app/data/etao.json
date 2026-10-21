@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-10-20T18:12:16.698557+00:00",
-  "block": 9326441,
-  "hash": "0xb82b9ec01b5112bb9c63319605dd7b2331867e9da6c2b37516dc00a23377bb35",
-  "chainTime": 1792519908000,
+  "checkedAt": "2026-10-21T14:44:42.006646+00:00",
+  "block": 9332521,
+  "hash": "0x11b67549718b3ec52e36eab2d50250e5cc7f3248da419fdd11ca1dadec147f59",
+  "chainTime": 1792593840000,
   "runtime": 481,
   "source": "Opentensor archive RPC",
   "weights": {
