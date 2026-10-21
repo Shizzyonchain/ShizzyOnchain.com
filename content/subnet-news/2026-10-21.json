@@ -2,7 +2,7 @@
   "version": 1,
   "date": "2026-10-21",
   "title": "Subnet News — October 21, 2026",
-  "summary": "SN92 REAX opens its generalist competition, SN48 Quantum Compute adds Qrisp beta access, SN50 Synth expands Ultra rewards, and SN107 Minos supplies ASHG session times. Also: SN28 SayGM’s SN76 Ormas case study, SN64 Chutes attestation hardening, SN66 Conjectures’ newly publicized restricted Wilf result, SN116 Carbon’s ScoreLab plans, operating fixes and SN58 Attune’s completed interview replay.",
+  "summary": "SN92 REAX opens its generalist competition, SN48 Quantum Compute adds Qrisp beta access, SN50 Synth expands Ultra rewards, and SN107 Minos supplies ASHG session times. Also: SN28 SayGM’s SN76 Ormas case study, SN64 Chutes attestation hardening, SN66 Conjectures’ newly publicized restricted Wilf result, SN116 Carbon’s ScoreLab plans, operating fixes and SN58 Attune’s completed interview replay. Post-cutoff chain update: SN59 Unknown executes a higher owner allocation.",
   "publishedAt": "2026-10-21T14:44:42.006646+00:00",
   "coverageStart": "2026-10-20T16:35:20.528970+00:00",
   "coverageEnd": "2026-10-21T14:44:42.006646+00:00",
@@ -591,7 +591,30 @@
     {
       "netuid": 59,
       "name": "Unknown",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN59 Unknown raises owner emission share to 30.10% in a finalized eTAO change",
+          "summary": "SN59 Unknown executed an owner-signed allocation change on October 21 at 20:00:48 UTC (4:00:48 p.m. Eastern), in finalized block 9,334,105, extrinsic 14. The owner share rises from 18.00% to 30.10%; the validator bucket falls from 41.00% to 36.90% and miners from 41.00% to 33.00%. Both burn and recycle allocation slots remain zero. The signer matches the subnet owner, registration identity is unchanged, and successful execution plus before/after storage were checked. These divide alpha emissions, not the subnet’s network-emission share. Root receives its live baseline first, capped by the validator bucket; alpha validators share the remainder. Reported historical yields can still reflect the previous split, and no specific APR, APY or price outcome is implied. The project remains labelled Unknown rather than assigning an unverified name.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "An executed owner-signed change materially redistributes alpha rewards between the owner, validators and miners, with finalized event and storage evidence.",
+          "sources": [
+            {
+              "label": "Finalized transaction 9334105-14",
+              "url": "https://taostats.io/extrinsic/9334105-14"
+            },
+            {
+              "label": "eTAO allocation history and coverage",
+              "url": "https://shizzyunchained.com/subnet-news/etao"
+            },
+            {
+              "label": "Official eTAO allocation rules",
+              "url": "https://www.bittensor.com/docs/guides/etao"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 60,
@@ -1300,7 +1323,8 @@
       "Finalized owner, registration and presence endpoint comparison; 128 eTAO vectors and emission-specific rate-limit keys",
       "Full-roster alpha/TAO market snapshot, outliers, emission leaders, Moments and preceding seven editions",
       "Both YouTube Videos and Live tabs, exact watch-player metadata, public replay and members/upcoming states",
-      "Post-cutoff owner-requested status correction: SN58 Attune YouTube broadcast metadata confirms a completed 46:14 replay, ending October 21 at 16:47:07 UTC; the main research coverage window is unchanged."
+      "Post-cutoff owner-requested status correction: SN58 Attune YouTube broadcast metadata confirms a completed 46:14 replay, ending October 21 at 16:47:07 UTC; the main research coverage window is unchanged.",
+      "Six-hour eTAO follow-up: all 128 finalized vectors compared; complete System.Events scan of blocks 9,326,442–9,334,241 found one successful SN59 allocation transaction. Added at its actual 20:00:48 UTC execution time; main daily research window unchanged."
     ],
     "gaps": [
       "Public samples and Grok attention estimates are not an exhaustive X census. Some private Discord originals and attached media could not be fully reviewed; digest-only incidents and plans remain developing and attributed.",

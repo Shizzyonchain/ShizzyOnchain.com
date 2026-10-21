@@ -13,7 +13,7 @@ export async function getEtaoSnapshot(): Promise<EtaoSnapshot> {
     const changes = [...new Map([...cached.changes, ...seed.changes].map(row => [`${row.block}-${row.extrinsic}`, row])).values()];
     // Daily reviewed history takes precedence over an older cached manifest.
     const ownerSnapshot = cached.ownerSnapshot?.block > seed.ownerSnapshot.block ? cached.ownerSnapshot : seed.ownerSnapshot;
-    return { ...latest, ownerSnapshot, changes, names: { ...cached.names, ...seed.names }, observations: cached.observations.filter(row => !seed.changes.some(change => change.netuid === row.netuid && change.block > row.fromBlock && change.block <= row.toBlock && JSON.stringify(change.after) === JSON.stringify(row.after))) };
+    return { ...latest, eventReview: seed.eventReview, ownerSnapshot, changes, names: { ...cached.names, ...seed.names }, observations: cached.observations.filter(row => !seed.changes.some(change => change.netuid === row.netuid && change.block > row.fromBlock && change.block <= row.toBlock && JSON.stringify(change.after) === JSON.stringify(row.after))) };
   }
   catch { return seed; }
 }

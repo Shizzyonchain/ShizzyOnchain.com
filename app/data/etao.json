@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-10-21T14:44:42.006646+00:00",
-  "block": 9332521,
-  "hash": "0x11b67549718b3ec52e36eab2d50250e5cc7f3248da419fdd11ca1dadec147f59",
-  "chainTime": 1792593840000,
+  "checkedAt": "2026-10-21T20:30:05.208235+00:00",
+  "block": 9334241,
+  "hash": "0x5f7b1ccf5797852b38590ef198d8103527ec229272278fe7e2d10deaae6d18a0",
+  "chainTime": 1792614480000,
   "runtime": 481,
   "source": "Opentensor archive RPC",
   "weights": {
@@ -415,9 +415,9 @@
     "59": [
       "0",
       "0",
-      "3320329489486196244",
-      "7563207292111677685",
-      "7563207292111677686"
+      "5552469966186575036",
+      "6806848563198824545",
+      "6087425544324152034"
     ],
     "60": [
       "0",
@@ -1101,6 +1101,28 @@
         "12802040387154428822"
       ],
       "name": "GPUForge"
+    },
+    {
+      "netuid": 59,
+      "block": 9334105,
+      "hash": "0xd4ef8ee9457fb57f5668f3bf622a209bc0c9fecd7515f249161a9a3ce660bec2",
+      "timestamp": 1792612848000,
+      "extrinsic": 14,
+      "before": [
+        "0",
+        "0",
+        "3320329489486196244",
+        "7563207292111677685",
+        "7563207292111677686"
+      ],
+      "after": [
+        "0",
+        "0",
+        "5552469966186575036",
+        "6806848563198824545",
+        "6087425544324152034"
+      ],
+      "name": "Unknown"
     }
   ],
   "names": {
@@ -1164,11 +1186,11 @@
     "72": "StreetVision by NATIX",
     "69": "Herald",
     "105": "Beam",
-    "17": "404\u2014GEN",
+    "17": "404—GEN",
     "44": "Score",
     "89": "InfiniteQuant",
     "40": "Ralph",
-    "29": "ho\u03c4floa\u03c4",
+    "29": "hoτfloaτ",
     "118": "Ditto",
     "9": "iota",
     "83": "CliqueAI",
@@ -1226,7 +1248,8 @@
     "48": "Quantum Compute",
     "126": "Attelier",
     "33": "ReadyAI",
-    "92": "REAX"
+    "92": "REAX",
+    "59": "Unknown"
   },
   "observations": [],
   "ownerSnapshot": {
@@ -1363,5 +1386,15 @@
       "127": "5FU4uxAdrZsaWaezWwXEK93MwPX5gw2566BQK2WwrGUudfSH",
       "128": "5GgMeLFN4YssT6f9i9pZpRmczt8GYDsCZ1nYPiGRcTPWn3AA"
     }
+  },
+  "eventReview": {
+    "fromBlock": 9326442,
+    "toBlock": 9334241,
+    "finalizedHash": "0x5f7b1ccf5797852b38590ef198d8103527ec229272278fe7e2d10deaae6d18a0",
+    "checkedAt": "2026-10-21T20:30:05.208235+00:00",
+    "eventCount": 1,
+    "method": "Read System.Events in every finalized block; metadata-identified SubnetEmissionWeightsSet; successful execution and adjacent storage verified.",
+    "gaps": [],
+    "historyLimit": "This complete interval starts at block 9326442. No complete-event claim is made for earlier history."
   }
 }

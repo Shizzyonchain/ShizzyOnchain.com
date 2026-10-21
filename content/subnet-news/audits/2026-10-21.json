@@ -12,7 +12,7 @@
     "xAccountSamples": 216,
     "availableAccountSamples": 205,
     "originalPages": 226,
-    "stories": 34
+    "stories": 35
   },
   "sourceMethods": [
     "128 current subnet profiles, account/alias samples, dated Discord digests, official original posts and 201 repository paths",
@@ -8771,8 +8771,8 @@
           "error": null
         }
       ],
-      "publishedItems": 0,
-      "decision": "SN59 rose about182.85% in alpha/TAO. The finalized owner/registration endpoints show no new registration or takeover in the compared interval. Current profile and channel sampling found a spam reminder, no verified product launch. Unnamed status is not a new project identity; price alone excluded."
+      "publishedItems": 1,
+      "decision": "SN59 rose about182.85% in alpha/TAO. The finalized owner/registration endpoints show no new registration or takeover in the compared interval. Current profile and channel sampling found a spam reminder, no verified product launch. Unnamed status is not a new project identity; price alone excluded. Post-cutoff six-hour event scan verified owner-signed eTAO transaction 9334105-14 at 20:00:48 UTC; added one four-star allocation story. No price catalyst or new identity inferred."
     },
     {
       "netuid": 60,
@@ -14489,5 +14489,116 @@
       "Added newsworthiness gate and corrected superseded hidden-chart instructions."
     ],
     "preserved": "Full roster research, original sources, prior editions, chain coverage requirements and owner Shizzy priority."
+  },
+  "etaoSixHourReview": {
+    "checkedAt": "2026-10-21T20:30:05.208235+00:00",
+    "source": "Opentensor archive RPC",
+    "fromBlock": 9326442,
+    "toBlock": 9334241,
+    "finalizedHash": "0x5f7b1ccf5797852b38590ef198d8103527ec229272278fe7e2d10deaae6d18a0",
+    "runtime": 481,
+    "scannedBlocks": 7800,
+    "completeInterval": true,
+    "errors": [],
+    "eventDiscriminant": "079e",
+    "canary": "Known SN16 block 9325968 event successfully decoded",
+    "currentVectors": 128,
+    "differences": [
+      {
+        "netuid": "59",
+        "before": [
+          "0",
+          "0",
+          "3320329489486196244",
+          "7563207292111677685",
+          "7563207292111677686"
+        ],
+        "after": [
+          "0",
+          "0",
+          "5552469966186575036",
+          "6806848563198824545",
+          "6087425544324152034"
+        ]
+      }
+    ],
+    "verifiedEvents": [
+      {
+        "record": {
+          "netuid": 59,
+          "block": 9334105,
+          "hash": "0xd4ef8ee9457fb57f5668f3bf622a209bc0c9fecd7515f249161a9a3ce660bec2",
+          "timestamp": 1792612848000,
+          "extrinsic": 14,
+          "before": [
+            "0",
+            "0",
+            "3320329489486196244",
+            "7563207292111677685",
+            "7563207292111677686"
+          ],
+          "after": [
+            "0",
+            "0",
+            "5552469966186575036",
+            "6806848563198824545",
+            "6087425544324152034"
+          ],
+          "name": "Unknown"
+        },
+        "eventIndex": 164,
+        "success": true,
+        "beforeHash": "0xec3ce1d53bcd130a5c22066df2a075cd469f4f28e737d889242dd9900a958f3e",
+        "owner": {
+          "before": "5GzrQ2febBKynmJ4BrNFiEgnsMvVpz5bZtGcucGCKgfaRXep",
+          "after": "5GzrQ2febBKynmJ4BrNFiEgnsMvVpz5bZtGcucGCKgfaRXep"
+        },
+        "registration": {
+          "before": 8938771,
+          "after": 8938771
+        },
+        "signer": "5GzrQ2febBKynmJ4BrNFiEgnsMvVpz5bZtGcucGCKgfaRXep",
+        "call": {
+          "call_index": "0x1372",
+          "call_function": "sudo_set_subnet_emission_weights",
+          "call_module": "AdminUtils",
+          "call_args": [
+            {
+              "name": "netuid",
+              "type": "NetUid",
+              "value": 59
+            },
+            {
+              "name": "uids",
+              "type": "Vec<u16>",
+              "value": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            {
+              "name": "values",
+              "type": "Vec<u64>",
+              "value": [
+                0,
+                0,
+                5552469966186575036,
+                6806848563198824545,
+                6087425544324152034
+              ]
+            }
+          ],
+          "call_hash": "0x73bf2353ebb6864698b8cac7235d73eb12d9d80511115f8f664337a565705082"
+        },
+        "extrinsicHash": "0x1b5c7ef208c199ce7542763f0b6f6417c08dc75edae333c6b8afbfdd4b28e3af"
+      }
+    ],
+    "pendingOutcome": "Live pending SN59 observation detected between 9334045 and 9334120 resolved to finalized transaction 9334105-14.",
+    "historyLimit": "Closes intermediate-event coverage for 9326442–9334241, including reversed changes. Earlier history is not claimed complete. The earlier audit’s state_queryStorage RPC4003 gap remains historical; this scan uses per-block System.Events storage.",
+    "publication": "Added SN59 story to existing October 21 report and subnet history; preserved main daily research window and all other stories. No X post authorized.",
+    "evidence": "research-oct21/etao-check-2026-10-21-2026.json"
   }
 }
