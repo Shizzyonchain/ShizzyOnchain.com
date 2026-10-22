@@ -12,7 +12,8 @@ test('sector directory contains every subnet slot exactly once and only known mu
   assert.equal(new Set(row.sectors).size,row.sectors.length);
   for(const id of row.sectors)assert.ok(ids.has(id));
   if(row.source)assert.ok(['https:','http:'].includes(new URL(row.source).protocol));
-  if(!row.sectors.length)assert.equal(row.basis,'Needs review');
+  if(!row.sectors.length)assert.equal(row.reviewStatus,'unclassified');
+  assert.ok(row.reviewNote && Number.isFinite(Date.parse(row.reviewedAt)));
  }
  assert.ok(data.subnets.some(row=>row.sectors.length>1));
 });
@@ -20,7 +21,17 @@ test('sector directory contains every subnet slot exactly once and only known mu
 test('directory classifications have dated source evidence and no inherited classification for Unknown',()=>{
  assert.ok(Number.isFinite(Date.parse(data.reviewedAt))&&data.sourceBlock>0);
  const evidence=JSON.parse(fs.readFileSync(new URL(`../public${data.evidenceUrl}`,import.meta.url),'utf8'));
- assert.equal(evidence.rows.length,128);assert.equal(evidence.block,data.sourceBlock);
+ assert.equal((evidence.rows || evidence.outcomes).length,128);assert.equal(evidence.block,data.sourceBlock);
  for(const row of data.subnets.filter(row=>row.name==='Unknown'))assert.deepEqual(row.sectors,[]);
  assert.ok(data.subnets.filter(row=>!row.sectors.length).every(row=>row.summary));
+});
+
+test("review corrections follow current products rather than legacy descriptions",()=>{
+ const tags=n=>data.subnets.find(row=>row.netuid===n).sectors;
+ assert.ok(tags(24).includes("training")&&!tags(24).includes("inference"));
+ assert.ok(tags(74).includes("software")&&!tags(74).includes("agents"));
+ assert.ok(tags(96).includes("inference")&&!tags(96).includes("training"));
+ assert.ok(tags(99).includes("inference")&&tags(99).includes("optimization"));
+ assert.ok(tags(104).includes("inference")&&!tags(104).includes("forecasting"));
+ assert.equal(data.subnets.find(row=>row.netuid===29).basis,"Owner-submitted on-chain description");
 });

@@ -207,7 +207,7 @@ test("sector discovery supports overlap, search, unknown slots and subnet naviga
   await page.getByRole("button", { name: "Show all subnets", exact: true }).click();
   await page.getByRole("searchbox", { name: "Find a subnet", exact: true }).fill("SN113");
   await expect(page.getByRole("article")).toContainText("Unknown");
-  await expect(page.getByRole("article")).toContainText("Needs review");
+  await expect(page.getByRole("article")).toContainText("Unclassified");
   await page.getByRole("searchbox", { name: "Find a subnet", exact: true }).fill("SN80");
   await page.getByRole("link", { name: "Chart & subnet details", exact: true }).click();
   await expect(page).toHaveURL("/charts/80");

@@ -16,13 +16,13 @@ export default function SectorsPage() {
         <p className={styles.eyebrow}>THE BITTENSOR SECTOR MAP</p>
         <h1>Find your corner<br />of <span>Bittensor.</span></h1>
         <p className={styles.lead}>Robotics. Inference. Security. See who’s building what—and where the sectors overlap.</p>
-        <div className={styles.stats}><span><b>128</b> subnet slots</span><span><b>{data.sectors.length}</b> sectors</span><span><b>{pending}</b> need review</span></div>
+        <div className={styles.stats}><span><b>128</b> subnet slots</span><span><b>{data.sectors.length}</b> sectors</span><span><b>{pending}</b> unclassified</span></div>
       </header>
       <SectorExplorer sectors={data.sectors} subnets={data.subnets} />
       <section className={styles.method} aria-labelledby="sector-method">
         <h2 id="sector-method">How the map works</h2>
         <p>Tags describe a project’s stated work. A subnet can belong to several sectors, so sector counts overlap. They are editorial classifications—not rankings, proof of adoption or confirmation that every announced product is live.</p>
-        <p>Reviewed <time dateTime={data.reviewedAt}>{reviewedDate}</time> using owner-submitted on-chain metadata at block {data.sourceBlock.toLocaleString("en-US")} and linked project repositories. Blank, parked, sale and unclear identities stay visible under <strong>Needs review</strong>. A subnet number can be reused; classifications need review when ownership, identity or purpose changes.</p>
+        <p>Reviewed <time dateTime={data.reviewedAt}>{reviewedDate}</time> using owner-submitted on-chain metadata at block {data.sourceBlock.toLocaleString("en-US")} and linked project repositories. All 128 slots were reviewed. Unnamed, deprecated, parked, sale and unclear identities remain visible under <strong>Unclassified</strong> when no product sector can be established. A subnet number can be reused; classifications need review when ownership, identity or purpose changes.</p>
         <a href={data.evidenceUrl} target="_blank" rel="noreferrer">View the dated metadata and source record ↗</a>
       </section>
     </main>
