@@ -896,3 +896,6 @@ html.site-theme {
 
 .chart-onchain-activity a span{color:inherit;font:inherit}.onchain-mobile-label{display:none}
 @media(max-width:700px){.chart-onchain-activity.onchain-activity{min-height:44px;padding:0 4px;border:0;gap:8px}.chart-onchain-activity span{font-size:10px}.chart-onchain-activity a{padding:8px;min-height:44px;background:transparent;color:#fff;border:0;text-decoration:underline;text-underline-offset:3px}.chart-onchain-activity a:hover{background:#151515}.chart-onchain-activity .onchain-desktop-label{display:none}.chart-onchain-activity .onchain-mobile-label{display:inline}}
+
+/* Creator pages have no market ticker above their sticky header. */
+.creator-shell .site-header{top:0}

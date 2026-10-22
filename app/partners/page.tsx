@@ -1,6 +1,7 @@
 import { withSocialMetadata } from "../lib/social-metadata";
 import type { Metadata } from "next";
-import { Dashboard } from "../dashboard";
+import { PartnerDirectory } from "./partner-directory";
+import { CreatorShell } from "../creator-shell";
 
 export const metadata: Metadata = withSocialMetadata({
   title: "Bittensor Ecosystem Partners | ShizzyUnchained",
@@ -9,5 +10,5 @@ export const metadata: Metadata = withSocialMetadata({
 }, "/partners");
 
 export default function PartnersPage() {
-  return <Dashboard initialView="partners" />;
+  return <CreatorShell><PartnerDirectory /></CreatorShell>;
 }

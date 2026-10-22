@@ -1,6 +1,8 @@
 import { withSocialMetadata } from "../lib/social-metadata";
 import type { Metadata } from "next";
-import { Dashboard } from "../dashboard";
+import { VideoLibrary } from "./video-library";
+import { LivestreamBanner } from "../livestream-banner";
+import { CreatorShell } from "../creator-shell";
 
 export const metadata: Metadata = withSocialMetadata({
   title: "Bittensor Videos & Live Streams | ShizzyUnchained",
@@ -9,5 +11,5 @@ export const metadata: Metadata = withSocialMetadata({
 }, "/video");
 
 export default function VideoPage() {
-  return <Dashboard initialView="videos" />;
+  return <CreatorShell><LivestreamBanner /><VideoLibrary /></CreatorShell>;
 }
