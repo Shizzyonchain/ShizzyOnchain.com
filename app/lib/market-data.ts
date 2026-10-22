@@ -1,4 +1,6 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
+import { getTaoQuote } from "./tao-price-source";
 
 import type { ScreenerRow } from "../dashboard";
 
@@ -19,4 +21,6 @@ export async function getInitialMarkets(): Promise<ScreenerRow[]> {
   }
 }
 
-export { getTaoQuote as getInitialTaoQuote } from "./tao-price-source";
+// Cache the complete quote, including its original check time. This keeps ISR
+// pages fast without stamping an old provider response as a fresh quote.
+export const getInitialTaoQuote = unstable_cache(getTaoQuote, ["initial-tao-usd-reference-v1"], { revalidate: 30 });
