@@ -24,7 +24,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
   const [saved, setSaved] = useState<{ key: string; items: Drawing[] }>({ key: "", items: [] });
   const [tool, setTool] = useState<Tool>("pan");
   const [collapsed, setCollapsed] = useState(true);
-  useEffect(() => { try { const stored = localStorage.getItem("shizzy:drawing-tools-collapsed"); const hidden = stored === null ? window.matchMedia("(max-width:700px)").matches : stored === "true"; queueMicrotask(() => setCollapsed(hidden)); } catch { /* Optional preference. */ } }, []);
+  useEffect(() => { try { const phone = window.matchMedia("(max-width:700px)").matches; const stored = localStorage.getItem(phone ? "shizzy:drawing-tools-collapsed:mobile" : "shizzy:drawing-tools-collapsed"); queueMicrotask(() => setCollapsed(stored === null ? phone : stored === "true")); } catch { /* Optional preference. */ } }, []);
   const [anchor, setAnchor] = useState<Point | null>(null);
   const [draft, setDraft] = useState<Drawing | null>(null);
   const [color, setColor] = useState("#ffcc66");
@@ -123,7 +123,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
   const selectDrawing = (index: number) => { setCollapsed(false);setSelected(index);setTool("select");setColor(drawingColor(items[index]?.color));setWidth(items[index]?.width||3); };
-  const collapseTools = (hidden: boolean) => { setCollapsed(hidden); if(hidden)chooseTool("pan"); try { localStorage.setItem("shizzy:drawing-tools-collapsed", String(hidden)); } catch { /* Optional preference. */ } };
+  const collapseTools = (hidden: boolean) => { setCollapsed(hidden); if(hidden)chooseTool("pan"); try { localStorage.setItem(window.matchMedia("(max-width:700px)").matches ? "shizzy:drawing-tools-collapsed:mobile" : "shizzy:drawing-tools-collapsed", String(hidden)); } catch { /* Optional preference. */ } };
   const style = (next: {color?: string;width?:number}) => {
     if (next.color) setColor(next.color); if (next.width) setWidth(next.width);
     if (selectedIndex>=0) update(items.map((item,index)=>index===selectedIndex?{...item,...next}:item));
@@ -203,7 +203,7 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
     </svg>
   </div>,surfaceHost):null;
   return <div className="chart-drawing-tools">
-    {collapsed ? <div className="chart-study-toolbar chart-drawing-collapsed"><button type="button" className="drawing-visibility-toggle" aria-expanded={false} onClick={()=>collapseTools(false)}>Tools ▸</button><span>{items.length} saved drawings</span></div> : <>
+    {collapsed ? <div className="chart-study-toolbar chart-drawing-collapsed"><button type="button" className="drawing-visibility-toggle" aria-expanded={false} onClick={()=>collapseTools(false)}>Drawing tools ▸</button><span>{items.length} saved drawings</span></div> : <>
     <div className="chart-study-toolbar" role="group" aria-label="Chart drawing tools">
       <button type="button" className="drawing-visibility-toggle" aria-expanded={true} onClick={()=>collapseTools(true)}>Minimize ◂</button>
       {navigation}

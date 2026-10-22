@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState, useId } from "react";
 import { CandlestickSeries, ColorType, CrosshairMode, HistogramSeries, LineSeries, LineStyle,
   createChart, type IChartApi, type ISeriesApi, type UTCTimestamp } from "lightweight-charts";
 import { chartPrecision, futureChartTimes, indicatorPoints, type PriceBar } from "./lib/chart-data";
@@ -31,6 +31,8 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   historySession?: string; historicalDate?: number | null; onHistoryDate?: (before: number | null) => void;
   onCurrencyChange?: (currency: "usd" | "tao") => void;
 }) {
+  const [mobileSettingsOpen, setMobileSettingsOpen] = useState(false);
+  const settingsId = useId();
   const hostRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
@@ -213,6 +215,16 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
   const latest = () => { if (historicalDate !== null) { onHistoryDate?.(null); return; } const scale = chartRef.current?.timeScale(); const range = scale?.getVisibleLogicalRange(); if (scale && bars.length) scale.setVisibleLogicalRange({ from: bars.length + 20 - (range ? range.to - range.from : 120), to: bars.length + 20 }); };
 
   return <div ref={terminalRef} className="trading-terminal chart-rebuilt">
+    <div className="chart-mobile-toolbar" role="group" aria-label="Quick chart controls">
+      <select aria-label="Chart timeframe" value={timeframe} onChange={event => onTimeframeChange(event.target.value)}>
+        {[["10m", "10 min"], ["1h", "1 hour"], ["1d", "1 day"], ["1w", "1 week"], ["1mo", "1 month"]].map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+      </select>
+      {onCurrencyChange ? <div role="group" aria-label="Quick chart currency">{(["usd", "tao"] as const).map(value => <button type="button" key={value} aria-pressed={currency === value} className={currency === value ? "active" : ""} onClick={() => onCurrencyChange(value)}>{value.toUpperCase()}</button>)}</div> : <span className="chart-mobile-currency">{currency.toUpperCase()}</span>}
+      <button type="button" onClick={toggleFullscreen} aria-label={fullscreen ? "Exit chart fullscreen" : "Expand chart fullscreen"}>{fullscreen ? "↙" : "⛶"}</button>
+    </div>
+    <div className="chart-extra-controls">
+    <button type="button" className="chart-settings-toggle" aria-expanded={mobileSettingsOpen} aria-controls={settingsId} onClick={() => setMobileSettingsOpen(value => !value)}>Chart settings <span aria-hidden="true">{mobileSettingsOpen ? "−" : "+"}</span></button>
+    <div id={settingsId} className={`chart-extra-content${mobileSettingsOpen ? " is-open" : ""}`}>
     <div className="chart-toolbar" role="group" aria-label="Chart controls">
       <div className="chart-control-group" aria-label="Chart type">
         <button aria-pressed={mode === "candles"} className={mode === "candles" ? "active" : ""} onClick={() => setMode("candles")}>Candles</button>
@@ -222,7 +234,7 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
         {[["10m", "10m", "10-minute candles"], ["1h", "1h", "1-hour candles"], ["1d", "1D", "Daily candles"], ["1w", "1W", "Weekly candles"], ["1mo", "1M", "Monthly candles"]].map(([value, label, name]) =>
           <button key={value} className={timeframe === value ? "active" : ""} aria-label={name} aria-pressed={timeframe === value} onClick={() => onTimeframeChange(value)}>{label}</button>)}
       </div>
-      {onCurrencyChange ? <div className="chart-control-group" role="group" aria-label="Chart currency">
+      {onCurrencyChange ? <div className="chart-control-group chart-currency-controls" role="group" aria-label="Chart currency">
         {(["usd", "tao"] as const).map(value => <button key={value} type="button" aria-pressed={currency === value} className={currency === value ? "active" : ""} onClick={() => onCurrencyChange(value)}>{value.toUpperCase()}</button>)}
       </div> : <span className="chart-currency">{currency.toUpperCase()}</span>}
       <div className="chart-control-group chart-actions">
@@ -243,6 +255,8 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>
         <button key={String(label)} disabled={label === "Volume" && !volumeAvailable} aria-pressed={Boolean(active && (label !== "Volume" || volumeAvailable))} className={active && (label !== "Volume" || volumeAvailable) ? "active" : ""} onClick={() => (setter as typeof setMa)(value => !value)}>{String(label)}</button>)}
       {boll && <button type="button" aria-expanded={bandEditor} onClick={() => setBandEditor(value => !value)}>Bollinger colors</button>}
+    </div>
+    </div>
     </div>
     <div className="chart-workspace">
     <ChartDrawingTools navigation={<div className="chart-sidebar-navigation">{assetOptions && onAssetChange ? <label className="chart-inline-period chart-inline-asset"><select aria-label="Chart subnet" value={drawingId === "tao" ? "tao" : drawingId.replace(/^sn/, "")} onChange={event => onAssetChange(event.target.value)}>{assetOptions.map(asset => <option key={asset.value} value={asset.value}>{asset.label}</option>)}</select></label> : <strong>{assetLabel}</strong>}<label className="chart-inline-period"><select aria-label="Chart timeframe" value={timeframe} onChange={event => onTimeframeChange(event.target.value)}>{[["10m", "10 minutes"], ["1h", "1 hour"], ["1d", "1 day"], ["1w", "1 week"], ["1mo", "1 month"]].map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label></div>} key={appearance} chartRef={chartRef} hostRef={hostRef} series={seriesRef} bars={bars} timeline={drawingTimes} storageId={drawingId} currency={currency} appearance={appearance} mode={mode} />
