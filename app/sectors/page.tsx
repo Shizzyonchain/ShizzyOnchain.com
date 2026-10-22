@@ -8,6 +8,7 @@ export const metadata = withSocialMetadata({ title: "Bittensor Subnet Sectors | 
 
 export default function SectorsPage() {
   const pending = data.subnets.filter(row => !row.sectors.length).length;
+  const reviewedDate = new Date(data.reviewedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" });
   return <div className={styles.page}>
     <SiteHeader hideCurrency />
     <main className={styles.main}>
@@ -21,7 +22,7 @@ export default function SectorsPage() {
       <section className={styles.method} aria-labelledby="sector-method">
         <h2 id="sector-method">How the map works</h2>
         <p>Tags describe a project’s stated work. A subnet can belong to several sectors, so sector counts overlap. They are editorial classifications—not rankings, proof of adoption or confirmation that every announced product is live.</p>
-        <p>Reviewed October 22, 2026 using owner-submitted on-chain metadata at block {data.sourceBlock.toLocaleString("en-US")} and linked project repositories. Blank, parked, sale and unclear identities stay visible under <strong>Needs review</strong>. A subnet number can be reused; classifications need review when ownership, identity or purpose changes.</p>
+        <p>Reviewed <time dateTime={data.reviewedAt}>{reviewedDate}</time> using owner-submitted on-chain metadata at block {data.sourceBlock.toLocaleString("en-US")} and linked project repositories. Blank, parked, sale and unclear identities stay visible under <strong>Needs review</strong>. A subnet number can be reused; classifications need review when ownership, identity or purpose changes.</p>
         <a href={data.evidenceUrl} target="_blank" rel="noreferrer">View the dated metadata and source record ↗</a>
       </section>
     </main>
