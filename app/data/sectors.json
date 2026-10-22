@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
+  "reviewedAt": "2026-10-22T19:06:12.115186+00:00",
   "sourceBlock": 9340975,
   "evidenceUrl": "/evidence/2026-10-22-sector-review.json",
   "sectors": [
@@ -283,7 +283,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "Trusted internal verification does not by itself make this a standalone cybersecurity product; removed the broad Security tag."
+      "reviewNote": "The documented product is compute for validators. Internal verification alone does not establish a separate cybersecurity offering."
     },
     {
       "netuid": 13,
@@ -460,7 +460,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The current repository is a pretraining system. Removed the old inference-only classification."
+      "reviewNote": "The current repository describes coordinated language-model pretraining; inference hosting is not established as its current product."
     },
     {
       "netuid": 25,
@@ -654,7 +654,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The current README focuses on interpretability/SAEs; the summary now names that specific work rather than generic alignment."
+      "reviewNote": "The current repository describes language-model interpretability tools, with trained sparse autoencoders as the first lane."
     },
     {
       "netuid": 38,
@@ -916,7 +916,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The current repository specifically describes CRISPR datasets; the summary no longer suggests general synthetic whole-genome profiles."
+      "reviewNote": "The repository specifically describes synthetic CRISPR experiment datasets for genomic research."
     },
     {
       "netuid": 56,
@@ -1059,7 +1059,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The README establishes model quantization/optimization, not a general training service; removed Training."
+      "reviewNote": "Published quantized GGUF models and performance benchmarks support Optimization; a general training service is not established."
     },
     {
       "netuid": 66,
@@ -1187,7 +1187,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "Its README rewards merged pull requests and does not require an AI-agent product; replaced the agent-only assignment."
+      "reviewNote": "The evaluated output is verified merged open-source software contributions, rather than a required AI-agent product."
     },
     {
       "netuid": 75,
@@ -1478,17 +1478,19 @@
     {
       "netuid": 94,
       "name": "Cathedral",
-      "summary": "Verified compute workers with confidential-computing evidence and bounded task checks.",
+      "summary": "Parallel sandboxes for AI agents, benchmarks and RL training, with confidential-computing workers.",
       "sectors": [
         "compute",
-        "security"
+        "security",
+        "training",
+        "agents"
       ],
-      "source": "https://github.com/cathedralai/cathedral-sandbox/blob/main/README.md",
-      "basis": "Project repository",
+      "source": "https://cathedral.computer/",
+      "basis": "Official product website and miner repository",
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The current README explicitly says this mining path is not a customer sandbox API; removed the old RL-training summary/tag."
+      "reviewNote": "The official site explicitly offers agent and RL-training sandboxes. The miner README describes only the verified compute-worker path; the two scopes are distinct."
     },
     {
       "netuid": 95,
@@ -1560,7 +1562,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The official homepage explicitly identifies Bittensor SN99 and a multi-provider routing product; resolved the previous missing-description review."
+      "reviewNote": "The official homepage identifies Bittensor SN99 and a unified multi-provider model router, supporting Inference and routing Optimization."
     },
     {
       "netuid": 100,
@@ -1700,7 +1702,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "Current owner metadata supports these tags. The linked repository/site was absent or unavailable, so independent project-source corroboration remains incomplete."
+      "reviewNote": "Current owner metadata describes personal investment intelligence; an enterprise-services product has not been established."
     },
     {
       "netuid": 110,
@@ -1834,7 +1836,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The current official site emphasizes persistent/shared memory; replaced the older generic Cowork summary."
+      "reviewNote": "The official product site describes persistent/shared AI memory, agent workflows and team context."
     },
     {
       "netuid": 119,
@@ -1966,7 +1968,7 @@
       "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "The repository establishes trading-performance competitions, not a separate liquidity/exchange product; removed the overly broad DeFi tag."
+      "reviewNote": "The repository describes trading-performance competitions; a separate liquidity or exchange product is not established."
     },
     {
       "netuid": 128,

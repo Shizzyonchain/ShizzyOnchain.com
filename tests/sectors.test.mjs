@@ -33,5 +33,6 @@ test("review corrections follow current products rather than legacy descriptions
  assert.ok(tags(96).includes("inference")&&!tags(96).includes("training"));
  assert.ok(tags(99).includes("inference")&&tags(99).includes("optimization"));
  assert.ok(tags(104).includes("inference")&&!tags(104).includes("forecasting"));
+ assert.ok(tags(94).includes("training")&&tags(94).includes("agents"));
  assert.equal(data.subnets.find(row=>row.netuid===29).basis,"Owner-submitted on-chain description");
 });

@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
+  "reviewedAt": "2026-10-22T19:06:12.115186+00:00",
   "block": 9340975,
   "scope": "All 128 slots reviewed. Tags describe supported product focus, not proof of production readiness. Current owner-node metadata plus available primary repositories/websites. Historical identities are not carried into unnamed/reused slots.",
   "repositoryReadCount": 106,
@@ -3005,10 +3005,12 @@
       ],
       "sectors": [
         "compute",
-        "security"
+        "security",
+        "training",
+        "agents"
       ],
       "outcome": "changed",
-      "note": "The current README explicitly says this mining path is not a customer sandbox API; removed the old RL-training summary/tag.",
+      "note": "The official site explicitly offers agent and RL-training sandboxes. The miner README describes only the verified compute-worker path; the two scopes are distinct.",
       "ownerMetadata": {
         "name": "Cathedral",
         "description": "CPU sandboxes powering reinforcement learning on Bittensor.",
@@ -3023,9 +3025,8 @@
         "error": null
       },
       "website": {
-        "url": null,
-        "status": null,
-        "error": null
+        "url": "https://cathedral.computer/",
+        "status": 200
       }
     },
     {
@@ -4108,5 +4109,8 @@
         "error": null
       }
     }
+  ],
+  "scopeNotes": [
+    "A miner/operator README can describe only one subsystem. SN94 was additionally checked against the official product site, which explicitly offers agent sandboxes and RL training. These categories are retained without treating the mining path itself as a customer API."
   ]
 }
