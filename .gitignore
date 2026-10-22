@@ -46,3 +46,6 @@ next-env.d.ts
 .venv/
 __pycache__/
 *.py[cod]
+
+# Branded social cards are generated from source during dev/build.
+/public/social/cards/

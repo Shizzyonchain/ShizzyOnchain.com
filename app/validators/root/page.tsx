@@ -1,3 +1,4 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "../../site-header";
@@ -6,7 +7,7 @@ import { getSubnetNewsBriefs } from "../../lib/subnet-news";
 import { RootExplorer } from "./root-explorer";
 import styles from "../validators.module.css";
 
-export const metadata: Metadata = { title: "Root Validator Baskets & Root Reborn | ShizzyUnchained", description: "Compare root validator basket holdings, subnet allocations, realizable TAO value and historical returns. Understand Root Reborn.", alternates: { canonical: "/validators/root" } };
+export const metadata: Metadata = withSocialMetadata({ title: "Root Validator Baskets & Root Reborn | ShizzyUnchained", description: "Compare root validator basket holdings, subnet allocations, realizable TAO value and historical returns. Understand Root Reborn.", alternates: { canonical: "/validators/root" } }, "/validators/root");
 export default async function RootPage({ searchParams }: { searchParams: Promise<{ hotkey?: string }> }) {
   const query = await searchParams;
   const initialHotkey = /^[1-9A-HJ-NP-Za-km-z]{46,50}$/.test(query.hotkey || "") ? query.hotkey! : "";

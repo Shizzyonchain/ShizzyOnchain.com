@@ -1,3 +1,4 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SubnetNewsHeader } from "../subnet-news-header";
@@ -6,7 +7,7 @@ import { emissionPercent } from "../../lib/etao";
 import { EmissionDirectory } from "./splits";
 import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "eTAO Emission Changes | Shizzy Unchained", description: "Verified Bittensor subnet emission changes, current owner, validator and miner allocations, and dated chain coverage.", alternates: { canonical: "/subnet-news/etao" } };
+export const metadata: Metadata = withSocialMetadata({ title: "eTAO Emission Changes | Shizzy Unchained", description: "Verified Bittensor subnet emission changes, current owner, validator and miner allocations, and dated chain coverage.", alternates: { canonical: "/subnet-news/etao" } }, "/subnet-news/etao");
 const time = (value: string | number) => new Date(value).toLocaleString("en-US", { timeZone: "UTC", hour12: false }) + " UTC";
 export default async function EtaoPage() {
   const { data, stale } = await getEtaoPageData();

@@ -1,15 +1,14 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { DeepDivesHeader } from "../deep-dives-header";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "The Arbos Screen: IN, OUT and the 10/10 Opportunity | Shizzy Deep Dives",
   description: "What Arbos is checking, what IN and OUT mean under Root Reborn, and why a 10/10 can put a small Bittensor subnet in front of real capital allocators.",
   alternates: { canonical: "/deep-dives/arbos-root-basket" },
-  openGraph: { title: "The Arbos Screen", description: "45 IN. 83 OUT. One autonomous validator is turning subnet research into a potential capital-allocation system.", type: "article", images: [{ url: "/deep-dives/arbos-root-basket.svg", width: 1600, height: 900, alt: "The Arbos subnet screen: 45 IN and 83 OUT" }] },
-  twitter: { card: "summary_large_image", images: ["/deep-dives/arbos-root-basket.svg"] },
-};
+}, "/deep-dives/arbos-root-basket", { article: true });
 
 const tens = ["SN3 Teutonic","SN5 Hone","SN15 ORO","SN17 404-GEN","SN18 Zeus","SN26 Perturb","SN28 gm","SN32 ItsAI","SN33 ReadyAI","SN44 Score","SN55 NIOME","SN56 Gradients","SN62 Ridges","SN64 Chutes","SN67 Harnyx","SN68 NOVA","SN81 Reliquary","SN82 Compelle","SN91 Cascade","SN97 Albedo","SN103 Capcomp","SN114 SOMA","SN118 Ditto"];
 

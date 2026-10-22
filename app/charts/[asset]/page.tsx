@@ -1,3 +1,4 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Dashboard } from "../../dashboard";
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ asset: st
   const { asset } = await params;
   const selected = chartAsset(asset);
   const title = selected === "tao" ? "Bittensor TAO Chart" : `SN${selected} Subnet Chart`;
-  return { title: `${title} | ShizzyUnchained`, description: "Explore historical prices, indicators, drawings and Bittensor market information.", alternates: { canonical: `/charts/${asset}` } };
+  return withSocialMetadata({ title: `${title} | ShizzyUnchained`, description: "Explore historical prices, indicators, drawings and Bittensor market information.", alternates: { canonical: `/charts/${asset}` } }, `/charts/${asset}`);
 }
 
 export default async function ChartPage({ params, searchParams }: { params: Promise<{ asset: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {

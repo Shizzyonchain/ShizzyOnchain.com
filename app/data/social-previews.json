@@ -1,0 +1,102 @@
+{
+  "/": {
+    "title": "Bittensor Market Intelligence",
+    "section": "LIVE MARKETS",
+    "brand": "shizzy"
+  },
+  "/about": {
+    "title": "Meet Shizzy Unchained",
+    "section": "ABOUT",
+    "brand": "shizzy"
+  },
+  "/activity": {
+    "title": "Bittensor Chain Activity",
+    "section": "FINALIZED ON-CHAIN DATA",
+    "brand": "shizzy"
+  },
+  "/bubbles": {
+    "title": "Bittensor Subnet Bubbles",
+    "section": "MARKET MAP",
+    "brand": "shizzy"
+  },
+  "/deep-dives": {
+    "title": "Bittensor Deep Dives",
+    "section": "RESEARCH & ANALYSIS",
+    "brand": "shizzy"
+  },
+  "/partners": {
+    "title": "Bittensor Ecosystem Partners",
+    "section": "PARTNERS",
+    "brand": "shizzy"
+  },
+  "/subnet-news": {
+    "title": "Daily Bittensor Subnet News",
+    "section": "SUBNET NEWS",
+    "brand": "shizzy"
+  },
+  "/subnet-news/burns": {
+    "title": "On-chain Burns",
+    "section": "TRANSACTION-VERIFIED COVERAGE",
+    "brand": "shizzy"
+  },
+  "/subnet-news/etao": {
+    "title": "eTAO Emission Changes",
+    "section": "TRANSACTION-VERIFIED COVERAGE",
+    "brand": "shizzy"
+  },
+  "/subnet-news/exploit-conference-catch-up": {
+    "title": "Exploit Conference Catch-up",
+    "section": "CONFERENCE COVERAGE",
+    "brand": "shizzy"
+  },
+  "/subnet-news/exploit-conference-catch-up-day-2": {
+    "title": "Exploit Conference: Day Two",
+    "section": "CONFERENCE COVERAGE",
+    "brand": "shizzy"
+  },
+  "/tao-heads": {
+    "title": "Unchained TAO Heads",
+    "section": "THE BITTENSOR COMMUNITY",
+    "brand": "heads"
+  },
+  "/validators": {
+    "title": "Bittensor Validators",
+    "section": "VALIDATOR RESEARCH",
+    "brand": "shizzy"
+  },
+  "/validators/profile": {
+    "title": "Bittensor Validator Profile",
+    "section": "VALIDATOR RESEARCH",
+    "brand": "shizzy"
+  },
+  "/validators/root": {
+    "title": "Root Validator Baskets",
+    "section": "ROOT REBORN",
+    "brand": "shizzy"
+  },
+  "/video": {
+    "title": "Bittensor Videos & Live Streams",
+    "section": "WATCH SHIZZY",
+    "brand": "shizzy"
+  },
+  "/wallet-tracker": {
+    "title": "Bittensor Wallet & Staking Checker",
+    "section": "WALLET TRACKER",
+    "brand": "shizzy"
+  },
+  "/deep-dives/arbos-root-basket": {
+    "title": "The Arbos Screen: IN, OUT & 10/10",
+    "section": "SHIZZY DEEP DIVES",
+    "brand": "shizzy"
+  },
+  "/deep-dives/bittensor-v440": {
+    "title": "Bittensor v440: The Emission Gate",
+    "section": "SHIZZY DEEP DIVES",
+    "brand": "shizzy"
+  },
+  "/deep-dives/compute-wars": {
+    "title": "Compute Wars",
+    "section": "SHIZZY DEEP DIVES",
+    "brand": "shizzy"
+  }
+}

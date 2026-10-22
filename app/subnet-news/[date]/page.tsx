@@ -1,3 +1,4 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -17,11 +18,11 @@ export async function generateMetadata({ params }: PageProps<"/subnet-news/[date
   const { date } = await params;
   const brief = getSubnetNewsBrief(date);
   if (!brief) return {};
-  return {
+  return withSocialMetadata({
     title: `${brief.title} | Subnet News`,
     description: brief.summary,
     alternates: { canonical: `/subnet-news/${date}` },
-  };
+  }, `/subnet-news/${date}`, { article: true, publishedTime: brief.publishedAt });
 }
 
 export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet-news/[date]">) {

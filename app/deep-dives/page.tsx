@@ -1,8 +1,9 @@
+import { withSocialMetadata } from "../lib/social-metadata";
 import Image from "next/image";
 import Link from "next/link";
 import { DeepDivesHeader } from "./deep-dives-header";
 
-export const metadata = { title: "Deep Dives | Shizzy Unchained", description: "Research, analysis, and stories from across the Bittensor ecosystem.", alternates: { canonical: "/deep-dives" } };
+export const metadata = withSocialMetadata({ title: "Deep Dives | Shizzy Unchained", description: "Research, analysis, and stories from across the Bittensor ecosystem.", alternates: { canonical: "/deep-dives" } }, "/deep-dives");
 
 export default function DeepDivesPage() {
   return <main className="deep-shell"><DeepDivesHeader />

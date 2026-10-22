@@ -1,3 +1,4 @@
+import { withSocialMetadata } from "../lib/social-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
@@ -7,11 +8,11 @@ import { NewsItem } from "./news-item";
 import { SubnetNewsHeader } from "./subnet-news-header";
 import { LivestreamBanner } from "../livestream-banner";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Subnet News | Shizzy Unchained",
   description: "The daily Bittensor subnet intelligence brief, sourced across X, GitHub, official channels, and ecosystem data.",
   alternates: { canonical: "/subnet-news" },
-};
+}, "/subnet-news");
 
 export default function SubnetNewsPage() {
   const briefs = getSubnetNewsBriefs();

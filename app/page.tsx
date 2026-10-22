@@ -1,14 +1,15 @@
+import { withSocialMetadata } from "./lib/social-metadata";
 import { getTaoHistory } from "./lib/tao-history";
 import type { Metadata } from "next";
 import { Dashboard } from "./dashboard";
 import { getInitialMarkets, getInitialTaoQuote } from "./lib/market-data";
 
 export const revalidate = 15;
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Live Bittensor Subnet Prices, APY & Market Data | ShizzyUnchained",
   description: "Track live finalized Bittensor subnet prices, market caps, APY, emissions, volume, and conviction-locked alpha across Finney.",
   alternates: { canonical: "/" },
-};
+}, "/");
 
 export default async function Home() {
   const [rows, quote, initialDollarHistory] = await Promise.all([getInitialMarkets(), getInitialTaoQuote(), getTaoHistory()]);

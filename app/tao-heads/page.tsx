@@ -1,3 +1,4 @@
+import { withSocialMetadata } from "../lib/social-metadata";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,15 +10,12 @@ import styles from "../creator-pages.module.css";
 
 const title = "Unchained TAO Heads | Shizzy’s Bittensor Community";
 const description = "Join Unchained TAO Heads on Telegram. Talk Bittensor, compare subnet research, follow TAO, and connect with the Shizzy Unchained community.";
-const shareImage = { url: "/tao-heads-banner.png", width: 2172, height: 724, alt: "Unchained TAO Heads" };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title,
   description,
   alternates: { canonical: taoHeadsCommunity.path },
-  openGraph: { title, description, type: "website", url: taoHeadsCommunity.path, siteName: "ShizzyUnchained", images: [shareImage] },
-  twitter: { card: "summary_large_image", title, description, images: [shareImage] },
-};
+}, "/tao-heads");
 
 const topics = [
   { number: "01", title: "Subnet research", text: "Share announcements, compare notes, and dig into what different subnets are actually building. Bring the source so others can take a closer look." },

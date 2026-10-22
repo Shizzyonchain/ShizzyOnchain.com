@@ -1,10 +1,11 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import { DeepDivesHeader } from "../deep-dives-header";
 
-export const metadata = { title: "Compute Wars | Shizzy Deep Dives", description: "The battle to control the decentralized AI compute stack has already begun.", alternates: { canonical: "/deep-dives/compute-wars" } };
+export const metadata = withSocialMetadata({ title: "Compute Wars | Shizzy Deep Dives", description: "The battle to control the decentralized AI compute stack has already begun.", alternates: { canonical: "/deep-dives/compute-wars" } }, "/deep-dives/compute-wars", { article: true });
 
 function clean(line: string) {
   return line.replaceAll("â€œ", "“").replaceAll("â€", "”").replaceAll("â€™", "’").replaceAll("Ï„", "τ")

@@ -1,22 +1,20 @@
+import { withSocialMetadata } from "../lib/social-metadata";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteHeader } from "../site-header";
 import { CreatorFooter } from "../creator-footer";
 import { taoHeadsCommunity } from "../lib/community";
-import { shizzyShareImage } from "../lib/share-images";
 import styles from "../creator-pages.module.css";
 
 const title = "About Shizzy Unchained | Bittensor, TAO & the People Building It";
 const description = "Meet Shizzy: independent Bittensor creator, podcast host, and the voice behind Unchained TAO Heads. Explore interviews, subnet news, and the community.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title,
   description,
   alternates: { canonical: "/about" },
-  openGraph: { title, description, url: "/about", images: [shizzyShareImage] },
-  twitter: { card: "summary_large_image", title, description, images: [shizzyShareImage] },
-};
+}, "/about");
 
 const explore = [
   { number: "01", label: "Watch & listen", title: "Meet the people building Bittensor.", text: "Founder interviews, livestreams, and conversations that get into how subnets work and what comes next.", href: "/video", action: "Explore the videos" },

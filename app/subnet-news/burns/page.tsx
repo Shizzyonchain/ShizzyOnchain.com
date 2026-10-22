@@ -1,14 +1,15 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import archive from "../../data/burns.json";
 import { SubnetNewsHeader } from "../subnet-news-header";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "On-chain Burns | Shizzy Unchained",
   description: "Verified Bittensor alpha burns, buyback burns and voluntary TAO burns, with finalized transaction evidence. Miner emissions excluded.",
   alternates: { canonical: "/subnet-news/burns" },
-};
+}, "/subnet-news/burns");
 const units = (raw: string) => {
   const amount = BigInt(raw);
   const fraction = (amount % BigInt(1_000_000_000)).toString().padStart(9, "0").replace(/0+$/, "");

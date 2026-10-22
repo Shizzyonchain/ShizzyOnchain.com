@@ -1,15 +1,14 @@
+import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { DeepDivesHeader } from "../deep-dives-header";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Bittensor v440: The Emission Gate | Shizzy Deep Dives",
   description: "A plain-English deep dive into how Bittensor v440 redistributes subnet emission, who benefits, and what the new gate means for TAO and alpha holders.",
   alternates: { canonical: "/deep-dives/bittensor-v440" },
-  openGraph: { title: "Bittensor v440: The Emission Gate", description: "The subnet economy just became much more competitive.", type: "article", images: [{ url: "/deep-dives/bittensor-v440.png", width: 1672, height: 941, alt: "Bittensor v440: The Emission Gate" }] },
-  twitter: { card: "summary_large_image", images: ["/deep-dives/bittensor-v440.png"] },
-};
+}, "/deep-dives/bittensor-v440", { article: true });
 
 const snapshot = [
   ["Emission below the bar", "38.4%", "12.5%"],
