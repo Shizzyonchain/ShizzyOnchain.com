@@ -1,0 +1,137 @@
+import { test as base, expect, type Page } from "@playwright/test";
+import { keys, stamp, markets, candidates, validators, pagination, baskets, history, chart, cachedWallets } from "./contracts.mjs";
+
+const test = base.extend<{ contracts: { failed: Set<string>; calls: string[] } }>({
+  contracts: [async ({ page }, use) => {
+    const failed = new Set<string>(), calls: string[] = [], unexpected: string[] = [], errors: string[] = [];
+    page.on("pageerror", error => errors.push(error.message));
+    await page.route("**/*", async route => {
+      const url = new URL(route.request().url());
+      if (url.origin !== "http://127.0.0.1:4310") return route.abort(); // No third-party browser traffic or credentials.
+      if (!url.pathname.startsWith("/api/")) return route.continue();
+      const path = url.pathname; calls.push(path);
+      if (failed.has(path)) return route.fulfill({ status: 503, json: { error: "Smoke provider unavailable" } });
+      if (path === "/api/backend/v1/screener" || path === "/api/market-status" || /^\/api\/subnets\/\d+\/news$/.test(path)) return route.continue();
+      let value: unknown;
+      if (path === "/api/tao-price") value = { usd: 250, updatedAt: Math.floor(Date.now() / 1000), source: "ci-contract-fixture" };
+      else if (path === "/api/tao-history") value = { data: [] };
+      else if (path === "/api/subnet-chart") value = chart(url.searchParams.get("interval") || "1d");
+      else if (path === "/api/tao-chart") value = { ...chart(url.searchParams.get("interval") || "1d"), data: chart(url.searchParams.get("interval") || "1d").data.map(([time]) => ({ time, open: "250", high: "250", low: "250", close: "250" })) };
+      else if (path === "/api/subnets/owners") value = { checkedAt: stamp, block: 9000000, owners: { 51: keys[0], 103: keys[0] } };
+      else if (path === "/api/validators") value = { data: validators, pagination, directoryTotal: 2 };
+      else if (path === "/api/validators/recommendations") value = { netuid: 51, candidates, collectedAt: stamp, preparedAt: stamp, coverage: { permitHolders: 2, yieldRows: 2, directoryEntries: 2 } };
+      else if (path === "/api/validators/yield-checks") value = { netuid: 51, state: "ready", result: { methodVersion: 4, checkedAt: stamp, rows: candidates.map(row => ({ hotkey: row.hotkey, providerBlock: row.yieldBlock, providerTimestamp: stamp, seven: { status: "consistent", chainApy: .3, chainApr: .26 }, thirty: { status: "consistent", chainApy: .3, chainApr: .26 } })) } };
+      else if (path === "/api/validators/root") value = { data: baskets, hiddenChildren: 0, collectedAt: stamp };
+      else if (path === "/api/validators/root/history") value = { data: history(url.searchParams.get("hotkey") === keys[1] ? 1 : 0) };
+      else if (path === "/api/validators/root/recommendations") value = { matches: keys.map((hotkey, index) => ({ hotkey, name: `Smoke Validator ${index + 1}`, take: .09, totalReturn: .03, drawdown: -.0314 - index * .001, volatility: .001, concentration: 1, quoteGap: 0, topFive: 1, snapshot: stamp, identityTimestamp: stamp, operatingTimestamp: stamp, start: history()[60].day, end: history()[90].day })), excluded: [], reviewed: ["Smoke Validator 1", "Smoke Validator 2"], totalBaskets: 2, historyCandidates: 2, hiddenChildren: 0, historyEnd: history()[90].day, preparedAt: stamp };
+      else { unexpected.push(`${route.request().method()} ${path}`); return route.fulfill({ status: 501, json: { error: "Unmocked smoke contract" } }); }
+      return route.fulfill({ json: value });
+    });
+    await use({ failed, calls });
+    expect(unexpected, "Unexpected internal APIs must be explicitly covered, not silently stubbed").toEqual([]);
+    expect(errors, "Uncaught browser errors").toEqual([]);
+  }, { auto: true }],
+});
+const search = (page: Page) => page.getByRole("searchbox", { name: "Search subnets by name or subnet number" });
+async function noOverflow(page: Page) {
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
+}
+
+test("market search, clear and chart navigation retain useful chart controls", async ({ page, isMobile }) => {
+  await page.goto("/");
+  await search(page).fill("SN51");
+  await expect(page.locator(".screener tbody tr")).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Smoke Lium SN51", exact: true })).toBeVisible();
+  await search(page).fill("no-subnet-has-this-name");
+  await page.getByRole("button", { name: "Clear search", exact: true }).click();
+  await expect(page.locator(".screener tbody tr")).toHaveCount(markets.length);
+  await search(page).fill("SN51");
+  await page.getByRole("link", { name: "Smoke Lium SN51", exact: true }).click();
+  await expect(page).toHaveURL(/\/charts\/51/);
+  await expect(page.locator(".chart-plot canvas").first()).toBeVisible();
+  if (isMobile) {
+    const toolbar = page.getByRole("group", { name: "Quick chart controls", exact: true });
+    await expect(toolbar.getByRole("combobox")).toHaveValue("1d");
+    await expect(page.getByRole("button", { name: "Chart settings", exact: true })).toHaveAttribute("aria-expanded", "false");
+    expect((await page.locator(".chart-plot").boundingBox())!.y).toBeLessThan(500);
+    await toolbar.getByRole("combobox").selectOption("1w");
+    await toolbar.getByRole("button", { name: "TAO", exact: true }).click();
+    await expect(toolbar.getByRole("button", { name: "TAO", exact: true })).toHaveAttribute("aria-pressed", "true");
+  } else {
+    await page.getByRole("button", { name: "Weekly candles", exact: true }).click();
+    await page.getByRole("group", { name: "Chart currency", exact: true }).getByRole("button", { name: "TAO", exact: true }).click();
+  }
+  await expect(page.locator(".chart-plot-context")).toContainText("TAO");
+  await noOverflow(page);
+});
+
+test("extreme yield disclosure keeps uncapped data and does not navigate the table row", async ({ page }) => {
+  await page.goto("/"); await search(page).fill("SN103");
+  const cell = page.locator(".apy-cell");
+  await expect(cell).toContainText("20,000%"); await expect(cell).toContainText("530% APR");
+  await expect(cell).toContainText("1 epoch · subnet-wide"); await expect(cell).toContainText("Potentially unstable");
+  await cell.locator("summary").click();
+  await expect(cell.locator("details")).toHaveAttribute("open", "");
+  await expect(cell).toContainText("not a specific validator");
+  await expect(page).toHaveURL("/");
+  await cell.locator("summary").press("Enter");
+  await expect(cell.locator("details")).not.toHaveAttribute("open", "");
+  await expect(page).toHaveURL("/"); await noOverflow(page);
+});
+
+test("subnet recommendations show net yield and fail closed when sources fail", async ({ page, contracts }) => {
+  await page.goto("/validators");
+  await page.getByRole("combobox", { name: "Subnet", exact: true }).selectOption("51");
+  await page.getByRole("button", { name: "Find validators →", exact: true }).click();
+  const finder = page.locator('[aria-labelledby="validator-finder-title"]');
+  await expect(finder.getByRole("link", { name: "Smoke Validator 1", exact: true }).first()).toBeVisible();
+  await expect(finder).toContainText("30% APY"); // Already after take; do not reduce to 27.3%.
+  contracts.failed.add("/api/validators/recommendations");
+  await page.getByRole("button", { name: "Find validators →", exact: true }).click();
+  await expect(finder.getByRole("alert")).toContainText("No winner was selected from incomplete sources");
+  await expect(finder.getByRole("link", { name: "Smoke Validator 1", exact: true })).toHaveCount(0);
+  await noOverflow(page);
+});
+
+test("root capital and TWR views name their series and reuse loaded history", async ({ page, contracts }) => {
+  await page.goto("/validators/root");
+  const compare = page.locator('[aria-labelledby="root-compare-title"]');
+  await compare.locator("select").nth(0).selectOption(keys[0]); await compare.locator("select").nth(1).selectOption(keys[1]);
+  await compare.getByRole("button", { name: "Compare baskets", exact: true }).click();
+  await expect(compare.getByRole("columnheader", { name: "Capital drawdown · NAV/share", exact: true })).toBeVisible();
+  await expect(compare).toContainText("-3.14%");
+  const reads = contracts.calls.filter(path => path === "/api/validators/root/history").length;
+  await compare.getByRole("button", { name: "Total return · TWR", exact: true }).click();
+  await expect(compare.getByRole("columnheader", { name: "Total-return drawdown · TWR", exact: true })).toBeVisible();
+  await expect(compare).toContainText("A 0% TWR drawdown does not mean");
+  expect(contracts.calls.filter(path => path === "/api/validators/root/history")).toHaveLength(reads);
+  await page.getByRole("button", { name: "Find root recommendations", exact: true }).click();
+  await expect(page.locator('[aria-labelledby="root-recommend-title"]')).toContainText("Capital drawdown · NAV/share (daily closes): -3.14%");
+  await noOverflow(page);
+});
+
+test("saved wallets persist, remove individually and clear completely", async ({ page }) => {
+  await page.addInitScript(({ wallets }) => {
+    if (sessionStorage.getItem("smoke-seeded")) return;
+    localStorage.setItem("shizzy:wallet-cache:v1", JSON.stringify({ wallets, savedAt: new Date().toISOString() }));
+    sessionStorage.setItem("smoke-seeded", "true");
+  }, { wallets: cachedWallets });
+  await page.goto("/wallet-tracker");
+  await expect(page.locator(".wallet-remove")).toHaveCount(2);
+  await page.locator(".wallet-remove").first().click();
+  await expect(page.locator(".wallet-remove")).toHaveCount(1);
+  await page.reload(); await expect(page.locator(".wallet-remove")).toHaveCount(1);
+  await page.getByRole("button", { name: "Clear saved wallets & cache", exact: true }).click();
+  expect(await page.evaluate(() => localStorage.getItem("shizzy:wallet-cache:v1"))).toBeNull();
+  await page.reload(); await expect(page.locator(".wallet-remove")).toHaveCount(0); await noOverflow(page);
+});
+
+test("archived unavailable evidence is not clickable and partner referrals remain intact", async ({ page }) => {
+  await page.goto("/subnet-news/2026-08-11");
+  await expect(page.locator(".news-source-unavailable")).toHaveCount(5);
+  await expect(page.locator('a[href*="/api/backend/v1/subnets/"][href*="/prices"]')).toHaveCount(0);
+  await noOverflow(page); await page.goto("/partners");
+  await expect(page.locator('a[href="https://saygm.com/r/qm2gl6jx"]')).toBeVisible();
+  await expect(page.locator('a[href="https://engy.ai/r/ShizzyUnchained"]')).toBeVisible();
+  await expect(page.locator(".partner-banner")).toHaveCount(7); await noOverflow(page);
+});

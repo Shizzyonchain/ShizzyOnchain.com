@@ -49,3 +49,7 @@ __pycache__/
 
 # Branded social cards are generated from source during dev/build.
 /public/social/cards/
+
+# Browser CI evidence (uploaded separately, not bundled into deployments)
+/playwright-report/
+/test-results/

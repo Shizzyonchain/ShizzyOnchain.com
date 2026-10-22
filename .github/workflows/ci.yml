@@ -15,6 +15,7 @@ concurrency:
 jobs:
   frontend:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,11 +26,27 @@ jobs:
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run validate:subnet-news
       - run: npm run lint
-      - run: node --test --experimental-strip-types tests/*.test.mjs
-      - run: npm run build
+      - run: npm test
+      - name: Install bounded browser runtime
+        run: npx playwright install --with-deps chromium
+      - name: Production build against isolated smoke backend
+        run: npm run build:smoke
+      - name: Desktop and phone visitor gates
+        run: npm run test:smoke
+      - name: Save browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visitor-smoke-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore
 
   backend:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     defaults:
       run:
         working-directory: backend

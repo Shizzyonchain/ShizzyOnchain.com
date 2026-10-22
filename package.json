@@ -15,7 +15,10 @@
     "validate:subnet-news": "node scripts/publish-subnet-news.mjs --check",
     "publish:subnet-news": "node scripts/publish-subnet-news.mjs",
     "predev": "node scripts/generate-social-previews.mjs",
-    "check:news-links": "node scripts/check-news-links.mjs"
+    "check:news-links": "node scripts/check-news-links.mjs",
+    "test": "node --test --experimental-strip-types tests/*.test.mjs",
+    "build:smoke": "npm run validate:subnet-news && node scripts/generate-social-previews.mjs && node tests/browser/build.mjs",
+    "test:smoke": "playwright test"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
@@ -28,6 +31,7 @@
     "sharp": "0.35.5"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "^19.2.18",
