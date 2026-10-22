@@ -1,4 +1,5 @@
 import type { HistoryPoint } from "./root-comparison";
+import { dailyCloseDrawdown } from "./daily-close-drawdown.mjs";
 export type RootMode = "balanced" | "risk" | "returns";
 export type RootMatch = { historyRollover?: boolean; operatingTimestamp: string; hotkey: string; name: string; take: number; totalReturn: number; drawdown: number; volatility: number; concentration: number; quoteGap: number; topFive: number; snapshot: string; identityTimestamp: string; start: string; end: string };
 export function rootEligibility(row: { root_stake: string | null; take: number | null; nav_tao: string }) {
@@ -16,9 +17,9 @@ export function rootHistoryMetrics(history: HistoryPoint[], utcDay: number) {
   const life = rows.at(-1)?.twr_first_block;
   if (!life || rows.some(row => !row || row.twr_first_block !== life || !Number.isFinite(row.twr) || row.twr! <= 0 || !Number.isFinite(row.nav_per_share) || row.nav_per_share! <= 0)) throw new Error("Requires 31 consecutive completed daily observations with total-return and share-price data in the same fund life");
   const valid = rows as (HistoryPoint & { twr: number; nav_per_share: number })[];
-  let peak = valid[0].nav_per_share, drawdown = 0;
+  const drawdown = dailyCloseDrawdown(valid.map(row => row.nav_per_share));
   const changes: number[] = [];
-  valid.forEach((row, index) => { peak = Math.max(peak, row.nav_per_share); drawdown = Math.min(drawdown, row.nav_per_share / peak - 1); if (index) changes.push(row.nav_per_share / valid[index - 1].nav_per_share - 1); });
+  valid.forEach((row, index) => { if (index) changes.push(row.nav_per_share / valid[index - 1].nav_per_share - 1); });
   const mean = changes.reduce((sum, value) => sum + value, 0) / changes.length;
   return { totalReturn: valid.at(-1)!.twr / valid[0].twr - 1, drawdown, volatility: Math.sqrt(changes.reduce((sum, value) => sum + (value - mean) ** 2, 0) / changes.length), start: expected[0], end: expected.at(-1)! };
 }
