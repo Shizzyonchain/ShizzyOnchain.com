@@ -1,4 +1,5 @@
 "use client";
+import { matchesSubnetQuery } from "./lib/subnet-search";
 import { quoteFresh, quoteUsable, type TaoQuote } from "./lib/fx-price";
 
 import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -961,6 +962,7 @@ export function Dashboard({
   );
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [query, setQuery] = useState("");
+  const subnetSearchRef = useRef<HTMLInputElement>(null);
   const [sort, setSort] = useState<keyof ScreenerRow>("market_cap_tao");
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("desc");
   const [selected, setSelected] = useState(typeof initialChart === "number" ? initialChart : 64);
@@ -1310,7 +1312,7 @@ export function Dashboard({
     return () => window.clearInterval(refreshTimer);
   }, [view]);
 
-  const filtered = useMemo(() => rows.filter((r) => `${r.netuid} ${r.name} ${r.symbol}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => sort === "liquidation_diff_pct"
+  const filtered = useMemo(() => rows.filter((r) => matchesSubnetQuery(r, query)).sort((a, b) => sort === "liquidation_diff_pct"
     ? compareLiquidation(a.liquidation_diff_pct, b.liquidation_diff_pct, sortDirection)
     : (sortDirection === "desc" ? Number(b[sort] ?? 0) - Number(a[sort] ?? 0) : Number(a[sort] ?? 0) - Number(b[sort] ?? 0))), [rows, query, sort, sortDirection]);
   const hasMarketData = rows.length > 0;
@@ -2057,7 +2059,7 @@ export function Dashboard({
                 </div>
                 <label className="search">
                   <span aria-hidden="true">⌕</span>
-                  <input aria-label="Search subnets by name or subnet number" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search subnet or netuid" />
+                  <input ref={subnetSearchRef} aria-label="Search subnets by name or subnet number" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Name, SN51 or subnet number" />
                 </label>
               </div>
               <ScrollableScreener>
@@ -2163,6 +2165,10 @@ export function Dashboard({
                   </tbody>
                 </table>
               </ScrollableScreener>
+              {hasMarketData && filtered.length === 0 && query.trim() && <div className="subnet-search-empty">
+                <div role="status"><strong>No subnets match “{query.trim()}”.</strong><p>Try a name like Lium, or a subnet number such as SN51 or 51.</p></div>
+                <button type="button" onClick={() => { setQuery(""); subnetSearchRef.current?.focus(); }}>Clear search</button>
+              </div>}
               <details className="liquidation-help">
                 <summary>What is Liq Diff?</summary>
                 <p>{liquidationExplanation}</p>
