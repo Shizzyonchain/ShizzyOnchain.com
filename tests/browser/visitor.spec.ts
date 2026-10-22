@@ -212,3 +212,21 @@ test("sector discovery supports overlap, search, unknown slots and subnet naviga
   await page.getByRole("link", { name: "Chart & subnet details", exact: true }).click();
   await expect(page).toHaveURL("/charts/80");
 });
+
+
+test("local subnet watchlist persists and clears without extra research calls", async ({ page, contracts }) => {
+  await page.goto("/");
+  await page.getByText("My subnet watchlist", { exact: false }).click();
+  await page.getByLabel("Add subnet", { exact: true }).selectOption("51");
+  await page.getByRole("button", { name: "Add", exact: true }).click();
+  const watchlist = page.getByRole("region", { name: "Today on Shizzy" });
+  await expect(watchlist.getByRole("link", { name: /SN51/ })).toBeVisible();
+  await page.reload();
+  await page.getByText("My subnet watchlist", { exact: false }).click();
+  await expect(watchlist.getByRole("button", { name: "Remove SN51" })).toBeVisible();
+  await watchlist.getByRole("button", { name: "Clear watchlist" }).click();
+  await page.reload();
+  await page.getByText("My subnet watchlist", { exact: false }).click();
+  await expect(watchlist.getByText("No saved subnets yet.")).toBeVisible();
+  expect(contracts.calls.filter(path => /recommendations|owners/.test(path))).toEqual([]);
+});

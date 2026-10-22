@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
+import { SiteMeasurement } from "./site-measurement";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { shizzyShareImage } from "./lib/share-images";
 import { PrivacyFooter } from "./privacy-footer";
@@ -32,7 +32,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         {children}
         <PrivacyFooter />
-        <Analytics />
+        <SiteMeasurement />
         <SpeedInsights />
       </body>
     </html>

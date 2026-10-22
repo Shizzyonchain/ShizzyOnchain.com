@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { MembershipPromo } from "../membership-promo";
 import { latestMemberVideo, promotedLivestream, youtubeMembershipUrl } from "../lib/channel-promotions";
 
@@ -513,7 +514,10 @@ const liveStreams: ChannelVideo[] = [
     meta: "57:35",
   },
 ];
+function episodeSubnets(title: string) { return [...new Set([...title.matchAll(/\bSN\s*(\d{1,3})\b/gi)].map(match => Number(match[1])).filter(id => id > 0 && id <= 128))]; }
 export function VideoLibrary() {
+ const [query, setQuery] = useState("");
+ const matches = (video: ChannelVideo) => `${video.title} ${video.meta}`.toLowerCase().includes(query.trim().toLowerCase().replace(/^sn\s+(\d+)$/i, "sn$1"));
  const [activeVideo, setActiveVideo] = useState<ChannelVideo>(channelVideos.find(video => !video.membersOnly) ?? channelVideos[0]);
  return (
         <section className="videos-page">
@@ -543,10 +547,12 @@ export function VideoLibrary() {
               <span>{activeVideo.membersOnly ? "Members video" : activeVideo.upcoming ? "Upcoming live stream" : "Now playing"}</span>
               <h2>{activeVideo.title}</h2>
               <small>{activeVideo.meta}</small>
+              <p>{episodeSubnets(activeVideo.title).map(id => <Link key={id} href={`/charts/${id}`} prefetch={false} style={{display:"inline-block",padding:"12px",color:"white",textDecoration:"underline"}}>SN{id} · chart, news &amp; history →</Link>)}</p>
               {activeVideo.membersOnly && <a className="channel-promo-button membership-join video-membership-join" href={youtubeMembershipUrl} target="_blank" rel="noreferrer">Join on YouTube <span aria-hidden="true">↗</span></a>}
             </div>
           </div>
           <MembershipPromo />
+          <div style={{padding:"16px",border:"1px solid #333",margin:"16px 0"}}><label htmlFor="episode-search">Find an episode by title, date or SN</label><input id="episode-search" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Try SN51 or robotics" style={{display:"block",width:"100%",padding:"14px",background:"#111",color:"white",border:"1px solid #555",marginTop:"10px"}} /><p>Searches published titles and dates. Chapters and transcripts are not indexed.</p>{query && <button onClick={() => setQuery("")} style={{background:"white",color:"black",padding:"12px"}}>Clear episode search</button>}{![...liveStreams,...channelVideos].some(matches) && <p role="status">No matching episodes. Try a subnet number or a shorter title.</p>}</div>
           <div className="live-library">
             <div className="library-head">
               <div>
@@ -556,7 +562,7 @@ export function VideoLibrary() {
               <span>{liveStreams.length} streams</span>
             </div>
             <div className="live-grid">
-              {liveStreams.map((video, index) => (
+              {liveStreams.filter(matches).map((video, index) => (
                 <button
                   key={video.id}
                   className={video.id === activeVideo.id ? "active" : ""}
@@ -590,7 +596,7 @@ export function VideoLibrary() {
               <span>{channelVideos.length} episodes</span>
             </div>
             <div className="video-grid">
-              {channelVideos.map((video, index) => (
+              {channelVideos.filter(matches).map((video, index) => (
                 <button
                   key={video.id}
                   className={video.id === activeVideo.id ? "active" : ""}
