@@ -5,7 +5,7 @@ import { subnetTimeline } from "../../../../lib/subnet-timeline";
 const history = unstable_cache(async (netuid: number) => {
   const briefs = getSubnetNewsBriefs();
   return { netuid, archiveThrough: briefs[0]?.date || null, entries: subnetTimeline(briefs, netuid) };
-}, ["subnet-news-timeline-v2"], { revalidate: 300 });
+}, ["subnet-news-timeline-v3-source-availability"], { revalidate: 300 });
 
 export async function GET(request: Request, { params }: { params: Promise<{ netuid: string }> }) {
   const { netuid: raw } = await params;
