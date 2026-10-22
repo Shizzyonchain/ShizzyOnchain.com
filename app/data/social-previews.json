@@ -103,5 +103,10 @@
     "title": "Privacy & data",
     "section": "YOUR DATA · YOUR CONTROLS",
     "brand": "shizzy"
+  },
+  "/sectors": {
+    "title": "Bittensor Subnet Sectors",
+    "section": "128 SUBNETS · EXPLORE THE NETWORK",
+    "brand": "shizzy"
   }
 }

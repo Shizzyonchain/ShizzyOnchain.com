@@ -1,0 +1,1424 @@
+{
+  "reviewedAt": "2026-10-22T17:57:23.070344+00:00",
+  "sourceBlock": 9340665,
+  "evidenceUrl": "/evidence/2026-10-22-sector-roster.json",
+  "sectors": [
+    {
+      "id": "robotics",
+      "name": "Robotics & Physical AI",
+      "description": "Robot learning, autonomous machines, drones and real-world motion."
+    },
+    {
+      "id": "inference",
+      "name": "Inference",
+      "description": "Serving models, routing requests and running AI applications."
+    },
+    {
+      "id": "compute",
+      "name": "Compute & Cloud",
+      "description": "GPUs, compute marketplaces, virtual machines and cloud services."
+    },
+    {
+      "id": "training",
+      "name": "Training & RL",
+      "description": "Model training, reinforcement learning and learning environments."
+    },
+    {
+      "id": "data",
+      "name": "Data & Knowledge",
+      "description": "Training datasets, structured information, tagging and knowledge graphs."
+    },
+    {
+      "id": "agents",
+      "name": "AI Agents",
+      "description": "Software agents, autonomous workflows and interactive assistants."
+    },
+    {
+      "id": "security",
+      "name": "Security & Privacy",
+      "description": "Code security, adversarial testing, privacy, alignment and verification."
+    },
+    {
+      "id": "finance",
+      "name": "Finance & Trading",
+      "description": "Market intelligence, trading systems, signals and portfolio tools."
+    },
+    {
+      "id": "defi",
+      "name": "DeFi & Liquidity",
+      "description": "Liquidity, exchanges, transaction infrastructure and capital allocation."
+    },
+    {
+      "id": "science",
+      "name": "Science & Engineering",
+      "description": "Genomics, drug discovery, mathematics, simulations and scientific tools."
+    },
+    {
+      "id": "creative",
+      "name": "Creative AI & Media",
+      "description": "Generative media, 3D, creator tools, advertising and publishing."
+    },
+    {
+      "id": "vision",
+      "name": "Computer Vision",
+      "description": "Video understanding, cameras, motion and visual perception."
+    },
+    {
+      "id": "search",
+      "name": "Search & Research",
+      "description": "Search, retrieval, deep research and evidence discovery."
+    },
+    {
+      "id": "optimization",
+      "name": "Optimization & Hardware",
+      "description": "Model compression, faster kernels, graph optimization and chip design."
+    },
+    {
+      "id": "networks",
+      "name": "Networks & Infrastructure",
+      "description": "RPC, bandwidth, storage, confidential infrastructure and mining tools."
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise & Commerce",
+      "description": "Business workflows, sales, commerce and enterprise AI services."
+    },
+    {
+      "id": "forecasting",
+      "name": "Forecasting",
+      "description": "Predictive models for markets, weather, risk and time series."
+    }
+  ],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "summary": "Competitive problem-solving and research orchestration.",
+      "sectors": [
+        "search",
+        "optimization"
+      ],
+      "source": "https://github.com/macrocosm-os/apex/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 2,
+      "name": "DaniLabs",
+      "summary": "Distributed AI inference; its repository describes an observer pilot with scoring still under development.",
+      "sectors": [
+        "inference"
+      ],
+      "source": "https://github.com/DaniLabsAI/subnet/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "summary": "Competitive model pretraining with independently evaluated checkpoints.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://github.com/unarbos/teutonic/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "summary": "A marketplace for compute workloads.",
+      "sectors": [
+        "compute"
+      ],
+      "source": "https://targon.com",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "summary": "Reinforcement learning from verifiable software-engineering tasks.",
+      "sectors": [
+        "training",
+        "agents"
+      ],
+      "source": "https://honedashboard.com",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "summary": "Aggregating AI agents for forecasting.",
+      "sectors": [
+        "agents",
+        "forecasting"
+      ],
+      "source": "https://numinouslabs.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "summary": "A transaction layer connecting applications and execution.",
+      "sectors": [
+        "defi",
+        "networks"
+      ],
+      "source": "https://all-ways.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "summary": "Liquidity and trade-execution infrastructure.",
+      "sectors": [
+        "finance",
+        "defi"
+      ],
+      "source": "https://www.vantanetwork.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "summary": "Distributed model training.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://iota.macrocosmos.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "summary": "Routing and optimizing AI inference.",
+      "sectors": [
+        "inference",
+        "optimization"
+      ],
+      "source": "https://www.pareton.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "summary": "Reinforcement learning for agent trajectories.",
+      "sectors": [
+        "training",
+        "agents"
+      ],
+      "source": "https://trajrl.com",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "summary": "Trusted compute infrastructure for validators.",
+      "sectors": [
+        "compute",
+        "security",
+        "networks"
+      ],
+      "source": "https://computehorde.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "summary": "Collecting social-media data.",
+      "sectors": [
+        "data"
+      ],
+      "source": "https://datauniverse.macrocosmos.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "summary": "Optimizing kernels for model-inference speed.",
+      "sectors": [
+        "inference",
+        "optimization"
+      ],
+      "source": "https://cacheon.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "summary": "AI agents for commerce.",
+      "sectors": [
+        "agents",
+        "enterprise"
+      ],
+      "source": "https://oroagents.com",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 16,
+      "name": "Zero Hour",
+      "summary": "Robot task-disruption and recovery data for VLA training.",
+      "sectors": [
+        "robotics",
+        "training",
+        "vision",
+        "data"
+      ],
+      "source": "https://github.com/fast-thinker/kenju",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "summary": "Competitive 3D content generation.",
+      "sectors": [
+        "creative"
+      ],
+      "source": "https://www.404.xyz",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "summary": "Weather prediction models.",
+      "sectors": [
+        "science",
+        "forecasting"
+      ],
+      "source": "https://www.zeussubnet.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "summary": "Decentralized RPC and archive-node services.",
+      "sectors": [
+        "networks"
+      ],
+      "source": "https://github.com/taostat/blockmachine/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "summary": "Models for video understanding.",
+      "sectors": [
+        "vision"
+      ],
+      "source": "https://witnessvision.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "summary": "Predicting the impact of advertising interventions.",
+      "sectors": [
+        "creative",
+        "enterprise",
+        "forecasting"
+      ],
+      "source": "https://adtao.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "summary": "Decentralized search.",
+      "sectors": [
+        "search"
+      ],
+      "source": "https://desearch.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "summary": "AI alignment research and evaluation.",
+      "sectors": [
+        "security"
+      ],
+      "source": "https://trishool.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "summary": "Long-context model inference.",
+      "sectors": [
+        "inference"
+      ],
+      "source": "https://silxinc.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "summary": "Privacy infrastructure.",
+      "sectors": [
+        "security",
+        "networks"
+      ],
+      "source": "https://ur.xyz/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "summary": "Adversarial robustness testing.",
+      "sectors": [
+        "security"
+      ],
+      "source": "https://www.perturbai.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "summary": "Discovering and curating LLM training data.",
+      "sectors": [
+        "data"
+      ],
+      "source": "https://github.com/SILX-LABS/Orion",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "summary": "Access to multiple AI model providers.",
+      "sectors": [
+        "inference"
+      ],
+      "source": "https://saygm.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "summary": "Inference performance optimization.",
+      "sectors": [
+        "inference",
+        "optimization"
+      ],
+      "source": "http://hotfloat.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "summary": "Forecasting subnet drawdown, volatility, price and liquidity risk.",
+      "sectors": [
+        "finance",
+        "forecasting"
+      ],
+      "source": "https://github.com/Endure-Network/endure-subnet",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "summary": "Retrieval-augmented generation, embeddings and vector search.",
+      "sectors": [
+        "inference",
+        "data",
+        "search"
+      ],
+      "source": "",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "summary": "Detecting AI-generated text.",
+      "sectors": [
+        "security"
+      ],
+      "source": "https://its-ai.org/en",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "summary": "Structuring and semantically tagging data for AI applications.",
+      "sectors": [
+        "data",
+        "enterprise"
+      ],
+      "source": "https://github.com/afterpartyai/bittensor-conversation-genome-project/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "summary": "Deepfake detection.",
+      "sectors": [
+        "security",
+        "vision"
+      ],
+      "source": "https://www.bitmind.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 35,
+      "name": "Unknown",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "summary": "An open deep-research model project with competitive evaluation.",
+      "sectors": [
+        "training",
+        "science",
+        "search"
+      ],
+      "source": "https://github.com/EpagoFoundation/epago/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "summary": "AI alignment through decentralized training and evaluation.",
+      "sectors": [
+        "training",
+        "security"
+      ],
+      "source": "https://aureliusaligned.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "summary": "Training chronologically consistent language models.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://chronollm.crunchdao.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "summary": "The current on-chain identity is marked deprecated; no active sector assigned.",
+      "sectors": [],
+      "source": "https://github.com/deprecated/deprecated",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "summary": "Compressing large models into smaller GGUF deployments.",
+      "sectors": [
+        "optimization"
+      ],
+      "source": "https://ralphlabs.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "summary": "Prediction-market research and intelligence.",
+      "sectors": [
+        "finance",
+        "search",
+        "forecasting"
+      ],
+      "source": "https://almnc.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "summary": "Solving graph-optimization problems.",
+      "sectors": [
+        "science",
+        "optimization"
+      ],
+      "source": "https://github.com/GraphiteAI/Graphite-Subnet/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "summary": "AI-powered camera intelligence.",
+      "sectors": [
+        "vision"
+      ],
+      "source": "https://www.wearescore.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "summary": "Turning financial news and discussion into market signals.",
+      "sectors": [
+        "finance",
+        "forecasting"
+      ],
+      "source": "https://alpharidge.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "summary": "Low-latency model inference.",
+      "sectors": [
+        "inference"
+      ],
+      "source": "https://instantnetwork.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 47,
+      "name": "GPUForge",
+      "summary": "Verifiable GPU training workloads.",
+      "sectors": [
+        "compute",
+        "training"
+      ],
+      "source": "https://gpuforge-gpuforge.static.hf.space/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "summary": "Quantum computing.",
+      "sectors": [
+        "science"
+      ],
+      "source": "https://www.qbittensorlabs.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "summary": "Simulation-first robotics development.",
+      "sectors": [
+        "robotics"
+      ],
+      "source": "https://www.nepher.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "summary": "Predictive models for financial markets.",
+      "sectors": [
+        "finance",
+        "forecasting"
+      ],
+      "source": "https://synthdata.co",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "summary": "GPU cloud rentals through web, CLI, SDK and API.",
+      "sectors": [
+        "compute"
+      ],
+      "source": "https://lium.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "summary": "Competitive generation and evaluation of model outputs.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://github.com/tensorplex-labs/dojo/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "summary": "Verified inference for open models.",
+      "sectors": [
+        "inference"
+      ],
+      "source": "https://engy.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "summary": "Synthetic identities for humanhood and presence-detection testing.",
+      "sectors": [
+        "data",
+        "security",
+        "vision"
+      ],
+      "source": "https://www.yanez.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "summary": "Privacy-oriented synthetic genomic profiles.",
+      "sectors": [
+        "data",
+        "science"
+      ],
+      "source": "https://niome.genomes.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "summary": "Automated model training and fine-tuning.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://www.gradients.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 58,
+      "name": "Attune",
+      "summary": "Adaptive robot intelligence.",
+      "sectors": [
+        "robotics",
+        "training"
+      ],
+      "source": "https://attune.robotensor.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 59,
+      "name": "Unknown",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "summary": "Finding and fixing software exploits.",
+      "sectors": [
+        "security"
+      ],
+      "source": "https://bitsec.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "summary": "Security-focused competitive programming challenges.",
+      "sectors": [
+        "security"
+      ],
+      "source": "https://www.theredteam.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "summary": "Software-engineering agents.",
+      "sectors": [
+        "agents"
+      ],
+      "source": "https://www.ridges.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "summary": "Open challenges testing cryptography, quantum-resistant systems and AI safeguards.",
+      "sectors": [
+        "security",
+        "science"
+      ],
+      "source": "https://github.com/qbittensor-labs/enigma/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "summary": "Serverless compute for AI inference.",
+      "sectors": [
+        "inference",
+        "compute"
+      ],
+      "source": "https://chutes.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "summary": "Model compression and performance optimization.",
+      "sectors": [
+        "training",
+        "optimization"
+      ],
+      "source": "https://www.trueperformancenetwork.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "summary": "Work on open mathematical conjectures.",
+      "sectors": [
+        "science"
+      ],
+      "source": "https://conjectures.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "summary": "Competitive, traceable deep research.",
+      "sectors": [
+        "agents",
+        "search"
+      ],
+      "source": "https://harnyx.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "summary": "AI-assisted drug discovery.",
+      "sectors": [
+        "science"
+      ],
+      "source": "https://www.metanova-labs.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "summary": "Media distribution through public-relations firms.",
+      "sectors": [
+        "creative"
+      ],
+      "source": "https://www.heraldmedia.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 70,
+      "name": "Consted 2.0",
+      "summary": "The current description does not establish a clear product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "summary": "AI tools for sales teams.",
+      "sectors": [
+        "agents",
+        "enterprise"
+      ],
+      "source": "https://leadpoet.com",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "summary": "Camera data and perception for autonomous driving and mapping.",
+      "sectors": [
+        "robotics",
+        "data",
+        "vision"
+      ],
+      "source": "https://www.natix.network/?utm_source=bittensor",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "summary": "The slot is named Parked; no product classification assigned.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "summary": "Autonomous software development.",
+      "sectors": [
+        "agents"
+      ],
+      "source": "https://gittensor.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "summary": "Blockchain-backed storage, virtual machines and cloud apps.",
+      "sectors": [
+        "compute",
+        "networks"
+      ],
+      "source": "https://hippius.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "summary": "An in-development API for independently verified coding outcomes.",
+      "sectors": [
+        "agents",
+        "enterprise"
+      ],
+      "source": "https://ormas.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "summary": "Incentivizing liquidity on external chains.",
+      "sectors": [
+        "defi"
+      ],
+      "source": "https://sn77.xyz",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 78,
+      "name": "Umi",
+      "summary": "Models translating American Sign Language into English.",
+      "sectors": [
+        "training",
+        "vision"
+      ],
+      "source": "https://github.com/Umi-BitSign/umi/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "summary": "An exchange focused on dTAO and related markets.",
+      "sectors": [
+        "finance",
+        "defi"
+      ],
+      "source": "https://taos.im",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "summary": "Robotics-model competitions and egocentric training data.",
+      "sectors": [
+        "robotics",
+        "training",
+        "data",
+        "vision"
+      ],
+      "source": "https://www.openroboto.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "summary": "A reinforcement-learning layer.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://www.reliqua.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 82,
+      "name": "Noah",
+      "summary": "Miner contribution and stake-allocation mechanisms described by the Noah/Ark repository.",
+      "sectors": [
+        "defi"
+      ],
+      "source": "https://github.com/Vora-Inc/NOAH/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "summary": "AI approaches to maximum-clique graph problems.",
+      "sectors": [
+        "science",
+        "optimization"
+      ],
+      "source": "https://cliqueai.toptensor.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 84,
+      "name": "Unknown",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "summary": "AI video processing.",
+      "sectors": [
+        "creative",
+        "vision"
+      ],
+      "source": "https://vidaio.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 86,
+      "name": "OnSale",
+      "summary": "The owner metadata advertises the slot for sale; no product sector assigned.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "summary": "Verified execution of enterprise agent workflows.",
+      "sectors": [
+        "agents",
+        "security",
+        "enterprise"
+      ],
+      "source": "https://provenonce.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "summary": "Decentralized asset management.",
+      "sectors": [
+        "finance",
+        "defi"
+      ],
+      "source": "https://Investing88.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "summary": "Trading-signal competitions.",
+      "sectors": [
+        "finance"
+      ],
+      "source": "https://infinitequant.app",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "summary": "Confidential computing with TEEs and Kubernetes.",
+      "sectors": [
+        "compute",
+        "security",
+        "networks"
+      ],
+      "source": "https://kubetee.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "summary": "Time-series foundation models.",
+      "sectors": [
+        "forecasting"
+      ],
+      "source": "https://www.cascade.industries/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 92,
+      "name": "REAX",
+      "summary": "Verified decision-model inference.",
+      "sectors": [
+        "inference"
+      ],
+      "source": "https://reax.co/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "summary": "Creator-economy infrastructure.",
+      "sectors": [
+        "creative"
+      ],
+      "source": "https://stats.bitcast.network/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 94,
+      "name": "Cathedral",
+      "summary": "CPU sandbox environments for reinforcement learning.",
+      "sectors": [
+        "compute",
+        "training"
+      ],
+      "source": "https://cathedral.computer/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "summary": "Heterogeneous AI inference.",
+      "sectors": [
+        "inference"
+      ],
+      "source": "https://actual.inc",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "summary": "Verified AI inference and training.",
+      "sectors": [
+        "inference",
+        "training"
+      ],
+      "source": "https://verathos.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 97,
+      "name": "Ingot",
+      "summary": "Compressing open models.",
+      "sectors": [
+        "optimization"
+      ],
+      "source": "https://theingot.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "summary": "Interactive AI companions.",
+      "sectors": [
+        "agents"
+      ],
+      "source": "https://neverplayalone.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "https://www.thirtyspokes.ai",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "summary": "Autonomous research and open AI systems.",
+      "sectors": [
+        "agents",
+        "search"
+      ],
+      "source": "https://network.cortex.foundation",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "summary": "Semantic tagging of social posts.",
+      "sectors": [
+        "data"
+      ],
+      "source": "http://tag101.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "summary": "Training specialized expert modules for larger AI systems.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://connito.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 103,
+      "name": "Unknown",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "summary": "Predictive intelligence for Bittensor.",
+      "sectors": [
+        "finance",
+        "forecasting"
+      ],
+      "source": "https://taostatus.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "summary": "Decentralized bandwidth infrastructure.",
+      "sectors": [
+        "networks"
+      ],
+      "source": "https://b1m.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "summary": "Tokenized AI compute.",
+      "sectors": [
+        "compute"
+      ],
+      "source": "https://nodexo.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "summary": "Genomic intelligence.",
+      "sectors": [
+        "science"
+      ],
+      "source": "https://theminos.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 108,
+      "name": "ChipForge",
+      "summary": "Designing chips optimized for AI workloads.",
+      "sectors": [
+        "science",
+        "optimization"
+      ],
+      "source": "https://www.chipforge.io/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "summary": "Portfolio-aware investment intelligence and financial-data tools.",
+      "sectors": [
+        "finance",
+        "enterprise"
+      ],
+      "source": "https://finsight.tech/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "summary": "Energy-focused enterprise inference hardware.",
+      "sectors": [
+        "inference",
+        "compute"
+      ],
+      "source": "https://www.green-compute.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "summary": "Structuring scientific literature into claim-and-evidence graphs.",
+      "sectors": [
+        "data",
+        "science",
+        "search"
+      ],
+      "source": "https://github.com/DeSciClaims/Claims",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 112,
+      "name": "THOR",
+      "summary": "Open-source robotics.",
+      "sectors": [
+        "robotics"
+      ],
+      "source": "https://thormachines.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 113,
+      "name": "Unknown",
+      "summary": "Current public metadata is insufficient to assign a product sector.",
+      "sectors": [],
+      "source": "",
+      "basis": "Needs review"
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "summary": "Context compression through MCP infrastructure.",
+      "sectors": [
+        "optimization"
+      ],
+      "source": "https://thesoma.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "summary": "Generative-content tools for creators and agents.",
+      "sectors": [
+        "agents",
+        "creative"
+      ],
+      "source": "https://github.com/moirai115/MoirAI",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 116,
+      "name": "Carbon",
+      "summary": "Machine learning for engineering simulations.",
+      "sectors": [
+        "science"
+      ],
+      "source": "https://carbonphysics.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 117,
+      "name": "everyframe.studio",
+      "summary": "Provider-based generation workflows for video and media.",
+      "sectors": [
+        "creative"
+      ],
+      "source": "https://github.com/everyframe-studios/everyframe-miner",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "summary": "An open-source AI coworker.",
+      "sectors": [
+        "agents",
+        "enterprise"
+      ],
+      "source": "https://heyditto.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "summary": "Evaluating training-data improvements for learning-oriented AI.",
+      "sectors": [
+        "training",
+        "data"
+      ],
+      "source": "https://github.com/capabilityforge-next/capabilityforge",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "summary": "Reasoning-model training and evaluation.",
+      "sectors": [
+        "training"
+      ],
+      "source": "https://www.affine.io",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "summary": "AI solutions for enterprise business needs.",
+      "sectors": [
+        "enterprise"
+      ],
+      "source": "https://www.sundaebar.ai/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "summary": "Tools for accessing Bittensor mining.",
+      "sectors": [
+        "networks"
+      ],
+      "source": "https://cookingtao.com/",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "summary": "Cooperative prediction.",
+      "sectors": [
+        "forecasting"
+      ],
+      "source": "https://mantis123.com",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "summary": "Training and evaluating autonomous drone pilots.",
+      "sectors": [
+        "robotics",
+        "training"
+      ],
+      "source": "https://github.com/swarm-subnet/swarm/blob/main/README.md",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "summary": "Improving pretraining algorithms.",
+      "sectors": [
+        "training",
+        "optimization"
+      ],
+      "source": "https://refinery125.com",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "summary": "Generative video.",
+      "sectors": [
+        "creative"
+      ],
+      "source": "https://attelier.ai",
+      "basis": "Owner-submitted on-chain description"
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "summary": "Trading competitions with independently replayed performance rankings.",
+      "sectors": [
+        "finance",
+        "defi"
+      ],
+      "source": "https://github.com/astridintelligence/sn-127",
+      "basis": "Project repository"
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "summary": "Distributed compute-resource aggregation and rentals.",
+      "sectors": [
+        "compute",
+        "networks"
+      ],
+      "source": "https://github.com/byteleapai/byteleap-Miner/blob/main/README.md",
+      "basis": "Project repository"
+    }
+  ]
+}

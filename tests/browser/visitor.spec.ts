@@ -188,3 +188,27 @@ test("shared privacy footer opens readable notice and wallet controls remain rea
   await expect(page.getByRole("contentinfo", { name: "Privacy and contact" })).toBeVisible();
   await noOverflow(page);
 });
+
+test("sector discovery supports overlap, search, unknown slots and subnet navigation", async ({ page }) => {
+  await page.goto("/sectors");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Bittensor");
+  await page.getByRole("button", { name: "Robotics & Physical AI 7", exact: true }).click();
+  await expect(page.getByRole("status").filter({ hasText: "subnets found" })).toContainText("7 subnets found");
+  await expect(page.getByRole("link", { name: "OpenRoboto", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Swarm", exact: true })).toBeVisible();
+  await noOverflow(page);
+  await page.getByRole("searchbox", { name: "Find a subnet", exact: true }).fill("SN80");
+  const card=page.getByRole("article").filter({ hasText: "OpenRoboto" });
+  await expect(card).toHaveCount(1);
+  await card.getByRole("button", { name: "Computer Vision", exact: true }).click();
+  await expect(card).toBeVisible();
+  await page.getByRole("searchbox", { name: "Find a subnet", exact: true }).fill("no matching sector subnet");
+  await expect(page.getByRole("heading", { name: "No matches in this view", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Show all subnets", exact: true }).click();
+  await page.getByRole("searchbox", { name: "Find a subnet", exact: true }).fill("SN113");
+  await expect(page.getByRole("article")).toContainText("Unknown");
+  await expect(page.getByRole("article")).toContainText("Needs review");
+  await page.getByRole("searchbox", { name: "Find a subnet", exact: true }).fill("SN80");
+  await page.getByRole("link", { name: "Chart & subnet details", exact: true }).click();
+  await expect(page).toHaveURL("/charts/80");
+});

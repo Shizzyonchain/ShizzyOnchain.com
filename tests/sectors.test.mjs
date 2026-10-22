@@ -1,0 +1,26 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const data=JSON.parse(fs.readFileSync(new URL('../app/data/sectors.json',import.meta.url),'utf8'));
+
+test('sector directory contains every subnet slot exactly once and only known multi-sector tags',()=>{
+ assert.equal(data.subnets.length,128);
+ assert.deepEqual(data.subnets.map(row=>row.netuid).sort((a,b)=>a-b),Array.from({length:128},(_,i)=>i+1));
+ const ids=new Set(data.sectors.map(sector=>sector.id));assert.equal(ids.size,data.sectors.length);
+ for(const row of data.subnets){
+  assert.ok(row.name&&row.summary&&row.basis);
+  assert.equal(new Set(row.sectors).size,row.sectors.length);
+  for(const id of row.sectors)assert.ok(ids.has(id));
+  if(row.source)assert.ok(['https:','http:'].includes(new URL(row.source).protocol));
+  if(!row.sectors.length)assert.equal(row.basis,'Needs review');
+ }
+ assert.ok(data.subnets.some(row=>row.sectors.length>1));
+});
+
+test('directory classifications have dated source evidence and no inherited classification for Unknown',()=>{
+ assert.ok(Number.isFinite(Date.parse(data.reviewedAt))&&data.sourceBlock>0);
+ const evidence=JSON.parse(fs.readFileSync(new URL(`../public${data.evidenceUrl}`,import.meta.url),'utf8'));
+ assert.equal(evidence.rows.length,128);assert.equal(evidence.block,data.sourceBlock);
+ for(const row of data.subnets.filter(row=>row.name==='Unknown'))assert.deepEqual(row.sectors,[]);
+ assert.ok(data.subnets.filter(row=>!row.sectors.length).every(row=>row.summary));
+});

@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/subnet-news/burns",
     "/subnet-news/exploit-conference-catch-up",
     "/subnet-news/exploit-conference-catch-up-day-2",
-    "/deep-dives",
+    "/sectors",
     "/deep-dives/bittensor-v440",
     "/deep-dives/compute-wars",
     "/deep-dives/arbos-root-basket",

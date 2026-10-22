@@ -27,7 +27,7 @@ const roles = [
 export default function BittensorV440Page() {
   return <main className="deep-shell"><DeepDivesHeader />
     <article className="deep-article v440-article">
-      <header className="article-hero v440-hero"><Link href="/deep-dives">&larr; All Deep Dives</Link><p>Protocol economics &middot; Bittensor</p><h1>Bittensor v440:<br/><span>The Emission Gate</span></h1><div><b>ShizzyUnchained</b><span>July 28, 2026</span><span>12 min read</span><span className="v440-live">Live on mainnet</span></div></header>
+      <header className="article-hero v440-hero"><Link href="/sectors">&larr; Sectors</Link><p>Protocol economics &middot; Bittensor</p><h1>Bittensor v440:<br/><span>The Emission Gate</span></h1><div><b>ShizzyUnchained</b><span>July 28, 2026</span><span>12 min read</span><span className="v440-live">Live on mainnet</span></div></header>
       <Image className="article-cover" src="/deep-dives/bittensor-v440.png" alt="Bittensor subnet signals flowing through the v440 emission gate" width={1672} height={941} sizes="100vw"/>
       <div className="article-layout"><aside><span>Inside the gate</span><ol><li>The short version</li><li>Why it changed</li><li>How the bar works</li><li>Official numbers</li><li>Who is affected</li><li>Risks and tradeoffs</li><li>What to do</li><li>Sources</li></ol></aside>
         <div className="article-body v440-body">

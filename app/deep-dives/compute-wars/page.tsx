@@ -19,7 +19,7 @@ export default function ComputeWarsPage() {
   const lines = raw.split(/\r?\n/).map(line => clean(line.trim())).filter(Boolean).slice(3);
   return <main className="deep-shell"><DeepDivesHeader />
     <article className="deep-article">
-      <header className="article-hero"><Link href="/deep-dives">← All Deep Dives</Link><p>AI infrastructure · Bittensor</p><h1>Compute Wars:<br/><span>The Battle for AI Infrastructure Has Begun</span></h1><div><b>Shizzy</b><span>@ShizzyUnchained</span><span>18 min read</span></div></header>
+      <header className="article-hero"><Link href="/sectors">← Sectors</Link><p>AI infrastructure · Bittensor</p><h1>Compute Wars:<br/><span>The Battle for AI Infrastructure Has Begun</span></h1><div><b>Shizzy</b><span>@ShizzyUnchained</span><span>18 min read</span></div></header>
       <Image className="article-cover" src="/deep-dives/compute-wars.png" alt="Compute Wars: The battle for Bittensor AI infrastructure" width={900} height={360} sizes="100vw"/>
       <div className="article-layout"><aside><span>Inside the battle</span><ol><li>Inference</li><li>Distributed compute</li><li>GPU marketplace</li><li>Private compute</li><li>Developer access</li><li>Optimization</li><li>Retrieval</li><li>Verification</li><li>Proof</li><li>Sustainability</li></ol></aside>
         <div className="article-body">{lines.map((line, index) => {

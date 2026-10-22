@@ -31,7 +31,7 @@ const navigation: readonly NavItem[] = [
   { href: "/subnet-news", label: "Subnet News" },
   { href: "/bubbles", label: "Bubbles" },
   { href: "/video", label: "Videos" },
-  { href: "/deep-dives", label: "Deep Dives" },
+  { href: "/sectors", label: "Sectors" },
   { href: "https://shizzyunchained.printful.me/", label: "Shop", external: true },
   { href: "/university", label: "Shiz University" },
   { href: "/wallet-tracker", label: "Wallet Tracker" },
