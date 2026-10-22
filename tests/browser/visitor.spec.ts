@@ -16,7 +16,8 @@ const test = base.extend<{ contracts: { failed: Set<string>; calls: string[] } }
       if (path === "/api/tao-price") value = { usd: 250, updatedAt: Math.floor(Date.now() / 1000), source: "ci-contract-fixture" };
       else if (path === "/api/wallet-activity") {
         const transfer = url.searchParams.get("kind") === "transfers", older = url.searchParams.get("page") === "2";
-        value = { rows: [{ id: older ? "8999999-0001" : "9000000-0001", extrinsic: older ? "8999999-0001" : "9000000-0001", timestamp: stamp, action: transfer ? (older ? "Sent TAO" : "Received TAO") : "SubtensorModule.add_stake", success: transfer ? null : true, amount: transfer ? "1000000000" : null, from: transfer ? keys[1] : null, to: transfer ? keys[0] : null }], nextPage: older ? null : 2, fetchedAt: stamp, source: "CI indexed history" };
+        value = { rows: [{ id: older ? "8999999-0001" : "9000000-0001", extrinsic: older ? "8999999-0001" : "9000000-0001", timestamp: stamp, action: transfer ? (older ? "Sent TAO" : "Received TAO") : "SubtensorModule.add_stake", success: transfer ? null : true, amount: transfer ? "6000000000" : null, from: transfer ? keys[1] : null, to: transfer ? keys[0] : null }], nextPage: older ? null : 2, fetchedAt: stamp, source: "CI indexed history" };
+        if (transfer) (value as { rows: unknown[] }).rows.push({ id: "dust-transfer", amount: "50000", action: "Dust transfer" });
       }
       else if (path === "/api/tao-history") value = { data: [] };
       else if (path === "/api/subnet-chart") value = chart(url.searchParams.get("interval") || "1d");
@@ -130,6 +131,8 @@ test("saved wallets persist, remove individually and clear completely", async ({
   const transfers = activity.getByRole("region", { name: "TAO transfers", exact: true });
   const signed = activity.getByRole("region", { name: "Signed transactions", exact: true });
   await expect(transfers).toContainText("Received TAO");
+  await expect(transfers).toContainText("5 TAO or more");
+  await expect(transfers).not.toContainText("Dust transfer");
   await expect(signed).toContainText("SubtensorModule.add_stake");
   await transfers.getByRole("button", { name: "Older →", exact: true }).click();
   await expect(transfers).toContainText("Sent TAO");
