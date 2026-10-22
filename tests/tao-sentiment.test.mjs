@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {taoSentiment, sentimentLabel} from '../app/lib/tao-sentiment.ts';
+import {taoSentiment, assessTaoSentiment, sentimentLabel} from '../app/lib/tao-sentiment.ts';
 const rows = (change=0,liquidity=0,acceleration=1) => Array.from({length:128},(_,i)=>({netuid:i+1,time:new Date().toISOString(),change_1h:change,liquidity_change_1h:liquidity,volume_1h_tao:100,volume_acceleration_1h:acceleration}));
 test('flat market is neutral and active selloff/buying are symmetric',()=>{
  assert.equal(taoSentiment(rows()).score,50);
@@ -43,12 +43,14 @@ test('quiet subnets retain coverage without fabricating missing comparisons',()=
  assert.equal(taoSentiment(r),null);
 });
 
-test('zero prior-volume ratios do not take a quiet market offline; active missing comparisons remain excluded',()=>{
+test('missing ratios stay out of directional volume without discarding valid price observations',()=>{
  const r=rows();
  for(let i=0;i<45;i++){r[i].volume_acceleration_1h=null;r[i].volume_1h_tao=i<30?0:1;}
- assert.equal(taoSentiment(r).count,113);
+ assert.equal(taoSentiment(r).count,128);
  assert.equal(taoSentiment(r).score,50);
  for(let i=0;i<45;i++)r[i].volume_1h_tao=1;
+ assert.ok(taoSentiment(r).volumeCoverage > 0.99);
+ for(let i=0;i<45;i++)r[i].volume_1h_tao=100;
  assert.equal(taoSentiment(r),null);
 });
 test('future timestamps cannot poison current coverage, stale or duplicate rosters cannot produce a live score',()=>{
@@ -56,4 +58,19 @@ test('future timestamps cannot poison current coverage, stale or duplicate roste
  assert.equal(taoSentiment(r).count,127);
  assert.equal(taoSentiment(rows().map(row=>({...row,time:new Date(Date.now()-240000).toISOString()}))),null);
  const duplicate=rows();duplicate[0].netuid=duplicate[1].netuid;assert.equal(taoSentiment(duplicate),null);
+});
+
+test('October 22 recurrence: many small missing volume baselines cannot disable valid market components',()=>{
+ const r=rows(1,0,2);
+ for(let i=0;i<36;i++){r[i].volume_acceleration_1h=null;r[i].volume_1h_tao=i===0?0:5;}
+ const reading=taoSentiment(r);
+ assert.equal(reading.count,128);
+ assert.equal(reading.components.breadth,100);
+ assert.ok(reading.volumeCoverage > 0.97);
+ assert.ok(Number.isFinite(reading.score));
+ // One missing comparison carrying most trading activity must still block the score.
+ r[0].volume_1h_tao=100000;
+ const unavailable=assessTaoSentiment(r);
+ assert.equal(unavailable.reading,null);
+ assert.match(unavailable.reason,/Volume comparison coverage/);
 });

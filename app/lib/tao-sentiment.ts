@@ -23,13 +23,13 @@ export function sentimentLabel(score: number) {
 
 // A transparent heuristic, not a surveyed emotion index or calibrated forecast.
 // Raw alpha/TAO data keeps the reading independent of the display currency.
-export function taoSentiment(rows: SentimentRow[], period: "1h" | "24h" = "1h", now = Date.now()) {
+export function assessTaoSentiment(rows: SentimentRow[], period: "1h" | "24h" = "1h", now = Date.now()) {
   const roster = rows.filter(row => row.netuid > 0).map(row => period === "1h" ? row : ({
     ...row, change_1h: row.change_24h, liquidity_change_1h: row.liquidity_change_24h,
     volume_1h_tao: row.volume_24h_tao, volume_acceleration_1h: row.volume_acceleration_24h,
   }));
   const unique = new Set(roster.map(row => row.netuid));
-  if (unique.size !== roster.length) return null;
+  if (unique.size !== roster.length) return { reading: null, reason: "Duplicate subnet rows in the feed." };
   const times = roster.map(row => Date.parse(row.time || "")).filter(time => Number.isFinite(time) && time <= now + 60_000);
   const newest = times.length ? Math.max(...times) : NaN;
   const usable = roster.filter(row => {
@@ -37,24 +37,34 @@ export function taoSentiment(rows: SentimentRow[], period: "1h" | "24h" = "1h", 
     return Number.isFinite(time) && time <= now + 60_000 && now - time <= 180_000 && newest - time <= 180_000 &&
       numeric(row.change_1h) && numeric(row.liquidity_change_1h) && Number(row.liquidity_change_1h) > -100 &&
       numeric(row.volume_1h_tao) && Number(row.volume_1h_tao) >= 0 &&
-      // Zero is a valid ratio when this period has no trades and the prior period did.
-      (Number(row.volume_1h_tao) === 0 && (row.volume_acceleration_1h == null || numeric(row.volume_acceleration_1h) && Number(row.volume_acceleration_1h) >= 0) || numeric(row.volume_acceleration_1h) && Number(row.volume_acceleration_1h) >= 0);
+      (row.volume_acceleration_1h == null || row.volume_acceleration_1h === "" ||
+        numeric(row.volume_acceleration_1h) && Number(row.volume_acceleration_1h) >= 0);
   });
   const coverage = roster.length ? usable.length / roster.length : 0;
-  if (roster.length < 32 || coverage < 0.8) return null;
+  if (roster.length < 32 || coverage < 0.8) return { reading: null, reason: `Fresh price/liquidity coverage: ${usable.length}/${roster.length} subnets; at least 80% and 32 subnets required.` };
   const breadth = 100 * usable.reduce((sum, row) => sum + (Number(row.change_1h) > 0 ? 1 : Number(row.change_1h) < 0 ? 0 : 0.5), 0) / usable.length;
   const momentum = clamp(50 + median(usable.map(row => Number(row.change_1h))) * 10);
   const liquidity = clamp(50 + median(usable.map(row => Number(row.liquidity_change_1h))) * 10);
-  let volume = 0, directionalActivity = 0;
+  let volume = 0, totalVolume = 0, directionalActivity = 0;
+  // The directional component is volume-weighted, so assess its comparison
+  // coverage by actual TAO volume, not by the number of tiny/quiet markets.
+  // Missing ratios never remove valid price and liquidity observations.
   for (const row of usable) {
     const current = Number(row.volume_1h_tao);
-    if (current === 0) continue; // Zero activity has zero directional weight; no ratio is invented.
+    totalVolume += current;
+    if (current === 0 || !numeric(row.volume_acceleration_1h)) continue; // Zero activity has zero directional weight; no ratio is invented.
     volume += current;
     directionalActivity += current * Math.sign(Number(row.change_1h)) * Math.min(1, Math.max(0, Number(row.volume_acceleration_1h) - 1));
   }
+  const volumeCoverage = totalVolume > 0 ? volume / totalVolume : 1;
+  if (volumeCoverage < 0.8) return { reading: null, reason: `Volume comparison coverage: ${(volumeCoverage * 100).toFixed(1)}%; at least 80% of observed trading volume required.` };
   // Quiet volume stays neutral; high volume amplifies its observed direction.
   const volumeScore = volume > 0 ? clamp(50 + 50 * directionalActivity / volume) : 50;
-  return { score: Math.round(breadth * 0.35 + momentum * 0.25 + liquidity * 0.25 + volumeScore * 0.15),
-    coverage, count: usable.length, total: roster.length, updatedAt: newest,
-    components: { breadth, momentum, liquidity, volume: volumeScore } };
+  return { reason: "", reading: { score: Math.round(breadth * 0.35 + momentum * 0.25 + liquidity * 0.25 + volumeScore * 0.15),
+    coverage, volumeCoverage, count: usable.length, total: roster.length, updatedAt: newest,
+    components: { breadth, momentum, liquidity, volume: volumeScore } } };
+}
+
+export function taoSentiment(rows: SentimentRow[], period: "1h" | "24h" = "1h", now = Date.now()) {
+  return assessTaoSentiment(rows, period, now).reading;
 }
