@@ -14,6 +14,10 @@ const test = base.extend<{ contracts: { failed: Set<string>; calls: string[] } }
       if (path === "/api/backend/v1/screener" || path === "/api/market-status" || /^\/api\/subnets\/\d+\/news$/.test(path)) return route.continue();
       let value: unknown;
       if (path === "/api/tao-price") value = { usd: 250, updatedAt: Math.floor(Date.now() / 1000), source: "ci-contract-fixture" };
+      else if (path === "/api/wallet-activity") {
+        const transfer = url.searchParams.get("kind") === "transfers", older = url.searchParams.get("page") === "2";
+        value = { rows: [{ id: older ? "8999999-0001" : "9000000-0001", extrinsic: older ? "8999999-0001" : "9000000-0001", timestamp: stamp, action: transfer ? (older ? "Sent TAO" : "Received TAO") : "SubtensorModule.add_stake", success: transfer ? null : true, amount: transfer ? "1000000000" : null, from: transfer ? keys[1] : null, to: transfer ? keys[0] : null }], nextPage: older ? null : 2, fetchedAt: stamp, source: "CI indexed history" };
+      }
       else if (path === "/api/tao-history") value = { data: [] };
       else if (path === "/api/subnet-chart") value = chart(url.searchParams.get("interval") || "1d");
       else if (path === "/api/tao-chart") value = { ...chart(url.searchParams.get("interval") || "1d"), data: chart(url.searchParams.get("interval") || "1d").data.map(([time]) => ({ time, open: "250", high: "250", low: "250", close: "250" })) };
@@ -121,6 +125,17 @@ test("saved wallets persist, remove individually and clear completely", async ({
   }, { wallets: cachedWallets });
   await page.goto("/wallet-tracker");
   await expect(page.locator(".wallet-remove")).toHaveCount(2);
+  await page.getByRole("button", { name: `View recent transactions for wallet ${keys[0]}`, exact: true }).click();
+  const activity = page.getByRole("region", { name: "Selected wallet recent activity", exact: true });
+  const transfers = activity.getByRole("region", { name: "TAO transfers", exact: true });
+  const signed = activity.getByRole("region", { name: "Signed transactions", exact: true });
+  await expect(transfers).toContainText("Received TAO");
+  await expect(signed).toContainText("SubtensorModule.add_stake");
+  await transfers.getByRole("button", { name: "Older →", exact: true }).click();
+  await expect(transfers).toContainText("Sent TAO");
+  await expect(signed).toContainText("Page 1");
+  await noOverflow(page);
+  await page.getByRole("button", { name: "Close wallet activity", exact: true }).click();
   await page.locator(".wallet-remove").first().click();
   await expect(page.locator(".wallet-remove")).toHaveCount(1);
   await page.reload(); await expect(page.locator(".wallet-remove")).toHaveCount(1);
