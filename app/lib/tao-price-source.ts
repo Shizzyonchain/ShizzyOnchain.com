@@ -15,7 +15,7 @@ export async function getTaoQuote(): Promise<TaoQuote | null> {
   if (pending) return pending;
   pending = (async () => {
     const read = async (source: string, url: string, extract: (data: Record<string, unknown>) => { usd: number; updatedAt?: number }) => {
-      const response = await fetch(url, { next: { revalidate: 30 }, signal: AbortSignal.timeout(1800) });
+      const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(1800) });
       if (!response.ok) throw new Error("Quote provider unavailable");
       const parsed = extract(await response.json());
       const quote = { ...parsed, source, updatedAt: parsed.updatedAt ?? Math.floor(Date.now() / 1000) };
