@@ -1,8 +1,10 @@
+import { requestGuard } from "../../../lib/request-protection";
 import { after, NextRequest, NextResponse } from "next/server";
 import { prepareSubnetRecommendations, readSubnetRecommendations } from "../../../lib/subnet-recommendation-preparation";
 import { recommendationNeedsRefresh } from "../../../lib/recommendation-freshness";
 export const maxDuration = 120;
 export async function GET(request: NextRequest) {
+  const blocked = requestGuard(request, "research"); if (blocked) return blocked;
   const raw = request.nextUrl.searchParams.get("netuid");
   const netuid = Number(raw);
   if (!raw || !/^\d+$/.test(raw) || !Number.isInteger(netuid) || netuid < 1 || netuid > 1024) return NextResponse.json({ error: "Choose a valid alpha subnet." }, { status: 400 });

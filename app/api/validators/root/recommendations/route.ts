@@ -1,3 +1,4 @@
+import { requestGuard } from "../../../../lib/request-protection";
 import { NextResponse } from "next/server";
 import { readPreparedHistory } from "../../../../lib/root-preparation-source";
 import { getRootOperation } from "../../../../lib/root-operation-source";
@@ -6,7 +7,8 @@ import { rootEligibility, type RootMatch } from "../../../../lib/root-ranking";
 import { basketContext } from "../../../../lib/root-baskets";
 import { shortAddress } from "../../../../lib/validator-types";
 export const maxDuration = 30;
-export async function GET() {
+export async function GET(request: Request) {
+  const blocked = requestGuard(request, "research"); if (blocked) return blocked;
   try {
     const [snapshot, operation] = await Promise.all([getRootSnapshot(), getRootOperation()]);
     const seats = new Map(operation.map(row => [row.hotkey, row]));

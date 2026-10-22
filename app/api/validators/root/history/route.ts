@@ -1,8 +1,10 @@
+import { requestGuard } from "../../../../lib/request-protection";
 import { NextRequest, NextResponse } from "next/server";
 import { getStandaloneValidators } from "../../../../lib/standalone-validators";
 import { getRootHistory } from "../../../../lib/root-history-source";
 
 export async function GET(request: NextRequest) {
+  const blocked = requestGuard(request, "research"); if (blocked) return blocked;
   const hotkey = request.nextUrl.searchParams.get("hotkey") || "";
   if (!/^[1-9A-HJ-NP-Za-km-z]{46,50}$/.test(hotkey)) return NextResponse.json({ error: "Invalid validator hotkey." }, { status: 400 });
   try {

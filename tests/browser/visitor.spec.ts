@@ -144,6 +144,22 @@ test("saved wallets persist, remove individually and clear completely", async ({
   await page.reload(); await expect(page.locator(".wallet-remove")).toHaveCount(0); await noOverflow(page);
 });
 
+test("wallet activity throttle stays readable and can recover on retry", async ({ page }) => {
+  await page.addInitScript(({ wallets }) => localStorage.setItem("shizzy:wallet-cache:v1", JSON.stringify({ wallets, savedAt: new Date().toISOString() })), { wallets: cachedWallets });
+  let throttle = true;
+  await page.route("**/api/wallet-activity?**", route => throttle ? route.fulfill({ status: 429, headers: { "Retry-After": "60" }, json: { error: "Too many data requests. Please wait 60 seconds and try again." } }) : route.fallback());
+  await page.goto("/wallet-tracker");
+  await page.getByRole("button", { name: `View recent transactions for wallet ${keys[0]}`, exact: true }).click();
+  const activity = page.getByRole("region", { name: "Selected wallet recent activity", exact: true });
+  const transfers = activity.getByRole("region", { name: "TAO transfers", exact: true });
+  await expect(transfers).toContainText("Please wait 60 seconds");
+  await noOverflow(page);
+  throttle = false;
+  await transfers.getByRole("button", { name: "Try again", exact: true }).click();
+  await expect(transfers).toContainText("Received TAO");
+  await noOverflow(page);
+});
+
 test("archived unavailable evidence is not clickable and partner referrals remain intact", async ({ page }) => {
   await page.goto("/subnet-news/2026-08-11");
   await expect(page.locator(".news-source-unavailable")).toHaveCount(5);

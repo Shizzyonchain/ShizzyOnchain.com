@@ -1,3 +1,4 @@
+import { requestGuard } from "../../lib/request-protection";
 import { chartResponse } from "../../lib/chart-cache-source";
 import { NextRequest, NextResponse } from "next/server";
 import { aggregateBars, priceBars } from "../../lib/chart-data";
@@ -44,6 +45,7 @@ async function loadUncached(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const blocked = requestGuard(request, "research"); if (blocked) return blocked;
   const interval = request.nextUrl.searchParams.get("interval") || "1h";
   const before = request.nextUrl.searchParams.get("before");
   const subnet = request.nextUrl.searchParams.get("netuid") || "";

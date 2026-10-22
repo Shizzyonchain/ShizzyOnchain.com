@@ -1,8 +1,10 @@
+import { requestGuard } from "../../lib/request-protection";
 import { NextResponse } from "next/server";
 import { getTaoHistory } from "../../lib/tao-history";
 
 export const dynamic = "force-dynamic";
-export async function GET() {
+export async function GET(request: Request) {
+  const blocked = requestGuard(request, "research"); if (blocked) return blocked;
   const data = await getTaoHistory();
   if (!data.length) return NextResponse.json({ error: "TAO dollar history unavailable" }, { status: 503 });
   return NextResponse.json({ data, source: "coinbase", resolution: "1m" }, {
