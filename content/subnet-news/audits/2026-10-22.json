@@ -12,7 +12,7 @@
     "xAccountSamples": 217,
     "availableAccountSamples": 206,
     "originalPages": 261,
-    "stories": 26
+    "stories": 25
   },
   "sourceMethods": [
     "128 current subnet profiles, 98 dated briefs, 217 account/alias samples and 203 repository paths",
@@ -11287,8 +11287,8 @@
           "error": null
         }
       ],
-      "publishedItemCount": 1,
-      "editorialOutcome": "Included sourced material development"
+      "publishedItemCount": 0,
+      "editorialOutcome": "Joint pilot covered once in ecosystem story; exact SN mentions feed both subnet histories."
     },
     {
       "netuid": 11,
@@ -18836,8 +18836,8 @@
           "error": null
         }
       ],
-      "publishedItemCount": 1,
-      "editorialOutcome": "Included sourced material development"
+      "publishedItemCount": 0,
+      "editorialOutcome": "Joint pilot covered once in ecosystem story; exact SN mentions feed both subnet histories."
     },
     {
       "netuid": 72,
@@ -24703,7 +24703,8 @@
       "SN107 exact IM2 date still pending",
       "SN111 Claims publicized processing an earlier antivenom paper. This is not evidence SN111 developed the therapy; underlying preclinical claims not independently reviewed, no new medical result attributed to the subnet."
     ],
-    "snapshotEvidenceBlock": 9339916
+    "snapshotEvidenceBlock": 9339916,
+    "jointPilotDeduplication": "Single ecosystem story mentions SN71 and SN10 explicitly so both subnet histories receive it without duplicate ranked-feed entries."
   },
   "momentsReview": {
     "source": "https://subnetradar.com/alpha/moments",

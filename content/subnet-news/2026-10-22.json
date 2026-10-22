@@ -24,7 +24,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 2,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Executable read-only pilot is a limited but verifiable step; live evaluation and weights remain pending.",
           "sources": [
             {
               "label": "Primary code or product",
@@ -68,7 +68,7 @@
           "importance": "medium",
           "status": "developing",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Reward-pool changes and an attributed recovery update affect miners directly, without proving complete reimbursement.",
           "sources": [
             {
               "label": "Primary code or product",
@@ -92,7 +92,7 @@
           "importance": "high",
           "status": "verified",
           "rating": 4,
-          "ratingReason": "Material finalized token-retirement execution, supported by chain events; price effects are not inferred.",
+          "ratingReason": "Five successful native-token burn events meet the threshold individually and include a material 7,133-alpha retirement.",
           "sources": [
             {
               "label": "Primary source",
@@ -130,26 +130,7 @@
     {
       "netuid": 10,
       "name": "Pareton",
-      "updates": [
-        {
-          "headline": "SN10 Pareton confirms the SN71 Leadpoet pilot",
-          "summary": "SN10 Pareton confirmed on October 22 that it is using SN71 Leadpoet to identify prospective inference-optimization customers and reach technical buyers. The matching announcements establish a pilot, with no disclosed contract value or completed conversions. The detailed joint story is filed under SN71 Leadpoet; this entry keeps it discoverable from SN10 Pareton’s history.",
-          "importance": "high",
-          "status": "verified",
-          "rating": 4,
-          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
-          "sources": [
-            {
-              "label": "Original announcement",
-              "url": "https://x.com/Pareton_ai/status/2113253846470582537"
-            },
-            {
-              "label": "Original announcement",
-              "url": "https://x.com/LeadpoetAI/status/2113274598368100684"
-            }
-          ]
-        }
-      ]
+      "updates": []
     },
     {
       "netuid": 11,
@@ -166,7 +147,7 @@
           "importance": "high",
           "status": "verified",
           "rating": 4,
-          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "ratingReason": "Authentication and receipt-validation hardening spans four operator components, making review materially important.",
           "sources": [
             {
               "label": "Primary code or product",
@@ -231,7 +212,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "A new main-subnet embedding task creates a concrete GPU participation option with published requirements.",
           "sources": [
             {
               "label": "Original announcement",
@@ -255,7 +236,7 @@
           "importance": "high",
           "status": "verified",
           "rating": 4,
-          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "ratingReason": "A live product and explicit planned commercial relationship clarify the subnet business model; revenue execution is not assumed.",
           "sources": [
             {
               "label": "Original announcement",
@@ -307,7 +288,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "The dated provider comparison helps API buyers check costs, but savings and privacy advantages remain provider claims.",
           "sources": [
             {
               "label": "Original announcement",
@@ -356,7 +337,7 @@
           "importance": "high",
           "status": "developing",
           "rating": 4,
-          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "ratingReason": "A new routing product and proposed mining transition change the subnet’s intended work; full activation remains unverified.",
           "sources": [
             {
               "label": "Original announcement",
@@ -464,7 +445,7 @@
           "importance": "high",
           "status": "verified",
           "rating": 4,
-          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "ratingReason": "Specific inventory and rented-supply figures offer useful adoption context beyond price, while remaining team-reported.",
           "sources": [
             {
               "label": "Original announcement",
@@ -503,7 +484,7 @@
           "importance": "medium",
           "status": "developing",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Upload failures and skipped miners are consequential operating problems with no independently established resolution.",
           "sources": [
             {
               "label": "Attributed channel digest",
@@ -537,7 +518,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Competition results and the next level are useful participation developments; they do not establish commercial robot adoption.",
           "sources": [
             {
               "label": "Original announcement",
@@ -580,7 +561,7 @@
           "importance": "medium",
           "status": "developing",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Disabling validators is a material availability issue for participants; recovery remains unverified.",
           "sources": [
             {
               "label": "Attributed channel digest",
@@ -615,7 +596,7 @@
           "importance": "high",
           "status": "verified",
           "rating": 4,
-          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "ratingReason": "A public restricted theorem and validation record provide inspectable scientific output; novelty and independent replay remain unverified.",
           "sources": [
             {
               "label": "Original announcement",
@@ -637,7 +618,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "The challenge rewards formally constrained kernel optimization; the speed claim remains benchmark-specific.",
           "sources": [
             {
               "label": "Original announcement",
@@ -665,7 +646,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Removing a paid-model restriction expands miner choices within the existing competition, without a new performance claim.",
           "sources": [
             {
               "label": "Original announcement",
@@ -697,26 +678,7 @@
     {
       "netuid": 71,
       "name": "Leadpoet",
-      "updates": [
-        {
-          "headline": "SN71 Leadpoet starts a sales pilot with SN10 Pareton",
-          "summary": "SN71 Leadpoet and SN10 Pareton both announced their pilot on October 22. The work is to identify AI companies facing GPU-cost and inference bottlenecks, find technical decision-makers and run targeted outreach for SN10 Pareton. This is a concrete trial of the sales-agent service beyond its earlier launch. Neither team disclosed a contract value, customers won or resulting revenue; the pilot should be judged on subsequent conversion results.",
-          "importance": "high",
-          "status": "verified",
-          "rating": 4,
-          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
-          "sources": [
-            {
-              "label": "Original announcement",
-              "url": "https://x.com/LeadpoetAI/status/2113274598368100684"
-            },
-            {
-              "label": "Original announcement",
-              "url": "https://x.com/Pareton_ai/status/2113253846470582537"
-            }
-          ]
-        }
-      ]
+      "updates": []
     },
     {
       "netuid": 72,
@@ -793,7 +755,7 @@
           "importance": "medium",
           "status": "developing",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Dated enrollment and evaluation windows are actionable competition information, not a completed product result.",
           "sources": [
             {
               "label": "Attributed channel digest",
@@ -843,7 +805,7 @@
           "importance": "medium",
           "status": "developing",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Bug remediation and scheduled rule changes materially affect miner evaluation and rewards; compensation is not confirmed complete.",
           "sources": [
             {
               "label": "Attributed channel digest",
@@ -895,7 +857,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "A reported quantization comparison and open two-bit round are useful competition developments, not independently reproduced superiority.",
           "sources": [
             {
               "label": "Original announcement",
@@ -968,7 +930,7 @@
           "importance": "medium",
           "status": "developing",
           "rating": 2,
-          "ratingReason": "Actionable scheduled scientific event, retained as a reminder rather than a completed presentation.",
+          "ratingReason": "A time-specific reminder is useful for attendees, but repeats a scheduled event rather than establishing scientific adoption.",
           "sources": [
             {
               "label": "Primary source",
@@ -1022,7 +984,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Workload-dependent token savings are useful team-reported competition output, with quality preservation still to assess.",
           "sources": [
             {
               "label": "Original announcement",
@@ -1056,7 +1018,7 @@
           "importance": "medium",
           "status": "developing",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "New epoch-accounting and recovery commands address reward reliability, without proving every delayed payout settled.",
           "sources": [
             {
               "label": "Primary code or product",
@@ -1080,7 +1042,7 @@
           "importance": "medium",
           "status": "verified",
           "rating": 3,
-          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "ratingReason": "Runtime-482 compatibility is concrete operating work; it does not establish fund movement or finished bounty payouts.",
           "sources": [
             {
               "label": "Primary code or product",
@@ -1175,6 +1137,24 @@
         {
           "label": "Shizzy members video — October 21",
           "url": "https://www.youtube.com/watch?v=PmO2ELJ4q2g"
+        }
+      ]
+    },
+    {
+      "headline": "SN71 Leadpoet starts a sales pilot with SN10 Pareton",
+      "summary": "SN71 Leadpoet and SN10 Pareton both announced their pilot on October 22. The work is to identify AI companies facing GPU-cost and inference bottlenecks, find technical decision-makers and run targeted outreach for SN10 Pareton. This is a concrete trial of the sales-agent service beyond its earlier launch. Neither team disclosed a contract value, customers won or resulting revenue; the pilot should be judged on subsequent conversion results.",
+      "importance": "high",
+      "status": "verified",
+      "rating": 4,
+      "ratingReason": "Matching primary announcements establish a concrete customer-development pilot, with revenue and conversions undisclosed.",
+      "sources": [
+        {
+          "label": "Original announcement",
+          "url": "https://x.com/LeadpoetAI/status/2113274598368100684"
+        },
+        {
+          "label": "Original announcement",
+          "url": "https://x.com/Pareton_ai/status/2113253846470582537"
         }
       ]
     }
