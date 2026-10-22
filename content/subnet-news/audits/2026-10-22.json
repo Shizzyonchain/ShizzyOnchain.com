@@ -24684,8 +24684,8 @@
     "market": "DONE",
     "videos": "DONE",
     "taostats": "PARTIAL: server routes accessible; independent reconciliation/quota unavailable",
-    "publication": "PENDING",
-    "dailyTweet": "PENDING after live verification"
+    "publication": "DONE: production READY, latest/dated news, Burns, eTAO, videos and affected subnet histories verified; phone fits and short updates expand.",
+    "dailyTweet": "DONE: posted once and verified directly on @ShizzyUnchained."
   },
   "editorialQualityReview": {
     "competitionCap": 3,
@@ -24733,6 +24733,35 @@
     "burnTests": 5,
     "lint": "passed",
     "build": "passed",
-    "publication": "pending"
-  }
+    "publication": "READY dpl_3xRE4D4rBPmW8bb14aJtreC4vQUX for 9a3de4d; Application CI 39807987194 and news validation 39807986383 passed",
+    "mobile": {
+      "viewport": 390,
+      "contentWidth": 375,
+      "documentWidth": 375,
+      "shortUpdatesExpanded": true
+    },
+    "liveEvidence": [
+      "live-first.json",
+      "live-subnet-history.json",
+      "news-phone.png",
+      "published-tweet.txt",
+      "daily-tweet.png"
+    ]
+  },
+  "dailyXRoundup": {
+    "identity": "@ShizzyUnchained",
+    "url": "https://x.com/ShizzyUnchained/status/2113296535513665662",
+    "text": "Bittensor changed again. Did you catch it?\n\n• Runtime 482 is live\n• SN71 Leadpoet × SN10 Pareton pilot\n• SN51 Lium: 225 B300s (team-reported)\n• SN8 Vanta: 7,133 alpha burned on-chain\n\n25 sourced updates. What shipped. What’s planned.\n\nhttps://shizzyunchained.com/subnet-news/2026-10-22\n$TAO",
+    "verifiedAt": "2026-10-22T15:50:18.128566+00:00",
+    "postedAt": "2026-10-22T15:48:51.874000+00:00",
+    "outcome": "Published once after READY deployment and live report verification. Initial semantic click did not submit; profile checked before visible-control submission. Direct post verified.",
+    "evidence": "research-oct22/daily-tweet.png"
+  },
+  "pendingNextEdition": [
+    {
+      "url": "https://x.com/thinkinstant/status/2113294314763612207",
+      "observedAt": "2026-10-22T15:50:18.128566+00:00",
+      "outcome": "Appeared during post-publication verification after the stated 15:23 UTC cutoff. Team says reservations will soon be available on Liquid Marketplace; planned, not live. Carry for next edition and primary confirmation rather than amend a completed roundup."
+    }
+  ]
 }
