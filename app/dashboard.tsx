@@ -2127,10 +2127,10 @@ export function Dashboard({
                       >
                         <td>{i + 1}</td>
                         <td>
-                          <Link className="subnet-chart-link" href={`/charts/${r.netuid}?currency=${currency}&interval=${timeframe}`} prefetch={false} onClick={event => event.stopPropagation()} onKeyDown={event => event.stopPropagation()}>
+                          <div><Link className="subnet-chart-link" href={`/charts/${r.netuid}?currency=${currency}&interval=${timeframe}`} prefetch={false} onClick={event => event.stopPropagation()} onKeyDown={event => event.stopPropagation()}>
                             <b>{r.name || "Unknown"}</b>
                             <small>SN{r.netuid}{!snapshotIsFresh(Date.parse(r.time || "")) && " · Delayed"}</small>
-                          </Link>
+                          </Link></div>
                         </td>
                         <td>{money(r.price_tao, true)}</td>
                         <td className={`emission-cell ${changeClass(r.emission_change_24h)}`} data-help={r.emission_change_24h == null ? "24-hour emission history unavailable. Color tracks emission allocation, not price." : `Emission share ${Number(r.emission_change_24h) > 0 ? "increased" : Number(r.emission_change_24h) < 0 ? "decreased" : "was unchanged"} by ${fmt(Math.abs(Number(r.emission_change_24h)), 4)} percentage points over 24 hours. Green = increased; red = decreased. This is allocation, not price.`}>
