@@ -12,7 +12,7 @@
     "xAccountSamples": 217,
     "availableAccountSamples": 206,
     "originalPages": 261,
-    "stories": 25
+    "stories": 26
   },
   "sourceMethods": [
     "128 current subnet profiles, 98 dated briefs, 217 account/alias samples and 203 repository paths",
@@ -24762,6 +24762,18 @@
       "url": "https://x.com/thinkinstant/status/2113294314763612207",
       "observedAt": "2026-10-22T15:50:18.128566+00:00",
       "outcome": "Appeared during post-publication verification after the stated 15:23 UTC cutoff. Team says reservations will soon be available on Liquid Marketplace; planned, not live. Carry for next edition and primary confirmation rather than amend a completed roundup."
+    }
+  ],
+  "ownerFollowUps": [
+    {
+      "checkedAt": "2026-10-22T16:11:38.857669+00:00",
+      "source": "https://x.com/forevermoney_ai/status/2113298460589858879",
+      "signedInIdentity": "@ShizzyUnchained",
+      "postTime": "2026-10-22T15:56:00Z",
+      "outcome": "Added SN80 planned Solana bridge as developing, attributed to bridge provider; no live-availability or independent first-of-kind assertion. Original post read in signed-in X; attached short video is promotional, factual summary limited to original text. Owner changed Shizzy video rating to three; today’s item and both standing guides updated.",
+      "gaps": [
+        "Solana production transfer availability, launch time and token contract not verified."
+      ]
     }
   ]
 }

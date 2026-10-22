@@ -723,7 +723,22 @@
     {
       "netuid": 80,
       "name": "OpenRoboto",
-      "updates": []
+      "updates": [
+        {
+          "headline": "SN80 OpenRoboto plans Solana availability through ForeverMoney",
+          "summary": "In an October 22 announcement at 11:56 a.m. ET, bridge provider ForeverMoney said SN80 OpenRoboto will become available on Solana through its bridge, with Chainlink CCIP powering the planned cross-chain connection. It also plans Solana bridging for TAO and other subnet tokens. The post uses “will go live” and “once live”: it is an announced rollout, not confirmation that Solana transfers are already available. ForeverMoney describes SN80 as the first subnet to span Base, Robinhood Chain and Solana; that first-of-kind claim and production availability have not been independently established. No launch time or token contract was provided in this post.",
+          "importance": "high",
+          "status": "developing",
+          "rating": 4,
+          "ratingReason": "A named bridge provider announces a concrete additional-chain distribution plan for SN80; completion and first-of-kind claims remain unverified.",
+          "sources": [
+            {
+              "label": "ForeverMoney original announcement — October 22",
+              "url": "https://x.com/forevermoney_ai/status/2113298460589858879"
+            }
+          ]
+        }
+      ]
     },
     {
       "netuid": 81,
@@ -1129,10 +1144,10 @@
     {
       "headline": "Shizzy’s October 21 members news video is available",
       "summary": "The latest members update is the October 21 Bittensor news and price-action episode, approximately eight minutes long. YouTube marks it members-only, so playback remains through membership access. The existing public default is preserved; the already-covered SN58 Attune interview remains a replay rather than a newly scheduled stream.",
-      "importance": "high",
+      "importance": "medium",
       "status": "verified",
-      "rating": 4,
-      "ratingReason": "Original Shizzy coverage receives editorial feature priority, with membership access clearly labelled.",
+      "rating": 3,
+      "ratingReason": "Owner editorial rule: Shizzy video coverage is three stars; membership access remains clearly labelled.",
       "sources": [
         {
           "label": "Shizzy members video — October 21",
