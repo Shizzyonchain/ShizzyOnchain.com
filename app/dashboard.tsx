@@ -1,4 +1,5 @@
 "use client";
+import { quoteFresh, quoteUsable, type TaoQuote } from "./lib/fx-price";
 
 import { CSSProperties, FormEvent, PointerEvent as ReactPointerEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
@@ -21,7 +22,7 @@ import { SentimentTile } from "./sentiment-tile";
 import { OverviewHelp } from "./overview-help";
 import { MetricExplanation } from "./metric-explanation";
 import metricStyles from "./metric-explanation.module.css";
-import { latestSnapshotTime, snapshotIsFresh, persistMarketSnapshot, MARKET_SNAPSHOT_CACHE_MAX_AGE_MS } from "./lib/market-snapshot";
+import { latestSnapshotTime, snapshotIsFresh, marketSnapshotHealth, persistMarketSnapshot, MARKET_SNAPSHOT_CACHE_MAX_AGE_MS } from "./lib/market-snapshot";
 import {
   bubbleTimeframeHasCoverage,
   bubbleTimeframeLabel,
@@ -815,7 +816,7 @@ const changeClass = (v?: string) => (Number(v ?? 0) > 0 ? "positive" : Number(v 
 
 const TradingChart = dynamic(() => import("./trading-chart"), { ssr: false,
   loading: () => <div className="chart-module-loading" role="status">Opening chart…</div> });
-type ChartHistory = { data: Candle[]; savedAt: number; method: string; done?: boolean };
+type ChartHistory = { data: Candle[]; savedAt: number; method: string; done?: boolean; notice?: string };
 const candleCache = new Map<string, ChartHistory>();
 const candleRequests = new Map<string, Promise<ChartHistory>>();
 const portfolioColors = ["#16d9c4", "#ffb547", "#ff5d73", "#64748b", "#36d66b", "#ff8a4c", "#173766", "#c7e85b", "#40b8ff"];
@@ -860,9 +861,13 @@ function loadChartHistory(netuid: number | "tao", timeframe: string, before?: nu
     const timeout = window.setTimeout(() => controller.abort(), 28_000);
     try {
       let response = await fetch(url, { signal: controller.signal });
-      if (!response.ok && netuid !== "tao" && before === undefined) response = await fetch(nodeUrl, { cache: "no-store", signal: controller.signal });
+      let nodeFallback = false;
+      if (!response.ok && netuid !== "tao" && before === undefined) {
+        if (cached?.data.length) return { data: cached.data.map(c => [c.time,c.open,c.high,c.low,c.close,c.volume_tao || 0]), method: cached.method, historyStale: true, historyCheckedAt: new Date(cached.savedAt).toISOString() };
+        nodeFallback = true; response = await fetch(nodeUrl, { cache: "no-store", signal: controller.signal });
+      }
       if (!response.ok) throw new Error(`Chart request failed: ${response.status}`);
-      return await response.json();
+      return { ...await response.json(), nodeFallback };
     } finally {
       window.clearTimeout(timeout);
     }
@@ -870,7 +875,7 @@ function loadChartHistory(netuid: number | "tao", timeframe: string, before?: nu
   const request = fetchWithRetry()
     .then((json) => {
       const data = netuid === "tao" ? (json.data || []) as Candle[] : decodeCompactCandles(json.data || []);
-      const snapshot = { data: before === undefined ? mergeChartCandles(cached?.data || [], data) : data, savedAt: Date.now(), method: cached?.method === "extended-price" ? "extended-price" : json.method || (netuid === "tao" ? "exchange" : "boundary"), done: cached?.done || json.done === true };
+      const snapshot = { data: before === undefined ? mergeChartCandles(cached?.data || [], data) : data, savedAt: Date.now(), method: cached?.method === "extended-price" ? "extended-price" : json.method || (netuid === "tao" ? "exchange" : "boundary"), done: cached?.done || json.done === true, notice: json.nodeFallback ? "Limited node fallback history · provider temporarily unavailable" : json.historyStale ? `Cached history checked ${new Date(json.historyCheckedAt).toLocaleString("en-US", { timeZone: "UTC", timeStyle: "short" })} UTC · refreshing in background` : undefined };
       candleCache.set(key, snapshot);
       if (candleCache.size > 128) candleCache.delete(candleCache.keys().next().value!);
       return snapshot;
@@ -888,11 +893,15 @@ function marketSnapshotAge(rows: ScreenerRow[]) {
 }
 
 function marketSnapshotIsFresh(rows: ScreenerRow[]) {
-  return snapshotIsFresh(latestSnapshotTime(rows));
+  return marketSnapshotHealth(rows).fresh;
 }
 
 function marketSnapshotIsUsable(rows: ScreenerRow[]) {
-  return marketSnapshotAge(rows) <= MARKET_SNAPSHOT_CACHE_MAX_AGE_MS;
+  const now = Date.now();
+  return marketSnapshotHealth(rows, now).complete && rows.filter(row => row.netuid > 0).every(row => {
+    const time = Date.parse(row.time || "");
+    return Number.isFinite(time) && time <= now + 60_000 && now - time <= MARKET_SNAPSHOT_CACHE_MAX_AGE_MS;
+  });
 }
 
 async function fetchJsonWithTimeout(url: string, timeoutMs = 18_000) {
@@ -913,6 +922,7 @@ export function Dashboard({
   initialView = "screener",
   initialRows = [],
   initialTaoUsd = 0,
+  initialTaoQuote = null,
   initialDollarHistory = [],
   initialChart,
   initialCurrency = "usd",
@@ -922,6 +932,7 @@ export function Dashboard({
   initialView?: DashboardView;
   initialRows?: ScreenerRow[];
   initialTaoUsd?: number;
+  initialTaoQuote?: TaoQuote | null;
   initialDollarHistory?: FxPoint[];
   initialChart?: number | "tao";
   initialCurrency?: "usd" | "tao";
@@ -938,7 +949,10 @@ export function Dashboard({
   const [walletHistoryAddress, setWalletHistoryAddress] = useState<string | null>(null);
   const [walletCopied, setWalletCopied] = useState(false);
   const [currency, setCurrency] = useState<"usd" | "tao">(initialCurrency);
-  const [taoUsd, setTaoUsd] = useState(initialTaoUsd);
+  const [taoQuote, setTaoQuote] = useState<TaoQuote | null>(initialTaoQuote ?? (initialTaoUsd > 0 ? { usd: initialTaoUsd, updatedAt: 0, source: "unverified" } : null));
+  const [fxNow, setFxNow] = useState(() => Date.now());
+  const taoUsd = quoteUsable(taoQuote, fxNow) ? taoQuote!.usd : 0;
+  const fxFresh = quoteFresh(taoQuote, fxNow);
   const [rawRows, setRows] = useState<ScreenerRow[]>(serverRows);
   const [dollarHistory, setDollarHistory] = useState<FxPoint[]>(initialDollarHistory);
   const rows = useMemo(() => rawRows.map(row => currencyReturns({ ...row, name: row.name?.trim() || "Unknown" }, currency, dollarHistory)), [rawRows, currency, dollarHistory]);
@@ -984,6 +998,7 @@ export function Dashboard({
     candles: Candle[];
     rates: Candle[];
     method: string;
+    notice?: string;
   }>({ key: "", candles: [], rates: [], method: "boundary" });
   const [chartRetry, setChartRetry] = useState(0);
   const [earlierHistory, setEarlierHistory] = useState({ key: "", loading: false, done: false, error: "" });
@@ -1117,7 +1132,7 @@ export function Dashboard({
     let updatedAt = latestSnapshotTime(initialSnapshotRef.current);
     if (hasInitialRows) queueMicrotask(() => {
       if (cancelled) return;
-      setDataState(snapshotIsFresh(updatedAt) ? "live" : "stale");
+      setDataState(marketSnapshotIsFresh(initialSnapshotRef.current) ? "live" : "stale");
       setLastUpdated(updatedAt === null ? null : new Date(updatedAt));
     });
     if (!hasInitialRows) {
@@ -1128,6 +1143,7 @@ export function Dashboard({
           queueMicrotask(() => {
             if (cancelled) return;
             updatedAt = latestSnapshotTime(cachedRows);
+            initialSnapshotRef.current = cachedRows;
             setRows(cachedRows);
             setSelected((current) => (cachedRows.some((row: ScreenerRow) => row.netuid === current) ? current : cachedRows[0].netuid));
             setDataState(marketSnapshotIsFresh(cachedRows) ? "live" : "stale");
@@ -1141,13 +1157,14 @@ export function Dashboard({
     let refreshInFlight = false;
     const refreshMarkets = () => {
       if (document.hidden || refreshInFlight) return;
-      if (updatedAt !== null) setDataState(snapshotIsFresh(updatedAt) ? "live" : "stale");
+      if (updatedAt !== null) setDataState(marketSnapshotIsFresh(initialSnapshotRef.current) ? "live" : "stale");
       refreshInFlight = true;
       fetchJsonWithTimeout("/api/backend/v1/screener")
         .then((json) => {
           if (cancelled) return;
           const subnetMarkets = (json.data || []).filter((row: ScreenerRow) => row.netuid !== 0);
           if (subnetMarkets.length) {
+            initialSnapshotRef.current = subnetMarkets;
             setRows(subnetMarkets);
             setSelected((current) => (subnetMarkets.some((row: ScreenerRow) => row.netuid === current) ? current : subnetMarkets[0].netuid));
             setDataState(marketSnapshotIsFresh(subnetMarkets) ? "live" : "stale");
@@ -1159,7 +1176,7 @@ export function Dashboard({
           }
         })
         .catch(() => {
-          if (!cancelled) setDataState(updatedAt === null ? "error" : snapshotIsFresh(updatedAt) ? "live" : "stale");
+          if (!cancelled) setDataState(updatedAt === null ? "error" : marketSnapshotIsFresh(initialSnapshotRef.current) ? "live" : "stale");
         })
         .finally(() => { refreshInFlight = false; });
     };
@@ -1211,19 +1228,24 @@ export function Dashboard({
     catch { /* Storage can be disabled or full. */ }
   }, [dollarHistory]);
   useEffect(() => {
-    const refreshTaoPrice = () => {
-      if (document.hidden) return;
-      fetch("/api/tao-price", { cache: "no-store" })
-        .then((r) => (r.ok ? r.json() : Promise.reject()))
-        .then((json) => {
-          const price = Number(json.usd);
-          if (Number.isFinite(price) && price > 0) setTaoUsd(price);
-        })
-        .catch(() => undefined);
+    let active = true, inFlight = false;
+    const controller = new AbortController();
+    const refreshTaoPrice = async () => {
+      if (active) setFxNow(Date.now());
+      if (document.hidden || inFlight) return;
+      inFlight = true;
+      try {
+        const response = await fetch("/api/tao-price", { cache: "no-store", signal: AbortSignal.any([controller.signal, AbortSignal.timeout(6000)]) });
+        if (!response.ok) throw new Error("FX unavailable");
+        const quote = await response.json() as TaoQuote;
+        if (active && quoteUsable(quote)) setTaoQuote(quote);
+      } catch { /* Keep original quote time; ageing visibly marks or expires it. */ }
+      finally { inFlight = false; if (active) setFxNow(Date.now()); }
     };
-    refreshTaoPrice();
-    const refreshTimer = window.setInterval(refreshTaoPrice, 12_000);
-    return () => window.clearInterval(refreshTimer);
+    void refreshTaoPrice();
+    const timer = window.setInterval(refreshTaoPrice, 12_000);
+    document.addEventListener("visibilitychange", refreshTaoPrice);
+    return () => { active = false; controller.abort(); window.clearInterval(timer); document.removeEventListener("visibilitychange", refreshTaoPrice); };
   }, []);
   useEffect(() => {
     if (!chartVisible) return;
@@ -1235,7 +1257,7 @@ export function Dashboard({
     const cachedRates = candleCache.get(`tao:${timeframe}${chartDate === null ? "" : `:${chartDate}`}`);
     queueMicrotask(() => {
       if (!activeRequest) return;
-      setChartData({ key: cacheKey, candles: cached?.data || [], rates: cachedRates?.data || [], method: cached?.method || "boundary" });
+      setChartData({ key: cacheKey, candles: cached?.data || [], rates: cachedRates?.data || [], method: cached?.method || "boundary", notice: cached?.notice || cachedRates?.notice });
       setChartLoading(!cached?.data.length || (!showTaoChart && currency === "usd" && !cachedRates?.data.length));
       setChartError(false);
     });
@@ -1248,7 +1270,7 @@ export function Dashboard({
       ])
         .then(([history, rates]) => {
           if (activeRequest) {
-            setChartData(previous => ({ key: cacheKey, candles: mergeChartCandles(previous.key === cacheKey ? previous.candles : [], history.data), rates: mergeChartCandles(previous.key === cacheKey ? previous.rates : [], rates?.data || []), method: previous.key === cacheKey && previous.method === "extended-price" ? "extended-price" : history.method }));
+            setChartData(previous => ({ key: cacheKey, candles: mergeChartCandles(previous.key === cacheKey ? previous.candles : [], history.data), rates: mergeChartCandles(previous.key === cacheKey ? previous.rates : [], rates?.data || []), method: previous.key === cacheKey && previous.method === "extended-price" ? "extended-price" : history.method, notice: history.notice || rates?.notice }));
             if (history.done) setEarlierHistory(previous => previous.key === cacheKey && previous.loading ? previous : { key: cacheKey, loading: false, done: true, error: "" });
             setChartLoading(false);
             setChartError(false);
@@ -1339,10 +1361,10 @@ export function Dashboard({
   const chartCandles = useMemo(
     () => chartDate !== null ? candles : withLiveCandle(
       candles,
-      showTaoChart ? taoUsd : Number(active?.price_tao || 0),
+      showTaoChart ? fxFresh ? taoUsd : 0 : snapshotIsFresh(Date.parse(active?.time || ""), fxNow) ? Number(active?.price_tao || 0) : 0,
       timeframe === "1w" || timeframe === "1mo" ? "1d" : timeframe,
     ),
-    [candles, showTaoChart, taoUsd, active?.price_tao, timeframe, chartDate],
+    [candles, showTaoChart, taoUsd, fxFresh, fxNow, active?.price_tao, active?.time, timeframe, chartDate],
   );
   const chartBars = useMemo(() => {
     const base = priceBars(chartCandles);
@@ -1379,7 +1401,7 @@ export function Dashboard({
       if (run === chartHistoryRun.current) setEarlierHistory({ key, loading: false, done: false, error: error instanceof Error ? error.message : "Earlier history could not load. Please retry." });
     } finally { if (run === chartHistoryRun.current) earlierBusy.current = false; }
   }
-  const chartNote = (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? (chartData.method === "extended-price" ? "Coinbase recent candles · TaoStats older price history · Historical candle volume unavailable" : chartData.method === "taostats-price" ? "TaoStats historical TAO/USD price candles · Candle volume unavailable" : "Coinbase TAO/USD candles · Volume in TAO")
+  const chartNote = (chartData.notice ? `${chartData.notice} · ` : "") + (timeframe === "1w" || timeframe === "1mo" ? "Calendar candles from daily history · UTC · Current period incomplete · " : "") + (showTaoChart ? (chartData.method === "extended-price" ? "Coinbase recent candles · TaoStats older price history · Historical candle volume unavailable" : chartData.method === "taostats-price" ? "TaoStats historical TAO/USD price candles · Candle volume unavailable" : "Coinbase TAO/USD candles · Volume in TAO")
     : chartData.method === "taostats-alpha" ? `TaoStats candles${currency === "usd" ? ` · USD candles use historical TAO/USD rates; high/low are estimates${missingUsdPeriods > 2 ? ` · ${missingUsdPeriods} periods lack USD quotes; TAO mode retains those subnet candles` : ""}` : " · Alpha/TAO"}`
     : `${chartData.method === "boundary" ? "Interval-boundary prices; wicks and volume are estimates" : "Sampled on-chain prices; volume is estimated"}${currency === "usd" ? " · USD estimates use matching historical TAO/USD candles" : " · Alpha/TAO"}`);
   const totalVolume = rows.reduce((sum, r) => sum + Number(r.volume_24h_tao || 0), 0);
@@ -1682,7 +1704,7 @@ export function Dashboard({
               <button key={`${r.netuid}-${i}`} onClick={() => openSubnetChart(r.netuid)}>
                 <span>
                   <b>{r.name || "Unknown"}</b>
-                  <small>SN{r.netuid}</small>
+                  <small>SN{r.netuid}{!snapshotIsFresh(Date.parse(r.time || "")) && " · Delayed"}</small>
                 </span>
                 <strong>{money(r.price_tao, true)}</strong>
                 <em className={changeClass(r.change_1h)}>
@@ -1702,6 +1724,7 @@ export function Dashboard({
         dataState={view === "screener" || view === "bubbles" ? dataState : undefined}
         lastUpdated={view === "screener" || view === "bubbles" ? lastUpdated : undefined}
       />
+      {currency === "usd" && ["screener", "bubbles", "wallets"].includes(view) && <p className={`fx-reference ${fxFresh ? "" : "delayed"}`} role="status">{fxFresh ? `USD reference · ${taoQuote?.source} · checked ${new Date((taoQuote?.updatedAt || 0) * 1000).toLocaleTimeString("en-US", { timeZone: "UTC", hour: "2-digit", minute: "2-digit" })} UTC` : taoUsd ? `USD reference delayed · estimates use the quote checked ${new Date((taoQuote?.updatedAt || 0) * 1000).toLocaleTimeString("en-US", { timeZone: "UTC" })} UTC` : "USD reference unavailable · dollar values are hidden; TAO mode is available"}</p>}
 
       {(view === "screener" || view === "videos") && <LivestreamBanner />}
 
@@ -2104,7 +2127,7 @@ export function Dashboard({
                         <td>
                           <div>
                             <b>{r.name || "Unknown"}</b>
-                            <small>SN{r.netuid}</small>
+                            <small>SN{r.netuid}{!snapshotIsFresh(Date.parse(r.time || "")) && " · Delayed"}</small>
                           </div>
                         </td>
                         <td>{money(r.price_tao, true)}</td>

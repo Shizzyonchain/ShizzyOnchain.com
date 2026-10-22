@@ -1,3 +1,4 @@
+import { chartResponse } from "../../lib/chart-cache-source";
 import { NextRequest, NextResponse } from "next/server";
 import { aggregateBars, chartIntervals, priceBars, taoPriceCandles } from "../../lib/chart-data";
 
@@ -56,7 +57,7 @@ async function earlierPriceHistory(before: number, interval: string) {
   return (interval === "10m" ? aggregateBars(bars, 600) : bars).map(bar => ({ time: new Date(bar.time * 1000).toISOString(), open: String(bar.open), high: String(bar.high), low: String(bar.low), close: String(bar.close) }));
 }
 
-export async function GET(request: NextRequest) {
+async function loadUncached(request: NextRequest) {
   const interval = request.nextUrl.searchParams.get("interval") || "1h";
   const granularity = granularities[interval];
   if (!granularity) return NextResponse.json({ error: "Unsupported interval" }, { status: 400 });
@@ -119,4 +120,12 @@ export async function GET(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: "TAO chart unavailable" }, { status: 503 });
   }
+}
+
+export async function GET(request: NextRequest) {
+  const interval = request.nextUrl.searchParams.get("interval") || "1h";
+  const before = request.nextUrl.searchParams.get("before");
+  if (!granularities[interval]) return loadUncached(request);
+  if (before !== null && (!Number.isSafeInteger(Number(before)) || Number(before) < 1609459200 || Number(before) > Date.now() / 1000 + 86400)) return loadUncached(request);
+  return chartResponse(`tao:${interval}:${before === null ? "latest" : Number(before)}`, () => loadUncached(request));
 }

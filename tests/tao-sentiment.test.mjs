@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {taoSentiment, sentimentLabel} from '../app/lib/tao-sentiment.ts';
-const rows = (change=0,liquidity=0,acceleration=1) => Array.from({length:128},(_,i)=>({netuid:i+1,time:'2026-10-18T22:00:00Z',change_1h:change,liquidity_change_1h:liquidity,volume_1h_tao:100,volume_acceleration_1h:acceleration}));
+const rows = (change=0,liquidity=0,acceleration=1) => Array.from({length:128},(_,i)=>({netuid:i+1,time:new Date().toISOString(),change_1h:change,liquidity_change_1h:liquidity,volume_1h_tao:100,volume_acceleration_1h:acceleration}));
 test('flat market is neutral and active selloff/buying are symmetric',()=>{
  assert.equal(taoSentiment(rows()).score,50);
  assert.equal(taoSentiment(rows(5,5,2)).score,100);
@@ -38,7 +38,22 @@ test('quiet subnets retain coverage without fabricating missing comparisons',()=
  const result=taoSentiment(r);
  assert.equal(result.count,128);assert.equal(result.score,50);
  for(let i=0;i<33;i++)r[i].volume_acceleration_1h=null;
- assert.equal(taoSentiment(r),null);
+ assert.equal(taoSentiment(r).count,128);assert.equal(taoSentiment(r).score,50);
  for(let i=0;i<33;i++)r[i].volume_acceleration_1h=-1;
  assert.equal(taoSentiment(r),null);
+});
+
+test('zero prior-volume ratios do not take a quiet market offline; active missing comparisons remain excluded',()=>{
+ const r=rows();
+ for(let i=0;i<45;i++){r[i].volume_acceleration_1h=null;r[i].volume_1h_tao=i<30?0:1;}
+ assert.equal(taoSentiment(r).count,113);
+ assert.equal(taoSentiment(r).score,50);
+ for(let i=0;i<45;i++)r[i].volume_1h_tao=1;
+ assert.equal(taoSentiment(r),null);
+});
+test('future timestamps cannot poison current coverage, stale or duplicate rosters cannot produce a live score',()=>{
+ const r=rows();r[0].time=new Date(Date.now()+86400000).toISOString();
+ assert.equal(taoSentiment(r).count,127);
+ assert.equal(taoSentiment(rows().map(row=>({...row,time:new Date(Date.now()-240000).toISOString()}))),null);
+ const duplicate=rows();duplicate[0].netuid=duplicate[1].netuid;assert.equal(taoSentiment(duplicate),null);
 });

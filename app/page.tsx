@@ -1,7 +1,7 @@
 import { getTaoHistory } from "./lib/tao-history";
 import type { Metadata } from "next";
 import { Dashboard } from "./dashboard";
-import { getInitialMarkets, getInitialTaoUsd } from "./lib/market-data";
+import { getInitialMarkets, getInitialTaoQuote } from "./lib/market-data";
 
 export const revalidate = 15;
 export const metadata: Metadata = {
@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [rows, taoUsd, initialDollarHistory] = await Promise.all([getInitialMarkets(), getInitialTaoUsd(), getTaoHistory()]);
+  const [rows, quote, initialDollarHistory] = await Promise.all([getInitialMarkets(), getInitialTaoQuote(), getTaoHistory()]);
+  const taoUsd = quote?.usd || 0;
   const subnetRows = rows.filter((row) => row.netuid !== 0);
   const structuredData = {
     "@context": "https://schema.org",
@@ -40,7 +41,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
-      <Dashboard appearance="monochrome" initialDollarHistory={initialDollarHistory} initialRows={rows} initialTaoUsd={taoUsd} />
+      <Dashboard appearance="monochrome" initialDollarHistory={initialDollarHistory} initialRows={rows} initialTaoUsd={quote?.usd || 0} initialTaoQuote={quote} />
     </>
   );
 }

@@ -7,7 +7,7 @@ export function latestSnapshotTime(rows: { time?: string | null }[]) {
 }
 
 export function snapshotIsFresh(updatedAt: number | null, now = Date.now()) {
-  return updatedAt !== null && Number.isFinite(updatedAt) && now - updatedAt <= MARKET_SNAPSHOT_MAX_AGE_MS;
+  return updatedAt !== null && Number.isFinite(updatedAt) && updatedAt <= now + 60_000 && now - updatedAt <= MARKET_SNAPSHOT_MAX_AGE_MS;
 }
 
 // Browser persistence is optional. A quota/security failure must never discard
@@ -19,4 +19,12 @@ export function persistMarketSnapshot(data: unknown, storage: () => Pick<Storage
   } catch {
     return false;
   }
+}
+
+export function marketSnapshotHealth(rows: { netuid: number; time?: string | null }[], now = Date.now()) {
+  const alpha = rows.filter(row => row.netuid > 0);
+  const stale = alpha.filter(row => !snapshotIsFresh(Date.parse(row.time || ""), now)).length;
+  const unique = new Set(alpha.map(row => row.netuid));
+  const complete = alpha.length === 128 && unique.size === 128 && alpha.every(row => Number.isInteger(row.netuid) && row.netuid <= 128);
+  return { fresh: complete && stale === 0, stale, complete, count: alpha.length };
 }

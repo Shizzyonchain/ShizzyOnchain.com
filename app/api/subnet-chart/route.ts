@@ -1,3 +1,4 @@
+import { chartResponse } from "../../lib/chart-cache-source";
 import { NextRequest, NextResponse } from "next/server";
 import { aggregateBars, priceBars } from "../../lib/chart-data";
 import { udfCandles } from "../../lib/taostats-candles";
@@ -9,7 +10,7 @@ const intervals: Record<string, { resolution: string; seconds: number; count: nu
   "1w": { resolution: "1D", seconds: 86400, count: 900 },
   "1mo": { resolution: "1D", seconds: 86400, count: 900 },
 };
-export async function GET(request: NextRequest) {
+async function loadUncached(request: NextRequest) {
   const interval = request.nextUrl.searchParams.get("interval") || "1h";
   const subnet = request.nextUrl.searchParams.get("netuid") || "";
   const netuid = Number(subnet);
@@ -40,4 +41,13 @@ export async function GET(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: "TaoStats chart history unavailable; use node fallback." }, { status: 503 });
   }
+}
+
+export async function GET(request: NextRequest) {
+  const interval = request.nextUrl.searchParams.get("interval") || "1h";
+  const before = request.nextUrl.searchParams.get("before");
+  const subnet = request.nextUrl.searchParams.get("netuid") || "";
+  if (!/^\d{1,3}$/.test(subnet) || Number(subnet) < 1 || Number(subnet) > 128 || !intervals[interval]) return loadUncached(request);
+  if (before !== null && (!Number.isSafeInteger(Number(before)) || Number(before) < 1609459200 || Number(before) > Date.now() / 1000 + 86400)) return loadUncached(request);
+  return chartResponse(`subnet:${Number(subnet)}:${interval}:${before === null ? "latest" : Number(before)}`, () => loadUncached(request));
 }

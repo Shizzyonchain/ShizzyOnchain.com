@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { latestSnapshotTime, snapshotIsFresh, persistMarketSnapshot } from '../app/lib/market-snapshot.ts';
+import { latestSnapshotTime, snapshotIsFresh, persistMarketSnapshot, marketSnapshotHealth } from '../app/lib/market-snapshot.ts';
 
 test('stale snapshots recover on actual new data, and age out without new data', () => {
   const now = Date.parse('2026-10-18T22:00:00Z');
@@ -22,4 +22,13 @@ test('full or unavailable browser storage cannot reject a live snapshot', () => 
   assert.equal(persistMarketSnapshot(rows, () => ({setItem(key, value) { stored={key, value}; }})), true);
   assert.equal(stored.key, 'shizzy:screener');
   assert.deepEqual(JSON.parse(stored.value).data, rows);
+});
+
+test('live means complete current rows, not merely one new timestamp',()=>{
+ const now=Date.now();const rows=Array.from({length:128},(_,i)=>({netuid:i+1,time:new Date(now-30000).toISOString()}));
+ assert.equal(marketSnapshotHealth(rows,now).fresh,true);
+ assert.equal(marketSnapshotHealth(rows.slice(0,127),now).fresh,false);
+ rows[0].time=new Date(now-240000).toISOString();assert.equal(marketSnapshotHealth(rows,now).stale,1);assert.equal(marketSnapshotHealth(rows,now).fresh,false);
+ rows[0].time=new Date(now+86400000).toISOString();assert.equal(marketSnapshotHealth(rows,now).fresh,false);assert.equal(snapshotIsFresh(now+86400000,now),false);
+ rows[0]={...rows[1]};assert.equal(marketSnapshotHealth(rows,now).complete,false);
 });

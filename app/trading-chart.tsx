@@ -231,13 +231,13 @@ export default function TradingChart({ appearance = "monochrome", bars, currency
         <button onClick={toggleFullscreen} aria-label={fullscreen ? "Exit chart fullscreen" : "Expand chart fullscreen"}>{fullscreen ? "↙" : "⛶"}</button>
       </div>
     </div>
-    {onLoadEarlier && <div className="chart-history-toolbar" aria-label="Chart history navigation">
+    {onLoadEarlier && <details className="chart-history-details"><summary>History &amp; date</summary><div className="chart-history-toolbar" aria-label="Chart history navigation">
       <button type="button" onClick={onLoadEarlier} disabled={loading || earlierLoading || earlierDone || !bars.length}>{earlierLoading ? "Loading older candles…" : earlierDone ? "Earliest available history" : "Load older candles"}</button>
       {onHistoryDate && <form onSubmit={event => { event.preventDefault(); const time = Date.parse(`${historyDateInput}T00:00:00Z`); if (Number.isFinite(time)) onHistoryDate(Math.floor(time / 1000) + 86400); }}>
         <label>Go to date <input type="date" aria-label="Chart history date" min="2021-01-01" value={historyDateInput} onChange={event => setHistoryDateInput(event.target.value)} required /></label><button type="submit" disabled={loading || earlierLoading}>Go</button>
       </form>}
       <span role="status">{earlierError || (earlierLoading ? "Fetching the next historical page; your chart stays in place." : earlierDone ? "Provider history boundary reached. This may differ from the project's launch date." : historicalDate !== null ? "Historical window · Latest returns to current candles." : "Scroll left to load earlier history automatically.")}</span>
-    </div>}
+    </div></details>}
     <div className="chart-study-toolbar" role="group" aria-label="Technical indicators">
       <span>Indicators</span>
       {[["MA 20", ma, setMa], ["EMA 20", ema, setEma], ["Bollinger", boll, setBoll], ["Volume", volume, setVolume]].map(([label, active, setter]) =>

@@ -1,5 +1,6 @@
 "use client";
 
+import { snapshotIsFresh, marketSnapshotHealth } from "./lib/market-snapshot";
 import { useMemo, useRef, useState } from "react";
 import { taoSentiment, sentimentLabel, type SentimentRow } from "./lib/tao-sentiment";
 import styles from "./sentiment-tile.module.css";
@@ -9,7 +10,7 @@ export function SentimentTile({ rows, state }: { rows: SentimentRow[]; state: "l
   const readings = useMemo(() => ({ "1h": taoSentiment(rows, "1h"), "24h": taoSentiment(rows, "24h") }), [rows]);
   const reading = readings[period];
   const dialog = useRef<HTMLDialogElement>(null);
-  const score = state === "live" ? reading?.score : undefined;
+  const score = state !== "loading" && marketSnapshotHealth(rows).complete && reading && snapshotIsFresh(reading.updatedAt) ? reading.score : undefined;
   const label = score === undefined ? state === "stale" ? "Data delayed" : state === "loading" ? "Calculating…" : "Unavailable" : sentimentLabel(score);
   const tone = score === undefined ? "unavailable" : score < 45 ? "fear" : score > 55 ? "greed" : "neutral";
   return <div className={`sentiment-tile ${tone} ${styles.tile}`}>
@@ -37,7 +38,7 @@ export function SentimentTile({ rows, state }: { rows: SentimentRow[]; state: "l
         <p>All inputs use the selected rolling period and alpha/TAO prices. Switching USD/TAO does not change the reading. Both periods use the existing market feed; opening this panel makes no extra data request.</p>
         <ul><li><b>Breadth:</b> share of subnets rising; unchanged counts half.</li><li><b>Momentum:</b> median return; −5% to +5% maps to 0–100.</li><li><b>Liquidity:</b> median TAO-reserve change, using the same −5% to +5% scale.</li><li><b>Directional volume:</b> compares activity with the preceding equal-length period and reinforces the observed price direction. Quiet trading stays neutral. The 24H comparison requires 48 hours of history.</li></ul>
         <p>0–24 Extreme fear · 25–44 Fear · 45–55 Neutral · 56–75 Greed · 76–100 Extreme greed.</p>
-        <p>Requires all four inputs for at least 80% of the roster (minimum 32 subnets). Rows more than three minutes behind the newest snapshot are excluded. No current score is shown while the feed is delayed or unavailable.</p>
+        <p>Requires valid price, liquidity and volume inputs for at least 80% of the roster (minimum 32 subnets). A zero-trade period contributes no directional activity and does not need a volume ratio. Active markets without a usable comparison are excluded. Rows more than three minutes old or over a minute in the future are excluded. No current score is shown while the feed is delayed or unavailable.</p>
       </details>
       <div className={styles.footer}><span>{reading ? `${reading.count} of ${reading.total} subnets · complete inputs` : "Waiting for sufficient data"}</span><span>{reading ? `Snapshot ${new Date(reading.updatedAt).toISOString().replace("T", " ").replace(/\.\d{3}Z$/, " UTC")}` : "No reliable snapshot available"}</span></div>
       <p className={styles.disclaimer}>Our experimental indicator, not a survey of emotions or an official index. Not a trading recommendation.</p>

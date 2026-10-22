@@ -1,7 +1,7 @@
 import { getTaoHistory } from "../lib/tao-history";
 import type { Metadata } from "next";
 import { Dashboard } from "../dashboard";
-import { getInitialMarkets, getInitialTaoUsd } from "../lib/market-data";
+import { getInitialMarkets, getInitialTaoQuote } from "../lib/market-data";
 
 export const metadata: Metadata = {
   title: "Bittensor Subnet Market Bubbles | ShizzyUnchained",
@@ -10,6 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default async function BubblesPage() {
-  const [initialRows, initialTaoUsd, initialDollarHistory] = await Promise.all([getInitialMarkets(), getInitialTaoUsd(), getTaoHistory()]);
-  return <Dashboard initialDollarHistory={initialDollarHistory} initialView="bubbles" initialRows={initialRows} initialTaoUsd={initialTaoUsd} />;
+  const [initialRows, quote, initialDollarHistory] = await Promise.all([getInitialMarkets(), getInitialTaoQuote(), getTaoHistory()]);
+  return <Dashboard initialDollarHistory={initialDollarHistory} initialView="bubbles" initialRows={initialRows} initialTaoUsd={quote?.usd || 0} initialTaoQuote={quote} />;
 }

@@ -25,10 +25,7 @@ jobs:
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run validate:subnet-news
       - run: npm run lint
-      - run: npm run test:charts
-      - run: node --test --experimental-strip-types tests/taostats-candles.test.mjs
-      - run: node --test --experimental-strip-types tests/market-snapshot.test.mjs
-      - run: node --test --experimental-strip-types tests/tao-sentiment.test.mjs
+      - run: node --test --experimental-strip-types tests/*.test.mjs
       - run: npm run build
 
   backend:

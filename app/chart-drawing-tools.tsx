@@ -23,8 +23,8 @@ export function ChartDrawingTools({ chartRef, hostRef, series, bars, timeline, s
   const storageKey = `shizzy:chart-drawings:v1:${storageId}:${currency}`;
   const [saved, setSaved] = useState<{ key: string; items: Drawing[] }>({ key: "", items: [] });
   const [tool, setTool] = useState<Tool>("pan");
-  const [collapsed, setCollapsed] = useState(false);
-  useEffect(() => { try { const hidden = localStorage.getItem("shizzy:drawing-tools-collapsed") === "true"; queueMicrotask(() => setCollapsed(hidden)); } catch { /* Optional preference. */ } }, []);
+  const [collapsed, setCollapsed] = useState(true);
+  useEffect(() => { try { const stored = localStorage.getItem("shizzy:drawing-tools-collapsed"); const hidden = stored === null ? window.matchMedia("(max-width:700px)").matches : stored === "true"; queueMicrotask(() => setCollapsed(hidden)); } catch { /* Optional preference. */ } }, []);
   const [anchor, setAnchor] = useState<Point | null>(null);
   const [draft, setDraft] = useState<Drawing | null>(null);
   const [color, setColor] = useState("#ffcc66");
