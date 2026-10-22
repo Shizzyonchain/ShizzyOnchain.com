@@ -1482,7 +1482,7 @@ export function Dashboard({
                       <th data-help={`Rolling price change over the last 7 days in ${currency.toUpperCase()}. USD includes changes in TAO/USD; TAO measures alpha against TAO. Green = up, red = down. A dash means history is unavailable.`}>
                         <button onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
                       </th>
-                      <th data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Snapshot age is the input age, not the reward epoch age. APY or APR at least 1,000% is flagged as potentially unstable, not capped. A transient reward or changing stake denominator can dominate annualization. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
+                      <th data-help="One-epoch, subnet-wide estimate, not a validator return. APR does not compound; APY does. Open flagged estimates for stability details.">
                         <button onClick={() => changeSort("apy")}>Staker APY{sortArrow("apy")}</button>
                       </th>
                       <th data-help="Current locked alpha mass. The percentage is measured against SubnetAlphaOut (staked/outstanding alpha). Locked mass and matured conviction are separate on-chain values.">
@@ -1504,9 +1504,10 @@ export function Dashboard({
                       <tr
                         key={r.netuid}
                         className={r.netuid === selected ? "selected" : ""}
-                        onClick={() => openSubnetChart(r.netuid)}
+                        onClick={event => { if (!(event.target instanceof Element) || !event.target.closest("a, button, details, input, select")) openSubnetChart(r.netuid); }}
                         tabIndex={0}
                         onKeyDown={(event) => {
+                          if (event.target !== event.currentTarget) return;
                           if (event.key === "Enter" || event.key === " ") {
                             event.preventDefault();
                             openSubnetChart(r.netuid);
@@ -1532,7 +1533,7 @@ export function Dashboard({
                             {v == null ? "—" : `${fmt(v)}%`}
                           </td>
                         ))}
-                        <td className="apy-cell" data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Snapshot age is the input age, not the reward epoch age. APY or APR at least 1,000% is flagged as potentially unstable, not capped. A transient reward or changing stake denominator can dominate annualization. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
+                        <td className="apy-cell" data-help="One-epoch, subnet-wide estimate, not a validator return. APR does not compound; APY does. Open flagged estimates for stability details.">
                           <SubnetYield row={r} now={fxNow} />
                         </td>
                         <td
