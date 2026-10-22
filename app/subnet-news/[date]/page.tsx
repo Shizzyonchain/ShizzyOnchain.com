@@ -59,7 +59,7 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
           <p>{brief.summary}</p>
           <dl>
             <div><dt>Coverage window</dt><dd>{new Date(brief.coverageStart).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" })} – {new Date(brief.coverageEnd).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: date >= "2026-09-08" ? "medium" : undefined, timeStyle: "short" })} ET</dd></div>
-            <div><dt>Subnets in coverage roster</dt><dd>{brief.subnets.length}</dd></div>
+            {brief.correctedAt && <div><dt>Correction</dt><dd><time dateTime={brief.correctedAt}>{new Date(brief.correctedAt).toISOString().replace("T", " ").replace(".000Z", " UTC")}</time> · {brief.correctionNote}</dd></div>}<div><dt>Subnets in coverage roster</dt><dd>{brief.subnets.length}</dd></div>
             <div><dt>Subnets with updates</dt><dd>{updatedSubnets.length}</dd></div>
           </dl>
         </header>

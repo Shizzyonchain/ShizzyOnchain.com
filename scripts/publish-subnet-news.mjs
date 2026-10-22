@@ -70,6 +70,10 @@ function validate(value, filename) {
   if (!datePattern.test(value.date)) fail("date must use YYYY-MM-DD.");
   if (filename !== `${value.date}.json`) fail(`${filename} must match the report date (${value.date}.json).`);
   for (const field of ["title", "summary", "publishedAt", "coverageStart", "coverageEnd"]) string(value[field], field);
+  if (value.correctedAt !== undefined || value.correctionNote !== undefined) {
+    string(value.correctedAt, "correctedAt"); string(value.correctionNote, "correctionNote");
+    if (!Number.isFinite(Date.parse(value.correctedAt)) || Date.parse(value.correctedAt) < Date.parse(value.publishedAt)) throw new Error("Correction time must follow publication");
+  }
   for (const field of ["publishedAt", "coverageStart", "coverageEnd"]) {
     if (Number.isNaN(Date.parse(value[field]))) fail(`${field} must be an ISO timestamp.`);
   }

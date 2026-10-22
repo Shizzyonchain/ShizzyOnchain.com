@@ -22,4 +22,4 @@ No restore drill, delivered alert test or combined invoice reconciliation was ve
 5. Record date, operator and evidence in the audit repair tracker. Keep F16 open until these checks have evidence.
 
 ## Corrections
-Use footer Feedback & corrections. Preserve original event and publication dates. Record material edits in dated editorial audit; do not fabricate correction timestamps for old reports that lack them. Existing source-unavailable notices must remain visible. A future correction field requires publishing validation and an actual edit timestamp.
+Use footer Feedback & corrections. Preserve original event and publication dates. Record material edits in dated editorial audit; do not fabricate correction timestamps for old reports that lack them. Existing source-unavailable notices must remain visible. Material corrections use paired correctedAt/correctionNote fields, validated by publisher and reader and displayed on the report and latest-report page; actual edit timestamps only.

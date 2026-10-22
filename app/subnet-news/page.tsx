@@ -41,7 +41,7 @@ export default function SubnetNewsPage() {
               <div>
                 <p className="eyebrow">Latest report · {formatBriefDate(latest.date)}</p>
                 <h2 id="latest-subnet-news">{latest.title}</h2>
-                <p>{latest.summary}</p>
+                <p>{latest.summary}</p>{latest.correctedAt && <p className="rating-reason"><strong>Correction · </strong><time dateTime={latest.correctedAt}>{new Date(latest.correctedAt).toISOString().replace("T", " ").replace(".000Z", " UTC")}</time> · {latest.correctionNote}</p>}
               </div>
               <Link href={`/subnet-news/${latest.date}`}>Read the full report <span aria-hidden="true">→</span></Link>
             </div>

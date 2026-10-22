@@ -51,6 +51,8 @@ export type SubnetNewsBrief = {
   title: string;
   summary: string;
   publishedAt: string;
+  correctedAt?: string;
+  correctionNote?: string;
   coverageStart: string;
   coverageEnd: string;
   highlights: NewsItem[];
@@ -149,6 +151,10 @@ export function validateSubnetNewsBrief(value: unknown): asserts value is Subnet
   assertString(value.title, "title");
   assertString(value.summary, "summary");
   assertString(value.publishedAt, "publishedAt");
+  if (value.correctedAt !== undefined || value.correctionNote !== undefined) {
+    assertString(value.correctedAt, "correctedAt"); assertString(value.correctionNote, "correctionNote");
+    if (!Number.isFinite(Date.parse(String(value.correctedAt))) || Date.parse(String(value.correctedAt)) < Date.parse(String(value.publishedAt))) throw new Error("Correction time must follow publication");
+  }
   assertString(value.coverageStart, "coverageStart");
   assertString(value.coverageEnd, "coverageEnd");
   for (const field of ["publishedAt", "coverageStart", "coverageEnd"] as const) {
