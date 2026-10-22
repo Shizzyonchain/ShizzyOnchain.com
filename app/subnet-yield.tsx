@@ -1,13 +1,20 @@
 "use client";
+import { useSyncExternalStore } from "react";
+const subscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 import { formatSubnetYield, subnetYieldContext, type SubnetYieldInput } from "./lib/subnet-yield";
 const alpha = (value: number | null) => value === null ? "Unavailable" : `${value.toLocaleString("en-US", { maximumFractionDigits: 6 })} α`;
 export function SubnetYield({ row, now, detail = false }: { row: SubnetYieldInput; now: number; detail?: boolean }) {
+ const hydrated = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot);
  const value = subnetYieldContext(row, now);
- return <div className={`subnet-yield${value.warning || value.delayed ? " yield-caution" : ""}`}>
+ const sourceTime = Date.parse(row.time || "");
+ const initialAge = Number.isFinite(sourceTime) ? `Snapshot ${new Date(sourceTime).toISOString().slice(11, 19)} UTC` : "Snapshot time unavailable";
+ return <div className={`subnet-yield${value.warning || (hydrated && value.delayed) ? " yield-caution" : ""}`}>
   <span className="yield-rate">{formatSubnetYield(value.apy)}</span>
   <small>{value.apr === null ? "APR unavailable" : `${formatSubnetYield(value.apr)} APR`}</small>
   <small>{value.epoch ? "1 epoch · subnet-wide" : "Basis unconfirmed · subnet-wide"}</small>
-  <small title={row.time ? `Snapshot: ${row.time}. Reward epoch time is not supplied.` : "Source timestamp is not supplied."}>{value.ageLabel}</small>
+  <small title={row.time ? `Snapshot: ${row.time}. Reward epoch time is not supplied.` : "Source timestamp is not supplied."}>{hydrated ? value.ageLabel : initialAge}</small>
   {value.warning && <strong className="yield-warning">⚠ {value.warning}</strong>}
   {(detail || value.warning) && <details className="yield-context" onClick={event => event.stopPropagation()} onKeyDown={event => event.stopPropagation()}><summary>Basis &amp; stability</summary>
    <p>{value.epoch ? "A subnet-wide estimate from one latest net reward epoch divided by recent staked alpha. This is not a specific validator’s return or a 7/30-day measured yield." : "The feed has not confirmed the measurement basis. Do not treat this as a measured validator return."}</p>

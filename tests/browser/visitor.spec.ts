@@ -49,6 +49,8 @@ test("market search, clear and chart navigation retain useful chart controls", a
   await page.getByRole("link", { name: "Smoke Lium SN51", exact: true }).click();
   await expect(page).toHaveURL(/\/charts\/51/);
   await expect(page.locator(".chart-plot canvas").first()).toBeVisible();
+  await expect(page.locator(".chart-empty")).toHaveCount(0);
+  await expect(page.locator(".trading-chart-host")).toHaveAttribute("aria-label", /[1-9]\d* sampled intervals/);
   if (isMobile) {
     const toolbar = page.getByRole("group", { name: "Quick chart controls", exact: true });
     await expect(toolbar.getByRole("combobox")).toHaveValue("1d");
@@ -65,18 +67,19 @@ test("market search, clear and chart navigation retain useful chart controls", a
   await noOverflow(page);
 });
 
-test("extreme yield disclosure keeps uncapped data and does not navigate the table row", async ({ page }) => {
+test("extreme yield disclosure keeps uncapped data and does not navigate the table row", async ({ page, isMobile }) => {
   await page.goto("/"); await search(page).fill("SN103");
-  const cell = page.locator(".apy-cell");
+  if (isMobile) await page.getByRole("link", { name: "Smoke Subnet 103 SN103", exact: true }).click();
+  const cell = page.locator(isMobile ? ".subnet-yield-fact" : ".apy-cell");
   await expect(cell).toContainText("20,000%"); await expect(cell).toContainText("530% APR");
   await expect(cell).toContainText("1 epoch · subnet-wide"); await expect(cell).toContainText("Potentially unstable");
   await cell.locator("summary").click();
   await expect(cell.locator("details")).toHaveAttribute("open", "");
   await expect(cell).toContainText("not a specific validator");
-  await expect(page).toHaveURL("/");
+  await expect(page).toHaveURL(isMobile ? /\/charts\/103/ : "/");
   await cell.locator("summary").press("Enter");
   await expect(cell.locator("details")).not.toHaveAttribute("open", "");
-  await expect(page).toHaveURL("/"); await noOverflow(page);
+  await expect(page).toHaveURL(isMobile ? /\/charts\/103/ : "/"); await noOverflow(page);
 });
 
 test("subnet recommendations show net yield and fail closed when sources fail", async ({ page, contracts }) => {

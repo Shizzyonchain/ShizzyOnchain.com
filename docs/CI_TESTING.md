@@ -5,7 +5,7 @@ Every push to main and every pull request runs `npm test` (the complete `tests/*
 The frontend also runs six browser stories in Chromium at desktop 1440×1000 and phone 390×844 (12 cases):
 
 - market search/no-match/clear, subnet navigation, lazy chart canvas, timeframe and currency controls, phone chart placement;
-- extreme APY context and mouse/keyboard disclosure without row navigation;
+- extreme APY context and mouse/keyboard disclosure without row navigation (desktop table; phone chart snapshot);
 - subnet validator net-yield display and fail-closed behavior after source failure;
 - Root NAV/share vs TWR labels, capital downside, recommendation basis and history-request reuse;
 - saved-wallet restore, individual removal across reload, then complete cache deletion;
@@ -32,3 +32,5 @@ npm run test:smoke
 The servers use 127.0.0.1 ports 4310 and 4311, reject occupied ports and shut down after testing. No wallet transactions or external posts occur. To return a test checkout to normal serving, rebuild with `npm run build` and the intended application environment.
 
 Implementation references: [Playwright webServer](https://playwright.dev/docs/test-webserver), [CI reports and traces](https://playwright.dev/docs/ci-intro).
+
+The initial browser run detected a real yield-age hydration mismatch. The yield component now renders a deterministic source time for SSR/initial hydration, then updates relative age after hydration using the existing refresh clock. React errors remain hard failures; the gate does not filter or suppress them.
