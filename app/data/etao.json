@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-10-21T20:30:05.208235+00:00",
-  "block": 9334241,
-  "hash": "0x5f7b1ccf5797852b38590ef198d8103527ec229272278fe7e2d10deaae6d18a0",
-  "chainTime": 1792614480000,
-  "runtime": 481,
+  "checkedAt": "2026-10-22T15:37:45.031166+00:00",
+  "block": 9339924,
+  "hash": "0x42426afd3fb6997eb915df8924dfede51028ec6909f238352f997d5b929e5a11",
+  "chainTime": 1792682676000,
+  "runtime": 482,
   "source": "Opentensor archive RPC",
   "weights": {
     "1": [
@@ -1249,13 +1249,14 @@
     "126": "Attelier",
     "33": "ReadyAI",
     "92": "REAX",
-    "59": "Unknown"
+    "59": "Unknown",
+    "113": "Unknown"
   },
   "observations": [],
   "ownerSnapshot": {
-    "block": 9333437,
-    "hash": "0xa9ab01f8bd946bd3a9df3e85f7109b177042eafb739fc8e18b697bb4f601a0f8",
-    "checkedAt": "2026-10-21T17:47:54.547321+00:00",
+    "block": 9339924,
+    "hash": "0x42426afd3fb6997eb915df8924dfede51028ec6909f238352f997d5b929e5a11",
+    "checkedAt": "2026-10-22T15:37:45.031166+00:00",
     "owners": {
       "1": "5HCFWvRqzSHWRPecN7q8J6c7aKQnrCZTMHstPv39xL1wgDHh",
       "2": "5EcYQ3W77ndrmMWdvVQusoFqY8doxfP3U2zrh7xZQiaz7avY",
@@ -1389,11 +1390,11 @@
   },
   "eventReview": {
     "fromBlock": 9326442,
-    "toBlock": 9334241,
-    "finalizedHash": "0x5f7b1ccf5797852b38590ef198d8103527ec229272278fe7e2d10deaae6d18a0",
-    "checkedAt": "2026-10-21T20:30:05.208235+00:00",
+    "toBlock": 9339924,
+    "finalizedHash": "0x42426afd3fb6997eb915df8924dfede51028ec6909f238352f997d5b929e5a11",
+    "checkedAt": "2026-10-22T15:41:03.740075+00:00",
     "eventCount": 1,
-    "method": "Read System.Events in every finalized block; metadata-identified SubnetEmissionWeightsSet; successful execution and adjacent storage verified.",
+    "method": "Every finalized block read for metadata-identified SubnetEmissionWeightsSet. Runtime 481/482 decoding reviewed; existing SN59 event re-observed, no new allocation change. Intermediate/reversed events covered.",
     "gaps": [],
     "historyLimit": "This complete interval starts at block 9326442. No complete-event claim is made for earlier history."
   }

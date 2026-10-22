@@ -1,0 +1,1198 @@
+{
+  "version": 1,
+  "date": "2026-10-22",
+  "title": "Subnet News — October 22, 2026",
+  "summary": "Runtime 482 is live on Finney. SN71 Leadpoet and SN10 Pareton start a sales pilot; SN51 Lium reports 225 B300 GPUs and 91% rented supply; SN23 Trishool explains Astroware economics; and SN66 Conjectures publicizes a restricted Lean proof. Also: SN34 Yugos, SN97 Ingot, operator incidents and participation rules. Finalized SN8 Vanta burns include a 7,133-alpha event; SN107 Minos’s first ASHG session is scheduled later today.",
+  "publishedAt": "2026-10-22T15:41:03.740075+00:00",
+  "coverageStart": "2026-10-21T14:44:42.006646+00:00",
+  "coverageEnd": "2026-10-22T15:23:42.944Z",
+  "highlights": [],
+  "upcomingUnlocks": [],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "updates": []
+    },
+    {
+      "netuid": 2,
+      "name": "DaniLabs",
+      "updates": [
+        {
+          "headline": "SN2 DaniLabs publishes a read-only validator pilot",
+          "summary": "SN2 DaniLabs’ repository now includes an executable finalized-chain observer. Its README explicitly says it does not submit weights or calculate trusted miner scores; authenticated evaluation and live weight submission remain pending. This is a development step for the inference subnet, not confirmation of open mining or a complete scoring system.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 2,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/DaniLabsAI/subnet/commit/a5ec4aa467cf9fed284e44e611916ab51eccd63a"
+            },
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/2/2026-10-22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "updates": []
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "updates": []
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "updates": []
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "updates": []
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "updates": [
+        {
+          "headline": "SN7 Allways ties miner pools to swap fees",
+          "summary": "SN7 Allways’ new code scales lane rewards using recent swap fees relative to miner-emission value, with undistributed reward recycled. This is internal reward logic, not a five-slot eTAO change. The October 22 digest also reports v3.7.3 and reimbursement of the first miner affected by the earlier collateral bug. Those recovery statements remain attributed: the review did not independently trace reimbursements or establish that every affected participant is whole.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/entrius/allways/commit/d455a52e5d53b865f50242937a894aa1c7ca5371"
+            },
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/7/2026-10-22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "updates": [
+        {
+          "headline": "SN8 Vanta records five alpha burns above the reporting threshold",
+          "summary": "Finalized chain events show five additional SN8 Vanta alpha burns during October 21–22: 7,133 alpha, 116.666666666 alpha, 403.666666666 alpha, 100.602851979 alpha and 113.229121292 alpha. Each transaction succeeded and each amount meets the 100-token threshold individually. These are explicit AlphaBurned events, not automatic miner-emission withholding or TAO burned. The Burns archive retains their execution times and transaction links. Token retirement does not itself establish revenue, a buyback funding source or a future price response. Smaller events remain outside the public feed.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "Material finalized token-retirement execution, supported by chain events; price effects are not inferred.",
+          "sources": [
+            {
+              "label": "Primary source",
+              "url": "https://shizzyunchained.com/subnet-news/burns"
+            },
+            {
+              "label": "Finalized transaction",
+              "url": "https://taostats.io/extrinsic/9339019-6"
+            },
+            {
+              "label": "Finalized transaction",
+              "url": "https://taostats.io/extrinsic/9337909-30"
+            },
+            {
+              "label": "Finalized transaction",
+              "url": "https://taostats.io/extrinsic/9335617-24"
+            },
+            {
+              "label": "Finalized transaction",
+              "url": "https://taostats.io/extrinsic/9335465-16"
+            },
+            {
+              "label": "Finalized transaction",
+              "url": "https://taostats.io/extrinsic/9333782-10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "updates": []
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "updates": [
+        {
+          "headline": "SN10 Pareton confirms the SN71 Leadpoet pilot",
+          "summary": "SN10 Pareton confirmed on October 22 that it is using SN71 Leadpoet to identify prospective inference-optimization customers and reach technical buyers. The matching announcements establish a pilot, with no disclosed contract value or completed conversions. The detailed joint story is filed under SN71 Leadpoet; this entry keeps it discoverable from SN10 Pareton’s history.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/Pareton_ai/status/2113253846470582537"
+            },
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/LeadpoetAI/status/2113274598368100684"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "updates": []
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "updates": [
+        {
+          "headline": "SN12 Compute Horde publishes security hardening",
+          "summary": "SN12 Compute Horde merged a security update affecting validators, miners, facilitators and executors. Reviewed changes add signed job requests and receipt validation, including invalid-receipt handling. This tightens authentication of job evidence; it does not establish an exploited incident or prove every operator upgraded. Operators should review all affected components rather than treat it as a frontend-only change.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "sources": [
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/backend-developers-ltd/ComputeHorde/commit/8f6328ac77131b68dab2052a79064b5c6745bf8b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "updates": []
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "updates": []
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "updates": []
+    },
+    {
+      "netuid": 16,
+      "name": "Zero Hour",
+      "updates": []
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "updates": []
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "updates": []
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "updates": []
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "updates": []
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "updates": []
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "updates": [
+        {
+          "headline": "SN22 Desearch confirms embedding tasks on main",
+          "summary": "SN22 Desearch’s October 21 announcement says GPU miners can embed crawled pages with Desearch-Embedding-4B. Follow-ups specify an NVIDIA GPU with at least 16 GB memory, 24 GB recommended, vLLM 0.31.0 and a registered hotkey. Crawling remains available; a hotkey can do either task or both with separate budgets. Validators sample and recompute embeddings. This adds a work option without establishing earnings or machine profitability.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/desearch_ai/status/2112938475796537788"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/Desearch-ai/subnet-22/commit/28601683c2a7fc34760fb0dd4f2c008f30363bac"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "updates": [
+        {
+          "headline": "SN23 Trishool explains Astroware economics after HaloGuard EU launch",
+          "summary": "SN23 Trishool’s October 22 thread says Astroware and the subnet are separate entities with the same founders. Astroware is intended to purchase continuous red-teaming under a commercial agreement, with the exact revenue share still being set. HaloGuard EU was announced October 21 and its site offers access and pricing. The team plans buybacks funded by subnet revenue and a dashboard when they begin; execution has not been established. The dated alpha/TAO snapshot shows a 30.20% 24-hour rise, without proving a cause. Product availability is concrete; revenue sharing and token retirement remain follow-ups.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/trishoolai/status/2113162063103271364"
+            },
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/trishoolai/status/2112835538243985667"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://astroware.ai/"
+            },
+            {
+              "label": "Dated alpha/TAO market observation",
+              "url": "https://shizzyunchained.com/evidence/2026-10-22-market.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "updates": []
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "updates": []
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "updates": []
+    },
+    {
+      "netuid": 27,
+      "name": "Orion",
+      "updates": []
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "updates": [
+        {
+          "headline": "SN28 SayGM publishes a dated OpenRouter comparison",
+          "summary": "SN28 SayGM’s October 22 scorecard acknowledges OpenRouter’s larger catalog and scale while claiming advantages in price, hardware-protected gateway privacy and native APIs. Its headline saving is up to 43% on compared frontier models. This is a provider-authored comparison, not a universal discount or independent security audit; actual cost depends on model and usage. The useful information is a dated comparison developers can check against their workload.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/say_gm_/status/2113193646225052091"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://saygm.com"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "updates": []
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "updates": []
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "updates": []
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "updates": []
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "updates": []
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "updates": [
+        {
+          "headline": "SN34 BitMind’s Yugos introduces inference routing",
+          "summary": "The Yugos account announced its inference decision layer live on October 21: it selects a model, provider and reasoning effort for requests, with cost visibility. SN34 BitMind’s October 22 channel digest describes the related mining transition from detection to routing as planned for that day, with existing detection mining continuing until cutover. The product announcement is primary evidence; complete subnet migration and universal performance savings have not been independently verified. Operators should check the rollout before assuming old mining instructions still apply.",
+          "importance": "high",
+          "status": "developing",
+          "rating": 4,
+          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/yugosai/status/2113025813046333766"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://yugos.ai"
+            },
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/34/2026-10-22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 35,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "updates": []
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "updates": []
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "updates": []
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "updates": []
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "updates": []
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "updates": []
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "updates": []
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "updates": []
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "updates": []
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "updates": []
+    },
+    {
+      "netuid": 47,
+      "name": "GPUForge",
+      "updates": []
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "updates": []
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "updates": []
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "updates": []
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "updates": [
+        {
+          "headline": "SN51 Lium reports 225 B300 GPUs and 91% rented supply",
+          "summary": "SN51 Lium’s October 22 update says its marketplace hosts hardware valued above $30 million, including 225 B300 GPUs, with 91% of supply rented. These are team-reported inventory, valuation and utilization figures, not independently audited revenue or profit. They provide an operating measure beyond token trading. Hardware valuation is not subnet market capitalization, and the percentage is a point-in-time statement rather than a guarantee of sustained demand.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/lium_io/status/2113275619916304612"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://lium.io"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "updates": []
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "updates": []
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "updates": []
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "updates": [
+        {
+          "headline": "SN55 NIOME acknowledges storage failures affecting uploads",
+          "summary": "SN55 NIOME’s October 22 digest attributes upload failures and skipped miners to validator storage limits, with a fix in progress. The repository has retry-logic work, but that does not prove the storage issue resolved. The digest also says there is no miner cap or whitelist. This remains an attributed availability issue rather than evidence of deliberate exclusion.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/55/2026-10-22"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/genomesio/subnet-niome/commit/c5a5197781dcd5606e52c13e9c88ad6e47ab943b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "updates": []
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 58,
+      "name": "Attune",
+      "updates": [
+        {
+          "headline": "SN58 Attune closes Vector Level 1 and opens Level 2",
+          "summary": "SN58 Attune’s official October 21 results report 87.9% success across sixteen dual-arm tasks in unseen scenes from one demonstration, versus 87.2% for its fine-tuned pi0.5 baseline. The short media shows competition progress; an intermediate frame differs from the final text, so figures here are attributed to the written announcement. The team says Level 2 is live, repeated by co-founder R.L. Bryer later that day. These are benchmark and participation results, not independently verified commercial deployment.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/robotensor_ai/status/2112887372509848018"
+            },
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/rBryer23/status/2113038549696024823"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://attune.robotensor.ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 59,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "updates": []
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "updates": []
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "updates": [
+        {
+          "headline": "SN62 Ridges reports two unstable validators disabled",
+          "summary": "SN62 Ridges’ October 22 channel digest reports two validators disabled because of instability, with investigation ongoing. It does not establish completed recovery, lost funds or a precise outage interval. The availability issue is retained with attribution while a primary public incident report remains unavailable.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/62/2026-10-22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "updates": []
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "updates": []
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "updates": []
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "updates": [
+        {
+          "headline": "SN66 Conjectures publicizes a restricted four-speed lonely-runner proof",
+          "summary": "SN66 Conjectures’ October 22 announcement links a Lean-accepted proof for a restricted amended lonely-runner spectrum statement: four distinct positive integer speeds, overall gcd one and pairwise gcd at most two. Its verification record reports an unchanged target statement, permitted axioms and an accepted Lean replay; a second independent kernel was not run. We inspected the record and linked solution, but did not rerun the proof or establish novelty. This concerns the stated restricted case, not the full lonely-runner conjecture.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/conjectures_io/status/2113269152135954488"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://conjectures.io/results/31ab8532-c253-4e14-95c7-be44878a02fa"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://conjectures.io/results/31ab8532-c253-4e14-95c7-be44878a02fa/solution"
+            }
+          ]
+        },
+        {
+          "headline": "SN66 Conjectures adds a float-kernel optimization challenge",
+          "summary": "SN66 Conjectures’ October 22 challenge asks miners to optimize floating-point kernels while proving outputs match FloatLib and TorchLean specifications. The team reports its champion at 8.7 times the shipped reference on its benchmark. That is a competition-specific claim, not a general hardware benchmark or independently rerun result. The participation opportunity combines speed optimization with a formal correctness condition.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/conjectures_io/status/2113227814342152439"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/lean-dojo/FloatLib"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/lean-dojo/TorchLean"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "updates": [
+        {
+          "headline": "SN67 Harnyx removes its paid-model allowlist",
+          "summary": "SN67 Harnyx’s October 21 account update says miners can use any paid OpenRouter model instead of a team-selected allowlist. Regular pricing and task budgets remain; free or promotional pricing is not a route around those limits. This expands choices in the existing research competition, rather than establishing a new performance result.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/harnyx_ai/status/2112872360307253297"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/harnyx/harnyx/commit/874809699bc06112586e043fe96fe16a6ea579f1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "updates": []
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "updates": []
+    },
+    {
+      "netuid": 70,
+      "name": "Consted 2.0",
+      "updates": []
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "updates": [
+        {
+          "headline": "SN71 Leadpoet starts a sales pilot with SN10 Pareton",
+          "summary": "SN71 Leadpoet and SN10 Pareton both announced their pilot on October 22. The work is to identify AI companies facing GPU-cost and inference bottlenecks, find technical decision-makers and run targeted outreach for SN10 Pareton. This is a concrete trial of the sales-agent service beyond its earlier launch. Neither team disclosed a contract value, customers won or resulting revenue; the pilot should be judged on subsequent conversion results.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A substantive product, research or adoption milestone, with reported outcomes qualified.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/LeadpoetAI/status/2113274598368100684"
+            },
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/Pareton_ai/status/2113253846470582537"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "updates": []
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "updates": []
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "updates": []
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "updates": []
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "updates": []
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "updates": []
+    },
+    {
+      "netuid": 78,
+      "name": "Umi",
+      "updates": []
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "updates": []
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "updates": []
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "updates": []
+    },
+    {
+      "netuid": 82,
+      "name": "Noah",
+      "updates": []
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "updates": []
+    },
+    {
+      "netuid": 84,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "updates": [
+        {
+          "headline": "SN85 Vidaio schedules Competition 004",
+          "summary": "SN85 Vidaio’s October 22 digest announces enrollment October 23–31 and evaluation from November 1 for video-upscaling Competition 004. The task restores downscaled video with quality metrics and a speed component. These are upcoming participation dates attributed to the digest; no winner or completed quality gain is being announced.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/85/2026-10-22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 86,
+      "name": "OnSale",
+      "updates": []
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "updates": []
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "updates": []
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "updates": []
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "updates": []
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "updates": []
+    },
+    {
+      "netuid": 92,
+      "name": "REAX",
+      "updates": [
+        {
+          "headline": "SN92 REAX details bug remediation and Friday rules",
+          "summary": "SN92 REAX’s October 22 digest reports a capacity-probe bug affecting roughly forty hotkeys during October 21, 15:30–17:04 UTC, with compensation planned. Public release code removes late-check stale-answer rejection and prepares larger generalist draws plus per-coldkey diminishing returns in small pools. Next rules are scheduled for October 23; merged code does not prove universal activation or completed compensation. Const’s favorable October 21 comment concerns the already-announced REAX 1 comparison with its Perplexity base, not an independent new benchmark.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/92/2026-10-22"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/reaxlabs/reax-subnet/commit/455c71d670e7603468d09dcda8d3d2ed52d458f0"
+            },
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/const_reborn/status/2112992631194354128"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://reax.co/competitions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "updates": []
+    },
+    {
+      "netuid": 94,
+      "name": "Cathedral",
+      "updates": []
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "updates": []
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "updates": []
+    },
+    {
+      "netuid": 97,
+      "name": "Ingot",
+      "updates": [
+        {
+          "headline": "SN97 Ingot’s FP8 result draws Const’s endorsement",
+          "summary": "Const’s October 21 post says SN97 Ingot’s Qwen 27B FP8 quantization improved on Alibaba’s version after a week of competition. This is an attributed comparison, not an independently reproduced benchmark. The current project site marks its eight-bit round closed and two-bit round open, so that next target is already reflected in its interface. Const’s follow-up that all models will be trained in markets is commentary. The inspectable compression workflow matters more than an unsupported claim of superiority on every task.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/const_reborn/status/2113014591219225052"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://www.theingot.ai/"
+            },
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/DendriteLabs/ingot/commit/0f317b609a1e83d771c501f91b3299f7dde962f9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "updates": []
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "updates": []
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "updates": []
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "updates": []
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "updates": []
+    },
+    {
+      "netuid": 103,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "updates": []
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "updates": []
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "updates": []
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "updates": [
+        {
+          "headline": "SN107 Minos’s first ASHG poster session is scheduled today",
+          "summary": "Reminder from the previously reported team schedule: SN107 Minos’s synthetic whole-genome-cohort presentation is scheduled for October 22, 4:15–6:15 p.m. Eastern in Montreal, Exhibition Hall Room 220. Its variant-calling benchmarking session follows October 23, 2:30–4:30 p.m. Eastern. At this report’s cutoff both remain upcoming. The official event site confirms the meeting; these precise slots remain team-reported. No completed presentation, new customer or commercial OpenAI relationship is inferred. The team’s separate IM2 release date is still pending.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 2,
+          "ratingReason": "Actionable scheduled scientific event, retained as a reminder rather than a completed presentation.",
+          "sources": [
+            {
+              "label": "Primary source",
+              "url": "https://x.com/theminos_ai/status/2112707896429387829"
+            },
+            {
+              "label": "Primary source",
+              "url": "https://ashgmeeting.ashg.org/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 108,
+      "name": "ChipForge",
+      "updates": []
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "updates": []
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "updates": []
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "updates": []
+    },
+    {
+      "netuid": 112,
+      "name": "THOR",
+      "updates": []
+    },
+    {
+      "netuid": 113,
+      "name": "Unknown",
+      "updates": []
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "updates": [
+        {
+          "headline": "SN114 SOMA reports higher token savings with Jev",
+          "summary": "SN114 SOMA’s October 22 update reports token savings increasing from 30% to 40% after its first competition using Jev. Earlier integration coverage connects its context-compression workflow to SN28 SayGM, SN53 Engy and SN64 Chutes. These are team-reported savings dependent on workload and evaluation choices, not a guaranteed reduction for every user. Developers should check preserved output quality alongside reduced tokens.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/SomaSubnet/status/2113289239890887165"
+            },
+            {
+              "label": "Original announcement",
+              "url": "https://x.com/SomaSubnet/status/2112925329589412121"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "updates": []
+    },
+    {
+      "netuid": 116,
+      "name": "Carbon",
+      "updates": []
+    },
+    {
+      "netuid": 117,
+      "name": "everyframe.studio",
+      "updates": [
+        {
+          "headline": "SN117 Everyframe publishes epoch-accounting recovery tools",
+          "summary": "SN117 Everyframe’s validator v0.5.0 adds canonical epoch accounting and tools for assignment publication, epoch finalization and reward recovery, following yesterday’s scheduling work. The channel digest includes member reports of an RPC-related payout backlog, but no confirmed team resolution or independently reconciled total. Published recovery tools are concrete; settlement of every delayed reward remains unverified.",
+          "importance": "medium",
+          "status": "developing",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/everyframe-studio/everyframe-validator/commit/156c35050d37372c88fa2e7281bf8635b169536f"
+            },
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/117/2026-10-22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "updates": [
+        {
+          "headline": "SN118 Ditto updates custody compatibility for runtime 482",
+          "summary": "SN118 Ditto’s v0.381.2 source adds a Finney 482 runtime interface and recovery compatibility for its treasury workflow. This application-level response is distinct from its proposed bounty system, whose payout and hotkey connections remain unfinished in channel coverage. Merged code does not establish that particular funds moved or that every deployment is updated.",
+          "importance": "medium",
+          "status": "verified",
+          "rating": 3,
+          "ratingReason": "A specific operating or participation change; significance is limited to the linked evidence.",
+          "sources": [
+            {
+              "label": "Primary code or product",
+              "url": "https://github.com/ditto-assistant/ditto-subnet/commit/27cd188027e9dd674af4cb85417f9220dc0ce0a5"
+            },
+            {
+              "label": "Attributed channel digest",
+              "url": "https://subnetradar.com/subnet-news/118/2026-10-22"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "updates": []
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "updates": []
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "updates": []
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "updates": []
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "updates": []
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "updates": []
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "updates": []
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "updates": []
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "updates": []
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "updates": []
+    }
+  ],
+  "ecosystem": [
+    {
+      "headline": "Finney runs runtime 482 with coldkey-swap and proxy changes",
+      "summary": "The v482 release was published October 21 at 19:59 UTC, and direct finalized metadata confirms runtime 482 is active. Release notes cover merging coldkey swaps into used destinations, Validate and Weights proxies, proxy fee payment through three levels, Yuma payout handling and a Null-consensus scheduling fix. TaoStats says Actions has switched to announceColdkeySwapV2. These are protocol and compatibility changes, not a fresh owner emission-allocation transaction for every subnet. Wallet and operator integrations should check call compatibility.",
+      "importance": "high",
+      "status": "verified",
+      "rating": 5,
+      "ratingReason": "A chain-confirmed runtime upgrade with material wallet, validator and proxy compatibility consequences.",
+      "sources": [
+        {
+          "label": "Official runtime 482 release",
+          "url": "https://github.com/RaoFoundation/subtensor/releases/tag/v482"
+        },
+        {
+          "label": "TaoStats compatibility notice",
+          "url": "https://x.com/taostats/status/2113280381072158785"
+        }
+      ]
+    },
+    {
+      "headline": "Shizzy’s October 21 members news video is available",
+      "summary": "The latest members update is the October 21 Bittensor news and price-action episode, approximately eight minutes long. YouTube marks it members-only, so playback remains through membership access. The existing public default is preserved; the already-covered SN58 Attune interview remains a replay rather than a newly scheduled stream.",
+      "importance": "high",
+      "status": "verified",
+      "rating": 4,
+      "ratingReason": "Original Shizzy coverage receives editorial feature priority, with membership access clearly labelled.",
+      "sources": [
+        {
+          "label": "Shizzy members video — October 21",
+          "url": "https://www.youtube.com/watch?v=PmO2ELJ4q2g"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "searched": [
+      "128 current subnet profiles, 98 dated briefs, 217 account/alias samples and 203 repository paths",
+      "Signed-in Grok discovery, exactly-five attention correction and omission review; direct Const and Tensia Posts/Replies",
+      "Owner Bookmarks and Likes; preceding seven editions; market outliers, emissions and Moments",
+      "Finalized registration/ownership snapshots, event scan, burns and eTAO",
+      "YouTube Videos and Live tabs, player metadata and membership status"
+    ],
+    "gaps": [
+      "Account samples and Grok are not an exhaustive X census. Profile-linked accounts include community and partner references; selected identities were checked. Some private Discord originals and media could not be inspected; digest-only claims remain attributed/developing.",
+      "Team utilization, savings and benchmarks were not independently audited or reproduced. Proof verification records were inspected, not rerun; mathematical novelty was not independently established.",
+      "Bookmarks and Likes are the available History tabs, not complete viewing history. No new subnet sale price is inferred from token trades or locks.",
+      "TaoStats-backed routes are accessible, but direct credit usage and a complete independent TaoStats event reconciliation remain unavailable. No visitor API calls were added.",
+      "Chain-event coverage ends at finalized block 9339924, around the research cutoff; it is not a claim about transactions after that point. One account coldkey swap occurred without a subnet-owner change. A complete independent TaoStats event audit and off-chain sale terms are unavailable."
+    ]
+  }
+}

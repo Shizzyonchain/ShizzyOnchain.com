@@ -1,10 +1,10 @@
 export const youtubeMembershipUrl = "https://www.youtube.com/channel/UCzp_1hHByX_XBnRRJPucEIw/join";
 
 export const latestMemberVideo = {
-  id: "kcGgvazcILI",
-  title: "10/20/26 Bittensor News Updates & TAO Price Action | Members Video",
-  meta: "12:27 · Members-only video · Published October 20, 2026",
-  publishedLabel: "October 20",
+  id: "PmO2ELJ4q2g",
+  title: "10/21/26 Bittensor News Updates & TAO Price Action | Members Video",
+  meta: "8:01 · Members-only video · Published October 21, 2026",
+  publishedLabel: "October 21",
   membersOnly: true,
 };
 
@@ -15,7 +15,7 @@ export const promotedLivestream = {
   listed: true,
   id: "3i9F3_Ku8Fo",
   title: "Bittensor’s Next Big Robotics Breakthrough? | Attune SN58",
-  meta: "46:14 · Livestream replay · October 21, 2026",
+  meta: "46:18 · Livestream replay · October 21, 2026",
   membersOnly: false,
   upcoming: false,
   headline: "SN58 Attune livestream replay",
