@@ -901,3 +901,8 @@ html.site-theme {
 .creator-shell .site-header{top:0}
 
 .news-source-unavailable{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border:1px solid #444;color:#bbb;max-width:100%;overflow-wrap:anywhere}.news-source-unavailable strong{font-size:12px}.news-source-unavailable small{font-size:12px;line-height:1.5;font-weight:400}
+
+/* Yield context stays within the existing snapshot: no additional data requests. */
+.subnet-yield small{display:block;margin-top:5px;line-height:1.4}.yield-rate{font-weight:700}.yield-caution .yield-rate,.yield-warning{color:#ffcc66!important}.yield-warning{display:block;margin-top:7px;font:700 11px/1.5 var(--font-mono);white-space:normal}.yield-context{white-space:normal;max-width:330px;text-align:left;margin-top:8px;color:#ccc}.yield-context summary{min-height:44px;align-content:center;cursor:pointer;font:700 11px/1.5 var(--font-mono);color:#fff}.yield-context p{font:12px/1.6 Arial,sans-serif!important;letter-spacing:normal;text-transform:none;margin:10px 0;overflow-wrap:anywhere}.apy-cell .subnet-yield{min-width:175px;max-width:240px}.subnet-facts-grid .subnet-yield{min-width:0;max-width:100%}.subnet-yield .yield-context{font-size:12px}
+
+@media(max-width:700px){.subnet-facts-grid>.subnet-yield-fact{grid-column:1/-1}}

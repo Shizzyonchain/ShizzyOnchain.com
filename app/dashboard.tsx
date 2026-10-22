@@ -17,6 +17,7 @@ import { compareLiquidation, liquidationExplanation, liquidationPercent } from "
 import { taoHeadsCommunity } from "./lib/community";
 import { SubnetNewsPanel } from "./subnet-news-panel";
 import { WalletHistory, clearWalletHistoryCache } from "./wallet-history";
+import { SubnetYield } from "./subnet-yield";
 import { SubnetOwner } from "./subnet-owner";
 import { SentimentTile } from "./sentiment-tile";
 import { OverviewHelp } from "./overview-help";
@@ -95,6 +96,11 @@ export type ScreenerRow = ReturnHistory & {
   emission_pct?: string;
   apy?: string;
   apr?: string;
+  yield_basis?: string;
+  tempo?: string | number;
+  staker_epoch_dividends_alpha?: string | number;
+  circulating_alpha?: string | number;
+  alpha_reserve?: string | number;
   conviction_locked_alpha?: string;
   conviction_locked_pct?: string;
   change_10m?: string;
@@ -1282,7 +1288,7 @@ export function Dashboard({
                                     <div><dt>Emission change · 24h</dt><dd className={changeClass(active?.emission_change_24h)}>{active?.emission_change_24h == null ? "—" : `${Number(active.emission_change_24h) > 0 ? "+" : ""}${fmt(active.emission_change_24h, 4)} pts`}</dd><small>percentage points</small></div>
                                     <div><dt>Pool TAO reserve</dt><dd>{money(active?.tao_reserve)}</dd></div>
                                     <div><dt>Trading volume · 24h</dt><dd>{money(active?.volume_24h_tao)}</dd></div>
-                                    <div><dt>Estimated staker APY</dt><dd>{active?.apy == null ? "—" : `${fmt(active.apy, 2)}%`}</dd><small>{active?.apr == null ? "APR unavailable" : `${fmt(active.apr, 2)}% APR`} · subnet-wide</small></div>
+                                    <div className="subnet-yield-fact"><dt>Estimated staker APY</dt><dd><SubnetYield row={active || {}} now={fxNow} detail /></dd></div>
                                     <div><dt>Locked alpha</dt><dd>{active?.conviction_locked_alpha == null ? "—" : `${compactAlpha(active.conviction_locked_alpha)} α`}</dd><small>{active?.conviction_locked_pct == null ? "Share unavailable" : `${fmt(active.conviction_locked_pct, 2)}% of α-out`}</small></div>
                                     <div><dt>Staked / outstanding alpha</dt><dd>{active?.alpha_out == null ? "—" : `${compactAlpha(active.alpha_out)} α`}</dd><small>SubnetAlphaOut</small></div>
                                     <div><dt>Estimated deregistration payout</dt><dd>{active?.liquidation_price_tao == null ? "—" : money(active.liquidation_price_tao, true)}</dd><small>per alpha · conditional estimate</small></div>
@@ -1476,7 +1482,7 @@ export function Dashboard({
                       <th data-help={`Rolling price change over the last 7 days in ${currency.toUpperCase()}. USD includes changes in TAO/USD; TAO measures alpha against TAO. Green = up, red = down. A dash means history is unavailable.`}>
                         <button onClick={() => changeSort("change_7d")}>7 Day{sortArrow("change_7d")}</button>
                       </th>
-                      <th data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
+                      <th data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Snapshot age is the input age, not the reward epoch age. APY or APR at least 1,000% is flagged as potentially unstable, not capped. A transient reward or changing stake denominator can dominate annualization. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
                         <button onClick={() => changeSort("apy")}>Staker APY{sortArrow("apy")}</button>
                       </th>
                       <th data-help="Current locked alpha mass. The percentage is measured against SubnetAlphaOut (staked/outstanding alpha). Locked mass and matured conviction are separate on-chain values.">
@@ -1526,9 +1532,8 @@ export function Dashboard({
                             {v == null ? "—" : `${fmt(v)}%`}
                           </td>
                         ))}
-                        <td className="apy-cell" data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
-                          {r.apy == null ? "—" : `${fmt(r.apy, Number(r.apy) < 1 ? 4 : 2)}%`}
-                          <small>{r.apr == null ? "—" : `${fmt(r.apr, 2)}% APR`} · estimate</small>
+                        <td className="apy-cell" data-help="Estimated subnet-wide APY: latest net nominator dividends divided by recent actual staked alpha, compounded once per tempo + 1 blocks across 365 Bittensor days. APR is the same epoch rate without compounding. Snapshot age is the input age, not the reward epoch age. APY or APR at least 1,000% is flagged as potentially unstable, not capped. A transient reward or changing stake denominator can dominate annualization. Stake can change after an epoch; this is an estimate, not a specific validator yield. Fees are already reflected; token-price changes are excluded.">
+                          <SubnetYield row={r} now={fxNow} />
                         </td>
                         <td
                           className="locked-alpha-cell"
