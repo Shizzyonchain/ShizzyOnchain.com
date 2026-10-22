@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { NewsSourceLink } from "./news-source-link";
 import type { SubnetTimelineEntry } from "./lib/subnet-timeline";
 
 type History = { entries: SubnetTimelineEntry[]; total: number; nextOffset: number | null; archiveThrough: string | null };
@@ -30,7 +31,7 @@ export function SubnetNewsPanel({ netuid }: { netuid: number }) {
     <div className="subnet-news-timeline">{history?.entries.map(entry => <article key={entry.id}>
       <div className="subnet-news-meta"><time dateTime={entry.date}>{dateLabel(entry.date)}</time><span>{entry.kind === "archive-name" ? "Archive name change" : `SN${netuid} · ${entry.name}`}</span><span>{entry.status}</span>{entry.rating && <span aria-label={`${entry.rating} out of 5 stars`}>{"★".repeat(entry.rating)}</span>}</div>
       <h3>{entry.headline}</h3><p>{entry.summary.length > 300 ? `${entry.summary.slice(0, 300)}…` : entry.summary}</p>
-      <details><summary>Read update &amp; sources</summary>{entry.summary.length > 300 && <p>{entry.summary}</p>}<div className="subnet-news-source-links">{entry.sources.filter(source => safeSource(source.url)).map(source => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>)}<Link href={`/subnet-news/${entry.date}`}>Read the {dateLabel(entry.date)} report →</Link></div></details>
+      <details><summary>Read update &amp; sources</summary>{entry.summary.length > 300 && <p>{entry.summary}</p>}<div className="subnet-news-source-links">{entry.sources.filter(source => safeSource(source.url)).map(source => <NewsSourceLink key={source.url} source={source} />)}<Link href={`/subnet-news/${entry.date}`}>Read the {dateLabel(entry.date)} report →</Link></div></details>
     </article>)}</div>
     {history?.nextOffset !== null && history?.nextOffset !== undefined && <button className="subnet-news-more" disabled={loading} onClick={() => { setError(""); setLoading(true); setOffset(history.nextOffset!); }}>Load older updates</button>}
   </section>;

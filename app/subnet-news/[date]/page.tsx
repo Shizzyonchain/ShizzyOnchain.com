@@ -1,3 +1,4 @@
+import { NewsSourceLink } from "../../news-source-link";
 import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -91,7 +92,7 @@ export default async function SubnetNewsBriefPage({ params }: PageProps<"/subnet
                     <strong>{new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(unlock.amountAlpha)} α</strong>
                     <small>{unlock.releaseType === "conviction-decay" ? "Continuous conviction decay" : unlock.releaseType === "cliff" ? "Scheduled cliff release" : "Release mechanics unconfirmed"}</small>
                     <p>{unlock.summary}</p>
-                    <div className="news-sources">{unlock.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.label} ↗</a>)}</div>
+                    <div className="news-sources">{unlock.sources.map((source) => <NewsSourceLink key={source.url} source={source} />)}</div>
                   </article>
                 ))}
             </div>

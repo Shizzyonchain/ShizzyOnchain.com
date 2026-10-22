@@ -1,19 +1,8 @@
+import { routeIsAllowed } from "../../../lib/backend-routes.mjs";
 import { NextRequest, NextResponse } from "next/server";
 
 // vercel.json pins all functions to sfo1, keeping this relay close to Render's
 // Oregon service without relying on deprecated per-route region configuration.
-
-const readableRoutes = [
-  /^v1\/screener$/,
-  /^v1\/activity$/,
-  /^v1\/subnets\/\d+\/candles$/,
-  /^v1\/wallets\/jobs\/[a-f0-9]{32}$/,
-];
-
-function routeIsAllowed(method: string, pathname: string) {
-  if (method === "POST") return pathname === "v1/wallets/jobs";
-  return method === "GET" && readableRoutes.some((pattern) => pattern.test(pathname));
-}
 
 async function proxy(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
   const requestId = crypto.randomUUID();

@@ -899,3 +899,5 @@ html.site-theme {
 
 /* Creator pages have no market ticker above their sticky header. */
 .creator-shell .site-header{top:0}
+
+.news-source-unavailable{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border:1px solid #444;color:#bbb;max-width:100%;overflow-wrap:anywhere}.news-source-unavailable strong{font-size:12px}.news-source-unavailable small{font-size:12px;line-height:1.5;font-weight:400}

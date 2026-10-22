@@ -1,0 +1,38 @@
+{
+  "reportDate": "2026-08-11",
+  "reviewedAt": "2026-10-22T08:16:39.746099+00:00",
+  "scope": "F12 archived evidence correction",
+  "originalCommit": "b834a09",
+  "httpChecks": [
+    {
+      "url": "https://shizzyunchained.com/api/backend/v1/subnets/15/prices?start=2026-08-10T14%3A00%3A00Z%26end=2026-08-11T14%3A10%3A00Z%26interval=1h%26limit=30",
+      "httpStatus": 404,
+      "checkedAt": "2026-10-22T08:16:39.746099+00:00"
+    },
+    {
+      "url": "https://shizzyunchained.com/api/backend/v1/subnets/4/prices?start=2026-08-10T14%3A00%3A00Z%26end=2026-08-11T14%3A10%3A00Z%26interval=1h%26limit=30",
+      "httpStatus": 404,
+      "checkedAt": "2026-10-22T08:16:39.746099+00:00"
+    },
+    {
+      "url": "https://shizzyunchained.com/api/backend/v1/subnets/9/prices?start=2026-08-10T14%3A00%3A00Z%26end=2026-08-11T14%3A10%3A00Z%26interval=1h%26limit=30",
+      "httpStatus": 404,
+      "checkedAt": "2026-10-22T08:16:39.746099+00:00"
+    },
+    {
+      "url": "https://shizzyunchained.com/api/backend/v1/subnets/11/prices?start=2026-08-10T14%3A00%3A00Z%26end=2026-08-11T14%3A10%3A00Z%26interval=1h%26limit=30",
+      "httpStatus": 404,
+      "checkedAt": "2026-10-22T08:16:39.746099+00:00"
+    },
+    {
+      "url": "https://shizzyunchained.com/api/backend/v1/subnets/15/prices?start=2026-08-10T14%3A00%3A00Z%26end=2026-08-11T14%3A10%3A00Z%26interval=1h%26limit=30",
+      "httpStatus": 404,
+      "checkedAt": "2026-10-22T08:16:39.746099+00:00"
+    }
+  ],
+  "outcome": "Original URL retained as provenance only; rendered unavailable and non-clickable. Five affected items changed from verified to developing with explicit correction notes. Other stories and dates preserved. No current price data substituted.",
+  "gaps": [
+    "No raw historical response file found in repository, report audit directory or dated workspace filenames.",
+    "This correction does not independently reverify the August 11 market observations."
+  ]
+}

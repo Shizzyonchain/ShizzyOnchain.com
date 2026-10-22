@@ -1,3 +1,4 @@
+import { NewsSourceLink } from "../news-source-link";
 import type { NewsItem as NewsItemType } from "../lib/subnet-news";
 
 export function NewsItem({ item, rank, context }: { item: NewsItemType; rank?: number; context?: string }) {
@@ -15,9 +16,7 @@ export function NewsItem({ item, rank, context }: { item: NewsItemType; rank?: n
       {item.priceAction && <p className={`price-action ${item.priceAction.change24hPct >= 0 ? "positive" : "negative"}`}><b>{item.priceAction.change24hPct >= 0 ? "+" : ""}{item.priceAction.change24hPct.toFixed(1)}%</b> {item.priceAction.basis ? `${item.priceAction.basis} ` : ""}24H price action <small>as of {new Date(item.priceAction.observedAt).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" })} ET</small></p>}
       <div className="news-sources" aria-label="Sources">
         {item.sources.map((source) => (
-          <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
-            {source.label} <span aria-hidden="true">↗</span>
-          </a>
+          <NewsSourceLink key={source.url} source={source} />
         ))}
       </div>
     </article>

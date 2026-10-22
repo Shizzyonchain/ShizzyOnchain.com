@@ -14,7 +14,8 @@
     "test:charts": "node --test --experimental-strip-types tests/chart-data.test.mjs tests/chart-drawings.test.mjs",
     "validate:subnet-news": "node scripts/publish-subnet-news.mjs --check",
     "publish:subnet-news": "node scripts/publish-subnet-news.mjs",
-    "predev": "node scripts/generate-social-previews.mjs"
+    "predev": "node scripts/generate-social-previews.mjs",
+    "check:news-links": "node scripts/check-news-links.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

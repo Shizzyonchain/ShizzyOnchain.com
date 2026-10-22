@@ -6,10 +6,9 @@ import { join } from "node:path";
 export type NewsImportance = "high" | "medium" | "informational";
 export type NewsStatus = "verified" | "developing" | "rumor";
 
-export type NewsSource = {
-  label: string;
-  url: string;
-};
+import type { NewsSource } from "./news-source";
+export type { NewsSource } from "./news-source";
+import { newsSourceIssue } from "./news-source-links.mjs";
 
 export type NewsItem = {
   headline: string;
@@ -81,10 +80,8 @@ function assertSource(value: unknown, field: string) {
   if (!isRecord(value)) throw new Error(`Subnet News: ${field} must be an object.`);
   assertString(value.label, `${field}.label`);
   assertString(value.url, `${field}.url`);
-  const url = new URL(value.url as string);
-  if (url.protocol !== "https:" && url.protocol !== "http:") {
-    throw new Error(`Subnet News: ${field}.url must use http or https.`);
-  }
+  const issue = newsSourceIssue(value as NewsSource);
+  if (issue) throw new Error(`Subnet News: ${field}: ${issue}.`);
 }
 
 function assertNewsItem(value: unknown, field: string) {

@@ -1,3 +1,5 @@
+import { checkOwnedNewsLinks } from "./check-news-links.mjs";
+import { newsSourceIssue } from "../app/lib/news-source-links.mjs";
 import { copyFileSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -34,8 +36,8 @@ function item(value, field) {
     object(source, `${field}.sources[${index}]`);
     string(source.label, `${field}.sources[${index}].label`);
     string(source.url, `${field}.sources[${index}].url`);
-    const url = new URL(source.url);
-    if (!["https:", "http:"].includes(url.protocol)) fail(`${field}.sources[${index}].url must use http or https.`);
+    const issue = newsSourceIssue(source);
+    if (issue) fail(`${field}.sources[${index}]: ${issue}.`);
   });
 }
 
@@ -56,8 +58,8 @@ function unlock(value, field) {
     object(source, `${field}.sources[${index}]`);
     string(source.label, `${field}.sources[${index}].label`);
     string(source.url, `${field}.sources[${index}].url`);
-    const url = new URL(source.url);
-    if (!["https:", "http:"].includes(url.protocol)) fail(`${field}.sources[${index}].url must use http or https.`);
+    const issue = newsSourceIssue(source);
+    if (issue) fail(`${field}.sources[${index}]: ${issue}.`);
   });
 }
 
@@ -115,6 +117,7 @@ if (process.argv[2] === "--check") {
   if (!input) fail("provide the path to a report JSON file.");
   const inputPath = resolve(input);
   const report = readAndValidate(inputPath);
+  await checkOwnedNewsLinks(report);
   mkdirSync(reportsDirectory, { recursive: true });
   const destination = join(reportsDirectory, `${report.date}.json`);
   copyFileSync(inputPath, destination);

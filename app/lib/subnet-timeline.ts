@@ -1,9 +1,10 @@
+import type { NewsSource } from "./news-source";
 import type { SubnetNewsBrief } from "./subnet-news";
 
 export type SubnetTimelineEntry = {
   id: string; date: string; name: string; kind: "news" | "archive-name";
   headline: string; summary: string; status: string; rating?: number;
-  sources: { label: string; url: string }[];
+  sources: NewsSource[];
 };
 export function subnetTimeline(briefs: SubnetNewsBrief[], netuid: number) {
   const entries: SubnetTimelineEntry[] = [];
