@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
+import { chartPaths, siteOrigin } from "./lib/seo";
 import { getSubnetNewsBriefs } from "./lib/subnet-news";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://shizzyunchained.com";
+  const base = siteOrigin;
   const pages = [
     "",
     "/activity",
@@ -18,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/deep-dives",
     "/deep-dives/bittensor-v440",
     "/deep-dives/compute-wars",
+    "/deep-dives/arbos-root-basket",
     "/video",
     "/university",
     "/partners",
@@ -31,9 +33,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
   const newsPages: MetadataRoute.Sitemap = getSubnetNewsBriefs().map((brief) => ({
     url: `${base}/subnet-news/${brief.date}`,
-    lastModified: new Date(brief.publishedAt),
-    changeFrequency: "never",
+    changeFrequency: "monthly",
     priority: 0.6,
   }));
-  return [...staticPages, ...newsPages];
+  const charts: MetadataRoute.Sitemap = chartPaths.map(path => ({ url: `${base}${path}`, changeFrequency: "daily", priority: 0.7 }));
+  return [...staticPages, ...charts, ...newsPages];
 }

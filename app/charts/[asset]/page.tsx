@@ -1,3 +1,4 @@
+import { chartPageTitle } from "../../lib/seo";
 import { withSocialMetadata } from "../../lib/social-metadata";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -16,8 +17,9 @@ function chartAsset(asset: string): number | "tao" {
 export async function generateMetadata({ params }: { params: Promise<{ asset: string }> }): Promise<Metadata> {
   const { asset } = await params;
   const selected = chartAsset(asset);
-  const title = selected === "tao" ? "Bittensor TAO Chart" : `SN${selected} Subnet Chart`;
-  return withSocialMetadata({ title: `${title} | ShizzyUnchained`, description: "Explore historical prices, indicators, drawings and Bittensor market information.", alternates: { canonical: `/charts/${asset}` } }, `/charts/${asset}`);
+  const rows = selected === "tao" ? [] : await getInitialMarkets();
+  const title = chartPageTitle(selected, rows.find(row => row.netuid === selected)?.name);
+  return withSocialMetadata({ title: `${title} | ShizzyUnchained`, description: `${title}: explore historical prices, indicators, drawings and Bittensor market information in USD and TAO.`, alternates: { canonical: `/charts/${asset}` } }, `/charts/${asset}`);
 }
 
 export default async function ChartPage({ params, searchParams }: { params: Promise<{ asset: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {

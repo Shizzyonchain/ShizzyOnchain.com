@@ -1,3 +1,4 @@
+import { rememberValidatorNames } from "./validator-metadata-source";
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { getCache } from "@vercel/functions";
@@ -38,7 +39,7 @@ export async function getChildHotkeys() {
   }
 }
 
-export const getStandaloneValidators = unstable_cache(async () => {
+const readStandaloneValidators = unstable_cache(async () => {
   const key = process.env.TAOSTATS_API_KEY;
   if (!key) throw new Error("Validator data is not configured for this environment.");
   const [index, all] = await Promise.all([getChildHotkeys(), (async () => {
@@ -59,3 +60,9 @@ export const getStandaloneValidators = unstable_cache(async () => {
   const children = new Set(index.hotkeys);
   return { rows: all.filter(row => !children.has(row.hotkey)), hiddenChildren: all.filter(row => children.has(row.hotkey)).length, childCheck: { block: index.block, checkedAt: index.checkedAt } };
 }, ["standalone-validator-directory-v2"], { revalidate: 900 });
+
+export async function getStandaloneValidators() {
+  const snapshot = await readStandaloneValidators();
+  await rememberValidatorNames(snapshot.rows);
+  return snapshot;
+}

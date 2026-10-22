@@ -1,3 +1,4 @@
+import { rememberValidatorNames } from "./validator-metadata-source";
 import "server-only";
 import { getCache } from "@vercel/functions";
 import { numeric, type Validator, type ValidatorYield } from "./validator-types";
@@ -58,6 +59,7 @@ async function readCandidateSources() {
     collection<Hyper>("/v1/subnets/hyperparameters", {}, key),
     getChildHotkeys(),
   ]);
+  await rememberValidatorNames(validators);
   return { validators, allYields, allNeurons, allHypers, childIndex, collectedAt: new Date().toISOString() };
 }
 // Persist bounded pages in Runtime Cache; avoid storing the entire network as one

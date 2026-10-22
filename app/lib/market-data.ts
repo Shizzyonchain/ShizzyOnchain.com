@@ -1,10 +1,11 @@
 import "server-only";
+import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import { getTaoQuote } from "./tao-price-source";
 
 import type { ScreenerRow } from "../dashboard";
 
-export async function getInitialMarkets(): Promise<ScreenerRow[]> {
+export const getInitialMarkets = cache(async (): Promise<ScreenerRow[]> => {
   const base = process.env.BACKEND_API_URL;
   if (!base) return [];
   try {
@@ -19,7 +20,7 @@ export async function getInitialMarkets(): Promise<ScreenerRow[]> {
   } catch {
     return [];
   }
-}
+});
 
 // Cache the complete quote, including its original check time. This keeps ISR
 // pages fast without stamping an old provider response as a fresh quote.
