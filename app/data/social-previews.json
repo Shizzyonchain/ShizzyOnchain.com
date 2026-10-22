@@ -98,5 +98,10 @@
     "title": "Compute Wars",
     "section": "SHIZZY DEEP DIVES",
     "brand": "shizzy"
+  },
+  "/privacy": {
+    "title": "Privacy & data",
+    "section": "YOUR DATA · YOUR CONTROLS",
+    "brand": "shizzy"
   }
 }

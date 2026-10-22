@@ -153,3 +153,19 @@ test("archived unavailable evidence is not clickable and partner referrals remai
   await expect(page.locator('a[href="https://engy.ai/r/ShizzyUnchained"]')).toBeVisible();
   await expect(page.locator(".partner-banner")).toHaveCount(7); await noOverflow(page);
 });
+
+test("shared privacy footer opens readable notice and wallet controls remain reachable", async ({ page }) => {
+  await page.goto("/partners");
+  await page.getByRole("contentinfo", { name: "Privacy and contact" }).getByRole("link", { name: "Privacy & data", exact: true }).click();
+  await expect(page).toHaveURL("/privacy");
+  await expect(page.getByRole("heading", { level: 1, name: "Privacy & data", exact: true })).toBeVisible();
+  await expect(page.locator("main")).toContainText("eligible for deletion after 24 hours");
+  await expect(page.locator("main")).toContainText("do not issue a server-side deletion request");
+  await noOverflow(page);
+  await page.getByRole("navigation", { name: "Privacy topics" }).getByRole("link", { name: "On your device", exact: true }).click();
+  await expect(page).toHaveURL("/privacy#storage");
+  await page.getByRole("link", { name: "Wallet Tracker", exact: true }).click();
+  await expect(page).toHaveURL("/wallet-tracker");
+  await expect(page.getByRole("contentinfo", { name: "Privacy and contact" })).toBeVisible();
+  await noOverflow(page);
+});

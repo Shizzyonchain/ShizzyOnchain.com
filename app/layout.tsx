@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { shizzyShareImage } from "./lib/share-images";
+import { PrivacyFooter } from "./privacy-footer";
 import "./globals.css";
 import "./site-theme.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className="site-theme" data-scroll-behavior="smooth">
       <body>
         {children}
+        <PrivacyFooter />
         <Analytics />
         <SpeedInsights />
       </body>
