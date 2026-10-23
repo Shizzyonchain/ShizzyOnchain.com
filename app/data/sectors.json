@@ -1,7 +1,7 @@
 {
-  "reviewedAt": "2026-10-22T19:06:12.115186+00:00",
-  "sourceBlock": 9340975,
-  "evidenceUrl": "/evidence/2026-10-22-sector-review.json",
+  "reviewedAt": "2026-10-23T14:54:48.106716+00:00",
+  "sourceBlock": 9346919,
+  "evidenceUrl": "/evidence/2026-10-23-sector-review.json",
   "sectors": [
     {
       "id": "robotics",
@@ -348,7 +348,7 @@
     },
     {
       "netuid": 17,
-      "name": "404—GEN",
+      "name": "404\u2014GEN",
       "summary": "Competitive 3D content generation.",
       "sectors": [
         "creative"
@@ -495,17 +495,19 @@
     },
     {
       "netuid": 27,
-      "name": "Orion",
-      "summary": "Discovering and curating LLM training data.",
+      "name": "Komms",
+      "summary": "Planned encrypted communications for teams and communities, with Kaspa sequencing and Bittensor operators.",
       "sectors": [
-        "data"
+        "networks",
+        "security",
+        "enterprise"
       ],
-      "source": "https://github.com/SILX-LABS/Orion/blob/main/README.md",
-      "basis": "Project repository",
-      "reviewedAt": "2026-10-22T19:00:36.075929+00:00",
+      "source": "https://github.com/Komms-protocol/komms-docs",
+      "basis": "Current finalized identity and project documentation",
+      "reviewedAt": "2026-10-23T14:54:48.106716+00:00",
       "reviewStatus": "classified",
       "identityStatus": "named",
-      "reviewNote": "Reviewed current owner metadata and available linked primary sources; retained the supported product-focus tags."
+      "reviewNote": "Finalized metadata replaces Orion with Komms. Public beta is in preparation on Kaspa testnet-10; paid plans are not on sale. Classified by stated product, not verified deployment."
     },
     {
       "netuid": 28,
@@ -524,7 +526,7 @@
     },
     {
       "netuid": 29,
-      "name": "hoτfloaτ",
+      "name": "ho\u03c4floa\u03c4",
       "summary": "Inference performance optimization.",
       "sectors": [
         "inference",

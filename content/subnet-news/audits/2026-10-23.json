@@ -1,0 +1,2343 @@
+{
+  "version": 1,
+  "date": "2026-10-23",
+  "coverageStart": "2026-10-22T15:23:42.944Z",
+  "coverageEnd": "2026-10-23T14:54:48.106716+00:00",
+  "assembledAt": "2026-10-23T14:54:48.106716+00:00",
+  "counts": {
+    "subnets": 128,
+    "updates": 22,
+    "repositoryPaths": 203,
+    "repositoryErrors": 14
+  },
+  "sourceMethods": [
+    "All 128 current slots: dated SubnetRadar pages, current identities/market roster and available linked repositories",
+    "Signed-in @ShizzyUnchained Grok discovery, top-five discussion review and primary-link correction",
+    "Direct selected official X posts/profiles; Const Reborn, TensiaFDN, TensiaBot and owner-supplied public leads",
+    "AlphaGap, The TAO Daily, project sites, verification records, finalized chain events and both YouTube tabs"
+  ],
+  "accessGaps": [
+    "Source samples and Grok are not an exhaustive X census. Eighty dated SubnetRadar pages had no October 23 digest; this does not establish no project activity. Fourteen of 203 repository paths returned errors.",
+    "Some Discord developments are accessible only through attributed digests and remain developing. Media not played end-to-end is not independent performance proof.",
+    "Scientific verification records were inspected, not rerun; novelty, internal benchmarks and team revenue/buyback figures were not independently audited.",
+    "Robotensor execution requires Discord sign-in; the rendered product was inspected but no independent run completed.",
+    "The complete finalized event scan ends at block 9346872; later transactions are outside it. Key migrations and locks do not prove subnet sales. No verified new unlock schedule was established.",
+    "TaoStats-backed site access is available, but exact credits and a complete independent TaoStats event reconciliation remain unavailable.",
+    "The advertised Numinous DKG base returned 404 and endpoint/OpenAPI checks returned 403; availability is not independently confirmed."
+  ],
+  "marketReview": {
+    "source": "https://shizzyunchained.com/api/backend/v1/screener",
+    "observedAt": "2026-10-23T14:37:24+00:00",
+    "block": 9346888,
+    "basis": "alpha/TAO",
+    "rows": [
+      {
+        "netuid": 1,
+        "change24hPct": -0.2595704709635387,
+        "change7dPct": -3.7567517865321673
+      },
+      {
+        "netuid": 2,
+        "change24hPct": -4.412255487884521,
+        "change7dPct": 14.810394864575022
+      },
+      {
+        "netuid": 3,
+        "change24hPct": -0.12722134699314755,
+        "change7dPct": -7.219610977231645
+      },
+      {
+        "netuid": 4,
+        "change24hPct": 1.2546392563386022,
+        "change7dPct": 1.4687290687017833
+      },
+      {
+        "netuid": 5,
+        "change24hPct": -0.1637992967908901,
+        "change7dPct": -0.4145474697463633
+      },
+      {
+        "netuid": 6,
+        "change24hPct": 1.2872832256291584,
+        "change7dPct": 1.9609594031738609
+      },
+      {
+        "netuid": 7,
+        "change24hPct": -0.004333692497602784,
+        "change7dPct": -0.4552563604195352
+      },
+      {
+        "netuid": 8,
+        "change24hPct": -0.08404154226676282,
+        "change7dPct": 6.274529776366917
+      },
+      {
+        "netuid": 9,
+        "change24hPct": 1.6162031962705592,
+        "change7dPct": 0.8566068632637505
+      },
+      {
+        "netuid": 10,
+        "change24hPct": -4.728181436284998,
+        "change7dPct": -13.004229856597545
+      },
+      {
+        "netuid": 11,
+        "change24hPct": -2.170622546418145,
+        "change7dPct": -2.9889706837730583
+      },
+      {
+        "netuid": 12,
+        "change24hPct": -0.02523489270044111,
+        "change7dPct": -0.3913138743805326
+      },
+      {
+        "netuid": 13,
+        "change24hPct": -0.01584673501698451,
+        "change7dPct": -0.7676782981996242
+      },
+      {
+        "netuid": 14,
+        "change24hPct": 0.02812292037644752,
+        "change7dPct": -0.11871555170267555
+      },
+      {
+        "netuid": 15,
+        "change24hPct": -1.5140788201095738,
+        "change7dPct": -5.384912854238271
+      },
+      {
+        "netuid": 16,
+        "change24hPct": 4.653715244649249,
+        "change7dPct": -17.2445159785198
+      },
+      {
+        "netuid": 17,
+        "change24hPct": -0.5141869317821758,
+        "change7dPct": -0.6052586209665934
+      },
+      {
+        "netuid": 18,
+        "change24hPct": -0.5801467961408593,
+        "change7dPct": -1.2208760484622554
+      },
+      {
+        "netuid": 19,
+        "change24hPct": 0.662734655949429,
+        "change7dPct": -0.4801957722061856
+      },
+      {
+        "netuid": 20,
+        "change24hPct": 0.8859029352143288,
+        "change7dPct": 0.8443826101961799
+      },
+      {
+        "netuid": 21,
+        "change24hPct": -7.866917116221943,
+        "change7dPct": -11.525196615523802
+      },
+      {
+        "netuid": 22,
+        "change24hPct": -0.5353976090491006,
+        "change7dPct": -1.6706064417855182
+      },
+      {
+        "netuid": 23,
+        "change24hPct": 27.32046068017122,
+        "change7dPct": 52.24066749728625
+      },
+      {
+        "netuid": 24,
+        "change24hPct": 5.773925521783513,
+        "change7dPct": 11.303094063524396
+      },
+      {
+        "netuid": 25,
+        "change24hPct": -0.9892640016932627,
+        "change7dPct": -11.845302132130746
+      },
+      {
+        "netuid": 26,
+        "change24hPct": -0.9512518774708107,
+        "change7dPct": -38.78998726229627
+      },
+      {
+        "netuid": 27,
+        "change24hPct": 16.5162854299097,
+        "change7dPct": -1.2286961182145317
+      },
+      {
+        "netuid": 28,
+        "change24hPct": -9.257043231502847,
+        "change7dPct": -12.676039300899433
+      },
+      {
+        "netuid": 29,
+        "change24hPct": -0.01225724811938793,
+        "change7dPct": 1.5595215275074255
+      },
+      {
+        "netuid": 30,
+        "change24hPct": -0.7323232246430916,
+        "change7dPct": -1.240055395979283
+      },
+      {
+        "netuid": 31,
+        "change24hPct": -0.09165502222150103,
+        "change7dPct": -4.558427209851615
+      },
+      {
+        "netuid": 32,
+        "change24hPct": -0.449980573010372,
+        "change7dPct": -1.2426761402775521
+      },
+      {
+        "netuid": 33,
+        "change24hPct": 0.5319368062778571,
+        "change7dPct": -3.6949951771690577
+      },
+      {
+        "netuid": 34,
+        "change24hPct": -0.7672192048546359,
+        "change7dPct": 0.02502363733774613
+      },
+      {
+        "netuid": 35,
+        "change24hPct": -3.4076044784391972,
+        "change7dPct": -36.27938623544598
+      },
+      {
+        "netuid": 36,
+        "change24hPct": -1.2328862187589844,
+        "change7dPct": -36.23084692776336
+      },
+      {
+        "netuid": 37,
+        "change24hPct": -4.5630453035977325,
+        "change7dPct": -7.025121460727108
+      },
+      {
+        "netuid": 38,
+        "change24hPct": -34.06465550529484,
+        "change7dPct": -30.809460643977317
+      },
+      {
+        "netuid": 39,
+        "change24hPct": 7.192264036307865,
+        "change7dPct": 10.140546680358177
+      },
+      {
+        "netuid": 40,
+        "change24hPct": -0.985207849439285,
+        "change7dPct": -7.822911687120304
+      },
+      {
+        "netuid": 41,
+        "change24hPct": -0.360700207578989,
+        "change7dPct": 10.267656012579938
+      },
+      {
+        "netuid": 42,
+        "change24hPct": 3.1553805805859545,
+        "change7dPct": 2.5917192934653785
+      },
+      {
+        "netuid": 43,
+        "change24hPct": 0.04350950621787398,
+        "change7dPct": -0.015095094018334324
+      },
+      {
+        "netuid": 44,
+        "change24hPct": 0.193788289330839,
+        "change7dPct": 1.4636095029891483
+      },
+      {
+        "netuid": 45,
+        "change24hPct": -4.001013946091867,
+        "change7dPct": -5.33815812074274
+      },
+      {
+        "netuid": 46,
+        "change24hPct": -2.2251895056469406,
+        "change7dPct": -13.59396332693766
+      },
+      {
+        "netuid": 47,
+        "change24hPct": -2.122369408690334,
+        "change7dPct": -2.4366546008763574
+      },
+      {
+        "netuid": 48,
+        "change24hPct": 16.654476233992277,
+        "change7dPct": 19.225589089572317
+      },
+      {
+        "netuid": 49,
+        "change24hPct": -2.5177086072719126,
+        "change7dPct": -13.93435860668238
+      },
+      {
+        "netuid": 50,
+        "change24hPct": 2.33391498765336,
+        "change7dPct": -4.649893635480595
+      },
+      {
+        "netuid": 51,
+        "change24hPct": 2.472419744090774,
+        "change7dPct": 6.005735636458562
+      },
+      {
+        "netuid": 52,
+        "change24hPct": 0.0105779721333241,
+        "change7dPct": 0.7163722492514035
+      },
+      {
+        "netuid": 53,
+        "change24hPct": 0.7954727656458501,
+        "change7dPct": -17.702605361783327
+      },
+      {
+        "netuid": 54,
+        "change24hPct": 4.462804643312527,
+        "change7dPct": -7.327128028661133
+      },
+      {
+        "netuid": 55,
+        "change24hPct": -5.703014455766633,
+        "change7dPct": 8.174397680413826
+      },
+      {
+        "netuid": 56,
+        "change24hPct": 1.000249190930732,
+        "change7dPct": 2.1305169058233138
+      },
+      {
+        "netuid": 57,
+        "change24hPct": -2.362580327731143,
+        "change7dPct": -0.4014756185426387
+      },
+      {
+        "netuid": 58,
+        "change24hPct": 3.9153570759124734,
+        "change7dPct": 39.94097951004432
+      },
+      {
+        "netuid": 59,
+        "change24hPct": -19.687402164372802,
+        "change7dPct": 80.39888326426602
+      },
+      {
+        "netuid": 60,
+        "change24hPct": 1.3244729059339821,
+        "change7dPct": -13.329803961770581
+      },
+      {
+        "netuid": 61,
+        "change24hPct": -11.631267701045637,
+        "change7dPct": -2.416238383962805
+      },
+      {
+        "netuid": 62,
+        "change24hPct": -0.41537146278219655,
+        "change7dPct": -1.361542775932028
+      },
+      {
+        "netuid": 63,
+        "change24hPct": 24.608327918593442,
+        "change7dPct": 22.989862073607007
+      },
+      {
+        "netuid": 64,
+        "change24hPct": -0.08218940006465278,
+        "change7dPct": 0.2557722280039765
+      },
+      {
+        "netuid": 65,
+        "change24hPct": -6.661907394073889,
+        "change7dPct": 1.3664244054040284
+      },
+      {
+        "netuid": 66,
+        "change24hPct": 2.359515138073786,
+        "change7dPct": -2.687792871771846
+      },
+      {
+        "netuid": 67,
+        "change24hPct": -2.8438849788137768,
+        "change7dPct": -5.748685513983083
+      },
+      {
+        "netuid": 68,
+        "change24hPct": -1.052121564924785,
+        "change7dPct": -8.217052000489268
+      },
+      {
+        "netuid": 69,
+        "change24hPct": -2.8354093751787643,
+        "change7dPct": -4.956656188183282
+      },
+      {
+        "netuid": 70,
+        "change24hPct": -1.9012939361509917,
+        "change7dPct": -55.13273629093921
+      },
+      {
+        "netuid": 71,
+        "change24hPct": -0.7903300790330079,
+        "change7dPct": -19.49901465154061
+      },
+      {
+        "netuid": 72,
+        "change24hPct": -1.210902829093088,
+        "change7dPct": -2.4312822254296993
+      },
+      {
+        "netuid": 73,
+        "change24hPct": -2.208302315558516,
+        "change7dPct": -2.1370161824965552
+      },
+      {
+        "netuid": 74,
+        "change24hPct": -0.3461387624260405,
+        "change7dPct": -1.3219301751822805
+      },
+      {
+        "netuid": 75,
+        "change24hPct": 0.1974479909598682,
+        "change7dPct": -3.5807780949549457
+      },
+      {
+        "netuid": 76,
+        "change24hPct": -6.0656444662479965,
+        "change7dPct": -13.850274997847556
+      },
+      {
+        "netuid": 77,
+        "change24hPct": -0.1352579463527703,
+        "change7dPct": -0.9838247308928944
+      },
+      {
+        "netuid": 78,
+        "change24hPct": -1.3384771490986032,
+        "change7dPct": -41.087139933755644
+      },
+      {
+        "netuid": 79,
+        "change24hPct": 3.1380760681544544,
+        "change7dPct": 4.382560657773909
+      },
+      {
+        "netuid": 80,
+        "change24hPct": -5.196538863499938,
+        "change7dPct": -17.931254086618598
+      },
+      {
+        "netuid": 81,
+        "change24hPct": 3.4311523606958882,
+        "change7dPct": 1.2977321927937173
+      },
+      {
+        "netuid": 82,
+        "change24hPct": 4.856226086582253,
+        "change7dPct": -14.186151486171008
+      },
+      {
+        "netuid": 83,
+        "change24hPct": 0.12598301551466132,
+        "change7dPct": -1.4429931261340516
+      },
+      {
+        "netuid": 84,
+        "change24hPct": -7.296365576440399,
+        "change7dPct": -8.360461188484038
+      },
+      {
+        "netuid": 85,
+        "change24hPct": -7.570082457021839,
+        "change7dPct": -13.608721965157308
+      },
+      {
+        "netuid": 86,
+        "change24hPct": -5.374547242201671,
+        "change7dPct": -39.77471296058417
+      },
+      {
+        "netuid": 87,
+        "change24hPct": -8.129126788079159,
+        "change7dPct": -20.24633548336831
+      },
+      {
+        "netuid": 88,
+        "change24hPct": -0.09210972777867228,
+        "change7dPct": -1.7299000416524613
+      },
+      {
+        "netuid": 89,
+        "change24hPct": -0.1590305401279317,
+        "change7dPct": -0.4659553444352784
+      },
+      {
+        "netuid": 90,
+        "change24hPct": -4.241758310377095,
+        "change7dPct": -15.323941964217612
+      },
+      {
+        "netuid": 91,
+        "change24hPct": -4.500404840915922,
+        "change7dPct": -11.235519446968482
+      },
+      {
+        "netuid": 92,
+        "change24hPct": -7.263970287471568,
+        "change7dPct": -12.098005773124378
+      },
+      {
+        "netuid": 93,
+        "change24hPct": -1.7067579844413812,
+        "change7dPct": -6.764938914195011
+      },
+      {
+        "netuid": 94,
+        "change24hPct": -6.221165145125262,
+        "change7dPct": -10.198846025040986
+      },
+      {
+        "netuid": 95,
+        "change24hPct": -0.3829404742843645,
+        "change7dPct": -8.195146044417632
+      },
+      {
+        "netuid": 96,
+        "change24hPct": -7.131171283582422,
+        "change7dPct": -21.131018483367146
+      },
+      {
+        "netuid": 97,
+        "change24hPct": -5.485538196923994,
+        "change7dPct": -3.6783496550654085
+      },
+      {
+        "netuid": 98,
+        "change24hPct": -1.3202522013262312,
+        "change7dPct": -0.4948283721087435
+      },
+      {
+        "netuid": 99,
+        "change24hPct": 0.7911513994338435,
+        "change7dPct": -13.428239457892222
+      },
+      {
+        "netuid": 100,
+        "change24hPct": -1.4485491732337266,
+        "change7dPct": -13.159960985200868
+      },
+      {
+        "netuid": 101,
+        "change24hPct": -3.2743985604673878,
+        "change7dPct": -3.798176228733681
+      },
+      {
+        "netuid": 102,
+        "change24hPct": -0.7308737379978645,
+        "change7dPct": -16.903403449304268
+      },
+      {
+        "netuid": 103,
+        "change24hPct": -10.262408759454017,
+        "change7dPct": 385.93845483568566
+      },
+      {
+        "netuid": 104,
+        "change24hPct": -0.1426442488132336,
+        "change7dPct": -0.07232658929483288
+      },
+      {
+        "netuid": 105,
+        "change24hPct": -7.130402337031206,
+        "change7dPct": -19.2737893093515
+      },
+      {
+        "netuid": 106,
+        "change24hPct": -3.3825332996297077,
+        "change7dPct": 3.2813534778117464
+      },
+      {
+        "netuid": 107,
+        "change24hPct": 1.455762040660206,
+        "change7dPct": -10.184744270132
+      },
+      {
+        "netuid": 108,
+        "change24hPct": -0.9309981013996953,
+        "change7dPct": -13.396962443951308
+      },
+      {
+        "netuid": 109,
+        "change24hPct": -6.376715974435463,
+        "change7dPct": -7.24698847864322
+      },
+      {
+        "netuid": 110,
+        "change24hPct": 1.1433240332479166,
+        "change7dPct": 12.06429150735065
+      },
+      {
+        "netuid": 111,
+        "change24hPct": 0.07623445468564635,
+        "change7dPct": -0.28774255817558014
+      },
+      {
+        "netuid": 112,
+        "change24hPct": 3.2351631736823894,
+        "change7dPct": 54.89623815784948
+      },
+      {
+        "netuid": 113,
+        "change24hPct": 17.88731878205798,
+        "change7dPct": 39.35349717052728
+      },
+      {
+        "netuid": 114,
+        "change24hPct": 4.4193366305145965,
+        "change7dPct": 1.2746586906781292
+      },
+      {
+        "netuid": 115,
+        "change24hPct": -1.750299016021945,
+        "change7dPct": -5.158750350073572
+      },
+      {
+        "netuid": 116,
+        "change24hPct": -6.230119583375354,
+        "change7dPct": -23.30919484402229
+      },
+      {
+        "netuid": 117,
+        "change24hPct": -13.490703076260788,
+        "change7dPct": -18.851999523203244
+      },
+      {
+        "netuid": 118,
+        "change24hPct": -8.294611925181078,
+        "change7dPct": -22.842740573293096
+      },
+      {
+        "netuid": 119,
+        "change24hPct": -0.642317881596866,
+        "change7dPct": 0.4370765069737645
+      },
+      {
+        "netuid": 120,
+        "change24hPct": -1.092668689077786,
+        "change7dPct": -3.7959245738389304
+      },
+      {
+        "netuid": 121,
+        "change24hPct": -0.8710227509046292,
+        "change7dPct": -4.056914727741837
+      },
+      {
+        "netuid": 122,
+        "change24hPct": -4.46358438787732,
+        "change7dPct": -14.282378202164423
+      },
+      {
+        "netuid": 123,
+        "change24hPct": -2.6228116003440816,
+        "change7dPct": -1.6994372258141937
+      },
+      {
+        "netuid": 124,
+        "change24hPct": -4.810467677902894,
+        "change7dPct": 0.5951742186512875
+      },
+      {
+        "netuid": 125,
+        "change24hPct": -1.601795770437362,
+        "change7dPct": -6.070973841017493
+      },
+      {
+        "netuid": 126,
+        "change24hPct": -2.9439939162010056,
+        "change7dPct": 4.100266308980427
+      },
+      {
+        "netuid": 127,
+        "change24hPct": 2.1916872722116683,
+        "change7dPct": 0.22927360898514143
+      },
+      {
+        "netuid": 128,
+        "change24hPct": -2.2485581547566684,
+        "change7dPct": -2.343024111632442
+      }
+    ],
+    "decisions": [
+      {
+        "netuid": 23,
+        "outcome": "excluded",
+        "reason": "The Trishool market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/23"
+          }
+        ]
+      },
+      {
+        "netuid": 27,
+        "outcome": "covered",
+        "reason": "Material development covered with direct sources; the price move is not asserted to be caused by it.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/27"
+          }
+        ]
+      },
+      {
+        "netuid": 38,
+        "outcome": "excluded",
+        "reason": "The ChronoLLM market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/38"
+          }
+        ]
+      },
+      {
+        "netuid": 48,
+        "outcome": "excluded",
+        "reason": "The Quantum Compute market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/48"
+          }
+        ]
+      },
+      {
+        "netuid": 59,
+        "outcome": "excluded",
+        "reason": "The Unknown market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/59"
+          }
+        ]
+      },
+      {
+        "netuid": 63,
+        "outcome": "excluded",
+        "reason": "The Enigma market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/63"
+          }
+        ]
+      },
+      {
+        "netuid": 103,
+        "outcome": "excluded",
+        "reason": "The Unknown market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/103"
+          }
+        ]
+      },
+      {
+        "netuid": 113,
+        "outcome": "excluded",
+        "reason": "The Unknown market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+        "sources": [
+          {
+            "label": "Dated market snapshot",
+            "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+          },
+          {
+            "label": "Subnet research",
+            "url": "https://subnetradar.com/subnet/113"
+          }
+        ]
+      }
+    ]
+  },
+  "emissionReview": {
+    "snapshotBlock": 9346919,
+    "newEvents": 0,
+    "outcome": "SN117 event at 9342125 was already verified/published; retained without duplicating it as new news."
+  },
+  "registrationDeregistrationSalesReview": {
+    "complete": true,
+    "eventRange": [
+      9339925,
+      9346872
+    ],
+    "registrationChanges": 0,
+    "ownerKeyMigrations": [
+      {
+        "netuid": 24,
+        "block": 9341574,
+        "extrinsic": 7,
+        "registrationUnchanged": true,
+        "saleVerified": false
+      }
+    ],
+    "identityChanges": [
+      {
+        "netuid": 27,
+        "before": "Orion",
+        "after": "Komms",
+        "registrationAndOwnerUnchanged": true
+      }
+    ],
+    "evidence": "public/evidence/2026-10-23-chain.json"
+  },
+  "etaoReview": {
+    "complete": true,
+    "fromBlock": 9339925,
+    "toBlock": 9346872,
+    "eventCount": 1,
+    "outcome": "Only the already-published SN117 allocation event. Current weights reconciled."
+  },
+  "burnReview": {
+    "complete": true,
+    "fromBlock": 9339925,
+    "toBlock": 9346872,
+    "qualifyingNew": [
+      {
+        "netuid": 14,
+        "block": 9340996,
+        "amountAlpha": "2870.53"
+      },
+      {
+        "netuid": 8,
+        "block": 9341392,
+        "amountAlpha": "333.653080133"
+      }
+    ],
+    "minimumNativeTokens": 100,
+    "smallEvents": "Retained in evidence; public cards and news keep the 100-token minimum.",
+    "recyclingExcluded": true,
+    "minerEmissionBurnsExcluded": true
+  },
+  "grokReview": {
+    "identity": "@ShizzyUnchained",
+    "conversationUrl": "https://x.com/i/grok?conversation=cf32aab5-df5c-45e8-b4c3-a7fa7e1030b2",
+    "status": "Discovery, top-five, primary-link correction and final omission check completed",
+    "evidence": [
+      "grok-initial.txt",
+      "grok-primary-links.txt",
+      "grok-omissions.txt"
+    ],
+    "topFive": {
+      "netuids": [
+        23,
+        92,
+        81,
+        6,
+        107
+      ],
+      "method": "Qualitative sampled attention, not exhaustive mention counts or news ratings."
+    },
+    "leadOutcomes": [
+      {
+        "lead": "Protocol PR activation",
+        "outcome": "corrected",
+        "reason": "PRs alone do not establish activation; runtime483 separately confirmed in finalized state."
+      },
+      {
+        "lead": "SN80 Solana",
+        "outcome": "already-covered",
+        "reason": "October22 owner follow-up already added the planned bridge; no new verified live transfer."
+      },
+      {
+        "lead": "SN92 prior incident",
+        "outcome": "unverified",
+        "reason": "No original matching X post; inspectable current reference-scorer commit covered instead."
+      },
+      {
+        "lead": "SN28 $1M usage",
+        "outcome": "unverified",
+        "reason": "Community claim without reconciled primary evidence is not audited revenue."
+      }
+    ],
+    "finalOmissions": {
+      "outcome": "Returned already-included subjects; no distinct verified omission. A claimed exact runtime activation block was not adopted without direct confirmation.",
+      "corrections": [
+        "Grok called an owner coldkey a hotkey; chain evidence uses coldkey.",
+        "Grok failed to locate the exact Bitcast aggregate post already read directly; the direct original is retained.",
+        "Grok linked an Attune replay promotion as the public episode; the actual new YouTube ID/title/date were verified separately."
+      ]
+    }
+  },
+  "constReview": {
+    "outcome": "Originals and replies inspected; visible Ingot/IOTA/Affine commentary already covered. No new material current-window story selected.",
+    "sources": [
+      "https://x.com/const_reborn",
+      "https://x.com/const_reborn/with_replies"
+    ]
+  },
+  "tensiaReview": {
+    "accounts": [
+      "https://x.com/TensiaFDN",
+      "https://x.com/TensiaBot"
+    ],
+    "outcome": "SN27 identity and SN24 migration reconciled to finalized evidence; SN117 split already covered. Foundation book commentary not a new subnet development."
+  },
+  "ownerSourceReview": {
+    "identity": "@ShizzyUnchained",
+    "surfaces": [
+      "Bookmarks",
+      "Likes"
+    ],
+    "outcome": "Bitcast public source followed and added; Leadpoet launch and Lium prior metrics deduplicated. Attune promotion is an existing replay. History exposes Bookmarks/Likes, not complete viewing history.",
+    "privacy": "Only public original source URLs are published; private bookmark state is not disclosed.",
+    "additionalDispositions": [
+      {
+        "lead": "Mentat Lend miner-selling illustration",
+        "outcome": "excluded",
+        "reason": "Promotional financing example, not a newly verified product release or audited trading result."
+      }
+    ]
+  },
+  "mediaReview": [
+    {
+      "source": "https://x.com/conjectures_io/status/2113631532556722336",
+      "outcome": "Theorem graphic, result and Lean review/source inspected; no independent rerun or novelty conclusion."
+    },
+    {
+      "source": "https://playground.robotensor.ai",
+      "outcome": "Rendered 3D product inspected. Execution requires Discord sign-in; no independent run claimed."
+    },
+    {
+      "source": "https://x.com/Bitcast_network/status/2113292470457090282",
+      "outcome": "Original text checked; chart and accounting not independently reconciled."
+    },
+    {
+      "source": "https://x.com/theminos_ai/status/2112707896429387829",
+      "outcome": "Full schedule text checked; session completion not established."
+    }
+  ],
+  "youtubeVerified": {
+    "evidence": "youtube-verified.json",
+    "publicAdded": "9orJTIbMwmQ",
+    "duration": "20:48",
+    "publishedAt": "2026-10-22T17:11:17+00:00",
+    "embeddable": true,
+    "memberLatestPreserved": "PmO2ELJ4q2g",
+    "liveTab": "Attune replay remains latest inspected. No verified new upcoming stream found. Removed/postponed items remain untouched."
+  },
+  "taostatsReview": {
+    "status": "Existing server-backed routes available; node screener remains primary.",
+    "creditUsage": "Unavailable",
+    "independentEventReconciliation": "Incomplete; direct finalized archive evidence used.",
+    "pending": "No per-visitor integrations added. Unnamed SN113 remains Unknown."
+  },
+  "priorEditionsReviewed": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20",
+    "2026-10-21",
+    "2026-10-22"
+  ],
+  "primaryCommitChecks": [
+    {
+      "repo": "reaxlabs/reax-subnet",
+      "url": "https://github.com/reaxlabs/reax-subnet/commit/a0310f94f3aadd153e2d4c84a62be5402d5e5917",
+      "message": "eval v5.1: public format doc, reference scorer and 300-item dev set (weight 0); the generalist switches at the 26 Oct 2026 14:30 UTC crown slot, first v5.1-decided slot Thu 29 Oct\n\nAdditive: spec/v5.py + tools/score_v5.py + docs/EVAL-V5.md + synthetic fixtures (as deployed in 1.2.0rc11.post4, comments only edited),\neval-v5/devset-v1 (dev.jsonl, FORMAT.md, DEV-CARD.md, example responses, scorer run, SHA256SUMS).\nsampling.py gains only the two names the scorer reads (MIRROR_TIER, EVAL_V5_START_UTC = None); live scoring unchanged.\nValidator draw/wiring tests are skipped here; they ship with the release that activates v5.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+    },
+    {
+      "repo": "ippcteam/SN21-adtao",
+      "url": "https://github.com/ippcteam/SN21-adtao/commit/91c5c30e7a0e01d0dfb1398d70bdb586b925254a",
+      "message": "docs: rule amendments published 2026-10-23, effective 2026-10-30"
+    },
+    {
+      "repo": "Datura-ai/lium-io",
+      "url": "https://github.com/Datura-ai/lium-io/commit/2b1eb1d2eb09341368b480dadabfc9c10981242e",
+      "message": "DAH-4042 - [P0] Unrented incentive: add 17 more GPU types incl. RTX PRO 5000 and PRO 4500 (#1550)\n\nAdd unrented incentive caps and hourly price anchors for more GPU types."
+    },
+    {
+      "repo": "opentensor/subtensor",
+      "url": "https://github.com/RaoFoundation/subtensor/commit/db3fdeb98bc82c38b238bfac9f6a3303a3361ee4",
+      "message": "Merge pull request #3280 from RaoFoundation/release-483\n\nrelease-483"
+    },
+    {
+      "repo": "macrocosm-os/data-universe",
+      "url": "https://github.com/macrocosm-os/data-universe/commit/42d8e3e88634c9603e05add5d6279fb88bc23c82",
+      "message": "Merge pull request #927 from macrocosm-os/dev\n\nsecurity update"
+    },
+    {
+      "repo": "ORO-AI/oro",
+      "url": "https://github.com/ORO-AI/oro/commit/a002966143b7a54fb94e2b6e56ddd7bee2c1686e",
+      "message": "security: patch Python dependencies and supported runtimes (#388)\n\n* security: update Python dependency floors and runtimes\n\n* security: scan installed Python image dependencies\n\n* fix: audit published stable Python images\n\n* security: run published audits by resolved image digest\n\n* security: audit exact installed image inventories without re-resolution\n\n* fix: build search image for standalone index smoke"
+    }
+  ],
+  "subnets": [
+    {
+      "netuid": 1,
+      "name": "Apex",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/1/2026-10-23",
+        "https://github.com/macrocosm-os/apex"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 2,
+      "name": "DaniLabs",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/2/2026-10-23",
+        "https://github.com/DaniLabsAI/subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 3,
+      "name": "Teutonic",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/3/2026-10-23",
+        "https://github.com/unarbos/teutonic"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 4,
+      "name": "Targon",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/4/2026-10-23",
+        "https://github.com/manifold-inc/targon"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 5,
+      "name": "Hone",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/5/2026-10-23",
+        "https://github.com/hone-subnet-org/hone-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 6,
+      "name": "Numinous",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/6/2026-10-23",
+        "https://github.com/numinouslabs/numinous"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 7,
+      "name": "Allways",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/7/2026-10-23",
+        "https://github.com/entrius/allways"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 8,
+      "name": "Vanta",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/8/2026-10-23",
+        "https://github.com/taoshidev/vanta-network"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 9,
+      "name": "iota",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/9/2026-10-23",
+        "https://github.com/macrocosm-os/iota"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 10,
+      "name": "Pareton",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/10/2026-10-23",
+        "https://github.com/Pareton-ai/pareton"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/11/2026-10-23",
+        "https://github.com/trajectoryRL/trajectoryRL"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 12,
+      "name": "Compute Horde",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/12/2026-10-23",
+        "https://github.com/backend-developers-ltd/ComputeHorde/"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 13,
+      "name": "Data Universe",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/13/2026-10-23",
+        "https://github.com/macrocosm-os/data-universe"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 14,
+      "name": "Cacheon",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/14/2026-10-23",
+        "https://github.com/latent-to/cacheon"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 15,
+      "name": "ORO",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/15/2026-10-23",
+        "https://github.com/ORO-AI/oro"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 16,
+      "name": "Zero Hour",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/16/2026-10-23",
+        "https://github.com/fast-thinker/kenju"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 17,
+      "name": "404—GEN",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/17/2026-10-23",
+        "https://github.com/404-Repo/404-gen-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 18,
+      "name": "Zeus",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/18/2026-10-23",
+        "https://github.com/Orpheus-AI/Zeus"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 19,
+      "name": "blockmachine",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/19/2026-10-23",
+        "https://github.com/taostat/blockmachine/"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/20/2026-10-23",
+        "https://github.com/witnessvision/witness_subnet/"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 21,
+      "name": "AdTAO",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/21/2026-10-23",
+        "https://github.com/ippcteam/SN21-adtao"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 22,
+      "name": "Desearch",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/22/2026-10-23",
+        "https://github.com/datura-ai/desearch"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 23,
+      "name": "Trishool",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/23/2026-10-23",
+        "https://github.com/TrishoolAI/trishool-phase2"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 24,
+      "name": "Quasar",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/24/2026-10-23",
+        "https://github.com/SILX-LABS/QUASAR-SUBNET/"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/25/2026-10-23",
+        "https://github.com/urfoundation/sn"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 26,
+      "name": "Perturb",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/26/2026-10-23",
+        "https://github.com/0xsigurd/Perturb"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 27,
+      "name": "Komms",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/27/2026-10-23",
+        "https://github.com/Komms-protocol/komms-docs"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 28,
+      "name": "SayGM",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/28/2026-10-23",
+        "https://github.com/taostat/gm-miner"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 29,
+      "name": "hoτfloaτ",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/29/2026-10-23",
+        "https://github.com/coldint/hotfloat"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 30,
+      "name": "Endure Network",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/30/2026-10-23",
+        "https://github.com/Endure-Network/endure-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 31,
+      "name": "rec4ll",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/31/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 32,
+      "name": "ItsAI",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/32/2026-10-23",
+        "https://github.com/It-s-AI/llm-detection"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 33,
+      "name": "ReadyAI",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/33/2026-10-23",
+        "https://github.com/afterpartyai/bittensor-conversation-genome-project"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 34,
+      "name": "BitMind",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/34/2026-10-23",
+        "https://github.com/BitMind-AI/bitmind-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 35,
+      "name": "Unknown",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/35/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/36/2026-10-23",
+        "https://github.com/EpagoFoundation/epago"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 37,
+      "name": "Aurelius",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/37/2026-10-23",
+        "https://github.com/Aurelius-Protocol/Aurelius-Protocol"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 38,
+      "name": "ChronoLLM",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/38/2026-10-23",
+        "https://github.com/chronollm/sn38"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 39,
+      "name": "deprecated",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/39/2026-10-23",
+        "https://github.com/deprecated/deprecated"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 40,
+      "name": "Ralph",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/40/2026-10-23",
+        "https://github.com/RalphLabsAI/ralph"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 41,
+      "name": "Almanac",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/41/2026-10-23",
+        "https://github.com/corvxai/almanac"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 42,
+      "name": "Unknown",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/42/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 43,
+      "name": "Graphite",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/43/2026-10-23",
+        "https://github.com/GraphiteAI/Graphite-Subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 44,
+      "name": "Score",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/44/2026-10-23",
+        "https://github.com/score-technologies/turbovision"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 45,
+      "name": "AlphaRidge.ai",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/45/2026-10-23",
+        "https://github.com/Team-Rizzo/alpharidge-ai"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 46,
+      "name": "Instant",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/46/2026-10-23",
+        "https://github.com/Subnet46/sn46-validator"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 47,
+      "name": "GPUForge",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/47/2026-10-23",
+        "https://github.com/forgenet47/gpuforge"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 48,
+      "name": "Quantum Compute",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/48/2026-10-23",
+        "https://github.com/qbittensor-labs/quantum-compute"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 49,
+      "name": "Nepher Robotics",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/49/2026-10-23",
+        "https://github.com/nepher-ai/nepher-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 50,
+      "name": "Synth",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/50/2026-10-23",
+        "https://github.com/mode-network/synth-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 51,
+      "name": "lium.io",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/51/2026-10-23",
+        "https://github.com/Datura-ai/lium-io"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 52,
+      "name": "Dojo",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/52/2026-10-23",
+        "https://github.com/tensorplex-labs/dojo"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 53,
+      "name": "engy",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/53/2026-10-23",
+        "https://github.com/hanlinai/engy"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 54,
+      "name": "Yanez",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/54/2026-10-23",
+        "https://github.com/yanez-compliance/MIID-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 55,
+      "name": "NIOME",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/55/2026-10-23",
+        "https://github.com/genomesio/subnet-niome"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 56,
+      "name": "Gradients",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/56/2026-10-23",
+        "https://github.com/gradients-ai/G.O.D"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 57,
+      "name": "Unknown",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/57/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 58,
+      "name": "Attune",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/58/2026-10-23",
+        "https://github.com/robotensor/attune-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 59,
+      "name": "Unknown",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/59/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 60,
+      "name": "Bitsec.ai",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/60/2026-10-23",
+        "https://github.com/Bitsec-AI/sandbox"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 61,
+      "name": "RedTeam",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/61/2026-10-23",
+        "https://github.com/RedTeamSubnet/RedTeam"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 62,
+      "name": "Ridges",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/62/2026-10-23",
+        "https://github.com/ridgesai/ridges"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 63,
+      "name": "Enigma",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/63/2026-10-23",
+        "https://github.com/qbittensor-labs/enigma"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 64,
+      "name": "Chutes",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/64/2026-10-23",
+        "https://github.com/chutesai/chutes"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 65,
+      "name": "True Performance Network",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/65/2026-10-23",
+        "https://github.com/taofu-labs/true-performance-network"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 66,
+      "name": "conjectures",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/66/2026-10-23",
+        "https://github.com/conjectures-io/conjectures-validator"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 67,
+      "name": "Harnyx",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/67/2026-10-23",
+        "https://github.com/harnyx/harnyx"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 68,
+      "name": "NOVA",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/68/2026-10-23",
+        "https://github.com/metanova-labs/nova/"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 69,
+      "name": "Herald",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/69/2026-10-23",
+        "https://github.com/HeraldMedia/herald"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 70,
+      "name": "Consted 2.0",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/70/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 71,
+      "name": "Leadpoet",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/71/2026-10-23",
+        "https://github.com/leadpoet/leadpoet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 72,
+      "name": "StreetVision by NATIX",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/72/2026-10-23",
+        "https://github.com/natixnetwork/streetvision-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 73,
+      "name": "Parked",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/73/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 74,
+      "name": "Gittensor",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/74/2026-10-23",
+        "https://github.com/entrius/gittensor/tree/main"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 75,
+      "name": "Hippius",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/75/2026-10-23",
+        "https://github.com/thenervelab/thebrain"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 76,
+      "name": "Ormas",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/76/2026-10-23",
+        "https://github.com/heroncovelabs/ormas-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/77/2026-10-23",
+        "https://github.com/creativebuilds/sn77"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 78,
+      "name": "Umi",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/78/2026-10-23",
+        "https://github.com/Umi-BitSign/umi"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 79,
+      "name": "MVTRX",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/79/2026-10-23",
+        "https://github.com/taos-im/sn-79"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 80,
+      "name": "OpenRoboto",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/80/2026-10-23",
+        "https://github.com/openroboto-ai/openroboto-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 81,
+      "name": "Reliquary",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/81/2026-10-23",
+        "https://github.com/reliquadotai/reliquary"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 82,
+      "name": "Noah",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/82/2026-10-23",
+        "https://github.com/Vora-Inc/NOAH"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 83,
+      "name": "CliqueAI",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/83/2026-10-23",
+        "https://github.com/toptensor/CliqueAI"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 84,
+      "name": "Unknown",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/84/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 85,
+      "name": "Vidaio",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/85/2026-10-23",
+        "https://github.com/vidaio-subnet/vidaio-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 86,
+      "name": "OnSale",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/86/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 87,
+      "name": "Provenonce",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/87/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 88,
+      "name": "Investing",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/88/2026-10-23",
+        "https://github.com/mobiusfund/investing"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 89,
+      "name": "InfiniteQuant",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/89/2026-10-23",
+        "https://github.com/DeltaCompute24/InfiniteQuant-Subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 90,
+      "name": "KubeTEE",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/90/2026-10-23",
+        "https://github.com/KubeTEE-AI/kubetee-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/91/2026-10-23",
+        "https://github.com/TensorLink-AI/cascade"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 92,
+      "name": "REAX",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/92/2026-10-23",
+        "https://github.com/reaxlabs/reax-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 93,
+      "name": "Bitcast",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/93/2026-10-23",
+        "https://github.com/bitcast-network/bitcast"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 94,
+      "name": "Cathedral",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/94/2026-10-23",
+        "https://github.com/cathedralai/cathedral-sandbox"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 95,
+      "name": "Actual",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/95/2026-10-23",
+        "https://github.com/actual-computer/actual-subnet-95"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 96,
+      "name": "Verathos",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/96/2026-10-23",
+        "https://github.com/verathos-ai/verathos"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 97,
+      "name": "Ingot",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/97/2026-10-23",
+        "https://github.com/DendriteLabs/ingot"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 98,
+      "name": "NeverPlayAlone",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/98/2026-10-23",
+        "https://github.com/neverplayalone/neverplayalone_subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 99,
+      "name": "Thirty Spokes",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/99/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 100,
+      "name": "Cortex",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/100/2026-10-23",
+        "https://github.com/CortexLM/cortex"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 101,
+      "name": "Tag101",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/101/2026-10-23",
+        "https://github.com/tag101-ai/tag101"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 102,
+      "name": "ConnitoAI",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/102/2026-10-23",
+        "https://github.com/Connito-AI/Connito"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 103,
+      "name": "Unknown",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/103/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 104,
+      "name": "TAOstatus",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/104/2026-10-23",
+        "https://github.com/taostatus/taostatus-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 105,
+      "name": "Beam",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/105/2026-10-23",
+        "https://github.com/orgs/Beam-Network/repositories"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 106,
+      "name": "Nodexo",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/106/2026-10-23",
+        "https://github.com/nodexo-ai/nodexo"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 107,
+      "name": "Minos",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/107/2026-10-23",
+        "https://github.com/minos-protocol/minos_subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 108,
+      "name": "ChipForge",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/108/2026-10-23",
+        "https://github.com/TatsuProject/ChipForge_SN108"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 109,
+      "name": "Finsight",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/109/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 110,
+      "name": "Green Compute",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/110/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 111,
+      "name": "Claims",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/111/2026-10-23",
+        "https://github.com/DeSciClaims/Claims"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 112,
+      "name": "THOR",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/112/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 113,
+      "name": "Unknown",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/113/2026-10-23",
+        "No current repository supplied"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 114,
+      "name": "SOMA",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/114/2026-10-23",
+        "https://github.com/DendriteHQ/SOMA"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 115,
+      "name": "MoirAI",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/115/2026-10-23",
+        "https://github.com/moirai115/MoirAI"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 116,
+      "name": "Carbon",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/116/2026-10-23",
+        "https://github.com/carbonphysicsai/Carbon"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 117,
+      "name": "everyframe.studio",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/117/2026-10-23",
+        "https://github.com/everyframe-studios/everyframe-miner"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 118,
+      "name": "Ditto",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/118/2026-10-23",
+        "https://github.com/orgs/ditto-assistant/repositories"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 119,
+      "name": "CapabilityForge Next",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/119/2026-10-23",
+        "https://github.com/capabilityforge-next/capabilityforge"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 120,
+      "name": "Affine",
+      "outcome": "covered",
+      "sources": [
+        "https://subnetradar.com/subnet-news/120/2026-10-23",
+        "https://github.com/AffineFoundation/affine"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 121,
+      "name": "sundae_bar",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/121/2026-10-23",
+        "https://github.com/sundae-bar/bittensor-subnet"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 122,
+      "name": "CookingTAO",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/122/2026-10-23",
+        "https://github.com/CookingTao"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 123,
+      "name": "MANTIS",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/123/2026-10-23",
+        "https://github.com/Barbariandev/MANTIS"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 124,
+      "name": "Swarm",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/124/2026-10-23",
+        "https://github.com/swarm-subnet/swarm"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 125,
+      "name": "Refinery",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/125/2026-10-23",
+        "https://github.com/Barbariandev/refinery"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 126,
+      "name": "Attelier",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/126/2026-10-23",
+        "https://github.com/attelierai/attelierai_subnet/"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 127,
+      "name": "Astrid",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/127/2026-10-23",
+        "https://github.com/astridintelligence/sn-127"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    },
+    {
+      "netuid": 128,
+      "name": "ByteLeap",
+      "outcome": "No material verified update selected",
+      "sources": [
+        "https://subnetradar.com/subnet-news/128/2026-10-23",
+        "https://github.com/byteleapai/byteleap-Miner"
+      ],
+      "note": "Absent digests and inaccessible sources do not establish absence of activity."
+    }
+  ],
+  "checklistReview": {
+    "research": "DONE with listed limitations",
+    "videos": "DONE both tabs and watch metadata",
+    "chain": "DONE full finalized interval; later blocks excluded",
+    "market": "DONE 128 rows and flagged dispositions",
+    "sectors": "DONE current metadata comparison; SN27 updated",
+    "publication": "PENDING",
+    "XRoundup": "PENDING"
+  },
+  "editorialQualityReview": {
+    "routineCompetitionCap": 3,
+    "shizzyVideoRating": 3,
+    "proofDateCorrection": "September verification distinct from October23 publicity",
+    "noPriceCausationInference": true
+  },
+  "momentsReview": {
+    "outcome": "Sampled X Home topical cards and market outliers; no exhaustive Moments inventory. No price-only or million-dollar prediction story selected."
+  },
+  "pendingNextEdition": [
+    {
+      "lead": "Minos completion report",
+      "outcome": "watch",
+      "reason": "October23 slot upcoming at morning cutoff."
+    },
+    {
+      "lead": "Instant local rentals/reservations",
+      "outcome": "watch",
+      "reason": "Planned; no verified availability."
+    },
+    {
+      "lead": "REAX eval5.1",
+      "dates": [
+        "2026-10-26T14:30:00Z",
+        "2026-10-29"
+      ],
+      "outcome": "watch"
+    },
+    {
+      "lead": "AdTAO cutover",
+      "date": "2026-10-30",
+      "outcome": "watch"
+    }
+  ],
+  "validation": {
+    "news": "76 reports validated",
+    "lint": "passed",
+    "jsTests": "135 passed",
+    "burnTests": "5 passed",
+    "build": "passed"
+  }
+}

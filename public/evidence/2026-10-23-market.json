@@ -1,0 +1,770 @@
+{
+  "source": "https://shizzyunchained.com/api/backend/v1/screener",
+  "observedAt": "2026-10-23T14:37:24+00:00",
+  "block": 9346888,
+  "basis": "alpha/TAO",
+  "rows": [
+    {
+      "netuid": 1,
+      "change24hPct": -0.2595704709635387,
+      "change7dPct": -3.7567517865321673
+    },
+    {
+      "netuid": 2,
+      "change24hPct": -4.412255487884521,
+      "change7dPct": 14.810394864575022
+    },
+    {
+      "netuid": 3,
+      "change24hPct": -0.12722134699314755,
+      "change7dPct": -7.219610977231645
+    },
+    {
+      "netuid": 4,
+      "change24hPct": 1.2546392563386022,
+      "change7dPct": 1.4687290687017833
+    },
+    {
+      "netuid": 5,
+      "change24hPct": -0.1637992967908901,
+      "change7dPct": -0.4145474697463633
+    },
+    {
+      "netuid": 6,
+      "change24hPct": 1.2872832256291584,
+      "change7dPct": 1.9609594031738609
+    },
+    {
+      "netuid": 7,
+      "change24hPct": -0.004333692497602784,
+      "change7dPct": -0.4552563604195352
+    },
+    {
+      "netuid": 8,
+      "change24hPct": -0.08404154226676282,
+      "change7dPct": 6.274529776366917
+    },
+    {
+      "netuid": 9,
+      "change24hPct": 1.6162031962705592,
+      "change7dPct": 0.8566068632637505
+    },
+    {
+      "netuid": 10,
+      "change24hPct": -4.728181436284998,
+      "change7dPct": -13.004229856597545
+    },
+    {
+      "netuid": 11,
+      "change24hPct": -2.170622546418145,
+      "change7dPct": -2.9889706837730583
+    },
+    {
+      "netuid": 12,
+      "change24hPct": -0.02523489270044111,
+      "change7dPct": -0.3913138743805326
+    },
+    {
+      "netuid": 13,
+      "change24hPct": -0.01584673501698451,
+      "change7dPct": -0.7676782981996242
+    },
+    {
+      "netuid": 14,
+      "change24hPct": 0.02812292037644752,
+      "change7dPct": -0.11871555170267555
+    },
+    {
+      "netuid": 15,
+      "change24hPct": -1.5140788201095738,
+      "change7dPct": -5.384912854238271
+    },
+    {
+      "netuid": 16,
+      "change24hPct": 4.653715244649249,
+      "change7dPct": -17.2445159785198
+    },
+    {
+      "netuid": 17,
+      "change24hPct": -0.5141869317821758,
+      "change7dPct": -0.6052586209665934
+    },
+    {
+      "netuid": 18,
+      "change24hPct": -0.5801467961408593,
+      "change7dPct": -1.2208760484622554
+    },
+    {
+      "netuid": 19,
+      "change24hPct": 0.662734655949429,
+      "change7dPct": -0.4801957722061856
+    },
+    {
+      "netuid": 20,
+      "change24hPct": 0.8859029352143288,
+      "change7dPct": 0.8443826101961799
+    },
+    {
+      "netuid": 21,
+      "change24hPct": -7.866917116221943,
+      "change7dPct": -11.525196615523802
+    },
+    {
+      "netuid": 22,
+      "change24hPct": -0.5353976090491006,
+      "change7dPct": -1.6706064417855182
+    },
+    {
+      "netuid": 23,
+      "change24hPct": 27.32046068017122,
+      "change7dPct": 52.24066749728625
+    },
+    {
+      "netuid": 24,
+      "change24hPct": 5.773925521783513,
+      "change7dPct": 11.303094063524396
+    },
+    {
+      "netuid": 25,
+      "change24hPct": -0.9892640016932627,
+      "change7dPct": -11.845302132130746
+    },
+    {
+      "netuid": 26,
+      "change24hPct": -0.9512518774708107,
+      "change7dPct": -38.78998726229627
+    },
+    {
+      "netuid": 27,
+      "change24hPct": 16.5162854299097,
+      "change7dPct": -1.2286961182145317
+    },
+    {
+      "netuid": 28,
+      "change24hPct": -9.257043231502847,
+      "change7dPct": -12.676039300899433
+    },
+    {
+      "netuid": 29,
+      "change24hPct": -0.01225724811938793,
+      "change7dPct": 1.5595215275074255
+    },
+    {
+      "netuid": 30,
+      "change24hPct": -0.7323232246430916,
+      "change7dPct": -1.240055395979283
+    },
+    {
+      "netuid": 31,
+      "change24hPct": -0.09165502222150103,
+      "change7dPct": -4.558427209851615
+    },
+    {
+      "netuid": 32,
+      "change24hPct": -0.449980573010372,
+      "change7dPct": -1.2426761402775521
+    },
+    {
+      "netuid": 33,
+      "change24hPct": 0.5319368062778571,
+      "change7dPct": -3.6949951771690577
+    },
+    {
+      "netuid": 34,
+      "change24hPct": -0.7672192048546359,
+      "change7dPct": 0.02502363733774613
+    },
+    {
+      "netuid": 35,
+      "change24hPct": -3.4076044784391972,
+      "change7dPct": -36.27938623544598
+    },
+    {
+      "netuid": 36,
+      "change24hPct": -1.2328862187589844,
+      "change7dPct": -36.23084692776336
+    },
+    {
+      "netuid": 37,
+      "change24hPct": -4.5630453035977325,
+      "change7dPct": -7.025121460727108
+    },
+    {
+      "netuid": 38,
+      "change24hPct": -34.06465550529484,
+      "change7dPct": -30.809460643977317
+    },
+    {
+      "netuid": 39,
+      "change24hPct": 7.192264036307865,
+      "change7dPct": 10.140546680358177
+    },
+    {
+      "netuid": 40,
+      "change24hPct": -0.985207849439285,
+      "change7dPct": -7.822911687120304
+    },
+    {
+      "netuid": 41,
+      "change24hPct": -0.360700207578989,
+      "change7dPct": 10.267656012579938
+    },
+    {
+      "netuid": 42,
+      "change24hPct": 3.1553805805859545,
+      "change7dPct": 2.5917192934653785
+    },
+    {
+      "netuid": 43,
+      "change24hPct": 0.04350950621787398,
+      "change7dPct": -0.015095094018334324
+    },
+    {
+      "netuid": 44,
+      "change24hPct": 0.193788289330839,
+      "change7dPct": 1.4636095029891483
+    },
+    {
+      "netuid": 45,
+      "change24hPct": -4.001013946091867,
+      "change7dPct": -5.33815812074274
+    },
+    {
+      "netuid": 46,
+      "change24hPct": -2.2251895056469406,
+      "change7dPct": -13.59396332693766
+    },
+    {
+      "netuid": 47,
+      "change24hPct": -2.122369408690334,
+      "change7dPct": -2.4366546008763574
+    },
+    {
+      "netuid": 48,
+      "change24hPct": 16.654476233992277,
+      "change7dPct": 19.225589089572317
+    },
+    {
+      "netuid": 49,
+      "change24hPct": -2.5177086072719126,
+      "change7dPct": -13.93435860668238
+    },
+    {
+      "netuid": 50,
+      "change24hPct": 2.33391498765336,
+      "change7dPct": -4.649893635480595
+    },
+    {
+      "netuid": 51,
+      "change24hPct": 2.472419744090774,
+      "change7dPct": 6.005735636458562
+    },
+    {
+      "netuid": 52,
+      "change24hPct": 0.0105779721333241,
+      "change7dPct": 0.7163722492514035
+    },
+    {
+      "netuid": 53,
+      "change24hPct": 0.7954727656458501,
+      "change7dPct": -17.702605361783327
+    },
+    {
+      "netuid": 54,
+      "change24hPct": 4.462804643312527,
+      "change7dPct": -7.327128028661133
+    },
+    {
+      "netuid": 55,
+      "change24hPct": -5.703014455766633,
+      "change7dPct": 8.174397680413826
+    },
+    {
+      "netuid": 56,
+      "change24hPct": 1.000249190930732,
+      "change7dPct": 2.1305169058233138
+    },
+    {
+      "netuid": 57,
+      "change24hPct": -2.362580327731143,
+      "change7dPct": -0.4014756185426387
+    },
+    {
+      "netuid": 58,
+      "change24hPct": 3.9153570759124734,
+      "change7dPct": 39.94097951004432
+    },
+    {
+      "netuid": 59,
+      "change24hPct": -19.687402164372802,
+      "change7dPct": 80.39888326426602
+    },
+    {
+      "netuid": 60,
+      "change24hPct": 1.3244729059339821,
+      "change7dPct": -13.329803961770581
+    },
+    {
+      "netuid": 61,
+      "change24hPct": -11.631267701045637,
+      "change7dPct": -2.416238383962805
+    },
+    {
+      "netuid": 62,
+      "change24hPct": -0.41537146278219655,
+      "change7dPct": -1.361542775932028
+    },
+    {
+      "netuid": 63,
+      "change24hPct": 24.608327918593442,
+      "change7dPct": 22.989862073607007
+    },
+    {
+      "netuid": 64,
+      "change24hPct": -0.08218940006465278,
+      "change7dPct": 0.2557722280039765
+    },
+    {
+      "netuid": 65,
+      "change24hPct": -6.661907394073889,
+      "change7dPct": 1.3664244054040284
+    },
+    {
+      "netuid": 66,
+      "change24hPct": 2.359515138073786,
+      "change7dPct": -2.687792871771846
+    },
+    {
+      "netuid": 67,
+      "change24hPct": -2.8438849788137768,
+      "change7dPct": -5.748685513983083
+    },
+    {
+      "netuid": 68,
+      "change24hPct": -1.052121564924785,
+      "change7dPct": -8.217052000489268
+    },
+    {
+      "netuid": 69,
+      "change24hPct": -2.8354093751787643,
+      "change7dPct": -4.956656188183282
+    },
+    {
+      "netuid": 70,
+      "change24hPct": -1.9012939361509917,
+      "change7dPct": -55.13273629093921
+    },
+    {
+      "netuid": 71,
+      "change24hPct": -0.7903300790330079,
+      "change7dPct": -19.49901465154061
+    },
+    {
+      "netuid": 72,
+      "change24hPct": -1.210902829093088,
+      "change7dPct": -2.4312822254296993
+    },
+    {
+      "netuid": 73,
+      "change24hPct": -2.208302315558516,
+      "change7dPct": -2.1370161824965552
+    },
+    {
+      "netuid": 74,
+      "change24hPct": -0.3461387624260405,
+      "change7dPct": -1.3219301751822805
+    },
+    {
+      "netuid": 75,
+      "change24hPct": 0.1974479909598682,
+      "change7dPct": -3.5807780949549457
+    },
+    {
+      "netuid": 76,
+      "change24hPct": -6.0656444662479965,
+      "change7dPct": -13.850274997847556
+    },
+    {
+      "netuid": 77,
+      "change24hPct": -0.1352579463527703,
+      "change7dPct": -0.9838247308928944
+    },
+    {
+      "netuid": 78,
+      "change24hPct": -1.3384771490986032,
+      "change7dPct": -41.087139933755644
+    },
+    {
+      "netuid": 79,
+      "change24hPct": 3.1380760681544544,
+      "change7dPct": 4.382560657773909
+    },
+    {
+      "netuid": 80,
+      "change24hPct": -5.196538863499938,
+      "change7dPct": -17.931254086618598
+    },
+    {
+      "netuid": 81,
+      "change24hPct": 3.4311523606958882,
+      "change7dPct": 1.2977321927937173
+    },
+    {
+      "netuid": 82,
+      "change24hPct": 4.856226086582253,
+      "change7dPct": -14.186151486171008
+    },
+    {
+      "netuid": 83,
+      "change24hPct": 0.12598301551466132,
+      "change7dPct": -1.4429931261340516
+    },
+    {
+      "netuid": 84,
+      "change24hPct": -7.296365576440399,
+      "change7dPct": -8.360461188484038
+    },
+    {
+      "netuid": 85,
+      "change24hPct": -7.570082457021839,
+      "change7dPct": -13.608721965157308
+    },
+    {
+      "netuid": 86,
+      "change24hPct": -5.374547242201671,
+      "change7dPct": -39.77471296058417
+    },
+    {
+      "netuid": 87,
+      "change24hPct": -8.129126788079159,
+      "change7dPct": -20.24633548336831
+    },
+    {
+      "netuid": 88,
+      "change24hPct": -0.09210972777867228,
+      "change7dPct": -1.7299000416524613
+    },
+    {
+      "netuid": 89,
+      "change24hPct": -0.1590305401279317,
+      "change7dPct": -0.4659553444352784
+    },
+    {
+      "netuid": 90,
+      "change24hPct": -4.241758310377095,
+      "change7dPct": -15.323941964217612
+    },
+    {
+      "netuid": 91,
+      "change24hPct": -4.500404840915922,
+      "change7dPct": -11.235519446968482
+    },
+    {
+      "netuid": 92,
+      "change24hPct": -7.263970287471568,
+      "change7dPct": -12.098005773124378
+    },
+    {
+      "netuid": 93,
+      "change24hPct": -1.7067579844413812,
+      "change7dPct": -6.764938914195011
+    },
+    {
+      "netuid": 94,
+      "change24hPct": -6.221165145125262,
+      "change7dPct": -10.198846025040986
+    },
+    {
+      "netuid": 95,
+      "change24hPct": -0.3829404742843645,
+      "change7dPct": -8.195146044417632
+    },
+    {
+      "netuid": 96,
+      "change24hPct": -7.131171283582422,
+      "change7dPct": -21.131018483367146
+    },
+    {
+      "netuid": 97,
+      "change24hPct": -5.485538196923994,
+      "change7dPct": -3.6783496550654085
+    },
+    {
+      "netuid": 98,
+      "change24hPct": -1.3202522013262312,
+      "change7dPct": -0.4948283721087435
+    },
+    {
+      "netuid": 99,
+      "change24hPct": 0.7911513994338435,
+      "change7dPct": -13.428239457892222
+    },
+    {
+      "netuid": 100,
+      "change24hPct": -1.4485491732337266,
+      "change7dPct": -13.159960985200868
+    },
+    {
+      "netuid": 101,
+      "change24hPct": -3.2743985604673878,
+      "change7dPct": -3.798176228733681
+    },
+    {
+      "netuid": 102,
+      "change24hPct": -0.7308737379978645,
+      "change7dPct": -16.903403449304268
+    },
+    {
+      "netuid": 103,
+      "change24hPct": -10.262408759454017,
+      "change7dPct": 385.93845483568566
+    },
+    {
+      "netuid": 104,
+      "change24hPct": -0.1426442488132336,
+      "change7dPct": -0.07232658929483288
+    },
+    {
+      "netuid": 105,
+      "change24hPct": -7.130402337031206,
+      "change7dPct": -19.2737893093515
+    },
+    {
+      "netuid": 106,
+      "change24hPct": -3.3825332996297077,
+      "change7dPct": 3.2813534778117464
+    },
+    {
+      "netuid": 107,
+      "change24hPct": 1.455762040660206,
+      "change7dPct": -10.184744270132
+    },
+    {
+      "netuid": 108,
+      "change24hPct": -0.9309981013996953,
+      "change7dPct": -13.396962443951308
+    },
+    {
+      "netuid": 109,
+      "change24hPct": -6.376715974435463,
+      "change7dPct": -7.24698847864322
+    },
+    {
+      "netuid": 110,
+      "change24hPct": 1.1433240332479166,
+      "change7dPct": 12.06429150735065
+    },
+    {
+      "netuid": 111,
+      "change24hPct": 0.07623445468564635,
+      "change7dPct": -0.28774255817558014
+    },
+    {
+      "netuid": 112,
+      "change24hPct": 3.2351631736823894,
+      "change7dPct": 54.89623815784948
+    },
+    {
+      "netuid": 113,
+      "change24hPct": 17.88731878205798,
+      "change7dPct": 39.35349717052728
+    },
+    {
+      "netuid": 114,
+      "change24hPct": 4.4193366305145965,
+      "change7dPct": 1.2746586906781292
+    },
+    {
+      "netuid": 115,
+      "change24hPct": -1.750299016021945,
+      "change7dPct": -5.158750350073572
+    },
+    {
+      "netuid": 116,
+      "change24hPct": -6.230119583375354,
+      "change7dPct": -23.30919484402229
+    },
+    {
+      "netuid": 117,
+      "change24hPct": -13.490703076260788,
+      "change7dPct": -18.851999523203244
+    },
+    {
+      "netuid": 118,
+      "change24hPct": -8.294611925181078,
+      "change7dPct": -22.842740573293096
+    },
+    {
+      "netuid": 119,
+      "change24hPct": -0.642317881596866,
+      "change7dPct": 0.4370765069737645
+    },
+    {
+      "netuid": 120,
+      "change24hPct": -1.092668689077786,
+      "change7dPct": -3.7959245738389304
+    },
+    {
+      "netuid": 121,
+      "change24hPct": -0.8710227509046292,
+      "change7dPct": -4.056914727741837
+    },
+    {
+      "netuid": 122,
+      "change24hPct": -4.46358438787732,
+      "change7dPct": -14.282378202164423
+    },
+    {
+      "netuid": 123,
+      "change24hPct": -2.6228116003440816,
+      "change7dPct": -1.6994372258141937
+    },
+    {
+      "netuid": 124,
+      "change24hPct": -4.810467677902894,
+      "change7dPct": 0.5951742186512875
+    },
+    {
+      "netuid": 125,
+      "change24hPct": -1.601795770437362,
+      "change7dPct": -6.070973841017493
+    },
+    {
+      "netuid": 126,
+      "change24hPct": -2.9439939162010056,
+      "change7dPct": 4.100266308980427
+    },
+    {
+      "netuid": 127,
+      "change24hPct": 2.1916872722116683,
+      "change7dPct": 0.22927360898514143
+    },
+    {
+      "netuid": 128,
+      "change24hPct": -2.2485581547566684,
+      "change7dPct": -2.343024111632442
+    }
+  ],
+  "decisions": [
+    {
+      "netuid": 23,
+      "outcome": "excluded",
+      "reason": "The Trishool market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/23"
+        }
+      ]
+    },
+    {
+      "netuid": 27,
+      "outcome": "covered",
+      "reason": "Material development covered with direct sources; the price move is not asserted to be caused by it.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/27"
+        }
+      ]
+    },
+    {
+      "netuid": 38,
+      "outcome": "excluded",
+      "reason": "The ChronoLLM market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/38"
+        }
+      ]
+    },
+    {
+      "netuid": 48,
+      "outcome": "excluded",
+      "reason": "The Quantum Compute market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/48"
+        }
+      ]
+    },
+    {
+      "netuid": 59,
+      "outcome": "excluded",
+      "reason": "The Unknown market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/59"
+        }
+      ]
+    },
+    {
+      "netuid": 63,
+      "outcome": "excluded",
+      "reason": "The Enigma market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/63"
+        }
+      ]
+    },
+    {
+      "netuid": 103,
+      "outcome": "excluded",
+      "reason": "The Unknown market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/103"
+        }
+      ]
+    },
+    {
+      "netuid": 113,
+      "outcome": "excluded",
+      "reason": "The Unknown market move was reviewed against roster digests, available posts and repository changes. No newly verified operating development establishes its cause; price alone is excluded. Prior coverage remains dated rather than repeated.",
+      "sources": [
+        {
+          "label": "Dated market snapshot",
+          "url": "https://shizzyunchained.com/evidence/2026-10-23-market.json"
+        },
+        {
+          "label": "Subnet research",
+          "url": "https://subnetradar.com/subnet/113"
+        }
+      ]
+    }
+  ]
+}

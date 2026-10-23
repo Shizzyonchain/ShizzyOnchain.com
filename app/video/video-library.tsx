@@ -14,6 +14,7 @@ type ChannelVideo = {
 };
 
 const channelVideos: ChannelVideo[] = [
+  { id: "9orJTIbMwmQ", title: "Bittensor Subnets CRASHING! Sell Now or MORE PAIN Ahead?", meta: "20:48 · Public video · October 22, 2026" },
   ...(promotedLivestream.listed && !promotedLivestream.upcoming ? [promotedLivestream] : []),
   {
     id: "ac6bldErBFU",

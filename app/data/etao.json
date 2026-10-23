@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-10-23T03:23:23.223863+00:00",
-  "block": 9343515,
-  "hash": "0xc21b2d044edb6c6699d57827bf759a3b08cc173e4eb671b56a33f5bfff7391c4",
-  "chainTime": 1792725768000,
+  "checkedAt": "2026-10-23T14:44:08.583270+00:00",
+  "block": 9346919,
+  "hash": "0x86ed044f6b14153251cde76cd3a04e1fa97ee5686d2aa9ff30e430d0932feff3",
+  "chainTime": 1792766616000,
   "runtime": 483,
   "source": "Opentensor archive RPC",
   "weights": {
@@ -1216,7 +1216,7 @@
     "118": "Ditto",
     "9": "iota",
     "83": "CliqueAI",
-    "27": "Orion",
+    "27": "Komms",
     "31": "rec4ll",
     "74": "Gittensor",
     "21": "AdTAO",
@@ -1276,9 +1276,9 @@
   },
   "observations": [],
   "ownerSnapshot": {
-    "block": 9343515,
-    "hash": "0xc21b2d044edb6c6699d57827bf759a3b08cc173e4eb671b56a33f5bfff7391c4",
-    "checkedAt": "2026-10-23T03:24:58.618249+00:00",
+    "checkedAt": "2026-10-23T14:44:08.583270+00:00",
+    "block": 9346919,
+    "hash": "0x86ed044f6b14153251cde76cd3a04e1fa97ee5686d2aa9ff30e430d0932feff3",
     "owners": {
       "1": "5HCFWvRqzSHWRPecN7q8J6c7aKQnrCZTMHstPv39xL1wgDHh",
       "2": "5EcYQ3W77ndrmMWdvVQusoFqY8doxfP3U2zrh7xZQiaz7avY",
@@ -1412,9 +1412,9 @@
   },
   "eventReview": {
     "fromBlock": 9326442,
-    "toBlock": 9343515,
-    "finalizedHash": "0xc21b2d044edb6c6699d57827bf759a3b08cc173e4eb671b56a33f5bfff7391c4",
-    "checkedAt": "2026-10-23T03:24:18.382756+00:00",
+    "toBlock": 9346872,
+    "finalizedHash": "0x4da7f39c8e4e85dfe9490626db1725e4d0fa29c539cf3ade7a210c3bd2144735",
+    "checkedAt": "2026-10-23T14:44:09.193345+00:00",
     "eventCount": 2,
     "method": "Every finalized block inspected in contiguous archived reviews, including intermediate/reversed changes. Runtime 481/482/483 event and vector metadata reviewed; 482/483 metadata types identical. Newly verified SN117 allocation event; original SN59 event retained.",
     "gaps": [],
