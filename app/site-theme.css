@@ -908,3 +908,15 @@ html.site-theme {
 @media(max-width:700px){.subnet-facts-grid>.subnet-yield-fact{grid-column:1/-1}}
 
 .site-theme .screener th:nth-child(10){width:210px}
+
+/* A white hover row stays distinct from alternating dark rows and the pinned name. */
+@media (hover: hover) and (pointer: fine) {
+  .site-theme .screener tbody tr:hover,
+  .site-theme .screener tbody tr:hover td,
+  .site-theme .screener tbody tr:hover td:nth-child(2) { background:#fff; color:#111; }
+  .site-theme .screener tbody tr:hover td :is(a,b,strong,small,span,summary,p) { color:#111; }
+  .site-theme .screener tbody tr:hover :is(.positive,.positive .yield-rate) { color:#00743b!important; }
+  .site-theme .screener tbody tr:hover :is(.negative,.negative .yield-rate) { color:#ba1931!important; }
+  .site-theme .screener tbody tr:hover :is(.yield-warning,.yield-caution .yield-rate) { color:#825200!important; }
+  .site-theme .screener tbody tr:hover .subnet-chart-link:focus-visible { outline-color:#111; }
+}
