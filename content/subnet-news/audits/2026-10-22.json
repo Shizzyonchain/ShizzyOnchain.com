@@ -12,7 +12,7 @@
     "xAccountSamples": 217,
     "availableAccountSamples": 206,
     "originalPages": 261,
-    "stories": 26
+    "stories": 27
   },
   "sourceMethods": [
     "128 current subnet profiles, 98 dated briefs, 217 account/alias samples and 203 repository paths",
@@ -24774,6 +24774,316 @@
       "gaps": [
         "Solana production transfer availability, launch time and token contract not verified."
       ]
+    }
+  ],
+  "etaoSixHourReviews": [
+    {
+      "checkedAt": "2026-10-23T03:24:18.382756+00:00",
+      "easternDate": "2026-10-22",
+      "source": "Opentensor archive RPC",
+      "fromBlock": 9341705,
+      "toBlock": 9343515,
+      "finalizedHash": "0xc21b2d044edb6c6699d57827bf759a3b08cc173e4eb671b56a33f5bfff7391c4",
+      "complete": true,
+      "gaps": [],
+      "runtime": 483,
+      "runtimeReview": "482 and 483 complete metadata type registries identical; event/storage discriminants unchanged. Known event canary decoded.",
+      "events": [
+        {
+          "block": 9342125,
+          "hash": "0xf7f127385e17f2dc4b201f8a159e5e8ddf065354c94212f17cc9eecd0487cef6",
+          "timestamp": 1792709088000,
+          "eventIndex": 175,
+          "event": {
+            "phase": "ApplyExtrinsic",
+            "extrinsic_idx": 16,
+            "event": {
+              "event_index": "079e",
+              "module_id": "SubtensorModule",
+              "event_id": "SubnetEmissionWeightsSet",
+              "attributes": {
+                "netuid": 117,
+                "weights": [
+                  0,
+                  0,
+                  6087425544324152032,
+                  6271892985061247549,
+                  6087425544324152034
+                ]
+              }
+            },
+            "event_index": 7,
+            "module_id": "SubtensorModule",
+            "event_id": "SubnetEmissionWeightsSet",
+            "attributes": {
+              "netuid": 117,
+              "weights": [
+                0,
+                0,
+                6087425544324152032,
+                6271892985061247549,
+                6087425544324152034
+              ]
+            },
+            "topics": []
+          },
+          "sameExtrinsicEvents": [
+            {
+              "phase": "ApplyExtrinsic",
+              "extrinsic_idx": 16,
+              "event": {
+                "event_index": "0508",
+                "module_id": "Balances",
+                "event_id": "Withdraw",
+                "attributes": {
+                  "who": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+                  "amount": 216037
+                }
+              },
+              "event_index": 5,
+              "module_id": "Balances",
+              "event_id": "Withdraw",
+              "attributes": {
+                "who": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+                "amount": 216037
+              },
+              "topics": []
+            },
+            {
+              "phase": "ApplyExtrinsic",
+              "extrinsic_idx": 16,
+              "event": {
+                "event_index": "079e",
+                "module_id": "SubtensorModule",
+                "event_id": "SubnetEmissionWeightsSet",
+                "attributes": {
+                  "netuid": 117,
+                  "weights": [
+                    0,
+                    0,
+                    6087425544324152032,
+                    6271892985061247549,
+                    6087425544324152034
+                  ]
+                }
+              },
+              "event_index": 7,
+              "module_id": "SubtensorModule",
+              "event_id": "SubnetEmissionWeightsSet",
+              "attributes": {
+                "netuid": 117,
+                "weights": [
+                  0,
+                  0,
+                  6087425544324152032,
+                  6271892985061247549,
+                  6087425544324152034
+                ]
+              },
+              "topics": []
+            },
+            {
+              "phase": "ApplyExtrinsic",
+              "extrinsic_idx": 16,
+              "event": {
+                "event_index": "0507",
+                "module_id": "Balances",
+                "event_id": "Deposit",
+                "attributes": {
+                  "who": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+                  "amount": 0
+                }
+              },
+              "event_index": 5,
+              "module_id": "Balances",
+              "event_id": "Deposit",
+              "attributes": {
+                "who": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+                "amount": 0
+              },
+              "topics": []
+            },
+            {
+              "phase": "ApplyExtrinsic",
+              "extrinsic_idx": 16,
+              "event": {
+                "event_index": "0600",
+                "module_id": "TransactionPayment",
+                "event_id": "TransactionFeePaid",
+                "attributes": {
+                  "who": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+                  "actual_fee": 216037,
+                  "tip": 0
+                }
+              },
+              "event_index": 6,
+              "module_id": "TransactionPayment",
+              "event_id": "TransactionFeePaid",
+              "attributes": {
+                "who": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+                "actual_fee": 216037,
+                "tip": 0
+              },
+              "topics": []
+            },
+            {
+              "phase": "ApplyExtrinsic",
+              "extrinsic_idx": 16,
+              "event": {
+                "event_index": "0000",
+                "module_id": "System",
+                "event_id": "ExtrinsicSuccess",
+                "attributes": {
+                  "dispatch_info": {
+                    "weight": {
+                      "ref_time": 863825000,
+                      "proof_size": 8702
+                    },
+                    "class": "Normal",
+                    "pays_fee": "Yes"
+                  }
+                }
+              },
+              "event_index": 0,
+              "module_id": "System",
+              "event_id": "ExtrinsicSuccess",
+              "attributes": {
+                "dispatch_info": {
+                  "weight": {
+                    "ref_time": 863825000,
+                    "proof_size": 8702
+                  },
+                  "class": "Normal",
+                  "pays_fee": "Yes"
+                }
+              },
+              "topics": []
+            }
+          ]
+        }
+      ],
+      "verifiedChange": {
+        "netuid": 117,
+        "block": 9342125,
+        "hash": "0xf7f127385e17f2dc4b201f8a159e5e8ddf065354c94212f17cc9eecd0487cef6",
+        "timestamp": 1792709088000,
+        "extrinsic": 16,
+        "before": [
+          "0",
+          "0",
+          "3320329489486196244",
+          "7563207292111677685",
+          "7563207292111677686"
+        ],
+        "after": [
+          "0",
+          "0",
+          "6087425544324152032",
+          "6271892985061247549",
+          "6087425544324152034"
+        ],
+        "name": "everyframe.studio"
+      },
+      "executionEvidence": {
+        "checkedAt": "2026-10-23T03:24:19.683243+00:00",
+        "block": 9342125,
+        "hash": "0xf7f127385e17f2dc4b201f8a159e5e8ddf065354c94212f17cc9eecd0487cef6",
+        "parentHash": "0x88884cde66e7bda6d85a7a56142383e726638f4233e8d73e864f6565daa18ef2",
+        "timestamp": 1792709088000,
+        "extrinsic": 16,
+        "eventIndex": 175,
+        "before": [
+          0,
+          0,
+          3320329489486196244,
+          7563207292111677685,
+          7563207292111677686
+        ],
+        "after": [
+          0,
+          0,
+          6087425544324152032,
+          6271892985061247549,
+          6087425544324152034
+        ],
+        "identity": {
+          "SubnetIdentitiesV3": {
+            "subnet_name": "everyframe.studio",
+            "github_repo": "https://github.com/everyframe-studios/everyframe-miner",
+            "subnet_contact": "contact@everyframe.studio",
+            "subnet_url": "https://everyframe.studio/",
+            "discord": "https://discord.com/channels/799672011265015819/1544011415692644444",
+            "description": "Every frame gets craft",
+            "logo_url": "https://avatars.githubusercontent.com/u/327085870?s=200&v=4",
+            "additional": ""
+          },
+          "SubnetOwner": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+          "NetworkRegisteredAt": 5710859,
+          "NetworksAdded": true
+        },
+        "call": {
+          "extrinsic_hash": "0x57697b2feced74a9551f8a9ffde407c89903900b6d6f26a19d165822e355133b",
+          "extrinsic_length": 160,
+          "address": "5FFDV7LGKVsVvyVbzSduzxQDPfBuJYHBM2QJPia5ikDivsXd",
+          "signature": {
+            "Sr25519": "0x325d1e527010b8a05be1120a22f07aecf36e3f61a3dfa5a689d5b6f744e35e0b6a22e0d28c4a70a7b1a28b7b9d352f186b2084b534bca703d3afd828648f6384"
+          },
+          "era": [
+            128,
+            41
+          ],
+          "nonce": 11,
+          "tip": 0,
+          "mode": {
+            "mode": "Disabled"
+          },
+          "call": {
+            "call_index": "0x1372",
+            "call_function": "sudo_set_subnet_emission_weights",
+            "call_module": "AdminUtils",
+            "call_args": [
+              {
+                "name": "netuid",
+                "type": "NetUid",
+                "value": 117
+              },
+              {
+                "name": "uids",
+                "type": "Vec<u16>",
+                "value": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              {
+                "name": "values",
+                "type": "Vec<u64>",
+                "value": [
+                  0,
+                  0,
+                  6087425544324152032,
+                  6271892985061247549,
+                  6087425544324152034
+                ]
+              }
+            ],
+            "call_hash": "0x162865bf93b19f9f93e3786da166747c22674de248fbff128d46d10b4542bbc3"
+          }
+        },
+        "success": true
+      },
+      "priorContiguousUnchangedReview": {
+        "fromBlock": 9339925,
+        "toBlock": 9341704,
+        "finalizedHash": "0x4d1cc0e643f3e52ac12679aaa131811e6b054bb8f6e28ffc05aa6f354bd9eaf1",
+        "complete": true,
+        "events": 0
+      },
+      "pendingObservationOutcome": "SN117 observed change resolved to successful extrinsic 9342125-16. No other current vector differences.",
+      "editorialOutcome": "Added distinct four-star finalized SN117 emission-allocation change to October 22 daily report and eTAO archive; prior coverage and edition dates preserved. No X activity authorized for this scan."
     }
   ]
 }

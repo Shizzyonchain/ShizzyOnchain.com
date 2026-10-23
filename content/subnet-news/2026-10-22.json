@@ -1044,6 +1044,24 @@
               "url": "https://subnetradar.com/subnet-news/117/2026-10-22"
             }
           ]
+        },
+        {
+          "headline": "SN117 Everyframe raises owner allocation to 33%; validator/miner shares fall",
+          "summary": "Late chain update: at 22:44:48 UTC on October 22 (6:44:48 p.m. ET), SN117 everyframe.studio’s owner successfully changed its eTAO alpha-emission split at finalized block 9,342,125, extrinsic 16. Owner / validators / miners changed from 18% / 41% / 41% to 33% / 34% / 33%. The exact five-slot vectors were checked against parent-block and execution-block storage; burn and recycle slots remain zero. The validator bucket includes Root, which receives its live baseline first subject to the validator-allocation cap. Historical staker APR/APY may lag as rewards from the new split enter the reporting window; this does not establish a specific yield or price outcome. This verified supplement was reviewed after the original daily research cutoff.",
+          "importance": "high",
+          "status": "verified",
+          "rating": 4,
+          "ratingReason": "A finalized owner action materially redistributes rewards: owner +15 percentage points, validators -7 and miners -8. Exact storage and successful execution verified.",
+          "sources": [
+            {
+              "label": "Finalized successful transaction 9342125-16",
+              "url": "https://taostats.io/extrinsic/9342125-16"
+            },
+            {
+              "label": "eTAO verified history and allocation context",
+              "url": "https://shizzyunchained.com/subnet-news/etao"
+            }
+          ]
         }
       ]
     },
