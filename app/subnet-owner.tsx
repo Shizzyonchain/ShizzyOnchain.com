@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { OwnerSalesSummary } from "./subnet-owner-sales";
 import styles from "./subnet-owner.module.css";
 type Owners = { checkedAt: string; block: number; owners: Record<string, string> };
 let cached: Owners | null = null;
@@ -32,6 +33,7 @@ export function SubnetOwner({ netuid }: { netuid: number }) {
   return <div className={styles.owner}>
     <p className={styles.label}>Owner wallet <span>Subnet owner coldkey</span></p>
     {valid && snapshot ? <><div className={styles.actions}><Link href={`/wallet-tracker?address=${valid}`} prefetch={false} aria-label={`Track SN${netuid} owner wallet`}><code>{valid}</code> →</Link><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(valid); setCopyState("Copied"); } catch { setCopyState("Copy unavailable—select the address"); } }}>Copy address</button></div><small>{stale || error ? "Last verified owner · " : "Chain verified · "}block {snapshot.block.toLocaleString("en-US")} · {new Date(snapshot.checkedAt).toLocaleString("en-US", { timeZone: "UTC" })} UTC</small></> : <p>{error ? "Owner wallet temporarily unavailable" : snapshot ? "No verified owner wallet available" : "Loading owner wallet…"}</p>}
+    <OwnerSalesSummary key={netuid} netuid={netuid} />
     <span className={styles.status} role="status">{copyState}</span>
   </div>;
 }
