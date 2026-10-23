@@ -10,7 +10,7 @@ Owner: ShizzyUnchained. App: Shizzyonchain/ShizzyOnchain.com, main branch. Verce
 - Wallet jobs: backend queued work; browser caches are distinct from server records. Retention and user deletion scope: /privacy. Public endpoint limits and unfinished edge rollout: PUBLIC_ENDPOINT_PROTECTION.md.
 - News, videos, sectors, eTAO and burns: DAILY_SITE_CHECKLIST.md and SUBNET_NEWS_PUBLISHING.md are authoritative. Retain dated evidence and previous reports. Check finalized coverage intervals, not only equal current snapshots.
 - Analytics: fixed destination-category click events only. No raw searches, wallet IDs, balances, complete outbound URLs or claimed purchase conversions. Query/fragment and recognized wallet address redaction applies to Web Analytics. Verify dashboard receipt after deployment; ad blockers or account-plan limits may suppress collection.
-- Local watchlist: shizzy:watchlist:v1 contains only subnet numbers; clear removes it. Numbers can be reused, so current labels are not historical identity evidence.
+- Owner removed Today on Shizzy and the local subnet watchlist October 23. The app no longer reads or writes shizzy:watchlist:v1; legacy entries can be removed using browser clear site data controls.
 - Video discovery searches existing titles/dates and links explicit SN labels to charts/news history. No inferred chapter/transcript coverage.
 
 ## F16 recovery and alerts: evidence still required

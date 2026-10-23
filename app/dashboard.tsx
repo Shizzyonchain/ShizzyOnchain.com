@@ -8,7 +8,6 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { calendarBars, dollarBars, priceBars, mergeChartCandles, withLiveCandle } from "./lib/chart-data";
-import { TodayTools } from "./today-tools";
 import { SiteHeader } from "./site-header";
 import { LivestreamBanner } from "./livestream-banner";
 import { MembershipPromo } from "./membership-promo";
@@ -1122,7 +1121,6 @@ export function Dashboard({
       {view === "screener" ? (
         <>
           {!chartPage && <>
-          <TodayTools rows={rows} fresh={dataState === "live"} />
           <div className="market-overview">
             <section className="hero-strip" aria-label="Market overview">
               <div>
