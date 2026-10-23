@@ -1114,7 +1114,6 @@ export function Dashboard({
         dataState={view === "screener" || view === "bubbles" ? dataState : undefined}
         lastUpdated={view === "screener" || view === "bubbles" ? lastUpdated : undefined}
       />
-      {currency === "usd" && ["screener", "bubbles", "wallets"].includes(view) && <p className={`fx-reference ${fxFresh ? "" : "delayed"}`} role="status">{fxFresh ? `USD reference · ${taoQuote?.source} · checked ${new Date((taoQuote?.updatedAt || 0) * 1000).toLocaleTimeString("en-US", { timeZone: "UTC", hour: "2-digit", minute: "2-digit" })} UTC` : taoUsd ? `USD reference delayed · estimates use the quote checked ${new Date((taoQuote?.updatedAt || 0) * 1000).toLocaleTimeString("en-US", { timeZone: "UTC" })} UTC` : "USD reference unavailable · dollar values are hidden; TAO mode is available"}</p>}
 
       {view === "screener" && <LivestreamBanner />}
 
