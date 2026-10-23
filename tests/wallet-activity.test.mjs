@@ -27,6 +27,7 @@ test('swap evidence preserves raw token amounts, wallet scope and multiple trade
  assert.throws(()=>swapRows([{...row,coldkey:'other'}],'swaps',address));
  assert.throws(()=>swapRows([{...row,to_amount:'1.5'}],'swaps',address));
  assert.throws(()=>swapRows([{...row,to_name:'<script>'}],'swaps',address));
+ const fee=swapRows([{...row,id:'9340000-0002-fee-12',to_name:'TAO'}],'trades',address)[0];assert.equal(fee.swap.feeConversion,true);assert.equal(fee.action,'Automatic alpha fee conversion');
  const trades=swapRows([{...row,id:'one',from_name:'TAO'},{...row,id:'two',to_name:'TAO'}],'trades',address);
  assert.equal(trades.length,2);assert.notEqual(trades[0].id,trades[1].id);assert.equal(trades[0].action,'Bought SN64 alpha with TAO');assert.equal(trades[1].action,'Sold SN51 alpha for TAO');
 });
