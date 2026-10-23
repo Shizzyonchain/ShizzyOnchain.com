@@ -909,11 +909,11 @@ html.site-theme {
 
 .site-theme .screener th:nth-child(10){width:210px}
 
-/* A white hover row stays distinct from alternating dark rows and the pinned name. */
+/* A soft light-gray hover stays distinct from dark rows without a bright white flash. */
 @media (hover: hover) and (pointer: fine) {
   .site-theme .screener tbody tr:hover,
   .site-theme .screener tbody tr:hover td,
-  .site-theme .screener tbody tr:hover td:nth-child(2) { background:#fff; color:#111; }
+  .site-theme .screener tbody tr:hover td:nth-child(2) { background:#b8bdc5; color:#111; }
   .site-theme .screener tbody tr:hover td :is(a,b,strong,small,span,summary,p) { color:#111; }
   .site-theme .screener tbody tr:hover :is(.positive,.positive .yield-rate) { color:#00743b!important; }
   .site-theme .screener tbody tr:hover :is(.negative,.negative .yield-rate) { color:#ba1931!important; }
