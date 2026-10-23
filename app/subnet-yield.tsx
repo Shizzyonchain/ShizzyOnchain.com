@@ -13,8 +13,8 @@ export function SubnetYield({ row, now, detail = false }: { row: SubnetYieldInpu
  return <div className={`subnet-yield${value.warning || (hydrated && value.delayed) ? " yield-caution" : ""}`}>
   <span className="yield-rate">{formatSubnetYield(value.apy)}</span>
   <small>{value.apr === null ? "APR unavailable" : `${formatSubnetYield(value.apr)} APR`}</small>
-  <small>{value.epoch ? "1 epoch · subnet-wide" : "Basis unconfirmed · subnet-wide"}</small>
-  <small title={row.time ? `Snapshot: ${row.time}. Reward epoch time is not supplied.` : "Source timestamp is not supplied."}>{hydrated ? value.ageLabel : initialAge}</small>
+  {detail && <><small>{value.epoch ? "1 epoch · subnet-wide" : "Basis unconfirmed · subnet-wide"}</small>
+  <small title={row.time ? `Snapshot: ${row.time}. Reward epoch time is not supplied.` : "Source timestamp is not supplied."}>{hydrated ? value.ageLabel : initialAge}</small></>}
   {value.warning && <strong className="yield-warning">⚠ {value.warning}</strong>}
   {(detail || value.warning) && <details className="yield-context" onClick={event => event.stopPropagation()} onKeyDown={event => event.stopPropagation()}><summary>Basis &amp; stability</summary>
    <p>{value.epoch ? "A subnet-wide estimate from one latest net reward epoch divided by recent staked alpha. This is not a specific validator’s return or a 7/30-day measured yield." : "The feed has not confirmed the measurement basis. Do not treat this as a measured validator return."}</p>

@@ -920,3 +920,6 @@ html.site-theme {
   .site-theme .screener tbody tr:hover :is(.yield-warning,.yield-caution .yield-rate) { color:#825200!important; }
   .site-theme .screener tbody tr:hover .subnet-chart-link:focus-visible { outline-color:#111; }
 }
+
+/* Keep the market rows compact; detailed yield basis stays in the chart/explanation. */
+.site-theme .screener tbody td{padding-top:12px;padding-bottom:12px}

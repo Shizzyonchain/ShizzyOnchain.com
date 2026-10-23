@@ -77,7 +77,7 @@ test("extreme yield disclosure keeps uncapped data and does not navigate the tab
   if (isMobile) await page.getByRole("link", { name: "Smoke Subnet 103 SN103", exact: true }).click();
   const cell = page.locator(isMobile ? ".subnet-yield-fact" : ".apy-cell");
   await expect(cell).toContainText("20,000%"); await expect(cell).toContainText("530% APR");
-  await expect(cell).toContainText("1 epoch · subnet-wide"); await expect(cell).toContainText("Potentially unstable");
+  await expect(cell).toContainText("Potentially unstable");
   await cell.locator("summary").click();
   await expect(cell.locator("details")).toHaveAttribute("open", "");
   await expect(cell).toContainText("not a specific validator");
