@@ -2296,14 +2296,15 @@
     "chain": "DONE full finalized interval; later blocks excluded",
     "market": "DONE 128 rows and flagged dispositions",
     "sectors": "DONE current metadata comparison; SN27 updated",
-    "publication": "PENDING",
-    "XRoundup": "PENDING"
+    "publication": "DONE: READY deployment and live/mobile checks passed",
+    "XRoundup": "DONE: one public roundup verified"
   },
   "editorialQualityReview": {
     "routineCompetitionCap": 3,
     "shizzyVideoRating": 3,
     "proofDateCorrection": "September verification distinct from October23 publicity",
-    "noPriceCausationInference": true
+    "noPriceCausationInference": true,
+    "ratingCaptionCorrection": "Shared explainer now distinguishes three-star Shizzy videos from minimum-four-star substantive non-video coverage."
   },
   "momentsReview": {
     "outcome": "Sampled X Home topical cards and market outliers; no exhaustive Moments inventory. No price-only or million-dollar prediction story selected."
@@ -2339,5 +2340,33 @@
     "jsTests": "135 passed",
     "burnTests": "5 passed",
     "build": "passed"
+  },
+  "dailyXRoundup": {
+    "identity": "@ShizzyUnchained",
+    "url": "https://x.com/ShizzyUnchained/status/2113647751309508794",
+    "text": "Try a robot playground. Follow a 9B training run. Inspect a Lean proof.\n\nSN58 Attune, SN81 Reliquary, SN66 Conjectures—plus reported buybacks, runtime 483 and verified burns.\n\n22 sourced updates. Read today’s report:\nhttps://shizzyunchained.com/subnet-news/2026-10-23\n$TAO",
+    "postedAt": null,
+    "verifiedAt": "2026-10-23T15:05:18.571042+00:00",
+    "outcome": "Published once after READY deployment and live site verification. First semantic click left the draft intact; profile checked before visible-button submission. Direct public post verified.",
+    "evidence": "research-oct23/daily-tweet.png"
+  },
+  "publication": {
+    "commit": "897a3d3dfd62adecf2aba14bb3f5f06a563a3a96",
+    "deployment": "dpl_C3WRYHkYrXNGP2EmtdwZ21EhkSxZ",
+    "state": "READY",
+    "applicationCI": "39974226131 passed",
+    "newsCI": "39974226102 passed",
+    "liveChecks": "Latest and dated news, video default, sectors, eTAO, Burns, SN58/SN24/SN66 histories passed",
+    "mobile": {
+      "viewport": 390,
+      "contentWidth": 375,
+      "scrollWidth": 375,
+      "shortUpdatesExpanded": true
+    },
+    "evidence": [
+      "news-phone.png",
+      "live-verification.json",
+      "published-roundup.json"
+    ]
   }
 }
