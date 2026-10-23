@@ -16,6 +16,8 @@ const test = base.extend<{ contracts: { failed: Set<string>; calls: string[] } }
       if (path === "/api/tao-price") value = { usd: 250, updatedAt: Math.floor(Date.now() / 1000), source: "ci-contract-fixture" };
       else if (path === "/api/wallet-activity") {
         const transfer = url.searchParams.get("kind") === "transfers", older = url.searchParams.get("page") === "2";
+        const tradeKind = url.searchParams.get("kind");
+        if (tradeKind === "swaps" || tradeKind === "trades") return route.fulfill({ json: { rows: [{ id: "swap-fixture", extrinsic:"9000000-0001", timestamp:stamp, action:"Subnet swap", success:null, amount:null, from:null, to:null, swap: {fromToken:"SN51",toToken:"SN64",fromAmount:"12500000000",toAmount:"8000000000",taoValue:"6000000000"} }],nextPage:null,fetchedAt:stamp,source:"CI indexed swaps" } });
         value = { rows: [{ id: older ? "8999999-0001" : "9000000-0001", extrinsic: older ? "8999999-0001" : "9000000-0001", timestamp: stamp, action: transfer ? (older ? "Sent TAO" : "Received TAO") : "SubtensorModule.add_stake", success: transfer ? null : true, amount: transfer ? "6000000000" : null, from: transfer ? keys[1] : null, to: transfer ? keys[0] : null }], nextPage: older ? null : 2, fetchedAt: stamp, source: "CI indexed history" };
         if (transfer) (value as { rows: unknown[] }).rows.push({ id: "dust-transfer", amount: "50000", action: "Dust transfer" });
       }
@@ -130,6 +132,7 @@ test("saved wallets persist, remove individually and clear completely", async ({
   const activity = page.getByRole("region", { name: "Selected wallet recent activity", exact: true });
   const transfers = activity.getByRole("region", { name: "TAO transfers", exact: true });
   const signed = activity.getByRole("region", { name: "Signed transactions", exact: true });
+  await expect(activity.getByRole("region", {name:"Subnet swaps",exact:true})).toContainText("12.5 SN51 → 8 SN64");
   await expect(transfers).toContainText("Received TAO");
   await expect(transfers).toContainText("5 TAO or more");
   await expect(transfers).not.toContainText("Dust transfer");

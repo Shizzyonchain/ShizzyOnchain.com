@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { visibleWalletActivity } from "./lib/wallet-activity-display";
-import type { WalletActivity } from "./lib/wallet-activity";
+import type { ActivityKind, WalletActivity } from "./lib/wallet-activity";
 import styles from "./wallet-history.module.css";
 type History = { rows: WalletActivity[]; nextPage: number | null; fetchedAt: string; source: string };
 const memory = new Map<string, { time: number; data: History }>();
@@ -19,14 +19,17 @@ export function WalletHistory({ address, hideAmounts, onClose }: { address: stri
   useEffect(() => { panel.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }, [address]);
   return <section ref={panel} className={styles.panel} aria-label="Selected wallet recent activity" id="wallet-history">
     <div className={styles.heading}><div><h2>Recent wallet activity</h2><code>{address}</code></div><button type="button" onClick={onClose} aria-label="Close wallet activity">Close ✕</button></div>
-    <p>Incoming and outgoing transfers, staking, unstaking and other signed calls. Both lists load together, newest first. TAO transfers below 5 TAO and Utility.batch_all wrapper entries are hidden. Each provider page contains up to 20 records before filtering.</p>
+    <p>Incoming and outgoing transfers, staking, unstaking and other signed calls. Lists load together, newest first. Swaps and buys/sells show indexed executed amounts, with a minimum routed value of 5 TAO. TAO transfers below 5 TAO and Utility.batch_all wrapper entries are hidden. Each provider page contains up to 20 records before filtering.</p>
     <p className={styles.note}>A transfer can also appear in signed transactions for the same extrinsic. Proxy calls signed by another wallet may be missing. This indexed history is not a complete account statement.</p>
     <ActivityList key={`${address}:transfers`} address={address} hideAmounts={hideAmounts} kind="transfers" />
+    <ActivityList key={`${address}:swaps`} address={address} hideAmounts={hideAmounts} kind="swaps" />
+    <ActivityList key={`${address}:trades`} address={address} hideAmounts={hideAmounts} kind="trades" />
     <ActivityList key={`${address}:transactions`} address={address} hideAmounts={hideAmounts} kind="transactions" />
   </section>;
 }
-function ActivityList({ address, hideAmounts, kind }: { address: string; hideAmounts: boolean; kind: "transactions" | "transfers" }) {
+function ActivityList({ address, hideAmounts, kind }: { address: string; hideAmounts: boolean; kind: ActivityKind }) {
   const [page, setPage] = useState(1);
+  const [tradeView, setTradeView] = useState("all");
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<{ key: string; data?: History; error?: string } | null>(null);
   const key = `${address}:${kind}:${page}:${attempt}`;
@@ -53,13 +56,16 @@ function ActivityList({ address, hideAmounts, kind }: { address: string; hideAmo
     return () => controller.abort();
   }, [address, kind, page, attempt, key]);
   const current = result?.key === key ? result : null;
-  const rows = visibleWalletActivity(current?.data?.rows || [], kind);
-  const label = kind === "transactions" ? "Signed transactions" : "TAO transfers";
+  const rows = visibleWalletActivity(current?.data?.rows || [], kind).filter(row => kind !== "trades" || tradeView === "all" || (tradeView === "sells" ? row.swap?.toToken === "TAO" : row.swap?.fromToken === "TAO"));
+  const label = { transactions: "Signed transactions", transfers: "TAO transfers", swaps: "Subnet swaps", trades: "Alpha buys & sells" }[kind];
+  const trading = kind === "swaps" || kind === "trades";
   return <section className={styles.activity} aria-label={label}>
     <h3>{label}</h3>
-    <p className={styles.note}>{kind === "transactions" ? "Transactions signed by this wallet, excluding Utility.batch_all wrapper entries. Proxy actions signed by another wallet may not appear. Status describes the outer extrinsic; inspect wrapped calls in the explorer." : "Showing incoming and outgoing TAO transfers of 5 TAO or more. Staking and alpha trades appear under signed transactions; their amounts are not provided in that list, so the transfer minimum does not apply there."}</p>
+    {kind === "trades" && <label className={styles.tradeFilter}>Show<select value={tradeView} onChange={event => setTradeView(event.target.value)}><option value="all">All buys &amp; sells</option><option value="sells">Sales to TAO</option><option value="buys">Buys with TAO</option></select></label>}
+    {kind === "trades" && <p className={styles.note}>A sale to TAO means this wallet exchanged subnet alpha for TAO. Transfers alone do not prove a sale. This feed cannot establish the team’s intent, exchange sales, or activity in other wallets. Filters apply to this page of indexed records; use Older for more.</p>}
+    <p className={styles.note}>{trading ? "Indexed swaps with at least 5 TAO routed value. Amounts retain their token units; SN labels identify the subnet at the event. Cross-subnet swaps may also appear as separate buy/sell legs or signed transactions; do not add the lists together as unique activity. This is not a complete wallet statement." : kind === "transactions" ? "Transactions signed by this wallet, excluding Utility.batch_all wrapper entries. Proxy actions signed by another wallet may not appear. Status describes the outer extrinsic; inspect wrapped calls in the explorer." : "Showing incoming and outgoing TAO transfers of 5 TAO or more. Staking and alpha trades appear under signed transactions; their amounts are not provided in that list, so the transfer minimum does not apply there."}</p>
     {!current ? <p role="status">Loading {label.toLowerCase()}…</p> : current.error ? <div role="alert"><p>{current.error}</p><button type="button" onClick={() => setAttempt(value => value + 1)}>Try again</button></div> : <>
-      {!rows.length ? <p>{kind === "transfers" ? "No transfers of 5 TAO or more on this page. Use Older to check earlier records when available." : "No visible signed transactions on this page after filtering batch wrappers. Use Older to check earlier records when available."}</p> : <div className={styles.rows}>{rows.map(row => <article key={row.id}><div><strong>{row.action}</strong><time dateTime={row.timestamp}>{new Date(row.timestamp).toLocaleString("en-US", { timeZone: "UTC" })} UTC</time>{row.from && row.to && <p>From {short(row.from)} → {short(row.to)}</p>}</div><div className={styles.result}>{row.amount !== null ? <strong>{hideAmounts ? "••••" : tao(row.amount)} TAO</strong> : <span className={row.success ? styles.success : styles.failed}>{row.success ? "Extrinsic succeeded" : "Extrinsic failed"}</span>}<a href={`https://taostats.io/extrinsic/${row.extrinsic}`} target="_blank" rel="noopener noreferrer">Transaction {row.extrinsic} ↗</a></div></article>)}</div>}
+      {!rows.length ? <p>{trading ? "No matching indexed swaps of 5 TAO or more on this page. Use Older for earlier records." : kind === "transfers" ? "No transfers of 5 TAO or more on this page. Use Older to check earlier records when available." : "No visible signed transactions on this page after filtering batch wrappers. Use Older to check earlier records when available."}</p> : <div className={styles.rows}>{rows.map(row => <article key={row.id}><div><strong>{row.action}{row.swap && ` · ${row.swap.fromToken} → ${row.swap.toToken}`}</strong><time dateTime={row.timestamp}>{new Date(row.timestamp).toLocaleString("en-US", { timeZone: "UTC" })} UTC</time>{row.from && row.to && <p>From {short(row.from)} → {short(row.to)}</p>}</div><div className={styles.result}>{row.swap ? <><strong>{hideAmounts ? "••••" : tao(row.swap.fromAmount)} {row.swap.fromToken} → {hideAmounts ? "••••" : tao(row.swap.toAmount)} {row.swap.toToken}</strong><small>Routed value: {hideAmounts ? "••••" : tao(row.swap.taoValue)} TAO</small></> : row.amount !== null ? <strong>{hideAmounts ? "••••" : tao(row.amount)} TAO</strong> : <span className={row.success ? styles.success : styles.failed}>{row.success ? "Extrinsic succeeded" : "Extrinsic failed"}</span>}<a href={`https://taostats.io/extrinsic/${row.extrinsic}`} target="_blank" rel="noopener noreferrer">Transaction {row.extrinsic} ↗</a></div></article>)}</div>}
       <nav className={styles.pages} aria-label={`${label} pages`}><button type="button" disabled={page === 1} onClick={() => setPage(value => value - 1)}>← Newer</button><span>Page {page}</span><button type="button" disabled={!current.data?.nextPage} onClick={() => setPage(current.data!.nextPage!)}>Older →</button></nav>
       <small>{current.data?.source} · cached for up to five minutes. This is indexed activity, not a live or complete account statement.</small>
     </>}

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {validWalletAddress,activityRows} from '../app/lib/wallet-activity.ts';
+import {validWalletAddress,activityRows,swapRows} from '../app/lib/wallet-activity.ts';
 const address='5FqACMtcegZxxopgu1g7TgyrnyD8skurr9QDPLPhxNQzsThe';
 test('wallet addresses require a valid Finney SS58 checksum',()=>{
  assert.equal(validWalletAddress(address),true);
@@ -19,4 +19,14 @@ test('incoming and outgoing transfers preserve raw precision without summing fee
  assert.equal(activityRows([{...row,from:address,to:'other'}],'transfers',address)[0].action,'Sent TAO');
  assert.throws(()=>activityRows([{...row,to:'another'}],'transfers',address));
  assert.throws(()=>activityRows([{...row,extrinsic_id:'javascript:foo'}],'transfers',address));
+});
+
+test('swap evidence preserves raw token amounts, wallet scope and multiple trades in one extrinsic',()=>{
+ const row={id:'trade-1',extrinsic_id:'9340000-0002',timestamp:'2026-10-22T12:00:00Z',coldkey:address,from_name:'SN51',to_name:'SN64',from_amount:'9007199254740993',to_amount:'10000000001',tao_value:'5000000000'};
+ const swap=swapRows([row],'swaps',address)[0];assert.equal(swap.swap.fromAmount,row.from_amount);assert.equal(swap.swap.toToken,'SN64');
+ assert.throws(()=>swapRows([{...row,coldkey:'other'}],'swaps',address));
+ assert.throws(()=>swapRows([{...row,to_amount:'1.5'}],'swaps',address));
+ assert.throws(()=>swapRows([{...row,to_name:'<script>'}],'swaps',address));
+ const trades=swapRows([{...row,id:'one',from_name:'TAO'},{...row,id:'two',to_name:'TAO'}],'trades',address);
+ assert.equal(trades.length,2);assert.notEqual(trades[0].id,trades[1].id);assert.equal(trades[0].action,'Bought SN64 alpha with TAO');assert.equal(trades[1].action,'Sold SN51 alpha for TAO');
 });
