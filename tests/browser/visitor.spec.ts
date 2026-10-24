@@ -100,12 +100,12 @@ test("subnet recommendations show net yield and fail closed when sources fail", 
   await page.getByRole("combobox", { name: "Choose your subnet", exact: true }).selectOption("51");
   await page.getByRole("button", { name: "Find my validator →", exact: true }).click();
   const finder = page.locator('[aria-labelledby="validator-finder-title"]');
-  await expect(finder.getByRole("heading", { name: "Smoke Validator 1", exact: true })).toBeVisible();
+  await expect(finder.getByRole("heading", { name: "Smoke Validator 2", exact: true })).toBeVisible();
   await expect(finder).toContainText("30% APY"); // Already after take; do not reduce to 27.3%.
   contracts.failed.add("/api/validators/recommendations");
   await page.getByRole("button", { name: "Find my validator →", exact: true }).click();
   await expect(finder.getByRole("alert")).toContainText("We could not verify a current choice");
-  await expect(finder.getByRole("heading", { name: "Smoke Validator 1", exact: true })).toHaveCount(0);
+  await expect(finder.getByRole("heading", { name: "Smoke Validator 2", exact: true })).toHaveCount(0);
   await noOverflow(page);
 });
 
