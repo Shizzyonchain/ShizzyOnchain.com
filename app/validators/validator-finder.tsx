@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { sharedOperators } from "../lib/validator-operation";
-import { rankValidators, type Candidate, type RankedCandidate, type RankingMode } from "../lib/validator-ranking";
+import { rankValidators, type Candidate, type RankingMode } from "../lib/validator-ranking";
 import { displayNumber, shortAddress } from "../lib/validator-types";
-import { ValidatorTableScroll } from "./validator-table-scroll";
 import { RecommendationLoading } from "./recommendation-loading";
 import { ValidatorYieldChecks } from "./validator-yield-checks";
 import { yieldCandidates, type YieldChecks } from "../lib/validator-yield-check";
 import styles from "./validators.module.css";
 
-import { ValidatorColumn, ValidatorTableHelp } from "./validator-table-help";
+import { limitedHistoryOptions } from "../lib/validator-current-options";
 
 type Result = { refreshing?: boolean; preparedAt?: string; candidates: Candidate[]; collectedAt: string; netuid: number; coverage: { permitHolders: number; yieldRows: number; directoryEntries: number; hiddenChildren?: number } };
 const modes: { value: RankingMode; label: string; method: string }[] = [
@@ -33,28 +31,6 @@ function OperatingPath({ row, compact = false }: { row: Candidate; compact?: boo
     const identity = row.operatorIdentities?.find(operator => operator.hotkey === hotkey);
     return <p key={hotkey}><a href={`https://taostats.io/validators/${hotkey}`} target="_blank" rel="noreferrer">{identity?.name || shortAddress(hotkey)} ↗</a>{!compact && <small className={styles.address}>{hotkey}</small>}</p>;
   })}<small>Yield and take belong to {row.name === row.hotkey ? "this parent hotkey" : row.name}, not the operating child.</small></div>;
-}
-
-function MobileValidatorResults({ rows }: { rows: RankedCandidate[] }) {
-  const [limit, setLimit] = useState(5);
-  const qualifying = rows.filter(row => row.score !== null);
-  const excluded = rows.filter(row => row.score === null);
-  const renderRow = (row: RankedCandidate, index: number) => <article className={styles.phoneResult} key={row.hotkey}>
-    <div className={styles.phoneResultHeading}><Link href={`/validators/${row.hotkey}`} prefetch={false}>{row.name === row.hotkey ? shortAddress(row.hotkey) : row.name}</Link><span>{row.score === null ? "Not ranked" : `#${index + 1} · ${row.score}/100`}</span></div>
-    {row.operation === "delegated" && <OperatingPath row={row} compact />}
-    <dl className={styles.phoneResultNumbers}><div><dt>30d net annualized</dt><dd><YieldValue row={row} days={30} /></dd></div><div><dt>Validator take</dt><dd>{pct(row.take)}</dd></div></dl>
-    <details className={styles.phoneResultDetails}><summary>{row.score === null ? "Why not ranked" : "Why it ranks · details"}</summary>
-      <ul>{(row.excluded.length ? row.excluded : row.reasons).map(reason => <li key={reason}>{reason}</li>)}</ul>
-      <dl><div><dt>7d net annualized</dt><dd><YieldValue row={row} days={7} /></dd></div><div><dt>7d / 30d participation</dt><dd>{pct(row.participation7)} / {pct(row.participation30)}</dd></div><div><dt>Subnet stake share</dt><dd>{pct(row.stakeShare)}</dd></div><div><dt>Operating path</dt><dd><OperatingPath row={row} /></dd></div></dl>
-      <p className={styles.source}>Source snapshots (UTC): {row.timestamps.join(" · ") || "Unavailable"}</p>
-      <Link href={`/validators/${row.hotkey}`} prefetch={false}>Full validator profile →</Link>
-    </details>
-  </article>;
-  return <div className={styles.phoneResults}><p className={styles.phoneResultsCaption}>{qualifying.length} qualifying · {rows.length} reviewed. Annualized historical rates, after take.</p>
-    {qualifying.slice(0, limit).map(renderRow)}
-    {qualifying.length > limit && <button type="button" className={styles.shortlistMore} onClick={() => setLimit(value => value + 5)}>Show 5 more ({Math.min(limit, qualifying.length)}/{qualifying.length})</button>}
-    {excluded.length > 0 && <details className={styles.phoneExcluded}><summary>{excluded.length} validators not ranked · see why</summary>{excluded.map(renderRow)}</details>}
-  </div>;
 }
 
 export function ValidatorFinder({ subnets }: { subnets: { netuid: number; name: string }[] }) {
@@ -99,25 +75,42 @@ export function ValidatorFinder({ subnets }: { subnets: { netuid: number; name: 
   const yieldData = useMemo(() => yieldCandidates(result?.candidates || [], yieldChecks, result?.netuid, now), [result, yieldChecks, now]);
   const rows = useMemo(() => rankValidators(yieldData.candidates, mode, now), [yieldData, mode, now]);
   const eligible = rows.filter(row => row.score !== null);
-  const shared = sharedOperators(eligible);
+  const limited = eligible.length ? [] : limitedHistoryOptions(rows);
+  const choices = eligible.length ? eligible : limited;
+  const winner = choices[0];
+  const [copied, setCopied] = useState(false);
   const picked = result ? subnets.find(s => s.netuid === result.netuid) : null;
-  const cards = eligible.length >= 2 ? [
-    { label: `Top ${modes.find(m => m.value === mode)!.label.toLowerCase()} match`, row: eligible[0] },
-    { label: "Strongest conservative net yield", row: [...eligible].sort((a, b) => Math.min(b.yield7!, b.yield30!) - Math.min(a.yield7!, a.yield30!) || a.hotkey.localeCompare(b.hotkey))[0] },
-    { label: "Lowest take among qualifying validators", row: [...eligible].sort((a, b) => a.take! - b.take! || b.score! - a.score!)[0] },
-  ] : [];
-  return <section className={styles.finder} aria-labelledby="validator-finder-title"><p className={styles.eyebrow}>SUBNET VALIDATOR MATCH</p><h2 id="validator-finder-title">Find a validator for your subnet</h2><p>Choose a subnet. Compare performance, participation, fees and concentration with the evidence behind every result.</p>
-    <form className={styles.controls} onSubmit={event => { event.preventDefault(); if (!selection) return; setLoading(true); setResult(null); setError(""); setRequest({ netuid: selection, id: Date.now() }); }}><label>Subnet<select aria-label="Subnet" required value={selection} onChange={event => setSelection(event.target.value)}><option value="">Choose a subnet</option>{subnets.filter(s => s.netuid > 0).sort((a, b) => a.netuid - b.netuid).map(s => <option key={s.netuid} value={s.netuid}>SN{s.netuid} {s.name}</option>)}</select></label><button type="submit" disabled={!selection || loading}>{loading ? "Calculating…" : "Find validators →"}</button></form>
-    <div className={styles.tabs} role="group" aria-label="Validator ranking preference">{modes.map(item => <button key={item.value} aria-pressed={mode === item.value} onClick={() => setMode(item.value)}>{item.label}</button>)}</div>
+  return <section className={styles.simpleFinder} aria-labelledby="validator-finder-title">
+    <h2 id="validator-finder-title">Which subnet are you staking in?</h2>
+    <form className={styles.simpleControls} onSubmit={event => { event.preventDefault(); if (!selection) return; setLoading(true); setResult(null); setYieldChecks(null); setCopied(false); setError(""); setRequest({ netuid: selection, id: Date.now() }); }}>
+      <label htmlFor="validator-subnet">Choose your subnet</label>
+      <div><select id="validator-subnet" required value={selection} onChange={event => setSelection(event.target.value)}><option value="">Select a subnet</option>{subnets.filter(s => s.netuid > 0).sort((a,b) => a.netuid-b.netuid).map(s => <option key={s.netuid} value={s.netuid}>SN{s.netuid} · {s.name}</option>)}</select><button type="submit" disabled={!selection || loading}>{loading ? "Checking…" : "Find my validator →"}</button></div>
+    </form>
     {loading && <RecommendationLoading />}
-    {error && <p className={styles.notice} role="alert">{error} {result ? "The last snapshot remains visible and its evidence-age checks still apply." : "No winner was selected from incomplete sources."} Use Find validators to retry.</p>}
-    {result && <>{result.refreshing && <p className={styles.notice} role="status">Refreshing source snapshots in the background. Results update automatically; stale evidence stays excluded.</p>}<p className={styles.source}>Yield figures are net of validator take. Recommendations compare what nominators earned after reward fees, with no second fee deduction.</p><h3>SN{result.netuid} {picked?.name || ""}</h3><details className={styles.evidenceDetails}><summary>Data quality &amp; background yield checks</summary><p className={styles.notice}>Direct validators and parents with a fully verified delegation path are reviewed. Partial, nested or unverified paths remain excluded. Scores measure the published factors; operator security, service quality and insurance claims have not been independently verified.</p><p className={styles.source}>{eligible.length} qualifying validators out of {result.candidates.length} parent/standalone candidates reviewed; {result.coverage.hiddenChildren || 0} child-only hotkeys excluded. Snapshot assembled {new Date(result.collectedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} Eastern. Source timestamps below retain their original ages. Rankings and the cached snapshot are checked each minute.</p>
-    <p className={styles.notice}>{yieldData.source === "chain" ? "Yield and scores now use node-calculated net APY for the same 7/30-day windows. APR is shown alongside it. Rows without complete current chain history cannot rank; provider rates are never mixed into this comparison." : "Provisional provider-rate comparison. TaoStats calls these fields APY, but its compounding and averaging method has not been independently established. They are shown as reported rates until comparable node calculations are ready."}</p>
-    {result && <ValidatorYieldChecks key={result.netuid} netuid={result.netuid} candidates={result.candidates} now={now} onChecks={setYieldChecks} />}
-    </details>{!cards.length && <p className={styles.notice}>Insufficient comparable data to recommend a winner. {eligible.length === 1 ? "Only one validator meets the evidence requirements." : "No validator meets all the evidence requirements."} Review the exclusions below.</p>}
-    {shared.length > 0 && <aside className={styles.notice} aria-label="Shared operator warning"><strong>Different parents can share the same operator.</strong><p>{shared.slice(0, 3).map(group => `${group.parents} qualifying parents share ${group.name || shortAddress(group.hotkey)}`).join(" · ")}. Choosing different parent names does not necessarily diversify operating risk. Compare the operating hotkeys as well as yield and take.</p></aside>}
-    <MobileValidatorResults key={`${result.netuid}:${mode}`} rows={rows} /><div className={styles.desktopFinderResults}><div className={styles.matches}>{cards.map(({ label, row }) => <article className={styles.match} key={label}><span>{label}</span><p className={styles.source}>Provisional match · {row.operation === "delegated" ? "verified delegated path" : "direct validator evidence"}</p><h3><Link href={`/validators/${row.hotkey}`} prefetch={false}>{row.name === row.hotkey ? shortAddress(row.hotkey) : row.name}</Link></h3>{row.operation === "delegated" && <OperatingPath row={row} />}<strong>{row.score}/100 <small>{modes.find(m => m.value === mode)!.label} score</small></strong><dl className={styles.mobileMatchFacts}><div><dt>30d net yield</dt><dd><YieldValue row={row} days={30} /></dd></div><div><dt>Take</dt><dd>{pct(row.take)}</dd></div></dl><details className={styles.cardDetails}><summary>Why this match</summary><ul>{row.reasons.map(reason => <li key={reason}>{reason}</li>)}</ul></details><p className={styles.source}>Same validator may lead more than one category.</p><Link href={`/validators/${row.hotkey}`} prefetch={false}>Explore validator →</Link></article>)}</div>
-    <ValidatorTableHelp><ValidatorTableScroll className={styles.tableWrap} label="Subnet validator ranking and exclusions"><table className={`${styles.table} ${styles.pinFirst} ${styles.finderCards}`}><thead><tr>{["Validator", "Operating path", "Score", "7d net yield", "30d net yield", "Take", "7d participation", "30d participation", "Stake weight share", "Evidence"].map(label => <ValidatorColumn key={label} label={label} />)}</tr></thead><tbody>{rows.map(row => <tr key={row.hotkey}><td data-label="Validator"><Link href={`/validators/${row.hotkey}`} prefetch={false}>{row.name === row.hotkey ? shortAddress(row.hotkey) : row.name}</Link></td><td data-label="Operating path"><OperatingPath row={row} /></td><td data-label="Match score">{row.score ?? "Not ranked"}</td><td data-label="7d net yield"><YieldValue row={row} days={7} /></td><td data-label="30d net yield"><YieldValue row={row} days={30} /></td><td data-label="Take">{pct(row.take)}</td><td data-label="7d participation">{pct(row.participation7)}</td><td data-label="30d participation">{pct(row.participation30)}</td><td data-label="Stake share">{pct(row.stakeShare)}</td><td data-label="Evidence"><details><summary>{row.excluded.length ? "Why excluded" : "View sources"}</summary>{row.excluded.length > 0 && <ul>{row.excluded.map(reason => <li key={reason}>{reason}</li>)}</ul>}<p className={styles.address}>Parent / yield hotkey: {row.hotkey}</p><p>Yield: {row.timestamps[0] || "Unavailable"}<br />Directory: {row.timestamps[1] || "Unavailable"}<br />Parameters: {row.timestamps[2] || "Unavailable"}</p><p>Operating evidence: {row.timestamps.slice(3).join(" · ") || "Unavailable"}</p>{row.operators?.map(hotkey => <p className={styles.address} key={hotkey}>Operating hotkey: <a href={`https://taostats.io/validators/${hotkey}`} target="_blank" rel="noreferrer">{hotkey} ↗</a></p>)}</details></td></tr>)}</tbody></table></ValidatorTableScroll></ValidatorTableHelp></div></>}
-    <details className={styles.method}><summary>How the recommendations work</summary><p>{modes.find(item => item.value === mode)!.method}</p><p>Qualifying validators must have an active direct permit or a fully verified delegated path, positive dividends, an update within the subnet’s effective activity cutoff, positive comparable 7d and 30d net annualized yield with a known after-take basis, at least 90% reported participation in both windows, a known fee and stake share, and a hotkey first registered at least 30 days ago. All required source snapshots must be no more than two hours old and no more than one hour apart. Missing data never earns a favorable score.</p><p>Node APY compounds the measured alpha-per-share reward growth to one year. Node APR multiplies that same period return by 365 divided by its Bittensor-day length, with no additional compounding. Both are already net of reward fees. Provider fallback figures retain their original values and are explicitly labelled reported rates; their precise annualization method is unconfirmed. We do not deduct the displayed current take a second time. A recent fee change may not yet be fully reflected in a historical average. Yield compares the lower of the 7d and 30d measurements within the qualifying group. Agreement compares those two averages; it does not measure daily volatility. Decentralization favors lower stake-weight share among this subnet’s direct permit holders. Fee is shown and breaks score ties; it has no separate balanced/yield/decentralization weight, avoiding an additional fee reward on top of reported yield.</p><p>Child-only hotkeys are excluded using finalized chain ParentKeys relationships. A hotkey that delegates onward is retained as a parent; receiving delegated stake alone does not turn that parent brand into a child-only entry. Parents without a direct permit can qualify when finalized chain proportions delegate 100% to active, dividend-earning direct children with recent weight updates. Partial and nested paths are excluded. The parent must have its own net yield and participation records; child yield is never substituted. Concentration conservatively counts the operating children’s full stake weight, which can overstate the parent’s share when children serve several parents. First registration is global hotkey age, not proof of 30 days operating on this subnet. The API does not expose observation counts for the yield windows here, so these are provisional data-based matches—not a full operational or security audit. Historical annualized yield does not guarantee future returns.</p><p>Sources: <a href="https://taostats.io/docs/concepts/staking/some-of-the-math-behind-taostats" target="_blank" rel="noreferrer">Nominator return calculation</a> · <a href="https://taostats.io/docs/new/validators/get-validators-yield" target="_blank" rel="noreferrer">Yield</a> · <a href="https://taostats.io/docs/new/subnets/get-subnets-metagraph" target="_blank" rel="noreferrer">Metagraph</a> · <a href="https://taostats.io/docs/new/subnets/get-subnets-hyperparameters" target="_blank" rel="noreferrer">Activity parameters</a>. Shared source caches and background refresh; changing preference scores existing data without another API call.</p></details>
+    {error && <p className={styles.notice} role="alert">{error} {result ? "Last result remains below; freshness checks still apply." : "Try again shortly. We could not verify a current choice."}</p>}
+    {result && <div aria-live="polite">
+      <p className={styles.source}>SN{result.netuid} {picked?.name} {result.refreshing ? "· Refreshing in the background" : "· Checked automatically each minute"}</p>
+      {winner ? <article className={styles.primaryChoice}>
+        <p className={styles.eyebrow}>{limited.length ? "CURRENT OPTION · LIMITED HISTORY" : eligible.length === 1 ? "ONLY QUALIFYING OPTION" : "OUR TOP MATCH"}</p>
+        <h3>{winner.name === winner.hotkey ? shortAddress(winner.hotkey) : winner.name}</h3>
+        <p>{limited.length ? `Active now with at least 90% participation over 7 days, but only ${pct(winner.participation30)} over 30 days. It does not meet our full recommendation standard.` : "The strongest match for your preference across yield after fees, participation and current activity."}</p>
+        <dl className={styles.choiceFacts}><div><dt>30-day annualized yield</dt><dd><YieldValue row={winner} days={30} /></dd></div><div><dt>Validator fee</dt><dd>{pct(winner.take)}</dd></div></dl>
+        {winner.operation === "delegated" && <div className={styles.choiceOperator}><OperatingPath row={winner} compact /></div>}
+        <div className={styles.choiceActions}><Link href={`/validators/${winner.hotkey}`} prefetch={false}>View validator →</Link><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(winner.hotkey); setCopied(true); } catch { setCopied(false); } }}>{copied ? "Hotkey copied ✓" : "Copy staking hotkey"}</button></div>
+        <details><summary>Staking hotkey & evidence</summary><p className={styles.address}>{winner.hotkey}</p><p>Use this parent/yield hotkey when choosing this validator. Its operating child may be different.</p><ul>{(limited.length ? winner.excluded : winner.reasons).map(reason => <li key={reason}>{reason}</li>)}</ul><p className={styles.source}>Source timestamps: {winner.timestamps.join(" · ")}</p></details>
+      </article> : <article className={styles.primaryChoice}><h3>No verified choice right now</h3><p>We could not establish a current active validator with enough comparable evidence for this subnet. Try again after the background refresh.</p><details><summary>What is blocking a recommendation?</summary>{Array.from(new Set(rows.flatMap(row => row.excluded))).map(reason => <p key={reason}>{reason}</p>)}</details></article>}
+      <details className={styles.simpleDetails}><summary>Other options & preferences</summary>
+        <div className={styles.tabs} role="group" aria-label="Validator ranking preference">{modes.map(item => <button key={item.value} aria-pressed={mode === item.value} onClick={() => setMode(item.value)}>{item.label}</button>)}</div>
+        {limited.length > 0 && <p>Limited-history options are ordered by the lower of their 7-day and 30-day reported yields, then fee. This is not the full recommendation ranking.</p>}
+        {choices.slice(1,4).map(row => <div className={styles.simpleAlternative} key={row.hotkey}><Link href={`/validators/${row.hotkey}`} prefetch={false}>{row.name === row.hotkey ? shortAddress(row.hotkey) : row.name}</Link><span>{pct(row.take)} fee · <YieldValue row={row} days={30} /></span></div>)}
+        {choices.length < 2 && <p>No additional comparable options.</p>}
+      </details>
+      <details className={styles.simpleDetails}><summary>Data checks & excluded validators ({rows.filter(row => row.score === null).length})</summary>
+        <p>Historical annualized yields are not guaranteed returns. Provider rates have an unconfirmed compounding method. Missing or stale sources never count as zero fees or good performance.</p>
+        <ValidatorYieldChecks key={result.netuid} netuid={result.netuid} candidates={result.candidates} now={now} onChecks={setYieldChecks} />
+        {rows.filter(row => row.score === null).map(row => <details key={row.hotkey}><summary>{row.name === row.hotkey ? shortAddress(row.hotkey) : row.name}</summary><ul>{row.excluded.map(reason => <li key={reason}>{reason}</li>)}</ul><OperatingPath row={row} /></details>)}
+      </details>
+    </div>}
+    <p className={styles.simpleFootnote}>A data-based comparison, not a security audit. Historical yield can change.</p>
   </section>;
 }
