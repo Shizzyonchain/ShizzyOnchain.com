@@ -97,15 +97,15 @@ test("extreme yield disclosure keeps uncapped data and does not navigate the tab
 
 test("subnet recommendations show net yield and fail closed when sources fail", async ({ page, contracts }) => {
   await page.goto("/validators");
-  await page.getByRole("combobox", { name: "Subnet", exact: true }).selectOption("51");
-  await page.getByRole("button", { name: "Find validators →", exact: true }).click();
+  await page.getByRole("combobox", { name: "Choose your subnet", exact: true }).selectOption("51");
+  await page.getByRole("button", { name: "Find validators â†’", exact: true }).click();
   const finder = page.locator('[aria-labelledby="validator-finder-title"]');
-  await expect(finder.getByRole("link", { name: "Smoke Validator 1", exact: true }).first()).toBeVisible();
+  await expect(finder.getByRole("heading", { name: "Smoke Validator 1", exact: true })).toBeVisible();
   await expect(finder).toContainText("30% APY"); // Already after take; do not reduce to 27.3%.
   contracts.failed.add("/api/validators/recommendations");
-  await page.getByRole("button", { name: "Find validators →", exact: true }).click();
-  await expect(finder.getByRole("alert")).toContainText("No winner was selected from incomplete sources");
-  await expect(finder.getByRole("link", { name: "Smoke Validator 1", exact: true })).toHaveCount(0);
+  await page.getByRole("button", { name: "Find validators â†’", exact: true }).click();
+  await expect(finder.getByRole("alert")).toContainText("We could not verify a current choice");
+  await expect(finder.getByRole("heading", { name: "Smoke Validator 1", exact: true })).toHaveCount(0);
   await noOverflow(page);
 });
 
@@ -114,15 +114,15 @@ test("root capital and TWR views name their series and reuse loaded history", as
   const compare = page.locator('[aria-labelledby="root-compare-title"]');
   await compare.locator("select").nth(0).selectOption(keys[0]); await compare.locator("select").nth(1).selectOption(keys[1]);
   await compare.getByRole("button", { name: "Compare baskets", exact: true }).click();
-  await expect(compare.getByRole("columnheader", { name: "Capital drawdown · NAV/share", exact: true })).toBeVisible();
+  await expect(compare.getByRole("columnheader", { name: "Capital drawdown Â· NAV/share", exact: true })).toBeVisible();
   await expect(compare).toContainText("-3.14%");
   const reads = contracts.calls.filter(path => path === "/api/validators/root/history").length;
-  await compare.getByRole("button", { name: "Total return · TWR", exact: true }).click();
-  await expect(compare.getByRole("columnheader", { name: "Total-return drawdown · TWR", exact: true })).toBeVisible();
+  await compare.getByRole("button", { name: "Total return Â· TWR", exact: true }).click();
+  await expect(compare.getByRole("columnheader", { name: "Total-return drawdown Â· TWR", exact: true })).toBeVisible();
   await expect(compare).toContainText("A 0% TWR drawdown does not mean");
   expect(contracts.calls.filter(path => path === "/api/validators/root/history")).toHaveLength(reads);
   await page.getByRole("button", { name: "Find root recommendations", exact: true }).click();
-  await expect(page.locator('[aria-labelledby="root-recommend-title"]')).toContainText("Capital drawdown · NAV/share (daily closes): -3.14%");
+  await expect(page.locator('[aria-labelledby="root-recommend-title"]')).toContainText("Capital drawdown Â· NAV/share (daily closes): -3.14%");
   await noOverflow(page);
 });
 
@@ -138,12 +138,12 @@ test("saved wallets persist, remove individually and clear completely", async ({
   const activity = page.getByRole("region", { name: "Selected wallet recent activity", exact: true });
   const transfers = activity.getByRole("region", { name: "TAO transfers", exact: true });
   const signed = activity.getByRole("region", { name: "Signed transactions", exact: true });
-  await expect(activity.getByRole("region", {name:"Subnet swaps",exact:true})).toContainText("12.5 SN51 → 8 SN64");
+  await expect(activity.getByRole("region", {name:"Subnet swaps",exact:true})).toContainText("12.5 SN51 â†’ 8 SN64");
   await expect(transfers).toContainText("Received TAO");
   await expect(transfers).toContainText("5 TAO or more");
   await expect(transfers).not.toContainText("Dust transfer");
   await expect(signed).toContainText("SubtensorModule.add_stake");
-  await transfers.getByRole("button", { name: "Older →", exact: true }).click();
+  await transfers.getByRole("button", { name: "Older â†’", exact: true }).click();
   await expect(transfers).toContainText("Sent TAO");
   await expect(signed).toContainText("Page 1");
   await noOverflow(page);
